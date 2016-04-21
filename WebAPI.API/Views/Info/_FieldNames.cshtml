@@ -1,0 +1,77 @@
+﻿
+@model WebAPI.API.Models.ViewModels.MainView
+<div class="well">
+    <span class="label label-verb label-get pull-left">Get</span> <span class="label label-url url pull-right">
+                                                                      /info/FieldNames/:featureClass</span>
+    <div class="clearfix">
+    </div>
+    <h3>
+        Feature Class Attribute Names</h3>
+    <p>
+        Returns a list of attribute names for the feature class.</p>
+    <button class="btn" data-details="true">
+        Details</button>
+    <span class="help-inline label label-success label-status pull-right">implemented</span>
+    <div class="clearfix">
+    </div>
+    <form class="form-horizontal hide">
+        <fieldset>
+            <legend class="hidden"></legend>
+            <div class="control-group">
+                <label class="control-label" for="featureClass">
+                    featureClass</label>
+                <div class="controls">
+                    <input type="text" id="featureClass" name="featureClass" class="input-large" data-required />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-important">
+                                                                                 required</span>
+                    <p class="help-block">
+                        Feature class name: Counties.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="category">
+                    category</label>
+                <div class="controls">
+                    <input type="text" id="category" name="category" class="input-large" />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        Feature category: Boundaries. This should be provided if there are multiple table name sharing the same name in different categories. It is best practice to use this field.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="sgidVersion">
+                    version</label>
+                <div class="controls">
+                    @Html.DropDownList("sgidVersion", Model.SgidVersion, "Version", new
+                        {
+                            @class = "input-large"
+                        })
+                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        AGRC will normally run two or more versions of the SGID to cater to its users while
+                        upgrading versions of the SGID. These versions are often different in structure
+                        as AGRC makes improvements. If this parameter is omitted the most current version
+                        will be used.</p>
+                </div>
+            </div>
+        </fieldset>
+       <div class="progress-striped active" style="width: auto;">
+            <button class="btn btn-primary" 
+                    data-demo data-url="@HttpUtility.UrlDecode(Url.RouteUrl("v1_InfoAttributesApi", new
+                                        {
+                                            httproute = "", controller = "Info", version = "1", featureClass=":featureClass"
+                                        }))">
+                Try it</button>
+        </div>
+        <div class="code-well">
+            <a class="close" data-close>×</a>
+            <div class="clearfix">
+            </div>
+            <pre class="pre-scrollable-small" data-codeContainer>Code</pre>
+            <div class="alert alert-info c-text" id="sampleUrl" style="display: none">
+            </div>
+        </div>
+    </form>
+</div>

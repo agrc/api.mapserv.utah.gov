@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>@ViewBag.Title</title>
+        <link rel="shortcut icon" href="//gis.utah.gov/images/favicon.ico">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        @Scripts.Render("~/bundles/jquery")
+        @Styles.Render("~/content/bundles")
+    </head>
+    <body>
+        @* @Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions() *@
+        <div id="wrap">
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container">
+                        @Html.ActionLink("AGRC Web API", "Index", new
+                            {
+                                Controller = "Home"
+                            }, new
+                                {
+                                    @class = "brand"
+                                })
+                        <div class="nav-collapse collapse">
+                            <ul class="nav">
+                                <li class="">@Html.ActionLink("Console", "Index", new
+                                                 {
+                                                     Controller = "Home", Area = "secure"
+                                                 })</li>
+                                <li class="">@Html.ActionLink("Key Management", "Index", new
+                                                 {
+                                                     Controller = "KeyManagement", Area = "secure"
+                                                 })</li>
+                                <li class="">@Html.ActionLink("Profile", "Index", new
+                                                 {
+                                                     Controller = "Profile", Area = "secure"
+                                                 })</li>
+                                <li class="">@Html.ActionLink("API Explorer", "Api", new
+                                                 {
+                                                     Controller = "Go",
+                                                     Area = ""
+                                                 })</li>
+                                @Html.Action("RenderAdminAnalyticLink")
+                            </ul>
+                            <p class="navbar-text pull-right">
+                                @Html.Action("RenderUserPanel")
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                @RenderBody()
+                @Scripts.Render("~/bundles/js")
+                @Scripts.Render("~/bundles/bootstrap")
+            </div>
+        </div>
+        <div id="footer">
+            <div class="container">                
+                @Html.Partial("Footer")
+            </div>
+        </div>
+    </body>
+</html>

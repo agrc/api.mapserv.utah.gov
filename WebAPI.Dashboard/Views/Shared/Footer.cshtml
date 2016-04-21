@@ -1,0 +1,15 @@
+﻿@using System.Reflection
+<p class="muted"><span class="pull-right">&copy; AGRC @DateTime.Now.Year</span>
+    <i class="icon-file"></i> @Html.ActionLink("Getting Started", "Index", new
+                            {
+                                Controller = "StartupGuide",
+                                Area=""
+                            }) | 
+     <i class="icon-book"></i> @Html.ActionLink("Change Log","Index",new
+                                   {
+                                       Area="",
+                                       Controller= "ChangeLog"
+                                   }) | 
+     
+     <i class="icon-barcode"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version
+ </p>

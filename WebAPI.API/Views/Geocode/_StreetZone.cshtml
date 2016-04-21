@@ -1,0 +1,186 @@
+﻿@model WebAPI.API.Models.ViewModels.MainView
+<div class="well">
+    <span class="label label-verb label-get pull-left">Get</span> <span class="label label-url url pull-right">
+                                                                      /geocode/:street/:zone</span>
+    <div class="clearfix">
+    </div>
+    <h3>
+        Street and zone</h3>
+    <p>
+        Returns the geocoded address.</p>
+    <button class="btn" data-details="true">
+        Details</button>
+    <span class="help-inline label label-success label-status pull-right">implemented</span>
+    <div class="clearfix">
+    </div>
+    <form class="form-horizontal hide">
+        <fieldset>
+            <legend class="hidden"></legend>
+            <div class="control-group">
+                <label class="control-label" for="street">
+                    street</label>
+                <div class="controls">
+                    <input type="text" id="street" name="street" class="input-large" data-required />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-important">
+                                                                                 required</span>
+                    <p class="help-block">
+                        A Utah street address. eg: <code>326 east south temple st.</code> Intersections are separated
+                        by <code>and</code>.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="zone">
+                    zone</label>
+                <div class="controls">
+                    <input type="text" id="zone" name="zone" class="input-large" data-required />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-important">
+                                                                                 required</span>
+                    <p class="help-block">
+                        A Utah municipality name or 5 digit zip code.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="spatialReference">
+                    spatialReference</label>
+                <div class="controls">
+                    <input type="text" id="spatialReference" name="spatialReference" class="input-large"  />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        The spatial reference of the input geographic coordinate pair.
+                        Choose any of the <abbr title="Well-known Id">wkid</abbr>'s from the 
+                        <a href="http://resources.arcgis.com/en/help/main/10.1/018z/pdf/geographic_coordinate_systems.pdf">Geographic Coordinate System wkid reference</a>
+                        or <a href="http://resources.arcgis.com/en/help/main/10.1/018z/pdf/projected_coordinate_systems.pdf">Projected Coordinate System wkid reference</a>. 
+                        <code>26912</code> is the default. 
+                    </p>
+                    <span class="label label-info">Popular WKID's</span>
+                    <table class="table table-condensed table-striped">
+                        <thead>
+                            <tr>
+                                <th>System</th>
+                                <th>wkid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Latitude/Longitude (WGS84)</td>
+                                <td>4326</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="format">
+                    format</label>
+                <div class="controls">
+                    <select id="format" name="format" class="input-large">
+                        <option value>Format</option>
+                        <option value="esrijson">esrijson</option>
+                        <option value="geojson">geojson</option>
+                    </select>
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        The format of the resulting address. esri json will easily parse into an esri.Graphic
+                        for display on a map and geojson will easily parse into a feature for use in many
+                        open source projects. If this value is omitted, normal json will be returned.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="callback">
+                    callback</label>
+                <div class="controls">
+                    <input type="text" id="callback" name="callback" class="input-large" />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        The callback function to call for cross domain javascript calls (jsonp).</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="acceptScore">
+                    acceptScore</label>
+                <div class="controls">
+                    <input type="text" id="acceptScore" name="acceptScore" class="input-large" />
+                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        Sets the score for an acceptable address match. The scale is over 0-100 with the
+                        default score being <code>70</code>.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="suggest">
+                    suggest</label>
+                <div class="controls">
+                    <select id="suggest" name="suggest" class="input-large">
+                        <option value>Suggestions</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        The number of suggests to return for a given geocoded address. Will return <code>0</code>
+                        suggestions if the match score for the input address is above the accept score.</p>
+                </div>
+            </div>
+          <div class="control-group">
+            <label class="control-label" for="locators">
+              locators</label>
+            <div class="controls">
+              <select id="locators" name="locators" class="input-large">
+                <option value>Locators</option>
+                <option value="all">all</option>
+                <option value="addressPoints">addressPoints</option>
+                <option value="roadCenterlines">roadCenterlines</option>
+              </select>
+              <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+                                                                         optional</span>
+              <p class="help-block">
+                How the service will attempt to locate the address. <code>All</code> is a combination of address
+                points locators and road centerline locators; This will offer the best results.
+                <code>addressPoints</code> will only geocode on address points and <code>roadCenterlines</code>
+                will only geocode on road centerlines. Default is <code>All</code>.</p>
+            </div>
+          </div>
+          <div class="control-group">
+                <label class="control-label" for="pobox">
+                   POBox</label>
+                <div class="controls">
+                    <select id="pobox" name="pobox" class="input-large">
+                        <option value>P.O. Box</option>
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                    </select>
+                    <span class="help-inline label label-info">boolean</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                      How the service will handle P.O. Boxes. <code>True</code> will return the coordinates of the 
+                      post office where the mail is delivered. <code>False</code> will return no match. P.O. Boxes 
+                      can <strong>only</strong> be processed if the zone is a <strong>zip code</strong>. If a place
+                      name is used in the zone the geocode will return no match. Default value is <code>false</code>
+                </div>
+            </div>
+        </fieldset>
+        <div class="progress-striped active" style="width: auto;">
+            <button class="btn btn-primary" style="width: auto;" data-demo data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeApi", new
+                                                                                         {
+                                                                                             httproute = "", version = "1", controller = "Geocode", street = ":street", zone = ":zone"
+                                                                                         }))'>
+                Try it</button>
+        </div>
+        <div class="code-well">
+            <a class="close" data-close>×</a>
+            <div class="clearfix">
+            </div>
+            <pre class="pre-scrollable-small" data-codeContainer>Code</pre>
+            <div class="alert alert-info c-text" id="sampleUrl" style="display: none">
+            </div>
+        </div>
+    </form>
+</div>

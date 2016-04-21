@@ -1,0 +1,199 @@
+﻿@model WebAPI.Dashboard.Models.ViewModels.MainViewModel
+@{
+    ViewBag.Title = "Generate API Key";
+}
+<div id="home">
+    <h2>
+        Create API Keys for your apps</h2>
+</div>
+<div class="offset3 span6">
+    @Html.ErrorBox()
+    @Html.MessageBox()
+</div>
+<div class="row">
+    <fieldset>
+        <div class="offset1 alert alert-info span8">
+            <p>
+                Depending on what type of application you will be creating you will need to create
+                a different key.
+            </p>
+            <dl class="offset1 span5 well">
+                <dt>Browser Applications </dt>
+                <dd>
+                    The API requests will originate from a users browser which will be running your website.</dd>
+                <dt>Desktop Applications </dt>
+                <dd>
+                    The API requests will originate from a server or computer running your application.</dd>
+            </dl>
+        </div>
+        @using (Html.BeginForm("Generate", "GenerateKey", FormMethod.Post, new
+            {
+                @class = "form-horizontal"
+            }))
+        {
+            <div class="well span5">
+                <h2>
+                    Browser Applications</h2>
+                <div class="control-group">
+                    <label class="control-label" for="urlpattern">
+                        URL Pattern:</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            @Html.TextBox("urlpattern", TempData["url"],
+                                          new
+                                              {
+                                                  required = "true",
+                                                  @class = "input-medium",
+                                                  placeHolder = "*.example.com/*"
+                                              })@Html.Button("Create", new
+                                                    {
+                                                        @class = "btn btn-success"
+                                                    })
+                        </div>
+                        <span class="help-block"><a href="#patternModal" data-toggle="modal">Help me with this pattern</a>.</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="AppStatus">
+                        Key Use Status</label>
+                    <div class="controls">
+                        @Html.DropDownList("AppStatus", new[]
+                            {
+                                new SelectListItem
+                                    {
+                                        Text = "Production", Value = "1", Selected = true
+                                    },
+                                new SelectListItem
+                                    {
+                                        Text = "Development", Value = "0"
+                                    }
+                            })
+                    </div>
+                </div>
+            </div>
+        }
+        @using (Html.BeginForm("Generate", "GenerateKey", FormMethod.Post, new
+            {
+                @class = "form-horizontal"
+            }))
+        {
+            <div class="well span5">
+                <h2>
+                    Desktop Applications</h2>
+                <div class="control-group">
+                    <label class="control-label" for="ip">
+                        Server IP:</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            @Html.TextBox("ip", TempData["ip"],
+                                          new
+                                              {
+                                                  required = "true",
+                                                  @class = "input-medium",
+                                                  invalidMessage = "Invalid ip",
+                                                  placeHolder = "127.0.0.1",
+                                                  MaxLength = "100"
+                                              })@Html.Button("Create", new
+                                                    {
+                                                        @class = "btn btn-success"
+                                                    })
+                        </div>
+                        <span class="help-block"><a href="#ipModal" data-toggle="modal">Help me find the IP</a>.</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="AppStatus">
+                        Application Status</label>
+                    <div class="controls">
+                        @Html.DropDownList("AppStatus", new[]
+                            {
+                                new SelectListItem
+                                    {
+                                        Text = "Production", Value = "1", Selected = true
+                                    },
+                                new SelectListItem
+                                    {
+                                        Text = "Development", Value = "0"
+                                    }
+                            })
+                    </div>
+                </div>
+            </div>
+        }
+    </fieldset>
+</div>
+<style>
+    body.mac .windows, /* hide windows download */ body.windows .mac, /* hide mac download */ body.unsupported .windows, /* hide windows download */ body.unsupported .mac, /* hide mac download */ body.unsupported .mobile, /* hide mac download */ body .unsupported /* hide unsupported message */ { /* hide versions link */display: none; }
+</style>
+<div id="ipModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="ipModalLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            ×</button>
+        <h3 id="ipModalLabel">
+            IP Instructions</h3>
+    </div>
+    <div class="modal-body">
+        <div class="mac">
+            <h2>
+                OSX</h2>
+            <ul class="unstyled">
+                <li>Open Network Preferences</li>
+                <li>Click on the connection you are using</li>
+                <li><img src="//i.imgur.com/lx56m.png" /></li>
+                <li>Your IP is the IP Address value.</li>
+                <li>You can also use <a href="http://www.whatismyip.com/">whatismyip.com</a> </li>
+            </ul>
+        </div>
+        <div class="windows">
+            <h2>
+                windows</h2>
+            <ul class="unstyled">
+                <li>Press windows button + R or go to Start > run</li>
+                <li>Type cmd and hit enter</li>
+                <li><img src="//i.imgur.com/wRYcw.png" /></li>
+                <li>Type ipconfig and hit enter</li>
+                <li>Your IP is usually the IPv4 Address value.</li>
+                <li>You can also use <a href="http://www.whatismyip.com/">whatismyip.com</a>
+                </li>
+            </ul>
+        </div>
+        <div class="unsupported">
+            <p>
+                Sorry we don't have instructions for your Operating System. Try <a href="http://www.whatismyip.com/">
+                                                                                    whatismyip.com</a></p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">
+            Thanks</button>
+    </div>
+</div>
+<div id="patternModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="patternModalLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            ×</button>
+        <h3 id="patternModalLabel">
+            Pattern Instructions</h3>
+    </div>
+    <div class="modal-body">
+        @Html.Partial("Patterns")
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">
+            Thanks</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($.client.mac) {
+            $('body').addClass('mac');
+        } else if ($.client.windows) {
+            $('body').addClass('windows');
+        } else {
+            $('body').addClass('unsupported');
+        }
+    });
+</script>

@@ -1,0 +1,5 @@
+﻿@using WebAPI.Common.Extensions
+@model WebAPI.Common.Models.Raven.Users.Account
+
+| <i class="icon-user"></i>&nbsp;@Html.ActionLink(Model.Name.DefaultIfNullOrEmpty("Update profile"), "Index", "Profile") | <i class="icon-road"></i>
+@Html.ActionLink("Log Out", "Logout")

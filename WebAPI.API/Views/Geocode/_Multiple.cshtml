@@ -1,0 +1,66 @@
+﻿<div class="well">
+    <span class="label label-verb label-post pull-left">Post</span> <span class="label label-url url pull-right">
+                                                                        /geocode/multiple</span>
+    <div class="clearfix">
+    </div>
+    <h3>
+        Multiple addresses</h3>
+    <p>
+        Returns a list of geocoded addresses. Addresses that do not meet the acceptScore
+        are omitted from the returned list.</p>
+    <button class="btn" data-details="true">
+        Details</button>
+    <span class="help-inline label label-success label-status pull-right">implemented</span>
+    <div class="clearfix">
+    </div>
+    <form class="form-horizontal hide">
+        <fieldset>
+            <legend class="hidden"></legend>
+            <div class="control-group">
+                <label class="control-label" for="addresses">
+                    addresses</label>
+                <div class="controls">
+                    <textarea rows="5" cols="20" id="addresses" name="addresses" class="input-large" data-required data-json></textarea>
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-important">
+                                                                                 required</span>
+                    <p class="help-block">
+                        A json array of Utah addresses. Maximum addresses to be geocoded per call is <code>100</code>. The json schema is
+                        <script>
+                            $(document).ready(function() {
+                                var addresses = { addresses: [{ id: 1, street: 'string', zone: 'string' }] };
+                                $('#multiSchema').html(JSON.stringify(addresses, null, ' '));
+                            })
+                        </script>
+                        <pre id="multiSchema"></pre></p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="acceptScore">
+                    acceptScore</label>
+                <div class="controls">
+                    <input type="text" id="acceptScore" name="acceptScore" class="input-large" />
+                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        Sets the score for an acceptable address match. The scale is over 0-100 with the
+                        default score being 70.</p>
+                </div>
+            </div>
+        </fieldset>
+        <div class="progress-striped active" style="width: auto;">
+            <button class="btn btn-primary" data-demo data-type='POST' data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeMultipleApi", new
+                                                                                 {
+                                                                                     httproute = "", version = "1", controller = "Geocode", Action = "Multiple"
+                                                                                 }))'>
+                Try it</button>
+        </div>
+        <div class="code-well">
+            <a class="close" data-close>×</a>
+            <div class="clearfix">
+            </div>
+            <pre class="pre-scrollable-small" data-codeContainer>Code</pre>
+            <div class="alert alert-info c-text" id="sampleUrl" style="display: none">
+            </div>
+        </div>
+    </form>
+</div>

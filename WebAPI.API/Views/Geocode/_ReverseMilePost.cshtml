@@ -1,0 +1,143 @@
+﻿<div class="well">
+    <span class="label label-verb label-get pull-left">Get</span> <span class="label label-url url pull-right">
+                                                                      /geocode/milepost/:x/:y</span>
+    <div class="clearfix">
+    </div>
+    <h3>
+        Reverse Route and Milepost</h3>
+    <p>
+        Returns the closest route and milepost to the input coorindate.</p>
+    <button class="btn" data-details="true">
+        Details</button>
+    <span class="help-inline label label-success label-status pull-right">implemented</span>
+    <div class="clearfix">
+    </div>
+    <form class="form-horizontal hide">
+        <fieldset>
+            <legend class="hidden"></legend>
+            <div class="control-group">
+                <label class="control-label" for="rx">
+                    x</label>
+                <div class="controls">
+                    <input type="text" id="rx" name="x" class="input-large" data-required/>
+                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-important">
+                                                                                 required</span>
+                    <p class="help-block">
+                        The x coordinate.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="ry">
+                    y</label>
+                <div class="controls">
+                    <input type="text" id="ry" name="y" class="input-large" data-required/>
+                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-important">
+                                                                                 required</span>
+                    <p class="help-block">
+                        The y coorindate.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="includeRampSystem">
+                    includeRampSystem</label>
+                <div class="controls">
+                    <select id="includeRampSystem" name="includeRampSystem" class="input-large">
+                        <option value>Include Ramp Systems</option>
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        <code>False</code> by default. If you would like to include ramps, collectors, and federal aide routes set this to <code>True</code>.
+                    </p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="rbuffer">
+                    buffer</label>
+                <div class="controls">
+                    <input type="text" id="rbuffer" name="buffer" class="input-large" />
+                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        The buffer radius in meters. The default is <code>100 meters</code> with the maximum value being <code>200 meters</code>.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="spatialReference">
+                    spatialReference</label>
+                <div class="controls">
+                    <input type="text" id="spatialReference" name="spatialReference" class="input-large"  />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        The spatial reference of the input geographic coordinate pair.
+                        Choose any of the <abbr title="Well-known Id">wkid</abbr>'s from the 
+                        <a href="http://resources.arcgis.com/en/help/main/10.1/018z/pdf/geographic_coordinate_systems.pdf">Geographic Coordinate System wkid reference</a>
+                        or <a href="http://resources.arcgis.com/en/help/main/10.1/018z/pdf/projected_coordinate_systems.pdf">Projected Coordinate System wkid reference</a>. 
+                        <code>26912</code> is the default. 
+                    </p>
+                    <span class="label label-info">Popular WKID's</span>
+                    <table class="table table-condensed table-striped">
+                        <thead>
+                            <tr>
+                                <th>System</th>
+                                <th>wkid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Latitude/Longitude (WGS84)</td>
+                                <td>4326</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="callback">
+                    callback</label>
+                <div class="controls">
+                    <input type="text" id="callback" name="callback" class="input-large" />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        The callback function to call for cross domain javascript calls (jsonp).</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="format">
+                    format</label>
+                <div class="controls">
+                    <select id="format" name="format" class="input-large">
+                        <option value>Format</option>
+                        <option value="esrijson">esrijson</option>
+                        <option value="geojson">geojson</option>
+                    </select>
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+                                                                                 optional</span>
+                    <p class="help-block">
+                        The format of the resulting milepost. esri json will easily parse into an esri.Graphic
+                        for display on a map and geojson will easily parse into a feature for use in many
+                        open source projects. If this value is omitted, normal json will be returned.</p>
+                </div>
+            </div>
+        </fieldset>
+        <div class="progress-striped active" style="width: auto;">
+            <button class="btn btn-primary" data-demo data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeReverseMilePost", new
+                                                                    {
+                                                                        httproute = "", version = "1", controller = "Geocode", Action = "ReverseMilePost", x = ":x", y = ":y"
+                                                                    }))'>
+                Try it</button>
+        </div>
+        <div class="code-well">
+            <a class="close" data-close>×</a>
+            <div class="clearfix">
+            </div>
+            <pre class="pre-scrollable-small" data-codeContainer>Code</pre>
+            <div class="alert alert-info c-text" id="sampleUrl" style="display: none">
+            </div>
+        </div>
+    </form>
+</div>

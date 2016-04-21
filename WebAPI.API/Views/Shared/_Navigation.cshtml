@@ -1,0 +1,25 @@
+﻿<ul class="nav nav-pills nav-stacked">
+    <li class="nav-header">Web API's</li>
+    <li class="active"><a href="#home">Home</a></li>
+    <li><a href="#geocoding">Geocoding</a></li>
+    <li><a href="#search">Searching</a></li>
+    <li><a href="#info">SGID Information</a></li>
+    <li><a href="#network">Network Analysis</a></li>
+    <li class="nav-header">Resources</li>
+    <li>@Html.ActionLink("Console", "Dashboard", new
+            {
+                Controller = "Go"
+            })</li>
+    <li>@Html.ActionLink("Register", "Register", new
+            {
+                Controller = "Go"
+            })</li>
+    <li class="nav-header">Help</li>
+    <li>@Html.ActionLink("Getting Started Guide", "Startup", new
+            {
+                Controller = "Go"
+            })</li>
+    <li class="nav-header">About</li>
+    <li><a href="@Url.Action("Index", "ChangeLog")"><i class="icon-book"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version.ToString()</a></li>
+    <li class="nav-header">&copy; AGRC @DateTime.Now.Year</li>
+</ul>

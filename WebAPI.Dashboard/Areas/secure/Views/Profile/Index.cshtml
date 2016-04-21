@@ -1,0 +1,287 @@
+﻿@{
+    ViewBag.Title = "AGRC Web API Profile";
+}
+@model  WebAPI.Dashboard.Models.ViewModels.MainViewModel
+<div id="home">
+    <h2>
+        Please update your profile</h2>
+</div>
+@using (Html.BeginForm("UpdateProfile", "Profile", FormMethod.Post, new
+{
+    @class = "form-horizontal"
+}))
+{
+    <div class="offset3 span6">
+        @Html.ErrorBox()
+        @Html.MessageBox()
+    </div>
+    <div class="row">
+        <fieldset>
+            <div class="span6">
+                <div class="control-group">
+                    @Html.Partial("Email", Model.User)
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="FirstName">
+                        First Name
+                    </label>
+                    <div class="controls">
+                        @Html.TextBox("FirstName", Model.User.FirstName, new
+                        {
+                            @class = "input-large",
+                            data_required = "",
+                            @id = "FirstName",
+                            MaxLength = "30"
+                        })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="LastName">
+                        Last Name
+                    </label>
+                    <div class="controls">
+                        @Html.TextBox("LastName", Model.User.LastName, new
+                        {
+                            @class = "input-large",
+                            data_required = "",
+                            @id = "LastName",
+                            MaxLength = "30"
+                        })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="Company">
+                        Company
+                    </label>
+                    <div class="controls">
+                        @Html.TextBox("Company", Model.User.Company, new
+                        {
+                            @class = "input-large",
+                            data_required = "",
+                            @id = "Company",
+                            MaxLength = "30"
+                        })
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="control-group">
+                    <label class="control-label" for="JobCategoery">
+                        Job Category
+                    </label>
+                    <div class="controls">
+                        @Html.TextBox("JobCategory", Model.User.JobCategory, new
+                        {
+                            @class = "input-large",
+                            data_required = "",
+                            @id = "JobCategory",
+                            MaxLength = "30"
+                        })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="JobTitle">
+                        Job Title
+                    </label>
+                    <div class="controls">
+                        @Html.TextBox("JobTitle", Model.User.JobTitle, new
+                        {
+                            @class = "input-large",
+                            data_required = "",
+                            @id = "JobTitle",
+                            MaxLength = "30"
+                        })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="CodingExperience">
+                        Coding Experience
+                    </label>
+                    <div class="controls">
+                        @Html.TextBox("CodingExperience", Model.User.CodingExperience, new
+                        {
+                            @class = "input-large",
+                            data_required = "",
+                            @id = "CodingExperience",
+                            MaxLength = "30"
+                        })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="ContactRoute">
+                        Contact Route
+                    </label>
+                    <div class="controls">
+                        @Html.TextBox("ContactRoute", Model.User.ContactRoute, new
+                        {
+                            @class = "input-large",
+                            data_required = "",
+                            @id = "ContactRoute",
+                            MaxLength = "30"
+                        })
+                        <p class="help-block">
+                            Please enter your twitter handle, email address, phone number, or whatever method
+                            you would like us to use to contact you for any reason.</p>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="row">
+        <div class="offset1 span8">
+            <div class="control-group">
+                <div class="controls">
+                    <div class="btn-group">
+                        @Html.Button("Update", new
+                        {
+                            @class = "btn btn-success", name = "FormAction", value = "Update"
+                        })
+                        @Html.Button("Update and go to Console", new
+                        {
+                            @class = "btn", name = "FormAction", value = "UpdateAndGo"
+                        })
+                        @Html.Button("Change Password", new
+                        {
+                            id = "changePassword",
+                            @class = "btn btn-danger"
+                        })
+                        @Html.ActionLink("Console", "Index", new
+                        {
+                            Controller = "Home"
+                        }, new
+                        {
+                            @class = "btn btn-info"
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("UpdatePassword", "Profile", FormMethod.Post, new
+{
+    @class = "form-horizontal"
+}))
+{
+    <div id="passwordContainer" class="row" style="display: none">
+        <div class="well offset3 span5">
+            <fieldset>
+                <legend>Update Password</legend>
+                <div class="control-group">
+                    <label class="control-label" for="CurrentPassword">
+                        Current Password
+                    </label>
+                    <div class="controls">
+                        <div class="input-append">
+                            @Html.Password("CurrentPassword", null, new
+                            {
+                                @class = "input-medium",
+                                data_required = "",
+                                id = "CurrentPassword",
+                                MaxLength = "30"
+                            })
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="NewPassword">
+                        New Password
+                    </label>
+                    <div class="controls">
+                        <div class="input-append">
+                            @Html.Password("NewPassword", null, new
+                            {
+                                @class = "input-medium",
+                                data_required = "",
+                                id = "NewPassword",
+                                MaxLength = "30"
+                            })
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="ConfirmPassword">
+                        Confirm New Password
+                    </label>
+                    <div class="controls">
+                        <div class="input-append">
+                            @Html.Password("ConfirmPassword", null, new
+                            {
+                                @class = "input-medium",
+                                data_required = "",
+                                id = "ConfirmPassword",
+                                MaxLength = "30"
+                            })
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group offset1">
+                    <div class="controls">
+                        <button class="btn btn-danger" id="change">
+                            Change</button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function() {
+        $("#confirm").on("click", function(e) {
+            e.preventDefault();
+            $.post('@Url.Action("GenerateConfirmation")');
+
+            return false;
+        });
+
+        $("#changePassword")
+            .on("click", function(e) {
+                e.preventDefault();
+                $("#passwordContainer").slideToggle("slow", "swing", function() {
+                    $("#CurrentPassword").focus();
+                });
+
+                return false;
+            });
+
+        $("#change").on("click", function(e) {
+            var newPassword = $("#NewPassword"),
+                confirmPassword = $("#ConfirmPassword"),
+                currentPassword = $("#CurrentPassword"),
+                toggleState = function(node) {
+                    if ($.isArray(node)) {
+                        $(node).each(function() {
+                            this.closest(".control-group")
+                                .addClass('error');
+                        });
+                    } else {
+                        $(node).closest(".control-group")
+                            .addClass('error');
+                    }
+                };
+
+            $("div.control-group").removeClass("error");
+
+            if (newPassword.val() === "") {
+                e.preventDefault();
+                toggleState(newPassword);
+            }
+
+            if (confirmPassword.val() === "") {
+                e.preventDefault();
+                toggleState(confirmPassword);
+            }
+
+            if (currentPassword.val() === "") {
+                e.preventDefault();
+                toggleState(currentPassword);
+            }
+
+            if (newPassword.val() !== confirmPassword.val()) {
+                toggleState([newPassword, confirmPassword]);
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+</script>

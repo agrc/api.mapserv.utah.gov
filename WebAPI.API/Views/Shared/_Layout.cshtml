@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>@ViewBag.Title</title>
+        <link rel="shortcut icon" href="@Url.Content("~/Content/images/favicon.ico")">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        @Scripts.Render("~/bundles/jquery")
+        @Styles.Render("~/Content/bundles")
+    </head>
+    <body data-spy="scroll" data-target=".nav">
+        <div class="container">
+            <img src="@Url.Content("~/Content/images/beta_ribbon.png")" class="beta-ribbon" alt="" />
+            @RenderBody()
+            @Scripts.Render("~/bundles/bootstrap")
+            @Scripts.Render("~/bundles/site")
+        </div>
+    </body>
+</html>

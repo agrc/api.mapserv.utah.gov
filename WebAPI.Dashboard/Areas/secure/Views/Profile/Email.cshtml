@@ -1,0 +1,39 @@
+﻿@model WebAPI.Common.Models.Raven.Users.Account
+@if (Model.Confirmation.Confirmed)
+{
+    <label class="control-label" for="Email">
+        Email Address <span class="label label-success">Confirmed</span>
+    </label>
+    <div class="controls">
+        <div>
+            @Html.TextBox("Email", Model.Email, new
+            {
+                @class = "input-large",
+                data_required = "",
+                @id = "Email",
+                MaxLength = "30"
+            })
+        </div>
+    </div>
+}
+else
+{
+    <label class="control-label" for="Email">
+        Email Address <span class="label label-important">Unconfirmed</span>
+    </label>
+    <div class="controls">
+        <div class="input-append">
+            @Html.TextBox("Email", Model.Email, new
+            {
+                @class = "input-large",
+                data_required = "",
+                @id = "Email",
+                MaxLength = "30"
+            })@Html.Button("Confirm", new
+              {
+                  id = "confirm",
+                  @class = "btn btn-warning"
+              })
+        </div>
+    </div>
+}

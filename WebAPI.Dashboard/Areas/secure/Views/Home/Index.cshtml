@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "AGRC Web API User Console";
+}
+@model WebAPI.Dashboard.Models.ViewModels.MainViewModel
+<div id="home">
+    <h2>
+        User Console</h2>
+</div>
+<div class="offset3 span6">
+    @Html.ErrorBox()
+    @Html.MessageBox()
+</div>
+<div class="row">
+    <div class="well offset1 span3 c-text" style="margin-top: 55px;">
+        @Html.ActionLink("Manage my API Keys", "Index", new
+        {
+            Controller = "KeyManagement"
+        }, new
+        {
+            @class = "btn"
+        })
+    </div>
+    <div class="well span3 c-text">
+        <div style="padding: 5px 10px;">
+            <p>
+                <span class="badge badge-success badge-large">@Model.ApiKeyUsage.UsageCount.ToString("##,#0")</span>
+            </p>
+            API requests to date.
+            <hr />
+            <p>
+                Keys Used
+            </p>
+            <span class="badge badge-success badge-large">@Model.KeyQuota.KeysUsed</span>
+        </div>
+    </div>
+    <div class="well span3 c-text" style="margin-top: 55px;">
+        @Html.ActionLink("Manage my Information", "Index", new
+        {
+            Controller = "Profile"
+        }, new
+        {
+            @class = "btn"
+        })
+    </div>
+</div>

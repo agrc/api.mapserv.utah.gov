@@ -1,0 +1,98 @@
+﻿/*HTTP VERBS
+ ------*/
+.label {
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+}
+/* Colors*/
+
+.label-verb { margin: -15px 10px 0px -15px; }
+
+.label-delete { background-color: #b94a48; }
+
+.label-delete:hover { background-color: #953b39; }
+
+.label-post { background-color: #f89406; }
+
+.label-post:hover { background-color: #c67605; }
+
+.label-put { background-color: #468847; }
+
+.label-put:hover { background-color: #356635; }
+
+.label-get { background-color: #3a87ad; }
+
+.label-get:hover { background-color: #2d6987; }
+
+.label-url {
+    background-color: gold;
+    color: black;
+    margin: -15px -15px 0px 0px;
+    text-shadow: none;
+}
+
+.label-url:hover {
+    background-color: #ffdf33;
+    color: black;
+}
+
+.label-status { margin: 24px -15px 0px 0px; }
+
+.pre-scrollable-small {
+    background-color: white;
+    max-height: 150px;
+    min-height: 20px;
+    overflow-y: scroll;
+}
+
+.code-well {
+    margin-bottom: 20px 20px 0px;
+    min-height: 20px;
+    padding: 19px 19px 0px;
+}
+
+select.input-large { width: 220px; }
+
+.beta-ribbon {
+    left: 0;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+
+.label { padding: 0px 4px 1px; }
+
+.c-text { text-align: center; }
+
+.active .bar {
+    -moz-animation: progress-bar-stripes 2s linear infinite;
+    -ms-animation: progress-bar-stripes 2s linear infinite;
+    -o-animation: progress-bar-stripes 2s linear infinite;
+    -webkit-animation: progress-bar-stripes 2s linear infinite;
+    animation: progress-bar-stripes 2s linear infinite;
+}
+
+/* Sticky footer styles
+      -------------------------------------------------- */
+
+html,
+body { height: 100%; }
+
+      /* Wrapper for page content to push down footer */
+
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by it's height */
+    margin: 0 auto -35px;
+}
+
+      /* Set the fixed height of the footer here */
+
+#push { height: 60px; }
+#footer { height: 25px; }
+
+#wrap > .container { padding-top: 60px; }

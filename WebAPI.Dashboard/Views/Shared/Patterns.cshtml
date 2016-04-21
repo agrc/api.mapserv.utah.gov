@@ -1,0 +1,28 @@
+﻿<table class="table table-condensed">
+            <tbody><tr>
+                       <th>URL Pattern</th>
+                       <th>Description</th>
+                   </tr>
+                <tr>
+                    <td><code>www.example.com</code><br>
+                                                    or<br /> <code>
+                                                                 www.example.com/</code><br />or<br /> <code>
+                                                                                                           www.example.com/*</code></td>
+                    <td>Matches all referrers in the domain <code>www.example.com</code></td>
+                </tr>
+                <tr>
+                    <td><code>example.com/*</code></td>
+                    <td>Matches only referrers at <code>example.com</code>, but no subdomains</td>
+                </tr>
+                <tr>
+                    <td><code>*.example.com</code></td>
+                    <td>Matches all referrers at all subdomains of <code>example.com</code></td>
+                </tr>
+                <tr>
+                    <td><code>www.examples.com/test</code><br />or<br />
+                        <code>www.example.com/test/</code><br />or<br />
+                        <code>www.example.com/test/*</code>
+                    </td>
+                    <td>Matches all referrers in <code>www.examples.com/test/</code> and all subpaths</td>
+                </tr>
+            </tbody></table>
