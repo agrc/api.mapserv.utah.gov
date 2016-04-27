@@ -196,6 +196,7 @@
     <Compile Include="Ninject\Modules\DomainLinkModule.cs" />
     <Compile Include="Ninject\Modules\FormsAuthModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ApiKeyProvider.cs" />
     <Compile Include="Providers\HttpContentProvider.cs" />
     <Compile Include="Providers\IDomainLinkProvider.cs" />
     <Compile Include="Providers\IpProvider.cs" />
