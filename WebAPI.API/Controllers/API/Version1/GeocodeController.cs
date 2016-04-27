@@ -451,5 +451,11 @@ namespace WebAPI.API.Controllers.API.Version1
                           .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>))
                           .AddCache();
         }
+        
+        [HttpGet]
+        public HttpResponseMessage ArcGisOnline([FromUri] AgoGeocodeOptions options)
+        {
+            return null;
+        }
     }
 }

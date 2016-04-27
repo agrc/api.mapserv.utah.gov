@@ -75,6 +75,7 @@
     <Compile Include="Direction.cs" />
     <Compile Include="ArcServerInput\ReverseMilepostArgs.cs" />
     <Compile Include="GeocodeOperationInput.cs" />
+    <Compile Include="InputOptions\AgoGeocodeOptions.cs" />
     <Compile Include="InputOptions\AttributeStyle.cs" />
     <Compile Include="InputOptions\GeocodeOptions.cs" />
     <Compile Include="InputOptions\MilePostOptions.cs" />
