@@ -30,8 +30,11 @@ namespace WebAPI.API.Handlers.Delegating
         [Inject]
         public IpProvider IpProvider { get; set; }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-                                                               CancellationToken cancellationToken)
+        [Inject]
+        public ApiKeyProvider ApiKeyProvider { get; set; }
+
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
             if (!request.Properties.Any())
             {
@@ -44,7 +47,7 @@ namespace WebAPI.API.Handlers.Delegating
                 DocumentStore = request.GetDependencyScope().GetService(typeof (IDocumentStore)) as IDocumentStore;
             }
 
-            var apikey = FindApikey(request);
+            var apikey = await ApiKeyProvider.GetApiFromRequestAsync(request);
 
             if (string.IsNullOrWhiteSpace(apikey))
             {
@@ -228,32 +231,6 @@ namespace WebAPI.API.Handlers.Delegating
             }
 
             return isLocalBasedOnOrigin || isLocalBasedOnReferrer;
-        }
-
-        private static string FindApikey(HttpRequestMessage request)
-        {
-            try
-            {
-                var key = HttpUtility.ParseQueryString(request.RequestUri.Query).Get("apikey");
-
-                if (!string.IsNullOrEmpty(key))
-                {
-                    return key;
-                }
-            }
-            catch
-            {
-            }
-
-            try
-            {
-                return request.Content.ReadAsFormDataAsync().Result.Get("apikey");
-            }
-            catch
-            {
-            }
-
-            return null;
         }
     }
 }
