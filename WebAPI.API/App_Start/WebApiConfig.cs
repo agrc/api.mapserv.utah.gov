@@ -76,6 +76,16 @@ namespace WebAPI.API
                    version = "1"
                });
 
+            config.Routes.MapHttpRoute(
+               name: "v1_AgoGeocodeApi",
+               routeTemplate: "api/v{version}/geocode/ago/agrc-ago/findAddressCandidates",
+               defaults: new
+               {
+                   action = "ArcGisOnline",
+                   controller = "Geocode",
+                   version = "1"
+               });
+
             /*
                 ==Search Endpoints==
             */
