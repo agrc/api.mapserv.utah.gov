@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Hosting;
 using Ninject;
@@ -23,7 +22,10 @@ namespace WebAPI.API.Handlers.Delegating
         [Inject]
         public HttpContentProvider HttpContentProvider { get; set; }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+        [Inject]
+        public ApiKeyProvider ApiKeyProvider { get; set; }
+
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
                                                                CancellationToken cancellationToken)
         {
             if (!request.Properties.Any())
@@ -32,14 +34,19 @@ namespace WebAPI.API.Handlers.Delegating
                 request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
             }
 
-            var apikey = HttpUtility.ParseQueryString(request.RequestUri.Query).Get("apikey");
-            return base.SendAsync(request, cancellationToken).ContinueWith(
-                response => LogResponse(apikey, response));
+            var apikey = await ApiKeyProvider.GetApiFromRequestAsync(request);
+
+            return await base.SendAsync(request, cancellationToken).ContinueWith(
+                response => LogResponse(apikey, response), cancellationToken);
         }
 
-        private HttpResponseMessage LogResponse(string apikey,
-                                                Task<HttpResponseMessage> response)
+        private HttpResponseMessage LogResponse(string apikey, Task<HttpResponseMessage> response)
         {
+            if (string.IsNullOrEmpty(apikey))
+            {
+                return response.Result;
+            }
+
             var db = Redis.GetDatabase();
 
             db.StringIncrement(apikey, flags: CommandFlags.FireAndForget);
