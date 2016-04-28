@@ -7,3 +7,5 @@
 1. install raven db
 1. import a raven dump
 1. install redis from https://github.com/MSOpenTech/redis/releases
+
+![Powered by RavenDB](https://ravendb.net/Content/images/badges/badge1.png)
