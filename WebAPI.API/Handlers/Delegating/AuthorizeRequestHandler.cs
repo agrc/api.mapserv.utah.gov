@@ -6,7 +6,6 @@ using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Hosting;
 using Ninject;
@@ -23,6 +22,7 @@ namespace WebAPI.API.Handlers.Delegating
     public class AuthorizeRequestHandler : DelegatingHandler
     {
         private const string Origin = "Origin";
+        private HttpResponseMessage _invalidResponse;
 
         [Inject]
         public IDocumentStore DocumentStore { get; set; }
@@ -63,7 +63,7 @@ namespace WebAPI.API.Handlers.Delegating
 
             using (var s = DocumentStore.OpenSession())
             {
-                var invalidResponse = request.CreateResponse(HttpStatusCode.BadRequest,
+                _invalidResponse = request.CreateResponse(HttpStatusCode.BadRequest,
                     new ResultContainer
                     {
                         Status = (int) HttpStatusCode.BadRequest,
@@ -77,12 +77,24 @@ namespace WebAPI.API.Handlers.Delegating
 
                 if (key == null && apikey != "agrc-ago")
                 {
-                    return invalidResponse;
+                    return _invalidResponse;
                 }
 
+                var validateUser = true;
+
+                // TODO: some sort of agency ago whitelist container
                 if (apikey == "agrc-ago")
                 {
-                    return await base.SendAsync(request, cancellationToken); 
+                    // referrer: http://utah.maps.arcgis.com/home/webmap/viewer.html?useExisting=1
+
+                    key = new ApiKey(apikey)
+                    {
+                        RegexPattern = "^http(?:s)?://utah\\.maps\\.arcgis\\.com",
+                        Type = ApiKey.ApplicationType.Browser,
+                        AppStatus = ApiKey.ApplicationStatus.Production
+                    };
+
+                    validateUser = false;
                 }
 
                 var isWhitelisted = s.Query<WhitelistContainer>()
@@ -93,96 +105,112 @@ namespace WebAPI.API.Handlers.Delegating
                     return await base.SendAsync(request, cancellationToken);
                 }
 
-                var user = s.Load<Account>(key.AccountId);
-
-                if (user == null || !user.Confirmation.Confirmed)
+                if (validateUser)
                 {
-                    return request.CreateResponse(HttpStatusCode.BadRequest,
-                        new ResultContainer
-                        {
-                            Status = (int)HttpStatusCode.BadRequest,
-                            Message = "Invalid key owner. Key does not belong to user or user has not been confirmed. " +
-                                      "Browse to your profile and click the confirm button next to your email. " +
-                                      "Follow the instructions in your inbox."
-                        },
-                        new MediaTypeHeaderValue(
-                            "application/json"));
-                }
+                    var user = s.Load<Account>(key.AccountId);
 
-                if (key.Deleted || key.ApiKeyStatus == ApiKey.KeyStatus.Disabled)
-                {
-                    return request.CreateResponse(HttpStatusCode.BadRequest,
-                        new ResultContainer
-                        {
-                            Status = (int)HttpStatusCode.BadRequest,
-                            Message = "Key no longer exists or has been deactivated."
-                        },
-                        new MediaTypeHeaderValue("application/json"));
-                }
-
-                if (key.Type == ApiKey.ApplicationType.Browser)
-                {
-                    var pattern = new Regex(key.RegexPattern, RegexOptions.IgnoreCase);
-
-                    var referrer = request.Headers.Referrer;
-                    var hasOrigin = request.Headers.Where(x => x.Key == Origin).ToList();
-
-                    if (referrer == null && !hasOrigin.Any())
+                    if (user == null || !user.Confirmation.Confirmed)
                     {
                         return request.CreateResponse(HttpStatusCode.BadRequest,
                             new ResultContainer
                             {
-                                Status = (int)HttpStatusCode.BadRequest,
-                                Message = "Referrer http header is missing. " +
-                                          "Turn off any security solutions that hide this header to use this service."
+                                Status = (int) HttpStatusCode.BadRequest,
+                                Message =
+                                    "Invalid key owner. Key does not belong to user or user has not been confirmed. " +
+                                    "Browse to your profile and click the confirm button next to your email. " +
+                                    "Follow the instructions in your inbox."
                             },
                             new MediaTypeHeaderValue("application/json"));
                     }
 
-                    var corsOriginHeader = hasOrigin.FirstOrDefault();
-                    var corsOriginValue = "";
-
-                    if (corsOriginHeader.Key != null)
-                    {
-                        corsOriginValue = corsOriginHeader.Value.SingleOrDefault();
-                    }
-
-                    if (key.AppStatus == ApiKey.ApplicationStatus.Development &&
-                        IsLocalDevelopment(referrer, corsOriginValue))
-                    {
-                        return await base.SendAsync(request, cancellationToken);
-                    }
-
-                    if (!ApiKeyPatternMatches(pattern, corsOriginValue, referrer))
-                    {
-                        return invalidResponse;
-                    }
-                }
-                else
-                {
-                    var ip = key.Pattern;
-                    var userHostAddress = IpProvider.GetIp(request);
-
-                    if (ip != userHostAddress)
+                    if (key.Deleted || key.ApiKeyStatus == ApiKey.KeyStatus.Disabled)
                     {
                         return request.CreateResponse(HttpStatusCode.BadRequest,
                             new ResultContainer
                             {
-                                Status = (int)HttpStatusCode.BadRequest,
-                                Message = string.Format("Invalid API key. Pattern does not match {0}.", userHostAddress)
+                                Status = (int) HttpStatusCode.BadRequest,
+                                Message = "Key no longer exists or has been deactivated."
                             },
                             new MediaTypeHeaderValue("application/json"));
                     }
+                }
+
+                var response = await ValidateRequest(key, request, cancellationToken);
+
+                if (response != null)
+                {
+                    return response;
                 }
             }
 
             return await base.SendAsync(request, cancellationToken);
         }
 
-        private static bool ApiKeyPatternMatches(Regex pattern, string orign, Uri referrer)
+        private async Task<HttpResponseMessage> ValidateRequest(ApiKey key, HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            if (key.Type == ApiKey.ApplicationType.Browser)
+            {
+                var pattern = new Regex(key.RegexPattern, RegexOptions.IgnoreCase);
+
+                var referrer = request.Headers.Referrer;
+                var hasOrigin = request.Headers.Where(x => x.Key == Origin).ToList();
+
+                if (referrer == null && !hasOrigin.Any())
+                {
+                    return request.CreateResponse(HttpStatusCode.BadRequest,
+                        new ResultContainer
+                        {
+                            Status = (int) HttpStatusCode.BadRequest,
+                            Message = "Referrer http header is missing. " +
+                                      "Turn off any security solutions that hide this header to use this service."
+                        },
+                        new MediaTypeHeaderValue("application/json"));
+                }
+
+                var corsOriginHeader = hasOrigin.FirstOrDefault();
+                var corsOriginValue = "";
+
+                if (corsOriginHeader.Key != null)
+                {
+                    corsOriginValue = corsOriginHeader.Value.SingleOrDefault();
+                }
+
+                if (key.AppStatus == ApiKey.ApplicationStatus.Development &&
+                    IsLocalDevelopment(referrer, corsOriginValue))
+                {
+                    return await base.SendAsync(request, cancellationToken);
+                }
+
+                if (!ApiKeyPatternMatches(pattern, corsOriginValue, referrer))
+                {
+                    return _invalidResponse;
+                }
+            }
+            else
+            {
+                var ip = key.Pattern;
+                var userHostAddress = IpProvider.GetIp(request);
+
+                if (ip != userHostAddress)
+                {
+                    return request.CreateResponse(HttpStatusCode.BadRequest,
+                        new ResultContainer
+                        {
+                            Status = (int) HttpStatusCode.BadRequest,
+                            Message = string.Format("Invalid API key. Pattern does not match {0}.", userHostAddress)
+                        },
+                        new MediaTypeHeaderValue("application/json"));
+                }
+            }
+
+            return null;
+        }
+
+        private static bool ApiKeyPatternMatches(Regex pattern, string origin, Uri referrer)
         {
             var isReferrer = !(referrer == null);
-            var isOrigin = !string.IsNullOrEmpty(orign);
+            var isOrigin = !string.IsNullOrEmpty(origin);
             var isValidBasedOnReferrer = false;
             var isValidBasedOnOrigin = false;
 
@@ -193,7 +221,7 @@ namespace WebAPI.API.Handlers.Delegating
 
             if (isOrigin)
             {
-                var originUrl = new Uri(orign);
+                var originUrl = new Uri(origin);
                 if (pattern.IsMatch(originUrl.AbsoluteUri))
                 {
                     isValidBasedOnOrigin = true;
