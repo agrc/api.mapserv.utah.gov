@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using NLog;
@@ -455,7 +456,73 @@ namespace WebAPI.API.Controllers.API.Version1
         [HttpGet]
         public HttpResponseMessage ArcGisOnline([FromUri] AgoGeocodeOptions options)
         {
-            return null;
+            #region validation
+
+            var errors = "";
+            if (string.IsNullOrEmpty(options.Address))
+            {
+                errors = "Address is empty.";
+            }
+
+            if (errors.Length > 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                              new ResultContainer<GeocodeAddressResult>
+                                              {
+                                                  Status = (int)HttpStatusCode.BadRequest,
+                                                  Message = errors
+                                              });
+            }
+
+            var singleLineAddress = options.Address.Trim();
+
+            #endregion
+
+            var street = "";
+            var zone = "";
+
+            var stripUtah = new Regex("(?:ut)(?:ah)?$", RegexOptions.IgnoreCase);
+            singleLineAddress = stripUtah.Replace(singleLineAddress, "");
+
+            var zipPlusFour = new Regex(@"\s(\d{5})-?(\d{4})?$");
+            var match = zipPlusFour.Match(singleLineAddress);
+
+            if (match.Success)
+            {
+                if (match.Groups[1].Success)
+                {
+                    zone = match.Groups[1].Value;
+                    street = zipPlusFour.Replace(singleLineAddress, "").Trim();
+                }
+            }
+            else
+            {
+                var zones = App.PlaceGridLookup.Where(x => singleLineAddress.ToLower().Contains(x.Key.ToLower())).ToList();
+
+                if (zones.Count == 1)
+                {
+                    zone = zones.First().Key;
+                }
+
+                street = new Regex("\\s" + zone + "$", RegexOptions.IgnoreCase).Replace(singleLineAddress, "").Trim();
+            }
+
+            if (string.IsNullOrEmpty(zone))
+            {
+                errors += "Zip code or city name could not be extracted.";
+            }
+
+            if (errors.Length > 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                              new ResultContainer<GeocodeAddressResult>
+                                              {
+                                                  Status = (int)HttpStatusCode.BadRequest,
+                                                  Message = errors
+                                              });
+            }
+
+            return Get(street, zone, new GeocodeOptions());
         }
     }
 }
