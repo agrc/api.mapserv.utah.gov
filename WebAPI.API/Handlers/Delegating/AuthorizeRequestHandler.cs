@@ -89,10 +89,14 @@ namespace WebAPI.API.Handlers.Delegating
 
                     key = new ApiKey(apikey)
                     {
-                        RegexPattern = "^http(?:s)?://utah\\.maps\\.arcgis\\.com",
+                        RegexPattern = @"^http(?:s)?://(?:utah\.maps|www)\.arcgis\.com",
                         Type = ApiKey.ApplicationType.Browser,
                         AppStatus = ApiKey.ApplicationStatus.Production
                     };
+
+#if DEBUG
+                    key.RegexPattern = ".*";
+#endif
 
                     validateUser = false;
                 }
