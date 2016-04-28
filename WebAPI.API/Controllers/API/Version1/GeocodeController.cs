@@ -8,6 +8,7 @@ using System.Net.Http.Formatting;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Newtonsoft.Json;
 using NLog;
 using WebAPI.API.Commands.Geocode;
 using WebAPI.API.Exceptions;
@@ -481,8 +482,10 @@ namespace WebAPI.API.Controllers.API.Version1
             var street = "";
             var zone = "";
 
+            singleLineAddress = singleLineAddress.Replace(".", "").Replace(",", "").Trim();
+
             var stripUtah = new Regex("(?:ut)(?:ah)?$", RegexOptions.IgnoreCase);
-            singleLineAddress = stripUtah.Replace(singleLineAddress, "");
+            singleLineAddress = stripUtah.Replace(singleLineAddress, "").Trim();
 
             var zipPlusFour = new Regex(@"\s(\d{5})-?(\d{4})?$");
             var match = zipPlusFour.Match(singleLineAddress);
@@ -503,6 +506,11 @@ namespace WebAPI.API.Controllers.API.Version1
                 {
                     zone = zones.First().Key;
                 }
+                else
+                {
+                    // we want to get rid of the longest one
+                    zone = zones.OrderByDescending(x => x.Key.Length).First().Key;
+                }
 
                 street = new Regex("\\s" + zone + "$", RegexOptions.IgnoreCase).Replace(singleLineAddress, "").Trim();
             }
@@ -522,7 +530,22 @@ namespace WebAPI.API.Controllers.API.Version1
                                               });
             }
 
-            return Get(street, zone, new GeocodeOptions());
+            var wkidJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(options.WkId);
+            
+            var spatialReference = wkidJson["wkid"];
+            if (wkidJson.ContainsKey("latestWkid"))
+            {
+                spatialReference = wkidJson["latestWkid"];
+            }
+
+            int wkid;
+            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out wkid);
+ 
+            return Get(street, zone, new GeocodeOptions
+            {
+                SuggestCount = options.SuggestCount,
+                WkId = wkid
+            });
         }
     }
 }
