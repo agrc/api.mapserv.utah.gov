@@ -20,6 +20,9 @@
                 Controller = "Go"
             })</li>
     <li class="nav-header">About</li>
-    <li><a href="@Url.Action("Index", "ChangeLog")"><i class="icon-book"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version.ToString()</a></li>
+    <li><a href="@Url.Action("Index", "ChangeLog")"><i class="icon-barcode"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version.ToString()</a></li>
     <li class="nav-header">&copy; AGRC @DateTime.Now.Year</li>
 </ul>
+<p>
+    <img src="@Url.Content("~/Content/images/ravendb-small.png")" alt="ravendb logo" />
+</p>
