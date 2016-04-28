@@ -9,6 +9,7 @@ namespace WebAPI.API
         public static void RegisterModelBindings(ServicesContainer services)
         {
             services.Add(typeof (ModelBinderProvider), new GeocodeOptionsModelBindingProvider());
+            services.Add(typeof (ModelBinderProvider), new ArcGisOnlineOptionsModelBindingProvide());
             services.Add(typeof (ModelBinderProvider), new RouteMilepostOptionsModelBindingProvider());
             services.Add(typeof (ModelBinderProvider), new SearchOptionsModelBindingProvider());
             services.Add(typeof (ModelBinderProvider), new ReverseMilepostOptionsModelBindingProvider());
