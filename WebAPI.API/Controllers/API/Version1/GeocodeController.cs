@@ -453,9 +453,22 @@ namespace WebAPI.API.Controllers.API.Version1
                           .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>))
                           .AddCache();
         }
+
+
+        [HttpGet]
+        public HttpResponseMessage ArcGisOnlineActivation(string callback)
+        {
+            const string agsResponseContent = @"{""currentVersion"":10.31,""serviceDescription"":"""",""addressFields"":[{""name"":""Street"",""type"":""esriFieldTypeString"",""alias"":""Street or Intersection"",""required"":true,""length"":100},{""name"":""City"",""type"":""esriFieldTypeString"",""alias"":""City or Placename"",""required"":false,""length"":40}],""singleLineAddressField"":{""name"":""Single Line Input"",""type"":""esriFieldTypeString"",""alias"":""Full Address"",""required"":false,""length"":100},""candidateFields"":[{""name"":""Shape"",""type"":""esriFieldTypeGeometry"",""alias"":""Shape"",""required"":false},{""name"":""Score"",""type"":""esriFieldTypeDouble"",""alias"":""Score"",""required"":false},{""name"":""Match_addr"",""type"":""esriFieldTypeString"",""alias"":""Match_addr"",""required"":false,""length"":120},{""name"":""House"",""type"":""esriFieldTypeString"",""alias"":""House"",""required"":false,""length"":12},{""name"":""Side"",""type"":""esriFieldTypeString"",""alias"":""Side"",""required"":false,""length"":1},{""name"":""PreDir"",""type"":""esriFieldTypeString"",""alias"":""PreDir"",""required"":false,""length"":6},{""name"":""PreType"",""type"":""esriFieldTypeString"",""alias"":""PreType"",""required"":false,""length"":6},{""name"":""StreetName"",""type"":""esriFieldTypeString"",""alias"":""StreetName"",""required"":false,""length"":32},{""name"":""SufType"",""type"":""esriFieldTypeString"",""alias"":""SufType"",""required"":false,""length"":6},{""name"":""SufDir"",""type"":""esriFieldTypeString"",""alias"":""SufDir"",""required"":false,""length"":6},{""name"":""City"",""type"":""esriFieldTypeString"",""alias"":""City"",""required"":false,""length"":20},{""name"":""State"",""type"":""esriFieldTypeString"",""alias"":""State"",""required"":false,""length"":2},{""name"":""ZIP"",""type"":""esriFieldTypeString"",""alias"":""ZIP"",""required"":false,""length"":5},{""name"":""X"",""type"":""esriFieldTypeDouble"",""alias"":""X"",""required"":false},{""name"":""Y"",""type"":""esriFieldTypeDouble"",""alias"":""Y"",""required"":false},{""name"":""User_fld"",""type"":""esriFieldTypeString"",""alias"":""User_fld"",""required"":false,""length"":120},{""name"":""Addr_type"",""type"":""esriFieldTypeString"",""alias"":""Addr_type"",""required"":false,""length"":20}],""spatialReference"":{""wkid"":26912,""latestWkid"":26912},""locatorProperties"":{""MinimumCandidateScore"":""60"",""SideOffsetUnits"":""Meters"",""UICLSID"":""{AE5A3A0E-F756-11D2-9F4F-00C04F8ED1C4}"",""SpellingSensitivity"":""80"",""MinimumMatchScore"":""60"",""EndOffset"":""5"",""MatchIfScoresTie"":""true"",""SideOffset"":""15"",""SuggestedBatchSize"":1000,""MaxBatchSize"":1000,""LoadBalancerTimeOut"":60,""WriteXYCoordFields"":""true"",""WriteStandardizedAddressField"":""0"",""WriteReferenceIDField"":""false"",""WritePercentAlongField"":""false""},""capabilities"":""Geocode,ReverseGeocode""}";
+            var resp = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(callback + "(" + agsResponseContent + ")", System.Text.Encoding.UTF8, "text/plain")
+            };
+
+            return resp; 
+        }
         
         [HttpGet]
-        public HttpResponseMessage ArcGisOnline([FromUri] AgoGeocodeOptions options)
+        public async Task<HttpResponseMessage> ArcGisOnline([FromUri] AgoGeocodeOptions options)
         {
             #region validation
 
@@ -468,11 +481,11 @@ namespace WebAPI.API.Controllers.API.Version1
             if (errors.Length > 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                                              new ResultContainer<GeocodeAddressResult>
-                                              {
-                                                  Status = (int)HttpStatusCode.BadRequest,
-                                                  Message = errors
-                                              });
+                                               new ResultContainer<GeocodeAddressResult>
+                                               {
+                                                   Status = (int)HttpStatusCode.BadRequest,
+                                                   Message = errors
+                                               });
             }
 
             var singleLineAddress = options.Address.Trim();
@@ -540,11 +553,32 @@ namespace WebAPI.API.Controllers.API.Version1
 
             int wkid;
             int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out wkid);
- 
-            return Get(street, zone, new GeocodeOptions
+
+            var response = Get(street, zone, new GeocodeOptions
             {
                 SuggestCount = options.SuggestCount,
                 WkId = wkid
+            });
+
+            var container = await response.Content.ReadAsAsync<ResultContainer<GeocodeAddressResult>>();
+
+            if (container.Status == 404)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, new StringContent(@"{""candidates"":[]}"));
+            }
+
+            var esriItems = new List<Candidate>();
+
+            var candidate = new Candidate
+            {
+                Address = container.Result.InputAddress,
+                Location = new Location(container.Result.Location.X, container.Result.Location.Y),
+                Score = container.Result.Score
+            };
+
+            return Request.CreateResponse(HttpStatusCode.OK, new
+            {
+                candidates = new[] { candidate }
             });
         }
     }
