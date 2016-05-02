@@ -77,14 +77,24 @@ namespace WebAPI.API
                });
 
             config.Routes.MapHttpRoute(
-               name: "v1_AgoGeocodeApi",
-               routeTemplate: "api/v{version}/geocode/ago/agrc-ago/findAddressCandidates",
+               name: "v1_AgoGeocodeActivationApi",
+               routeTemplate: "api/v{version}/geocode/ago/agrc-ago/GeocodeServer",
                defaults: new
                {
-                   action = "ArcGisOnline",
+                   action = "ArcGisOnlineActivation",
                    controller = "Geocode",
                    version = "1"
                });
+
+            config.Routes.MapHttpRoute(
+              name: "v1_AgoGeocodeApi",
+              routeTemplate: "api/v{version}/geocode/ago/agrc-ago/GeocodeServer/findAddressCandidates",
+              defaults: new
+              {
+                  action = "ArcGisOnline",
+                  controller = "Geocode",
+                  version = "1"
+              });
 
             /*
                 ==Search Endpoints==
