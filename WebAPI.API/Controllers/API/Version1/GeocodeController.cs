@@ -9,7 +9,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
+using Ninject.Infrastructure.Language;
 using NLog;
+using WebAPI.API.Commands.Address;
 using WebAPI.API.Commands.Geocode;
 using WebAPI.API.Exceptions;
 using WebAPI.Common.Executors;
@@ -492,43 +494,9 @@ namespace WebAPI.API.Controllers.API.Version1
 
             #endregion
 
-            var street = "";
-            var zone = "";
+            var address = CommandExecutor.ExecuteCommand(new ParseSingleLineInputCommand(options.Address));
 
-            singleLineAddress = singleLineAddress.Replace(".", "").Replace(",", "").Trim();
-
-            var stripUtah = new Regex("(?:ut)(?:ah)?$", RegexOptions.IgnoreCase);
-            singleLineAddress = stripUtah.Replace(singleLineAddress, "").Trim();
-
-            var zipPlusFour = new Regex(@"\s(\d{5})-?(\d{4})?$");
-            var match = zipPlusFour.Match(singleLineAddress);
-
-            if (match.Success)
-            {
-                if (match.Groups[1].Success)
-                {
-                    zone = match.Groups[1].Value;
-                    street = zipPlusFour.Replace(singleLineAddress, "").Trim();
-                }
-            }
-            else
-            {
-                var zones = App.PlaceGridLookup.Where(x => singleLineAddress.ToLower().Contains(x.Key.ToLower())).ToList();
-
-                if (zones.Count == 1)
-                {
-                    zone = zones.First().Key;
-                }
-                else
-                {
-                    // we want to get rid of the longest one
-                    zone = zones.OrderByDescending(x => x.Key.Length).First().Key;
-                }
-
-                street = new Regex("\\s" + zone + "$", RegexOptions.IgnoreCase).Replace(singleLineAddress, "").Trim();
-            }
-
-            if (string.IsNullOrEmpty(zone))
+            if (string.IsNullOrEmpty(address.Zone))
             {
                 errors += "Zip code or city name could not be extracted.";
             }
@@ -554,7 +522,7 @@ namespace WebAPI.API.Controllers.API.Version1
             int wkid;
             int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out wkid);
 
-            var response = Get(street, zone, new GeocodeOptions
+            var response = Get(address.Street, address.Zone, new GeocodeOptions
             {
                 SuggestCount = options.SuggestCount,
                 WkId = wkid
@@ -567,18 +535,21 @@ namespace WebAPI.API.Controllers.API.Version1
                 return Request.CreateResponse(HttpStatusCode.NotFound, new StringContent(@"{""candidates"":[]}"));
             }
 
-            var esriItems = new List<Candidate>();
-
-            var candidate = new Candidate
+            var esriItems = new List<Candidate>
             {
-                Address = container.Result.InputAddress,
-                Location = new Location(container.Result.Location.X, container.Result.Location.Y),
-                Score = container.Result.Score
+                new Candidate
+                {
+                    Address = container.Result.InputAddress,
+                    Location = new Location(container.Result.Location.X, container.Result.Location.Y),
+                    Score = container.Result.Score
+                }
             };
+
+            esriItems.AddRange(container.Result.Candidates);
 
             return Request.CreateResponse(HttpStatusCode.OK, new
             {
-                candidates = new[] { candidate }
+                candidates = esriItems.OrderByDescending(x => x.Score)
             });
         }
     }
