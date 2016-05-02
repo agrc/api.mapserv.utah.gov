@@ -4,226 +4,351 @@
     ViewBag.Title = "AGRC Developer Web API Changelog";
 }
 
-        <h1>	Changelog</h1><h2>
-            1.5.0106.1
-            <small>1/7/2015</small>
-        </h2><ul>
-            <li class="item">
-                Ability to query raster datasets in the SGID.
-            </li>
-            <li class="item">Display message when requests time out.</li>
-        </ul><h2>
-            1.4.1204.1
-            <small>12/5/2014</small>
-        </h2><ul>
-            <li class="item">upgrade underlying libraries</li>
-            <li class="item">
-                Ability to geocode P.O. Boxes in "Street Zone" geocoding. Use the pobox=true flag to opt in to this feature.
-            </li>
-            <li class="item">
-                Fixed CSS bug with API Explorer demos.
-            </li>
-            <li class="item">Removed callback parameter from multiple geocoding requests since you cannot POST with JSONP. Use CORS.</li>
-        </ul><h2>
-            1.3.1124.1
-            <small>11/24/2014</small>
-        </h2><ul>	<li class="item">Geocoding improvements where unincorporated address are addressed from the county grid.</li></ul><h2>
-            1.3.1111.1
-            <small>11/11/2014</small>
-        </h2><ul>	<li class="item">Api key logging is re-enabled.</li></ul><h2>
-            1.3.1110.1
-            <small>11/10/2014</small>
-        </h2><ul>	<li class="item">Placename lookup improvements.</li></ul><h2>
-            1.3.0610.2
-            <small>6/10/2014</small>
-        </h2><ul>	<li class="item">Better handling of malformed addresses.</li></ul><h2>
-            1.3.0610.1
-            <small>6/10/2014</small>
-        </h2><ul>
-            <li class="item">
-                Placename lookup improvements.
-            </li>
-            <li class="item">Better handling of malformed addresses.</li>
-        </ul><h2>
-            1.3.0506.2
-            <small>5/7/2014</small>
-        </h2><ul>	<li class="item">spatialReference is now populated on returned graphic</li></ul><h2>
-            1.3.0506.1
-            <small>5/6/2014</small>
-        </h2><ul>	<li class="item">Place name lookup improvements.</li></ul><h2>
-            1.3.0430.1
-            <small>4/30/2014</small>
-        </h2><ul>	<li class="item">Added secret search flag for modifying attribute format. identical: as is in data. upper: upper cases all attribute names. lower: lowercases all attribute names. camel: camel cases all attribute names.</li><li class="item">shape@envelope is implemented</li><li class="item">reverse route and mile post used 3 significant digits</li></ul><h2>
-            1.3.0423.1
-            <small>4/23/2014</small>
-        </h2><ul>	<li class="item">Updates to place names</li></ul><h2>
-            1.3.0326.1
-            <small>3/26/2014</small>
-        </h2><ul>	<li class="item">Place name lookup improvements</li></ul><h2>
-            1.3.0324.1
-            <small>3/24/2014</small>
-        </h2><ul>	<li class="item">Improved results for Centerville and Woods Cross.</li></ul><h2>
-            1.3.0317.1
-            <small>3/18/2014</small>
-        </h2><ul>
-            <li class="item">
-                Improved geocoding in castledale
-            </li>
-            <li class="item">Address grids are now upper case instead of title case</li>
-        </ul><h2>
-            1.3.0306.1
-            <small>3/6/2014</small>
-        </h2><ul>	<li class="item">Address system place name lookup improvements.</li></ul><h2>
-            1.3.0122.2
-            <small>1/22/2014</small>
-        </h2><ul></ul><h2>
-            1.3.0122.1
-            <small>1/22/2014</small>
-        </h2><ul>
-            <li class="item">
-            </li>
-            <li class="item">712*2 test address passing validation.</li>
-        </ul><h2>
-            1.3.0121.1
-            <small>1/22/2014</small>
-        </h2><ul>
-            <li class="item">
-            </li>
-            <li class="item">Address cleansing improvements.</li>
-        </ul><h2>
-            1.3.0116.1
-            <small>1/16/2014</small>
-        </h2><ul>	<li class="item">fixed bug where address score and weight were a tie so first address into top K list wins. introduced Levenshtein to look at string values.</li><li class="item">Updated address system grid lookup with st. george value.</li><li class="item">Our 'is definitely an address reversal' logic had some holes in it. Make the extra request with input address as a fall back to protect from silly address names.</li><li class="item">fixed a bug where white space in entries in street zone resource would result in no address matches found.</li></ul><h2>
-            1.3.0107.1
-            <small>1/7/2014</small>
-        </h2><ul>	<li class="item">Fixed regression where response formats stopped working.</li><li class="item">Updated address grid mappings for better match percentages.</li><li class="item">Added better rules for addresses containing secondary address units.</li></ul><h2>
-            1.3.0106.2
-            <small>1/7/2014</small>
-        </h2><ul>	<li class="item">Better handling of addresses with secondary addresses.</li></ul><h2>
-            1.3.1202.1
-            <small>12/3/2013</small>
-        </h2><ul>	<li class="item">Added reverse milepost endpoint. Enter an x,y coordinate and get back the closest route and milepost value.</li></ul><h2>
-            1.2.1111.1
-            <small>11/11/2013</small>
-        </h2><ul>	<li class="item">Geocoding accuracy improvements #27821</li></ul><h2>
-            1.2.1024.1
-            <small>10/25/2013</small>
-        </h2><ul>	<li class="item">Implemented the buffer parameter for the Search endpoint.</li></ul><h2>
-            1.2.1007.1
-            <small>10/8/2013</small>
-        </h2><ul>
-            <li class="item">
-                Implemented field names endpoint.
-            </li>
-            <li class="item">Route and mile post can return a reprojected coordinate.</li>
-        </ul><h2>
-            1.1.0716.1
-            <small>7/16/2013</small>
-        </h2><ul>	<li class="item">Fixed memory leak in search endpoint.</li><li class="item">CORS api key validation important bug fix.</li></ul><h2>
-            1.1.0701.2
-            <small>7/2/2013</small>
-        </h2><ul>	<li class="item">Search demo now displays sample url when invoked.</li></ul><h2>
-            1.1.0701.1
-            <small>7/1/2013</small>
-        </h2><ul>	<li class="item">New address points are being used.</li></ul><h2>
-            1.1.0627.1
-            <small>6/27/2013</small>
-        </h2><ul>	<li class="item">New samples link added to main page. Check it out!</li></ul><h2>
-            1.1.0626.1
-            <small>6/26/2013</small>
-        </h2><ul>	<li class="item">Better address matching and higher match scores. Modifying input addresses to correct known issues.</li><li class="item">Return a `standardizedAddress` property when the input address is modified.</li></ul><h2>
-            1.1.0625.1
-            <small>6/26/2013</small>
-        </h2><ul>	<li class="item">Improved Geocoding matches.</li></ul><h2>
-            1.1.0606.2
-            <small>6/7/2013</small>
-        </h2><ul>	<li class="item">Updated error messages when trying to search incorrectly.</li></ul><h2>
-            1.1.0606.1
-            <small>6/6/2013</small>
-        </h2><ul>
-            <li class="item">
-                Can supply wkid to search.
-            </li>
-            <li class="item">Can now use SSL.</li>
-        </ul><h2>
-            1.1.0604.1
-            <small>6/5/2013</small>
-        </h2><ul>
-            <li class="item">
-                Changed Search parameter Point to Geometry.
-            </li>
-            <li class="item">
-                Geometry syntax for point is now point:[x,y]
-            </li>
-            <li class="item">Added wkid for Search API</li>
-        </ul><h2>
-            1.1.0603.1
-            <small>6/3/2013</small>
-        </h2><ul>	<li class="item">Early prototype of Searching API</li></ul><h2>
-            1.0.0523.1
-            <small>5/23/2013</small>
-        </h2><ul>	<li class="item">disabled logging to try to pinpoint performance issues.</li></ul><h2>
-            1.0.0514.1
-            <small>5/14/2013</small>
-        </h2><ul>	<li class="item">General address matching improvements.</li><li class="item">USPS delivery address points are now a fall back if an address is not found via locators.</li></ul><h2>
-            1.0.0507.2
-            <small>5/7/2013</small>
-        </h2><ul>	<li class="item">Zip codes that only match one location are returned immediately.</li></ul><h2>
-            1.0.0507.1
-            <small>5/7/2013</small>
-        </h2><ul>
-            <li class="item">
-                Fixed a bug with trying address reversals on non numeric street types.
-            </li>
-            <li class="item">Added more place names and updated zip codes to include delivery point locations.</li>
-        </ul><h2>
-            1.0.0502.1
-            <small>5/7/2013</small>
-        </h2><ul>	<li class="item">Geocoding can now detect house addresses and street names that are in the reversed order and find a match using the correct order.</li><li class="item">Bug fix to improve address point geocoding.</li></ul><h2>
-            1.0.0430.3
-            <small>4/30/2013</small>
-        </h2><ul>	<li class="item">Updated more place names to address grids to improve match rates.</li></ul><h2>
-            1.0.0430.2
-            <small>4/30/2013</small>
-        </h2><ul>	<li class="item">Added place names and abbreviations to the "place to address grid" lookup.</li></ul><h2>
-            1.0.0430.1
-            <small>4/30/2013</small>
-        </h2><ul>	<li class="item">updated zip code to address grid lookup with updated values.</li></ul><h2>
-            1.0.0423.1
-            <small>4/23/2013</small>
-        </h2><ul>	<li class="item">Improved address matching Bluff.</li></ul><h2>
-            1.0.0418.1
-            <small>4/18/2013</small>
-        </h2><ul>	<li class="item">automated changelog creation</li><li class="item">Major speed improvement when geocoding by city.</li><li class="item">The Address System Grid value is now a property on a geocode response object (addressGrid).</li><li class="item">updated packages.</li></ul>
+<h1>Changelog</h1>
+<h2>
+    1.6.0.0
+    <small>1/7/2015</small>
+</h2>
+<ul>
+    <li class="item">
+        Ability to query raster datasets in the SGID.
+    </li>
+    <li class="item">Display message when requests time out.</li>
+</ul>
+<h2>
+    1.5.0106.1
+    <small>1/7/2015</small>
+</h2><ul>
+    <li class="item">
+        Ability to query raster datasets in the SGID.
+    </li>
+    <li class="item">Display message when requests time out.</li>
+</ul>
+<h2>
+    1.4.1204.1
+    <small>12/5/2014</small>
+</h2><ul>
+    <li class="item">upgrade underlying libraries</li>
+    <li class="item">
+        Ability to geocode P.O. Boxes in "Street Zone" geocoding. Use the pobox=true flag to opt in to this feature.
+    </li>
+    <li class="item">
+        Fixed CSS bug with API Explorer demos.
+    </li>
+    <li class="item">Removed callback parameter from multiple geocoding requests since you cannot POST with JSONP. Use CORS.</li>
+</ul>
+<h2>
+    1.3.1124.1
+    <small>11/24/2014</small>
+</h2><ul>
+    <li class="item">Geocoding improvements where unincorporated address are addressed from the county grid.</li>
+</ul>
+<h2>
+    1.3.1111.1
+    <small>11/11/2014</small>
+</h2><ul>
+    <li class="item">Api key logging is re-enabled.</li>
+</ul>
+<h2>
+    1.3.1110.1
+    <small>11/10/2014</small>
+</h2><ul>
+    <li class="item">Placename lookup improvements.</li>
+</ul>
+<h2>
+    1.3.0610.2
+    <small>6/10/2014</small>
+</h2><ul>
+    <li class="item">Better handling of malformed addresses.</li>
+</ul>
+<h2>
+    1.3.0610.1
+    <small>6/10/2014</small>
+</h2><ul>
+    <li class="item">
+        Placename lookup improvements.
+    </li>
+    <li class="item">Better handling of malformed addresses.</li>
+</ul>
+<h2>
+    1.3.0506.2
+    <small>5/7/2014</small>
+</h2><ul>
+    <li class="item">spatialReference is now populated on returned graphic</li>
+</ul>
+<h2>
+    1.3.0506.1
+    <small>5/6/2014</small>
+</h2><ul>
+    <li class="item">Place name lookup improvements.</li>
+</ul>
+<h2>
+    1.3.0430.1
+    <small>4/30/2014</small>
+</h2><ul>
+    <li class="item">Added secret search flag for modifying attribute format. identical: as is in data. upper: upper cases all attribute names. lower: lowercases all attribute names. camel: camel cases all attribute names.</li><li class="item">shape@envelope is implemented</li><li class="item">reverse route and mile post used 3 significant digits</li>
+</ul>
+<h2>
+    1.3.0423.1
+    <small>4/23/2014</small>
+</h2><ul>
+    <li class="item">Updates to place names</li>
+</ul>
+<h2>
+    1.3.0326.1
+    <small>3/26/2014</small>
+</h2><ul>
+    <li class="item">Place name lookup improvements</li>
+</ul>
+<h2>
+    1.3.0324.1
+    <small>3/24/2014</small>
+</h2><ul>
+    <li class="item">Improved results for Centerville and Woods Cross.</li>
+</ul>
+<h2>
+    1.3.0317.1
+    <small>3/18/2014</small>
+</h2><ul>
+    <li class="item">
+        Improved geocoding in castledale
+    </li>
+    <li class="item">Address grids are now upper case instead of title case</li>
+</ul>
+<h2>
+    1.3.0306.1
+    <small>3/6/2014</small>
+</h2><ul>
+    <li class="item">Address system place name lookup improvements.</li>
+</ul>
+<h2>
+    1.3.0122.2
+    <small>1/22/2014</small>
+</h2><ul></ul>
+<h2>
+    1.3.0122.1
+    <small>1/22/2014</small>
+</h2><ul>
+    <li class="item">
+    </li>
+    <li class="item">712*2 test address passing validation.</li>
+</ul>
+<h2>
+    1.3.0121.1
+    <small>1/22/2014</small>
+</h2><ul>
+    <li class="item">
+    </li>
+    <li class="item">Address cleansing improvements.</li>
+</ul>
+<h2>
+    1.3.0116.1
+    <small>1/16/2014</small>
+</h2><ul>
+    <li class="item">fixed bug where address score and weight were a tie so first address into top K list wins. introduced Levenshtein to look at string values.</li><li class="item">Updated address system grid lookup with st. george value.</li><li class="item">Our 'is definitely an address reversal' logic had some holes in it. Make the extra request with input address as a fall back to protect from silly address names.</li><li class="item">fixed a bug where white space in entries in street zone resource would result in no address matches found.</li>
+</ul>
+<h2>
+    1.3.0107.1
+    <small>1/7/2014</small>
+</h2><ul>
+    <li class="item">Fixed regression where response formats stopped working.</li><li class="item">Updated address grid mappings for better match percentages.</li><li class="item">Added better rules for addresses containing secondary address units.</li>
+</ul>
+<h2>
+    1.3.0106.2
+    <small>1/7/2014</small>
+</h2><ul>
+    <li class="item">Better handling of addresses with secondary addresses.</li>
+</ul>
+<h2>
+    1.3.1202.1
+    <small>12/3/2013</small>
+</h2><ul>
+    <li class="item">Added reverse milepost endpoint. Enter an x,y coordinate and get back the closest route and milepost value.</li>
+</ul>
+<h2>
+    1.2.1111.1
+    <small>11/11/2013</small>
+</h2><ul>
+    <li class="item">Geocoding accuracy improvements #27821</li>
+</ul>
+<h2>
+    1.2.1024.1
+    <small>10/25/2013</small>
+</h2><ul>
+    <li class="item">Implemented the buffer parameter for the Search endpoint.</li>
+</ul>
+<h2>
+    1.2.1007.1
+    <small>10/8/2013</small>
+</h2><ul>
+    <li class="item">
+        Implemented field names endpoint.
+    </li>
+    <li class="item">Route and mile post can return a reprojected coordinate.</li>
+</ul>
+<h2>
+    1.1.0716.1
+    <small>7/16/2013</small>
+</h2><ul>
+    <li class="item">Fixed memory leak in search endpoint.</li><li class="item">CORS api key validation important bug fix.</li>
+</ul>
+<h2>
+    1.1.0701.2
+    <small>7/2/2013</small>
+</h2><ul>
+    <li class="item">Search demo now displays sample url when invoked.</li>
+</ul>
+<h2>
+    1.1.0701.1
+    <small>7/1/2013</small>
+</h2><ul>
+    <li class="item">New address points are being used.</li>
+</ul>
+<h2>
+    1.1.0627.1
+    <small>6/27/2013</small>
+</h2><ul>
+    <li class="item">New samples link added to main page. Check it out!</li>
+</ul>
+<h2>
+    1.1.0626.1
+    <small>6/26/2013</small>
+</h2><ul>
+    <li class="item">Better address matching and higher match scores. Modifying input addresses to correct known issues.</li><li class="item">Return a `standardizedAddress` property when the input address is modified.</li>
+</ul>
+<h2>
+    1.1.0625.1
+    <small>6/26/2013</small>
+</h2><ul>
+    <li class="item">Improved Geocoding matches.</li>
+</ul>
+<h2>
+    1.1.0606.2
+    <small>6/7/2013</small>
+</h2><ul>
+    <li class="item">Updated error messages when trying to search incorrectly.</li>
+</ul>
+<h2>
+    1.1.0606.1
+    <small>6/6/2013</small>
+</h2><ul>
+    <li class="item">
+        Can supply wkid to search.
+    </li>
+    <li class="item">Can now use SSL.</li>
+</ul>
+<h2>
+    1.1.0604.1
+    <small>6/5/2013</small>
+</h2><ul>
+    <li class="item">
+        Changed Search parameter Point to Geometry.
+    </li>
+    <li class="item">
+        Geometry syntax for point is now point:[x,y]
+    </li>
+    <li class="item">Added wkid for Search API</li>
+</ul>
+<h2>
+    1.1.0603.1
+    <small>6/3/2013</small>
+</h2><ul>
+    <li class="item">Early prototype of Searching API</li>
+</ul>
+<h2>
+    1.0.0523.1
+    <small>5/23/2013</small>
+</h2><ul>
+    <li class="item">disabled logging to try to pinpoint performance issues.</li>
+</ul>
+<h2>
+    1.0.0514.1
+    <small>5/14/2013</small>
+</h2><ul>
+    <li class="item">General address matching improvements.</li><li class="item">USPS delivery address points are now a fall back if an address is not found via locators.</li>
+</ul>
+<h2>
+    1.0.0507.2
+    <small>5/7/2013</small>
+</h2><ul>
+    <li class="item">Zip codes that only match one location are returned immediately.</li>
+</ul>
+<h2>
+    1.0.0507.1
+    <small>5/7/2013</small>
+</h2><ul>
+    <li class="item">
+        Fixed a bug with trying address reversals on non numeric street types.
+    </li>
+    <li class="item">Added more place names and updated zip codes to include delivery point locations.</li>
+</ul>
+<h2>
+    1.0.0502.1
+    <small>5/7/2013</small>
+</h2><ul>
+    <li class="item">Geocoding can now detect house addresses and street names that are in the reversed order and find a match using the correct order.</li><li class="item">Bug fix to improve address point geocoding.</li>
+</ul>
+<h2>
+    1.0.0430.3
+    <small>4/30/2013</small>
+</h2><ul>
+    <li class="item">Updated more place names to address grids to improve match rates.</li>
+</ul>
+<h2>
+    1.0.0430.2
+    <small>4/30/2013</small>
+</h2><ul>
+    <li class="item">Added place names and abbreviations to the "place to address grid" lookup.</li>
+</ul>
+<h2>
+    1.0.0430.1
+    <small>4/30/2013</small>
+</h2><ul>
+    <li class="item">updated zip code to address grid lookup with updated values.</li>
+</ul>
+<h2>
+    1.0.0423.1
+    <small>4/23/2013</small>
+</h2><ul>
+    <li class="item">Improved address matching Bluff.</li>
+</ul>
+<h2>
+    1.0.0418.1
+    <small>4/18/2013</small>
+</h2><ul>
+    <li class="item">automated changelog creation</li><li class="item">Major speed improvement when geocoding by city.</li><li class="item">The Address System Grid value is now a property on a geocode response object (addressGrid).</li><li class="item">updated packages.</li>
+</ul>
 
 <style>
     body {
-    font: normal 15px/20px Aerial,sans-serif;
-    color: #444;
-}
-h1 {
-    font-size: 40px;
-    letter-spacing: -2px;
-    font-weight: normal;
-}
-h2 {
-    font-size: 20px;
-}
-h2>small {
-    color: #888;
-    display: block;
-    font-size: 12px;
-    font-weight: normal;
-    letter-spacing: 0px;
-}
-ul {
-    list-style: none;
-    padding: 0;
-}
-li.item {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAARpJREFUOE+1lL0KwjAUhTu4u1ro1q30l0opRUqgS98ir9AXcPaRHB3E0eru4CQdBfsA8R4xEqNRQS0cSHNPvp7chFrWrx4hhAV9/fwdZNs2Jy1Ie9LxOubG5HoiWjAkbVzXFUEQiDiORZIklzHmUIPnAaiDHMfZhmEo0jR9KtTgeQnCdnQIfYhBKhgeeO9gaiLP81Z6EmnW533fnxtBURSd5AKZRJr1ZNS3gxGU53knQabTUZL1RlBZlmtppB6gD7ebKt9lnTHWGkGc8+mnPYLXCKI+jCjVToXpSVCDB14jCIW2bZkOU8GowfP2QtKXBqRx0zSzqqo2WZb1RVF0dV0vMYcaPG9BynGPaEFMmpBykv+wna9/Gf8EnAGWvS05wlmn+QAAAABJRU5ErkJggg==);
-    background-repeat: no-repeat;
-    padding-left: 19px;
-}
-</style>
+        color: #444;
+        font: normal 15px/20px Aerial, sans-serif;
+    }
 
+    h1 {
+        font-size: 40px;
+        font-weight: normal;
+        letter-spacing: -2px;
+    }
+
+    h2 { font-size: 20px; }
+
+    h2 > small {
+        color: #888;
+        display: block;
+        font-size: 12px;
+        font-weight: normal;
+        letter-spacing: 0px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li.item {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAARpJREFUOE+1lL0KwjAUhTu4u1ro1q30l0opRUqgS98ir9AXcPaRHB3E0eru4CQdBfsA8R4xEqNRQS0cSHNPvp7chFrWrx4hhAV9/fwdZNs2Jy1Ie9LxOubG5HoiWjAkbVzXFUEQiDiORZIklzHmUIPnAaiDHMfZhmEo0jR9KtTgeQnCdnQIfYhBKhgeeO9gaiLP81Z6EmnW533fnxtBURSd5AKZRJr1ZNS3gxGU53knQabTUZL1RlBZlmtppB6gD7ebKt9lnTHWGkGc8+mnPYLXCKI+jCjVToXpSVCDB14jCIW2bZkOU8GowfP2QtKXBqRx0zSzqqo2WZb1RVF0dV0vMYcaPG9BynGPaEFMmpBykv+wna9/Gf8EnAGWvS05wlmn+QAAAABJRU5ErkJggg==);
+        background-repeat: no-repeat;
+        padding-left: 19px;
+    }
+</style>
