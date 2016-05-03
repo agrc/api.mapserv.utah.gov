@@ -388,6 +388,7 @@
       <DependentUpon>secrets.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
+    <Content Include="Views\Shared\_SpatialReference.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GitHub\EsriJson\EsriJson.Net\EsriJson.Net.csproj">
@@ -443,7 +444,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets')" />

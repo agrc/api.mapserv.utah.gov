@@ -71,28 +71,7 @@
                     <input type="text" id="spatialReference" name="spatialReference" class="input-large"  />
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
-                    <p class="help-block">
-                        The spatial reference of the input geographic coordinate pair.
-                        Choose any of the <abbr title="Well-known Id">wkid</abbr>'s from the 
-                        <a href="http://resources.arcgis.com/en/help/main/10.1/018z/pdf/geographic_coordinate_systems.pdf">Geographic Coordinate System wkid reference</a>
-                        or <a href="http://resources.arcgis.com/en/help/main/10.1/018z/pdf/projected_coordinate_systems.pdf">Projected Coordinate System wkid reference</a>. 
-                        <code>26912</code> is the default. 
-                    </p>
-                    <span class="label label-info">Popular WKID's</span>
-                    <table class="table table-condensed table-striped">
-                        <thead>
-                            <tr>
-                                <th>System</th>
-                                <th>wkid</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Latitude/Longitude (WGS84)</td>
-                                <td>4326</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    @Html.Partial("_SpatialReference")
                 </div>
             </div>
             <div class="control-group">
