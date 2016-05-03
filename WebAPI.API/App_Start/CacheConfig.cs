@@ -2821,6 +2821,10 @@ namespace WebAPI.API
                     {
                         "cityName",
                         new Regex(@"^[ a-z\.]+", RegexOptions.Compiled | RegexOptions.IgnoreCase)
+                    },
+                    {
+                        "cityTownCruft",
+                        new Regex(@"(?:city|town)(?: of)", RegexOptions.Compiled | RegexOptions.IgnoreCase)
                     }
                 };
 

@@ -53,9 +53,10 @@ namespace WebAPI.API.Commands.Address
                 var cityKey = cityName.Value.ToLower();
                 cityKey = cityKey.Replace(".", "");
 
+                cityKey = App.RegularExpressions["cityTownCruft"].Replace(cityKey, "").Trim();
+
                 AddressModel.AddressGrids = CommandExecutor.ExecuteCommand(
                     new GetAddressSystemFromCityCommand(cityKey));
-
 
                 Result = AddressModel;
                 return;

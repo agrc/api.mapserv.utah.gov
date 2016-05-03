@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using WebAPI.Common.Abstractions;
 
@@ -64,6 +65,7 @@ namespace WebAPI.API.Commands.Address
             // strip ut again if it wasn't at the end to begin with
             var street = stripUtah.Replace(singleLineAddress, "").Trim();
             street = new Regex("\\s" + zone + "$", RegexOptions.IgnoreCase).Replace(street, "").Trim();
+            street = App.RegularExpressions["cityTownCruft"].Replace(street, "").Trim();
 
             Result = new Address(street, zone);
         }

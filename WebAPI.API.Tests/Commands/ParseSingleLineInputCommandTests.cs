@@ -43,6 +43,8 @@ namespace WebAPI.API.Tests.Commands
             [TestCase("123 East Logan Ave, Salt Lake City Utah")]
             [TestCase("123 East Logan Ave Salt Lake City Ut")]
             [TestCase("123 East Logan Ave Salt Lake City Ut.")]
+            [TestCase("123 East Logan Ave City of Salt Lake City Ut.")]
+            [TestCase("123 East Logan Ave Town of Salt Lake City Ut.")]
             public void PlaceName(string input)
             {
                 _command.SetInput(input);

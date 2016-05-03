@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using WebAPI.API.Commands.Address;
 using WebAPI.Common.Executors;
 using WebAPI.Domain.Addresses;
@@ -14,22 +15,25 @@ namespace WebAPI.API.Tests.Commands
             CacheConfig.BuildCache();
         }
 
-        [Test]
-        public void ZipPlusFour()
+        [TestCase("845200703")]
+        [TestCase("84520-0703")]
+        public void ZipPlusFour(string zone)
         {
-            var zone = "845200703";
-            var addressBase =
-                    CommandExecutor.ExecuteCommand(new ParseZoneCommand(zone, new GeocodeAddress(new CleansedAddress())));
+            var addressBase = CommandExecutor.ExecuteCommand(new ParseZoneCommand(zone, new GeocodeAddress(new CleansedAddress())));
 
             Assert.That(addressBase.Zip5, Is.EqualTo(84520));
             Assert.That(addressBase.Zip4, Is.EqualTo(0703));
+        }
 
-            zone = "84520-0703";
-            addressBase =
-                    CommandExecutor.ExecuteCommand(new ParseZoneCommand(zone, new GeocodeAddress(new CleansedAddress())));
+        [TestCase("City of Alta")]
+        [TestCase("Town of Alta")]
+        [TestCase("Alta")]
+        public void CityOfTownOfZones(string zone)
+        {
+            var addressBase = CommandExecutor.ExecuteCommand(new ParseZoneCommand(zone, new GeocodeAddress(new CleansedAddress())));
 
-            Assert.That(addressBase.Zip5, Is.EqualTo(84520));
-            Assert.That(addressBase.Zip4, Is.EqualTo(0703));
+            Assert.That(addressBase.AddressGrids.Count, Is.EqualTo(1));
+            Assert.That(addressBase.AddressGrids.First().Grid, Is.EqualTo("SALT LAKE CITY"));
         }
     }
 }
