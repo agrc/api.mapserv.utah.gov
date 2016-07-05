@@ -12,7 +12,8 @@ namespace WebAPI.API
             services.Add(typeof (ModelBinderProvider), new ArcGisOnlineOptionsModelBindingProvide());
             services.Add(typeof (ModelBinderProvider), new RouteMilepostOptionsModelBindingProvider());
             services.Add(typeof (ModelBinderProvider), new SearchOptionsModelBindingProvider());
-            services.Add(typeof (ModelBinderProvider), new ReverseMilepostOptionsModelBindingProvider());
+            services.Add(typeof(ModelBinderProvider), new ReverseMilepostOptionsModelBindingProvider());
+            services.Add(typeof(ModelBinderProvider), new ReverseGeocodeOptionsModelBindingProvider());
         }
     }
 }
