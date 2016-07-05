@@ -1,9 +1,12 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using WebAPI.Common.Abstractions;
+using WebAPI.Common.Commands.Spatial;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Formatters;
 using WebAPI.Domain;
@@ -43,6 +46,29 @@ namespace WebAPI.API.Commands.Geocode
         protected override void Execute()
         {
             Initialize();
+
+            if (Wkid != 26912)
+            {
+                var reprojectPointCommand =
+                    new ReprojectPointsCommand(new ReprojectPointsCommand.PointProjectQueryArgs(Wkid, 26912,
+                                                                                                new List<double>
+                                                                                                    {
+                                                                                                        Location.X,
+                                                                                                        Location.Y
+                                                                                                    }));
+
+                var pointReprojectResponse = CommandExecutor.ExecuteCommand(reprojectPointCommand);
+
+                if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any())
+                    return;
+
+                var points = pointReprojectResponse.Geometries.FirstOrDefault();
+
+                if (points != null)
+                {
+                    Location = new Location(points.X, points.Y);
+                }
+            }
 
             var locator = CommandExecutor.ExecuteCommand(new GetLocatorsForLocationCommand(Location));
 
