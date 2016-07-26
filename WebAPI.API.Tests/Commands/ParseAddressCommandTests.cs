@@ -1226,6 +1226,48 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(address.StreetType, Is.EqualTo(StreetType.None));
                 Assert.That(address.StandardizedAddress, Is.EqualTo("4536 west 6090 south").IgnoreCase);
             }
+
+            [Test]
+            public void PointeAndPoint()
+            {
+                _parseAddressCommand.SetStreet("5974 FASHION POINT DR");
+                var address = Execute();
+
+                Assert.That(address.HouseNumber, Is.EqualTo(5974));
+                Assert.That(address.PrefixDirection, Is.EqualTo(Direction.None));
+                Assert.That(address.StreetName, Is.EqualTo("fashion point").IgnoreCase);
+                Assert.That(address.SuffixDirection, Is.EqualTo(Direction.None));
+                Assert.That(address.StreetType, Is.EqualTo(StreetType.Drive));
+                Assert.That(address.StandardizedAddress, Is.EqualTo("5974 fashion point drive").IgnoreCase);
+            }
+
+            [Test]
+            public void TownAndTowne()
+            {
+                _parseAddressCommand.SetStreet("1551 S RENAISSANCE TWN DR SUITE 420");
+                var address = Execute();
+
+                Assert.That(address.HouseNumber, Is.EqualTo(1551));
+                Assert.That(address.PrefixDirection, Is.EqualTo(Direction.South));
+                Assert.That(address.StreetName, Is.EqualTo("renaissance twn").IgnoreCase);
+                Assert.That(address.SuffixDirection, Is.EqualTo(Direction.None));
+                Assert.That(address.StreetType, Is.EqualTo(StreetType.Drive));
+                Assert.That(address.StandardizedAddress, Is.EqualTo("1551 south renaissance twn drive").IgnoreCase);
+            }
+
+            [Test]
+            public void Suite()
+            {
+                _parseAddressCommand.SetStreet("1490 E FOREMASTER DR STE 150");
+                var address = Execute();
+
+                Assert.That(address.HouseNumber, Is.EqualTo(1490));
+                Assert.That(address.PrefixDirection, Is.EqualTo(Direction.East));
+                Assert.That(address.StreetName, Is.EqualTo("foremaster").IgnoreCase);
+                Assert.That(address.SuffixDirection, Is.EqualTo(Direction.None));
+                Assert.That(address.StreetType, Is.EqualTo(StreetType.Drive));
+                Assert.That(address.StandardizedAddress, Is.EqualTo("1490 east foremaster drive").IgnoreCase);
+            }
         }
     }
 }

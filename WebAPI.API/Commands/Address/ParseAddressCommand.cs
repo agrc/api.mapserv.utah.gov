@@ -254,11 +254,16 @@ namespace WebAPI.API.Commands.Address
             }
 
             //make sure address has a number after it since it's required.
-            var regex = new Regex(string.Format(@"{0}(?: |.)?([a-z]?(?:\d)*[a-z]?)", match), RegexOptions.IgnoreCase);
+            var regex = new Regex(string.Format(@"{0}(?:\s|.)?([a-z]?(?:\d)*[a-z]?)", match), RegexOptions.IgnoreCase);
+            var moreMatches = regex.Matches(street);
 
-            if (regex.IsMatch(street))
+            if (moreMatches.Count > 0)
             {
-                Street = regex.Replace(street, "").Trim();
+                var theMatch = moreMatches[moreMatches.Count - 1];
+                var index = street.LastIndexOf(theMatch.Value, StringComparison.OrdinalIgnoreCase);
+                street = street.Substring(0, index) + street.Substring(index + theMatch.Length);
+
+                Street = street;
             }
         }
 
