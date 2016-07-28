@@ -9,7 +9,7 @@ namespace Soe.Common.GDB.Connect
     {
         private readonly string _name;
         private readonly string _password;
-        private readonly string _instance;
+        private readonly string _server;
 
         public Sgid10ConnectionInformation()
         {
@@ -34,9 +34,9 @@ namespace Soe.Common.GDB.Connect
                     {
                         _password = node.Attributes["value"].Value;
                     }
-                    else if (node.Attributes["key"].Value == "sgid_instance")
+                    else if (node.Attributes["key"].Value == "sgid_server")
                     {
-                        _instance = node.Attributes["value"].Value;
+                        _server = node.Attributes["value"].Value;
                     }
                 }
             }
@@ -49,7 +49,7 @@ namespace Soe.Common.GDB.Connect
 
         public string InstanceName
         {
-            get { return _instance; }
+            get { return "sde:sqlserver:" + _server; }
         }
 
         public string Name
@@ -60,6 +60,11 @@ namespace Soe.Common.GDB.Connect
         public string Password
         {
             get { return _password; }
+        }
+
+        public string ServerName
+        {
+            get { return _server; }
         }
 
         public string Version

@@ -4,6 +4,7 @@ namespace Soe.Common.GDB.Connect
     {
         string DatabaseName { get; }
         string InstanceName { get; }
+        string ServerName { get; }
         string Name { get; }
         string Password { get; }
         string Version { get; }
