@@ -40,9 +40,6 @@ namespace Soe.Common.GDB.Connect
 
         public static string Create(string layerName)
         {
-            if (layerName.ToUpperInvariant().StartsWith("SGID93"))
-                return ConnectionStringBuilder.Create(new Sgid93ConnectionInformation());
-
             if (layerName.ToUpperInvariant().StartsWith("SGID10"))
                 return ConnectionStringBuilder.Create(new Sgid10ConnectionInformation());
 

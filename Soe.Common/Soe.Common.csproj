@@ -79,7 +79,6 @@
     <Compile Include="GDB\Connect\SdeConnector.cs" />
     <Compile Include="GDB\Connect\SdeConnectorFactory.cs" />
     <Compile Include="GDB\Connect\Sgid10ConnectionInformation.cs" />
-    <Compile Include="GDB\Connect\Sgid93ConnectionInformation.cs" />
     <Compile Include="GDB\Connect\SgidConnectionStringFactory.cs" />
     <Compile Include="Infastructure\Commands\Command.cs" />
     <Compile Include="Infastructure\Commands\CommandExecutor.cs" />

@@ -6,12 +6,6 @@
         {
             layerName = layerName.ToUpperInvariant();
 
-
-            if (layerName.StartsWith("SGID93"))
-            {
-                return new SdeConnector(new Sgid93ConnectionInformation());
-            }
-
             if(layerName.StartsWith("SGID10")){
                 return new SdeConnector(new Sgid10ConnectionInformation());
             }
