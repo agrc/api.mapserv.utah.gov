@@ -79,12 +79,11 @@ namespace WebAPI.API.Controllers.API.Version1 {
             #endregion
 
             // ReSharper disable PossibleNullReferenceException - handled in validation
-            returnValues = returnValues.ToUpperInvariant();
             featureClass = featureClass.ToUpperInvariant();
-            // ReSharper restore PossibleNullReferenceException
 
-            var isStraightSql = !returnValues.Contains("SHAPE@") &&
+            var isStraightSql = !returnValues.ToUpperInvariant().Contains("SHAPE@") &&
                                 string.IsNullOrEmpty(options.Geometry);
+            // ReSharper restore PossibleNullReferenceException
 
             if (isStraightSql)
             {
