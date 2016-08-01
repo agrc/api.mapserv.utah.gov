@@ -6,6 +6,19 @@
 
 <h1>Changelog</h1>
 <h2>
+    1.6.5.0
+    <small>8/1/2016</small>
+</h2>
+<ul>
+    <li class="item">
+        Before fixing #29, all returnValues input for the search api were uppercased. camelCase was the default response casing and since the values were all uppercased the api would return all lowercased values.
+        This patch update changes the default response casing to lowercase to match this behavior.
+    </li>
+    <li class="item">
+        Placename and zip code lookup improvements for Eagle Mountain.
+    </li>
+</ul>
+<h2>
     1.6.4.0
     <small>7/28/2016</small>
 </h2>
