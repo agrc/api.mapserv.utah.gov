@@ -27,7 +27,7 @@ namespace WebAPI.API.ModelBindings
             {
                 attributeType =
                     (AttributeStyle)
-                    Enum.Parse(typeof(AttributeStyle), string.IsNullOrEmpty(attribute) ? "Camel" : attribute, true);
+                    Enum.Parse(typeof(AttributeStyle), string.IsNullOrEmpty(attribute) ? "Lower" : attribute, true);
             }
             catch (Exception)
             {
