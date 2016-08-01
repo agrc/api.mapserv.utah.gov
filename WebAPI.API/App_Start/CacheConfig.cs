@@ -188,9 +188,11 @@ namespace WebAPI.API
                 };
         }
 
+
+
         private static Dictionary<string, List<GridLinkable>> CachePlaces()
         {
-            var gridLookup = new List<PlaceGridLink> {
+            var gridLookup = new List<PlaceGridLink> { 
         new PlaceGridLink("ABRAHAM", "DELTA", 0),
         new PlaceGridLink("ACORD LAKES", "ACORD LAKES", 0),
         new PlaceGridLink("ADAMSVILLE", "BEAVER", 0),
@@ -356,6 +358,7 @@ namespace WebAPI.API
         new PlaceGridLink("DEER MOUNTAIN", "HEBER CITY", 0),
         new PlaceGridLink("DEER MTN", "HEBER CITY", 0),
         new PlaceGridLink("DEER VALLEY", "PARK CITY", 0),
+        new PlaceGridLink("DELLE", "GRANTSVILLE", 0),
         new PlaceGridLink("DELLE", "TOOELE", 0),
         new PlaceGridLink("DELTA", "DELTA", 0),
         new PlaceGridLink("DESERET", "DELTA", 0),
@@ -759,7 +762,7 @@ namespace WebAPI.API
         new PlaceGridLink("RIVERDALE", "OGDEN", 0),
         new PlaceGridLink("RIVERSIDE", "BRIGHAM CITY", 0),
         new PlaceGridLink("RIVERTON", "SALT LAKE CITY", 0),
-        new PlaceGridLink("ROCKVILLE", "ROCKVILLE", 0),
+        new PlaceGridLink("ROCKVILLE", "ROCKVILLE", 1),
         new PlaceGridLink("ROCKY RIDGE", "MONA", 0),
         new PlaceGridLink("ROOSEVELT", "ROOSEVELT", 0),
         new PlaceGridLink("ROSETTE", "BRIGHAM CITY", 0),
@@ -962,7 +965,7 @@ namespace WebAPI.API
         new PlaceGridLink("YOST", "BRIGHAM CITY", 0),
         new PlaceGridLink("ZION NATIONAL PARK", "KOLOB", 1),
         new PlaceGridLink("ZION NATIONAL PARK", "NEW HARMONY", 1),
-        new PlaceGridLink("ZION NATIONAL PARK", "ROCKVILLE", 1),
+        new PlaceGridLink("ZION NATIONAL PARK", "ROCKVILLE", 0),
         new PlaceGridLink("ZION NATIONAL PARK", "SPRINGDALE", 1),
         new PlaceGridLink("ZION NATIONAL PARK", "VIRGIN", 1),
         new PlaceGridLink("ZION NTL PARK", "KOLOB", 0),
@@ -974,10 +977,9 @@ namespace WebAPI.API
 
             return BuildGridLinkableLookup(gridLookup);
         }
-
         private static Dictionary<string, List<GridLinkable>> CacheZipCodes()
         {
-            var gridLookup = new List<ZipGridLink> {
+            var gridLookup = new List<ZipGridLink> { 
         new ZipGridLink(82930, "KAMAS", 0),
         new ZipGridLink(83342, "BRIGHAM CITY", 0),
         new ZipGridLink(84001, "ROOSEVELT", 0),
@@ -994,7 +996,8 @@ namespace WebAPI.API
         new ZipGridLink(84009, "SALT LAKE CITY", 0),
         new ZipGridLink(84010, "BOUNTIFUL", 0),
         new ZipGridLink(84011, "BOUNTIFUL", 0),
-        new ZipGridLink(84013, "CEDAR FORT", 1),
+        new ZipGridLink(84013, "EAGLE MOUNTAIN", 1),
+        new ZipGridLink(84013, "CEDAR FORT", 2),
         new ZipGridLink(84013, "PROVO", 0),
         new ZipGridLink(84014, "CENTERVILLE", 0),
         new ZipGridLink(84015, "CLEARFIELD", 0),
@@ -1466,23 +1469,23 @@ namespace WebAPI.API
 
         private static Dictionary<string, List<GridLinkable>> CacheDeliveryPoints()
         {
-            var gridLookup = new List<UspsDeliveryPointLink> {
-        new UspsDeliveryPointLink(84201, "OGDEN", 0, "INTERNAL REVENUE SERVICE 324 25TH ST", 418473.3709, 4563753.592),
-        new UspsDeliveryPointLink(84244, "OGDEN", 0, "INTERNAL REVENUE SERVICE 324 25TH ST", 418473.3709, 4563753.592),
-        new UspsDeliveryPointLink(84407, "OGDEN", 0, "DEFENSE DEPOT OGDEN 500 W 1200 S", 416309.2163, 4568701.297),
-        new UspsDeliveryPointLink(84408, "OGDEN", 0, "WEBER STATE UNIVERSITY 3848 HARRISON BLVD", 420791.1564, 4560556.041),
-        new UspsDeliveryPointLink(84132, "SALT LAKE CITY", 0, "UNIVERSITY MEDICAL CENTER 50 N MEDICAL DR", 429203.5199, 4513717.464),
-        new UspsDeliveryPointLink(84134, "SALT LAKE CITY", 0, "UTAH STATE TAX COMMISSION 210 N 1950 W", 420124.5991, 4514200.074),
-        new UspsDeliveryPointLink(84136, "SALT LAKE CITY", 0, "BENEFICIAL LIFE INSURANCE 55 N 300 W", 424016.3799, 4513681.851),
-        new UspsDeliveryPointLink(84139, "SALT LAKE CITY", 0, "QUESTAR GAS COMPANY 333 S STATE ST", 425093.4479, 4512700.93),
-        new UspsDeliveryPointLink(84141, "SALT LAKE CITY", 0, "WELLS FARGO BANK 299 S MAIN ST", 424824.3774, 4512897.627),
-        new UspsDeliveryPointLink(84143, "SALT LAKE CITY", 0, "LDS HOSPITAL 8TH AVE C ST", 425766.197, 4514555.032),
-        new UspsDeliveryPointLink(84148, "SALT LAKE CITY", 0, "VETERANS ADMINISTRATION HOSPITAL 500 FOOTHILL DR", 429045.5692, 4512195.853),
-        new UspsDeliveryPointLink(84150, "SALT LAKE CITY", 0, "CHURCH OF JESUS CHRIST/LDS 50 E NORTH TEMPLE ST", 424958.329, 4513717.866),
-        new UspsDeliveryPointLink(84184, "SALT LAKE CITY", 0, "AMERICAN EXPRESS CO 4315 S 2700 W", 419260.508, 4503230.881),
-        new UspsDeliveryPointLink(84189, "SALT LAKE CITY", 0, "KEY BANK 1098 S 300 W", 423993.8224, 4510841.278),
-        new UspsDeliveryPointLink(84190, "SALT LAKE CITY", 0, "SALT LAKE COUNTY COMPLEX 2001 S STATE ST", 425058.903, 4508803.558),
-        new UspsDeliveryPointLink(84199, "SALT LAKE CITY", 0, "US POSTAL SERVICE 1760 W 2100 S", 420557.0004, 4508935.348),
+            var gridLookup = new List<UspsDeliveryPointLink> { 
+        new UspsDeliveryPointLink(84201, "OGDEN", 0, "INTERNAL REVENUE SERVICE 324 25TH ST", 418473.3709, 4563753.592), 
+        new UspsDeliveryPointLink(84244, "OGDEN", 0, "INTERNAL REVENUE SERVICE 324 25TH ST", 418473.3709, 4563753.592), 
+        new UspsDeliveryPointLink(84407, "OGDEN", 0, "DEFENSE DEPOT OGDEN 500 W 1200 S", 416309.2163, 4568701.297), 
+        new UspsDeliveryPointLink(84408, "OGDEN", 0, "WEBER STATE UNIVERSITY 3848 HARRISON BLVD", 420791.1564, 4560556.041), 
+        new UspsDeliveryPointLink(84132, "SALT LAKE CITY", 0, "UNIVERSITY MEDICAL CENTER 50 N MEDICAL DR", 429203.5199, 4513717.464), 
+        new UspsDeliveryPointLink(84134, "SALT LAKE CITY", 0, "UTAH STATE TAX COMMISSION 210 N 1950 W", 420124.5991, 4514200.074), 
+        new UspsDeliveryPointLink(84136, "SALT LAKE CITY", 0, "BENEFICIAL LIFE INSURANCE 55 N 300 W", 424016.3799, 4513681.851), 
+        new UspsDeliveryPointLink(84139, "SALT LAKE CITY", 0, "QUESTAR GAS COMPANY 333 S STATE ST", 425093.4479, 4512700.93), 
+        new UspsDeliveryPointLink(84141, "SALT LAKE CITY", 0, "WELLS FARGO BANK 299 S MAIN ST", 424824.3774, 4512897.627), 
+        new UspsDeliveryPointLink(84143, "SALT LAKE CITY", 0, "LDS HOSPITAL 8TH AVE C ST", 425766.197, 4514555.032), 
+        new UspsDeliveryPointLink(84148, "SALT LAKE CITY", 0, "VETERANS ADMINISTRATION HOSPITAL 500 FOOTHILL DR", 429045.5692, 4512195.853), 
+        new UspsDeliveryPointLink(84150, "SALT LAKE CITY", 0, "CHURCH OF JESUS CHRIST/LDS 50 E NORTH TEMPLE ST", 424958.329, 4513717.866), 
+        new UspsDeliveryPointLink(84184, "SALT LAKE CITY", 0, "AMERICAN EXPRESS CO 4315 S 2700 W", 419260.508, 4503230.881), 
+        new UspsDeliveryPointLink(84189, "SALT LAKE CITY", 0, "KEY BANK 1098 S 300 W", 423993.8224, 4510841.278), 
+        new UspsDeliveryPointLink(84190, "SALT LAKE CITY", 0, "SALT LAKE COUNTY COMPLEX 2001 S STATE ST", 425058.903, 4508803.558), 
+        new UspsDeliveryPointLink(84199, "SALT LAKE CITY", 0, "US POSTAL SERVICE 1760 W 2100 S", 420557.0004, 4508935.348), 
         new UspsDeliveryPointLink(84114, "SALT LAKE CITY", 0, "UTAH STATE CAPITOL 350 N STATE ST", 425046.4843, 4514424.973)
     };
 
