@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using Soe.Common.GDB.Connect;
@@ -10,7 +11,7 @@ namespace WebAPI.API.Commands.Info
     {
         private readonly string _sgidSchema;
 
-        private static string _connectionString;
+        public static readonly string ConnectionString = ConfigurationManager.AppSettings["sgid_connection"];
 
         public string SgidTable { get; set; }
 
@@ -27,23 +28,7 @@ namespace WebAPI.API.Commands.Info
         {
             var catalog = "SGID10";
 
-            if (!string.IsNullOrEmpty(SgidVersion))
-            {
-                int version;
-                int.TryParse(SgidVersion, out version);
-
-                if (version != 0)
-                {
-                    if (version == 93)
-                    {
-                        catalog = "SGID93";
-                    }
-                }
-            }
-
-            _connectionString = SgidConnectionStringFactory.Create(catalog);
-
-            using (var session = new SqlConnection(string.Format(_connectionString, catalog)))
+            using (var session = new SqlConnection(string.Format(ConnectionString, catalog)))
             {
                 session.Open();
 

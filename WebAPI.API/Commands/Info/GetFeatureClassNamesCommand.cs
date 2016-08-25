@@ -18,20 +18,6 @@ namespace WebAPI.API.Commands.Info
         {
             var catalog = "SGID10";
 
-            if (!string.IsNullOrEmpty(SgidVersion))
-            {
-                int version;
-                int.TryParse(SgidVersion, out version);
-
-                if (version != 0)
-                {
-                    if (version == 93)
-                    {
-                        catalog = "SGID93";
-                    }
-                }
-            }
-
             using (var session = new SqlConnection(string.Format(ConnectionString, catalog)))
             {
                 session.Open();
