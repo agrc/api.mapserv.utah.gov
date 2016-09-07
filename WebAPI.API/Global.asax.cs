@@ -79,7 +79,7 @@ namespace WebAPI.API
 
         public static IEnumerable<int> PoBoxZipCodesWithExclusions { get; set; }
 
-        public static Dictionary<int, PoBoxAddressExclusion> PoBoxExclusions { get; set; }
+        public static Dictionary<int, PoBoxAddressCorrection> PoBoxExclusions { get; set; }
 
         /// <summary>
         ///     Runs when the application starts or the app pool recycles.
