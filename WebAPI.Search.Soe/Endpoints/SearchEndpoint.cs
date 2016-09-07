@@ -149,6 +149,12 @@ namespace WebAPI.Search.Soe.Endpoints
 
                             point.Project(toUtm);
 
+                            if (point.IsEmpty)
+                            {
+                                errors.Add("Input geometry is empty. Check your x and y values.");
+                                return Json(errors);
+                            }
+
                             container.Geometry = point;
 
                             points[0] = point.X;
