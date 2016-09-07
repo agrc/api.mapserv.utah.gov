@@ -124,3 +124,6 @@ WebAPI.Common/app.sample.config
 WebAPI.Common/Commands/Log/SvnLogCommand.cs
 WebAPI.Dashboard/Web.Release.config
 *.DotSettings
+scripts/cache.txt
+scripts/webapi/data/agrc@sgid10.sde
+scripts/webapi/data/gspread-71262bb748ee.json
