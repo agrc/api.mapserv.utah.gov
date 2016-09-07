@@ -91,7 +91,6 @@ class Cache(object):
         zips = set([])
         arcpy.env.workspace = join(current_location, 'data', 'agrc@sgid10.sde')
 
-        import pdb; pdb.set_trace()
         with arcpy.da.SearchCursor("SGID10.LOCATION.ZipCodePOBoxes", ["ZIP5", "SHAPE@XY"], "1=1", sql_clause=(None, 'ORDER BY ZIP5')) as cursor:
             for zip_code, shape in cursor:
                 if zip_code in zips:
