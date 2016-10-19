@@ -116,7 +116,7 @@ namespace WebAPI.Search.Soe.Endpoints
 
                 if (container == null)
                 {
-                    var message = "Geometry coordinates appear to be fouled up. That is all we know.";
+                    var message = "Geometry coordinates appear to be invalid.";
 
                     if (!string.IsNullOrEmpty(extractGeometryCommand.ErrorMessage))
                     {
