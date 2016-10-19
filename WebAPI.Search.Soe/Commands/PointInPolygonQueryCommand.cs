@@ -51,7 +51,7 @@ namespace WebAPI.Search.Soe.Commands
 
             if (Args.Shape == null)
             {
-                ErrorMessage = "The point used to do the query is fouled up. Check the syntax point:[x,y]";
+                ErrorMessage = "The point used to do the query appears to be invalid. Check the syntax point:[x,y]";
 
                 return;
             }
