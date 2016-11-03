@@ -69,17 +69,31 @@
                 <label class="control-label" for="spatialReference">
                     spatialReference</label>
                 <div class="controls">
-                    <input type="text" id="spatialReference" name="spatialReference" class="input-large"  />
+                    <input type="text" id="spatialReference" name="spatialReference" class="input-large"/>
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     @Html.Partial("_SpatialReference")
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label" for="callback">
+                    callback
+                </label>
+                <div class="controls">
+                    <input type="text" id="callback" name="callback" class="input-large" />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+                        optional
+                    </span>
+                    <p class="help-block">
+                        The callback function to call for cross domain javascript calls (jsonp).
+                    </p>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label" for="tolerance">
                     tolerance</label>
                 <div class="controls">
-                    <input type="text" name="tolerance" class="input-large" />
+                    <input type="text" id="tolerance" name="tolerance" class="input-large" />
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span> <span class="help-inline label label-important">
                                                                                  not implemented</span>
