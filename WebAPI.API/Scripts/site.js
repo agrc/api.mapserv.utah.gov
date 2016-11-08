@@ -40,8 +40,7 @@
     //create try it event
     $('[data-demo]').on('click', function(e) {
         e.preventDefault();
-        e.target.scrollIntoView();
-        $(e.target).addClass('bar disabled');
+        $(e.target).addClass('disabled');
 
         var container = $('[data-codeContainer]', e.target.form)[0],
             form = $(e.target.form),
@@ -54,19 +53,34 @@
 
         //reset validation
         $('[data-required]', form).each(function() {
-            $(this.parentElement.parentElement).removeClass("error");
+            $(this.parentElement.parentElement).removeClass("has-error");
         });
 
         //validate input
         $('[data-required]', form).each(function() {
             if (!this.value || $.trim(this.value) === "") {
-                $(this.parentElement.parentElement).addClass("error");
+                var element = $(this.parentElement.parentElement);
+                element.addClass("has-error");
+                this.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'end'
+                });
+                this.focus();
                 valid = false;
             }
         });
 
-        if (!valid)
+        if (!valid) {
+            $(e.target).removeClass('disabled');
             return false;
+        }
+
+        e.target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+
+        $(e.target).addClass('progress-bar');
 
         var d = new httpStatus(type, form);
         d.displaySampleUrl(url);
@@ -76,14 +90,14 @@
             url: d.getUrl(url),
             data: d.getData(form),
             dataType: d.getDataType(),
-            timeout: 30000
+            timeout: 10000
         };
 
       $.ajax(args)
         .done(function(response) {
           $(container).html(d.displayResult(response));
           $(container).removeClass('hidden');
-          $(e.target).removeClass('bar disabled');
+          $(e.target).removeClass('progress-bar disabled');
         })
         .fail(function (response) {
           if (response.responseText) {
@@ -94,7 +108,7 @@
           }
           
           $(container).removeClass('hidden');
-          $(e.target).removeClass('bar disabled');
+          $(e.target).removeClass('progress-bar disabled');
         });
 
         return false;
