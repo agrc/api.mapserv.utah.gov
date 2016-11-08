@@ -7,41 +7,41 @@
         Reverse Route and Milepost</h3>
     <p>
         Returns the closest route and milepost to the input coorindate.</p>
-    <button class="btn" data-details="true">
+    <button class="btn btn-default" data-details="true">
         Details</button>
     <span class="help-inline label label-success label-status pull-right">implemented</span>
     <div class="clearfix">
     </div>
-    <form class="form-horizontal hide">
+    <form class="form-horizontal" style="display:none">
         <fieldset>
             <legend class="hidden"></legend>
-            <div class="control-group">
-                <label class="control-label" for="rx">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="rx">
                     x</label>
-                <div class="controls">
-                    <input type="text" id="rx" name="x" class="input-large" data-required/>
-                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-important">
+                <div class="col-sm-8">
+                    <input type="text" id="rx" name="x" class="form-control" data-required/>
+                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
                         The x coordinate.</p>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="ry">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="ry">
                     y</label>
-                <div class="controls">
-                    <input type="text" id="ry" name="y" class="input-large" data-required/>
-                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-important">
+                <div class="col-sm-8">
+                    <input type="text" id="ry" name="y" class="form-control" data-required/>
+                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
                         The y coorindate.</p>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="includeRampSystem">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="includeRampSystem">
                     includeRampSystem</label>
-                <div class="controls">
-                    <select id="includeRampSystem" name="includeRampSystem" class="input-large">
+                <div class="col-sm-8">
+                    <select id="includeRampSystem" name="includeRampSystem" class="form-control">
                         <option value>Include Ramp Systems</option>
                         <option value="True">True</option>
                         <option value="False">False</option>
@@ -53,43 +53,43 @@
                     </p>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="rbuffer">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="rbuffer">
                     buffer</label>
-                <div class="controls">
-                    <input type="text" id="rbuffer" name="buffer" class="input-large" />
+                <div class="col-sm-8">
+                    <input type="text" id="rbuffer" name="buffer" class="form-control" />
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
                         The buffer radius in meters. The default is <code>100 meters</code> with the maximum value being <code>200 meters</code>.</p>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="spatialReference">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="spatialReference">
                     spatialReference</label>
-                <div class="controls">
-                    <input type="text" id="spatialReference" name="spatialReference" class="input-large"  />
+                <div class="col-sm-8">
+                    <input type="text" id="spatialReference" name="spatialReference" class="form-control"  />
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     @Html.Partial("_SpatialReference")
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="callback">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="callback">
                     callback</label>
-                <div class="controls">
-                    <input type="text" id="callback" name="callback" class="input-large" />
+                <div class="col-sm-8">
+                    <input type="text" id="callback" name="callback" class="form-control" />
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
                         The callback function to call for cross domain javascript calls (jsonp).</p>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="format">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="format">
                     format</label>
-                <div class="controls">
-                    <select id="format" name="format" class="input-large">
+                <div class="col-sm-8">
+                    <select id="format" name="format" class="form-control">
                         <option value>Format</option>
                         <option value="esrijson">esrijson</option>
                         <option value="geojson">geojson</option>
@@ -103,8 +103,8 @@
                 </div>
             </div>
         </fieldset>
-        <div class="progress-striped active" style="width: auto;">
-            <button class="btn btn-primary" data-demo data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeReverseMilePost", new
+        <div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
+            <button class="btn btn-primary col-sm-offset-2 col-sm-8 col-xs-12" data-demo data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeReverseMilePost", new
                                                                     {
                                                                         httproute = "", version = "1", controller = "Geocode", Action = "ReverseMilePost", x = ":x", y = ":y"
                                                                     }))'>

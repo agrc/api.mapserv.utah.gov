@@ -9,43 +9,43 @@
         Feature Class Attribute Names</h3>
     <p>
         Returns a list of attribute names for the feature class.</p>
-    <button class="btn" data-details="true">
+    <button class="btn btn-default" data-details="true">
         Details</button>
     <span class="help-inline label label-success label-status pull-right">implemented</span>
     <div class="clearfix">
     </div>
-    <form class="form-horizontal hide">
+    <form class="form-horizontal" style="display:none">
         <fieldset>
             <legend class="hidden"></legend>
-            <div class="control-group">
-                <label class="control-label" for="featureClass">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="featureClass">
                     featureClass</label>
-                <div class="controls">
-                    <input type="text" id="featureClass" name="featureClass" class="input-large" data-required />
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-important">
+                <div class="col-sm-8">
+                    <input type="text" id="featureClass" name="featureClass" class="form-control" data-required />
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
                         Feature class name: Counties.</p>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="category">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="category">
                     category</label>
-                <div class="controls">
-                    <input type="text" id="category" name="category" class="input-large" />
+                <div class="col-sm-8">
+                    <input type="text" id="category" name="category" class="form-control" />
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
                         Feature category: Boundaries. This should be provided if there are multiple table name sharing the same name in different categories. It is best practice to use this field.</p>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="sgidVersion">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="sgidVersion">
                     version</label>
-                <div class="controls">
+                <div class="col-sm-8">
                     @Html.DropDownList("sgidVersion", Model.SgidVersion, "Version", new
                         {
-                            @class = "input-large"
+                            @class = "form-control"
                         })
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span>
@@ -57,13 +57,11 @@
                 </div>
             </div>
         </fieldset>
-       <div class="progress-striped active" style="width: auto;">
-            <button class="btn btn-primary" 
-                    data-demo data-url="@HttpUtility.UrlDecode(Url.RouteUrl("v1_InfoAttributesApi", new
+       <div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
+           <button class="btn btn-primary col-sm-offset-2 col-sm-8 col-xs-12" data-demo data-url="@HttpUtility.UrlDecode(Url.RouteUrl("v1_InfoAttributesApi", new
                                         {
                                             httproute = "", controller = "Info", version = "1", featureClass=":featureClass"
-                                        }))">
-                Try it</button>
+                                        }))">Try it</button>
         </div>
         <div class="code-well">
             <a class="close" data-close>×</a>

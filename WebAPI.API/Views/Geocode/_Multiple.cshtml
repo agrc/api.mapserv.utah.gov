@@ -1,27 +1,23 @@
 ﻿<div class="well">
     <span class="label label-verb label-post pull-left">Post</span> <span class="label label-url url pull-right">
                                                                         /geocode/multiple</span>
-    <div class="clearfix">
-    </div>
-    <h3>
-        Multiple addresses</h3>
+    <div class="clearfix"></div>
+    <h3>Multiple addresses</h3>
     <p>
         Returns a list of geocoded addresses. Addresses that do not meet the acceptScore
         are omitted from the returned list.</p>
-    <button class="btn" data-details="true">
+    <button class="btn btn-default" data-details="true">
         Details</button>
     <span class="help-inline label label-success label-status pull-right">implemented</span>
     <div class="clearfix">
     </div>
-    <form class="form-horizontal hide">
-        <fieldset>
-            <legend class="hidden"></legend>
-            <div class="control-group">
-                <label class="control-label" for="addresses">
+    <form class="form-horizontal" style="display:none">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="addresses">
                     addresses</label>
-                <div class="controls">
-                    <textarea rows="5" cols="20" id="addresses" name="addresses" class="input-large" data-required data-json></textarea>
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-important">
+                <div class="col-sm-8">
+                    <textarea rows="5" cols="20" id="addresses" name="addresses" class="form-control" data-required data-json></textarea>
+                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
                         A json array of Utah addresses. Maximum addresses to be geocoded per call is <code>100</code>. The json schema is
@@ -34,11 +30,11 @@
                         <pre id="multiSchema"></pre></p>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="acceptScore">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="acceptScore">
                     acceptScore</label>
-                <div class="controls">
-                    <input type="text" id="acceptScore" name="acceptScore" class="input-large" />
+                <div class="col-sm-8">
+                    <input type="text" id="acceptScore" name="acceptScore" class="form-control" />
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
@@ -46,13 +42,11 @@
                         default score being 70.</p>
                 </div>
             </div>
-        </fieldset>
-        <div class="progress-striped active" style="width: auto;">
-            <button class="btn btn-primary" data-demo data-type='POST' data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeMultipleApi", new
+        <div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
+            <button class="btn btn-primary col-sm-offset-2 col-sm-8 col-xs-12" data-demo data-type='POST' data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeMultipleApi", new
                                                                                  {
                                                                                      httproute = "", version = "1", controller = "Geocode", Action = "Multiple"
-                                                                                 }))'>
-                Try it</button>
+                                                                                 }))'>Try it</button>
         </div>
         <div class="code-well">
             <a class="close" data-close>×</a>
