@@ -296,6 +296,8 @@
     <Content Include="Content\images\ravendb-small.png" />
     <Content Include="Content\jasmine\jasmine.css" />
     <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\Site.min.css" />
+    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
@@ -303,11 +305,15 @@
     <Content Include="Scripts\indexOfShiv.js" />
     <Content Include="Scripts\indexOfShiv.min.js" />
     <Content Include="Scripts\jquery-1.10.1.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\modernizr-2.6.1.js" />
+    <Content Include="Scripts\modernizr.min.js" />
     <Content Include="Scripts\scrollspy.js" />
+    <Content Include="Scripts\scrollspy.min.js" />
     <Content Include="Scripts\site.js" />
+    <Content Include="Scripts\site.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -453,7 +459,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets')" />

@@ -5,7 +5,7 @@
         },
         {
             test: !!Array.prototype.indexOf,
-            nope: 'Scripts/indexOfShiv.js'
+            nope: 'Scripts/indexOfShiv.min.js'
         }
     ]);
 
@@ -61,10 +61,11 @@
             if (!this.value || $.trim(this.value) === "") {
                 var element = $(this.parentElement.parentElement);
                 element.addClass("has-error");
-                this.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'end'
-                });
+
+                $('html, body').animate({
+                    scrollTop: $(this).offset().top - 200
+                }, 1000);
+
                 this.focus();
                 valid = false;
             }
@@ -75,10 +76,9 @@
             return false;
         }
 
-        e.target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
+        $('html, body').animate({
+            scrollTop: $(e.target).offset().top - 200
+        }, 1000);
 
         $(e.target).addClass('progress-bar');
 

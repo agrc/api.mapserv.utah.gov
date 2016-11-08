@@ -1,0 +1,24 @@
+{
+  "name": "api.mapserv.utah.gov",
+  "version": "1.0.0",
+  "description": "1. create a webapi website in iis. point it to webapi.api and filter all requests to webapi.\r 1. create a dashboard website in iis. point it to webapi.dashboard and filter all requests to dashboard.\r 1. install raven db\r 1. import a raven dump\r 1. install redis from https://github.com/MSOpenTech/redis/releases",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agrc/api.mapserv.utah.gov.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agrc/api.mapserv.utah.gov/issues"
+  },
+  "homepage": "https://github.com/agrc/api.mapserv.utah.gov#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-uglify": "^2.0.0"
+  }
+}
