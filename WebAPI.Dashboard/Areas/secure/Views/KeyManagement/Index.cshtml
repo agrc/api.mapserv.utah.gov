@@ -4,99 +4,95 @@
 }
 <div id="home">
     <h2>
-        API Key Management</h2>
+        Your API Keys
+    </h2>
 </div>
 <div class="row">
-    <div class="offset3 span6">
+    <div class="col-sm-offset-3 col-sm-6" id="message">
         @Html.ErrorBox()
         @Html.MessageBox()
     </div>
 </div>
+<div class="text-center">
+    @Html.ActionLink("Generate Key", "Index", new
+    {
+        Controller = "GenerateKey"
+    }, new
+    {
+        id = "Create",
+        @class = "btn btn-success",
+        style = "margin-bottom:10px"
+    })
+    <p class="badge">
+        @Model.KeyQuota.KeysUsed / @Model.KeyQuota.KeysAllowed
+        used
+    </p>
+</div>
 <div class="row">
-    <div>
+    <div class="table-responsive">
         <table class="table table-bordered table-striped table-condensed">
             <thead>
-                <tr>
-                    <th>
-                        Key
-                    </th>
-                    <th>
-                        Uses
-                    </th>
-                    <th>
-                        Type
-                    </th>
-                    <th>
-                        Last Used
-                    </th>
-                    <th>
-                        Pattern
-                    </th>
-                    <th>
-                    </th>
-                </tr>
+            <tr>
+                <th>Key</th>
+                <th>Uses</th>
+                <th>Type</th>
+                <th>Last Used</th>
+                <th>Pattern</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var apiKeyUsage in Model.AllUserKeys)
-                {
-                    <tr>
-                        <td>
-                            @apiKeyUsage.ApiKey
+            @foreach (var apiKeyUsage in Model.AllUserKeys)
+            {
+                <tr>
+                    <td>
+                        @apiKeyUsage.ApiKey
                         <span style="margin-top: 5px;" class="pull-right @apiKeyUsage.UseTypeIconCssClass">@apiKeyUsage.UseType</span>
-                        </td>
-                        <td>
-                            <p class="text-right"> @apiKeyUsage.UsageCount</p>
-                        </td>
-                        <td>
-                            @apiKeyUsage.Type
-                        </td>
-                        <td>
-                            @apiKeyUsage.LastUsed
-                        </td>
-                        <td>
-                            @apiKeyUsage.Pattern
-                        </td>
-                        <td>
-                            <div class="btn-group pull-right">
-                                <a href="#" class="btn @apiKeyUsage.ButtonCssClass"><i data-key="@apiKeyUsage.ApiKey" class="@apiKeyUsage.StutusIconCssClass">
-                                                                                    </i>&nbsp;@apiKeyUsage.StatusIconText</a><a href="#" class="btn btn-danger" title="Delete Key">
-                                                                                                                           <i data-key="@apiKeyUsage.ApiKey" class="icon-trash icon-white"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-                }
+                    </td>
+                    <td>
+                        <p class="text-right"> @apiKeyUsage.UsageCount</p>
+                    </td>
+                    <td>
+                        @apiKeyUsage.Type
+                    </td>
+                    <td>
+                        @apiKeyUsage.LastUsed
+                    </td>
+                    <td>
+                        @apiKeyUsage.Pattern
+                    </td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <a href="#" class="btn @apiKeyUsage.ButtonCssClass">
+                                <i data-key="@apiKeyUsage.ApiKey" class="@apiKeyUsage.StutusIconCssClass">
+                                </i>&nbsp;@apiKeyUsage.StatusIconText</a><a href="#" class="btn btn-danger" title="Delete Key">
+                                <i data-key="@apiKeyUsage.ApiKey" class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
     </div>
 </div>
 <div class="modal fade" id="modal">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-            ×</button>
-        <h3>
-            Woops!</h3>
-    </div>
-    <div class="modal-body alert-error">
-        <p id="modal-content">
-        </p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-warning" data-dismiss="modal">Ok</a>
-    </div>
-</div>
-<div class="row">
-    <div class="well offset4 span2 c-text">
-        @Html.ActionLink("Generate Key", "Index", new
-        {
-            Controller = "GenerateKey"
-        }, new
-        {
-            id = "Create",
-            @class = "btn",
-            style = "margin-bottom:10px"
-        })
-        <span class="badge badge-inverse">@Model.KeyQuota.KeysUsed/@Model.KeyQuota.KeysAllowed
-            used</span>
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+                ×
+            </button>
+            <h3 class="modal-title">
+                Woops!
+            </h3>
+        </div>
+        <div class="modal-body alert-danger">
+            <p id="modal-content">
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-warning" data-dismiss="modal">Ok</a>
+        </div>
     </div>
 </div>
 <script>
@@ -111,65 +107,67 @@
             }
         };
 
-        $("i.icon-trash").closest('a').on('click', function(e) {
-            var icon = $("i", this),
-                target = this;
+        $('i.glyphicon-trash').closest('a').on('click', function(e) {
+            var icon = $('i', this);
+            var target = this;
+            var message = $('#message');
 
             $.ajax(agrc.config.urls.del,
-                {
-                    data: { key: icon.data('key') },
-                    type: "DELETE",
-                    beforeSend: function() {
-                        icon.removeClass('icon-trash')
-                            .addClass('icon-time');
-                    }
-                }).done(function(response) {
-                    if (!!response && !!response.status && response.status != 200) {
-                        icon.removeClass("icon-time").addClass('icon-trash');
-                        var modal = $('#modal');
-                        $("#modal-content", modal).html(response.data);
-                        modal.modal({ backdrop: false });
+            {
+                data: { key: icon.data('key') },
+                type: 'DELETE',
+                beforeSend: function() {
+                    icon.removeClass('glyphicon-trash')
+                        .addClass('glyphicon-time');
+                    message.html('');
+                }
+            }).done(function(response) {
+                if (!!response && !!response.status && response.status !== 200) {
+                    icon.removeClass('glyphicon-time').addClass('glyphicon-trash');
+                    var modal = $('#modal');
+                    $('#modal-content', modal).html(response.data);
+                    modal.modal({ backdrop: false });
 
-                        return;
-                    }
+                    return;
+                }
 
-                    $(target).closest("tr").remove();
-                });
+                $(target).closest('tr').remove();
+            });
         });
 
-        $("i.icon-play,i.icon-pause").closest('a').on('click', function(e) {
-            var icon = $("i", this),
+        $('i.glyphicon-play, i.glyphicon-pause').closest('a').on('click', function(e) {
+            var icon = $('i', this),
                 target = this,
-                activated = icon.hasClass('icon-pause'),
+                activated = icon.hasClass('glyphicon-pause'),
                 url = activated ? agrc.config.urls.deactivate : agrc.config.urls.activate;
 
             $.ajax(url,
-                {
-                    data: { key: icon.data('key') },
-                    type: "PUT",
-                    beforeSend: function() {
-                        icon.removeClass("icon-pause")
-                            .removeClass('icon-play')
-                            .addClass('icon-time');
-                    }
-                }).done(function(response) {
-                    if (!!response && !!response.status && response.status != 200) {
-                        icon.removeClass("icon-time").addClass(activated ? 'icon-play' : 'icon-pause');
-                        var modal = $('#modal');
-                        $("#modal-content", modal).html(response.data);
-                        modal.modal({ backdrop: false });
+            {
+                data: { key: icon.data('key') },
+                type: 'PUT',
+                beforeSend: function() {
+                    icon.removeClass('glyphicon-pause')
+                        .removeClass('glyphicon-play')
+                        .addClass('glyphicon-time');
+                }
+            }).done(function(response) {
+                if (!!response && !!response.status && response.status !== 200) {
+                    icon.removeClass('glyphicon-time').addClass(activated ? 'glyphicon-play' : 'glyphicon-pause');
+                    var modal = $('#modal');
+                    $('#modal-content', modal).html(response.data);
+                    modal.modal({ backdrop: false });
 
-                        return;
-                    }
+                    return;
+                }
 
-                    icon.removeClass("icon-time").addClass(!activated ? 'icon-pause' : 'icon-play');
-                    var outerHtml = icon[0].outerHTML + '&nbsp;';
-                    outerHtml += !activated ? 'Deactivate' : 'Activate';
-                    $(target).removeClass('btn-success')
-                        .removeClass('btn-inverse')
-                        .addClass(!activated ? 'btn-inverse' : 'btn-success')
-                        .html(outerHtml);
-                });
+                icon.removeClass('glyphicon-time').addClass(!activated ? 'glyphicon-pause' : 'glyphicon-play');
+                var outerHtml = icon[0].outerHTML + '&nbsp;';
+                outerHtml += !activated ? 'Deactivate' : 'Activate';
+                $(target).removeClass('btn-success')
+                    .removeClass('btn-warning')
+                    .addClass(!activated ? 'btn-warning' : 'btn-success')
+                    .html(outerHtml);
+            });
         });
     });
 </script>

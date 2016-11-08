@@ -3,17 +3,17 @@
 }
 @model WebAPI.Dashboard.Models.ViewModels.MainViewModel
 <div class="row">
-    <h2 class="span6">
+    <h2 class="col-sm-6">
         Log in to manage your account</h2>
 </div>
 <div class="row">
-    <div class="offset3 span6">
+    <div class="col-sm-offset-3 col-sm-6">
         @Html.ErrorBox()
         @Html.MessageBox()
     </div>
 </div>
 <div class="row" id="login">
-    <div class="span6">
+    <div class="col-sm-6">
         @using (Html.BeginForm("Login", "AccountAccess", new
         {
             ReturnUrl = Request.QueryString["ReturnUrl"]
@@ -24,37 +24,37 @@
         {
             <fieldset>
                 <legend>Login</legend>
-                <div class="control-group">
-                    <label class="control-label" for="Email">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="Email">
                         Email Address
                     </label>
-                    <div class="controls">
+                    <div class="col-sm-8">
                         @Html.TextBox("Email", null, new
                         {
-                            style = "input-large",
+                            @class = "form-control",
                             data_required = "",
                             @id = "Email",
                             MaxLength = "30"
                         })
-                        <span class="help-inline label label-important">required</span>
+                        <span class="help-inline label label-danger">required</span>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="Password">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="Password">
                         Password
                     </label>
-                    <div class="controls">
+                    <div class="col-sm-8">
                         @Html.Password("Password", null, new
                         {
-                            style = "input-large",
+                            @class = "form-control",
                             data_required = "",
                             @id = "Password"
                         })
-                        <span class="help-inline label label-important">required</span>
+                        <span class="help-inline label label-danger">required</span>
                     </div>
                 </div>
-                <div class="control-group offset1">
-                    <div class="controls">
+                <div class="form-group col-sm-offset-1">
+                    <div class="col-sm-8">
                         <button class="btn btn-success">
                             Log In</button>
                     </div>
@@ -62,7 +62,7 @@
             </fieldset>
         }
     </div>
-    <div class="span6">
+    <div class="col-sm-6">
         @using (Html.BeginForm("Register", "AccountAccess", FormMethod.Post, new
         {
             @class = "well form-horizontal"
@@ -70,37 +70,37 @@
         {
             <fieldset>
                 <legend>Register</legend>
-                <div class="control-group">
-                    <label class="control-label" for="Email">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="Email">
                         Email Address
                     </label>
-                    <div class="controls">
+                    <div class="col-sm-8">
                         @Html.TextBox("Email", null, new
                         {
-                            style = "input-large",
+                            @class = "form-control",
                             data_required = "",
                             @id = "Email",
                             MaxLength = "30"
                         })
-                        <span class="help-inline label label-important">required</span>
+                        <span class="help-inline label label-danger">required</span>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="Password">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="Password">
                         Password
                     </label>
-                    <div class="controls">
+                    <div class="col-sm-8">
                         @Html.Password("Password", null, new
                         {
-                            style = "input-large",
+                            @class = "form-control",
                             data_required = "",
                             @id = "Password"
                         })
-                        <span class="help-inline label label-important">required</span>
+                        <span class="help-inline label label-danger">required</span>
                     </div>
                 </div>
-                <div class="control-group offset1">
-                    <div class="controls">
+                <div class="form-group col-sm-offset-1">
+                    <div class="col-sm-8">
                         <button class="btn btn-success">
                             Register</button>
                     </div>
@@ -110,6 +110,6 @@
     </div>
 </div>
 <div class="row">
-    <h2 class="offset6 span6">
+    <h2 class="col-sm-offset-6 col-sm-6">
         Register to create an account</h2>
 </div>

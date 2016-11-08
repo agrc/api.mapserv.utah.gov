@@ -2,25 +2,21 @@
     ViewBag.Title = "AGRC Web API User Console";
 }
 @model WebAPI.Dashboard.Models.ViewModels.MainViewModel
-<div id="home">
-    <h2>
-        User Console</h2>
-</div>
-<div class="offset3 span6">
+<div class="col-sm-offset-3 col-sm-6 col-xs-10 col-xs-offset-1">
     @Html.ErrorBox()
     @Html.MessageBox()
 </div>
 <div class="row">
-    <div class="well offset1 span3 c-text" style="margin-top: 55px;">
+    <div class="col-sm-offset-1 col-sm-3 text-center" style="margin-top: 55px; padding-bottom: 55px;">
         @Html.ActionLink("Manage my API Keys", "Index", new
         {
             Controller = "KeyManagement"
         }, new
         {
-            @class = "btn"
+            @class = "btn btn-primary btn-lg"
         })
     </div>
-    <div class="well span3 c-text">
+    <div class="col-sm-offset-1 col-sm-3 text-center">
         <div style="padding: 5px 10px;">
             <p>
                 <span class="badge badge-success badge-large">@Model.ApiKeyUsage.UsageCount.ToString("##,#0")</span>
@@ -33,13 +29,13 @@
             <span class="badge badge-success badge-large">@Model.KeyQuota.KeysUsed</span>
         </div>
     </div>
-    <div class="well span3 c-text" style="margin-top: 55px;">
+    <div class="col-sm-offset-1 col-sm-3 text-center" style="padding: 55px 0;">
         @Html.ActionLink("Manage my Information", "Index", new
         {
             Controller = "Profile"
         }, new
         {
-            @class = "btn"
+            @class = "btn btn-primary btn-lg"
         })
     </div>
 </div>

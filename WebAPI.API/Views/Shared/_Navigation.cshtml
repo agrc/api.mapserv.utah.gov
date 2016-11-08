@@ -1,11 +1,9 @@
 ﻿<ul class="nav nav-pills nav-stacked">
-    <li class="nav-header">Web API's</li>
-    <li class="active"><a href="#home">Home</a></li>
-    <li><a href="#geocoding">Geocoding</a></li>
-    <li><a href="#search">Searching</a></li>
-    <li><a href="#info">SGID Information</a></li>
-    <li><a href="#network">Network Analysis</a></li>
-    <li class="nav-header">Resources</li>
+    <li class="nav-header">Endpoints
+    <li class="active"><a href="#geocoding">Geocoding</a>
+    <li><a href="#search">Searching</a>
+    <li><a href="#info">SGID Information</a>
+    <li class="nav-header">Resources
     <li>@Html.ActionLink("Console", "Dashboard", new
             {
                 Controller = "Go"
@@ -13,15 +11,18 @@
     <li>@Html.ActionLink("Register", "Register", new
             {
                 Controller = "Go"
-            })</li>
-    <li class="nav-header">Help</li>
-    <li>@Html.ActionLink("Getting Started Guide", "Startup", new
+            })
+    <li class="nav-header">Help
+    <li>
+        @Html.ActionLink("Getting Started Guide", "Startup", new
             {
                 Controller = "Go"
-            })</li>
-    <li class="nav-header">About</li>
-    <li><a href="@Url.Action("Index", "ChangeLog")"><i class="icon-barcode"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version.ToString()</a></li>
-    <li class="nav-header">&copy; AGRC @DateTime.Now.Year</li>
+            })
+    <li><a href="https://github.com/agrc/GeocodingSample">Sample Usage</a>
+    <li><a href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">Report an Issue</a>
+    <li class="nav-header">About
+    <li><a href="@Url.Action("Index", "ChangeLog")"><i class="glyphicon glyphicon-barcode"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version.ToString()</a>
+    <li class="nav-header">&copy; AGRC @DateTime.Now.Year
 </ul>
 <p>
     <img src="@Url.Content("~/Content/images/ravendb-small.png")" alt="ravendb logo" />

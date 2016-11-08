@@ -28,7 +28,7 @@ namespace WebAPI.Dashboard.Extensions.Html
 
             var writer = new HtmlTextWriter(new StringWriter());
 
-            writer.AddAttribute("class", "alert alert-error c-text");
+            writer.AddAttribute("class", "alert alert-danger text-center");
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
             writer.Write(errorViewData.ErrorMessage);
             writer.RenderEndTag();
@@ -57,7 +57,7 @@ namespace WebAPI.Dashboard.Extensions.Html
 
             var writer = new HtmlTextWriter(new StringWriter());
 
-            writer.AddAttribute("class", "alert alert-success c-text");
+            writer.AddAttribute("class", "alert alert-success text-center");
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
             writer.Write(messageViewData.Message);
             writer.RenderEndTag();

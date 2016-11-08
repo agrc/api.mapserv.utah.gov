@@ -10,66 +10,61 @@
             </div>
         </div>
     </div>
-    <div class="span9 offset3">
-        <div class="page-header" id="home">
-            <h1>
-                AGRC API Explorer</h1>
-            <h3>
-                Navigate, test, debug our API.</h3>
-            <p>
-        </div>
-        <div class="row" id="geocoding">
-            <div class="span9">
-                <h2>
-                   Geocoding API Methods</h2>
-                <p>
-                    API methods for finding a geolocation (x,y) for addresses
-                </p>
-                <p class="text-warning">Important Note: <code>matchAddress</code> returns the name of the address grid system name
-                    for the address. For example, <code>"matchAddress": "10420 E Little Cottonwood Canyon, Salt Lake City"</code> 
-                    means that the address is part of the <strong>Salt Lake City address grid system</strong>. It is neither within
-                     the boundaries of Salt Lake City proper, nor is that the preferred mailing address placename.
-                </p>
-                <p class="text-success">We have <a href="https://github.com/agrc/GeocodingSample">compiled a group of samples</a> 
-                    in various programming languages showing how to use this API. Please look, learn, and contribute
-                    new languages if you are able. Also check out the <a href="http://gis.utah.gov/developer/web-services/">great writeup</a> of our web api.
-                </p>
-                @Html.Partial("~/views/Geocode/_StreetZone.cshtml")
-                @Html.Partial("~/views/Geocode/_Multiple.cshtml")
-                @Html.Partial("~/views/Geocode/_Reverse.cshtml")
-                @Html.Partial("~/views/Geocode/_MilePost.cshtml")
-                @Html.Partial("~/views/Geocode/_ReverseMilePost.cshtml")
+    <div class="col-md-9 col-md-offset-3 col-sm-12">
+        <div class="row">
+            <div id="geocoding" class="anchor">
+                <div class="col-sm-12">
+                    <h2>
+                        Geocoding API Methods
+                    </h2>
+                    <p>
+                        API methods for finding a geolocation (x,y) for addresses
+                    </p>
+                    <p class="text-warning">
+                        Important Note: <code>matchAddress</code> returns the name of the address grid system name
+                        for the address. For example, <code>"matchAddress": "10420 E Little Cottonwood Canyon, Salt Lake City"</code>
+                        means that the address is part of the <strong>Salt Lake City address grid system</strong>. It is neither within
+                        the boundaries of Salt Lake City proper, nor is that the preferred mailing address placename.
+                    </p>
+                    <p class="text-success">
+                        We have <a href="https://github.com/agrc/GeocodingSample">compiled a group of samples</a>
+                        in various programming languages showing how to use this API. Please look, learn, and contribute
+                        new languages if you are able. Also check out the <a href="http://gis.utah.gov/developer/web-services/">great writeup</a> of our web api.
+                    </p>
+                    @Html.Partial("~/views/Geocode/_StreetZone.cshtml")
+                    @Html.Partial("~/views/Geocode/_Multiple.cshtml")
+                    @Html.Partial("~/views/Geocode/_Reverse.cshtml")
+                    @Html.Partial("~/views/Geocode/_MilePost.cshtml")
+                    @Html.Partial("~/views/Geocode/_ReverseMilePost.cshtml")
+                </div>
             </div>
         </div>
-        <div class="row" id="search">
-            <div class="span9">
-                <h2>
-                    Searching API Methods</h2>
-                <p>
-                    API methods for searching SGID data.
-                </p>
-                @Html.Partial("~/views/Search/_Search.cshtml", Model)
+        <div class="row">
+            <div id="search" class="anchor">
+                <div class="col-sm-12">
+                    <h2>
+                        Searching API Methods
+                    </h2>
+                    <p>
+                        API methods for searching SGID data.
+                    </p>
+                    @Html.Partial("~/views/Search/_Search.cshtml", Model)
+                </div>
             </div>
         </div>
-        <div class="row" id="info">
-            <div class="span9">
-                <h2>
-                    SGID Info Methods</h2>
-                <p>
-                    API methods for general SGID informational querying.
-                </p>
-                @Html.Partial("~/views/Info/_FeatureClassNames.cshtml", Model)
-                @Html.Partial("~/views/Info/_FieldNames.cshtml", Model)
-                @Html.Partial("~/views/Info/_FeatureCount.cshtml", Model)
-            </div>
-        </div>
-        <div class="row" id="network">
-            <div class="span9">
-                <h2>
-                    Road Network API Methods</h2>
-                <p>
-                    API methods for road netork analysis.
-                </p>
+        <div class="row">
+            <div id="info" class="anchor">
+                <div class="col-sm-12">
+                    <h2>
+                        SGID Info Methods
+                    </h2>
+                    <p>
+                        API methods for general SGID informational querying.
+                    </p>
+                    @Html.Partial("~/views/Info/_FeatureClassNames.cshtml", Model)
+                    @Html.Partial("~/views/Info/_FieldNames.cshtml", Model)
+                    @Html.Partial("~/views/Info/_FeatureCount.cshtml", Model)
+                </div>
             </div>
         </div>
     </div>
