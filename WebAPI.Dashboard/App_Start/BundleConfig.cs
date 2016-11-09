@@ -16,9 +16,8 @@ namespace WebAPI.Dashboard
                 "~/Scripts/osDetect.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap",
-                                         "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js").
-                            Include(
-                                "~/Scripts/bootstrap.js"));
+                                         "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js").
+                            Include("~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/bundles").Include(
                 "~/Content/bootstrap.css",
