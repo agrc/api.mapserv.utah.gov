@@ -58,8 +58,6 @@
 
 select.form-control { width: 220px; }
 
-.c-text { text-align: center; }
-
 .active .progress-bar {
     -moz-animation: progress-bar-stripes 2s linear infinite;
     -ms-animation: progress-bar-stripes 2s linear infinite;
@@ -78,12 +76,20 @@ select.form-control { width: 220px; }
       -------------------------------------------------- */
 
 html,
-body { height: 100%; }
+body { 
+    height: 100%;
+    position: relative;
+}
+.anchor {
+  padding-top: 40px;
+  margin-top: -40px;
+}
+
 
       /* Wrapper for page content to push down footer */
 
 #wrap {
-    min-height: 100%;
+    min-height: 90%;
     height: auto !important;
     height: 100%;
     /* Negative indent footer by it's height */

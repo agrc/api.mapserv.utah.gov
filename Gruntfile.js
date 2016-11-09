@@ -6,7 +6,8 @@ module.exports = function (grunt) {
         cssmin: {
             target: {
                 files: {
-                    'WebAPI.API/Content/Site.min.css': 'WebAPI.API/Content/Site.css'
+                    'WebAPI.API/Content/Site.min.css': 'WebAPI.API/Content/Site.css',
+                    'WebAPI.Dashboard/Content/Site.min.css': 'WebAPI.Dashboard/Content/Site.css'
                 }
             }
         },
@@ -19,12 +20,18 @@ module.exports = function (grunt) {
                     dead_code: true
                 }
             },
-            main: {
+            webapi: {
                 files: {
                     'WebAPI.API/Scripts/site.min.js': 'WebAPI.API/Scripts/site.js',
                     'WebAPI.API/Scripts/scrollspy.min.js': 'WebAPI.API/Scripts/scrollspy.js',
                     'WebAPI.API/Scripts/modernizr.min.js': 'WebAPI.API/Scripts/modernizr-2.6.1.js',
                     'WebAPI.API/Scripts/jquery.min.js': 'WebAPI.API/Scripts/jquery-1.10.1.js'
+                }
+            },
+            dashboard: {
+                files: {
+                    'WebAPI.Dashboard/Scripts/jquery.min.js': 'WebAPI.Dashboard/Scripts/jquery-1.10.1.js',
+                    'WebAPI.Dashboard/Scripts/osDetect.min.js': 'WebAPI.Dashboard/Scripts/osDetect.js'
                 }
             }
         }
