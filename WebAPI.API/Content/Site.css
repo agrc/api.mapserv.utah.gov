@@ -56,8 +56,6 @@
     padding: 19px 19px 0px;
 }
 
-select.form-control { width: 220px; }
-
 .active .progress-bar {
     -moz-animation: progress-bar-stripes 2s linear infinite;
     -ms-animation: progress-bar-stripes 2s linear infinite;
