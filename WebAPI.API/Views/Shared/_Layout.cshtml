@@ -17,6 +17,11 @@
             </div>
             <div class="navbar-brand">AGRC Web API Explorer</div>
             <p class="navbar-text" style="white-space:nowrap">Navigate, test, and debug our API</p>
+            <div class="container-fluid">
+                @RenderBody()
+                @Scripts.Render("~/bundles/bootstrap")
+                @Scripts.Render("~/bundles/site")
+            </div>
         </div>
-    </body>
-</html>
+    </div>
+</body>
