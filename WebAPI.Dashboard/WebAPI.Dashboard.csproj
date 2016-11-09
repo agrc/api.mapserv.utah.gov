@@ -67,19 +67,7 @@
     <Reference Include="MarkdownSharp">
       <HintPath>..\packages\MarkdownSharp.1.13.0.0\lib\35\MarkdownSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.1.1.0\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Owin">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Owin.1.1.0\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.1.1.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.1.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -99,9 +87,6 @@
     <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="Owin">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Client.3.0.3690\lib\net45\Raven.Abstractions.dll</HintPath>
@@ -195,14 +180,11 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
-    <Compile Include="App_Start\HubConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RavenConfig.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
     <Compile Include="Areas\admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\admin\Hubs\AnalyticsHub.cs" />
-    <Compile Include="Areas\admin\Services\RealTimeRequests.cs" />
     <Compile Include="Areas\secure\Attributes\ConfirmationAuthorization.cs" />
     <Compile Include="Areas\secure\Controllers\GenerateKeyController.cs" />
     <Compile Include="Areas\secure\Controllers\HomeController.cs" />
@@ -268,14 +250,14 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\Site.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\d3.v3.js" />
     <Content Include="Scripts\jquery-1.10.1.js" />
-    <Content Include="Scripts\jquery.signalR-1.1.0.js" />
-    <Content Include="Scripts\jquery.signalR-1.1.0.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\osDetect.min.js" />
     <Content Include="Views\Shared\Patterns.cshtml" />
     <Content Include="connections.config" />
     <Content Include="connections.sample.config" />
@@ -288,9 +270,6 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\new production 10.3.1.pubxml" />
-    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\osDetect.js" />
@@ -304,7 +283,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\StartupGuide\Index.cshtml" />
     <Content Include="Views\Shared\Footer.cshtml" />
     <Content Include="Views\ChangeLog\Index.cshtml" />
@@ -314,6 +292,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Models\" />
+    <Folder Include="Areas\admin\Services\" />
     <Folder Include="Areas\admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

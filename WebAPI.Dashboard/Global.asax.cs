@@ -49,7 +49,6 @@ namespace WebAPI.Dashboard
             AreaRegistration.RegisterAllAreas();
 
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            HubConfig.RegisterHubs(RouteTable.Routes);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.RegisterMaps();
