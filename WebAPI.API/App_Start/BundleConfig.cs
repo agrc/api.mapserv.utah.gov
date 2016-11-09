@@ -13,9 +13,7 @@ namespace WebAPI.API
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap",
                                          "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js").
-                            Include(
-                                "~/Scripts/bootstrap.js",
-                                "~/Scripts/scrollspy.js"));
+                            Include("~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/site").Include(
                 "~/Scripts/modernizr-2.6.1.js",

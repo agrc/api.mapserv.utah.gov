@@ -310,8 +310,6 @@
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\modernizr-2.6.1.js" />
     <Content Include="Scripts\modernizr.min.js" />
-    <Content Include="Scripts\scrollspy.js" />
-    <Content Include="Scripts\scrollspy.min.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\site.min.js" />
     <Content Include="Web.config">
@@ -459,7 +457,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets')" />
