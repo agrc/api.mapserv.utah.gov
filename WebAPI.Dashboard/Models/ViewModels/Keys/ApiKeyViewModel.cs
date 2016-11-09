@@ -16,12 +16,12 @@ namespace WebAPI.Dashboard.Models.ViewModels.Keys
 
         public string ButtonCssClass
         {
-            get { return Active ? "btn-inverse" : "btn-success"; }
+            get { return Active ? "btn-warning" : "btn-success"; }
         }
 
         public string StutusIconCssClass
         {
-            get { return Active ? "icon-pause icon-white" : "icon-play icon-white"; }
+            get { return Active ? "glyphicon glyphicon-pause" : "glyphicon glyphicon-play"; }
         }
 
         public string StatusIconText
@@ -36,12 +36,12 @@ namespace WebAPI.Dashboard.Models.ViewModels.Keys
 
         public string UseTypeIconCssClass
         {
-            get { return Development ? "label label-warning" : ""; }
+            get { return Development ? "label label-default" : ""; }
         }
 
         public string UseType
         {
-            get { return Development ? "Dev" : ""; }
+            get { return Development ? "dev" : ""; }
         }
 
         public string[] ToArray()

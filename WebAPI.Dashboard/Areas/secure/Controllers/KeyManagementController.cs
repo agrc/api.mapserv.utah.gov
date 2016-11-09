@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -38,9 +36,7 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
 
             var keys = Session.Query<ApiKey, IndexKeysForUser>()
                                .Customize(x => x.WaitForNonStaleResultsAsOfNow())
-                               .Where(x => x.ApiKeyStatus == ApiKey.KeyStatus.Active &&
-                                        !x.Deleted &&
-                                        x.AccountId == Account.Id);
+                               .Where(x => !x.Deleted && x.AccountId == Account.Id);
 
             var stats = Queryable.Select(keys, key => new StatsPerApiKey.Stats
                 {
