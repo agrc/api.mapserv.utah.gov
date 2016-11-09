@@ -4,42 +4,50 @@
     <div class="clearfix">
     </div>
     <h3>
-        Route and Milepost</h3>
+        Route and Milepost
+    </h3>
     <p>
-        Returns a geocoded milepost on a route.</p>
+        Returns a geocoded milepost on a route.
+    </p>
     <button class="btn btn-default" data-details="true">
-        Details</button>
+        Details
+    </button>
     <span class="help-inline label label-success label-status pull-right">implemented</span>
     <div class="clearfix">
     </div>
-    <form class="form-horizontal" style="display:none">
+    <form class="form-horizontal" style="display: none">
         <fieldset>
             <legend class="hidden"></legend>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="route">
-                    route</label>
+                    route
+                </label>
                 <div class="col-sm-8">
                     <input type="text" id="route" name="route" class="form-control" data-required/>
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
-                        The Utah highway number. eg: <code>15</code>.</p>
+                        The Utah highway number. eg: <code>15</code>.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="milepost">
-                    milepost</label>
+                    milepost
+                </label>
                 <div class="col-sm-8">
                     <input type="text" id="milepost" name="milepost" class="form-control" data-required/>
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
-                        The highway milepost. eg: <code>309.001</code>. Milepost precision is up to 1/1000 of a mile (approximately 5 feet).</p>
+                        The highway milepost. eg: <code>309.001</code>. Milepost precision is up to 1/1000 of a mile (approximately 5 feet).
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="side">
-                    side</label>
+                    side
+                </label>
                 <div class="col-sm-8">
                     <select id="side" name="side" class="form-control">
                         <option value>Side</option>
@@ -55,29 +63,33 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="spatialReference">
-                    spatialReference</label>
+                    spatialReference
+                </label>
                 <div class="col-sm-8">
-                    <input type="text" id="spatialReference" name="spatialReference" class="form-control"  />
+                    <input type="text" id="spatialReference" name="spatialReference" class="form-control"/>
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
-                   @Html.Partial("_SpatialReference") 
+                    @Html.Partial("_SpatialReference")
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="callback">
-                    callback</label>
+                    callback
+                </label>
                 <div class="col-sm-8">
-                    <input type="text" id="callback" name="callback" class="form-control" />
+                    <input type="text" id="callback" name="callback" class="form-control"/>
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
-                        The callback function to call for cross domain javascript calls (jsonp).</p>
+                        The callback function to call for cross domain javascript calls (jsonp).
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="format">
-                    format</label>
+                    format
+                </label>
                 <div class="col-sm-8">
                     <select id="format" name="format" class="form-control">
                         <option value>Format</option>
@@ -89,16 +101,18 @@
                     <p class="help-block">
                         The format of the resulting milepost. esri json will easily parse into an esri.Graphic
                         for display on a map and geojson will easily parse into a feature for use in many
-                        open source projects. If this value is omitted, normal json will be returned.</p>
+                        open source projects. If this value is omitted, normal json will be returned.
+                    </p>
                 </div>
             </div>
         </fieldset>
         <div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
             <button class="btn btn-primary col-sm-offset-2 col-sm-8 col-xs-12" data-demo data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeRouteMilePost", new
-                                                                    {
-                                                                        httproute = "", version = "1", controller = "Geocode", Action = "RouteMilePost", route = ":route", milepost = ":milepost"
-                                                                    }))'>
-                Try it</button>
+                                                                                                   {
+                                                                                                       httproute = "", version = "1", controller = "Geocode", Action = "RouteMilePost", route = ":route", milepost = ":milepost"
+                                                                                                   }))'>
+                Try it
+            </button>
         </div>
         <div class="code-well">
             <a class="close" data-close>×</a>

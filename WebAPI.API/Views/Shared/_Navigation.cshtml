@@ -5,24 +5,25 @@
     <li><a href="#info">SGID Information</a>
     <li class="nav-header">Resources
     <li>@Html.ActionLink("Console", "Dashboard", new
-            {
-                Controller = "Go"
-            })
+        {
+            Controller = "Go"
+        })
     <li>@Html.ActionLink("Register", "Register", new
-            {
-                Controller = "Go"
-            })
+        {
+            Controller = "Go"
+        })
     <li class="nav-header">Help
     <li>@Html.ActionLink("Getting Started Guide", "Startup", new
-            {
-                Controller = "Go"
-            })
+        {
+            Controller = "Go"
+        })
     <li><a href="https://github.com/agrc/GeocodingSample">Sample Usage</a>
     <li><a href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">Report an Issue</a>
     <li class="nav-header">About
-    <li><a href="@Url.Action("Index", "ChangeLog")"><i class="glyphicon glyphicon-barcode"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version.ToString()</a>
+    <li><a href="@Url.Action("Index", "ChangeLog")">
+        <i class="glyphicon glyphicon-barcode"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version.ToString()</a>
     <li class="nav-header">&copy; AGRC @DateTime.Now.Year
 </ul>
 <p>
-    <img src="@Url.Content("~/Content/images/ravendb-small.png")" alt="ravendb logo" />
+    <img src="@Url.Content("~/Content/images/ravendb-small.png")" alt="ravendb logo"/>
 </p>

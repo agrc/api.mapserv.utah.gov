@@ -1,14 +1,15 @@
-﻿<p class="muted" style="margin-top: 70px"><span class="pull-right">&copy; AGRC @DateTime.Now.Year</span>
+﻿<p class="muted" style="margin-top: 70px">
+    <span class="pull-right">&copy; AGRC @DateTime.Now.Year</span>
     <i class="glyphicon glyphicon-file"></i> @Html.ActionLink("Getting Started", "Index", new
-                            {
-                                Controller = "StartupGuide",
-                                Area=""
-                            }) | 
-     <i class="glyphicon glyphicon-book"></i> @Html.ActionLink("Change Log","Index",new
-                                   {
-                                       Area="",
-                                       Controller= "ChangeLog"
-                                   }) | 
-     
-     <i class="glyphicon glyphicon-barcode"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version
- </p>
+                                             {
+                                                 Controller = "StartupGuide",
+                                                 Area = ""
+                                             }) |
+    <i class="glyphicon glyphicon-book"></i> @Html.ActionLink("Change Log", "Index", new
+                                             {
+                                                 Area = "",
+                                                 Controller = "ChangeLog"
+                                             }) |
+
+    <i class="glyphicon glyphicon-barcode"></i> @ViewContext.Controller.GetType().Assembly.GetName().Version
+</p>

@@ -1,205 +1,224 @@
 ﻿@model WebAPI.API.Models.ViewModels.MainView
 <div class="well">
-    <span class="label label-verb label-get pull-left">Get</span><span class="label label-url url pull-right">
+<span class="label label-verb label-get pull-left">Get</span><span class="label label-url url pull-right">
                                                                      /search/:featureClass/:returnValues</span>
-    <div class="clearfix">
-    </div>
-    <h3>
-        Search</h3>
-    <p>
-        Returns geometries and attributes matching the search criteria.</p>
-    <button class="btn btn-default" data-details="true">
-        Details</button>
-    <span class="help-inline label label-warning label-status pull-right">partial implementation</span>
-    <div class="clearfix">
-    </div>
-    <form class="form-horizontal" style="display:none">
-        <fieldset>
-            <legend class="hidden"></legend>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="featureClass">
-                    featureClass</label>
-                <div class="col-sm-8">
-                    <input type="text" id="featureClass" name="featureClass" class="form-control" data-required />
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
+<div class="clearfix">
+</div>
+<h3>
+    Search
+</h3>
+<p>
+    Returns geometries and attributes matching the search criteria.
+</p>
+<button class="btn btn-default" data-details="true">
+    Details
+</button>
+<span class="help-inline label label-warning label-status pull-right">partial implementation</span>
+<div class="clearfix">
+</div>
+<form class="form-horizontal" style="display: none">
+<fieldset>
+    <legend class="hidden"></legend>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="featureClass">
+            featureClass
+        </label>
+        <div class="col-sm-8">
+            <input type="text" id="featureClass" name="featureClass" class="form-control" data-required/>
+            <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
                                                                                  required</span>
-                    <p class="help-block">
-                        Fully qualified feature class name eg: <code>SGID10.Boundaries.Counties</code></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="returnValues">
-                    returnValues</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" name="returnValues" data-required />
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
+            <p class="help-block">
+                Fully qualified feature class name eg: <code>SGID10.Boundaries.Counties</code>
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="returnValues">
+            returnValues
+        </label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="returnValues" data-required/>
+            <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
                                                                                  required</span>
-                    <p class="help-block">
-                        A comma separated string of attributes to return eg: <code>NAME,FIPS</code>. To include the <strong>geometry</strong> 
-                        use the <code>shape@@</code> token or if you want the <strong>envelope</strong> use the <code>shape@@envelope</code> token.</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="predicate">
-                    predicate</label>
-                <div class="col-sm-8">
-                    <input type="text" name="predicate" class="form-control" />
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+            <p class="help-block">
+                A comma separated string of attributes to return eg: <code>NAME,FIPS</code>. To include the <strong>geometry</strong>
+                use the <code>shape@@</code> token or if you want the <strong>envelope</strong> use the <code>shape@@envelope</code> token.
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="predicate">
+            predicate
+        </label>
+        <div class="col-sm-8">
+            <input type="text" name="predicate" class="form-control"/>
+            <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
-                    <p class="help-block">
-                        Search criteria for finding specific features in <code>featureClass</code>. Any valid ArcObjects where clause
-                        will work. If omitted, a TSQL <code>*</code> will be used instead. eg: <code>NAME LIKE 'K%'</code>
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="geometry">
-                    geometry</label>
-                <div class="col-sm-8">
-                    <input type="text" name="geometry" class="form-control" />
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+            <p class="help-block">
+                Search criteria for finding specific features in <code>featureClass</code>. Any valid ArcObjects where clause
+                will work. If omitted, a TSQL <code>*</code> will be used instead. eg: <code>NAME LIKE 'K%'</code>
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="geometry">
+            geometry
+        </label>
+        <div class="col-sm-8">
+            <input type="text" name="geometry" class="form-control"/>
+            <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span> <span class="help-inline label label-danger">
                                                                                                      not fully implemented</span>
-                    <p class="help-block">
-                        The point geometry used for spatial queries. Points are denoted as <code>point:[x,y]</code>.
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="spatialReference">
-                    spatialReference</label>
-                <div class="col-sm-8">
-                    <input type="text" id="spatialReference" name="spatialReference" class="form-control"/>
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+            <p class="help-block">
+                The point geometry used for spatial queries. Points are denoted as <code>point:[x,y]</code>.
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="spatialReference">
+            spatialReference
+        </label>
+        <div class="col-sm-8">
+            <input type="text" id="spatialReference" name="spatialReference" class="form-control"/>
+            <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
-                    @Html.Partial("_SpatialReference")
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="callback">
-                    callback
-                </label>
-                <div class="col-sm-8">
-                    <input type="text" id="callback" name="callback" class="form-control" />
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+            @Html.Partial("_SpatialReference")
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="callback">
+            callback
+        </label>
+        <div class="col-sm-8">
+            <input type="text" id="callback" name="callback" class="form-control"/>
+            <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                         optional
                     </span>
-                    <p class="help-block">
-                        The callback function to call for cross domain javascript calls (jsonp).
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="tolerance">
-                    tolerance</label>
-                <div class="col-sm-8">
-                    <input type="text" id="tolerance" name="tolerance" class="form-control" />
-                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+            <p class="help-block">
+                The callback function to call for cross domain javascript calls (jsonp).
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="tolerance">
+            tolerance
+        </label>
+        <div class="col-sm-8">
+            <input type="text" id="tolerance" name="tolerance" class="form-control"/>
+            <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span> <span class="help-inline label label-danger">
                                                                                  not implemented</span>
-                    <p class="help-block">
-                        The amount in meters to <a href="http://resources.arcgis.com/en/help/arcobjects-net/componenthelp/index.html#//002m000002m5000000">generalize</a> the geometry. 
-                        <code>5 meters</code> is the default. 
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="spatialRelation">
-                    spatialRelation</label>
-                <div class="col-sm-8">
-                    <select id="spatialRelation" name="spatialRelation" class="form-control">
-                        <option value>Format</option>
-                        <option value>intersect</option>
-@*                        <option value="contains">contain</option>
+            <p class="help-block">
+                The amount in meters to <a href="http://resources.arcgis.com/en/help/arcobjects-net/componenthelp/index.html#//002m000002m5000000">generalize</a> the geometry.
+                <code>5 meters</code> is the default.
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="spatialRelation">
+            spatialRelation
+        </label>
+        <div class="col-sm-8">
+            <select id="spatialRelation" name="spatialRelation" class="form-control">
+                <option value>Format</option>
+                <option value>intersect</option>
+                @*                        <option value="contains">contain</option>
                         <option value="within">within</option>
                         <option value="touches">touch</option>*@
-                    </select>
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
+            </select>
+            <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
-                    <p class="help-block">
-                        The spatial relationship to use when spatial querying with a geometry. <strong>Intersect</strong>
-                        is the default value if this property is omitted.
-                    </p>
-                    <dl class="help-block">
-@*                        <dt>Contain</dt>*@
-@*                        <dd>*@
-@*                            The input geometry has to completely enclose another geometry from the input feature*@
-@*                            class.*@
-@*                        </dd>*@
-@*                        <dt>Within</dt>*@
-@*                        <dd>*@
-@*                            The input geometry has to be completely enclosed by another geometry from the input*@
-@*                            feature class.*@
-@*                        </dd>*@
-@*                        <dt>Touch</dt>*@
-@*                        <dd>*@
-@*                            A part of the input geometry comes into contact with the boundary of a feature from*@
-@*                            the input feature class. The interiors of the features do not intersect.*@
-@*                        </dd>*@
-                        <dt>Intersect</dt>
-                        <dd>
-                            Any part of the input geometry comes into contact with any part of a geometry from
-                            the input feature class.
-                        </dd>
-                    </dl>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="buffer">
-                    buffer</label>
-                <div class="col-sm-8">
-                    <input type="text" id="buffer" name="buffer" class="form-control" />
-                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+            <p class="help-block">
+                The spatial relationship to use when spatial querying with a geometry. <strong>Intersect</strong>
+                is the default value if this property is omitted.
+            </p>
+            <dl class="help-block">
+                @*                        <dt>Contain</dt>*@
+                @*                        <dd>*@
+                @*                            The input geometry has to completely enclose another geometry from the input feature*@
+                @*                            class.*@
+                @*                        </dd>*@
+                @*                        <dt>Within</dt>*@
+                @*                        <dd>*@
+                @*                            The input geometry has to be completely enclosed by another geometry from the input*@
+                @*                            feature class.*@
+                @*                        </dd>*@
+                @*                        <dt>Touch</dt>*@
+                @*                        <dd>*@
+                @*                            A part of the input geometry comes into contact with the boundary of a feature from*@
+                @*                            the input feature class. The interiors of the features do not intersect.*@
+                @*                        </dd>*@
+                <dt>Intersect</dt>
+                <dd>
+                    Any part of the input geometry comes into contact with any part of a geometry from
+                    the input feature class.
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="buffer">
+            buffer
+        </label>
+        <div class="col-sm-8">
+            <input type="text" id="buffer" name="buffer" class="form-control"/>
+            <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span> <span class="help-inline label label-success">
                                                                                  implemented</span>
-                    <p class="help-block">
-                        A distance in <strong>meters</strong> to buffer the input geometry. <code>2000 meters</code> is the maximum buffer.</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="pageSize">
-                    pageSize</label>
-                <div class="col-sm-8">
-                    <input type="text" name="pageSize" class="form-control" />
-                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+            <p class="help-block">
+                A distance in <strong>meters</strong> to buffer the input geometry. <code>2000 meters</code> is the maximum buffer.
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="pageSize">
+            pageSize
+        </label>
+        <div class="col-sm-8">
+            <input type="text" name="pageSize" class="form-control"/>
+            <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span> <span class="help-inline label label-danger">
                                                                                  not implemented</span>
-                    <p class="help-block">
-                        The amount of records to return. Max and default value is 50.</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="skip">
-                    skip</label>
-                <div class="col-sm-8">
-                    <input type="text" name="skip" class="form-control" />
-                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
+            <p class="help-block">
+                The amount of records to return. Max and default value is 50.
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="skip">
+            skip
+        </label>
+        <div class="col-sm-8">
+            <input type="text" name="skip" class="form-control"/>
+            <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span> <span class="help-inline label label-danger">
                                                                                  not implemented</span>
-                    <p class="help-block">
-                        The amount of records to skip while paging.</p>
-                </div>
-            </div>
-        </fieldset>
-        <div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
-            <button class="btn btn-primary col-sm-offset-2 col-sm-8 col-xs-12" data-demo data-url="@HttpUtility.UrlDecode(Url.RouteUrl("v1_SearchApi", new
-                                                                    {
-                                                                        httproute = "",
-                                                                        version = "1",
-                                                                        controller = "Search",
-                                                                        action = "Get",
-                                                                        featureClass = ":featureClass",
-                                                                        returnValues = ":returnValues"
-                                                                    }))">
-                Try it</button>
+            <p class="help-block">
+                The amount of records to skip while paging.
+            </p>
         </div>
-        <div class="code-well">
-            <a class="close" data-close>×</a>
-            <div class="clearfix">
-            </div>
-            <pre class="pre-scrollable-small" data-codeContainer>Code</pre>
-            <div class="alert alert-info text-center" id="sampleUrl" style="display: none">
-            </div>
-        </div>
-    </form>
+    </div>
+</fieldset>
+<div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
+    <button class="btn btn-primary col-sm-offset-2 col-sm-8 col-xs-12" data-demo data-url="@HttpUtility.UrlDecode(Url.RouteUrl("v1_SearchApi", new
+                                                                                           {
+                                                                                               httproute = "",
+                                                                                               version = "1",
+                                                                                               controller = "Search",
+                                                                                               action = "Get",
+                                                                                               featureClass = ":featureClass",
+                                                                                               returnValues = ":returnValues"
+                                                                                           }))">
+        Try it
+    </button>
+</div>
+<div class="code-well">
+    <a class="close" data-close>×</a>
+    <div class="clearfix">
+    </div>
+    <pre class="pre-scrollable-small" data-codeContainer>Code</pre>
+    <div class="alert alert-info text-center" id="sampleUrl" style="display: none">
+    </div>
+</div>
+</form>
 </div>

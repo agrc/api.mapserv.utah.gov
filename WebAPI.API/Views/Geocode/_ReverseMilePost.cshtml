@@ -4,42 +4,50 @@
     <div class="clearfix">
     </div>
     <h3>
-        Reverse Route and Milepost</h3>
+        Reverse Route and Milepost
+    </h3>
     <p>
-        Returns the closest route and milepost to the input coorindate.</p>
+        Returns the closest route and milepost to the input coorindate.
+    </p>
     <button class="btn btn-default" data-details="true">
-        Details</button>
+        Details
+    </button>
     <span class="help-inline label label-success label-status pull-right">implemented</span>
     <div class="clearfix">
     </div>
-    <form class="form-horizontal" style="display:none">
+    <form class="form-horizontal" style="display: none">
         <fieldset>
             <legend class="hidden"></legend>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="rx">
-                    x</label>
+                    x
+                </label>
                 <div class="col-sm-8">
                     <input type="text" id="rx" name="x" class="form-control" data-required/>
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
-                        The x coordinate.</p>
+                        The x coordinate.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="ry">
-                    y</label>
+                    y
+                </label>
                 <div class="col-sm-8">
                     <input type="text" id="ry" name="y" class="form-control" data-required/>
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
-                        The y coorindate.</p>
+                        The y coorindate.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="includeRampSystem">
-                    includeRampSystem</label>
+                    includeRampSystem
+                </label>
                 <div class="col-sm-8">
                     <select id="includeRampSystem" name="includeRampSystem" class="form-control">
                         <option value>Include Ramp Systems</option>
@@ -55,20 +63,23 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="rbuffer">
-                    buffer</label>
+                    buffer
+                </label>
                 <div class="col-sm-8">
-                    <input type="text" id="rbuffer" name="buffer" class="form-control" />
+                    <input type="text" id="rbuffer" name="buffer" class="form-control"/>
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
-                        The buffer radius in meters. The default is <code>100 meters</code> with the maximum value being <code>200 meters</code>.</p>
+                        The buffer radius in meters. The default is <code>100 meters</code> with the maximum value being <code>200 meters</code>.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="spatialReference">
-                    spatialReference</label>
+                    spatialReference
+                </label>
                 <div class="col-sm-8">
-                    <input type="text" id="spatialReference" name="spatialReference" class="form-control"  />
+                    <input type="text" id="spatialReference" name="spatialReference" class="form-control"/>
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     @Html.Partial("_SpatialReference")
@@ -76,18 +87,21 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="callback">
-                    callback</label>
+                    callback
+                </label>
                 <div class="col-sm-8">
-                    <input type="text" id="callback" name="callback" class="form-control" />
+                    <input type="text" id="callback" name="callback" class="form-control"/>
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
-                        The callback function to call for cross domain javascript calls (jsonp).</p>
+                        The callback function to call for cross domain javascript calls (jsonp).
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="format">
-                    format</label>
+                    format
+                </label>
                 <div class="col-sm-8">
                     <select id="format" name="format" class="form-control">
                         <option value>Format</option>
@@ -99,16 +113,18 @@
                     <p class="help-block">
                         The format of the resulting milepost. esri json will easily parse into an esri.Graphic
                         for display on a map and geojson will easily parse into a feature for use in many
-                        open source projects. If this value is omitted, normal json will be returned.</p>
+                        open source projects. If this value is omitted, normal json will be returned.
+                    </p>
                 </div>
             </div>
         </fieldset>
         <div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
             <button class="btn btn-primary col-sm-offset-2 col-sm-8 col-xs-12" data-demo data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeReverseMilePost", new
-                                                                    {
-                                                                        httproute = "", version = "1", controller = "Geocode", Action = "ReverseMilePost", x = ":x", y = ":y"
-                                                                    }))'>
-                Try it</button>
+                                                                                                   {
+                                                                                                       httproute = "", version = "1", controller = "Geocode", Action = "ReverseMilePost", x = ":x", y = ":y"
+                                                                                                   }))'>
+                Try it
+            </button>
         </div>
         <div class="code-well">
             <a class="close" data-close>×</a>

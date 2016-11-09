@@ -5,20 +5,24 @@
     <div class="clearfix">
     </div>
     <h3>
-        SGID Feature Class Names</h3>
+        SGID Feature Class Names
+    </h3>
     <p>
-        Returns a list of feature class names from the most current SGID.</p>
+        Returns a list of feature class names from the most current SGID.
+    </p>
     <button class="btn btn-default" data-details="true">
-        Details</button>
+        Details
+    </button>
     <span class="help-inline label label-success label-status pull-right">implemented</span>
     <div class="clearfix">
     </div>
-    <form class="form-horizontal" style="display:none">
+    <form class="form-horizontal" style="display: none">
         <fieldset>
             <legend class="hidden"></legend>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="sgidCategory">
-                    category</label>
+                    category
+                </label>
                 <div class="col-sm-8">
                     @Html.DropDownList("sgidCategory", Model.SgidCategories, "Categories", new
                     {
@@ -28,12 +32,14 @@
                                                                                  optional</span>
                     <p class="help-block">
                         Filter feature classes by SGID categories.SGID93.<strong>Boundaries</strong>.Counties.
-                        If this parameter is omitted all feature class names will be returned.</p>
+                        If this parameter is omitted all feature class names will be returned.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="sgidVersion">
-                    version</label>
+                    version
+                </label>
                 <div class="col-sm-8">
                     @Html.DropDownList("sgidVersion", Model.SgidVersion, "Version", new
                     {
@@ -45,15 +51,17 @@
                         AGRC will normally run two or more versions of the SGID to cater to its users while
                         upgrading versions of the SGID. These versions are often different in structure
                         as AGRC makes improvments. If this parameter is omitted the most current version
-                        will be used.</p>
+                        will be used.
+                    </p>
                 </div>
             </div>
         </fieldset>
         <div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
             <button class="btn btn-primary col-sm-offset-2 col-sm-8 col-xs-12" data-demo data-url="@Url.RouteUrl("v1_InfoApi", new
-                                        {
-                                            httproute = "", controller = "Info", version = "1"
-                                        })">Try it
+                                                                                                   {
+                                                                                                       httproute = "", controller = "Info", version = "1"
+                                                                                                   })">
+                Try it
             </button>
         </div>
         <div class="code-well">

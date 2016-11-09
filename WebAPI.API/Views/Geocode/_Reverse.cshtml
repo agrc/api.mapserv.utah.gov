@@ -6,40 +6,46 @@
     <h3>Reverse geocoding</h3>
     <p>Returns the reverse geocoded address.</p>
     <button class="btn btn-default" data-details="true">
-        Details</button>
+        Details
+    </button>
     <span class="help-inline label label-success label-status pull-right">implemented</span>
     <div class="clearfix">
     </div>
-    <form class="form-horizontal" style="display:none">
+    <form class="form-horizontal" style="display: none">
         <fieldset>
             <legend class="hidden"></legend>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="x">
-                    x</label>
+                    x
+                </label>
                 <div class="col-sm-8">
-                    <input type="text" id="x" name="x" class="form-control" data-required />
+                    <input type="text" id="x" name="x" class="form-control" data-required/>
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
-                        A geographic coordinate representing the longitude or easting.</p>
+                        A geographic coordinate representing the longitude or easting.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="y">
-                    y</label>
+                    y
+                </label>
                 <div class="col-sm-8">
-                    <input type="text" id="y" name="y" class="form-control" data-required />
+                    <input type="text" id="y" name="y" class="form-control" data-required/>
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
-                        A geographic coordinate representing the latitdue or northing.</p>
+                        A geographic coordinate representing the latitdue or northing.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="spatialReference">
-                    spatialReference</label>
+                    spatialReference
+                </label>
                 <div class="col-sm-8">
-                   <input type="text" id="spatialReference" name="spatialReference" class="form-control" />
+                    <input type="text" id="spatialReference" name="spatialReference" class="form-control"/>
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     @Html.Partial("_SpatialReference")
@@ -47,33 +53,37 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="distance">
-                    distance</label>
+                    distance
+                </label>
                 <div class="col-sm-8">
-                    <input type="text" id="distance" name="distance" class="form-control" />
+                    <input type="text" id="distance" name="distance" class="form-control"/>
                     <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
                         Sets the distance in meters from the geographic coordinate to find a street address. Default
-                        is <code>5</code> meters.</p>
+                        is <code>5</code> meters.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="callback">
-                    callback</label>
+                    callback
+                </label>
                 <div class="col-sm-8">
-                    <input type="text" id="callback" name="callback" class="form-control" />
+                    <input type="text" id="callback" name="callback" class="form-control"/>
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
-                        The callback function to call for cross domain javascript calls (jsonp).</p>
+                        The callback function to call for cross domain javascript calls (jsonp).
+                    </p>
                 </div>
             </div>
         </fieldset>
         <div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
             <button class="btn btn-primary col-sm-offset-2 col-sm-8 col-xs-12" data-demo data-url='@HttpUtility.UrlDecode(Url.RouteUrl("v1_GeocodeReverseApi", new
-                                                                                     {
-                                                                                         httproute = "", version = "1", controller = "Geocode", action="Reverse", x=":x", y=":y"
-                                                                                     }))'>
+                                                                                                   {
+                                                                                                       httproute = "", version = "1", controller = "Geocode", action = "Reverse", x = ":x", y = ":y"
+                                                                                                   }))'>
                 Try it
             </button>
         </div>
