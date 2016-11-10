@@ -172,7 +172,7 @@ var httpStatus = function(type, formNode) {
     this._getUrl = function(values) {
         console.info("_getUrl");
 
-        values['apiKey'] = 'AGRC-ApiExplorer';
+        values['apiKey'] = 'AGRC-Explorer';
 
         return '?' + $.param(values);
     };

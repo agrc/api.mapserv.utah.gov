@@ -100,7 +100,7 @@ namespace WebAPI.API
                 ==Search Endpoints==
             */
 
-            //http://webapi/api/v1/search/sgid10.boundaries.counties/name?apiKey=AGRC-ApiExplorer
+            //http://webapi/api/v1/search/sgid10.boundaries.counties/name?apiKey=
             config.Routes.MapHttpRoute(
                 name: "v1_SearchApi",
                 routeTemplate: "api/v{version}/search/{featureClass}/{returnValues}",

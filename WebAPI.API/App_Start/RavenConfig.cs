@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using Raven.Client;
 using Raven.Client.Indexes;
@@ -19,13 +20,13 @@ namespace WebAPI.API
         {
             using (var session = documentStore.OpenSession())
             {
-                if (session.Query<WhitelistContainer>().Any(x => x.Items.Any(y => y.Key == "AGRC-ApiExplorer")))
+                if (session.Query<WhitelistContainer>().Any(x => x.Items.Any(y => y.Key == ConfigurationManager.AppSettings["api_explorer_api_key"])))
                 {
                     return;
                 }
 
                 var whitelistedkeys = new WhitelistContainer();
-                whitelistedkeys.Items.Add(new WhitelistItems("AGRC-ApiExplorer", ApiKey.KeyStatus.Active));
+                whitelistedkeys.Items.Add(new WhitelistItems(ConfigurationManager.AppSettings["api_explorer_api_key"], ApiKey.KeyStatus.Active));
 
                 session.Store(whitelistedkeys);
                 session.SaveChanges();
