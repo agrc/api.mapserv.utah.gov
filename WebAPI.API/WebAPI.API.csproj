@@ -383,13 +383,7 @@
     <Content Include="Views\Info\_FeatureCount.cshtml" />
     <Content Include="Views\Info\_FieldNames.cshtml" />
     <Content Include="Views\Geocode\_Reverse.cshtml" />
-    <Content Include="Scripts\bootstrap.min.js.map">
-      <DependentUpon>bootstrap.js</DependentUpon>
-    </Content>
     <None Include="Properties\PublishProfiles\api.mapserv.utah.gov.pubxml" />
-    <Content Include="Scripts\json2.min.js.map">
-      <DependentUpon>json2.js</DependentUpon>
-    </Content>
     <Content Include="Views\Geocode\_MilePost.cshtml" />
     <Content Include="Views\Geocode\_ReverseMilePost.cshtml" />
     <Content Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
@@ -457,7 +451,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets')" />
