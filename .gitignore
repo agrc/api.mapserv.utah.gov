@@ -124,6 +124,7 @@ WebAPI.API/BeforePublish/gspread-71262bb748ee.json
 WebAPI.API/BeforePublish/Runner.py
 WebAPI.Common.Tests/Commands/SvnLogCommandTests.cs
 !WebAPI.Common/app.config
+!WebAPI.Common.Tests/app.config
 WebAPI.Common/Commands/Log/SvnLogCommand.cs
 WebAPI.Dashboard/Web.Release.config
 *.DotSettings
