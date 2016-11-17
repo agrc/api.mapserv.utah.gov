@@ -111,6 +111,7 @@ connections.config
 !connections.sample.config
 Raven.Studio.Html5.zip
 secrets.*.config
+!secrets.template.config
 secrets.cfg
 secrets.config
 secrets.py
