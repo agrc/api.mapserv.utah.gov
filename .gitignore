@@ -108,6 +108,7 @@ $RECYCLE.BIN/
 app.config
 connections.*.config
 connections.config
+!connections.sample.config
 Raven.Studio.Html5.zip
 secrets.*.config
 secrets.cfg
