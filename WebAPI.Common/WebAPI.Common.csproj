@@ -210,7 +210,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="app.sample.config" />
     <None Include="mykey.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
