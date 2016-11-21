@@ -21,8 +21,8 @@
             <div class="col-sm-8">
                 <input type="text" id="street" name="street" class="form-control" data-required/>
                 <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
-                    required
-                </span>
+                        required
+                    </span>
                 <p class="help-block">
                     A Utah street address. eg: <code>326 east south temple st.</code> Intersections are separated
                     by <code>and</code>.
@@ -36,7 +36,8 @@
             <div class="col-sm-8">
                 <input type="text" id="zone" name="zone" class="form-control" data-required/>
                 <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
-                                                                                 required</span>
+                        required
+                    </span>
                 <p class="help-block">
                     A Utah municipality name or 5 digit zip code.
                 </p>
@@ -49,7 +50,8 @@
             <div class="col-sm-8">
                 <input type="text" id="spatialReference" name="spatialReference" class="form-control"/>
                 <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                        optional
+                    </span>
                 @Html.Partial("_SpatialReference")
             </div>
         </div>
@@ -64,7 +66,7 @@
                     <option value="geojson">geojson
                 </select>
                 <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                        optional </span>
                 <p class="help-block">
                     The format of the resulting address. esri json will easily parse into an esri.Graphic
                     for display on a map and geojson will easily parse into a feature for use in many
@@ -79,7 +81,8 @@
             <div class="col-sm-8">
                 <input type="text" id="callback" name="callback" class="form-control"/>
                 <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                        optional
+                    </span>
                 <p class="help-block">
                     The callback function to call for cross domain javascript calls (jsonp).
                 </p>
@@ -92,7 +95,8 @@
             <div class="col-sm-8">
                 <input type="text" id="acceptScore" name="acceptScore" class="form-control"/>
                 <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                        optional
+                    </span>
                 <p class="help-block">
                     Sets the score for an acceptable address match. The scale is over 0-100 with the
                     default score being <code>70</code>.
@@ -113,7 +117,8 @@
                     <option value="5">5
                 </select>
                 <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                        optional
+                    </span>
                 <p class="help-block">
                     The number of suggests to return for a given geocoded address. Will return <code>0</code>
                     suggestions if the match score for the input address is above the accept score.
@@ -132,7 +137,8 @@
                     <option value="roadCenterlines">roadCenterlines
                 </select>
                 <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
-                                                                         optional</span>
+                        optional
+                    </span>
                 <p class="help-block">
                     How the service will attempt to locate the address. <code>All</code> is a combination of address
                     points locators and road centerline locators; This will offer the best results.
@@ -152,7 +158,8 @@
                     <option value="false">False
                 </select>
                 <span class="help-inline label label-info">boolean</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                        optional
+                    </span>
                 <p class="help-block">
                 How the service will handle P.O. Boxes. <code>True</code> will return the coordinates of the
                 post office where the mail is delivered. <code>False</code> will return no match. P.O. Boxes
