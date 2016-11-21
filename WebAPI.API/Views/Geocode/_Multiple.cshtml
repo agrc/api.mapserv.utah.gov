@@ -4,7 +4,7 @@
     <div class="clearfix"></div>
     <h3>Multiple Addresses</h3>
     <p>
-        Returns a list of geocoded address locations. Addresses that do not meet the acceptScore are omitted from the returned list. Offsets are the same as for the street and zone service (15 meters for centerlines and none for address points).
+        Returns a list of geocoded address locations. 
     </p>
     <button class="btn btn-default" data-details="true">
         Details
@@ -13,6 +13,14 @@
     <div class="clearfix">
     </div>
     <form class="form-horizontal" style="display: none">
+        <div class="form-group">
+            <div class="col-md-8 col-md-push-2">
+                <div class="alert alert-info">
+                    This service uses the best available locator set which consists of both road centerlines and address points.
+                    Road centerline based locators have a 15 meter offset from the center of the road. There is no offset for the address point based locators.
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="addresses">
                 addresses
@@ -42,7 +50,7 @@
                                                                                  optional</span>
                 <p class="help-block">
                     Sets the score for an acceptable address match. The scale is over 0-100 with the
-                    default score being 70.
+                    default score being 70. Addresses that do not meet the acceptScore are omitted from the returned list. 
                 </p>
             </div>
         </div>
