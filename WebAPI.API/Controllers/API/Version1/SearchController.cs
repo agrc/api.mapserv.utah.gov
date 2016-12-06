@@ -112,6 +112,10 @@ namespace WebAPI.API.Controllers.API.Version1 {
                                                                                                          " or ",
                                                                                                          badColumns));
                     }
+                    else if (error.Contains("AN EXPRESSION OF NON-BOOLEAN TYPE SPECIFIED IN A CONTEXT WHERE A CONDITION IS EXPECTED"))
+                    {
+                        message = "{0} is not a valid ArcObjects where clause.".With(options.Predicate);
+                    }
                     else
                     {
                         message = "{0} probably does not exist. Check your spelling.".With(featureClass);
