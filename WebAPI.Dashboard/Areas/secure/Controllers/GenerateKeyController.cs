@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Raven.Client;
@@ -16,6 +17,8 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
     [Authorize]
     public class GenerateKeyController : RavenController
     {
+        private static readonly Regex LocalIp = new Regex("^(192|127|0)\\.");
+
         public GenerateKeyController(IDocumentStore store) : base(store)
         {
         }
@@ -64,6 +67,17 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
                 return RedirectToAction("Index", "GenerateKey");
             }
 
+            if (type == ApiKey.ApplicationType.Server)
+            {
+                if (LocalIp.IsMatch(data.Ip))
+                {
+                    Message = "The key you created looks like an internal IP address and will most likely not authenticate. " +
+                              "Please visit <a href='http://whatismyip.com' target='_blank'>whatismyip.com</a> and use your public " +
+                              "IP address. If you receive a 400 status code, be sure to read the response body as it will detail " +
+                              "the reasons. ";
+                }
+            }
+
             var key = CommandExecutor.ExecuteCommand(new GenerateUniqueApiKeyCommand(Session));
             var pattern = CommandExecutor.ExecuteCommand(new FormatKeyPatternCommand(type, data));
             var apiKey = new ApiKey(key)
@@ -87,7 +101,7 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
 
             Task.Factory.StartNew(() => CommandExecutor.ExecuteCommand(new KeyCreatedEmailCommand(account, apiKey)));
 
-            Message = "Key created successfully.";
+            Message += "Key created successfully.";
 
             return RedirectToAction("Index", "KeyManagement");
         }
