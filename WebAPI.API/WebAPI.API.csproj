@@ -219,6 +219,7 @@
     <Compile Include="Commands\Address\ParseZoneCommand.cs" />
     <Compile Include="Commands\Geocode\PoBoxCommand.cs" />
     <Compile Include="Commands\Geocode\UspsDeliveryPointCommand.cs" />
+    <Compile Include="Commands\Info\FlyCanaryCommand.cs" />
     <Compile Include="Commands\Info\GetFeatureClassAttributesCommand.cs" />
     <Compile Include="Commands\Search\FormatAttributesCommand.cs" />
     <Compile Include="Commands\Search\IsSafeSqlCommand.cs" />
