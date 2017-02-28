@@ -2,7 +2,7 @@
 
 namespace WebAPI.API
 {
-    public class BundleConfig
+    public static class BundleConfig
     {
         public static void RegisterBundles(BundleCollection bundles)
         {

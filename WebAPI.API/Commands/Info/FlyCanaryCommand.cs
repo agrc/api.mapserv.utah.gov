@@ -133,7 +133,7 @@ namespace WebAPI.API.Commands.Info
                 using (var session = new SqlConnection(string.Format(ConnectionString, catalog)))
                 {
                     session.Open();
-                    var result = session.Query("SELECT 1");
+                    session.Query("SELECT 1");
                 }
             }
             catch (Exception ex)
@@ -157,12 +157,12 @@ namespace WebAPI.API.Commands.Info
 
                 using (var session = documentStore.OpenSession())
                 {
-                    var whitelist = session.Load<WhitelistContainer>("WhitelistContainers/1");
+                    session.Load<WhitelistContainer>("WhitelistContainers/1");
                 }
             }
             catch (Exception ex)
             {
-                return new { Success = false, ex.Message, Time = stopWatch.ElapsedMilliseconds };
+                return new {Success = false, ex.Message, Time = stopWatch.ElapsedMilliseconds};
             }
 
             return new { Success = true, Time = stopWatch.ElapsedMilliseconds };
@@ -177,7 +177,7 @@ namespace WebAPI.API.Commands.Info
                 var db = conn.GetDatabase();
 
                 db.StringIncrement("canary");
-                var value = db.StringGet("canary");
+                db.StringGet("canary");
             }
             catch (Exception ex)
             {

@@ -29,7 +29,7 @@ namespace WebAPI.API.Commands.Geocode
         public string Street { get; set; }
         public string Zone { get; set; }
         public GeocodeAddress GeocodedAddress { get; set; }
-        public List<Candidate> Candidates { get; set; }
+        private List<Candidate> Candidates { get; set; }
 
         protected override void Execute()
         {

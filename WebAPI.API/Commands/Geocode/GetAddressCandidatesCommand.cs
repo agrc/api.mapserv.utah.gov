@@ -122,7 +122,7 @@ namespace WebAPI.API.Commands.Geocode
             catch (Exception ex)
             {
                 Log.Debug(task.Content.ReadAsStringAsync().Result, ex);
-                throw ex;
+                throw;
             }
 
             return response;

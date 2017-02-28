@@ -2,7 +2,7 @@
 
 namespace WebAPI.API
 {
-    public class ViewEngineConfig
+    public static class ViewEngineConfig
     {
         public static void RegisterViewEngine(IViewEngine item)
         {

@@ -18,7 +18,10 @@ namespace WebAPI.API.ModelBindings
 
             int count;
 
-            int.TryParse(string.IsNullOrEmpty(suggestCount) ? "0" : suggestCount, out count);
+            if (!int.TryParse(string.IsNullOrEmpty(suggestCount) ? "0" : suggestCount, out count))
+            {
+                count = 0;
+            };
 
             bindingContext.Model = new AgoGeocodeOptions
             {

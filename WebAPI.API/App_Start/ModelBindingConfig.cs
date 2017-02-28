@@ -4,7 +4,7 @@ using WebAPI.API.ModelBindings.Providers;
 
 namespace WebAPI.API
 {
-    public class ModelBindingConfig
+    public static class ModelBindingConfig
     {
         public static void RegisterModelBindings(ServicesContainer services)
         {

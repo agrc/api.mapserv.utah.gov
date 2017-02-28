@@ -6,7 +6,7 @@ using WebAPI.Domain.ArcServerResponse.Soe;
 
 namespace WebAPI.API
 {
-    public class AutoMapperConfig
+    public static class AutoMapperConfig
     {
         public static void RegisterMaps()
         {

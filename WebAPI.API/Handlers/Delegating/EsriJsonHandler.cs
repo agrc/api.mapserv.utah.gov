@@ -67,7 +67,10 @@ namespace WebAPI.API.Handlers.Delegating
                                         return response.Result;
                                     }
 
-                                    Enum.TryParse(graphic.Status.ToString(), out status);
+                                    if(!Enum.TryParse(graphic.Status.ToString(), out status))
+                                    {
+                                        status = HttpStatusCode.OK;
+                                    }
 
                                     return request.CreateResponse(status, graphic);
                                 });

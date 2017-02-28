@@ -89,7 +89,7 @@ namespace WebAPI.API.Commands.Spatial
             Result = geoJsonContainer;
         }
 
-        public Dictionary<string, object> GetProperties<T>(T obj)
+        public static Dictionary<string, object> GetProperties<T>(T obj)
         {
             var properties = typeof (T).GetProperties();
 

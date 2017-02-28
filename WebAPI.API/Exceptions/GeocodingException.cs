@@ -4,6 +4,11 @@ namespace WebAPI.API.Exceptions
 {
     public class GeocodingException : Exception
     {
+        public GeocodingException()
+        {
+            
+        }
+
         public GeocodingException(string message, Exception innerException)
             : base(message, innerException) {}
 

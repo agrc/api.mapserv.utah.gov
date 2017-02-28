@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using WebAPI.API.Commands.Address;
@@ -11,7 +12,7 @@ using WebAPI.Domain.Linkers;
 
 namespace WebAPI.API
 {
-    public class CacheConfig
+    public static class CacheConfig
     {
         public static void BuildCache()
         {
@@ -162,30 +163,30 @@ namespace WebAPI.API
             //Number nbr num
             return new List<Tuple<string, string, bool>>
             {
-                new Tuple<string, string, bool>(SecondaryUnit.Apartment.ToString().ToLower(), "apt", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Basement.ToString().ToLower(), "bsmt", false),
-                new Tuple<string, string, bool>(SecondaryUnit.Building.ToString().ToLower(), "bldg", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Department.ToString().ToLower(), "dept", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Floor.ToString().ToLower(), "fl", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Front.ToString().ToLower(), "frnt", false),
-                new Tuple<string, string, bool>(SecondaryUnit.Hanger.ToString().ToLower(), "hngr", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Key.ToString().ToLower(), "key", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Lobby.ToString().ToLower(), "lbby", false),
-                new Tuple<string, string, bool>(SecondaryUnit.Lot.ToString().ToLower(), "lot", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Lower.ToString().ToLower(), "lowr", false),
-                new Tuple<string, string, bool>(SecondaryUnit.Office.ToString().ToLower(), "ofc", false),
-                new Tuple<string, string, bool>(SecondaryUnit.Penthouse.ToString().ToLower(), "ph", false),
-                new Tuple<string, string, bool>(SecondaryUnit.Pier.ToString().ToLower(), "pier", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Rear.ToString().ToLower(), "rear", false),
-                new Tuple<string, string, bool>(SecondaryUnit.Room.ToString().ToLower(), "rm", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Side.ToString().ToLower(), "side", false),
-                new Tuple<string, string, bool>(SecondaryUnit.Slip.ToString().ToLower(), "slip", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Space.ToString().ToLower(), "spc", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Stop.ToString().ToLower(), "stop", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Suite.ToString().ToLower(), "ste", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Trailer.ToString().ToLower(), "trlr", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Unit.ToString().ToLower(), "unit", true),
-                new Tuple<string, string, bool>(SecondaryUnit.Upper.ToString().ToLower(), "uppr", false)
+                new Tuple<string, string, bool>(SecondaryUnit.Apartment.ToString().ToLower(CultureInfo.InvariantCulture), "apt", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Basement.ToString().ToLower(CultureInfo.InvariantCulture), "bsmt", false),
+                new Tuple<string, string, bool>(SecondaryUnit.Building.ToString().ToLower(CultureInfo.InvariantCulture), "bldg", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Department.ToString().ToLower(CultureInfo.InvariantCulture), "dept", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Floor.ToString().ToLower(CultureInfo.InvariantCulture), "fl", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Front.ToString().ToLower(CultureInfo.InvariantCulture), "frnt", false),
+                new Tuple<string, string, bool>(SecondaryUnit.Hanger.ToString().ToLower(CultureInfo.InvariantCulture), "hngr", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Key.ToString().ToLower(CultureInfo.InvariantCulture), "key", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Lobby.ToString().ToLower(CultureInfo.InvariantCulture), "lbby", false),
+                new Tuple<string, string, bool>(SecondaryUnit.Lot.ToString().ToLower(CultureInfo.InvariantCulture), "lot", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Lower.ToString().ToLower(CultureInfo.InvariantCulture), "lowr", false),
+                new Tuple<string, string, bool>(SecondaryUnit.Office.ToString().ToLower(CultureInfo.InvariantCulture), "ofc", false),
+                new Tuple<string, string, bool>(SecondaryUnit.Penthouse.ToString().ToLower(CultureInfo.InvariantCulture), "ph", false),
+                new Tuple<string, string, bool>(SecondaryUnit.Pier.ToString().ToLower(CultureInfo.InvariantCulture), "pier", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Rear.ToString().ToLower(CultureInfo.InvariantCulture), "rear", false),
+                new Tuple<string, string, bool>(SecondaryUnit.Room.ToString().ToLower(CultureInfo.InvariantCulture), "rm", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Side.ToString().ToLower(CultureInfo.InvariantCulture), "side", false),
+                new Tuple<string, string, bool>(SecondaryUnit.Slip.ToString().ToLower(CultureInfo.InvariantCulture), "slip", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Space.ToString().ToLower(CultureInfo.InvariantCulture), "spc", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Stop.ToString().ToLower(CultureInfo.InvariantCulture), "stop", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Suite.ToString().ToLower(CultureInfo.InvariantCulture), "ste", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Trailer.ToString().ToLower(CultureInfo.InvariantCulture), "trlr", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Unit.ToString().ToLower(CultureInfo.InvariantCulture), "unit", true),
+                new Tuple<string, string, bool>(SecondaryUnit.Upper.ToString().ToLower(CultureInfo.InvariantCulture), "uppr", false)
             };
         }
 

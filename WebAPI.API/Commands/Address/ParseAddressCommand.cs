@@ -65,7 +65,7 @@ namespace WebAPI.API.Commands.Address
             Result = address;
         }
 
-        public bool TryParseDirection(string part, out Direction direction)
+        public static bool TryParseDirection(string part, out Direction direction)
         {
             direction = Direction.None;
 
@@ -103,7 +103,7 @@ namespace WebAPI.API.Commands.Address
             return false;
         }
 
-        public bool TryParseStreet(string part, out StreetType street)
+        public static bool TryParseStreet(string part, out StreetType street)
         {
             street = StreetType.None;
 
@@ -156,7 +156,7 @@ namespace WebAPI.API.Commands.Address
                  && string.IsNullOrEmpty(address.StreetName));
         }
 
-        public int GetWordIndex(int findLocation, string words)
+        public static int GetWordIndex(int findLocation, string words)
         {
             var index = 0;
             if (words.Length >= findLocation)
@@ -170,11 +170,11 @@ namespace WebAPI.API.Commands.Address
         private void Replacements(string street, AddressBase address)
         {
             ReplaceHighway(street, address);
-            ReplaceUnitTypes(street, address);
+            ReplaceUnitTypes(street);
             ReplaceDirections(street);
         }
 
-        private void ParsePoBox(string street, AddressBase address)
+        private static void ParsePoBox(string street, AddressBase address)
         {
             var match = App.RegularExpressions["pobox"].Match(street);
             if (!match.Success)
@@ -203,7 +203,7 @@ namespace WebAPI.API.Commands.Address
             address.IsHighway = true;
         }
 
-        private void ReplaceUnitTypes(string street, AddressBase address)
+        private void ReplaceUnitTypes(string street)
         {
             var matches = App.RegularExpressions["unitType"].Matches(street);
 

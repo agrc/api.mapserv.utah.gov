@@ -5,7 +5,7 @@ namespace WebAPI.Common.Executors
     /// <summary>
     ///     Executes Commands on request
     /// </summary>
-    public class CommandExecutor
+    public static class CommandExecutor
     {
         /// <summary>
         ///     Executes the command.

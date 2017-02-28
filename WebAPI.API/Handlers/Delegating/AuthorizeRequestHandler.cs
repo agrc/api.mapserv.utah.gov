@@ -242,12 +242,12 @@ namespace WebAPI.API.Handlers.Delegating
             var isLocalBasedOnReferrer = false;
             var isLocalBasedOnOrigin = false;
 
-            if (isReferrer && referrer.AbsoluteUri.StartsWith("http://localhost/"))
+            if (isReferrer && referrer.AbsoluteUri.StartsWith("http://localhost/", StringComparison.OrdinalIgnoreCase))
             {
                 isLocalBasedOnReferrer = true;
             }
 
-            if (isOrigin && orign.StartsWith("http://localhost/"))
+            if (isOrigin && orign.StartsWith("http://localhost/", StringComparison.OrdinalIgnoreCase))
             {
                 isLocalBasedOnOrigin = true;
             }

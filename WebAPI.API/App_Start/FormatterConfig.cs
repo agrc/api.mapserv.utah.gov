@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace WebAPI.API
 {
-    public class FormatterConfig
+    public static class FormatterConfig
     {
         public static void RegisterFormatters(MediaTypeFormatterCollection formatters)
         {

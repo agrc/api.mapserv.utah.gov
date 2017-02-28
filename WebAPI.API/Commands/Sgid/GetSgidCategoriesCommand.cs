@@ -10,8 +10,7 @@ namespace WebAPI.API.Commands.Sgid
     {
         public static readonly string ConnectionString = string.Format(ConfigurationManager.AppSettings["sgid_connection"], "SGID10");
 
-        public readonly string Sql =
-            "SELECT Distinct(TABLE_SCHEMA) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA <> 'sde' ORDER BY TABLE_SCHEMA";
+        private const string Sql = "SELECT Distinct(TABLE_SCHEMA) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA <> 'sde' ORDER BY TABLE_SCHEMA";
 
         protected override void Execute()
         {

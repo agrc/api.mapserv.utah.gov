@@ -54,9 +54,9 @@ namespace WebAPI.API.Commands.Geocode
         {
             var locatorLookup = new Dictionary<LocatorType, List<LocatorDetails>>();
 
-            Add(UspsDeliveryPoint(Address), ref locatorLookup, LocatorType.All);
-            Add(Intersection(Address), ref locatorLookup, LocatorType.All);
-            Add(AddressPoints(Address), ref locatorLookup, LocatorType.AddressPoints);
+            Add(UspsDeliveryPoint(), ref locatorLookup, LocatorType.All);
+            Add(Intersection(), ref locatorLookup, LocatorType.All);
+            Add(AddressPoints(), ref locatorLookup, LocatorType.AddressPoints);
             Add(Reversal(Address), ref locatorLookup, LocatorType.RoadCenterlines);
             Add(Centerlines(Address), ref locatorLookup, LocatorType.RoadCenterlines);
 
@@ -177,7 +177,7 @@ namespace WebAPI.API.Commands.Geocode
             return locators;
         }
 
-        private IEnumerable<LocatorDetails> AddressPoints(AddressBase address)
+        private IEnumerable<LocatorDetails> AddressPoints()
         {
             var locators = new List<LocatorDetails>();
 
@@ -258,9 +258,8 @@ namespace WebAPI.API.Commands.Geocode
         ///     Determines if the address is an intersection.
         ///     If the word and is found in the address this is true
         /// </summary>
-        /// <param name="address">The address.</param>
         /// <returns>locator_IntersectionPoints</returns>
-        private static IEnumerable<LocatorDetails> Intersection(AddressBase address)
+        private static IEnumerable<LocatorDetails> Intersection()
         {
             return Enumerable.Empty<LocatorDetails>();
         }
@@ -268,9 +267,8 @@ namespace WebAPI.API.Commands.Geocode
         /// <summary>
         ///     If the address is a usps delivery point the usps locator will be added
         /// </summary>
-        /// <param name="address">The address.</param>
         /// <returns>locator_DeliveryPoints</returns>
-        private static IEnumerable<LocatorDetails> UspsDeliveryPoint(AddressBase address)
+        private static IEnumerable<LocatorDetails> UspsDeliveryPoint()
         {
             return Enumerable.Empty<LocatorDetails>();
         }
