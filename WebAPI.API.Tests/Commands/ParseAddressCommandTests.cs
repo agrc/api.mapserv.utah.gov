@@ -529,15 +529,14 @@ namespace WebAPI.API.Tests.Commands
             {
                 //arrange
                 const string words = "My house number is 23";
-                var service = new ParseAddressCommand();
 
                 //act
-                var firstWord = service.GetWordIndex(1, words);
-                var secondWord = service.GetWordIndex(5, words);
-                var thirdWord = service.GetWordIndex(15, words);
-                var fourthWord = service.GetWordIndex(17, words);
-                var fifthWord = service.GetWordIndex(21, words);
-                var notFound = service.GetWordIndex(45, words);
+                var firstWord = ParseAddressCommand.GetWordIndex(1, words);
+                var secondWord = ParseAddressCommand.GetWordIndex(5, words);
+                var thirdWord = ParseAddressCommand.GetWordIndex(15, words);
+                var fourthWord = ParseAddressCommand.GetWordIndex(17, words);
+                var fifthWord = ParseAddressCommand.GetWordIndex(21, words);
+                var notFound = ParseAddressCommand.GetWordIndex(45, words);
 
                 //assert
                 Assert.AreEqual(firstWord, 0, "first word");
@@ -1267,6 +1266,30 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(address.SuffixDirection, Is.EqualTo(Direction.None));
                 Assert.That(address.StreetType, Is.EqualTo(StreetType.Drive));
                 Assert.That(address.StandardizedAddress, Is.EqualTo("1490 east foremaster drive").IgnoreCase);
+            }
+
+            [Test]
+            public void Issue44()
+            {
+                _parseAddressCommand.SetStreet("9211 N Pebble Creek Loop");
+                var address = Execute();
+
+                Assert.That(address.HouseNumber, Is.EqualTo(9211));
+                Assert.That(address.PrefixDirection, Is.EqualTo(Direction.North));
+                Assert.That(address.StreetName, Is.EqualTo("Pebble Creek").IgnoreCase);
+                Assert.That(address.SuffixDirection, Is.EqualTo(Direction.None));
+                Assert.That(address.StreetType, Is.EqualTo(StreetType.Loop));
+                Assert.That(address.StandardizedAddress, Is.EqualTo("9211 north pebble creek loop").IgnoreCase);
+
+                _parseAddressCommand.SetStreet("5811 W Park West Rd");
+                address = Execute();
+
+                Assert.That(address.HouseNumber, Is.EqualTo(5811));
+                Assert.That(address.PrefixDirection, Is.EqualTo(Direction.West));
+                Assert.That(address.StreetName, Is.EqualTo("Park West").IgnoreCase);
+                Assert.That(address.SuffixDirection, Is.EqualTo(Direction.None));
+                Assert.That(address.StreetType, Is.EqualTo(StreetType.Road));
+                Assert.That(address.StandardizedAddress, Is.EqualTo("5811 west park west road").IgnoreCase);
             }
         }
     }

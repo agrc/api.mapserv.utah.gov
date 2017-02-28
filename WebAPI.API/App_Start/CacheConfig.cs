@@ -111,6 +111,9 @@ namespace WebAPI.API
                     StreetType.Lane, "ln"
                 },
                 {
+                    StreetType.Loop, "loop"
+                },
+                {
                     StreetType.Parkway, "pkwy"
                 },
                 {
