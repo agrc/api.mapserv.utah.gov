@@ -1269,7 +1269,7 @@ namespace WebAPI.API.Tests.Commands
             }
 
             [Test]
-            public void Issue44()
+            public void Issue44_Missing_Loop()
             {
                 _parseAddressCommand.SetStreet("9211 N Pebble Creek Loop");
                 var address = Execute();
@@ -1280,9 +1280,13 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(address.SuffixDirection, Is.EqualTo(Direction.None));
                 Assert.That(address.StreetType, Is.EqualTo(StreetType.Loop));
                 Assert.That(address.StandardizedAddress, Is.EqualTo("9211 north pebble creek loop").IgnoreCase);
+            }
 
+            [Test]
+            public void Issue44_So_Much_West()
+            {
                 _parseAddressCommand.SetStreet("5811 W Park West Rd");
-                address = Execute();
+                var address = Execute();
 
                 Assert.That(address.HouseNumber, Is.EqualTo(5811));
                 Assert.That(address.PrefixDirection, Is.EqualTo(Direction.West));
