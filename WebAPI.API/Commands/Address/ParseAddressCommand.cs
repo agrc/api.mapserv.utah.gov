@@ -150,10 +150,10 @@ namespace WebAPI.API.Commands.Address
 
         public bool IsOneCharacterStreetName(AddressBase address, string candidate)
         {
-            return
-                (string.IsNullOrEmpty(
-                    Street.Remove(Street.IndexOf(candidate, StringComparison.OrdinalIgnoreCase), candidate.Length).Trim())
-                 && string.IsNullOrEmpty(address.StreetName));
+            // is the street name empty if we remove the direction?
+            var candidateRemoved = Street.Remove(Street.IndexOf(candidate, StringComparison.OrdinalIgnoreCase), candidate.Length).Trim();
+
+            return (string.IsNullOrEmpty(candidateRemoved) && string.IsNullOrEmpty(address.StreetName));
         }
 
         public static int GetWordIndex(int findLocation, string words)
@@ -526,11 +526,11 @@ namespace WebAPI.API.Commands.Address
                     }
                 case 2:
                     {
-                        //check to see if word prior is a direction
                         var words = StandardStreet.Split(' ').ToList();
                         var indexOfMatch = words.IndexOf(matches[0].Value);
-                        if (indexOfMatch - 1 >= 0 &&
-                            !App.RegularExpressions["direction"].IsMatch(words[indexOfMatch - 1]))
+
+                        // parse out prefix direction
+                        if (indexOfMatch - 1 >= 0 && !App.RegularExpressions["direction"].IsMatch(words[indexOfMatch - 1]))
                         {
                             //if not do as normal
                             Street = street.Remove(matches[0].Index, matches[0].Length);
@@ -541,14 +541,40 @@ namespace WebAPI.API.Commands.Address
                             words = StandardStreet.Split(' ').ToList();
                         }
 
+                        // check out whats up with the second direction
                         indexOfMatch = words.IndexOf(matches[1].Value);
-                        if (indexOfMatch - 1 >= 0 &&
-                            !App.RegularExpressions["direction"].IsMatch(words[indexOfMatch - 1]))
+                        if (indexOfMatch - 1 >= 0 && !App.RegularExpressions["direction"].IsMatch(words[indexOfMatch - 1]))
                         {
-                            if (!IsOneCharacterStreetName(address, matches[1].Value))
+                            if (IsOneCharacterStreetName(address, matches[1].Value))
+                            {
+                                return;
+                            }
+
+                            // if there is no item after the index then do as normal
+                            if (indexOfMatch + 1 > words.Count - 1)
                             {
                                 Street = Street.Remove(Street.LastIndexOf(matches[1].Value, StringComparison.Ordinal),
-                                                       matches[1].Length);
+                                                   matches[1].Length);
+                                address.SuffixDirection = TryParseDirection(matches[1].Value, out dir)
+                                                              ? dir
+                                                              : Direction.None;
+
+                                return;
+                            }
+
+                            var afterType = words[indexOfMatch + 1];
+                            // if before street type then we might be in a street name scenario
+                            var directionBefore = App.StreetTypeAbbreviations.Values.Any(x => x.Split(',').Contains(afterType.ToLower())) || address.StreetType == StreetType.None;
+                            var streetWithoutCandidate = Street.Remove(Street.LastIndexOf(matches[1].Value, StringComparison.Ordinal),
+                                                   matches[1].Length).Trim();
+
+                            var numeric = new Regex("[0-9]").IsMatch(streetWithoutCandidate) || string.IsNullOrEmpty(streetWithoutCandidate);
+
+                            // if direction before street type and street name isn't numeric then it should be a part of the street name
+                            if (numeric && directionBefore)
+                            {
+                                Street = Street.Remove(Street.LastIndexOf(matches[1].Value, StringComparison.Ordinal),
+                                                   matches[1].Length);
                                 address.SuffixDirection = TryParseDirection(matches[1].Value, out dir)
                                                               ? dir
                                                               : Direction.None;
