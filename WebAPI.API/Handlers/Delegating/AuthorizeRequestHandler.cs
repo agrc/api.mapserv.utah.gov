@@ -202,7 +202,9 @@ namespace WebAPI.API.Handlers.Delegating
                         new ResultContainer
                         {
                             Status = (int) HttpStatusCode.BadRequest,
-                            Message = string.Format("Invalid API key. Pattern does not match {0}.", userHostAddress)
+                            Message = string.Format("Invalid API key. The IP you provided does not match what the API " + 
+                                                    "is receiving. Double check your API key or create a new one using `{0}` " + 
+                                                    "as the pattern.", userHostAddress)
                         },
                         new MediaTypeHeaderValue("application/json"));
                 }
