@@ -1295,6 +1295,20 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(address.StreetType, Is.EqualTo(StreetType.Road));
                 Assert.That(address.StandardizedAddress, Is.EqualTo("5811 west park west road").IgnoreCase);
             }
+
+            [Test]
+            public void WhistleStop_unittype_in_streetname()
+            {
+                _parseAddressCommand.SetStreet("6112 W Whistle Stop Road");
+                var address = Execute();
+
+                Assert.That(address.HouseNumber, Is.EqualTo(6112));
+                Assert.That(address.PrefixDirection, Is.EqualTo(Direction.West));
+                Assert.That(address.StreetName, Is.EqualTo("Whistle Stop").IgnoreCase);
+                Assert.That(address.SuffixDirection, Is.EqualTo(Direction.None));
+                Assert.That(address.StreetType, Is.EqualTo(StreetType.Road));
+                Assert.That(address.StandardizedAddress, Is.EqualTo("6112 West Whistle Stop Road").IgnoreCase);
+            }
         }
     }
 }

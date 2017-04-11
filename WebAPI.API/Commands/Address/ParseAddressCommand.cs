@@ -258,7 +258,7 @@ namespace WebAPI.API.Commands.Address
             var regex = new Regex(string.Format(@"{0}(?:\s|.)?([a-z]?(?:\d)*[a-z]?)", match), RegexOptions.IgnoreCase);
             var moreMatches = regex.Matches(street);
 
-            if (moreMatches.Count > 0)
+            if (moreMatches.Count > 0 && street.EndsWith(moreMatches[moreMatches.Count - 1].Value, StringComparison.OrdinalIgnoreCase))
             {
                 var theMatch = moreMatches[moreMatches.Count - 1];
                 var index = street.LastIndexOf(theMatch.Value, StringComparison.OrdinalIgnoreCase);
