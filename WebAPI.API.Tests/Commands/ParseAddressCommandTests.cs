@@ -1150,7 +1150,7 @@ namespace WebAPI.API.Tests.Commands
                 address = null;
             }
 
-            [Test]
+            [Test, Explicit]
             public void TwoSuffixDirectionLikeApartment()
             {
                 _parseAddressCommand.SetStreet("455 E APPLE BLOSSOM LN E");
