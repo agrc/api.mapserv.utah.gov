@@ -155,7 +155,7 @@ namespace WebAPI.API.Tests.Controllers
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var response =
-                client.PostAsJsonAsync("http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-ApiExplorer",
+                client.PostAsJsonAsync("http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-Explorer",
                                        multiGeocodeContainer).Result;
             stopwatch.Stop();
 
@@ -221,7 +221,7 @@ namespace WebAPI.API.Tests.Controllers
             };
 
             var response =
-                client.PostAsJsonAsync("http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-ApiExplorer",
+                client.PostAsJsonAsync("http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-Explorer",
                                        multiGeocodeContainer).Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);
@@ -254,7 +254,7 @@ namespace WebAPI.API.Tests.Controllers
 
             //act
             var response =
-                client.PostAsJsonAsync("http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-ApiExplorer",
+                client.PostAsJsonAsync("http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-Explorer",
                                        multiGeocodeContainer).Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);
@@ -282,7 +282,7 @@ namespace WebAPI.API.Tests.Controllers
             };
 
             var response =
-                client.PostAsJsonAsync("http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-ApiExplorer",
+                client.PostAsJsonAsync("http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-Explorer",
                                        multiGeocodeContainer).Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);
@@ -311,7 +311,7 @@ namespace WebAPI.API.Tests.Controllers
 
             var response =
                 client.PostAsJsonAsync(
-                    "http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-ApiExplorer&callback=cb",
+                    "http://webapi/api/v1/Geocode/multiple?apiKey=AGRC-Explorer&callback=cb",
                     multiGeocodeContainer).Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);

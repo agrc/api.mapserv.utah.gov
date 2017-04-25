@@ -61,13 +61,14 @@ namespace WebAPI.API.Tests
                 
                 var authorizeRequestHandler = new AuthorizeRequestHandler
                 {
-                    InnerHandler = new TestHandler((r, c) => { return TestHandler.Return200(); }),
+                    InnerHandler = new TestHandler((r, c) => TestHandler.Return200()),
                     DocumentStore = InitDatabase(),
-                    IpProvider = ipMoq.Object
+                    IpProvider = ipMoq.Object,
+                    ApiKeyProvider = new ApiKeyProvider()
                 };
 
                 var client = new HttpClient(authorizeRequestHandler);
-                var response = client.GetAsync("http://mapserv.utah.gov/beta/WebAPI/api/v1/Geocode/326 east south temple/84111?apiKey=ipIsWrong").Result;
+                var response = client.GetAsync("http://api.mapserv.utah.gov/api/v1/Geocode/326 east south temple/84111?apiKey=ipIsWrong").Result;
 
                 var result = response.Content.ReadAsAsync<ResultContainer>().Result;
 

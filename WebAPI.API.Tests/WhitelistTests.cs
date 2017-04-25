@@ -32,7 +32,7 @@ namespace WebAPI.API.Tests
 
             var response =
                 client.GetAsync(
-                    "http://webapi/api/v1/Geocode/326 east south temple/84111?apiKey=AGRC-ApiExplorer").Result;
+                    "http://webapi/api/v1/Geocode/326 east south temple/84111?apiKey=AGRC-Explorer").Result;
             var result = response.Content.ReadAsAsync<ResultContainer<GeocodeAddressResult>>().Result;
 
             Assert.That(result, Is.Not.Null);

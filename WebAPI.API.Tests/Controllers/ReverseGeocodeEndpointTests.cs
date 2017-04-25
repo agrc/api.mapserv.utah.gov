@@ -19,7 +19,7 @@ namespace WebAPI.API.Tests.Controllers
             //act
             var response =
                 client.GetAsync(
-                    "http://webapi/api/v1/Geocode/reverse/1/2?apiKey=AGRC-ApiExplorer")
+                    "http://webapi/api/v1/Geocode/reverse/1/2?apiKey=AGRC-Explorer")
                       .Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);
@@ -37,7 +37,7 @@ namespace WebAPI.API.Tests.Controllers
             //act
             var response =
                 client.GetAsync(
-                    "http://webapi/api/v1/Geocode/reverse/430196.865872593/4506863.8943712?apiKey=AGRC-ApiExplorer")
+                    "http://webapi/api/v1/Geocode/reverse/430196.865872593/4506863.8943712?apiKey=AGRC-Explorer")
                       .Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);

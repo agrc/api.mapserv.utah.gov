@@ -68,17 +68,17 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(result.Count, Is.EqualTo(6));
                 Assert.That(result.Select(x => x.Url), Is.EquivalentTo(new[]
                     {
-                        "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
+                        "http://localhost/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
                         "GeocodeServer/findAddressCandidates?f=json&Street=532+East+400+South&City=grid_1&outSR=26912",
-                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
+                         "http://localhost/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
                         "GeocodeServer/findAddressCandidates?f=json&Street=400+South+532+East&City=grid_1&outSR=26912",
-                        "http://localhost/ArcGIS/rest/services/Geolocators/AddressPoints_AddressSystem/" +
+                        "http://localhost/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
                         "GeocodeServer/findAddressCandidates?f=json&Street=400+South+532+East&City=grid_1&outSR=26912",
-                        "http://localhost/ArcGIS/rest/services/Geolocators/AddressPoints_AddressSystem/" +
+                        "http://localhost/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
                         "GeocodeServer/findAddressCandidates?f=json&Street=532+East+400+South&City=grid_1&outSR=26912",
-                        "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
+                        "http://localhost/arcgis/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
                         "GeocodeServer/findAddressCandidates?f=json&Street=532+East+400+South&City=grid_1&outSR=26912",
-                        "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
+                        "http://localhost/arcgis/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
                         "GeocodeServer/findAddressCandidates?f=json&Street=400+South+532+East&City=grid_1&outSR=26912"
                     }));
             }

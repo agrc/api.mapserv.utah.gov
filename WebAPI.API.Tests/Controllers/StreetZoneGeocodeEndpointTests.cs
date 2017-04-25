@@ -154,7 +154,7 @@ namespace WebAPI.API.Tests.Controllers
             //act
             var response =
                 client.GetAsync(
-                    "http://webapi/api/v1/Geocode/326 east south temple/84111?apiKey=AGRC-ApiExplorer").Result;
+                    "http://webapi/api/v1/Geocode/326 east south temple/84111?apiKey=AGRC-Explorer").Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);
 
@@ -176,7 +176,7 @@ namespace WebAPI.API.Tests.Controllers
             //act
             var response =
                 client.GetAsync(
-                    "http://webapi/api/v1/Geocode/326 east south temple/84111?apiKey=AGRC-ApiExplorer&suggest=1")
+                    "http://webapi/api/v1/Geocode/326 east south temple/84111?apiKey=AGRC-Explorer&suggest=1")
                       .Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);
@@ -201,7 +201,7 @@ namespace WebAPI.API.Tests.Controllers
             //act
             var response =
                 client.GetAsync(
-                    "http://webapi/api/v1/Geocode/100 south main/84664?apiKey=AGRC-ApiExplorer&suggest=3")
+                    "http://webapi/api/v1/Geocode/100 south main/84664?apiKey=AGRC-Explorer&suggest=3")
                       .Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);
@@ -226,7 +226,7 @@ namespace WebAPI.API.Tests.Controllers
             //act
             var response =
                 client.GetAsync(
-                    "http://webapi/api/v1/Geocode/326 east south temple/84111?apiKey=AGRC-ApiExplorer&callback=callback")
+                    "http://webapi/api/v1/Geocode/326 east south temple/84111?apiKey=AGRC-Explorer&callback=callback")
                       .Result;
 
             Debug.Print(response.Content.ReadAsStringAsync().Result);

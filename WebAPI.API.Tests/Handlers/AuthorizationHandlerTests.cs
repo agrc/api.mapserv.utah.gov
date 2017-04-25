@@ -139,7 +139,8 @@ namespace WebAPI.API.Tests.Handlers
                 var handler = new AuthorizeRequestHandler
                     {
                         DocumentStore = DocumentStore,
-                        InnerHandler = new TestHandler((r, c) => { return TestHandler.Return200(); })
+                        InnerHandler = new TestHandler((r, c) => TestHandler.Return200()),
+                        ApiKeyProvider = new ApiKeyProvider()
                     };
 
                 var client = new HttpClient(handler);
@@ -205,7 +206,8 @@ namespace WebAPI.API.Tests.Handlers
                 var handler = new AuthorizeRequestHandler
                 {
                     DocumentStore = DocumentStore,
-                    InnerHandler = new TestHandler((r, c) => { return TestHandler.Return200(); })
+                    InnerHandler = new TestHandler((r, c) => TestHandler.Return200()),
+                    ApiKeyProvider = new ApiKeyProvider()
                 };
 
                 var client = new HttpClient(handler);
@@ -317,7 +319,8 @@ namespace WebAPI.API.Tests.Handlers
                 var handler = new AuthorizeRequestHandler
                 {
                     DocumentStore = DocumentStore,
-                    InnerHandler = new TestHandler((r, c) => { return TestHandler.Return200(); })
+                    InnerHandler = new TestHandler((r, c) => TestHandler.Return200()),
+                    ApiKeyProvider = new ApiKeyProvider()
                 };
 
                 var client = new HttpClient(handler);
@@ -430,7 +433,8 @@ namespace WebAPI.API.Tests.Handlers
                 var handler = new AuthorizeRequestHandler
                 {
                     DocumentStore = DocumentStore,
-                    InnerHandler = new TestHandler((r, c) => { return TestHandler.Return200(); })
+                    InnerHandler = new TestHandler((r, c) => TestHandler.Return200()),
+                    ApiKeyProvider = new ApiKeyProvider()
                 };
 
                 var client = new HttpClient(handler);
