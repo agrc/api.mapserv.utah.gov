@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using WebAPI.API.Comparers;
-using WebAPI.API.DataStructures;
+using WebAPI.API.Commands.Geocode;
+using WebAPI.Domain;
+using WebAPI.Domain.Addresses;
 using WebAPI.Domain.ArcServerResponse.Geolocator;
+using WebAPI.Domain.InputOptions;
+using WebAPI.Domain.Linkers;
 
 namespace WebAPI.API.Tests.Commands
 {
@@ -10,55 +13,153 @@ namespace WebAPI.API.Tests.Commands
     public class ChooseBestAddressCandidatesCommandTests
     {
         [Test]
-        public void GridWeightsMatter()
+        public void ScoreDifferenceCalculatedWhenSuggestFalse()
         {
-            const int topItemCount = 3;
-            const string tieBreakerInput = "GOLD";
-            var topCandidates = new TopAddressCandidates(topItemCount, new CandidateComparer(tieBreakerInput));
-
-            topCandidates.Add(new Candidate
-                {
-                    Address = "GOLD",
-                    Score = 5,
-                    Weight = 100
-                });
-
-            topCandidates.Add(new Candidate
+            // these are sorted out of the TopNList by the CandidateComparer
+            var candidates = new List<Candidate>
             {
-                Address = "GOLDS",
-                Score = 5,
-                Weight = 100
-            });
-
-            topCandidates.Add(new Candidate
+                 new Candidate
                 {
-                    Address = "BRONZE",
-                    Score = 5,
-                    Weight = 1
-                });
-
-            topCandidates.Add(new Candidate
+                    Address = "top match",
+                    Score = 100,
+                    Weight = 0,
+                    AddressGrid = "Grid",
+                    Location = new Location(0, 0)
+                },
+                new Candidate
                 {
-                    Address = "SILVER",
-                    Score = 5,
-                    Weight = 50
-                });
-
-            topCandidates.Add(new Candidate
+                    Address = "top suggestion",
+                    Score = 90.87,
+                    Weight = 0,
+                    AddressGrid = "Grid"
+                },
+                 new Candidate
                 {
-                    Address = "Runner up",
-                    Score = 5,
-                    Weight = 0
-                });
+                    Address = "suggestion",
+                    Score = 80.87,
+                    Weight = 0,
+                    AddressGrid = "Grid"
+                },
+                new Candidate
+                {
+                    Address = "another suggestion",
+                    Score = 70.87,
+                    Weight = 0,
+                    AddressGrid = "Grid"
+                }
+            };
 
-            var items = topCandidates.GetTopItems();
+            var options = new GeocodeOptions
+            {
+                ScoreDifference = true
+            };
 
-            const int addOneForWinnerWhichIsRemoved = 1;
+            var address = new GeocodeAddress(new CleansedAddress("", 0, 0, 0, Direction.None, "", StreetType.None, Direction.None, 0, 0, false, false))
+            {
+                AddressGrids = new List<GridLinkable>
+                {
+                    new PlaceGridLink("City", "Grid", 0)
+                }
+            };
 
-            Assert.That(items.Count(), Is.EqualTo(topItemCount + addOneForWinnerWhichIsRemoved));
-            var candidate = items.First();
-            Assert.That(candidate.Score, Is.EqualTo(5));
-            Assert.That(candidate.Address, Is.EqualTo("GOLD"));
+            var command = new ChooseBestAddressCandidateCommand(candidates,
+                options,
+                "top match",
+                "test",
+                address);
+
+            command.Run();
+            var match = command.Result;
+
+            Assert.That(match.ScoreDifference, Is.EqualTo(100 - 90.87));
+        }
+
+        [Test]
+        public void ScoreDifferenceCalculatedWhenSuggestFalseAndNoSuggestions()
+        {
+            var candidates = new List<Candidate>
+            {
+                new Candidate
+                {
+                    Address = "top match",
+                    Score = 100,
+                    Weight = 0,
+                    AddressGrid = "Grid",
+                    Location = new Location(0, 0)
+                }
+            };
+
+            var options = new GeocodeOptions
+            {
+                ScoreDifference = true
+            };
+
+            var address = new GeocodeAddress(new CleansedAddress("", 0, 0, 0, Direction.None, "", StreetType.None, Direction.None, 0, 0, false, false))
+            {
+                AddressGrids = new List<GridLinkable>
+                {
+                    new PlaceGridLink("City", "Grid", 0)
+                }
+            };
+
+            var command = new ChooseBestAddressCandidateCommand(candidates,
+                options,
+                "top match",
+                "test",
+                address);
+
+            command.Run();
+            var match = command.Result;
+
+            Assert.That(match.ScoreDifference, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void ScoreDifferenceDoesNotCalculatedWhenSuggestIsGreatherThanZero()
+        {
+            var candidates = new List<Candidate>
+            {
+                new Candidate
+                {
+                    Address = "top match",
+                    Score = 100,
+                    Weight = 0,
+                    AddressGrid = "Grid",
+                    Location = new Location(0, 0)
+                },
+                new Candidate
+                {
+                    Address = "top suggestion",
+                    Score = 90.87,
+                    Weight = 0,
+                    AddressGrid = "Grid"
+                }
+            };
+
+            var options = new GeocodeOptions
+            {
+                SuggestCount = 1
+            };
+
+            var address = new GeocodeAddress(new CleansedAddress("", 0, 0, 0, Direction.None, "", StreetType.None, Direction.None, 0, 0, false, false))
+            {
+                AddressGrids = new List<GridLinkable>
+                {
+                    new PlaceGridLink("City", "Grid", 0)
+                }
+            };
+
+            var command = new ChooseBestAddressCandidateCommand(candidates,
+                options,
+                "top match",
+                "test",
+                address);
+
+            command.Run();
+            var match = command.Result;
+
+            Assert.That(match.Score, Is.EqualTo(100));
+            Assert.That(match.Candidates.Length, Is.EqualTo(1));
         }
     }
 }
