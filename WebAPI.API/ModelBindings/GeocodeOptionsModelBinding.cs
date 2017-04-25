@@ -18,7 +18,8 @@ namespace WebAPI.API.ModelBindings
                    format = keyValueModel["format"],
                    locator = keyValueModel["locators"],
                    spatialReference = keyValueModel["spatialReference"],
-                   pobox = keyValueModel["pobox"];
+                   pobox = keyValueModel["pobox"],
+                   scoreDifference = keyValueModel["scoreDifference"];
 
             var locatorType = LocatorType.All;
             var jsonFormat = JsonFormat.None;
@@ -27,12 +28,14 @@ namespace WebAPI.API.ModelBindings
                 score,
                 wkid;
 
-            bool geocodePoBox;
+            bool geocodePoBox,
+                 calculateScoreDifference;
 
             int.TryParse(string.IsNullOrEmpty(acceptScore) ? "70" : acceptScore, out score);
             int.TryParse(string.IsNullOrEmpty(suggestCount) ? "0" : suggestCount, out count);
             int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out wkid);
             bool.TryParse(string.IsNullOrEmpty(pobox) ? "false" : pobox, out geocodePoBox);
+            bool.TryParse(string.IsNullOrEmpty(scoreDifference) ? "false" : scoreDifference, out calculateScoreDifference);
 
             try
             {
@@ -60,7 +63,8 @@ namespace WebAPI.API.ModelBindings
                 JsonFormat = jsonFormat,
                 Locators = locatorType,
                 WkId = wkid,
-                PoBox = geocodePoBox
+                PoBox = geocodePoBox,
+                ScoreDifference = calculateScoreDifference
             };
 
             return true;

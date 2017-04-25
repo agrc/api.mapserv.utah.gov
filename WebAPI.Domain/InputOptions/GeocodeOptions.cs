@@ -12,6 +12,7 @@
             Locators = LocatorType.All;
             WkId = 26912;
             PoBox = false;
+            ScoreDifference = false;
         }
 
         /// <summary>
@@ -53,6 +54,15 @@
         ///   <c>true</c> if should geocode po box; otherwise, <c>false</c>.
         /// </value>
         public bool PoBox { get; set; }
+
+        /// <summary>
+        ///     Instructs the api to return the difference between the match address and the next best option. 
+        ///     This is only calculated if this property is true and the suggest count is 0
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if should calculate the sccore difference; otherwise, <c>false</c>.
+        /// </value>
+        public bool ScoreDifference { get; set; }
 
         public override string ToString()
         {
