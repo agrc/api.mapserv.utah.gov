@@ -32,6 +32,8 @@ namespace WebAPI.Domain.ArcServerResponse.Geolocator
         [JsonProperty(PropertyName = "score")]
         public double Score { get; set; }
 
+        public double ScoreDifference { get; set; }
+
         [JsonProperty(PropertyName = "locator")]
         public string Locator { get; set; }
 
@@ -45,6 +47,11 @@ namespace WebAPI.Domain.ArcServerResponse.Geolocator
         {
             return string.Format("address: {0}, location: {1}, score: {2}, locator: {3}", Address, Location, Score,
                                  Locator);
+        }
+
+        public bool ShouldSerializeScoreDifference()
+        {
+            return false;
         }
     }
 }
