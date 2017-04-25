@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using WebAPI.Domain.ArcServerResponse.Geolocator;
 
 namespace WebAPI.Domain.ApiResponses
@@ -26,6 +27,9 @@ namespace WebAPI.Domain.ApiResponses
         [JsonProperty(PropertyName = "addressGrid")]
         public string AddressGrid { get; set; }
 
+        [JsonProperty(PropertyName = "scoreDifference")]
+        public double ScoreDifference { get; set; }
+
         [JsonIgnore]
         public int Wkid { get; set; }
 
@@ -47,6 +51,14 @@ namespace WebAPI.Domain.ApiResponses
         public bool ShouldSerializeLocator()
         {
             return (Score > 0);
+        }
+
+        public bool ShouldSerializeScoreDifference()
+        {
+            if (Candidates == null || Candidates.Length == 0)
+                return true;
+
+            return Math.Abs(ScoreDifference) > 0;
         }
     }
 }

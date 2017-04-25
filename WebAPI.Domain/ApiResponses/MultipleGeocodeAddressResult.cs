@@ -62,7 +62,8 @@ namespace WebAPI.Domain.ApiResponses
                     Locator = x.Value.Locator,
                     MatchAddress = x.Value.MatchAddress,
                     Score = x.Value.Score,
-                    StandardizedAddress = x.Value.StandardizedAddress
+                    StandardizedAddress = x.Value.StandardizedAddress,
+                    ScoreDifference = x.Value.ScoreDifference
                 };
 
             return result;
