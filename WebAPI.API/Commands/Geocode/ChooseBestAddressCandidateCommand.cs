@@ -44,20 +44,28 @@ namespace WebAPI.API.Commands.Geocode
                 return;
             }
 
-            //get best match from candidates
+            // get best match from candidates
             var result = Candidates.FirstOrDefault(x => 
                 x.Score >= GeocodeOptions.AcceptScore &&
                 GeocodedAddress.AddressGrids.Select(y => y.Grid).Contains(x.AddressGrid)) ?? new Candidate();
 
-            //remove the result from the candidate list if it meets the accept score since it is the match address
-            if (GeocodeOptions.SuggestCount > 0 &&
-                result.Score >= GeocodeOptions.AcceptScore)
+            // remove the result from the candidate list if it meets the accept score since it is the match address
+            if (GeocodeOptions.SuggestCount > 0 && result.Score >= GeocodeOptions.AcceptScore)
             {
                 Candidates.Remove(result);
             }
 
             if (GeocodeOptions.SuggestCount == 0)
             {
+                if (GeocodeOptions.ScoreDifference && Candidates.Count >= 2)
+                {
+                    // remove winner
+                    Candidates.Remove(result);
+
+                    // calculate score with next item in array
+                    result.ScoreDifference = result.Score - Candidates.First().Score;
+                }
+                
                 Candidates.Clear();
             }
 
@@ -75,7 +83,8 @@ namespace WebAPI.API.Commands.Geocode
                 Location = result.Location,
                 AddressGrid = result.AddressGrid,
                 InputAddress = string.Format("{0}, {1}", Street, Zone),
-                Candidates = Candidates.Take(GeocodeOptions.SuggestCount).ToArray()
+                Candidates = Candidates.Take(GeocodeOptions.SuggestCount).ToArray(),
+                ScoreDifference = result.ScoreDifference
             };
 
             var standard = GeocodedAddress.StandardizedAddress.ToLowerInvariant();
