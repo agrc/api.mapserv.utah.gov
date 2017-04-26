@@ -164,7 +164,27 @@
                 How the service will handle P.O. Boxes. <code>True</code> will return the coordinates of the
                 post office where the mail is delivered. <code>False</code> will return no match. P.O. Boxes
                 can <strong>only</strong> be processed if the zone is a <strong>zip code</strong>. If a place
-                name is used in the zone the geocode will return no match. Default value is <code>false</code>
+                name is used in the zone the geocode will return no match. Default value is <code>false</code>.
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="difference">
+                scoreDifference
+            </label>
+            <div class="col-sm-8">
+                <select id="difference" name="scoreDifference" class="form-control">
+                    <option value>Score Difference
+                    <option value="true">True
+                    <option value="false">False
+                </select>
+                <span class="help-inline label label-info">boolean</span> <span class="help-inline label label-success">
+                    optional
+                </span>
+                <p class="help-block">
+                    Request the api to calculate the difference in score between the match address and the top suggestion.
+                    This flag is <strong>only</strong> calculated and returned when <code>suggest=0</code> and there is a top suggestion.
+                    Default value is <code>false</code>. If there is no top suggestion, the property is not sent. If the value is 
+                    <code>0</code>, then you have a tie and should investigate the addresses by using the <code>suggest</code> items.
             </div>
         </div>
         <div class="progress-striped active col-sm-offset-2 col-sm-8 col-xs-12">
