@@ -22,7 +22,13 @@ namespace WebAPI.API.Commands.Geocode
                 candidates = new List<Candidate>();
             }
 
-            Candidates = candidates.ToList();
+            var enumerable = candidates as IList<Candidate> ?? candidates.ToList();
+            foreach (var candidate in enumerable)
+            {
+                candidate.ScoreDifference = -1;
+            }
+
+            Candidates = enumerable.ToList();
         }
 
         public GeocodeOptions GeocodeOptions { get; set; }

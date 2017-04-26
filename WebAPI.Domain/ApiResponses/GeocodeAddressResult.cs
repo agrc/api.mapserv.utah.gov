@@ -6,6 +6,8 @@ namespace WebAPI.Domain.ApiResponses
 {
     public class GeocodeAddressResult : Suggestable
     {
+        private double _scoreDifference;
+
         [JsonProperty(PropertyName = "location")]
         public Location Location { get; set; }
 
@@ -28,7 +30,11 @@ namespace WebAPI.Domain.ApiResponses
         public string AddressGrid { get; set; }
 
         [JsonProperty(PropertyName = "scoreDifference")]
-        public double ScoreDifference { get; set; }
+        public double ScoreDifference
+        {
+            get { return _scoreDifference; }
+            set { _scoreDifference =  Math.Round(value, 2); }
+        }
 
         [JsonIgnore]
         public int Wkid { get; set; }
@@ -55,10 +61,7 @@ namespace WebAPI.Domain.ApiResponses
 
         public bool ShouldSerializeScoreDifference()
         {
-            if (Candidates == null || Candidates.Length == 0)
-                return true;
-
-            return Math.Abs(ScoreDifference) > 0;
+            return ScoreDifference > -1;
         }
     }
 }
