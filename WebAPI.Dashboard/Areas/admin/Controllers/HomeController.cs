@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Raven.Client;
+using StackExchange.Redis;
 using WebAPI.Common.Models.Raven.Admin;
 using WebAPI.Dashboard.Controllers;
 
@@ -9,9 +10,12 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
     [Authorize]
     public class HomeController : RavenController
     {
-        public HomeController(IDocumentStore store)
+        private readonly ConnectionMultiplexer _redis;
+
+        public HomeController(IDocumentStore store, ConnectionMultiplexer redis)
             : base(store)
         {
+            _redis = redis;
         }
 
         [HttpGet]
