@@ -36,7 +36,8 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
 
             var accounts = Session.Query<Account>()
                  .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                 .ToList();
+                 .ToList()
+                 .OrderBy(x => x.Email);
 
             return View("Index", accounts);
         }

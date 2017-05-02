@@ -15,27 +15,46 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="row">
-        @{
-            foreach (var account in Model)
+    @{
+        const int itemsPerRow = 4;
+        var i = 0;
+        foreach (var account in Model)
+        {
+            if (i == itemsPerRow || (i > 0 && i % itemsPerRow == 0))
             {
-                <div class="col-md-3">
-                    <div class="caption">
-                        <h3>
-                            @account.Name
-                        </h3>
-                        <div class="text-center">
+                @:</div>
+            }
+            
+            if (i % itemsPerRow == 0)
+            {
+                @:<div class="row">
+            }
+                    <div class="col-md-3 col-sm-6">
+                        <div class="caption">
+                            <h4>
+                                @Html.ActionLink(account.Email, "UserStats", new
+            {
+                Controller = "Home",
+                Area = "Admin",
+                email = account.Email
+            })
+                            </h4>
                             <p>
-                                <span class="badge badge-success badge-large">UsageCount</span>
-                            </p>
-                            <hr/>
-                            <p>
-                                Last Used: LastUsed
+                                @if (!string.IsNullOrEmpty(account.Name))
+                                {
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    @account.Name
+                                }
+                                @if (!string.IsNullOrEmpty(account.Company))
+                                {
+                                    <br/>
+                                    <span class="glyphicon glyphicon-briefcase"></span>
+                                    @account.Company
+                                }
                             </p>
                         </div>
                     </div>
-                </div>
-            }
+            i++;
         }
-    </div>
+    }
 </div>
