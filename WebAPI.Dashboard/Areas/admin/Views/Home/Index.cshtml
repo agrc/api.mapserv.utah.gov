@@ -1,312 +1,41 @@
-﻿@model dynamic
-
+﻿@model IEnumerable<WebAPI.Common.Models.Raven.Users.Account>
 @{
-ViewBag.Title = "AGRC Web API Analytics";
+    ViewBag.Title = "AGRC Web API Analytics";
 }
 
-<style>
-.chart {
-    margin-left: 42px;
-    font: 10px sans-serif lucida mono;
-    shape-rendering: crispEdges;
-}
-
-.chart div {
-    background-color: steelblue;
-    text-align: right;
-    padding: 3px;
-    margin: 1px;
-    color: white;
-}
-
-.chart rect {
-    stroke: white;
-    fill: steelblue;
-}
-
-.chart .values {
- fill: white;
-}
-
-
-.title {
-  font: 300 20px Helvetica Neue;
-  fill: #666;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  display: none;
-}
-
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-
-path {
-    stroke:black
-}
-
-</style>
 <div id="home">
     <h2>
-        API Analytics</h2>
+        API Analytics
+    </h2>
+</div>
+<div class="row">
+    <div class="col-sm-offset-3 col-sm-6">
+        @Html.ErrorBox()
+        @Html.MessageBox()
     </div>
+</div>
+<div class="container-fluid">
     <div class="row">
-        <div class="col-sm-offset-3 col-sm-6">
-            @Html.ErrorBox()
-            @Html.MessageBox()
-        </div>
-    </div>
-    <div id="d3"></div>
-    <div id="d3RealTime"></div>
-    <ul class="thumbnails">
-        @foreach (var item in Model.stats)
-        {
-        <li class="span4">
-            <div class="thumbnail">
-                <div class="caption">
-                    <h3>
-                        @item.Name</h3>
+        @{
+            foreach (var account in Model)
+            {
+                <div class="col-md-3">
+                    <div class="caption">
+                        <h3>
+                            @account.Name
+                        </h3>
                         <div class="text-center">
                             <p>
-                                <span class="badge badge-success badge-large">@item.UsageCount</span>
+                                <span class="badge badge-success badge-large">UsageCount</span>
                             </p>
-                            <hr />
+                            <hr/>
                             <p>
-                                Last Used: @item.LastUsed</p>
-                            </div>
+                                Last Used: LastUsed
+                            </p>
                         </div>
                     </div>
-                </li>
+                </div>
             }
-        </ul>
-        <script src="~/Scripts/jquery-1.9.1.js"></script>
-        <script src="~/Scripts/jquery.signalR-1.1.0.min.js"></script>
-        <script src="~/signalr/hubs"></script>
-        <script src="~/Scripts/d3.v3.js" charset="utf-8"> </script>
-        <script>
-        var margin = {
-            top: 20,
-            right: 20,
-            bottom: 50,
-            left: 75
-        },
-        width = 500 - margin.left - margin.right,
-        height = 350 - margin.top - margin.bottom;
-
-        var parseDate = d3.time.format("%m/%d/%Y").parse;
-
-        var data = [@Html.Raw(@Model.lineChart)];
-
-        data.forEach(function(d) {
-            d.date = parseDate(d[0]);
-            d.close = d[1]
-        });
-
-        var x = d3.time.scale()
-        .range([0, width]);
-
-        var y = d3.scale.linear()
-        .range([height, 0]);
-
-        var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left");
-
-        var line = d3.svg.line()
-        .x(function(d) {
-            return x(d.date);
-        })
-        .y(function(d) {
-            return y(d.close);
-        });
-
-        var svg = d3.select("#d3").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        x.domain(d3.extent(data, function(d) {
-            return d.date;
-        }));
-        y.domain(d3.extent(data, function(d) {
-            return d.close;
-        }));
-
-        svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis)
-        .selectAll("text")
-        .attr("x", 2)
-        .attr("y", 2)
-        .attr('dx', '.35em')
-        .attr("transform", "rotate(60)")
-        .style("text-anchor", "start");
-
-        svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis)
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("# Requests");
-
-        svg.append("path")
-        .datum(data)
-        .attr("class", "line")
-        .attr("d", line);
-        </script>
-        <script>
-        $(function () {
-            var ticker = $.connection.analyticsHub;
-
-            var parseTime = d3.time.format.utc("%X %p").parse;
-            var path = {}, line = {}, x, y, data = {}, width, height;
-
-            function buildChart(inData)
-            {
-                console.log('building chart');
-                inData = inData
-                data = inData.map(function (d) {
-                    return {
-                        time: parseTime(d.Date),
-                        count: +d.Requests
-                    };
-                });
-
-                var margin = {
-                    top: 10,
-                    right: 10,
-                    bottom: 20,
-                    left: 40
-                };
-                width = 500 - margin.left - margin.right,
-                height = 350 - margin.top - margin.bottom;
-
-                x = d3.time.scale()
-                .domain(d3.extent(data, function (d) {
-                    return d.time
-                }))
-                .range([0, width]);
-
-                y = d3.scale.linear()
-                .domain([-.5,5])
-                .range([height, 0]);
-
-                line = d3.svg.line()
-                .x(function (d, i) {
-                    return x(d.time);
-                })
-                .y(function (d, i) {
-                    return y(d.count);
-                });
-
-                svg = d3.select("#d3RealTime").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-                svg.append("defs").append("clipPath")
-                .attr("id", "clip")
-                .append("rect")
-                .attr("width", width)
-                .attr("height", height);
-
-                svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.svg.axis().scale(x).orient("bottom"));
-
-                svg.append("g")
-                .attr("class", "y axis")
-                .call(d3.svg.axis().scale(y).orient("left"));
-
-                path = svg.append("g")
-                .attr("clip-path", "url(#clip)")
-                .append("path")
-                .datum(data)
-                .attr("class", "line")
-                .attr("d", line)
-                //.attr("transform", "translate(" + x(1) + ")");
-            }
-
-            function init() {
-                ticker.server.getLiveRequests().done(buildChart);
-            }
-
-    // Add a client-side hub method that the server will call
-    ticker.client.updateChart = function (newData) {
-        console.log('updating chart')
-        newData.forEach(function(d) {
-            d.time = parseTime(d.Date);
-            d.count = +d.Requests
-        });
-
-  // push a new data point onto the back
-  newData.forEach(function(d){
-    data.push(d);
-
-    x = d3.time.scale()
-    .domain(d3.extent(data, function(d) { return d.time }))
-    .range([0, width]);
-
-    var domain = d3.max(data, function(d){
-        return d.count;
-    });
-
-    if(domain==0)
-        domain = 5;
-
-    y = d3.scale.linear()
-    .domain([-.5, domain])
-    .range([height, 0]);  
-
-    svg.select('.x.axis').remove();
-    svg.select('.y.axis').remove();
-
-    svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.svg.axis().scale(x).orient("bottom"));
-
-    svg.append("g")
-    .attr("class", "y axis")
-    .call(d3.svg.axis().scale(y).orient("left"));
-
-  // redraw the line, and slide it to the left
-  path
-  .attr("d", line)
-  .attr("transform", null)
-  .transition()
-  .duration(15000)
-  .ease("linear")
-  .attr("transform", "translate(" + -(x(d.time)) + ")");
-
-  // pop the old data point off the front
-  if(data.length > 3)
-    data.shift();
-});
-}
-
-    // Start the connection
-    $.connection.hub.start().done(init);
-});
-</script>
+        }
+    </div>
+</div>

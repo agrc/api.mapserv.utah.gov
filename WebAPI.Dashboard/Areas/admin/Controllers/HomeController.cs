@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Raven.Client;
 using StackExchange.Redis;
+using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Admin;
+using WebAPI.Common.Models.Raven.Users;
 using WebAPI.Dashboard.Controllers;
 
 namespace WebAPI.Dashboard.Areas.admin.Controllers
@@ -31,8 +34,24 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                     });
             }
 
+            var accounts = Session.Query<Account>()
+                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                 .ToList();
 
-            return View("Index");
+            return View("Index", accounts);
+        }
+
+        public void GetKeys()
+        {
+            var server = _redis.GetServer("localhost", 6379);
+            var db = _redis.GetDatabase();
+            var dbIndex = db.Database;
+            var redisKeys = server.Keys(dbIndex);
+
+            foreach (var key in redisKeys)
+            {
+                var value = db.StringGet(key);
+            }
         }
     }
 }
