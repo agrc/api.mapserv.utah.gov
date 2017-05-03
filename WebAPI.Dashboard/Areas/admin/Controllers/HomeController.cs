@@ -51,14 +51,14 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                 StatCache.Usage = HydrateUsageTimeCache();
                 StatCache.Keys = totalKeys;
                 StatCache.Users = totalUsers;
-                
             }
 
             return View("Index", new {
                 StatCache.Keys,
                 StatCache.Users,
                 StatCache.LastUsedKey,
-                StatCache.MostUsedKey
+                StatCache.MostUsedKey,
+                StatCache.TotalRequests
                 }.ToExpando());
         }
 
@@ -96,6 +96,10 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
             return View("UserStats", stats);
         }
 
+        [HttpGet]
+#if !DEBUG
+        [OutputCache(Duration=60)]
+#endif
         public ViewResult KeyStats(string key)
         {
             var keyInfo = Session.Query<ApiKey, IndexKeysForUser>()

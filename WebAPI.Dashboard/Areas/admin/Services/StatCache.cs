@@ -27,7 +27,7 @@ namespace WebAPI.Dashboard.Areas.admin.Services
             }
         }
 
-        public static Tuple<string, long>  MostUsedKey
+        public static Tuple<string, long> MostUsedKey
         {
             get
             {
@@ -39,8 +39,13 @@ namespace WebAPI.Dashboard.Areas.admin.Services
                     return null;
                 }
 
-                return  new Tuple<string, long>(item.Key, item.Count);
+                return new Tuple<string, long>(item.Key, item.Count);
             }
+        }
+
+        public static long TotalRequests
+        {
+            get { return Usage.Sum(x => x.Count); }
         }
     }
 }
