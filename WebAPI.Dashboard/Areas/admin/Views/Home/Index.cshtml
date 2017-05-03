@@ -1,3 +1,5 @@
+﻿@using WebAPI.Common.Executors
+@using WebAPI.Dashboard.Commands.Time
 @model dynamic
 @{
     ViewBag.Title = "AGRC Web API Analytics";
@@ -15,6 +17,55 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 text-center">
+            <h4>
+                Total Users
+            </h4>
+            <h1>
+               @Model.Users
+            </h1>
+        </div>
+        <div class="col-md-3 col-sm-6 text-center">
+            <h4>
+                Total Keys
+            </h4>
+            <h1>
+                @Model.Keys
+            </h1>
+        </div>
+        <div class="col-md-3 col-sm-6 text-center">
+            <h4>
+                Most Used Key
+            </h4>
+            <h3>
+                @Html.ActionLink(Model.MostUsedKey.Item1.ToString(), "KeyStats", new
+                {
+                    Controller = "Home",
+                    Area = "Admin",
+                    key = Model.MostUsedKey.Item1.ToString()
+                })
+            </h3>
+            <h4>
+                @Model.MostUsedKey.Item2.ToString("#,##")
+            </h4>
+        </div>
+        <div class="col-md-3 col-sm-6 text-center">
+            <h4>
+                Last Used Key
+            </h4>
+            <h3>
+                @Html.ActionLink(Model.LastUsedKey.Item1.ToString(), "KeyStats", new
+                {
+                    Controller = "Home",
+                    Area = "Admin",
+                    key = Model.LastUsedKey.Item1.ToString()
+                })
+            </h3>
+            <h4>
+                @CommandExecutor.ExecuteCommand(new CalculateTimeAgoCommand(Model.LastUsedKey.Item2))</h4>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4 col-sm-6 text-center">
             <h1>

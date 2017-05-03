@@ -183,6 +183,7 @@
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
     <Compile Include="Areas\admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\admin\Services\StatCache.cs" />
     <Compile Include="Areas\secure\Attributes\ConfirmationAuthorization.cs" />
     <Compile Include="Areas\secure\Controllers\GenerateKeyController.cs" />
     <Compile Include="Areas\secure\Controllers\HomeController.cs" />

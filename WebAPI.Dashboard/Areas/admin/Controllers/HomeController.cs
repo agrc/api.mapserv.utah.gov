@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Web.Mvc;
 using Raven.Client;
 using StackExchange.Redis;
+using WebAPI.Common.Executors;
+using WebAPI.Common.Extensions;
 using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Admin;
 using WebAPI.Common.Models.Raven.Keys;
@@ -25,6 +28,9 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
         }
 
         [HttpGet]
+#if !DEBUG
+        [OutputCache(Duration=300)]
+#endif
         public ActionResult Index()
         {
             if (!Session.Query<AdminContainer>().Any(x => x.Emails.Any(y => y == Account.Email)))
@@ -37,6 +43,24 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                     });
             }
 
+            if (StatCache.Usage == null || !StatCache.Usage.Any())
+            {
+                var totalKeys = Session.Query<ApiKey>().Count();
+                var totalUsers = Session.Query<Account>().Count();
+
+                StatCache.Usage = HydrateUsageTimeCache();
+                StatCache.Keys = totalKeys;
+                StatCache.Users = totalUsers;
+                
+            }
+
+            return View("Index", new {
+                StatCache.Keys,
+                StatCache.Users,
+                StatCache.LastUsedKey,
+                StatCache.MostUsedKey
+                }.ToExpando());
+        }
 
         [HttpGet]
 #if !DEBUG
@@ -71,15 +95,45 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
             
             return View("UserStats", stats);
         }
+        public IReadOnlyCollection<Usage> HydrateUsageTimeCache()
+        {
+            var usage = new List<Usage>();
+
             var server = _redis.GetServer("localhost", 6379);
-            var db = _redis.GetDatabase();
-            var dbIndex = db.Database;
+            var _db = _redis.GetDatabase();
+            var dbIndex = _db.Database;
             var redisKeys = server.Keys(dbIndex);
 
-            foreach (var key in redisKeys)
+            foreach (var key in redisKeys.Where(x => !x.ToString().Contains(":time")))
             {
-                var value = db.StringGet(key);
+                var use = new Usage
+                {
+                    Key = key
+                };
+
+                var value = _db.StringGet(key);
+                if (value.HasValue)
+                {
+                    use.Count = long.Parse(value);
+                }
+
+                value = _db.StringGet("{0}:time".With(key));
+                if (value.HasValue)
+                {
+                    use.Time = long.Parse(value);
+                }
+
+                usage.Add(use);
             }
+
+            return usage.AsReadOnly();
+        }
+
+        public class Usage
+        {
+            public string Key { get; set; }
+            public long Time { get; set; }
+            public long Count { get; set; }
         }
     }
 }
