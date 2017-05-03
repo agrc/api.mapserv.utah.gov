@@ -9,5 +9,5 @@
     <li><strong>App Status:</strong> @Model.ApplicationStatus
     <li><strong>Pattern:</strong> @Model.Pattern
     <li><strong>Last Used:</strong> @CommandExecutor.ExecuteCommand(new CalculateTimeAgoCommand(Model.LastUsed))
-    <li><strong>Count:</strong> @Model.UsageCount
+    <li><strong>Requests To Date:</strong> @Model.UsageCount.ToString("0,##")
 </ul>
