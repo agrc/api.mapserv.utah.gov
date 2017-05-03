@@ -95,6 +95,34 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
             
             return View("UserStats", stats);
         }
+
+        public ViewResult KeyStats(string key)
+        {
+            var keyInfo = Session.Query<ApiKey, IndexKeysForUser>()
+                .SingleOrDefault(x => x.Key == key);
+
+            if (keyInfo == null)
+            {
+                return View("empty");
+            }
+
+            var email = Session.Load<Account>(keyInfo.AccountId).Email;
+                
+            var keys = new[]
+            {
+                keyInfo,
+            };
+
+            var stats = CommandExecutor.ExecuteCommand(new GetRedisStatsPerKeyCommand(_redis.GetDatabase(), keys))
+                .OrderByDescending(x => x.LastUsed);
+
+            return View("KeyStats", new
+            {
+                key = stats.Single(),
+                email
+            }.ToExpando());
+        }
+
         public IReadOnlyCollection<Usage> HydrateUsageTimeCache()
         {
             var usage = new List<Usage>();

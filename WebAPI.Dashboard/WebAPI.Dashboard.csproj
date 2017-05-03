@@ -273,6 +273,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\admin\Views\Home\ApiKey.cshtml" />
+    <None Include="Areas\admin\Views\Home\KeyStats.cshtml" />
     <None Include="Areas\admin\Views\Home\UserStats.cshtml" />
     <None Include="connections.api.mapserv.utah.gov.config">
       <DependentUpon>connections.config</DependentUpon>
@@ -306,7 +307,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Models\" />
-    <Folder Include="Areas\admin\Services\" />
     <Folder Include="Areas\admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

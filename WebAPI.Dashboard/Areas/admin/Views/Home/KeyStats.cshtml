@@ -1,0 +1,18 @@
+﻿@using WebAPI.Common.Indexes
+@model dynamic
+
+@{
+    ViewBag.Title = "AGRC Web API Analytics";
+}
+
+<div class="col-md-12 col-sm-6 text-center">
+    @Html.Partial("ApiKey", (StatsPerApiKey.Stats) Model.key)
+    <h3>
+        @Html.ActionLink((string) Model.email, "UserStats", new
+        {
+            Controller = "Home",
+            Area = "Admin",
+            email = (string) Model.email
+        })
+    </h3>
+</div>
