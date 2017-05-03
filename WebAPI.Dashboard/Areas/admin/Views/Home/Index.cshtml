@@ -39,7 +39,7 @@
                 Most Used Key
             </h4>
             <h3>
-                @Html.ActionLink(Model.MostUsedKey.Item1.ToString(), "KeyStats", new
+                @Html.ActionLink((string)Model.MostUsedKey.Item1, "KeyStats", new
                 {
                     Controller = "Home",
                     Area = "Admin",
@@ -55,7 +55,7 @@
                 Last Used Key
             </h4>
             <h3>
-                @Html.ActionLink(Model.LastUsedKey.Item1.ToString(), "KeyStats", new
+                @Html.ActionLink((string)Model.LastUsedKey.Item1, "KeyStats", new
                 {
                     Controller = "Home",
                     Area = "Admin",
