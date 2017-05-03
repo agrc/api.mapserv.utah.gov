@@ -1,0 +1,13 @@
+﻿@using WebAPI.Common.Executors
+@using WebAPI.Dashboard.Commands.Time
+@model WebAPI.Common.Indexes.StatsPerApiKey.Stats
+
+<h3>@Model.Key</h3>
+<ul class="list-unstyled">
+    <li><strong>Type:</strong> @Model.Type
+    <li><strong>Status:</strong> @Model.Status
+    <li><strong>App Status:</strong> @Model.ApplicationStatus
+    <li><strong>Pattern:</strong> @Model.Pattern
+    <li><strong>Last Used:</strong> @CommandExecutor.ExecuteCommand(new CalculateTimeAgoCommand(Model.LastUsed))
+    <li><strong>Count:</strong> @Model.UsageCount
+</ul>

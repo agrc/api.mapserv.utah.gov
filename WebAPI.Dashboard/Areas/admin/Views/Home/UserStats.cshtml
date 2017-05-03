@@ -23,15 +23,7 @@
         }
         i++;
     <div class="col-md-3 col-sm-6">
-        <h3>@key.Key</h3>
-        <ul class="list-unstyled">
-            <li><strong>Type:</strong> @key.Type
-            <li><strong>Status:</strong> @key.Status
-            <li><strong>App Status:</strong> @key.ApplicationStatus
-            <li><strong>Pattern:</strong> @key.Pattern
-            <li><strong>Last Used:</strong> @CommandExecutor.ExecuteCommand(new CalculateTimeAgoCommand(key.LastUsed))
-            <li><strong>Count:</strong> @key.UsageCount
-        </ul>
+       @Html.Partial("ApiKey", key) 
     </div>
     }
 }
