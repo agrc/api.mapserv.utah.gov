@@ -270,6 +270,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Areas\admin\Views\Home\Index.cshtml" />
     <None Include="Areas\admin\Views\Home\UserStats.cshtml" />
     <None Include="connections.api.mapserv.utah.gov.config">
       <DependentUpon>connections.config</DependentUpon>
@@ -332,7 +333,6 @@
     <Content Include="Areas\secure\Views\Profile\Email.cshtml" />
     <Content Include="Views\Shared\AnalyticLink.cshtml" />
     <Content Include="Areas\admin\Views\Web.config" />
-    <Content Include="Areas\admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\admin\Views\Home\UserList.cshtml" />
     <Content Include="Areas\admin\Views\_ViewStart.cshtml" />
     <None Include="NLog.Debug.config">

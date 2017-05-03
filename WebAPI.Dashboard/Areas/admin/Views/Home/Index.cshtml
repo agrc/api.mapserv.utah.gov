@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebAPI.Common.Models.Raven.Users.Account>
+@model dynamic
 @{
     ViewBag.Title = "AGRC Web API Analytics";
 }
@@ -15,46 +15,30 @@
     </div>
 </div>
 <div class="container-fluid">
-    @{
-        const int itemsPerRow = 4;
-        var i = 0;
-        foreach (var account in Model)
-        {
-            if (i == itemsPerRow || (i > 0 && i % itemsPerRow == 0))
-            {
-                @:</div>
-            }
-            
-            if (i % itemsPerRow == 0)
-            {
-                @:<div class="row">
-            }
-                    <div class="col-md-3 col-sm-6">
-                        <div class="caption">
-                            <h4>
-                                @Html.ActionLink(account.Email, "UserStats", new
-            {
-                Controller = "Home",
-                Area = "Admin",
-                email = account.Email
-            })
-                            </h4>
-                            <p>
-                                @if (!string.IsNullOrEmpty(account.Name))
-                                {
-                                    <span class="glyphicon glyphicon-user"></span>
-                                    @account.Name
-                                }
-                                @if (!string.IsNullOrEmpty(account.Company))
-                                {
-                                    <br/>
-                                    <span class="glyphicon glyphicon-briefcase"></span>
-                                    @account.Company
-                                }
-                            </p>
-                        </div>
-                    </div>
-            i++;
-        }
-    }
+    <div class="row">
+        <div class="col-md-4 col-sm-6 text-center">
+            <h1>
+                <span class="glyphicon glyphicon-user help-block"></span>
+            </h1>
+            <h4>
+                @Html.ActionLink("Display Analytics Per User", "UserList", new
+                {
+                    Controller = "Home",
+                    Area = "Admin"
+                })
+            </h4>
+        </div>
+        <div class="col-md-4 col-sm-6 text-center">
+            <h1>
+                <span class="glyphicon glyphicon-user help-block"></span>
+            </h1>
+            <h4>
+                @Html.ActionLink("Most Used Key", "UserList", new
+                {
+                    Controller = "Home",
+                    Area = "Admin"
+                })
+            </h4>
+        </div>
+    </div>
 </div>
