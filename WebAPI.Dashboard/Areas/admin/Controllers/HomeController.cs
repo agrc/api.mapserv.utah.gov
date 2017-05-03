@@ -34,12 +34,19 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                     });
             }
 
-            var accounts = Session.Query<Account>()
-                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                 .ToList()
-                 .OrderBy(x => x.Email);
 
-            return View("Index", accounts);
+        [HttpGet]
+#if !DEBUG
+        [OutputCache(Duration=1440)]
+#endif
+        public ViewResult UserList()
+        {
+            var accounts = Session.Query<Account>()
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                .ToList()
+                .OrderBy(x => x.Email);
+
+            return View("UserList", accounts);
         }
 
         public void GetKeys()

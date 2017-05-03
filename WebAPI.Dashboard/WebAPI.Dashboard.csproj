@@ -331,6 +331,7 @@
     <Content Include="Views\Shared\AnalyticLink.cshtml" />
     <Content Include="Areas\admin\Views\Web.config" />
     <Content Include="Areas\admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\admin\Views\Home\UserList.cshtml" />
     <Content Include="Areas\admin\Views\_ViewStart.cshtml" />
     <None Include="NLog.Debug.config">
       <DependentUpon>NLog.config</DependentUpon>
