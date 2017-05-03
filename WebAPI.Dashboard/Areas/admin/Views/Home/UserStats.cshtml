@@ -1,14 +1,15 @@
-﻿@using WebAPI.Common.Executors
-@using WebAPI.Dashboard.Commands.Time
-@model IOrderedEnumerable<WebAPI.Common.Indexes.StatsPerApiKey.Stats>
+﻿@model IOrderedEnumerable<WebAPI.Common.Indexes.StatsPerApiKey.Stats>
 
 @{
     ViewBag.Title = "AGRC Web API Analytics";
 }
 
 <div class="container-fluid">
+    <div class="row col-md-12">
+        <h3>Total Requests Handled: @Model.Sum(x => x.UsageCount).ToString("0,##")</h3>
+    </div>
 @{
-    const int itemsPerRow = 4;
+    const int itemsPerRow = 3;
     var i = 0;
     foreach (var key in Model)
     {
@@ -22,7 +23,7 @@
             @:<div class="row">
         }
         i++;
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-4 col-sm-6">
        @Html.Partial("ApiKey", key) 
     </div>
     }

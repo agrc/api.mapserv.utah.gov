@@ -22,6 +22,11 @@ namespace WebAPI.Dashboard
             bundles.Add(new StyleBundle("~/Content/bundles").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/Site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/adminbundles").Include(
+                "~/Content/bootstrap.css",
+                "~/Content/Site.css",
+                "~/Content/Analytics.css"));
         }
     }
 }
