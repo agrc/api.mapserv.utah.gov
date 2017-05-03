@@ -1,0 +1,38 @@
+﻿@using WebAPI.Common.Executors
+@using WebAPI.Dashboard.Commands.Time
+@model IOrderedEnumerable<WebAPI.Common.Indexes.StatsPerApiKey.Stats>
+
+@{
+    ViewBag.Title = "AGRC Web API Analytics";
+}
+
+<div class="container-fluid">
+@{
+    const int itemsPerRow = 4;
+    var i = 0;
+    foreach (var key in Model)
+    {
+        if (i == itemsPerRow || (i > 0 && i%itemsPerRow == 0))
+        {
+            @:</div>
+        }
+
+        if (i%itemsPerRow == 0)
+        {
+            @:<div class="row">
+        }
+        i++;
+    <div class="col-md-3 col-sm-6">
+        <h3>@key.Key</h3>
+        <ul class="list-unstyled">
+            <li><strong>Type:</strong> @key.Type
+            <li><strong>Status:</strong> @key.Status
+            <li><strong>App Status:</strong> @key.ApplicationStatus
+            <li><strong>Pattern:</strong> @key.Pattern
+            <li><strong>Last Used:</strong> @CommandExecutor.ExecuteCommand(new CalculateTimeAgoCommand(key.LastUsed))
+            <li><strong>Count:</strong> @key.UsageCount
+        </ul>
+    </div>
+    }
+}
+</div>

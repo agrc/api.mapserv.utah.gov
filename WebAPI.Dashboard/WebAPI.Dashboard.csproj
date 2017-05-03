@@ -196,6 +196,7 @@
     <Compile Include="Commands\Email\SendConfirmationEmailCommand.cs" />
     <Compile Include="Commands\Email\SendPasswordResetEmailCommand.cs" />
     <Compile Include="Commands\Key\BucketizeNumbersCommand.cs" />
+    <Compile Include="Commands\Key\GetRedisStatsPerKeyCommand.cs" />
     <Compile Include="Commands\Key\TotalRedisStatsCommand.cs" />
     <Compile Include="Commands\Key\FormatKeyPatternCommand.cs" />
     <Compile Include="Commands\Key\GenerateKeyCommand.cs" />
@@ -269,6 +270,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Areas\admin\Views\Home\UserStats.cshtml" />
     <None Include="connections.api.mapserv.utah.gov.config">
       <DependentUpon>connections.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>

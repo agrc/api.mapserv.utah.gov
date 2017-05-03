@@ -69,6 +69,21 @@ namespace WebAPI.Common.Indexes
             public ApiKey.KeyStatus Status { get; set; }
             public ApiKey.ApplicationType Type { get; set; }
             public ApiKey.ApplicationStatus ApplicationStatus { get; set; }
+
+            public Stats()
+            {
+                
+            }
+
+            public Stats(ApiKey key)
+            {
+                AccountId = key.AccountId;
+                Key = key.Key;
+                Pattern = key.Pattern;
+                Status = key.ApiKeyStatus;
+                Type = key.Type;
+                ApplicationStatus = key.AppStatus;
+            }
         }
     }
 }

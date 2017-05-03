@@ -5,7 +5,10 @@ using Raven.Client;
 using StackExchange.Redis;
 using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Admin;
+using WebAPI.Common.Models.Raven.Keys;
 using WebAPI.Common.Models.Raven.Users;
+using WebAPI.Dashboard.Areas.admin.Services;
+using WebAPI.Dashboard.Commands.Key;
 using WebAPI.Dashboard.Controllers;
 
 namespace WebAPI.Dashboard.Areas.admin.Controllers
@@ -49,8 +52,25 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
             return View("UserList", accounts);
         }
 
-        public void GetKeys()
+        [HttpGet]
+#if !DEBUG
+        [OutputCache(Duration=60)]
+#endif
+        public ActionResult UserStats(string email)
         {
+            var account = Session.Query<Account, IndexEmail>()
+                                 .SingleOrDefault(x => x.Email == email);
+
+            var keys = Session.Query<ApiKey, IndexKeysForUser>()
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                .Where(x => x.AccountId == account.Id)
+                .ToList();
+
+            var stats = CommandExecutor.ExecuteCommand(new GetRedisStatsPerKeyCommand(_redis.GetDatabase(), keys))
+                .OrderByDescending(x => x.LastUsed);
+            
+            return View("UserStats", stats);
+        }
             var server = _redis.GetServer("localhost", 6379);
             var db = _redis.GetDatabase();
             var dbIndex = db.Database;
