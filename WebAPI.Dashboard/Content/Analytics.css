@@ -3245,7 +3245,7 @@ table.text-center,table.text-center td,table.text-center th {
 .widget-user .widget-user-username {
     margin-top: 0;
     margin-bottom: 5px;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 300;
     text-shadow: 0 1px 1px rgba(0,0,0,0.2)
 }
@@ -3269,6 +3269,11 @@ table.text-center,table.text-center td,table.text-center th {
 
 .widget-user .box-footer {
     padding-top: 30px
+.action-link {
+    color: #fff;
+    position: absolute;
+    top: 2px;
+    left: 4px;
 }
 
 .widget-user-2 .widget-user-header {
