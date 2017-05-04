@@ -3,10 +3,34 @@
 @{
     ViewBag.Title = "AGRC Web API Analytics";
 }
-
-<div class="container-fluid">
-    <div class="row col-md-12">
-        <h3>Total Requests Handled: @Model.Sum(x => x.UsageCount).ToString("0,##")</h3>
+<div id="home">
+    <h2 class="text-center">
+        User Key Stats
+    </h2>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-4">
+            <div class="info-box">
+                <span class="info-box-icon bg-light-blue">
+                <i class="glyphicon glyphicon-user"></i>
+            </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">User</span>
+                    <span class="info-box-number">@Request["email"]</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="info-box">
+                <span class="info-box-icon bg-maroon">
+                    <i class="glyphicon glyphicon-stats"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Requests Handled</span>
+                    <span class="info-box-number">@Model.Sum(x => x.UsageCount).ToString("#,##0")</span>
+                </div>
+            </div>
+        </div>
     </div>
 @{
     const int itemsPerRow = 3;

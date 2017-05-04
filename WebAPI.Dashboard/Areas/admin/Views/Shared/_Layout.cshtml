@@ -7,8 +7,8 @@
 @Styles.Render("~/content/adminbundles")
 @Scripts.Render("~/bundles/jquery")
 <body>
-<div id="wrap">
-    <div class="navbar navbar-default navbar-fixed-top">
+<div id="wrap" class="bg-gray">
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse" aria-expanded="false">
@@ -26,26 +26,38 @@
                 </div>
                 <div class="navbar-brand">
                     @Html.ActionLink("AGRC Web API", "Index", new
-                {
-                    Controller = "Home"
-                }, new
-                {
-                    @class = "brand"
-                })
-                    <div class="nav-collapse collapse" id="collapse">
-                        <ul class="nav">
+                    {
+                        Controller = "Home"
+                    }, new
+                    {
+                        @class = "brand"
+                    })
+                </div>
+                </div>
+                    <div class="navbar-collapse collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="">
+                                @Html.ActionLink("Console", "Index", new
+                        {
+                            Controller = "Home",
+                            Area = "secure"
+                        })
+                            </li>
                             <li class="">
                                 @Html.ActionLink("API Explorer", "Api", new
-                            {
-                                Controller = "Go"
-                            })
+                        {
+                            Controller = "Go",
+                            Area = ""
+                        })
                             </li>
+                            @Html.Action("RenderAdminAnalyticLink")
                         </ul>
+                        <p class="navbar-text navbar-right">
+                            @Html.Action("RenderUserPanel")
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
     <div class="container">
         @RenderBody()
         @Scripts.Render("~/bundles/js")

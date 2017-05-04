@@ -5,7 +5,7 @@
 
 <div id="home">
     <h2>
-        API Analytics
+        Registered Users
     </h2>
 </div>
 <div class="row">
@@ -15,47 +15,75 @@
     </div>
 </div>
 <div class="container-fluid">
-    @{
-        const int itemsPerRow = 4;
-        var i = 0;
-        foreach (var account in Model)
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            <p><input id="searchbox-input" type="text" class="form-control"/></p>
+        </div>
+    </div>
+@{
+    const int itemsPerRow = 4;
+    var colSpan = 12/itemsPerRow;
+    var i = 0;
+    foreach (var account in Model)
+    {
+        if (i == itemsPerRow || (i > 0 && i%itemsPerRow == 0))
         {
-            if (i == itemsPerRow || (i > 0 && i % itemsPerRow == 0))
-            {
-                @:</div>
-            }
-            
-            if (i % itemsPerRow == 0)
-            {
-                @:<div class="row">
-            }
-                    <div class="col-md-3 col-sm-6">
-                        <div class="caption">
-                            <h4>
-                                @Html.ActionLink(account.Email, "UserStats", new
-            {
-                Controller = "Home",
-                Area = "Admin",
-                email = account.Email
-            })
-                            </h4>
-                            <p style="padding-left:15px">
-                                <span class="glyphicon glyphicon-scale"></span> @account.KeyQuota.KeysUsed keys<br/>
-                                @if (!string.IsNullOrEmpty(account.Name))
-                                {
-                                    <span class="glyphicon glyphicon-user"></span>
-                                    @account.Name
-                                }
-                                @if (!string.IsNullOrEmpty(account.Company))
-                                {
-                                    <br/>
-                                    <span class="glyphicon glyphicon-briefcase"></span>
-                                    @account.Company
-                                }
-                            </p>
+            @:</div>
+        }
+
+        if (i%itemsPerRow == 0)
+        {
+            @:<div class="row">
+        }
+        <div class="col-lg-@colSpan col-md-6 col-sm-6">
+            <div class="box box-widget widget-user">
+                <div class="widget-user-header bg-purple">
+                    <h5 class="widget-user-username">
+                        @account.Email
+                    </h5>
+                    <h4 class="widget-user-username">
+                        <a href="@Url.Action("UserStats", new
+                                 {
+                                     Controller = "Home",
+                                     Area = "Admin",
+                                     email = account.Email
+                                 })" class="action-link">
+                            <i class="glyphicon glyphicon-share-alt"></i>
+                        </a>
+                    </h4>
+                    @if (!string.IsNullOrEmpty(account.JobTitle))
+                    {
+                        <h5 class="widget-user-desc">@account.Company @account.JobTitle @account.JobCategory</h5>
+                    }
+                </div>
+                <div class="box-footer no-padding">
+                    <div class="row">
+                        <div class="col-sm-7 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">Name</h5>
+                                <span class="description-text">@account.Name</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="description-block">
+                                <h5 class="description-header">Keys</h5>
+                                <span class="description-text">@account.KeyQuota.KeysUsed</span>
+                            </div>
                         </div>
                     </div>
-            i++;
-        }
+                </div>
+            </div>
+        </div>
+        i++;
     }
+}
 </div>
+            <script type="text/javascript">
+                $('#searchbox-input').change(function () {
+                    console.log('searching');
+                    $('.col-lg-3.col-md-6.col-sm-6').show();
+                    $('.container-fluid').find("h5.widget-user-username:not(:contains(" + $(this).val() + "))")
+                    .parent().parent().parent().css('display', 'none');
+                });
+            </script>
+    

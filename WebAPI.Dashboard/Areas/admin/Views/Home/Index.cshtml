@@ -3,11 +3,10 @@
 @model dynamic
 @{
     ViewBag.Title = "AGRC Web API Analytics";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div id="home">
-    <h2>
+    <h2 class="text-center">
         API Analytics
     </h2>
 </div>
@@ -19,7 +18,28 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-5 col-sm-12">
+            <div class="small-box bg-orange">
+                <div class="inner">
+                    <h4>@Model.MostUsedKey.Item1</h4>
+                    <p>Most Used Key</p>
+                    <p>@Model.MostUsedKey.Item2.ToString("#,##")</p>
+                </div>
+                <div class="icon">
+                    <i class="glyphicon glyphicon-fire"></i>
+                </div>
+                <a href="@Url.Action("KeyStats", new
+                         {
+                             Controller = "Home",
+                             Area = "Admin",
+                             key = Model.MostUsedKey.Item1.ToString()
+                         })" class="small-box-footer">
+                    Key Info
+                    <i class="glyphicon glyphicon-share-alt"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12">
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3>
@@ -30,49 +50,17 @@
                 <div class="icon">
                     <i class="glyphicon glyphicon-user"></i>
                 </div>
-                @Html.ActionLink("All Users", "UserList", new
-                {
-                    Controller = "Home",
-                    Area = "Admin"
-                }, new
-                {
-                    @class = "small-box-footer"
-                })
+                <a href="@Url.Action("UserList", new
+                         {
+                             Controller = "Home",
+                             Area = "Admin"
+                         })" class="small-box-footer">
+                    All Users
+                    <i class="glyphicon glyphicon-share-alt"></i>
+                </a>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="small-box bg-green">
-                <div class="inner">
-                    <h3>@Model.Keys</h3>
-                    <p>Total Keys</p>
-                </div>
-                <div class="icon">
-                    <i class="glyphicon glyphicon-briefcase"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="small-box bg-orange">
-                <div class="inner">
-                    <h4>@Model.MostUsedKey.Item1</h4>
-                    <p>Most Used Key</p>
-                    <p>@Model.MostUsedKey.Item2.ToString("#,##")</p>
-                </div>
-                <div class="icon">
-                    <i class="glyphicon glyphicon-fire"></i>
-                </div>
-                    @Html.ActionLink("Api Key Info", "KeyStats", new
-                    {
-                        Controller = "Home",
-                        Area = "Admin",
-                        key = Model.MostUsedKey.Item1.ToString()
-                    }, new
-                    {
-                        @class = "small-box-footer"
-                    })
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-5 col-sm-12">
             <div class="small-box bg-red">
                 <div class="inner">
                     <h4>@Model.LastUsedKey.Item1</h4>
@@ -82,25 +70,38 @@
                 <div class="icon">
                     <i class="glyphicon glyphicon-calendar"></i>
                 </div>
-                    @Html.ActionLink((string) Model.LastUsedKey.Item1, "KeyStats", new
-                    {
-                        Controller = "Home",
-                        Area = "Admin",
-                        key = Model.LastUsedKey.Item1.ToString()
-                    }, new
-                    {
-                        @class = "small-box-footer"
-                    })
+                <a href="@Url.Action("KeyStats", new
+                         {
+                             Controller = "Home",
+                             Area = "Admin",
+                             key = Model.LastUsedKey.Item1.ToString()
+                         })" class="small-box-footer">
+                    Key Info
+                    <i class="glyphicon glyphicon-share-alt"></i>
+                </a>
             </div>
         </div>
-        <div class="col-md-4 col-md-6">
-            <div class="small-box bg-blue">
-                <div class="inner">
-                    <h3>@Model.TotalRequests.ToString("0,##")</h3>
-                    <p>Total Requests Handled</p>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-2 col-md-4 col-sm-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-light-blue">
+                    <i class="glyphicon glyphicon-briefcase"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total API Keys Created</span>
+                    <span class="info-box-number">@Model.Keys</span>
                 </div>
-                <div class="icon">
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-black">
                     <i class="glyphicon glyphicon-signal"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Requests Handled</span>
+                    <span class="info-box-number">@Model.TotalRequests.ToString("#,##0")</span>
                 </div>
             </div>
         </div>

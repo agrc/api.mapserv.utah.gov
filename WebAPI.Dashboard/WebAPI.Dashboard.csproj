@@ -276,6 +276,7 @@
     <Content Include="Areas\admin\Views\Home\ApiKey.cshtml" />
     <None Include="Areas\admin\Views\Home\KeyStats.cshtml" />
     <None Include="Areas\admin\Views\Home\UserStats.cshtml" />
+    <Content Include="Areas\admin\Views\Shared\_Layout.cshtml" />
     <None Include="connections.api.mapserv.utah.gov.config">
       <DependentUpon>connections.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
@@ -304,12 +305,10 @@
     <Content Include="secrets.config" />
     <Content Include="secrets.template.config" />
     <Content Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
-    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Models\" />
-    <Folder Include="Areas\admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

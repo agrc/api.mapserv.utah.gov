@@ -1656,7 +1656,8 @@ a:hover,a:active,a:focus {
 
 .box .nav-stacked>li {
     border-bottom: 1px solid #f4f4f4;
-    margin: 0
+    margin: 0;
+    padding: 4px 15px;
 }
 
 .box .nav-stacked>li:last-of-type {
@@ -3268,7 +3269,9 @@ table.text-center,table.text-center td,table.text-center th {
 }
 
 .widget-user .box-footer {
-    padding-top: 30px
+    padding-top: 30px;
+}
+
 .action-link {
     color: #fff;
     position: absolute;
@@ -3291,10 +3294,6 @@ table.text-center,table.text-center td,table.text-center th {
 
 .widget-user-2 .widget-user-desc {
     margin-top: 0
-}
-
-.widget-user-2 .widget-user-username,.widget-user-2 .widget-user-desc {
-    margin-left: 75px
 }
 
 .widget-user-2 .widget-user-image>img {
