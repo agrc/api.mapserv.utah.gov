@@ -15,15 +15,15 @@ namespace WebAPI.Dashboard.Areas.admin.Services
         {
             get
             {
-                var time = Usage.Max(x => x.Time);
-                var item = Usage.SingleOrDefault(x => x.Time == time);
+                var time = Usage.Max(x => x.LastUsedTicks);
+                var item = Usage.SingleOrDefault(x => x.LastUsedTicks == time);
 
                 if (item == null)
                 {
                     return null;
                 }
 
-                return new Tuple<string, long>(item.Key, item.Time);
+                return new Tuple<string, long>(item.Key, item.LastUsedTicks);
             }
         }
 
@@ -31,21 +31,21 @@ namespace WebAPI.Dashboard.Areas.admin.Services
         {
             get
             {
-                var term = Usage.Max(x => x.Count);
-                var item = Usage.SingleOrDefault(x => x.Count == term);
+                var term = Usage.Max(x => x.TotalUsageCount);
+                var item = Usage.SingleOrDefault(x => x.TotalUsageCount == term);
 
                 if (item == null)
                 {
                     return null;
                 }
 
-                return new Tuple<string, long>(item.Key, item.Count);
+                return new Tuple<string, long>(item.Key, item.TotalUsageCount);
             }
         }
 
         public static long TotalRequests
         {
-            get { return Usage.Sum(x => x.Count); }
+            get { return Usage.Sum(x => x.TotalUsageCount); }
         }
     }
 }

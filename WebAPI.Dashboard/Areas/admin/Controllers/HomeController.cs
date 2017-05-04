@@ -136,7 +136,7 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
             var dbIndex = _db.Database;
             var redisKeys = server.Keys(dbIndex);
 
-            foreach (var key in redisKeys.Where(x => !x.ToString().Contains(":time")))
+            foreach (var key in redisKeys.Where(x => !x.ToString().Contains(":")))
             {
                 var use = new Usage
                 {
@@ -146,13 +146,43 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                 var value = _db.StringGet(key);
                 if (value.HasValue)
                 {
-                    use.Count = long.Parse(value);
+                    use.TotalUsageCount = long.Parse(value);
                 }
 
                 value = _db.StringGet("{0}:time".With(key));
                 if (value.HasValue)
                 {
-                    use.Time = long.Parse(value);
+                    use.LastUsedTicks = long.Parse(value);
+                }
+
+                value = _db.StringGet("{0}:today".With(key));
+                if (value.HasValue)
+                {
+                    use.UsageToday = long.Parse(value);
+                }
+
+                value = _db.StringGet("{0}:month".With(key));
+                if (value.HasValue)
+                {
+                    use.UsageForMonth = long.Parse(value);
+                }
+
+                value = _db.StringGet("{0}:geocode".With(key));
+                if (value.HasValue)
+                {
+                    use.TotalGeocodeUsage = long.Parse(value);
+                }
+
+                value = _db.StringGet("{0}:search".With(key));
+                if (value.HasValue)
+                {
+                    use.TotalSearchUsage = long.Parse(value);
+                }
+
+                value = _db.StringGet("{0}:info".With(key));
+                if (value.HasValue)
+                {
+                    use.TotalInfoUsage = long.Parse(value);
                 }
 
                 usage.Add(use);
@@ -164,8 +194,13 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
         public class Usage
         {
             public string Key { get; set; }
-            public long Time { get; set; }
-            public long Count { get; set; }
+            public long LastUsedTicks { get; set; }
+            public long TotalUsageCount { get; set; }
+            public long UsageToday { get; set; }
+            public long UsageForMonth { get; set; }
+            public long TotalGeocodeUsage { get; set; }
+            public long TotalSearchUsage { get; set; }
+            public long TotalInfoUsage { get; set; }
         }
     }
 }
