@@ -11,6 +11,10 @@ namespace WebAPI.Dashboard
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-1.10.1.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/charts").Include(
+               "~/Scripts/jquery-1.10.1.js",
+               "~/Scripts/jquery-knob.min.js"));
+
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                 "~/Scripts/osDetect.js"));
