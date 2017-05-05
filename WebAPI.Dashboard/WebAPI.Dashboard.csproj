@@ -257,7 +257,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.1.js" />
-    <Content Include="Scripts\jquery.knob.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\osDetect.min.js" />
     <Content Include="Views\Shared\Patterns.cshtml" />
