@@ -197,9 +197,9 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
             public long TotalUsageCount { get; set; }
             public long UsageToday { get; set; }
             public long UsageForMonth { get; set; }
-            public long TotalGeocodeUsage { get; set; }
-            public long TotalSearchUsage { get; set; }
-            public long TotalInfoUsage { get; set; }
+            public double TotalGeocodeUsage { get; set; }
+            public double TotalSearchUsage { get; set; }
+            public double TotalInfoUsage { get; set; }
         }
     }
 }
