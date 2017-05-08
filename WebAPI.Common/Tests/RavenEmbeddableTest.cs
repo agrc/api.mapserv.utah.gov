@@ -18,7 +18,7 @@ namespace WebAPI.Common.Tests
                 RunInMemory = true
             }.Initialize();
 
-            IndexCreation.CreateIndexes(typeof (StatsPerService).Assembly, DocumentStore);
+            IndexCreation.CreateIndexes(typeof (IndexApiKey).Assembly, DocumentStore);
         }
 
         [TearDown]
