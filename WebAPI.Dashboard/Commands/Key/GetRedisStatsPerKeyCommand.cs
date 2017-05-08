@@ -2,22 +2,22 @@
 using StackExchange.Redis;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Extensions;
-using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Keys;
+using WebAPI.Dashboard.Areas.admin.Models;
 
 namespace WebAPI.Dashboard.Commands.Key
 {
-    public class GetRedisStatsPerKeyCommand : Command<List<StatsPerApiKey.Stats>>
+    public class GetRedisStatsPerKeyCommand : Command<List<ApiKeyStats>>
     {
         private readonly IDatabase _db;
         private readonly IEnumerable<ApiKey> _keys;
-        private readonly List<StatsPerApiKey.Stats> _stats;
+        private readonly List<ApiKeyStats> _stats;
 
         public GetRedisStatsPerKeyCommand(IDatabase db, IEnumerable<ApiKey> keys)
         {
             _db = db;
             _keys = keys;
-            _stats = new List<StatsPerApiKey.Stats>();
+            _stats = new List<ApiKeyStats>();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace WebAPI.Dashboard.Commands.Key
             {
                 foreach (var key in _keys)
                 {
-                    var stat = new StatsPerApiKey.Stats(key);
+                    var stat = new ApiKeyStats(key);
 
                     var value = _db.StringGet(key.Key);
                     if (value.HasValue)
