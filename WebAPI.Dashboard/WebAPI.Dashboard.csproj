@@ -184,6 +184,7 @@
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
     <Compile Include="Areas\admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\admin\Models\StatsPerApiKey.cs" />
+    <Compile Include="Areas\admin\Models\UserStats.cs" />
     <Compile Include="Areas\admin\Services\StatCache.cs" />
     <Compile Include="Areas\secure\Attributes\ConfirmationAuthorization.cs" />
     <Compile Include="Areas\secure\Controllers\GenerateKeyController.cs" />
@@ -232,7 +233,6 @@
     <Compile Include="Models\ViewModels\IErrorMessageDisplayable.cs" />
     <Compile Include="Models\ViewModels\Passwords\ChangePasswordCredentials.cs" />
     <Compile Include="Models\ViewModels\Passwords\PasswordResetCredentials.cs" />
-    <Compile Include="Models\ViewModels\Usage\ServiceStatsViewModel.cs" />
     <Compile Include="Models\ViewModels\Users\ValidateLoginCredentials.cs" />
     <Compile Include="Models\ViewModels\Users\LoginCredentials.cs" />
     <Compile Include="Ninject\Modules\RedisModule.cs" />
@@ -309,6 +309,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\ViewModels\Usage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
