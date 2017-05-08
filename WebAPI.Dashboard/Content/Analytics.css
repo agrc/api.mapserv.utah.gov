@@ -2235,6 +2235,9 @@ a:hover,a:active,a:focus {
     overflow: hidden;
     text-overflow: ellipsis
 }
+span.progress-description {
+    padding-left:5px
+}
 
 .info-box-text {
     text-transform: uppercase

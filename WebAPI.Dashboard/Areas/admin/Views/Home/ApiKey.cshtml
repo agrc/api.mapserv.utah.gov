@@ -22,12 +22,12 @@
                 </span>
                 <div class="info-box-content">
                     <span class="info-box-text">Geocodes</span>
-                    <span class="info-box-number">@string.Format("{0:N}", (460000/Model.UsageCount))</span>
+                    <span class="info-box-number">@string.Format("{0:N}", 460000M)</span>
                 </div>
                 <div class="progress">
-                    <div class="progress-bar" style="width: @((460000L/Model.UsageCount)*100)%"></div>
+                    <div class="progress-bar" style="width: @((460000M/Model.UsageCount)*100)%"></div>
                 </div>
-                <span class="progress-description">@((460000L/Model.UsageCount)*100)% of Total</span>
+                <span class="progress-description">@Math.Round((460000M/Model.UsageCount)*100,2)% of Total</span>
             </div>
         </div>
     </div>
