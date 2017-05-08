@@ -1,4 +1,5 @@
-﻿@model IOrderedEnumerable<WebAPI.Common.Indexes.StatsPerApiKey.Stats>
+﻿@using WebAPI.Common.Extensions
+@model IOrderedEnumerable<WebAPI.Common.Indexes.StatsPerApiKey.Stats>
 
 @{
     ViewBag.Title = "AGRC Web API Analytics";
@@ -48,7 +49,10 @@
         }
         i++;
     <div class="col-md-4 col-sm-6">
-       @Html.Partial("ApiKey", key) 
+       @Html.Partial("ApiKey", new
+       {
+           key
+       }.ToExpando()) 
     </div>
     }
 }

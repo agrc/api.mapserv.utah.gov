@@ -1,34 +1,63 @@
 ﻿@using WebAPI.Common.Executors
 @using WebAPI.Dashboard.Commands.Time
-@model WebAPI.Common.Indexes.StatsPerApiKey.Stats
+@model dynamic
 
 <div class="box box-widget widget-user-2">
     <div class="widget-user-header bg-black-gradient">
-        <h3 class="widget-user-username">@Model.Key</h3>
-        <h5 class="widget-user-desc">Handled Requests: <span class="badge bg-yellow-active">@Model.UsageCount.ToString("#,##0")</span></h5>
+        <h3 class="widget-user-username">@Model.key.Key</h3>
+        <h5 class="widget-user-desc">Handled Requests: <span class="badge bg-yellow-active">@Model.key.UsageCount.ToString("#,##0")</span></h5>
     </div>
     <div class="box-footer no-padding">
         <ul class="nav nav-stacked">
-            <li><strong>Type:</strong><span class="pull-right">@Model.Type</span>
-            <li><strong>Status:</strong><span class="pull-right">@Model.Status</span>
-            <li><strong>App Status:</strong><span class="pull-right">@Model.ApplicationStatus</span>
-            <li><strong>Pattern:</strong><span class="pull-right">@Model.Pattern</span>
-            <li><strong>Last Used:</strong><span class="pull-right">@CommandExecutor.ExecuteCommand(new CalculateTimeAgoCommand(Model.LastUsed))</span>
+            <li><strong>Type:</strong><span class="pull-right">@Model.key.Type</span>
+            <li><strong>Status:</strong><span class="pull-right">@Model.key.Status</span>
+            <li><strong>App Status:</strong><span class="pull-right">@Model.key.ApplicationStatus</span>
+            <li><strong>Pattern:</strong><span class="pull-right">@Model.key.Pattern</span>
+            <li><strong>Last Used:</strong><span class="pull-right">@CommandExecutor.ExecuteCommand(new CalculateTimeAgoCommand(Model.key.LastUsed))</span>
         </ul>
-        <div class="stats">
-            <div class="info-box bg-aqua">
-                <span class="info-box-icon">
+        @if (((IDictionary<string, object>) Model).ContainsKey("usage"))
+        {
+            <div class="stats">
+                <div class="info-box no-margin bg-orange">
+                    <span class="info-box-icon">
                     <i class="glyphicon glyphicon-road"></i>
                 </span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Geocodes</span>
-                    <span class="info-box-number">@string.Format("{0:N}", 460000M)</span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Geocodes</span>
+                        <span class="info-box-number">@string.Format("{0:#,###}", Model.usage.TotalGeocodeUsage)</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @((Model.usage.TotalGeocodeUsage/Model.key.UsageCount)*100)%"></div>
+                    </div>
+                    <span class="progress-description">@string.Format("{0:P}", Model.usage.TotalGeocodeUsage/Model.key.UsageCount) of Total</span>
                 </div>
-                <div class="progress">
-                    <div class="progress-bar" style="width: @((460000M/Model.UsageCount)*100)%"></div>
+                <div class="info-box no-margin bg-green">
+                    <span class="info-box-icon">
+                    <i class="glyphicon glyphicon-screenshot"></i>
+                </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Searches</span>
+                        <span class="info-box-number">@string.Format("{0:#,###}", Model.usage.TotalSearchUsage)</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @((Model.usage.TotalSearchUsage / Model.usage.key.UsageCount) * 100)%"></div>
+                    </div>
+                    <span class="progress-description">@string.Format("{0:P}", Model.usage.TotalSearchUsage/Model.key.UsageCount) of Total</span>
                 </div>
-                <span class="progress-description">@Math.Round((460000M/Model.UsageCount)*100,2)% of Total</span>
+                <div class="info-box no-margin bg-blue">
+                    <span class="info-box-icon">
+                    <i class="glyphicon glyphicon-question-sign"></i>
+                </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Info Requests</span>
+                        <span class="info-box-number">@string.Format("{0:#,###}", Model.usage.TotalInfoUsage)</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @((Model.usage.TotalInfoUsage / Model.usage.key.UsageCount) * 100)%"></div>
+                    </div>
+                    <span class="progress-description">@string.Format("{0:P}", Model.usage.TotalInfoUsage/Model.key.UsageCount) of Total</span>
+                </div>
             </div>
-        </div>
+        }
     </div>
 </div>
