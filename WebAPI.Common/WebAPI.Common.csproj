@@ -165,14 +165,9 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Formatters\TextPlainResponseFormatter.cs" />
-    <Compile Include="Indexes\IndexLastUsedDate.cs" />
-    <Compile Include="Indexes\RequestsPerDay.cs" />
-    <Compile Include="Indexes\StatsPerService.cs" />
     <Compile Include="Indexes\IndexKeysForUser.cs" />
     <Compile Include="Indexes\IndexEmailConfirmationKey.cs" />
     <Compile Include="Indexes\IndexKeyStatus.cs" />
-    <Compile Include="Indexes\StatsPerApiKey.cs" />
-    <Compile Include="Indexes\StatsPerUser.cs" />
     <Compile Include="Indexes\IndexEmail.cs" />
     <Compile Include="Indexes\IndexApiKey.cs" />
     <Compile Include="Models\Changelog\LogEntry.cs" />
