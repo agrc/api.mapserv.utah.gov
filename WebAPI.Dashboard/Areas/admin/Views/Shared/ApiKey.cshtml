@@ -1,0 +1,70 @@
+﻿@using WebAPI.Common.Executors
+@using WebAPI.Dashboard.Commands.Time
+@model WebAPI.Dashboard.Models.ViewModels.Usage.UsageViewModel
+
+<div class="box box-widget widget-user-2">
+    <div class="widget-user-header bg-black-gradient">
+        <h3 class="widget-user-username">
+                @Html.ActionLink(Model.Key.Key, "KeyStats", new
+                {
+                    Controller = "Home",
+                    Area = "Admin",
+                    key = Model.Key.Key
+                })
+        </h3>
+        <h5 class="widget-user-desc">Handled Requests: <span class="badge bg-yellow-active">@Model.TotalUsageCount.ToString("#,##0")</span></h5>
+    </div>
+    <div class="box-footer no-padding">
+        <ul class="nav nav-stacked">
+            <li><strong>Type:</strong><span class="pull-right">@Model.Key.Type</span>
+            <li><strong>Status:</strong><span class="pull-right">@Model.Key.ApiKeyStatus</span>
+            <li><strong>App Status:</strong><span class="pull-right">@Model.Key.AppStatus</span>
+            <li><strong>Pattern:</strong><span class="pull-right">@Model.Key.Pattern</span>
+            <li><strong>Last Used:</strong><span class="pull-right">@CommandExecutor.ExecuteCommand(new CalculateTimeAgoCommand(Model.LastUsedTicks))</span>
+        </ul>
+        @if (Model.ShowAdvancedStats)
+        {
+            <div class="stats">
+                <div class="info-box no-margin flat bg-orange">
+                    <span class="info-box-icon">
+                    <i class="glyphicon glyphicon-road"></i>
+                </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Geocodes</span>
+                        <span class="info-box-number">@string.Format("{0:#,###}", Model.TotalGeocodeUsage)</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @Model.PercentGeocoding"></div>
+                    </div>
+                    <span class="progress-description">@Model.PercentGeocoding of Total</span>
+                </div>
+                <div class="info-box no-margin flat bg-green">
+                    <span class="info-box-icon">
+                    <i class="glyphicon glyphicon-screenshot"></i>
+                </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Searches</span>
+                        <span class="info-box-number">@string.Format("{0:#,###}", Model.TotalSearchUsage)</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @Model.PercentSearching"></div>
+                    </div>
+                    <span class="progress-description">@Model.PercentSearching of Total</span>
+                </div>
+                <div class="info-box no-margin flat bg-blue">
+                    <span class="info-box-icon">
+                    <i class="glyphicon glyphicon-question-sign"></i>
+                </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Info Requests</span>
+                        <span class="info-box-number">@string.Format("{0:#,###}", Model.TotalInfoUsage)</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @Model.PercentInfo"></div>
+                    </div>
+                    <span class="progress-description">@Model.PercentInfo of Total</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>

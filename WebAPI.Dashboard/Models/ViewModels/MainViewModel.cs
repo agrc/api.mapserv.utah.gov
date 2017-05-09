@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
-using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Users;
+using WebAPI.Dashboard.Areas.admin.Models;
 using WebAPI.Dashboard.Models.ViewModels.Keys;
+using WebAPI.Dashboard.Models.ViewModels.Usage;
 
 namespace WebAPI.Dashboard.Models.ViewModels
 {
@@ -13,7 +14,7 @@ namespace WebAPI.Dashboard.Models.ViewModels
             User = account;
         }
 
-        public StatsPerUser.Stats ApiKeyUsage { get; set; }
+        public UserStats ApiKeyUsage { get; set; }
 
         public List<ApiKeyViewModel> AllUserKeys { get; set; }
 
@@ -23,11 +24,11 @@ namespace WebAPI.Dashboard.Models.ViewModels
 
         public KeyQuota KeyQuota { get; set; }
 
-        public MainViewModel WithApiUsage(StatsPerUser.Stats item)
+        public MainViewModel WithApiUsage(UserStats item)
         {
             if (item == null)
             {
-                item = new StatsPerUser.Stats
+                item = new UserStats
                 {
                     LastUsed = 0,
                     UsageCount = 0
@@ -35,14 +36,15 @@ namespace WebAPI.Dashboard.Models.ViewModels
             }
 
             ApiKeyUsage = item;
+
             return this;
         }
 
-        public MainViewModel WithAllUserKeys(List<StatsPerApiKey.Stats> item)
+        public MainViewModel WithAllUserKeys(List<UsageViewModel> item)
         {
             AllUserKeys = new List<ApiKeyViewModel>();
 
-            AllUserKeys = Mapper.Map<List<StatsPerApiKey.Stats>, List<ApiKeyViewModel>>(item);
+            AllUserKeys = Mapper.Map<List<UsageViewModel>, List<ApiKeyViewModel>>(item);
 
             return this;
         }

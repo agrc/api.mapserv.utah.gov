@@ -37,20 +37,17 @@
         }
         <div class="col-lg-@colSpan col-md-6 col-sm-6">
             <div class="box box-widget widget-user">
-                <div class="widget-user-header bg-purple">
+                <div class="widget-user-header bg-navy">
                     <h5 class="widget-user-username">
-                        @account.Email
-                    </h5>
-                    <h4 class="widget-user-username">
-                        <a href="@Url.Action("UserStats", new
+                        <strong><a href="@Url.Action("UserStats", new
                                  {
                                      Controller = "Home",
                                      Area = "Admin",
                                      email = account.Email
-                                 })" class="action-link">
-                            <i class="glyphicon glyphicon-share-alt"></i>
-                        </a>
-                    </h4>
+                                 })">
+
+                    @account.Email</a></strong>
+                    </h5>
                     @if (!string.IsNullOrEmpty(account.JobTitle))
                     {
                         <h5 class="widget-user-desc">@account.Company @account.JobTitle @account.JobCategory</h5>

@@ -38,12 +38,7 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
                                .Customize(x => x.WaitForNonStaleResultsAsOfNow())
                                .Where(x => !x.Deleted && x.AccountId == Account.Id);
 
-            var stats = Queryable.Select(keys, key => new StatsPerApiKey.Stats
-                {
-                    Key = key.Key, AccountId = key.AccountId, ApiKeyId = key.Id, ApplicationStatus = key.AppStatus, Pattern = key.Pattern, Status = key.ApiKeyStatus, Type = key.Type
-                }).ToList();
-
-            stats = CommandExecutor.ExecuteCommand(new GetRedisStatsCommand(Redis.GetDatabase(), stats));
+            var stats = CommandExecutor.ExecuteCommand(new GetBasicUsageStatsCommand(Redis.GetDatabase(), keys));
 
             if (account.KeyQuota.KeysUsed == 0)
             {

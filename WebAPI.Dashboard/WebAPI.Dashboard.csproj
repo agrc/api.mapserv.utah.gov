@@ -183,7 +183,6 @@
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
     <Compile Include="Areas\admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\admin\Models\StatsPerApiKey.cs" />
     <Compile Include="Areas\admin\Models\UserStats.cs" />
     <Compile Include="Areas\admin\Services\StatCache.cs" />
     <Compile Include="Areas\secure\Attributes\ConfirmationAuthorization.cs" />
@@ -199,13 +198,12 @@
     <Compile Include="Commands\Email\SendConfirmationEmailCommand.cs" />
     <Compile Include="Commands\Email\SendPasswordResetEmailCommand.cs" />
     <Compile Include="Commands\Key\BucketizeNumbersCommand.cs" />
-    <Compile Include="Commands\Key\GetRedisStatsPerKeyCommand.cs" />
-    <Compile Include="Commands\Key\TotalRedisStatsCommand.cs" />
+    <Compile Include="Commands\Key\GetAllUsageStatsCommand.cs" />
     <Compile Include="Commands\Key\FormatKeyPatternCommand.cs" />
     <Compile Include="Commands\Key\GenerateKeyCommand.cs" />
     <Compile Include="Commands\Key\GenerateUniqueConfirmationKeyCommand.cs" />
     <Compile Include="Commands\Key\GenerateUniqueApiKeyCommand.cs" />
-    <Compile Include="Commands\Key\GetRedisStatsCommand.cs" />
+    <Compile Include="Commands\Key\GetBasicUsageStatsCommand.cs" />
     <Compile Include="Commands\Key\ValidateAndGetKeyTypeCommand.cs" />
     <Compile Include="Commands\Password\GeneratePasswordCommand.cs" />
     <Compile Include="Commands\Password\GenerateSaltCommand.cs" />
@@ -225,7 +223,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\DTO\KeyUsage.cs" />
     <Compile Include="Models\ViewModels\MainViewModel.cs" />
     <Compile Include="Models\ViewModels\Keys\ApiKeyViewModel.cs" />
     <Compile Include="Models\ViewModels\MainViewBase.cs" />
@@ -233,6 +230,7 @@
     <Compile Include="Models\ViewModels\IErrorMessageDisplayable.cs" />
     <Compile Include="Models\ViewModels\Passwords\ChangePasswordCredentials.cs" />
     <Compile Include="Models\ViewModels\Passwords\PasswordResetCredentials.cs" />
+    <Compile Include="Models\ViewModels\Usage\UsageViewModel.cs" />
     <Compile Include="Models\ViewModels\Users\ValidateLoginCredentials.cs" />
     <Compile Include="Models\ViewModels\Users\LoginCredentials.cs" />
     <Compile Include="Ninject\Modules\RedisModule.cs" />
@@ -274,7 +272,7 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\admin\Views\Home\Index.cshtml" />
-    <Content Include="Areas\admin\Views\Home\ApiKey.cshtml" />
+    <Content Include="Areas\admin\Views\Shared\ApiKey.cshtml" />
     <None Include="Areas\admin\Views\Home\KeyStats.cshtml" />
     <None Include="Areas\admin\Views\Home\UserStats.cshtml" />
     <Content Include="Areas\admin\Views\Shared\_Layout.cshtml" />
@@ -309,7 +307,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\ViewModels\Usage\" />
+    <Folder Include="Models\DTO\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

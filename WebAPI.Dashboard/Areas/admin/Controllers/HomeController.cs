@@ -12,6 +12,7 @@ using WebAPI.Common.Models.Raven.Users;
 using WebAPI.Dashboard.Areas.admin.Services;
 using WebAPI.Dashboard.Commands.Key;
 using WebAPI.Dashboard.Controllers;
+using WebAPI.Dashboard.Models.ViewModels.Usage;
 
 namespace WebAPI.Dashboard.Areas.admin.Controllers
 {
@@ -42,15 +43,7 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                     });
             }
 
-            if (StatCache.Usage == null || !StatCache.Usage.Any())
-            {
-                var totalKeys = Session.Query<ApiKey>().Count();
-                var totalUsers = Session.Query<Account>().Count();
-
-                StatCache.Usage = HydrateUsageTimeCache();
-                StatCache.Keys = totalKeys;
-                StatCache.Users = totalUsers;
-            }
+            HydrateCache();
 
             return View("Index", new {
                 StatCache.Keys,
@@ -59,6 +52,21 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                 StatCache.MostUsedKey,
                 StatCache.TotalRequests
                 }.ToExpando());
+        }
+
+        private void HydrateCache()
+        {
+            if (StatCache.Usage != null && StatCache.Usage.Any())
+            {
+                return;
+            }
+
+            var totalKeys = Session.Query<ApiKey>().Count();
+            var totalUsers = Session.Query<Account>().Count();
+
+            StatCache.Usage = HydrateUsageTimeCache();
+            StatCache.Keys = totalKeys;
+            StatCache.Users = totalUsers;
         }
 
         [HttpGet]
@@ -89,8 +97,8 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                 .Where(x => x.AccountId == account.Id)
                 .ToList();
 
-            var stats = CommandExecutor.ExecuteCommand(new GetRedisStatsPerKeyCommand(_redis.GetDatabase(), keys))
-                .OrderByDescending(x => x.LastUsed);
+            var stats = CommandExecutor.ExecuteCommand(new GetBasicUsageStatsCommand(_redis.GetDatabase(), keys))
+                .OrderByDescending(x => x.LastUsedTicks);
             
             return View("UserStats", stats);
         }
@@ -110,96 +118,24 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
             }
 
             var email = Session.Load<Account>(keyInfo.AccountId).Email;
-                
-            var keys = new[]
-            {
-                keyInfo,
-            };
-
-            var stats = CommandExecutor.ExecuteCommand(new GetRedisStatsPerKeyCommand(_redis.GetDatabase(), keys))
-                .OrderByDescending(x => x.LastUsed);
+            var stats = CommandExecutor.ExecuteCommand(new GetAllUsageStatsCommand(_redis.GetDatabase(), keyInfo));
 
             return View("KeyStats", new
             {
-                key = stats.Single(),
+                key = stats,
                 email
             }.ToExpando());
         }
 
-        public IReadOnlyCollection<Usage> HydrateUsageTimeCache()
+        public IReadOnlyCollection<UsageViewModel> HydrateUsageTimeCache()
         {
-            var usage = new List<Usage>();
+            var db = _redis.GetDatabase();
 
-            var server = _redis.GetServer("localhost", 6379);
-            var _db = _redis.GetDatabase();
-            var dbIndex = _db.Database;
-            var redisKeys = server.Keys(dbIndex);
+            var keys = Session.Query<ApiKey>().ToList();
 
-            foreach (var key in redisKeys.Where(x => !x.ToString().Contains(":")))
-            {
-                var use = new Usage
-                {
-                    Key = key
-                };
-
-                var value = _db.StringGet(key);
-                if (value.HasValue)
-                {
-                    use.TotalUsageCount = long.Parse(value);
-                }
-
-                value = _db.StringGet("{0}:time".With(key));
-                if (value.HasValue)
-                {
-                    use.LastUsedTicks = long.Parse(value);
-                }
-
-                value = _db.StringGet("{0}:today".With(key));
-                if (value.HasValue)
-                {
-                    use.UsageToday = long.Parse(value);
-                }
-
-                value = _db.StringGet("{0}:month".With(key));
-                if (value.HasValue)
-                {
-                    use.UsageForMonth = long.Parse(value);
-                }
-
-                value = _db.StringGet("{0}:geocode".With(key));
-                if (value.HasValue)
-                {
-                    use.TotalGeocodeUsage = long.Parse(value);
-                }
-
-                value = _db.StringGet("{0}:search".With(key));
-                if (value.HasValue)
-                {
-                    use.TotalSearchUsage = long.Parse(value);
-                }
-
-                value = _db.StringGet("{0}:info".With(key));
-                if (value.HasValue)
-                {
-                    use.TotalInfoUsage = long.Parse(value);
-                }
-
-                usage.Add(use);
-            }
+            var usage = keys.Select(key => CommandExecutor.ExecuteCommand(new GetAllUsageStatsCommand(db, key))).ToList();
 
             return usage.AsReadOnly();
-        }
-
-        public class Usage
-        {
-            public string Key { get; set; }
-            public long LastUsedTicks { get; set; }
-            public long TotalUsageCount { get; set; }
-            public long UsageToday { get; set; }
-            public long UsageForMonth { get; set; }
-            public double TotalGeocodeUsage { get; set; }
-            public double TotalSearchUsage { get; set; }
-            public double TotalInfoUsage { get; set; }
         }
     }
 }

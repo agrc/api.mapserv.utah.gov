@@ -7,6 +7,7 @@ using StackExchange.Redis;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Keys;
+using WebAPI.Dashboard.Areas.admin.Models;
 using WebAPI.Dashboard.Commands.Key;
 using WebAPI.Dashboard.Controllers;
 using WebAPI.Dashboard.Models.ViewModels;
@@ -37,7 +38,13 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
                                         !x.Deleted &&
                                         x.AccountId == Account.Id);
 
-            var stats = CommandExecutor.ExecuteCommand(new TotalRedisStatsCommand(Redis.GetDatabase(), keys));
+
+            var stats = CommandExecutor.ExecuteCommand(new GetBasicUsageStatsCommand(Redis.GetDatabase(), keys));
+
+            var usage = new UserStats
+            {
+                UsageCount = stats.Sum(x => x.TotalUsageCount)
+            };
 
             if (account.KeyQuota.KeysUsed == 0)
             {
@@ -52,7 +59,7 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
             }
 
             return View(new MainViewModel(account)
-                .WithApiUsage(stats)
+                .WithApiUsage(usage)
                 .WithKeyQuota(account.KeyQuota));
         }
     }

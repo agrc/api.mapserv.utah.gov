@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebAPI.Dashboard.Areas.admin.Controllers;
+using WebAPI.Dashboard.Models.ViewModels.Usage;
 
 namespace WebAPI.Dashboard.Areas.admin.Services
 {
     public static class StatCache
     {
-        public static IReadOnlyCollection<HomeController.Usage> Usage { get; set; }
+        public static IReadOnlyCollection<UsageViewModel> Usage { get; set; }
         public static int Keys { get; set; }
         public static int Users { get; set; }
 
@@ -23,7 +23,7 @@ namespace WebAPI.Dashboard.Areas.admin.Services
                     return null;
                 }
 
-                return new Tuple<string, long>(item.Key, item.LastUsedTicks);
+                return new Tuple<string, long>(item.Key.Key, item.LastUsedTicks);
             }
         }
 
@@ -39,7 +39,7 @@ namespace WebAPI.Dashboard.Areas.admin.Services
                     return null;
                 }
 
-                return new Tuple<string, long>(item.Key, item.TotalUsageCount);
+                return new Tuple<string, long>(item.Key.Key, item.TotalUsageCount);
             }
         }
 
