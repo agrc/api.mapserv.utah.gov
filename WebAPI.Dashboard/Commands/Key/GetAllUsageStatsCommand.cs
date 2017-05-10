@@ -52,6 +52,12 @@ namespace WebAPI.Dashboard.Commands.Key
                     use.UsageToday = long.Parse(value);
                 }
 
+                value = _db.StringGet("{0}:minute".With(key));
+                if (value.HasValue)
+                {
+                    use.UsageNow = long.Parse(value);
+                }
+
                 value = _db.StringGet("{0}:month".With(key));
                 if (value.HasValue)
                 {

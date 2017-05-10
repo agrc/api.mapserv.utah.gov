@@ -53,5 +53,7 @@ namespace WebAPI.Dashboard.Models.ViewModels.Usage
         {
             get { return TotalNewUsageCount > 0; }
         }
+
+        public long UsageNow { get; set; }
     }
 }
