@@ -116,8 +116,7 @@ namespace WebAPI.API.Controllers.API.Version1
                                                                     Status = (int) HttpStatusCode.NotFound,
                                                                     Message = string.Format(
                                                                         "No address candidates found with a score of {0} or better.",
-                                                                        options.AcceptScore),
-                                                                    Result = geocodeAddressResult
+                                                                        options.AcceptScore)
                                                                 })
                             .AddCache()
                             .AddTypeHeader(typeof(ResultContainer<GeocodeAddressResult>));
