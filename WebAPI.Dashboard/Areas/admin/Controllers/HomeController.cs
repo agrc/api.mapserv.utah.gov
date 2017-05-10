@@ -131,7 +131,9 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
         {
             var db = _redis.GetDatabase();
 
-            var keys = Session.Query<ApiKey>().ToList();
+            var keys = Session.Query<ApiKey>()
+                .Take(1024)
+                .ToList();
 
             var usage = keys.Select(key => CommandExecutor.ExecuteCommand(new GetAllUsageStatsCommand(db, key))).ToList();
 
