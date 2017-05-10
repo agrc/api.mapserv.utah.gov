@@ -28,9 +28,7 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
         }
 
         [HttpGet]
-#if !DEBUG
-        [OutputCache(Duration=60)]
-#endif
+
         public ActionResult Index()
         {
             if (!Session.Query<AdminContainer>().Any(x => x.Emails.Any(y => y == Account.Email)))
@@ -85,8 +83,9 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
         {
             var accounts = Session.Query<Account>()
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                .Take(1024)
                 .ToList()
-                .OrderBy(x => x.Email);
+                .OrderByDescending(x => x.KeyQuota.KeysUsed);
 
             return View("UserList", accounts);
         }
