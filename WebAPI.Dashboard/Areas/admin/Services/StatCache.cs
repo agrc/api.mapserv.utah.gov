@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebAPI.Common.Models.Raven.Keys;
 using WebAPI.Dashboard.Models.ViewModels.Usage;
 
 namespace WebAPI.Dashboard.Areas.admin.Services
@@ -47,5 +48,22 @@ namespace WebAPI.Dashboard.Areas.admin.Services
         {
             get { return Usage.Sum(x => x.TotalUsageCount); }
         }
+
+        public static long RequestsForMonth
+        {
+            get { return Usage.Sum(x => x.UsageForMonth); }
+        }
+
+        public static long RequestsForToday
+        {
+            get { return Usage.Sum(x => x.UsageToday); }
+        }
+
+        public static long RequestsPerMinute
+        {
+            get { return Usage.Sum(x => x.UsageNow); }
+        }
+
+        public static ApiKey[] AllKeys { get; set; }
     }
 }

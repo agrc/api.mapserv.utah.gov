@@ -75,7 +75,11 @@ namespace WebAPI.API.Handlers.Delegating
             db.KeyExpire(apikey + ":month", CalculateTimeUntil(DateTime.Now, Month));
 
             db.StringIncrement(apikey + ":minute", flags: CommandFlags.FireAndForget);
-            db.KeyExpire(apikey + ":minute", CalculateTimeUntil(DateTime.Now, DateTime.Now.AddMinutes(1)));
+            var ttl = db.KeyTimeToLive(apikey + ":minute");
+            if (!ttl.HasValue || ttl.Value == TimeSpan.MinValue)
+            {
+                db.KeyExpire(apikey + ":minute", TimeSpan.FromMinutes(1));
+            }
 
             var routeData = RouteDataProvider.GetRouteData(request);
 

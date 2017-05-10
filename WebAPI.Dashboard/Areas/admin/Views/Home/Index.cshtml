@@ -18,7 +18,42 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-5 col-sm-12">
+        <div class="col-md-4 col-sm-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-black">
+                        <i class="glyphicon glyphicon-dashboard"></i>
+                    </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Requests Now</span>
+                    <span class="info-box-number">@Model.RequestsPerMinute.ToString("#,##0")</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-black">
+                        <i class="glyphicon glyphicon-time"></i>
+                    </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Requests Today</span>
+                    <span class="info-box-number">@Model.RequestsForToday.ToString("#,##0")</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-black">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Requests this Month</span>
+                    <span class="info-box-number">@Model.RequestsForMonth.ToString("#,##0")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
             <div class="small-box bg-orange">
                 <div class="inner">
                     <h4>@Model.MostUsedKey.Item1</h4>
@@ -39,28 +74,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-2 col-sm-12">
-            <div class="small-box bg-aqua">
-                <div class="inner">
-                    <h3>
-                        @Model.Users
-                    </h3>
-                    <p>Total Users</p>
-                </div>
-                <div class="icon">
-                    <i class="glyphicon glyphicon-user"></i>
-                </div>
-                <a href="@Url.Action("UserList", new
-                         {
-                             Controller = "Home",
-                             Area = "Admin"
-                         })" class="small-box-footer">
-                    All Users
-                    <i class="glyphicon glyphicon-share-alt"></i>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-5 col-sm-12">
+        <div class="col-md-6 col-sm-12">
             <div class="small-box bg-red">
                 <div class="inner">
                     <h4>@Model.LastUsedKey.Item1</h4>
@@ -83,9 +97,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-offset-2 col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-12">
             <div class="info-box">
-                <span class="info-box-icon bg-light-blue">
+                <span class="info-box-icon bg-black">
                     <i class="glyphicon glyphicon-briefcase"></i>
                 </span>
                 <div class="info-box-content">
@@ -94,7 +108,25 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-black">
+                    <i class="glyphicon glyphicon-user"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Users</span>
+                    <span class="info-box-number">@Model.Users</span>
+                    <span class="progress-description">
+                        @Html.ActionLink("All Users", "UserList", new
+                        {
+                            Controller = "Home",
+                            Area = "Admin"
+                        })
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
             <div class="info-box">
                 <span class="info-box-icon bg-black">
                     <i class="glyphicon glyphicon-signal"></i>

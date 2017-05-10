@@ -29,7 +29,7 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
 
         [HttpGet]
 #if !DEBUG
-        [OutputCache(Duration=300)]
+        [OutputCache(Duration=60)]
 #endif
         public ActionResult Index()
         {
@@ -38,33 +38,41 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                 ErrorMessage = "Nothing to see there.";
 
                 return RedirectToRoute("default", new
-                    {
-                        controller = "Home"
-                    });
+                {
+                    controller = "Home"
+                });
             }
 
             HydrateCache();
 
-            return View("Index", new {
+            return View("Index", new
+            {
                 StatCache.Keys,
                 StatCache.Users,
                 StatCache.LastUsedKey,
                 StatCache.MostUsedKey,
-                StatCache.TotalRequests
-                }.ToExpando());
+                StatCache.TotalRequests,
+                StatCache.RequestsForMonth,
+                StatCache.RequestsForToday,
+                StatCache.RequestsPerMinute
+            }.ToExpando());
         }
 
         private void HydrateCache()
         {
-            if (StatCache.Usage != null && StatCache.Usage.Any())
+            if (StatCache.AllKeys != null && StatCache.AllKeys.Any())
             {
                 return;
             }
 
+            StatCache.AllKeys = Session.Query<ApiKey>()
+                .Take(1024)
+                .ToArray();
+
             var totalKeys = Session.Query<ApiKey>().Count();
             var totalUsers = Session.Query<Account>().Count();
 
-            StatCache.Usage = HydrateUsageTimeCache();
+            StatCache.Usage = HydrateUsageTimeCache(StatCache.AllKeys);
             StatCache.Keys = totalKeys;
             StatCache.Users = totalUsers;
         }
@@ -90,7 +98,7 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
         public ActionResult UserStats(string email)
         {
             var account = Session.Query<Account, IndexEmail>()
-                                 .SingleOrDefault(x => x.Email == email);
+                .SingleOrDefault(x => x.Email == email);
 
             var keys = Session.Query<ApiKey, IndexKeysForUser>()
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
@@ -99,13 +107,13 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
 
             var stats = CommandExecutor.ExecuteCommand(new GetBasicUsageStatsCommand(_redis.GetDatabase(), keys))
                 .OrderByDescending(x => x.LastUsedTicks);
-            
+
             return View("UserStats", stats);
         }
 
         [HttpGet]
 #if !DEBUG
-        [OutputCache(Duration=60)]
+        [OutputCache(Duration=10)]
 #endif
         public ViewResult KeyStats(string key)
         {
@@ -127,14 +135,9 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
             }.ToExpando());
         }
 
-        public IReadOnlyCollection<UsageViewModel> HydrateUsageTimeCache()
+        public IReadOnlyCollection<UsageViewModel> HydrateUsageTimeCache(IEnumerable<ApiKey> keys)
         {
             var db = _redis.GetDatabase();
-
-            var keys = Session.Query<ApiKey>()
-                .Take(1024)
-                .ToList();
-
             var usage = keys.Select(key => CommandExecutor.ExecuteCommand(new GetAllUsageStatsCommand(db, key))).ToList();
 
             return usage.AsReadOnly();
