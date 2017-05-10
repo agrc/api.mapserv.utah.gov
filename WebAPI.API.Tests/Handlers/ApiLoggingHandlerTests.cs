@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using WebAPI.API.Handlers.Delegating;
@@ -49,6 +50,28 @@ namespace WebAPI.API.Tests.Handlers
 
                 s.SaveChanges();
             }
+        }
+
+        [Test]
+        public void TodayExpirationTimeSpan()
+        {
+            var span = ApiLoggingHandler.CalculateTimeUntil(DateTime.Now, ApiLoggingHandler.Today);
+            var actual = span.Hours;
+            Debug.WriteLine(actual);
+            Debug.WriteLine(DateTime.Now.Add(span));
+            Assert.That(actual, Is.GreaterThan(0));
+            Assert.That(actual, Is.LessThan(24));
+        }
+
+        [Test]
+        public void MonthExpirationTimeSpan()
+        {
+            var span = ApiLoggingHandler.CalculateTimeUntil(DateTime.Now, ApiLoggingHandler.Month);
+            var actual = span.Days;
+            Debug.WriteLine(actual);
+            Debug.WriteLine(DateTime.Now.Add(span));
+            Assert.That(actual, Is.GreaterThan(0));
+            Assert.That(actual, Is.LessThan(31));
         }
 
         [Test, Explicit("we switched to redis and it's not as easy to test as the raven in memory")]

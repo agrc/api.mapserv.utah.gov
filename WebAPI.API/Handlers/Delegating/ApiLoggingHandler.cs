@@ -25,6 +25,22 @@ namespace WebAPI.API.Handlers.Delegating
         [Inject]
         public ApiKeyProvider ApiKeyProvider { get; set; }
 
+        public static DateTime Today
+        {
+            get { return DateTime.Today.AddHours(20); }
+        }
+
+        public static DateTime Month
+        {
+            get
+            {
+                var daysIntoMonth = DateTime.Today.Day - 1;
+                var timeSpan = new TimeSpan(daysIntoMonth, 4, 0, 0);
+
+                return DateTime.Today.AddMonths(1) - timeSpan;
+            }
+        }
+
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
@@ -51,6 +67,15 @@ namespace WebAPI.API.Handlers.Delegating
 
             db.StringIncrement(apikey, flags: CommandFlags.FireAndForget);
             db.StringSet(apikey + ":time", DateTime.UtcNow.Ticks, flags: CommandFlags.FireAndForget);
+
+            db.StringIncrement(apikey + ":today", flags: CommandFlags.FireAndForget);
+            db.KeyExpire(apikey + ":today", CalculateTimeUntil(DateTime.Now, Today));
+
+            db.StringIncrement(apikey + ":month", flags: CommandFlags.FireAndForget);
+            db.KeyExpire(apikey + ":month", CalculateTimeUntil(DateTime.Now, Month));
+
+            db.StringIncrement(apikey + ":minute", flags: CommandFlags.FireAndForget);
+            db.KeyExpire(apikey + ":minute", CalculateTimeUntil(DateTime.Now, DateTime.Now.AddMinutes(1)));
 
             var routeData = RouteDataProvider.GetRouteData(request);
 
@@ -86,6 +111,11 @@ namespace WebAPI.API.Handlers.Delegating
         private static void LogRequest(string type, string key, IDatabase db)
         {
             db.StringIncrement(string.Format("{0}:{1}", key, type), flags: CommandFlags.FireAndForget);
+        }
+
+        public static TimeSpan CalculateTimeUntil(DateTime currentTime, DateTime specifiedTime)
+        {
+            return specifiedTime - currentTime;
         }
     }
 }
