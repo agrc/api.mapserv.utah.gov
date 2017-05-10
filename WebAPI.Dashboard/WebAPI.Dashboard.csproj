@@ -273,8 +273,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\admin\Views\Shared\ApiKey.cshtml" />
-    <None Include="Areas\admin\Views\Home\KeyStats.cshtml" />
-    <None Include="Areas\admin\Views\Home\UserStats.cshtml" />
+    <Content Include="Areas\admin\Views\Home\KeyStats.cshtml" />
+    <Content Include="Areas\admin\Views\Home\UserStats.cshtml" />
     <Content Include="Areas\admin\Views\Shared\_Layout.cshtml" />
     <None Include="connections.api.mapserv.utah.gov.config">
       <DependentUpon>connections.config</DependentUpon>
@@ -397,7 +397,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" Label="SlowCheetah" />
