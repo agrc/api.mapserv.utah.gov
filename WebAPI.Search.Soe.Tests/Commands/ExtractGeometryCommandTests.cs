@@ -13,7 +13,7 @@ namespace WebAPI.Search.Soe.Tests.Commands
             [Test]
             public void FractionalCoordinatesDeserializesCorrectly()
             {
-                var command = new ExtractGeometryCommand("point:[1.1231236, 2.321561]");
+                var command = new ExtractGeometryCommand("point:[1.1231236, 2.321561]", wkid: 26912);
                 command.Run();
 
                 var result = command.Result;
@@ -26,7 +26,7 @@ namespace WebAPI.Search.Soe.Tests.Commands
             [Test]
             public void NegativeCoordinatesDeserializesCorrectly()
             {
-                var command = new ExtractGeometryCommand("point:[1,-2]");
+                var command = new ExtractGeometryCommand("point:[1,-2]", wkid: 26912);
                 command.Run();
 
                 var result = command.Result;
@@ -39,7 +39,7 @@ namespace WebAPI.Search.Soe.Tests.Commands
             [Test]
             public void MissingBracketsDeserializesCorrectly()
             {
-                var command = new ExtractGeometryCommand("point:1,2");
+                var command = new ExtractGeometryCommand("point:1,2", wkid: 26912);
                 command.Run();
 
                 var result = command.Result;
@@ -52,7 +52,7 @@ namespace WebAPI.Search.Soe.Tests.Commands
             [Test]
             public void SimpleCoordinatesDeserializesCorrectly()
             {
-                var command = new ExtractGeometryCommand("point:[1, 2]");
+                var command = new ExtractGeometryCommand("point:[1, 2]", wkid: 26912);
                 command.Run();
 
                 var result = command.Result;
@@ -69,14 +69,14 @@ namespace WebAPI.Search.Soe.Tests.Commands
             [Test, ExpectedException(typeof(ArgumentException))]
             public void LineThrowsErrorUnlessThereAreTwoOrMorePoints()
             {
-                var command = new ExtractGeometryCommand("polyline:[1]");
+                var command = new ExtractGeometryCommand("polyline:[1]", wkid: 26912);
                 command.Run();
             }
 
             [Test]
             public void SimplePolylineDeserializesCorreclty()
             {
-                var command = new ExtractGeometryCommand("polyline:[[1, 2],[2,3]]");
+                var command = new ExtractGeometryCommand("polyline:[[1, 2],[2,3]]", wkid: 26912);
                 command.Run();
 
                 var result = command.Result;
@@ -93,14 +93,14 @@ namespace WebAPI.Search.Soe.Tests.Commands
             [Test, ExpectedException(typeof(ArgumentException))]
             public void PolygonThrowsErrorUnlessThereAreThreeOrMorePoints()
             {
-                var command = new ExtractGeometryCommand("polygon:[1, 2]");
+                var command = new ExtractGeometryCommand("polygon:[1, 2]", wkid: 26912);
                 command.Run();
             }
 
             [Test]
             public void SimplePolygonDeserializesCorreclty()
             {
-                var command = new ExtractGeometryCommand("polygon:[[1, 2],[2,3],[1, 2]]");
+                var command = new ExtractGeometryCommand("polygon:[[1, 2],[2,3],[1, 2]]", wkid: 26912);
                 command.Run();
 
                 var result = command.Result;

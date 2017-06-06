@@ -65,6 +65,13 @@ namespace WebAPI.Search.Soe.Endpoints
             var returnValues = operationInput.GetStringValue("returnValues");
             var predicate = operationInput.GetStringValue("predicate", nullable: true);
             var geometryJson = operationInput.GetStringValue("geometry", nullable: true);
+            JsonObject esriGeometrytJson = null; 
+
+            if (string.IsNullOrEmpty(geometryJson))
+            {
+                geometryJson = null;
+                operationInput.TryGetJsonObject("geometry", out esriGeometrytJson);
+            }
             var wkidInput = operationInput.GetNumberValue("wkid", nullable: true);
             var bufferInput = operationInput.GetNumberValue("buffer", nullable: true);
 
@@ -109,9 +116,9 @@ namespace WebAPI.Search.Soe.Endpoints
             }
 
             //input has a geometry - deal with it
-            if (!string.IsNullOrEmpty(geometryJson))
+            if (!string.IsNullOrEmpty(geometryJson) || esriGeometrytJson != null)
             {
-                var extractGeometryCommand = new ExtractGeometryCommand(geometryJson);
+                var extractGeometryCommand = new ExtractGeometryCommand(geometryJson ?? esriGeometrytJson.ToJson(), wkid);
                 container = CommandExecutor.ExecuteCommand(extractGeometryCommand);
 
                 if (container == null)
@@ -138,27 +145,34 @@ namespace WebAPI.Search.Soe.Endpoints
 
                     if (container != null)
                     {
-                        foreach (var points in container.Coordinates)
+                        if ((container.Coordinates == null || container.Coordinates.Count < 1) && container.Geometry != null)
                         {
-                            var point = new PointClass
+                            container.Geometry.Project(toUtm);
+                        }
+                        else
+                        {
+                            foreach (var points in container.Coordinates)
+                            {
+                                var point = new PointClass
                                 {
                                     X = points[0],
                                     Y = points[1],
                                     SpatialReference = newSpatialRefefence
                                 };
 
-                            point.Project(toUtm);
+                                point.Project(toUtm);
 
-                            if (point.IsEmpty)
-                            {
-                                errors.Add("Input geometry is empty. Check your x and y values.");
-                                return Json(errors);
+                                if (point.IsEmpty)
+                                {
+                                    errors.Add("Input geometry is empty. Check your x and y values.");
+                                    return Json(errors);
+                                }
+
+                                container.Geometry = point;
+
+                                points[0] = point.X;
+                                points[1] = point.Y;
                             }
-
-                            container.Geometry = point;
-
-                            points[0] = point.X;
-                            points[1] = point.Y;
                         }
                     }
                 }

@@ -9,6 +9,7 @@ namespace WebAPI.Search.Soe.Commands.Factory
 {
     public static class SpatialCommandFactory
     {
+        static readonly string[] RasterDatasets = { "RASTER.DEM_10METER" };
         public static Command<ResponseContainer<SearchResult>>  Get(GeometryContainer container,
                                                                    IFeatureWorkspace featureWorkspace,
                                                                    string featureClass, string[] values,
@@ -16,12 +17,12 @@ namespace WebAPI.Search.Soe.Commands.Factory
                                                                    ISpatialReference newSpatialRefefence)
         {
             if (container == null)
+            {
                 return new NonSpatialQueryCommand(featureWorkspace,
-                                                  new QueryArgs(featureClass, values, predicate, newSpatialRefefence));
+                       new QueryArgs(featureClass, values, predicate, newSpatialRefefence));
+            }
 
-            var rasterDatasets = new[] { "RASTER.DEM_10METER" };
-
-            if (rasterDatasets.Any(x => featureClass.ToUpperInvariant().Contains(x)))
+            if (RasterDatasets.Any(x => featureClass.ToUpperInvariant().Contains(x)))
             {
                 var rasterWorkspace = featureWorkspace as IRasterWorkspaceEx;
                 return new PointInRasterQueryCommand(rasterWorkspace,
@@ -33,6 +34,7 @@ namespace WebAPI.Search.Soe.Commands.Factory
             {
                 case "POINT":
                 case "POLYGON":
+                case "ENVELOPE":
                     {
                         return new PointInPolygonQueryCommand(featureWorkspace,
                                                               new SpatialQueryArgs(featureClass, container.Geometry,
