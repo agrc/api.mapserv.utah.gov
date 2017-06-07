@@ -70,7 +70,10 @@
                                                                                  optional</span> <span class="help-inline label label-danger">
                                                                                                      not fully implemented</span>
             <p class="help-block">
-                The point geometry used for spatial queries. Points are denoted as <code>point:[x,y]</code>.
+                The <code>point</code>, <code>polyline</code>, <code>polygon</code>, <code>multipoint</code>, or <code>envelope</code> geometry types
+                used for spatial queries. These geometries are denoted as <code>geometryType:ArcGIS Server JSON representation</code>. 
+                eg: <code>point:{"x":1,"y":2,"spatialReference":{"wkid":0}}</code>
+                <span class="text-warning">Legacy points are denoted as <code>point:[x,y]</code></span>.
             </p>
         </div>
     </div>
@@ -82,6 +85,15 @@
             <input type="text" id="spatialReference" name="spatialReference" class="form-control"/>
             <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
+            <p class="help-block">
+                The spatial reference for the output and/or input geometries.
+                <strong class="text-warning">The output and input spatial references of the geometry must match if you do not specify the spatial reference of your geometry. If you specify
+                the spatial reference of your geometry the api can reproject the output based on the spatialReference value.</strong>
+                Choose any of the <abbr title="Well-known Id">wkid</abbr>'s from the
+                <a href="http://resources.arcgis.com/en/help/main/10.1/018z/pdf/geographic_coordinate_systems.pdf">Geographic Coordinate System wkid reference</a>
+                or <a href="http://resources.arcgis.com/en/help/main/10.1/018z/pdf/projected_coordinate_systems.pdf">Projected Coordinate System wkid reference</a>.
+                <code>26912</code> is the default.
+            </p>
             @Html.Partial("_SpatialReference")
         </div>
     </div>
