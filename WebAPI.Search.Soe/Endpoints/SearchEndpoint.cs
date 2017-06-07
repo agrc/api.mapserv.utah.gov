@@ -65,13 +65,6 @@ namespace WebAPI.Search.Soe.Endpoints
             var returnValues = operationInput.GetStringValue("returnValues");
             var predicate = operationInput.GetStringValue("predicate", nullable: true);
             var geometryJson = operationInput.GetStringValue("geometry", nullable: true);
-            JsonObject esriGeometrytJson = null; 
-
-            if (string.IsNullOrEmpty(geometryJson))
-            {
-                geometryJson = null;
-                operationInput.TryGetJsonObject("geometry", out esriGeometrytJson);
-            }
             var wkidInput = operationInput.GetNumberValue("wkid", nullable: true);
             var bufferInput = operationInput.GetNumberValue("buffer", nullable: true);
 
@@ -118,7 +111,7 @@ namespace WebAPI.Search.Soe.Endpoints
             //input has a geometry - deal with it
             if (!string.IsNullOrEmpty(geometryJson) || esriGeometrytJson != null)
             {
-                var extractGeometryCommand = new ExtractGeometryCommand(geometryJson ?? esriGeometrytJson.ToJson(), wkid);
+                var extractGeometryCommand = new ExtractGeometryCommand(geometryJson, wkid);
                 container = CommandExecutor.ExecuteCommand(extractGeometryCommand);
 
                 if (container == null)
