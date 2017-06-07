@@ -10,7 +10,7 @@ namespace WebAPI.Search.Soe.Commands.Factory
     public static class SpatialCommandFactory
     {
         static readonly string[] RasterDatasets = { "RASTER.DEM_10METER" };
-        public static Command<ResponseContainer<SearchResult>>  Get(GeometryContainer container,
+        public static Command<ResponseContainer<SearchResult>> Get(GeometryContainer container,
                                                                    IFeatureWorkspace featureWorkspace,
                                                                    string featureClass, string[] values,
                                                                    string predicate,

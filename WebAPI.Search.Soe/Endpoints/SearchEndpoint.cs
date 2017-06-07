@@ -109,7 +109,7 @@ namespace WebAPI.Search.Soe.Endpoints
             }
 
             //input has a geometry - deal with it
-            if (!string.IsNullOrEmpty(geometryJson) || esriGeometrytJson != null)
+            if (!string.IsNullOrEmpty(geometryJson))
             {
                 var extractGeometryCommand = new ExtractGeometryCommand(geometryJson, wkid);
                 container = CommandExecutor.ExecuteCommand(extractGeometryCommand);
