@@ -23,18 +23,23 @@ namespace WebAPI.Search.Soe.Commands
             return string.Format("{0}, GeometryText: {1}", "ExtractCoordinatesForGeometryCommand", _geometryText);
         }
 
+        /// <summary>
+        ///     code to execute when command is run.
+        /// </summary>
         protected override void Execute()
         {
             var container = new GeometryContainer();
 
             var geometryType = _geometryText.Substring(0, _geometryText.IndexOf(':')).ToUpperInvariant();
             esriGeometryType esriGeometryType;
+            var convertToPolygon = false;
 
             switch (geometryType)
             {
                 case "ENVELOPE":
                 {
                     esriGeometryType = esriGeometryType.esriGeometryEnvelope;
+                    convertToPolygon = true;
                     break;
                 }
                 case "POINT":
@@ -96,6 +101,22 @@ namespace WebAPI.Search.Soe.Commands
                 }
 
                 container.Geometry.SpatialReference = newSpatialRefefence;
+            }
+
+            if (convertToPolygon)
+            {
+                IPointCollection polygon = new PolygonClass();
+                var envelope = (IEnvelope) container.Geometry;
+                if (envelope != null)
+                {
+                    polygon.AddPoint(envelope.UpperLeft);
+                    polygon.AddPoint(envelope.UpperRight);
+                    polygon.AddPoint(envelope.LowerRight);
+                    polygon.AddPoint(envelope.LowerLeft);
+
+                    container.Geometry = polygon as IGeometry;
+                    container.Geometry.SpatialReference = envelope.SpatialReference;
+                }
             }
 
             Result = container;
