@@ -86,16 +86,17 @@ namespace WebAPI.API.Commands.Geocode.Flags
         protected override void Execute()
         {
             // only avenue addresses with no prefix are affected
-            if (_address.PrefixDirection != Direction.None || _address.StreetType != StreetType.Avenue)
+            if (_address.PrefixDirection != Direction.None || _address.StreetType != StreetType.Avenue || !IsOrdinal(_address.StreetName))
             {
                 Result = _address;
                 
                 return;
             }
 
-            // it's in the problem area
-            if (((!string.IsNullOrEmpty(_city) && _city.ToUpperInvariant() == "MIDVALE") || 
-                (_address.Zip5.HasValue && _address.Zip5.Value == 84047)) && IsOrdinal(_address.StreetName))
+            // it's in the problem area in midvale
+            const int midvale = 84047;
+            if (((!string.IsNullOrEmpty(_city) && _city.ToUpperInvariant().Contains("MIDVALE")) || 
+                (_address.Zip5.HasValue && _address.Zip5.Value == midvale)))
             {
                 _address.PrefixDirection = Direction.West;
                 Result = _address;
@@ -103,7 +104,15 @@ namespace WebAPI.API.Commands.Geocode.Flags
                 return;
             }
 
-            // 1st through 8th avenue have the issue
+            // update the slc avenues to have an east
+            if (_address.AddressGrids.Select(x => x.Grid).Contains("SALT LAKE CITY"))
+            {
+                _address.PrefixDirection = Direction.East;
+                Result = _address;
+
+                return;
+            }
+
             Result = _address;
         }
 
