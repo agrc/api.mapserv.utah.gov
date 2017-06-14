@@ -168,6 +168,7 @@
     <Compile Include="Commands\ParseZoneCommandTests.cs" />
     <Compile Include="Commands\ReprojectPointsCommandTests.cs" />
     <Compile Include="Commands\StandardizeRouteNameCommandTests.cs" />
+    <Compile Include="Commands\ExceptionsCommandTests.cs" />
     <Compile Include="Controllers\ApiTests.cs" />
     <Compile Include="Controllers\GeocodeTestsBase.cs" />
     <Compile Include="Controllers\MultiGeocodeEndpointTests.cs" />

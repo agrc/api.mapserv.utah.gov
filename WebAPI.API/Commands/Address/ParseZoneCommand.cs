@@ -1,4 +1,5 @@
-﻿using WebAPI.Common.Abstractions;
+﻿using WebAPI.API.Commands.Geocode.Flags;
+using WebAPI.Common.Abstractions;
 using WebAPI.Common.Executors;
 using WebAPI.Domain.Addresses;
 
@@ -42,7 +43,7 @@ namespace WebAPI.API.Commands.Address
                     AddressModel.Zip4 = int.Parse(zip4);
                 }
 
-                Result = AddressModel;
+                Result = CommandExecutor.ExecuteCommand(new DoubleAvenuesExceptionCommand(AddressModel, ""));
                 return;
             }
 
@@ -58,7 +59,7 @@ namespace WebAPI.API.Commands.Address
                 AddressModel.AddressGrids = CommandExecutor.ExecuteCommand(
                     new GetAddressSystemFromCityCommand(cityKey));
 
-                Result = AddressModel;
+                Result = CommandExecutor.ExecuteCommand(new DoubleAvenuesExceptionCommand(AddressModel, cityKey));
                 return;
             }
 
