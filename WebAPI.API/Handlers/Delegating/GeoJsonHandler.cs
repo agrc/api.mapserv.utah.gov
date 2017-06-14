@@ -24,6 +24,11 @@ namespace WebAPI.API.Handlers.Delegating
             {
                 IEnumerable<string> formats, types;
 
+                if (response.IsCanceled)
+                {
+                    return null;
+                }
+
                 var requestContent = HttpContentProvider.GetRequestContent(request);
 
                 if (!requestContent.Headers.TryGetValues("X-Format", out formats))

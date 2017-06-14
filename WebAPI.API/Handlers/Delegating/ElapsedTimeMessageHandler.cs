@@ -17,6 +17,12 @@ namespace WebAPI.API.Handlers.Delegating
                        .ContinueWith(task =>
                        {
                            sw.Stop();
+
+                           if (task.Result == null)
+                           {
+                               return null;
+                           }
+
                            task.Result.Headers.Add("X-Elapsed-Time",
                                                    sw.ElapsedMilliseconds.ToString());
                            return task.Result;
