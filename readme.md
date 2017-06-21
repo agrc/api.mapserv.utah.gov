@@ -1,6 +1,6 @@
 # AGRC Web API
 
-Check out the [wiki](/wiki) for information about the web api.
+Check out the [wiki](../../wiki) for information about the web api.
 
 ### Privacy Policy
 
