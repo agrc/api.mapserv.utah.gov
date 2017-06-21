@@ -14,7 +14,7 @@ namespace WebAPI.API.Tests.Commands
     [TestFixture]
     public class GetLocatorsForAddressCommandTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupGlobal()
         {
             CacheConfig.BuildCache();

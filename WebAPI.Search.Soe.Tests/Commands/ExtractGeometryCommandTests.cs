@@ -66,11 +66,10 @@ namespace WebAPI.Search.Soe.Tests.Commands
         [TestFixture, Explicit("Not Implemented")]
         public class Polyline
         {
-            [Test, ExpectedException(typeof(ArgumentException))]
             public void LineThrowsErrorUnlessThereAreTwoOrMorePoints()
             {
                 var command = new ExtractGeometryCommand("polyline:[1]", wkid: 26912);
-                command.Run();
+                Assert.Throws<ArgumentException>(() => command.Run());
             }
 
             [Test]
@@ -90,11 +89,10 @@ namespace WebAPI.Search.Soe.Tests.Commands
         [TestFixture, Explicit("Not Implemented")]
         public class Polygon
         {
-            [Test, ExpectedException(typeof(ArgumentException))]
             public void PolygonThrowsErrorUnlessThereAreThreeOrMorePoints()
             {
                 var command = new ExtractGeometryCommand("polygon:[1, 2]", wkid: 26912);
-                command.Run();
+                Assert.Throws<ArgumentException>(() => command.Run());
             }
 
             [Test]

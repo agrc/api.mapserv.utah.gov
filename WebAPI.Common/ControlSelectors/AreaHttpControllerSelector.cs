@@ -30,9 +30,8 @@ namespace WebAPI.Common.ControlSelectors
         private static string GetAreaName(HttpRequestMessage request)
         {
             var data = request.GetRouteData();
-            object areaName;
 
-            if (data.Route.DataTokens != null && data.Route.DataTokens.TryGetValue(AreaRouteVariableName, out areaName))
+            if (data.Route.DataTokens != null && data.Route.DataTokens.TryGetValue(AreaRouteVariableName, out object areaName))
             {
                 return areaName.ToString();
             }

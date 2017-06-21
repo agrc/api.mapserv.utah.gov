@@ -12,7 +12,7 @@ namespace WebAPI.API.Tests.Commands
         {
             private ParseSingleLineInputCommand _command;
 
-            [TestFixtureSetUp]
+            [OneTimeSetUp]
             public void SetupGlobal()
             {
                 CacheConfig.BuildCache();

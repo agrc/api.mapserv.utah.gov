@@ -4,7 +4,7 @@ namespace WebAPI.API.Tests.Controllers
 {
     public class GeocodeTestsBase
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupFixture()
         {
             CacheConfig.BuildCache();
