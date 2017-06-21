@@ -133,3 +133,4 @@ scripts/cache.txt
 scripts/webapi/data/agrc@sgid10.sde
 scripts/webapi/data/gspread-71262bb748ee.json
 *.lock
+.vs/config/applicationhost.config
