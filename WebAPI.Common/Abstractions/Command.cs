@@ -30,7 +30,7 @@ namespace WebAPI.Common.Abstractions
                 ErrorMessage = ex.Message;
                 Debug.Print("Error processing task:" + ToString(), ex);
                 Debug.WriteLine("Error processing task:" + ToString(), ex.Message);
-                Log.Error("Error processing task:" + ToString(), ex);
+                Log.Error(ex, "Error processing task:" + ToString());
             }
         }
 
