@@ -15,7 +15,7 @@ namespace WebAPI.API.Tests.Speed
             "3460 Pioneer Parkway", "630 East Medical Drive", "64 East 100 North Gunnison"
         };
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             CacheConfig.BuildCache();

@@ -11,7 +11,7 @@ namespace WebAPI.API.Tests.Commands
         [TestFixture]
         public class GeocodingServiceTests
         {
-            [TestFixtureSetUp]
+            [OneTimeSetUp]
             public void SetupGlobal()
             {
                 CacheConfig.BuildCache();

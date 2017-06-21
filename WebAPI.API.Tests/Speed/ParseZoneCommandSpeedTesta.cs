@@ -14,7 +14,7 @@ namespace WebAPI.API.Tests.Speed
             "salt lake city", "84109", "84111", "orem", "PROVO", "84109-1906", "84114", "RichField", "84113"
         };
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             CacheConfig.BuildCache();

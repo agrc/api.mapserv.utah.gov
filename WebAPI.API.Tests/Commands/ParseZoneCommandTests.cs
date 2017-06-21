@@ -9,7 +9,7 @@ namespace WebAPI.API.Tests.Commands
     [TestFixture]
     public class ParseZoneCommandTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             CacheConfig.BuildCache();

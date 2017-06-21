@@ -96,7 +96,7 @@ namespace WebAPI.API.Tests
         }
 
         public List<CsvTestAddress> ZipCodes { get; set; }
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupGlobal()
         {
             CacheConfig.BuildCache();

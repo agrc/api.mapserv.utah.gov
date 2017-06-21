@@ -27,7 +27,7 @@ namespace WebAPI.Search.Soe.Tests
                 var result = response.Result.Content.ReadAsStringAsync().Result;
 
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.StringStarting(
+                Assert.That(result, Does.StartWith(
                     "{\"Results\":[{\"Geometry\":null,\"Attributes\":{\"Name\":\"Mount Timpanogos\"}}]").IgnoreCase);
             }
 
@@ -45,7 +45,7 @@ namespace WebAPI.Search.Soe.Tests
                 var result = response.Result.Content.ReadAsStringAsync().Result;
 
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.StringStarting("{\"Results\":[]").IgnoreCase);
+                Assert.That(result, Does.StartWith("{\"Results\":[]").IgnoreCase);
             }
         }
 
@@ -87,7 +87,7 @@ namespace WebAPI.Search.Soe.Tests
 
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result,
-                            Is.StringStarting(
+                             Does.StartWith(
                                 "{\"Results\":[{\"Geometry\":null,\"Attributes\":{\"Name\":\"Box Elder\"}}]").IgnoreCase);
             }
 
@@ -106,7 +106,7 @@ namespace WebAPI.Search.Soe.Tests
                 var result = response.Result.Content.ReadAsStringAsync().Result;
 
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.StringStarting("{\"Results\":[{\"Geometry\":\"{\\\"rings\\\":[[[").IgnoreCase);
+                Assert.That(result, Does.StartWith("{\"Results\":[{\"Geometry\":\"{\\\"rings\\\":[[[").IgnoreCase);
             }
 
             [Test]
@@ -125,7 +125,7 @@ namespace WebAPI.Search.Soe.Tests
                 var result = response.Result.Content.ReadAsStringAsync().Result;
 
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.StringStarting("{\"Results\":[]").IgnoreCase);
+                Assert.That(result, Does.StartWith("{\"Results\":[]").IgnoreCase);
             }
         }
 
@@ -204,7 +204,7 @@ namespace WebAPI.Search.Soe.Tests
 
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result,
-                            Is.StringStarting("{\"TopResult\":{\"Milepost\":42.848619712799547,\"Route\":\"0080N\"").
+                             Does.StartWith("{\"TopResult\":{\"Milepost\":42.848619712799547,\"Route\":\"0080N\"").
                                IgnoreCase);
             }
 
@@ -222,7 +222,7 @@ namespace WebAPI.Search.Soe.Tests
                 var result = response.Result.Content.ReadAsStringAsync().Result;
 
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.StringStarting(
+                Assert.That(result, Does.StartWith(
                     "{\"TopResult\":{\"Milepost\":17.42619992647089,\"Route\":\"0201P\"").IgnoreCase);
             }
 
@@ -239,7 +239,7 @@ namespace WebAPI.Search.Soe.Tests
                 var result = response.Result.Content.ReadAsStringAsync().Result;
 
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.StringStarting(
+                Assert.That(result, Does.StartWith(
                     "{\"TopResult\":{\"Milepost\":17.426200270235142,\"Route\":\"0201P\"").IgnoreCase);
             }
 
