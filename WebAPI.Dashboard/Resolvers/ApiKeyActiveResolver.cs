@@ -1,21 +1,22 @@
 ﻿using AutoMapper;
 using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Keys;
+using WebAPI.Dashboard.Models.ViewModels.Keys;
 using WebAPI.Dashboard.Models.ViewModels.Usage;
 
 namespace WebAPI.Dashboard.Resolvers
 {
-    public class ApiKeyActiveResolver : ValueResolver<StatsPerApiKey.Stats, bool>
+    public class ApiKeyActiveResolver : IValueResolver<StatsPerApiKey.Stats, ApiKeyViewModel, bool>
     {
-        protected override bool ResolveCore(StatsPerApiKey.Stats source)
+        public bool Resolve(StatsPerApiKey.Stats source, ApiKeyViewModel destination, bool member, ResolutionContext context)
         {
             return source.Status == ApiKey.KeyStatus.Active;
         }
     }
 
-    public class ApiKeyActiveResolver2 : ValueResolver<UsageViewModel, bool>
+    public class ApiKeyActiveResolver2 : IValueResolver<UsageViewModel, ApiKeyViewModel, bool>
     {
-        protected override bool ResolveCore(UsageViewModel source)
+        public bool Resolve(UsageViewModel source, ApiKeyViewModel destination, bool member, ResolutionContext context)
         {
             return source.Key.ApiKeyStatus == ApiKey.KeyStatus.Active;
         }
