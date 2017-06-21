@@ -17,7 +17,7 @@ namespace WebAPI.API.Tests.Controllers
     [TestFixture]
     public class ApiTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupGlobal()
         {
             CacheConfig.BuildCache();
@@ -179,7 +179,7 @@ namespace WebAPI.API.Tests.Controllers
 
                 Assert.That(result.Status, Is.EqualTo((int)HttpStatusCode.OK));
                 Assert.That(result.Result, Is.Not.Null);
-                Assert.That(result.Result.First().Geometry["rings"][0][0][0].ToString(), Is.StringContaining("-111."));
+                Assert.That(result.Result.First().Geometry["rings"][0][0][0].ToString(), Does.Contain("-111."));
             }
 
             [Test]
@@ -192,7 +192,7 @@ namespace WebAPI.API.Tests.Controllers
 
                 Assert.That(result.Status, Is.EqualTo((int) HttpStatusCode.BadRequest));
                 Assert.That(result.Result, Is.Null);
-                Assert.That(result.Message, Is.StringStarting("featureClass is a required field. Input was empty."));
+                Assert.That(result.Message, Does.StartWith("featureClass is a required field. Input was empty."));
             }
 
             [Test]
@@ -205,7 +205,7 @@ namespace WebAPI.API.Tests.Controllers
 
                 Assert.That(result.Status, Is.EqualTo((int) HttpStatusCode.BadRequest));
                 Assert.That(result.Result, Is.Null);
-                Assert.That(result.Message, Is.StringStarting("returnValues is a required field. Input was empty."));
+                Assert.That(result.Message, Does.StartWith("returnValues is a required field. Input was empty."));
             }
 
             [Test]
@@ -221,7 +221,7 @@ namespace WebAPI.API.Tests.Controllers
 
                 Assert.That(result.Status, Is.EqualTo((int) HttpStatusCode.BadRequest));
                 Assert.That(result.Result, Is.Null);
-                Assert.That(result.Message, Is.StringStarting("Predicate contains unsafe characters. Don't be a jerk."));
+                Assert.That(result.Message, Does.StartWith("Predicate contains unsafe characters. Don't be a jerk."));
 
             }
 
