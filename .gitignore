@@ -105,10 +105,9 @@ $RECYCLE.BIN/
 .DS_Store
 
 *.pyc
-app.config
 connections.*.config
 connections.config
-!connections.sample.config
+!connections.template.config
 Raven.Studio.Html5.zip
 secrets.*.config
 !secrets.template.config
