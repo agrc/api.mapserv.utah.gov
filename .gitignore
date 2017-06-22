@@ -115,11 +115,6 @@ secrets.cfg
 secrets.config
 secrets.py
 createPoBox.py
-WebAPI.API/BeforePublish/gspread-71262bb748ee.json
-WebAPI.API/BeforePublish/Runner.py
-!WebAPI.Common/app.config
-!WebAPI.Common.Tests/app.config
-!WebAPI.Search.Soe.Tests/app.config
 WebAPI.Dashboard/Web.Release.config
 *.DotSettings
 scripts/cache.txt
