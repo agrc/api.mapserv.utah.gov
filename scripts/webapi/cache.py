@@ -74,7 +74,7 @@ class Cache(object):
         return gc
 
     def get_list_from(self, spreadsheet):
-        print 'getting data from {}'.format(spreadsheet)
+        print('getting data from {}'.format(spreadsheet))
 
         gc = self._login()
 
@@ -124,7 +124,7 @@ class Cache(object):
             for row in csv_reader:
                 city = row['Description']
 
-                if city.lower() not in self.exclusions.keys():
+                if city.lower() not in list(self.exclusions.keys()):
                     continue
 
                 x, y = self.exclusions[city.lower()]
@@ -140,6 +140,6 @@ class Cache(object):
             text_file.write(self.po_template.render(items=self.get_pos_from_sde()))
             text_file.write(self.po_corrections_template.render(items=self.get_tax_corrections()))
 
-        print 'updated places list.'
+        print('updated places list.')
 
         os.startfile("cache.txt")
