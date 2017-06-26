@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebAPI.Search.Soe</RootNamespace>
     <AssemblyName>WebAPI.Search.Soe</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>WebApi.Search.Soe.snk</AssemblyOriginatorKeyFile>
@@ -85,8 +85,6 @@
     <Reference Include="ESRI.ArcGIS.SOESupport">
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\ArcGIS\bin\ESRI.ArcGIS.SOESupport.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.System">
       <SpecificVersion>False</SpecificVersion>
