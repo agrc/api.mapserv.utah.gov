@@ -19,10 +19,10 @@ Argument values:
 
 
 from docopt import docopt
-from soe import Soe
-from cache import Cache
-from test_helper import CreateTests
-import secrets
+from .soe import Soe
+from .cache import Cache
+from .test_helper import CreateTests
+from . import secrets
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='Web API Tooling 1.0.0')

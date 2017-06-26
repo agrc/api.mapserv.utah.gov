@@ -18,8 +18,8 @@ class Soe(object):
         else:
             raise Exception('could not find the {} soe.'.format(name))
 
-        print('uploading {}'.format(file_name))
-        print('to {}'.format(host))
+        print(('uploading {}'.format(file_name)))
+        print(('to {}'.format(host)))
 
         token_url = 'http://{}:6080/arcgis/admin/generateToken'.format(host)
         update_soe_url = 'http://{}:6080/arcgis/admin/services/types/extensions/update'.format(host)
@@ -43,12 +43,12 @@ class Soe(object):
         print('uploading')
         r = requests.post(upload_url.format(data['token']), files=files)
 
-        print(r.status_code, r.json()['status'])
+        print((r.status_code, r.json()['status']))
 
         data['id'] = r.json()['item']['itemID']
 
         print('updating')
         r = requests.post(update_soe_url, params=data)
 
-        print(r.status_code, r.json()['status'])
+        print((r.status_code, r.json()['status']))
         print('done')
