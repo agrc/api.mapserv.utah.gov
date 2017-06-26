@@ -262,7 +262,8 @@
       <DependentUpon>connections.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <Content Include="connections.template.config" />
+    <None Include="connections.template.config" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\new production 10.3.1.pubxml" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
@@ -281,7 +282,7 @@
     <Content Include="Views\Shared\Footer.cshtml" />
     <Content Include="Views\ChangeLog\Index.cshtml" />
     <Content Include="secrets.config" />
-    <Content Include="secrets.template.config" />
+    <None Include="secrets.template.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -375,7 +376,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" Label="SlowCheetah" />
