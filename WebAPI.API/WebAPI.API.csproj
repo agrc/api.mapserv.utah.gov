@@ -331,16 +331,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TransformOnBuild>true</TransformOnBuild>
     </Content>
-    <Content Include="secrets.template.config">
+    <None Include="secrets.template.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <Content Include="connections.config">
       <TransformOnBuild>true</TransformOnBuild>
     </Content>
-    <Content Include="connections.template.config">
+    <None Include="connections.template.config">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <None Include="connections.api.mapserv.utah.gov.config">
       <DependentUpon>connections.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
@@ -371,6 +371,7 @@
     <None Include="Properties\PublishProfiles\api.mapserv.utah.gov.pubxml" />
     <Content Include="Views\Geocode\_MilePost.cshtml" />
     <Content Include="Views\Geocode\_ReverseMilePost.cshtml" />
+    <None Include="Properties\PublishProfiles\ITAS106SP.pubxml" />
     <None Include="secrets.api.mapserv.utah.gov.config">
       <DependentUpon>secrets.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
