@@ -143,7 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiKeyTests.cs" />
+    <Compile Include="Commands\CachePoBoxLocationsCommandTests.cs" />
     <Compile Include="Commands\ChooseBestAddressCandidatesCommandTests.cs" />
+    <Compile Include="Commands\GetCacheDateaFromDriveTests.cs" />
     <Compile Include="Commands\CreateFeatureFromCommandTests.cs" />
     <Compile Include="Commands\FormatAttributeCommandTests.cs" />
     <Compile Include="Commands\GetAddressSystemFromZipCodeCommandTests.cs" />
