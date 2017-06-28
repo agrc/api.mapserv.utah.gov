@@ -36,7 +36,8 @@ namespace WebAPI.API.Tests
             {
                 get
                 {
-                    using (var file = File.OpenText("baseline_zipcodes.csv"))
+                    var csvfile = Path.Combine(TestContext.CurrentContext.TestDirectory, "baseline_zipcodes.csv");
+                    using (var file = File.OpenText(csvfile))
                     {
                         var csv = new CsvReader(file);
                         var addresses = csv.GetRecords<CsvTestAddress>();
@@ -53,7 +54,8 @@ namespace WebAPI.API.Tests
             {
                 get
                 {
-                    using (var file = File.OpenText("baseline_citynames.csv"))
+                    var csvfile = Path.Combine(TestContext.CurrentContext.TestDirectory, "baseline_citynames.csv");
+                    using (var file = File.OpenText(csvfile))
                     {
                         var csv = new CsvReader(file);
                         var addresses = csv.GetRecords<CsvTestAddress>();
