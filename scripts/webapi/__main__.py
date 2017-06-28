@@ -6,7 +6,6 @@ Web API Tooling
 Usage:
   webapi soe-publish <host> <name> <configuration>
   webapi create-test-addresses <fgdb_location> <output>
-  webapi update-cache
   webapi (-h | --help | --version)
 Options:
   -h --help                         Show this screen.
@@ -20,7 +19,6 @@ Argument values:
 
 from docopt import docopt
 from .soe import Soe
-from .cache import Cache
 from .test_helper import CreateTests
 from . import secrets
 
@@ -31,6 +29,3 @@ if __name__ == '__main__':
         Soe(arguments['<host>'], arguments['<name>'], arguments['<configuration>'], secrets)
     elif arguments['create-test-addresses']:
         CreateTests(arguments['<fgdb_location>'], arguments['<output>'])
-    elif arguments['update-cache']:
-        cache = Cache()
-        cache.build()
