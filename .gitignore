@@ -122,3 +122,5 @@ scripts/webapi/data/agrc@sgid10.sde
 scripts/webapi/data/gspread-71262bb748ee.json
 *.lock
 .vs/
+WebAPI.API/client_secret.json
+WebAPI.API/sgid10.sde
