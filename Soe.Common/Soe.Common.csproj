@@ -92,8 +92,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="secrets.config" />
-    <None Include="secrets.template.config" />
+    <None Include="App.template.config" />
     <None Include="Soe.Common.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
