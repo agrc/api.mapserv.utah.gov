@@ -11,9 +11,9 @@ using WebAPI.Domain.InputOptions;
 
 namespace WebAPI.API.Commands.Geocode
 {
-    public class GetAltNameLocatorsCommand : Command<ReadOnlyCollection<LocatorDetails>>
+    public class GetAltNameLocatorsForAddressCommand : Command<ReadOnlyCollection<LocatorDetails>>
     {
-        public GetAltNameLocatorsCommand(GeocodeAddress address, GeocodeOptions options)
+        public GetAltNameLocatorsForAddressCommand(GeocodeAddress address, GeocodeOptions options)
         {
             Host = ConfigurationManager.AppSettings["gis_server_host"];
             Address = address;

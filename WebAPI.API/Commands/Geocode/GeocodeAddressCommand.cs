@@ -51,7 +51,7 @@ namespace WebAPI.API.Commands.Geocode
                                                           new CandidateComparer(address.ToUpperInvariant()));
 
                 var locators =
-                    CommandExecutor.ExecuteCommand(new GetLocatorsForAddressCommand(Address,
+                    CommandExecutor.ExecuteCommand(new GetAltNameLocatorsForAddressCommand(Address,
                                                                                     GeocodingOptions));
 
                 if (locators == null || !locators.Any())

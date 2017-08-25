@@ -20,7 +20,6 @@ namespace WebAPI.API.Commands.Geocode
             Address = address;
             Options = options;
 
-
             BuildAddressPermutations();
             BuildLocatorLookup();
         }

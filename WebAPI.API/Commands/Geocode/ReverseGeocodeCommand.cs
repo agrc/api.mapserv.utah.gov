@@ -70,7 +70,7 @@ namespace WebAPI.API.Commands.Geocode
                 }
             }
 
-            var locator = CommandExecutor.ExecuteCommand(new GetLocatorsForLocationCommand(Location));
+            var locator = CommandExecutor.ExecuteCommand(new GetAltNameLocatorsForLocationCommand(Location));
 
             var requestUri = string.Format(locator.Url, Location.X, Location.Y, Distance, Wkid);
 

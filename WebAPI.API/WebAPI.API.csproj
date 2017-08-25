@@ -232,7 +232,10 @@
     <Compile Include="Commands\ArcGIS\GetWorkspaceCommand.cs" />
     <Compile Include="Commands\Drive\GetCachedDataFromDriveCommand.cs" />
     <Compile Include="Commands\Geocode\Flags\DoubleAvenuesExceptionCommand.cs" />
-    <Compile Include="Commands\Geocode\GetAltNameLocatorsCommand.cs" />
+    <Compile Include="Commands\Geocode\GetAltNameLocatorsForAddressCommand.cs" />
+    <Compile Include="Commands\Geocode\GetAltNameLocatorsForLocationCommand.cs" />
+    <Compile Include="Commands\Geocode\GetLocatorsForAddressCommand.cs" />
+    <Compile Include="Commands\Geocode\GetLocatorsForLocationCommand.cs" />
     <Compile Include="Commands\Geocode\PoBoxCommand.cs" />
     <Compile Include="Commands\Geocode\UspsDeliveryPointCommand.cs" />
     <Compile Include="Commands\Info\FlyCanaryCommand.cs" />
@@ -252,12 +255,10 @@
     <Compile Include="ModelBindings\Providers\ReverseMilepostOptionsModelBindingProvider.cs" />
     <Compile Include="Commands\Geocode\ChooseBestAddressCandidateCommand.cs" />
     <Compile Include="Commands\Geocode\GeocodeAddressCommand.cs" />
-    <Compile Include="Commands\Geocode\GetLocatorsForLocationCommand.cs" />
     <Compile Include="Commands\Geocode\MilePostCommand.cs" />
     <Compile Include="Commands\Geocode\OrchesrateeGeocodeCommand.cs" />
     <Compile Include="Commands\Geocode\NotifyGeocoderDownCommand.cs" />
     <Compile Include="Commands\Geocode\GetAddressCandidatesCommand.cs" />
-    <Compile Include="Commands\Geocode\GetLocatorsForAddressCommand.cs" />
     <Compile Include="Commands\Geocode\ReverseGeocodeCommand.cs" />
     <Compile Include="Commands\Geocode\StandardizeRouteNameCommand.cs" />
     <Compile Include="Commands\Info\GetFeatureClassNamesCommand.cs" />
@@ -474,7 +475,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
