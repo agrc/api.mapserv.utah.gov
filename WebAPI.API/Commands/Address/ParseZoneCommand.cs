@@ -1,4 +1,5 @@
-﻿using WebAPI.API.Commands.Geocode.Flags;
+﻿using System.Text.RegularExpressions;
+using WebAPI.API.Commands.Geocode.Flags;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Executors;
 using WebAPI.Domain.Addresses;
@@ -53,6 +54,7 @@ namespace WebAPI.API.Commands.Address
             {
                 var cityKey = cityName.Value.ToLower();
                 cityKey = cityKey.Replace(".", "");
+                cityKey = Regex.Replace(cityKey, @"\s+", " ");
 
                 cityKey = App.RegularExpressions["cityTownCruft"].Replace(cityKey, "").Trim();
 
