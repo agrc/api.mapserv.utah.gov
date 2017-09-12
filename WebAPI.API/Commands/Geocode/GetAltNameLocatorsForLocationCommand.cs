@@ -28,7 +28,7 @@ namespace WebAPI.API.Commands.Geocode
                     {
                         Url =
                             string.Format("http://{0}", Host) +
-                            "/arcgis/rest/services/Geolocators/Roads_AddressSystem_Alternate/GeocodeServer/reverseGeocode?location={0},{1}&distance={2}&outSR={3}&f=json",
+                            "/arcgis/rest/services/Geolocators/Roads_AddressSystem/GeocodeServer/reverseGeocode?location={0},{1}&distance={2}&outSR={3}&f=json",
                         Name = "Centerlines.StatewideRoads"
                     };
         }
