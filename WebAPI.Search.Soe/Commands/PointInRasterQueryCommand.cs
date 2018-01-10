@@ -184,18 +184,28 @@ namespace WebAPI.Search.Soe.Commands
 
         private static object GetValueForField(string attributeName, IFields fields, IRasterIdentifyObj2 row)
         {
-            var findField = fields.FindField(attributeName.Trim());
-
-            if (findField < 0)
-            {
-                throw new ArgumentException(attributeName + " "); 
-            }
-
-            string value, property;
+            var fieldCount = fields.FieldCount;
+            string value = null;
+            var i = 0;
 
             try
             {
-                row.GetPropAndValues(findField, out property, out value);
+                while (i <= fieldCount)
+                {
+                    string property;
+                    row.GetPropAndValues(i, out property, out value);
+
+                    if (string.Equals(property, attributeName, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        return value;
+                    }
+                    if (attributeName == "VALUE" && property.ToUpperInvariant() == "PIXEL VALUE")
+                    {
+                        return value;
+                    }
+
+                    i = i + 1;
+                }
             }
             catch (COMException)
             {
@@ -208,7 +218,7 @@ namespace WebAPI.Search.Soe.Commands
 
         public override string ToString()
         {
-            return string.Format("{0}, Args: {1}", "PointInPolygonQueryCommand", Args);
+            return $"PointInPolygonQueryCommand, Args: {Args}";
         }
     }
 }
