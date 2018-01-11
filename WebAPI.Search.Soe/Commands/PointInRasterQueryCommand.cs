@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.DataSourcesRaster;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.esriSystem;
@@ -69,10 +71,16 @@ namespace WebAPI.Search.Soe.Commands
 
             var featureClass = FeatureWorkspace.OpenRasterDataset(Args.FeatureClass.Trim());
 
-            var rasterLayer = new RasterLayer();
-            rasterLayer.CreateFromDataset(featureClass);
+//            var rasterLayer = new RasterLayer();
+//            rasterLayer.CreateFromDataset(featureClass);
 
-            var table = rasterLayer as ITable;
+            var table = ((IRasterBandCollection)featureClass).Item(0).AttributeTable;
+
+            //            var rasterProps = featureClass.CreateDefaultRaster() as IRasterProps;
+            //            var bufferDifference = (rasterProps.MeanCellSize().X / 2);
+            //            var geometry = CommandExecutor.ExecuteCommand(new BufferGeometryCommand(new GeometryContainer { Geometry = point }, bufferDifference));
+
+//            var table = rasterLayer as ITable; 
 
             if (table == null)
             {
@@ -90,67 +98,59 @@ namespace WebAPI.Search.Soe.Commands
                 return;
             }
 
-            var identify = rasterLayer as IIdentify;
-
-            if (identify == null)
+            var query = new SpatialFilterClass
             {
-                ErrorMessage = "Could not complete operation. {0}".With("Identifying raster.");
+                Geometry = point,
+                SpatialRel = esriSpatialRelEnum.esriSpatialRelIndexIntersects,
+                SubFields = string.Join(",", Args.ReturnValues)
+            };
+
+            ICursor cursor;
+            try
+            {
+                cursor = table.Search(query, false);
+            }
+            catch (Exception)
+            {
+                ErrorMessage = "Could not complete operation. {0}".With("Querying raster.");
                 return;
             }
 
-            var results = identify.Identify(point);
-            if (results == null || results.Count < 1)
-            {
-                Result = new ResponseContainer<SearchResult>
-                {
-                    Results = new List<SearchResult>()
-                };
+            var container = AddResultsToContainer(cursor, table.Fields, Args.ReturnValues, Args.SpatialRefefence);
 
-                return;
-            }
-
-            var container = AddResultsToContainer(results, table.Fields, Args.ReturnValues, Args.SpatialRefefence);
-
-            Marshal.ReleaseComObject(identify);
+            Marshal.ReleaseComObject(cursor);
             Marshal.ReleaseComObject(table);
-            Marshal.ReleaseComObject(rasterLayer);
+//            Marshal.ReleaseComObject(rasterLayer);
             Marshal.ReleaseComObject(featureClass);
             Marshal.ReleaseComObject(FeatureWorkspace);
 
             Result = container;
         }
 
-        protected virtual ResponseContainer<SearchResult> AddResultsToContainer(IArray items, IFields fields, string[] returnValues, ISpatialReference spatialReference = null)
+        protected virtual ResponseContainer<SearchResult> AddResultsToContainer(ICursor cursor, IFields fields, string[] returnValues, ISpatialReference spatialReference = null)
         {
             var container = new ResponseContainer<SearchResult>
             {
                 Results = new List<SearchResult>()
             };
 
-            for (var i = 0; i < items.Count; i++)
+            IRow row;
+            while ((row = cursor.NextRow()) != null)
             {
-                var item = items.Element[i] as IRasterIdentifyObj2;
-
                 var feature = new SearchResult
                     {
                         Attributes = new Dictionary<string, object>()
                     };
 
-                foreach (var attribute in returnValues)
+                for (var i = 0; i < row.Fields.FieldCount; i++)
                 {
-                    var cleantribute = attribute.Trim().ToUpperInvariant();
-                    if (cleantribute.Contains("SHAPE@"))
-                    {   
-                        continue;
-                    }
-
-                    var result = GetValueForField(cleantribute, fields, item);
-                    if (result == null)
+                    var fieldName = row.Fields.Field[i].Name;
+                    if (!returnValues.Contains(fieldName.ToLowerInvariant()))
                     {
                         continue;
                     }
 
-                    feature.Attributes.Add(attribute.Trim(), result);
+                    feature.Attributes.Add(row.Fields.Field[i].Name, row.Value[i]);
                 }
 
                 if (!feature.Attributes.Any())
@@ -159,6 +159,7 @@ namespace WebAPI.Search.Soe.Commands
                 }
 
                 container.Results.Add(feature);
+                Marshal.ReleaseComObject(row);
             }
 
             return container;
