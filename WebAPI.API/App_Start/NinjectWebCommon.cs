@@ -1,5 +1,6 @@
 using Ninject;
 using Ninject.Web.Common;
+using Ninject.Web.Common.WebHost;
 using WebAPI.API.Handlers.Delegating;
 using WebAPI.API.Ninject.Modules;
 using WebAPI.Common.Ninject.Modules;
