@@ -230,6 +230,7 @@
     <Compile Include="Commands\Address\ParseSingleLineInputCommand.cs" />
     <Compile Include="Commands\Address\ParseZoneCommand.cs" />
     <Compile Include="Commands\ArcGIS\GetWorkspaceCommand.cs" />
+    <Compile Include="Commands\ArcGIS\LicenseInitializer.Designer.cs" />
     <Compile Include="Commands\Drive\GetCachedDataFromDriveCommand.cs" />
     <Compile Include="Commands\Geocode\Flags\DoubleAvenuesExceptionCommand.cs" />
     <Compile Include="Commands\Geocode\GetAltNameLocatorsForAddressCommand.cs" />

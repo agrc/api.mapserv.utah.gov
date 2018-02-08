@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebAPI.API.Commands.Sgid;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Commands.Spatial;
 using WebAPI.Common.Executors;
@@ -24,6 +25,12 @@ namespace WebAPI.API.Commands.Geocode
         protected override void Execute()
         {
             if (!GeocodedAddress.Zip5.HasValue)
+            {
+                Result = null;
+                return;
+            }
+
+            if (App.PoBoxLookup is null)
             {
                 Result = null;
                 return;
