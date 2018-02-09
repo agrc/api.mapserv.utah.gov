@@ -176,6 +176,7 @@
     <Compile Include="Indexes\StatsPerApiKey.cs" />
     <Compile Include="Indexes\IndexEmail.cs" />
     <Compile Include="Indexes\IndexApiKey.cs" />
+    <Compile Include="Logging\LoggingConfig.cs" />
     <Compile Include="Models\Changelog\LogEntry.cs" />
     <Compile Include="Models\Esri\Errors\Errorable.cs" />
     <Compile Include="Models\Raven\Admin\AdminContainer.cs" />

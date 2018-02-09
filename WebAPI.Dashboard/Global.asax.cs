@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Ninject;
+using WebAPI.Common.Logging;
 using WebAPI.Dashboard.Cache;
 
 namespace WebAPI.Dashboard
@@ -52,6 +53,7 @@ namespace WebAPI.Dashboard
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.RegisterMaps();
+            LoggingConfig.Register("console");
         }
 
         public override string GetVaryByCustomString(HttpContext context, string custom)
