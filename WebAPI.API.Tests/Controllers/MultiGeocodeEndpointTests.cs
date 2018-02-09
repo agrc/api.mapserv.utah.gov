@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using WebAPI.Domain;
 using WebAPI.Domain.Addresses;
 using WebAPI.Domain.ApiResponses;
