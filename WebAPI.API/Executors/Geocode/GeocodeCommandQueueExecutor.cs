@@ -30,13 +30,7 @@ namespace WebAPI.API.Executors.Geocode
                 tasks.Add(Task.Factory.StartNew(stagingCommand.GetResult).Unwrap());
             }
 
-            try
-            {
                 Task.WaitAll(tasks.ToArray());
-            } catch (AggregateException ex)
-            {
-                Log.Fatal(ex, "Task Failed");
-            }
 
             return BuildResult(tasks);
         }

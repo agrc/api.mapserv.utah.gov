@@ -298,7 +298,6 @@
     <Compile Include="Controllers\API\Version1\GeocodeController.cs" />
     <Compile Include="Controllers\GoController.cs" />
     <Compile Include="DataStructures\TopAddressCandidates.cs" />
-    <Compile Include="Exceptions\GeocodingException.cs" />
     <Compile Include="Executors\Geocode\GeocodeCommandQueueExecutor.cs" />
     <Compile Include="App_Start\HandlerConfig.cs" />
     <Compile Include="Handlers\Delegating\ApiLoggingHandler.cs" />

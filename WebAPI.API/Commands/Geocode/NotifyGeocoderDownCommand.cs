@@ -30,8 +30,7 @@ namespace WebAPI.API.Commands.Geocode
 
         public override string ToString()
         {
-            return string.Format("{0}, Message: {1}, ToAddresses: {2}", "NotifyGeocoderDownCommand", Message,
-                                 ToAddresses);
+            return $"NotifyGeocoderDownCommand, Message: {Message}, ToAddresses: {ToAddresses}";
         }
 
         protected override void Execute()
@@ -39,18 +38,15 @@ namespace WebAPI.API.Commands.Geocode
             var mail = new MailMessage();
             mail.To.Add(ToAddresses);
             mail.From = new MailAddress("noreply@utah.gov", "Web API");
-            mail.Subject = string.Format("AGRC Web API - {0}", Message);
-            mail.Body =
-                string.Format(
-                    @"AGRC Web API
+            mail.Subject = $"AGRC Web API - {Message}";
+            mail.Body = $@"AGRC Web API
 -
 
 ## A geocoder is down. 
 
-> *{0}* 
+> *{Message}* 
 
-Check all of the other ones as well.",
-                    Message);
+Check all of the other ones as well.";
 
             var mailSender = new MailSender();
             mailSender.Send(mail);

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using WebAPI.API.Commands.Address;
+using WebAPI.Common.Exceptions;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Executors;
 using WebAPI.Domain.Addresses;
@@ -35,17 +37,11 @@ namespace WebAPI.API.Commands.Geocode
             var geocodedAddress =
                 CommandExecutor.ExecuteCommand(new ParseZoneCommand(Zone, new GeocodeAddress(normalizedAddress)));
 
-            try
-            {
                 Result = CommandExecutor.ExecuteCommand(new GeocodeAddressCommand(geocodedAddress, Options))
                                         .ContinueWith(candidates => CommandExecutor.ExecuteCommand(
                                             new ChooseBestAddressCandidateCommand(candidates.Result, Options, Street,
                                                                                   Zone, geocodedAddress))).Result;
-            }
-            catch (AggregateException)
-            {
-                Result = null;
-            }
+           
         }
 
         public override string ToString()

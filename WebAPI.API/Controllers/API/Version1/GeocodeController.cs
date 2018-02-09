@@ -13,7 +13,7 @@ using Ninject.Infrastructure.Language;
 using Serilog;
 using WebAPI.API.Commands.Address;
 using WebAPI.API.Commands.Geocode;
-using WebAPI.API.Exceptions;
+using WebAPI.Common.Exceptions;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Extensions;
 using WebAPI.Common.Formatters;
@@ -85,20 +85,27 @@ namespace WebAPI.API.Controllers.API.Version1
                     {
                         errorList.Add(e.Message);
                     }
+
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                            new ResultContainer<GeocodeAddressResult>
+                            {
+                                Status = (int)HttpStatusCode.InternalServerError,
+                                Message = $"Geocoding error occured. {string.Join(". ", errorList)}",
+                                Result = new GeocodeAddressResult
+                                {
+                                    InputAddress = $"{street}, {zone}",
+                                    Score = -9
+                                }
+                            })
+                        .AddTypeHeader(typeof(ResultContainer<GeocodeAddressResult>));
                 }
 
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                                                            new ResultContainer<GeocodeAddressResult>
-                                                                {
-                                                                    Status = (int) HttpStatusCode.InternalServerError,
-                                                                    Message = $"Geocoding error occured. {string.Join(". ", errorList)}.",
-                                                                    Result = new GeocodeAddressResult
-                                                                        {
-                                                                            InputAddress = $"{street}, {zone}",
-                                                                            Score = -9
-                                                                        }
-                                                                })
-                            .AddTypeHeader(typeof(ResultContainer<GeocodeAddressResult>));
+                return null;
+            }
+            catch (Exception)
+            {
+                // test
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
 
             if (geocodeAddressResult == null || geocodeAddressResult.Score < 0)
@@ -236,7 +243,7 @@ namespace WebAPI.API.Controllers.API.Version1
                 response = new HttpResponseMessage(HttpStatusCode.BadGateway) {
                     Content = new ObjectContent(typeof(ResultContainer), new ResultContainer
                     {
-                        Message = "JSONP does not work with POST requests.", 
+                        Message = "JSONP does not work with POST requests.",
                         Status = 400
                     }, new JsonMediaTypeFormatter())};
             }
@@ -339,7 +346,7 @@ namespace WebAPI.API.Controllers.API.Version1
                                                             {
                                                                 Status = (int) HttpStatusCode.OK,
                                                                 Result = response
-                                                            })                              
+                                                            })
                                 .AddTypeHeader(typeof (ResultContainer<RouteMilepostResult>))
                               .AddCache();
         }
@@ -456,9 +463,9 @@ namespace WebAPI.API.Controllers.API.Version1
                 Content = new StringContent(callback + "(" + agsResponseContent + ")", System.Text.Encoding.UTF8, "text/plain")
             };
 
-            return resp; 
+            return resp;
         }
-        
+
         [HttpGet]
         public async Task<HttpResponseMessage> ArcGisOnline([FromUri] AgoGeocodeOptions options)
         {
@@ -502,7 +509,7 @@ namespace WebAPI.API.Controllers.API.Version1
             }
 
             var wkidJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(options.WkId);
-            
+
             var spatialReference = wkidJson["wkid"];
             if (wkidJson.ContainsKey("latestWkid"))
             {
