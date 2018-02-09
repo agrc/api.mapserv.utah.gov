@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using Serilog;
@@ -21,7 +23,22 @@ namespace WebAPI.Common.Abstractions
                 Execute();
                 timer.Stop();
                 Debug.Print("{0}-{1} Duration: {2}ms", ToString(), "Done",
-                            timer.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
+                    timer.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
+            }
+            catch (AggregateException ex)
+            {
+                Log.Error("Geocoding error occurred.", ex);
+                var errorList = new List<string>();
+
+                foreach (var e in ex.Flatten().InnerExceptions)
+                {
+                    if (e is GeocodingException)
+                    {
+                        throw ex;
+                    }
+
+                    errorList.Add(e.Message);
+                }
             }
             catch (Exception ex)
             {

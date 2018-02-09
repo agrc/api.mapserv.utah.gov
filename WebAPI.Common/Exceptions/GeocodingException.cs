@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebAPI.API.Exceptions
+namespace WebAPI.Common.Exceptions
 {
     public class GeocodingException : Exception
     {

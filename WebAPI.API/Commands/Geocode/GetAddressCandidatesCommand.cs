@@ -55,20 +55,20 @@ namespace WebAPI.API.Commands.Geocode
 
             Task<List<Candidate>> result;
 
-            try
-            {
+//            try
+//            {
                 Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
                 result = _httpClient.GetAsync(LocatorDetails.Url).ContinueWith(
                     httpResponse =>
                     ConvertResponseToObjectAsync(httpResponse.Result).ContinueWith(model => ProcessResult(model.Result)).
                                                                       Unwrap()).Unwrap();
-            }
-            catch (AggregateException ex)
-            {
-                Log.Fatal(ex, "Error requesting address candidates. {message}", ex.Flatten().Message);
-                result = null;
-                ErrorMessage = ex.Message;
-            }
+//            }
+//            catch (AggregateException ex)
+//            {
+//                Log.Error(ex.Flatten().Message);
+//                result = null;
+//                ErrorMessage = ex.Message;
+//            }
 
             Result = result;
         }
@@ -77,7 +77,7 @@ namespace WebAPI.API.Commands.Geocode
         {
             return Task.Factory.StartNew(() =>
                 {
-                    if (task.Error != null && task.Error.Code == 400)
+                    if (task.Error != null && task.Error.Code == 500)
                     {
                         throw new GeocodingException($"{LocatorDetails.Name} geocoder is not started.");
                     }
