@@ -88,6 +88,7 @@ namespace WebAPI.API
         {
             AreaRegistration.RegisterAllAreas();
 
+            LoggingConfig.Register();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

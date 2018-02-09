@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
 using Ninject.Infrastructure.Language;
-using NLog;
+using Serilog;
 using WebAPI.API.Commands.Address;
 using WebAPI.API.Commands.Geocode;
 using WebAPI.API.Exceptions;
@@ -31,7 +31,6 @@ namespace WebAPI.API.Controllers.API.Version1
     {
         private static readonly string NotifyEmails = ConfigurationManager.AppSettings["notify_email"];
         private const int MaxAddresses = 100;
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         [HttpGet]
         public HttpResponseMessage Get(string street, string zone, [FromUri] GeocodeOptions options)
@@ -92,13 +91,10 @@ namespace WebAPI.API.Controllers.API.Version1
                                                             new ResultContainer<GeocodeAddressResult>
                                                                 {
                                                                     Status = (int) HttpStatusCode.InternalServerError,
-                                                                    Message =
-                                                                        string.Format("Geocoding error occured. {0}.",
-                                                                                      string.Join(". ", errorList)),
+                                                                    Message = $"Geocoding error occured. {string.Join(". ", errorList)}.",
                                                                     Result = new GeocodeAddressResult
                                                                         {
-                                                                            InputAddress =
-                                                                                string.Format("{0}, {1}", street, zone),
+                                                                            InputAddress = $"{street}, {zone}",
                                                                             Score = -9
                                                                         }
                                                                 })
@@ -107,16 +103,14 @@ namespace WebAPI.API.Controllers.API.Version1
 
             if (geocodeAddressResult == null || geocodeAddressResult.Score < 0)
             {
-                Log.Warn("Could not find match for {0}, {1} with a score of {2} or better.", street, zone,
+                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
                          options.AcceptScore);
 
                 return Request.CreateResponse(HttpStatusCode.NotFound,
                                                             new ResultContainer<GeocodeAddressResult>
                                                                 {
                                                                     Status = (int) HttpStatusCode.NotFound,
-                                                                    Message = string.Format(
-                                                                        "No address candidates found with a score of {0} or better.",
-                                                                        options.AcceptScore)
+                                                                    Message = $"No address candidates found with a score of {options.AcceptScore} or better."
                                                                 })
                             .AddCache()
                             .AddTypeHeader(typeof(ResultContainer<GeocodeAddressResult>));
@@ -124,7 +118,7 @@ namespace WebAPI.API.Controllers.API.Version1
 
             if (geocodeAddressResult.Location == null)
             {
-                Log.Warn("Could not find match for {0}, {1} with a score of {2} or better.", street, zone,
+                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
                          options.AcceptScore);
             }
 
@@ -223,7 +217,7 @@ namespace WebAPI.API.Controllers.API.Version1
                     ErrorMessage = "Duplicate Id; Skipping."
                 }));
 
-            HttpResponseMessage response = null;
+            HttpResponseMessage response;
             try
             {
                 response = Request.CreateResponse(HttpStatusCode.OK,
@@ -334,10 +328,7 @@ namespace WebAPI.API.Controllers.API.Version1
                                               new ResultContainer<RouteMilepostResult>
                                                   {
                                                       Status = (int) HttpStatusCode.NotFound,
-                                                      Message =
-                                                          string.Format(
-                                                              "route {0} and milepost {1} was not found.",
-                                                              route, milepost)
+                                                      Message = $"route {route} and milepost {milepost} was not found."
                                                   })
                               .AddTypeHeader(typeof (ResultContainer<RouteMilepostResult>))
                               .AddCache();
