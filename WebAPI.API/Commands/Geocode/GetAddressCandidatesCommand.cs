@@ -6,12 +6,12 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoFixture;
-using WebAPI.API.Exceptions;
+using Serilog;
 using WebAPI.Common.Abstractions;
+using WebAPI.Common.Exceptions;
 using WebAPI.Common.Formatters;
 using WebAPI.Domain;
 using WebAPI.Domain.ArcServerResponse.Geolocator;
-using Serilog;
 
 namespace WebAPI.API.Commands.Geocode
 {
@@ -31,7 +31,7 @@ namespace WebAPI.API.Commands.Geocode
         }
 
         internal LocatorDetails LocatorDetails { get; set; }
-        private bool Testing { get; set; }
+        private bool Testing { get; }
 
         protected void Initialize()
         {
@@ -53,22 +53,11 @@ namespace WebAPI.API.Commands.Geocode
 
             Initialize();
 
-            Task<List<Candidate>> result;
-
-//            try
-//            {
-                Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
-                result = _httpClient.GetAsync(LocatorDetails.Url).ContinueWith(
-                    httpResponse =>
-                    ConvertResponseToObjectAsync(httpResponse.Result).ContinueWith(model => ProcessResult(model.Result)).
-                                                                      Unwrap()).Unwrap();
-//            }
-//            catch (AggregateException ex)
-//            {
-//                Log.Error(ex.Flatten().Message);
-//                result = null;
-//                ErrorMessage = ex.Message;
-//            }
+            Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
+            var result = _httpClient.GetAsync(LocatorDetails.Url).ContinueWith(
+                httpResponse =>
+                    ConvertResponseToObjectAsync(httpResponse.Result).ContinueWith(model => ProcessResult(model.Result))
+                        .Unwrap()).Unwrap();
 
             Result = result;
         }
@@ -76,26 +65,28 @@ namespace WebAPI.API.Commands.Geocode
         protected Task<List<Candidate>> ProcessResult(GeocodeAddressResponse task)
         {
             return Task.Factory.StartNew(() =>
+            {
+                if (task.Error != null && task.Error.Code == 500)
                 {
-                    if (task.Error != null && task.Error.Code == 500)
-                    {
-                        throw new GeocodingException($"{LocatorDetails.Name} geocoder is not started.");
-                    }
+                    Log.Fatal($"{LocatorDetails.Name} geocoder is not started.");
 
-                    var result = task.Candidates;
+                    throw new GeocodingException($"{LocatorDetails.Name} geocoder is not started.");
+                }
 
-                    if (result == null)
-                        return result;
+                var result = task.Candidates;
 
-                    result.ForEach(x =>
-                        {
-                            x.Locator = LocatorDetails.Name;
-                            x.Weight = LocatorDetails.Weight;
-                            x.AddressGrid = ParseAddressGrid(x.Address);
-                        });
-
+                if (result == null)
                     return result;
+
+                result.ForEach(x =>
+                {
+                    x.Locator = LocatorDetails.Name;
+                    x.Weight = LocatorDetails.Weight;
+                    x.AddressGrid = ParseAddressGrid(x.Address);
                 });
+
+                return result;
+            });
         }
 
         private static string ParseAddressGrid(string address)
@@ -121,7 +112,8 @@ namespace WebAPI.API.Commands.Geocode
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Error reading geocode address response {Response}", task.Content.ReadAsStringAsync().Result);
+                Log.Fatal(ex, "Error reading geocode address response {Response}",
+                    task.Content.ReadAsStringAsync().Result);
                 throw;
             }
 

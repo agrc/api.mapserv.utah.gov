@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using WebAPI.API.Commands.Address;
-using WebAPI.Common.Exceptions;
+﻿using WebAPI.API.Commands.Address;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Executors;
 using WebAPI.Domain.Addresses;
@@ -46,9 +43,7 @@ namespace WebAPI.API.Commands.Geocode
 
         public override string ToString()
         {
-            return string.Format("{0}, Street: {1}, Zone: {2}, Options: {3}", "OrchesrateeGeocodeCommandAsnyc", Street,
-                                 Zone,
-                                 Options);
+            return $"OrchesrateeGeocodeCommandAsnyc, Street: {Street}, Zone: {Zone}, Options: {Options}";
         }
     }
 }

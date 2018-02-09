@@ -20,7 +20,7 @@ namespace WebAPI.API.Commands.Address
 
         public override string ToString()
         {
-            return string.Format("{0}, InputZone: {1}, AddressModel: {2}", "ParseZoneCommand2", InputZone, AddressModel);
+            return $"ParseZoneCommand, InputZone: {InputZone}, AddressModel: {AddressModel}";
         }
 
         protected override void Execute()

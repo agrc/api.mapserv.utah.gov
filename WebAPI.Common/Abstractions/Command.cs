@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using Serilog;
+using WebAPI.Common.Exceptions;
 
 namespace WebAPI.Common.Abstractions
 {
@@ -16,36 +17,42 @@ namespace WebAPI.Common.Abstractions
 
         public void Run()
         {
+            var errorList = new List<string>();
             try
             {
                 var timer = new Stopwatch();
                 timer.Start();
                 Execute();
                 timer.Stop();
-                Debug.Print("{0}-{1} Duration: {2}ms", ToString(), "Done",
+                Log.Verbose("{Task} Duration: {Duration}ms", ToString(), 
                     timer.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
             }
             catch (AggregateException ex)
             {
-                Log.Error("Geocoding error occurred.", ex);
-                var errorList = new List<string>();
-
+                var throwForGeocoding = false;
+                GeocodingException exception = null;
                 foreach (var e in ex.Flatten().InnerExceptions)
                 {
-                    if (e is GeocodingException)
+                    if (e is GeocodingException geocodingException)
                     {
-                        throw ex;
+                        throwForGeocoding = true;
+                        exception = geocodingException;
                     }
 
                     errorList.Add(e.Message);
                 }
+
+                if (throwForGeocoding)
+                {
+                    throw exception;
+                }
+
+                Log.Fatal(ex, "Geocoding error occurred: {Task} {@errorList}", ToString(), errorList);
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
-                Debug.Print("Error processing task:" + ToString(), ex);
-                Debug.WriteLine("Error processing task:" + ToString(), ex.Message);
-                Log.Fatal(ex, "Error processing task: {Task}", ToString());
+                Log.Fatal(ex, "Error processing task: {Task} {@errorList}", ToString(), errorList);
             }
         }
 

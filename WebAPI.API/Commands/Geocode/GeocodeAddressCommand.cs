@@ -76,8 +76,7 @@ namespace WebAPI.API.Commands.Geocode
 
         public override string ToString()
         {
-            return string.Format("{0}, Address: {1}, GeocodingOptions: {2}", "GeocodeAddressCommand2", Address,
-                                 GeocodingOptions);
+            return $"GeocodeAddressCommand, Address: {Address}, GeocodingOptions: {GeocodingOptions}";
         }
     }
 }
