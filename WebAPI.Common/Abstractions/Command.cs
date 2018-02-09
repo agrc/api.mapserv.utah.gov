@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using NLog;
+using Serilog;
 
 namespace WebAPI.Common.Abstractions
 {
@@ -10,8 +10,6 @@ namespace WebAPI.Common.Abstractions
     /// </summary>
     public abstract class Command
     {
-        public static readonly Logger Log = LogManager.GetCurrentClassLogger();
-       
         public string ErrorMessage { get; set; }
 
         public void Run()
@@ -30,7 +28,7 @@ namespace WebAPI.Common.Abstractions
                 ErrorMessage = ex.Message;
                 Debug.Print("Error processing task:" + ToString(), ex);
                 Debug.WriteLine("Error processing task:" + ToString(), ex.Message);
-                Log.Error(ex, "Error processing task:" + ToString());
+                Log.Fatal(ex, "Error processing task: {Task}", ToString());
             }
         }
 
