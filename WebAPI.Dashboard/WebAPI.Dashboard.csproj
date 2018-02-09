@@ -313,10 +313,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </Content>
     <Content Include="Areas\secure\Views\Home\Index.cshtml" />
     <Content Include="Areas\secure\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\secure\Views\Profile\UpdatePassword.cshtml" />
@@ -330,17 +326,6 @@
     <Content Include="Areas\admin\Views\Web.config" />
     <Content Include="Areas\admin\Views\Home\UserList.cshtml" />
     <Content Include="Areas\admin\Views\_ViewStart.cshtml" />
-    <None Include="NLog.Debug.config">
-      <DependentUpon>NLog.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="NLog.Release.config">
-      <DependentUpon>NLog.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Views\AccountAccess\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\AccountAccess\PasswordReset.cshtml" />
