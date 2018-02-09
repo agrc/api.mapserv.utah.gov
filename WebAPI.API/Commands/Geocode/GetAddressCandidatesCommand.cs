@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using WebAPI.API.Exceptions;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Formatters;
