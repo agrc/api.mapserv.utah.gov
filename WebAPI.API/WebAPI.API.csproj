@@ -243,7 +243,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\CacheConfig.cs" />
     <Compile Include="App_Start\FormatterConfig.cs" />
-    <Compile Include="App_Start\LoggingConfig.cs" />
     <Compile Include="App_Start\ModelBindingConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\SuppressStatusCodeHandler.cs" />

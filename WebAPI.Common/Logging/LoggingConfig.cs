@@ -5,11 +5,11 @@ using Serilog.Core;
 using Serilog.Events;
 using Serilog.Sinks.Email;
 
-namespace WebAPI.API
+namespace WebAPI.Common.Logging
 {
     public static class LoggingConfig
     {
-        public static void Register()
+        public static void Register(string name)
         {
             var email = new EmailConnectionInfo
             {
@@ -18,12 +18,12 @@ namespace WebAPI.API
                 ToEmail = "SGourley@utah.gov"
             };
 
-            var dir = Path.Combine(HttpRuntime.AppDomainAppPath, @"logs\geocoding\api.log-{Date}.txt");
+            var dir = Path.Combine(HttpRuntime.AppDomainAppPath, $@"logs\geocoding\{name}.log-{{Date}}.txt");
             var levelSwitch = new LoggingLevelSwitch();
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.ControlledBy(levelSwitch)
                 .WriteTo.RollingFile(dir)
-                .WriteTo.Email(email)
+                .WriteTo.Email(email, restrictedToMinimumLevel: LogEventLevel.Error)
                 .CreateLogger();
 
 #if DEBUG
