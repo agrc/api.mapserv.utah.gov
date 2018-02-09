@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using NLog;
+using Serilog;
 using WebAPI.API.Commands.Geocode;
 using WebAPI.Domain.ArcServerResponse.Geolocator;
 
@@ -12,8 +12,6 @@ namespace WebAPI.API.Executors.Geocode
 {
     public static class GeocodeCommandQueueExecutor
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
         private static readonly ConcurrentQueue<GetAddressCandidatesCommand> CommandsToExecute =
             new ConcurrentQueue<GetAddressCandidatesCommand>();
 
@@ -29,7 +27,7 @@ namespace WebAPI.API.Executors.Geocode
             GetAddressCandidatesCommand stagingCommand;
             while (CommandsToExecute.TryDequeue(out stagingCommand))
             {
-                tasks.Add(Task.Factory.StartNew<Task<List<Candidate>>>(stagingCommand.GetResult).Unwrap());
+                tasks.Add(Task.Factory.StartNew(stagingCommand.GetResult).Unwrap());
             }
 
             try
@@ -37,7 +35,7 @@ namespace WebAPI.API.Executors.Geocode
                 Task.WaitAll(tasks.ToArray());
             } catch (AggregateException ex)
             {
-                Log.Error("Task Failed", ex);
+                Log.Fatal(ex, "Task Failed");
             }
 
             return BuildResult(tasks);

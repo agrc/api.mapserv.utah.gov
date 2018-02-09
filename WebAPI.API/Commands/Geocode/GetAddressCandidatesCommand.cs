@@ -11,6 +11,7 @@ using WebAPI.Common.Abstractions;
 using WebAPI.Common.Formatters;
 using WebAPI.Domain;
 using WebAPI.Domain.ArcServerResponse.Geolocator;
+using Serilog;
 
 namespace WebAPI.API.Commands.Geocode
 {
@@ -56,7 +57,7 @@ namespace WebAPI.API.Commands.Geocode
 
             try
             {
-                Log.Debug("Request sent to locator, url={0}", LocatorDetails.Url);
+                Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
                 result = _httpClient.GetAsync(LocatorDetails.Url).ContinueWith(
                     httpResponse =>
                     ConvertResponseToObjectAsync(httpResponse.Result).ContinueWith(model => ProcessResult(model.Result)).
@@ -64,7 +65,7 @@ namespace WebAPI.API.Commands.Geocode
             }
             catch (AggregateException ex)
             {
-                Log.Error(ex.Flatten().Message);
+                Log.Fatal(ex, "Error requesting address candidates. {message}", ex.Flatten().Message);
                 result = null;
                 ErrorMessage = ex.Message;
             }
@@ -78,8 +79,7 @@ namespace WebAPI.API.Commands.Geocode
                 {
                     if (task.Error != null && task.Error.Code == 400)
                     {
-                        throw new GeocodingException(
-                            string.Format("{0} geocoder is not started.", LocatorDetails.Name));
+                        throw new GeocodingException($"{LocatorDetails.Name} geocoder is not started.");
                     }
 
                     var result = task.Candidates;
@@ -121,7 +121,7 @@ namespace WebAPI.API.Commands.Geocode
             }
             catch (Exception ex)
             {
-                Log.Debug(ex, task.Content.ReadAsStringAsync().Result);
+                Log.Fatal(ex, "Error reading geocode address response {Response}", task.Content.ReadAsStringAsync().Result);
                 throw;
             }
 
@@ -130,7 +130,7 @@ namespace WebAPI.API.Commands.Geocode
 
         public override string ToString()
         {
-            return string.Format("{0}, LocatorDetails: {1}", "GetAddressCandidatesCommand", LocatorDetails);
+            return $"GetAddressCandidatesCommand, LocatorDetails: {LocatorDetails}";
         }
     }
 }
