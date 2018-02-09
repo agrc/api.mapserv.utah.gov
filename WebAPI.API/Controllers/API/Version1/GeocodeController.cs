@@ -5,11 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
-using Ninject.Infrastructure.Language;
 using Serilog;
 using WebAPI.API.Commands.Address;
 using WebAPI.API.Commands.Geocode;
@@ -71,26 +69,27 @@ namespace WebAPI.API.Controllers.API.Version1
             }
             catch (AggregateException ex)
             {
-                Log.Error("Geocoding error occurred.", ex);
-                var errorList = new List<string>();
-
-                foreach (var e in ex.Flatten().InnerExceptions)
-                {
-                    if (e is GeocodingException)
-                    {
-                        errorList.Add(e.Message);
-                        CommandExecutor.ExecuteCommand(new NotifyGeocoderDownCommand(e.Message, NotifyEmails));
-                    }
-                    else
-                    {
-                        errorList.Add(e.Message);
-                    }
-
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                Log.Fatal(ex, "Aggregate error from geocoding");
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                        new ResultContainer<GeocodeAddressResult>
+                        {
+                            Status = (int)HttpStatusCode.InternalServerError,
+                            Message = "Geocoding error occured.",
+                            Result = new GeocodeAddressResult
+                            {
+                                InputAddress = $"{street}, {zone}",
+                                Score = -9
+                            }
+                        })
+                    .AddTypeHeader(typeof(ResultContainer<GeocodeAddressResult>));
+            }
+            catch (GeocodingException ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
                             new ResultContainer<GeocodeAddressResult>
                             {
                                 Status = (int)HttpStatusCode.InternalServerError,
-                                Message = $"Geocoding error occured. {string.Join(". ", errorList)}",
+                                Message = $"Geocoding error occured. {ex.Message}",
                                 Result = new GeocodeAddressResult
                                 {
                                     InputAddress = $"{street}, {zone}",
@@ -98,14 +97,22 @@ namespace WebAPI.API.Controllers.API.Version1
                                 }
                             })
                         .AddTypeHeader(typeof(ResultContainer<GeocodeAddressResult>));
-                }
-
-                return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // test
-                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+                Log.Fatal(ex, "Normal error from geocoding");
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                        new ResultContainer<GeocodeAddressResult>
+                        {
+                            Status = (int)HttpStatusCode.InternalServerError,
+                            Message = $"Geocoding error occured.",
+                            Result = new GeocodeAddressResult
+                            {
+                                InputAddress = $"{street}, {zone}",
+                                Score = -9
+                            }
+                        })
+                    .AddTypeHeader(typeof(ResultContainer<GeocodeAddressResult>));
             }
 
             if (geocodeAddressResult == null || geocodeAddressResult.Score < 0)

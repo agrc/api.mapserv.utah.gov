@@ -27,8 +27,7 @@ namespace WebAPI.API.Commands.Address
 
         public override string ToString()
         {
-            return string.Format("{0}, Street: {1}, OriginalStreet: {2}, StandardStreet: {3}", "ParseAddressCommand",
-                                 Street, OriginalStreet, StandardStreet);
+            return $"ParseAddressCommand, Street: {Street}, OriginalStreet: {OriginalStreet}, StandardStreet: {StandardStreet}";
         }
 
         public void SetStreet(string street)

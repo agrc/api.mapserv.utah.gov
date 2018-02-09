@@ -3,6 +3,7 @@ using System.Configuration;
 using ESRI.ArcGIS;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
+using Serilog;
 using WebAPI.API.Commands.Geocode;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Executors;
@@ -30,7 +31,7 @@ namespace WebAPI.API.Commands.ArcGIS
             if (!licenseInitializer.InitializeApplication(new[] { esriLicenseProductCode.esriLicenseProductCodeArcServer },
                 new esriLicenseExtensionCode[] { }))
             {
-                CommandExecutor.ExecuteCommand(new NotifyGeocoderDownCommand("Could not get workspace", NotifyEmails));
+                Log.Fatal("Could not authorize product. {@licenseTHing}", licenseInitializer);
                 return;
             }
 

@@ -32,7 +32,7 @@ namespace WebAPI.Dashboard
 
                 var key = HttpContext.Current.Session["App.OutputCacheKey"];
                
-                return key != null ? key.ToString() : "";
+                return key?.ToString() ?? "";
             }
         }
 

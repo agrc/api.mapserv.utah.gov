@@ -81,8 +81,7 @@ namespace WebAPI.API.Commands.Geocode
 
         public override string ToString()
         {
-            return string.Format("{0}, Options: {1}, GeocodedAddress: {2}", "UspsDeliveryPointCommand", _options,
-                                 GeocodedAddress);
+            return $"UspsDeliveryPointCommand, GeocodedAddress: {GeocodedAddress}";
         }
     }
 }
