@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using ESRI.ArcGIS;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
@@ -10,7 +9,6 @@ namespace WebAPI.API.Commands.ArcGIS
 {
     public class GetWorkspaceCommand : Command<IWorkspace>
     {
-        private static readonly string NotifyEmails = ConfigurationManager.AppSettings["notify_email"];
         private readonly string _connectionString;
 
         public GetWorkspaceCommand(string connectionString)
@@ -25,7 +23,7 @@ namespace WebAPI.API.Commands.ArcGIS
 
         protected override void Execute()
         {
-            if (!RuntimeManager.Bind(ProductCode.Server) || !RuntimeManager.Bind(ProductCode.EngineOrDesktop))
+            if (!RuntimeManager.Bind(ProductCode.Server) && !RuntimeManager.Bind(ProductCode.EngineOrDesktop))
             {
                 return;
             }
