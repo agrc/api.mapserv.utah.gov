@@ -18,7 +18,7 @@ namespace WebAPI.Common.Logging
                 ToEmail = "SGourley@utah.gov"
             };
 
-            var dir = Path.Combine(HttpRuntime.AppDomainAppPath, $@"logs\geocoding\{name}.log-{{Date}}.txt");
+            var dir = Path.Combine(HttpRuntime.AppDomainAppPath, $@"..\logs\geocoding\{name}.log-{{Date}}.txt");
             var levelSwitch = new LoggingLevelSwitch();
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.ControlledBy(levelSwitch)
@@ -29,7 +29,7 @@ namespace WebAPI.Common.Logging
 #if DEBUG
             levelSwitch.MinimumLevel = LogEventLevel.Verbose;
 #else
-            levelSwitch.MinimumLevel = LogEventLevel.Debug;
+            levelSwitch.MinimumLevel = LogEventLevel.Warning;
 #endif
 
             Log.Debug("Logging initialized");
