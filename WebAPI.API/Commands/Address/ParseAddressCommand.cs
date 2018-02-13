@@ -310,6 +310,7 @@ namespace WebAPI.API.Commands.Address
                                                    .Replace(street, "$1 $2");
 
             var matches = App.RegularExpressions["streetNumbers"].Matches(street);
+            int houseNumber;
 
             switch (matches.Count)
             {
@@ -317,7 +318,10 @@ namespace WebAPI.API.Commands.Address
                     {
                         Street = Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
                                                matches[0].Length);
-                        address.HouseNumber = int.Parse(matches[0].Value);
+                        if (int.TryParse(matches[0].Value, out houseNumber))
+                        {
+                            address.HouseNumber = houseNumber;
+                        }
 
                         break;
                     }
@@ -336,7 +340,10 @@ namespace WebAPI.API.Commands.Address
                                 Street =
                                     Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
                                                   matches[0].Length);
-                                address.HouseNumber = int.Parse(matches[0].Value);
+                                if(int.TryParse(matches[0].Value, out houseNumber))
+                                {
+                                    address.HouseNumber = houseNumber;
+                                }
 
                                 address.IsHighway = true;
                                 //not street number but highway.
@@ -346,7 +353,10 @@ namespace WebAPI.API.Commands.Address
 
                         Street = Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
                                                matches[0].Length);
-                        address.HouseNumber = int.Parse(matches[0].Value);
+                        if(int.TryParse(matches[0].Value, out houseNumber))
+                        {
+                            address.HouseNumber = houseNumber;
+                        }
 
                         //if there are two check that the second is not at the very end and followed by a direction otherwise drop it
                         if (matches.Count == 2)
