@@ -283,7 +283,6 @@
     </None>
     <None Include="connections.template.config" />
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\new production 10.3.1.pubxml" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\osDetect.js" />
@@ -333,7 +332,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Areas\secure\Views\_ViewStart.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <None Include="Properties\PublishProfiles\developer.mapserv.utah.gov.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebAPI.Common\WebAPI.Common.csproj">
@@ -395,7 +393,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" Label="SlowCheetah" />
