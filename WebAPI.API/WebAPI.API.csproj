@@ -73,19 +73,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Geometry, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.System, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Version, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Google.Apis, Version=1.32.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.32.2\lib\net45\Google.Apis.dll</HintPath>
     </Reference>
@@ -261,8 +248,6 @@
     <Compile Include="Commands\Address\ParseAddressCommand2.cs" />
     <Compile Include="Commands\Address\ParseSingleLineInputCommand.cs" />
     <Compile Include="Commands\Address\ParseZoneCommand.cs" />
-    <Compile Include="Commands\ArcGIS\GetWorkspaceCommand.cs" />
-    <Compile Include="Commands\ArcGIS\LicenseInitializer.Designer.cs" />
     <Compile Include="Commands\Drive\GetCachedDataFromDriveCommand.cs" />
     <Compile Include="Commands\Geocode\Flags\DoubleAvenuesExceptionCommand.cs" />
     <Compile Include="Commands\Geocode\GetAltNameLocatorsForAddressCommand.cs" />
