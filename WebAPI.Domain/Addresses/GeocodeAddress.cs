@@ -26,7 +26,7 @@ namespace WebAPI.Domain.Addresses
 
         public override string ToString()
         {
-            return string.Format("[GeocodeAddress] InputAddress: {0}, Zip5: {1}", InputAddress, Zip5);
+            return $"[GeocodeAddress] InputAddress: {InputAddress}, Zip5: {Zip5}";
         }
     }
 }
