@@ -244,6 +244,7 @@
     <Compile Include="Commands\Address\GetAddressSystemFromCityCommand.cs" />
     <Compile Include="Commands\Address\GetAddressSystemFromZipCodeCommand.cs" />
     <Compile Include="Commands\Address\GetAddressGridsWithAddressPointsCommand.cs" />
+    <Compile Include="Commands\Address\ParseAddress3Command.cs" />
     <Compile Include="Commands\Address\ParseAddressCommand.cs" />
     <Compile Include="Commands\Address\ParseAddressCommand2.cs" />
     <Compile Include="Commands\Address\ParseSingleLineInputCommand.cs" />
