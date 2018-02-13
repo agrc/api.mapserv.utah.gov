@@ -20,7 +20,7 @@ namespace WebAPI.API.Commands.Geocode
             GeocodedAddress = geocodeAddress;
         }
 
-        private GeocodeAddress GeocodedAddress { get; set; }
+        private GeocodeAddress GeocodedAddress { get; }
 
         protected override void Execute()
         {
@@ -28,6 +28,11 @@ namespace WebAPI.API.Commands.Geocode
             {
                 Result = null;
                 return;
+            }
+
+            if (App.PoBoxLookup is null)
+            {
+                App.PoBoxLookup = CommandExecutor.ExecuteCommand(new GetPoBoxLocationsCommand());
             }
 
             if (App.PoBoxLookup is null)
@@ -43,7 +48,7 @@ namespace WebAPI.API.Commands.Geocode
             }
 
             Candidate candidate;
-            var key = GeocodedAddress.Zip5.Value*10000 + GeocodedAddress.PoBox;
+            var key = GeocodedAddress.Zip5.Value * 10000 + GeocodedAddress.PoBox;
             if (App.PoBoxZipCodesWithExclusions.Any(x => x == GeocodedAddress.Zip5) &&
                 App.PoBoxExclusions.ContainsKey(key))
             {
@@ -74,11 +79,11 @@ namespace WebAPI.API.Commands.Geocode
             {
                 var reprojectPointCommand =
                     new ReprojectPointsCommand(new ReprojectPointsCommand.PointProjectQueryArgs(26912, _options.WkId,
-                                                                                                new List<double>
-                                                                                                    {
-                                                                                                        candidate.Location.X,
-                                                                                                        candidate.Location.Y
-                                                                                                    }));
+                        new List<double>
+                        {
+                            candidate.Location.X,
+                            candidate.Location.Y
+                        }));
 
                 var pointReprojectResponse = CommandExecutor.ExecuteCommand(reprojectPointCommand);
 
@@ -90,18 +95,18 @@ namespace WebAPI.API.Commands.Geocode
                 candidate.Location = new Location(points.X, points.Y);
             }
 
-            Result = new[] { candidate };
+            Result = new[] {candidate};
         }
 
         /// <summary>
-        /// Returns a string that represents the current object.
+        ///     Returns a string that represents the current object.
         /// </summary>
         /// <returns>
-        /// A string that represents the current object.
+        ///     A string that represents the current object.
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0}, GeocodeAddress: {1}", "PoBoxCommand", GeocodedAddress);
+            return $"PoBoxCommand, GeocodeAddress: {GeocodedAddress}";
         }
     }
 }

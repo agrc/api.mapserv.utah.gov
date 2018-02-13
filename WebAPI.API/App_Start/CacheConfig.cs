@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Text.RegularExpressions;
 using WebAPI.API.Commands.Address;
 using WebAPI.API.Commands.Drive;
@@ -15,6 +18,17 @@ namespace WebAPI.API
     {
         public static void BuildCache()
         {
+            var httpClientHandler = new HttpClientHandler();
+            if (httpClientHandler.SupportsAutomaticDecompression)
+            {
+                httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+
+            App.HttpClient = new HttpClient(httpClientHandler)
+            {
+                Timeout = new TimeSpan(0, 0, 60)
+            };
+
             App.GridsWithAddressPoints = CommandExecutor.ExecuteCommand(new GetAddressGridsWithAddressPointsCommand())
                                          ?? new List<string>();
             App.StreetTypeAbbreviations = CacheStreetTypeAbbreviations();
@@ -30,7 +44,7 @@ namespace WebAPI.API
             App.PoBoxZipCodesWithExclusions = exclusions.Select(x => x.Zip).Distinct();
             App.PoBoxExclusions = exclusions.ToDictionary(x => x.ZipPlusFour, y => y);
 
-            App.PoBoxLookup = CommandExecutor.ExecuteCommand(new CachePoBoxLocationsCommand());
+            App.PoBoxLookup = CommandExecutor.ExecuteCommand(new GetPoBoxLocationsCommand());
 
             App.RegularExpressions = CacheRegularExpressions();
         }
