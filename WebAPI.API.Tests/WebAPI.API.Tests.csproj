@@ -169,7 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiKeyTests.cs" />
-    <Compile Include="Commands\CachePoBoxLocationsCommandTests.cs" />
     <Compile Include="Commands\ChooseBestAddressCandidatesCommandTests.cs" />
     <Compile Include="Commands\GetCacheDateaFromDriveTests.cs" />
     <Compile Include="Commands\CreateFeatureFromCommandTests.cs" />
@@ -178,6 +177,7 @@
     <Compile Include="Commands\GetFeatureClassAttributesCommandTests.cs" />
     <Compile Include="Commands\GetLocatorsForAddressCommandTests.cs" />
     <Compile Include="Commands\GetLocatorsForLocationCommandTests.cs" />
+    <Compile Include="Commands\GetPoBoxLocationsCommandTests.cs" />
     <Compile Include="Commands\ParseAddressCommandTests.cs" />
     <Compile Include="Commands\ParseSingleLineInputCommandTests.cs" />
     <Compile Include="Commands\ParseZoneCommandTests.cs" />

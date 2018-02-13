@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
@@ -19,6 +20,8 @@ namespace WebAPI.API
     /// </summary>
     public class App : HttpApplication
     {
+        public static HttpClient HttpClient;
+
         public static IKernel Kernel { get; set; }
 
         /// <summary>

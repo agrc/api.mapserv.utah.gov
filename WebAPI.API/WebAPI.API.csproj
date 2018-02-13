@@ -276,7 +276,7 @@
     <Compile Include="Commands\Search\FormatAttributesCommand.cs" />
     <Compile Include="Commands\Search\IsSafeSqlCommand.cs" />
     <Compile Include="Commands\Search\SqlQueryCommand.cs" />
-    <Compile Include="Commands\Sgid\CachePoBoxLocationsCommand.cs" />
+    <Compile Include="Commands\Sgid\GetPoBoxLocationsCommand.cs" />
     <Compile Include="Controllers\API\Version1\SearchController.cs" />
     <Compile Include="Controllers\CanaryController.cs" />
     <Compile Include="Controllers\ChangeLogController.cs" />
