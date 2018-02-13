@@ -24,15 +24,14 @@ namespace WebAPI.API.Commands.Info
 
             var locators = new[]
             {
-                "AddressPoints_AddressSystem", "Roads_AddressSystem_ACSALIAS", "Roads_AddressSystem_ALIAS1", "Roads_AddressSystem_ALIAS2",
-                "Roads_AddressSystem_STREET"
+                "AddressPoints_AddressSystem", "Roads_AddressSystem_STREET"
             };
 
             Locators = new List<string>(locators.Length);
 
             foreach (var locator in locators)
             {
-                Locators.Add(string.Format("http://{0}/arcgis/rest/services/Geolocators/{1}/GeocodeServer?f=json", Host, locator));
+                Locators.Add($"http://{Host}/arcgis/rest/services/Geolocators/{locator}/GeocodeServer?f=json");
             }
         }
 
@@ -59,8 +58,6 @@ namespace WebAPI.API.Commands.Info
         private Dictionary<string, dynamic> TestLocators()
         {
             var textPlain = new TextPlainResponseFormatter();
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
 
             var results = new Dictionary<string, dynamic>();
 
@@ -75,7 +72,7 @@ namespace WebAPI.API.Commands.Info
                 HttpResponseMessage response;
                 try
                 {
-                    response = httpClient.GetAsync(url).Result;
+                    response = App.HttpClient.GetAsync(url).Result;
                 }
                 catch (Exception ex)
                 {

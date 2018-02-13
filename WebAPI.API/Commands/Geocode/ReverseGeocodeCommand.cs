@@ -17,8 +17,6 @@ namespace WebAPI.API.Commands.Geocode
 {
     public class ReverseGeocodeCommand : Command<ReverseGeocodeResult>
     {
-        private HttpClient _httpClient;
-
         public ReverseGeocodeCommand(Location location, int wkid, double distance)
         {
             Location = location;
@@ -31,22 +29,13 @@ namespace WebAPI.API.Commands.Geocode
         public int Wkid { get; set; }
         public double Distance { get; set; }
 
-        protected void Initialize()
-        {
-            _httpClient = new HttpClient();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
-        }
-
         public override string ToString()
         {
-            return string.Format("{0}, Location: {1}, Wkid: {2}, Distance: {3}", "ReverseGeocodeCommand", Location, Wkid,
-                                 Distance);
+            return $"ReverseGeocodeCommand, Location: {Location}, Wkid: {Wkid}, Distance: {Distance}";
         }
 
         protected override void Execute()
         {
-            Initialize();
-
             if (Wkid != 26912)
             {
                 var reprojectPointCommand =
@@ -75,7 +64,7 @@ namespace WebAPI.API.Commands.Geocode
             var requestUri = string.Format(locator.Url, Location.X, Location.Y, Distance, Wkid);
 
             var response =
-                _httpClient.GetAsync(requestUri).ContinueWith(
+                App.HttpClient.GetAsync(requestUri).ContinueWith(
                     httpResponse => ConvertResponseToObjectAsync(httpResponse.Result)).Unwrap().Result;
 
             Result = Mapper.Map<ReverseGeocodeResponse, ReverseGeocodeResult>(response);
