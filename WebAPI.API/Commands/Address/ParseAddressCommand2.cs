@@ -43,15 +43,15 @@ namespace WebAPI.API.Commands.Address
 
         public override string ToString()
         {
-            return string.Format("{0}, Street: {1}, OriginalStreet: {2}, StandardStreet: {3}", "ParseAddressCommand2",
-                                 Street, OriginalStreet, StandardStreet);
+            return
+                $"ParseAddressCommand2, Street: {Street}, OriginalStreet: {OriginalStreet}, StandardStreet: {StandardStreet}";
         }
 
         protected override void Execute()
         {
             var state = new ParseState();
 
-            foreach (var token in Street.Split(new[] {' ', '\t', ','}))
+            foreach (var token in Street.Split(' ', '\t', ','))
             {
                 state = ParseToken(token, state);
             }
@@ -66,7 +66,7 @@ namespace WebAPI.API.Commands.Address
                 case ParseState.HouseNumberState:
                     try
                     {
-                        Address.HouseNumber = Int32.Parse(token);
+                        Address.HouseNumber = Convert.ToInt32(token);
                     }
                     catch (Exception e)
                     {
