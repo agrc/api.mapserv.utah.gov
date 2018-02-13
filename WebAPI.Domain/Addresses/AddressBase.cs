@@ -74,7 +74,7 @@ namespace WebAPI.Domain.Addresses
         {
             if (string.IsNullOrEmpty(StreetName))
             {
-                throw new ArgumentNullException(StreetName);
+                return false;
             }
 
             int x;
@@ -91,11 +91,13 @@ namespace WebAPI.Domain.Addresses
         {
             if (string.IsNullOrEmpty(StreetName))
             {
-                throw new ArgumentNullException(StreetName);
+                return false;
             }
 
             if (!IsNumericStreetName())
+            {
                 return false;
+            }
 
             var r = new Regex(@"(1|2|3|4|6|7|8|9)$");
 
@@ -106,7 +108,7 @@ namespace WebAPI.Domain.Addresses
         {
             if (string.IsNullOrEmpty(StreetName))
             {
-                throw new ArgumentNullException(StreetName);
+                return false;
             }
 
             int num;
