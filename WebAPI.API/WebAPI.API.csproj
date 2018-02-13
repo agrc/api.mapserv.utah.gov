@@ -414,7 +414,6 @@
     <Content Include="Views\Info\_FeatureCount.cshtml" />
     <Content Include="Views\Info\_FieldNames.cshtml" />
     <Content Include="Views\Geocode\_Reverse.cshtml" />
-    <None Include="Properties\PublishProfiles\api.mapserv.utah.gov.pubxml" />
     <Content Include="Views\Geocode\_MilePost.cshtml" />
     <Content Include="Views\Geocode\_ReverseMilePost.cshtml" />
     <None Include="Properties\PublishProfiles\ITAS106SP.pubxml" />
@@ -505,7 +504,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
