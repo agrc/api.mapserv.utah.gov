@@ -62,7 +62,7 @@ namespace WebAPI.API.Commands.Geocode
                     AddressGrid = GeocodedAddress.AddressGrids.FirstOrDefault().Grid
                 };
             }
-            else
+            else if (App.PoBoxLookup.ContainsKey(GeocodedAddress.Zip5.Value))
             {
                 var result = App.PoBoxLookup[GeocodedAddress.Zip5.Value];
                 candidate = new Candidate
@@ -71,8 +71,12 @@ namespace WebAPI.API.Commands.Geocode
                     Locator = "Post Office Point",
                     Score = 100,
                     Location = new Location(result.X, result.Y),
-                    AddressGrid = GeocodedAddress.AddressGrids.FirstOrDefault().Grid
+                    AddressGrid = GeocodedAddress.AddressGrids.FirstOrDefault()?.Grid
                 };
+            }
+            else
+            {
+                return;
             }
 
             if (_options.WkId != 26912)

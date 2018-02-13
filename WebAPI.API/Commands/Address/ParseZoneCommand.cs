@@ -1,8 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using WebAPI.API.Commands.Geocode.Flags;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Executors;
 using WebAPI.Domain.Addresses;
+using WebAPI.Domain.Linkers;
 
 namespace WebAPI.API.Commands.Address
 {
@@ -25,6 +27,7 @@ namespace WebAPI.API.Commands.Address
 
         protected override void Execute()
         {
+            InputZone = InputZone.Replace("-", "");
             var zipPlusFour = App.RegularExpressions["zipPlusFour"].Match(InputZone);
 
             if (zipPlusFour.Success)
@@ -63,6 +66,11 @@ namespace WebAPI.API.Commands.Address
 
                 Result = CommandExecutor.ExecuteCommand(new DoubleAvenuesExceptionCommand(AddressModel, cityKey));
                 return;
+            }
+
+            if (AddressModel.AddressGrids == null)
+            {
+                AddressModel.AddressGrids = Enumerable.Empty<GridLinkable>().ToList();
             }
 
             Result = AddressModel;

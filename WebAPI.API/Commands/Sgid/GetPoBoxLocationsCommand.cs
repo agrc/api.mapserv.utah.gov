@@ -80,6 +80,11 @@ namespace WebAPI.API.Commands.Sgid
                 var response = await App.HttpClient.GetAsync(url).ConfigureAwait(false);
                 information = await response.Content
                     .ReadAsAsync<QueryResponse>(new[] {new TextPlainResponseFormatter()}).ConfigureAwait(false);
+
+                if (!information.IsSuccessful)
+                {
+                    Log.Fatal("Could not query map service for po box locations {info}", information.Error);
+                }
             }
             catch (Exception ex)
             {
