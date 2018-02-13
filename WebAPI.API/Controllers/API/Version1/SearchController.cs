@@ -150,7 +150,6 @@ namespace WebAPI.API.Controllers.API.Version1 {
 
             var queryArgs = new SpatialQueryArgs(featureClass, returnValues, options);
 
-            var client = new HttpClient();
             var requestUri = ConfigurationManager.AppSettings["search_url"]
                 .With(queryArgs.ToQueryString());
 
@@ -158,7 +157,7 @@ namespace WebAPI.API.Controllers.API.Version1 {
 
             try
             {
-                request = await client.GetAsync(requestUri);
+                request = await App.HttpClient.GetAsync(requestUri);
             }
             catch (AggregateException)
             {

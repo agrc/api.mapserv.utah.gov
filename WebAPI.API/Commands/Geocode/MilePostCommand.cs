@@ -21,8 +21,6 @@ namespace WebAPI.API.Commands.Geocode
     {
         private static readonly string Url = ConfigurationManager.AppSettings["milepost_url"];
 
-        private HttpClient _httpClient;
-
         public MilepostCommand(string route, double milepost, MilepostOptions options)
         {
             Route = route;
@@ -34,28 +32,20 @@ namespace WebAPI.API.Commands.Geocode
         public double Milepost { get; set; }
         public MilepostOptions Options { get; set; }
 
-        protected void Initialize()
-        {
-            _httpClient = new HttpClient();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
-        }
-
         public override string ToString()
         {
-            return string.Format("{0}, Route: {1}, Milepost: {2}, Options: {3}", "MilepostCommand", Route, Milepost,
-                                 Options);
+            return $"MilepostCommand, Route: {Route}, Milepost: {Milepost}, Options: {Options}";
         }
 
         protected override void Execute()
         {
-            Initialize();
             var requestUri = string.Format(Url, Route, Milepost, Options.Side);
 
-            var response = _httpClient.GetAsync(requestUri).ContinueWith(
+            var response = App.HttpClient.GetAsync(requestUri).ContinueWith(
                 httpResponse => ConvertResponseToObjectAsync(httpResponse.Result)).Unwrap().Result;
 
             var result = Mapper.Map<GeocodeMilepostResponse, RouteMilepostResult>(response);
-            result.InputRouteMilePost = string.Format("Route {0} Milepost {1}", Route, Milepost);
+            result.InputRouteMilePost = $"Route {Route} Milepost {Milepost}";
 
             if (Options.WkId != 26912)
             {

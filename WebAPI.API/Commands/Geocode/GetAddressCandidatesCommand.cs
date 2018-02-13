@@ -17,8 +17,6 @@ namespace WebAPI.API.Commands.Geocode
 {
     public class GetAddressCandidatesCommand : Command<Task<List<Candidate>>>
     {
-        private HttpClient _httpClient;
-
         public GetAddressCandidatesCommand(LocatorDetails input)
         {
             LocatorDetails = input;
@@ -33,12 +31,6 @@ namespace WebAPI.API.Commands.Geocode
         internal LocatorDetails LocatorDetails { get; set; }
         private bool Testing { get; }
 
-        protected void Initialize()
-        {
-            _httpClient = new HttpClient();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
-        }
-
         protected override void Execute()
         {
             if (Testing)
@@ -51,10 +43,8 @@ namespace WebAPI.API.Commands.Geocode
                 return;
             }
 
-            Initialize();
-
             Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
-            var result = _httpClient.GetAsync(LocatorDetails.Url).ContinueWith(
+            var result = App.HttpClient.GetAsync(LocatorDetails.Url).ContinueWith(
                 httpResponse =>
                     ConvertResponseToObjectAsync(httpResponse.Result).ContinueWith(model => ProcessResult(model.Result))
                         .Unwrap()).Unwrap();
