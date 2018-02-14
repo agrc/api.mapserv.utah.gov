@@ -74,6 +74,8 @@ namespace WebAPI.API.Commands.Address
         {
             private readonly string _value;
 
+            public bool NeedsSplit { get; }
+
             public StreetPart(string value, int index)
             {
                 Index = index;
@@ -81,12 +83,13 @@ namespace WebAPI.API.Commands.Address
 
                 // TODO: does contain multiple parts
                 // eg: 123west 456south should be split from 2 to 4 parts
+                NeedsSplit = App.RegularExpressions["separateNameAndDirection"].IsMatch(_value);
 
                 // TODO: determine value type
                 // eg: number, direction, street type, unit, po box, highway
                 // maybe create an enum of types?
                 IsNumber = new Regex("0-9+").IsMatch(value);
-                IsDirection = App.RegularExpressions["direction"].IsMatch(_value);
+                IsDirection = App.RegularExpressions["direction"].IsMatch(_value) || App.RegularExpressions["directionSubstitutions"].IsMatch(_value);
                 IsStreetType = App.RegularExpressions["streetType"].IsMatch(_value);
                 IsHighway = App.RegularExpressions["highway"].IsMatch(_value);
                 IsOrdinal = App.RegularExpressions["ordinal"].IsMatch(_value);

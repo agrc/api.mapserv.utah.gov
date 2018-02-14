@@ -176,7 +176,7 @@ namespace WebAPI.API
             };
         }
 
-        private static List<Tuple<string, string, bool>> CacheUnitAbbreviations()
+        public static List<Tuple<string, string, bool>> CacheUnitAbbreviations()
         {
             //Number nbr num
             return new List<Tuple<string, string, bool>>
@@ -208,7 +208,7 @@ namespace WebAPI.API
             };
         }
 
-        private static Dictionary<string, Regex> CacheRegularExpressions()
+        public static Dictionary<string, Regex> CacheRegularExpressions()
         {
             var dict = new Dictionary<string, Regex>
             {

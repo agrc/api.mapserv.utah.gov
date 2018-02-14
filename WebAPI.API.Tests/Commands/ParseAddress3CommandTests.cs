@@ -69,5 +69,23 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(third.GetValue(), Is.EqualTo("st"));
             }
         }
+
+        [TestFixture]
+        public class StreetParts
+        {
+            [TestCase("1", true)]
+            [TestCase("123", true)]
+            [TestCase("abc", false)]
+            [TestCase("a1b2", false)]
+            public void IsNumber(string value, bool expectation)
+            {
+                App.UnitAbbreviations = CacheConfig.CacheUnitAbbreviations();
+                App.RegularExpressions = CacheConfig.CacheRegularExpressions();
+
+                var part = new ParseAddress3Command.StreetPart(value, 0);
+
+                Assert.That(part.IsNumber, Is.EqualTo(expectation));
+            }
+        }
     }
 }
