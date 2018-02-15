@@ -9,6 +9,13 @@ namespace WebAPI.API.Tests.Commands
     [TestFixture]
     public class ParseAddress3CommandTests
     {
+        [SetUp]
+        public void BuildCache()
+        {
+            App.UnitAbbreviations = CacheConfig.CacheUnitAbbreviations();
+            App.RegularExpressions = CacheConfig.CacheRegularExpressions();
+        }
+
         [TestCase("123 north st.")]
         [TestCase("123 north-west st")]
         [TestCase("1:23 north-west st")]
@@ -73,18 +80,43 @@ namespace WebAPI.API.Tests.Commands
         [TestFixture]
         public class StreetParts
         {
+            [TestCase("", false)]
             [TestCase("1", true)]
             [TestCase("123", true)]
             [TestCase("abc", false)]
             [TestCase("a1b2", false)]
             public void IsNumber(string value, bool expectation)
             {
-                App.UnitAbbreviations = CacheConfig.CacheUnitAbbreviations();
-                App.RegularExpressions = CacheConfig.CacheRegularExpressions();
-
                 var part = new ParseAddress3Command.StreetPart(value, 0);
 
                 Assert.That(part.IsNumber, Is.EqualTo(expectation));
+            }
+
+            [TestCase("", false)]
+            [TestCase("n", true)]
+            [TestCase("no", true)]
+            [TestCase("north", true)]
+            [TestCase("northwind", false)]
+            [TestCase("1", false)]
+            [TestCase("abc", false)]
+            public void IsDirection(string value, bool expectation)
+            {
+                var part = new ParseAddress3Command.StreetPart(value, 0);
+
+                Assert.That(part.IsDirection, Is.EqualTo(expectation));
+            }
+
+            [TestCase("", false)]
+            [TestCase("14th", true)]
+            [TestCase("3rd", true)]
+            [TestCase("22nd", true)]
+            [TestCase("1", false)]
+            [TestCase("abc", false)]
+            public void IsOrdinal(string value, bool expectation)
+            {
+                var part = new ParseAddress3Command.StreetPart(value, 0);
+
+                Assert.That(part.IsOrdinal, Is.EqualTo(expectation));
             }
         }
     }

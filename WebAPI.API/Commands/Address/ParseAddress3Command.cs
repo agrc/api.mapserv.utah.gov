@@ -88,10 +88,12 @@ namespace WebAPI.API.Commands.Address
                 // TODO: determine value type
                 // eg: number, direction, street type, unit, po box, highway
                 // maybe create an enum of types?
+
                 IsNumber = new Regex("^[0-9]+$").IsMatch(value);
                 IsDirection = App.RegularExpressions["direction"].IsMatch(_value) || App.RegularExpressions["directionSubstitutions"].IsMatch(_value);
                 IsStreetType = App.RegularExpressions["streetType"].IsMatch(_value);
                 IsHighway = App.RegularExpressions["highway"].IsMatch(_value);
+                // TODO: should ordinals be considered numbers?
                 IsOrdinal = App.RegularExpressions["ordinal"].IsMatch(_value);
 
                 // TODO: based on type replace with correction or have other code do this?
