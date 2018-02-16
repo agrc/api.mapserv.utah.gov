@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using WebAPI.API.Commands.Address;
+using WebAPI.Domain;
 
 namespace WebAPI.API.Tests.Commands
 {
@@ -14,6 +14,7 @@ namespace WebAPI.API.Tests.Commands
         {
             App.UnitAbbreviations = CacheConfig.CacheUnitAbbreviations();
             App.RegularExpressions = CacheConfig.CacheRegularExpressions();
+            App.StreetTypeAbbreviations = CacheConfig.CacheStreetTypeAbbreviations();
         }
 
         [TestCase("123 north st.")]
@@ -61,25 +62,30 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(first.IsLast, Is.False);
                 Assert.That(first.Right, Is.EqualTo(result[1]));
                 Assert.That(first.Left, Is.Null);
-                Assert.That(first.GetValue(), Is.EqualTo("123"));
 
                 Assert.That(second.IsFirst, Is.False);
                 Assert.That(second.IsLast, Is.False);
                 Assert.That(second.Right, Is.EqualTo(result[2]));
                 Assert.That(second.Left, Is.EqualTo(result[0]));
-                Assert.That(second.GetValue(), Is.EqualTo("north"));
 
                 Assert.That(third.IsFirst, Is.False);
                 Assert.That(third.IsLast, Is.True);
                 Assert.That(third.Right, Is.Null);
                 Assert.That(third.Left, Is.EqualTo(result[1]));
-                Assert.That(third.GetValue(), Is.EqualTo("st"));
             }
         }
 
         [TestFixture]
         public class StreetParts
         {
+            [SetUp]
+            public void BuildCache()
+            {
+                App.UnitAbbreviations = CacheConfig.CacheUnitAbbreviations();
+                App.RegularExpressions = CacheConfig.CacheRegularExpressions();
+                App.StreetTypeAbbreviations = CacheConfig.CacheStreetTypeAbbreviations();
+            }
+
             [TestCase("", false)]
             [TestCase("1", true)]
             [TestCase("123", true)]
@@ -117,6 +123,52 @@ namespace WebAPI.API.Tests.Commands
                 var part = new ParseAddress3Command.StreetPart(value, 0);
 
                 Assert.That(part.IsOrdinal, Is.EqualTo(expectation));
+            }
+
+            [TestCase("", false)]
+            [TestCase("HWY", true)]
+            [TestCase("highway", true)]
+            [TestCase("SR", true)]
+            [TestCase("stateroute", true)]
+            [TestCase("US", true)]
+            [TestCase("U.S.", true)]
+            [TestCase("U?s.", false)]
+            [TestCase("U.T", false)]
+            public void IsHighway(string value, bool expectation)
+            {
+                var part = new ParseAddress3Command.StreetPart(value, 0);
+
+                Assert.That(part.IsHighway, Is.EqualTo(expectation));
+            }
+
+            [TestCase("", false)]
+            [TestCase("HWY", false)]
+            [TestCase("highway", false)]
+            [TestCase("HWY68", true)]
+            [TestCase("SR", false)]
+            [TestCase("stateroute", false)]
+            [TestCase("SR68", true)]
+            [TestCase("US", false)]
+            [TestCase("US89", true)]
+            [TestCase("123west", true)]
+            [TestCase("456south", true)]
+            [TestCase("U.S.", false)]
+            [TestCase("U?s.", false)]
+            [TestCase("U.T", false)]
+            public void NeedsSplit(string value, bool expectation)
+            {
+                var part = new ParseAddress3Command.StreetPart(value, 0);
+
+                Assert.That(part.NeedsSplit, Is.EqualTo(expectation));
+            }
+
+            [TestCase("st", StreetType.Street)]
+            [TestCase("drive", StreetType.Drive)]
+            [TestCase("", StreetType.None)]
+            public void GetStreetType(string value, object expectation)
+            {
+                var output = ParseAddress3Command.StreetPart.GetStreetType(value);
+                Assert.That(output, Is.EqualTo(expectation));
             }
         }
     }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using WebAPI.API.Comparers;
 using WebAPI.Common.Abstractions;
+using WebAPI.Domain;
 using WebAPI.Domain.Addresses;
 
 namespace WebAPI.API.Commands.Address
@@ -44,6 +46,13 @@ namespace WebAPI.API.Commands.Address
             var parts = street.Split(' ');
             var streetParts = parts.Select((x, index) => new StreetPart(x, index));
 
+            // TODO: split and insert new streeparts
+            // test that the linked list is preserved with order
+//            while (streetParts.Any(x => x.NeedsSplit))
+//            {
+//                // split and insert;
+//            }
+
             var partHash = streetParts.ToDictionary(x => x.Index, y => y);
             var length = partHash.Keys.Count - 1;
 
@@ -83,7 +92,9 @@ namespace WebAPI.API.Commands.Address
 
                 // TODO: does contain multiple parts
                 // eg: 123west 456south should be split from 2 to 4 parts
-                NeedsSplit = App.RegularExpressions["separateNameAndDirection"].IsMatch(_value);
+                // TODO: check failed addresses with units and such to see if this
+                // regex is sufficient
+                NeedsSplit = new Regex(@"(?<=\d)(?=\p{L})|(?<=\p{L})(?=\d)", RegexOptions.IgnoreCase).IsMatch(_value);
 
                 // TODO: determine value type
                 // eg: number, direction, street type, unit, po box, highway
@@ -91,12 +102,49 @@ namespace WebAPI.API.Commands.Address
 
                 IsNumber = new Regex("^[0-9]+$").IsMatch(value);
                 IsDirection = App.RegularExpressions["direction"].IsMatch(_value) || App.RegularExpressions["directionSubstitutions"].IsMatch(_value);
-                IsStreetType = App.RegularExpressions["streetType"].IsMatch(_value);
+                IsStreetType = App.RegularExpressions["streetType"].IsMatch(_value); 
                 IsHighway = App.RegularExpressions["highway"].IsMatch(_value);
+                if (IsHighway)
+                {
+                    _value = "Highway";
+                }
                 // TODO: should ordinals be considered numbers?
                 IsOrdinal = App.RegularExpressions["ordinal"].IsMatch(_value);
 
                 // TODO: based on type replace with correction or have other code do this?
+            }
+
+            public static StreetType GetStreetType(string value)
+            {
+                var abbr = value.ToLower();
+
+                if (Enum.TryParse(abbr, true, out StreetType streetType))
+                {
+                    return streetType;
+                }
+
+                if (App.StreetTypeAbbreviations != null &&
+                    App.StreetTypeAbbreviations.Values.Any(x => x.Split(',').Contains(abbr)))
+                {
+                    return App.StreetTypeAbbreviations
+                        .Where(x => x.Value.Split(',').Contains(abbr, new StreetTypeAbbreviationComparer()))
+                        .Select(x => x.Key)
+                        .SingleOrDefault();
+                }
+
+                return streetType;
+            }
+
+            // TODO: need to be careful of single letter street names
+            // eg: E,N,S,W streets that are also directions
+            private Direction GetDirection(string value)
+            {
+                if (Enum.TryParse(_value, true, out Direction direction))
+                {
+                    return direction;
+                }
+
+                return direction;
             }
 
             public bool IsNumber { get; }
@@ -127,6 +175,21 @@ namespace WebAPI.API.Commands.Address
 
             public object GetValue()
             {
+                if (IsNumber)
+                {
+                    return Convert.ToInt32(_value);
+                }
+
+                if (IsStreetType)
+                {
+                    return GetStreetType(_value);
+                }
+
+                if (IsDirection)
+                {
+                    return GetDirection(_value);
+                }
+
                 return _value;
             }
         }

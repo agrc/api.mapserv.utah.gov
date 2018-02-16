@@ -52,7 +52,7 @@ namespace WebAPI.API
         ///     Types with no abbreviations are omitted.
         /// </summary>
         /// <returns></returns>
-        private static Dictionary<StreetType, string> CacheStreetTypeAbbreviations()
+        public static Dictionary<StreetType, string> CacheStreetTypeAbbreviations()
         {
             return new Dictionary<StreetType, string>
             {
@@ -237,7 +237,7 @@ namespace WebAPI.API
                 },
                 {
                     "highway",
-                    new Regex(@"\b(sr|state route|us|Highway|hwy|u.s\.?)(?!\w)",
+                    new Regex(@"\b(sr|state\s?route|us|Highway|hwy|u\.s\.?)(?!\w)",
                         RegexOptions.IgnoreCase | RegexOptions.Compiled)
                 },
                 {
