@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Ajax.Utilities;
 using WebAPI.Common.Abstractions;
 using WebAPI.Domain;
 using WebAPI.Domain.Addresses;
@@ -80,7 +81,7 @@ namespace WebAPI.API.Commands.Geocode.Flags
 
         public override string ToString()
         {
-            return string.Format("{0}, zone: {1}, prefix: {2}", "DoubleAvenuesCommand", _address.Zip5, _address.PrefixDirection);
+            return $"DoubleAvenuesExceptionCommand, zone: {_address.Zip5}, prefix: {_address.PrefixDirection}";
         }
 
         protected override void Execute()
@@ -118,6 +119,11 @@ namespace WebAPI.API.Commands.Geocode.Flags
 
         private bool IsOrdinal(string streetname)
         {
+            if (streetname.IsNullOrWhiteSpace())
+            {
+                return false;
+            }
+
             streetname = streetname.Replace(" ", string.Empty).Trim();
 
             return _ordinal.IsMatch(streetname);
