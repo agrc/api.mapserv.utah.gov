@@ -303,7 +303,7 @@ namespace WebAPI.API
                     var abbrs = streetType.Value.Split(',').ToList();
                     abbrs.Add(streetType.Key.ToString());
 
-                    pattern.Add(string.Format(@"\b({0})\b", string.Join("|", abbrs)));
+                    pattern.Add(string.Format(@"^({0})$", string.Join("|", abbrs)));
                 }
             }
 

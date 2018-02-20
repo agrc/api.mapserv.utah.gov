@@ -30,6 +30,28 @@ namespace WebAPI.API.Commands.Address
             var parts = CreateStreetParts(street);
         }
 
+        public LinkedList<StreetPart> HandleSplits(LinkedList<StreetPart> parts)
+        {
+            while (parts.Any(x => x.NeedsSplit))
+            {
+                var splitter = parts.First(x => x.NeedsSplit);
+                var node = parts.Find(splitter);
+
+                var values = StreetPart.Split(splitter);
+
+                var index = splitter.Index;
+                foreach (var value in values)
+                {
+                    var part = new StreetPart(value, index);
+                    parts.AddBefore(node, part);
+                }
+
+               parts.Remove(splitter);
+            }
+
+            return parts;
+        }
+
         public string RemoveExtraniousCharacters(string street)
         {
             // TODO: keep # for unit numbers?
@@ -39,12 +61,17 @@ namespace WebAPI.API.Commands.Address
             return alphaNumeric.Replace(_street, "");
         }
 
-        public IEnumerable<StreetPart> CreateStreetParts(string street)
+        public LinkedList<StreetPart> CreateStreetParts(string street)
         {
             // TODO: create linked list so there is a first prop to get the starting point
 
             var parts = street.Split(' ');
             var streetParts = parts.Select((x, index) => new StreetPart(x, index));
+
+            var linkedStreetParts = new LinkedList<StreetPart>(streetParts);
+            linkedStreetParts = HandleSplits(linkedStreetParts);
+
+            return linkedStreetParts;
 
             // TODO: split and insert new streeparts
             // test that the linked list is preserved with order
@@ -52,31 +79,31 @@ namespace WebAPI.API.Commands.Address
 //            {
 //                // split and insert;
 //            }
-
-            var partHash = streetParts.ToDictionary(x => x.Index, y => y);
-            var length = partHash.Keys.Count - 1;
-
-            foreach (var pair in partHash)
-            {
-                var index = pair.Key;
-                var part = pair.Value;
-
-                if (index == 0 && index + 1 <= length)
-                {
-                    part.Link(null, partHash[index + 1]);
-                    continue;
-                }
-
-                if (index == length)
-                {
-                    part.Link(partHash[index - 1], null);
-                    continue;
-                }
-
-                part.Link(partHash[index - 1], partHash[index + 1]);
-            }
-
-            return partHash.Values.ToList();
+//
+//            var partHash = streetParts.ToDictionary(x => x.Index, y => y);
+//            var length = partHash.Keys.Count - 1;
+//
+//            foreach (var pair in partHash)
+//            {
+//                var index = pair.Key;
+//                var part = pair.Value;
+//
+//                if (index == 0 && index + 1 <= length)
+//                {
+//                    part.Link(null, partHash[index + 1]);
+//                    continue;
+//                }
+//
+//                if (index == length)
+//                {
+//                    part.Link(partHash[index - 1], null);
+//                    continue;
+//                }
+//
+//                part.Link(partHash[index - 1], partHash[index + 1]);
+//            }
+//
+//            return partHash.Values.ToList();
         }
 
         public class StreetPart
@@ -101,8 +128,8 @@ namespace WebAPI.API.Commands.Address
                 // maybe create an enum of types?
 
                 IsNumber = new Regex("^[0-9]+$").IsMatch(value);
-                IsDirection = App.RegularExpressions["direction"].IsMatch(_value) || App.RegularExpressions["directionSubstitutions"].IsMatch(_value);
-                IsStreetType = App.RegularExpressions["streetType"].IsMatch(_value); 
+                IsDirection = new Regex("^((s|so|sou|sth|south)|(n|no|nor|nrt|north)|(e|ea|eas|est|north)|(w|we|wst|wes|west))$", RegexOptions.IgnoreCase).IsMatch(_value);
+                IsStreetType = App.RegularExpressions["streetType"].IsMatch(_value);
                 IsHighway = App.RegularExpressions["highway"].IsMatch(_value);
                 if (IsHighway)
                 {
@@ -159,20 +186,6 @@ namespace WebAPI.API.Commands.Address
 
             public int Index { get; }
 
-            public StreetPart Left { get; private set; }
-
-            public StreetPart Right { get; private set; }
-
-            public bool IsFirst => Left == null;
-
-            public bool IsLast => Right == null;
-
-            public void Link(StreetPart left, StreetPart right)
-            {
-                Left = left;
-                Right = right;
-            }
-
             public object GetValue()
             {
                 if (IsNumber)
@@ -191,6 +204,19 @@ namespace WebAPI.API.Commands.Address
                 }
 
                 return _value;
+            }
+
+            public static string[] Split(StreetPart part)
+            {
+                if (!part.NeedsSplit)
+                {
+                    return new string[]{};
+                }
+
+                var split = new Regex(@"(?<=\d)(?=\p{L})|(?<=\p{L})(?=\d)", RegexOptions.IgnoreCase);
+                var matches = split.Split(part.GetValue().ToString());
+
+                return matches;
             }
         }
     }
