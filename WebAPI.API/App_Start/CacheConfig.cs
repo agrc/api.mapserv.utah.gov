@@ -286,10 +286,10 @@ namespace WebAPI.API
                     item.Item2
                 };
 
-                pattern.Add(string.Format(@"\b({0})\b", string.Join("|", abbrs)));
+                pattern.Add($"({string.Join("|", abbrs)})");
             }
 
-            return string.Format("({0})", string.Join("|", pattern));
+            return $"^({string.Join("|", pattern)}|(^[#]$))$";
         }
 
         private static Regex BuildStreetTypeRegularExpression()

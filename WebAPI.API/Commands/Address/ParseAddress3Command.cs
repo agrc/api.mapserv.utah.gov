@@ -28,6 +28,8 @@ namespace WebAPI.API.Commands.Address
         {
             var street = RemoveExtraniousCharacters(_street);
             var parts = CreateStreetParts(street);
+            var analysis = new StreetAnalysis(parts);
+            
         }
 
         public LinkedList<StreetPart> HandleSplits(LinkedList<StreetPart> parts)
@@ -56,7 +58,8 @@ namespace WebAPI.API.Commands.Address
         {
             // TODO: keep # for unit numbers?
             // TODO: do street names contain hyphens?
-            var alphaNumeric = new Regex("[^0-9|a-z|\\s]");
+            // TODO: remove approx|approximate do road names contain these?
+            var alphaNumeric = new Regex(@"[^0-9a-z\s#|@]");
 
             return alphaNumeric.Replace(_street, "");
         }
@@ -131,15 +134,25 @@ namespace WebAPI.API.Commands.Address
                 IsDirection = new Regex("^((s|so|sou|sth|south)|(n|no|nor|nrt|north)|(e|ea|eas|est|north)|(w|we|wst|wes|west))$", RegexOptions.IgnoreCase).IsMatch(_value);
                 IsStreetType = App.RegularExpressions["streetType"].IsMatch(_value);
                 IsHighway = App.RegularExpressions["highway"].IsMatch(_value);
+                // TODO: should ordinals be considered numbers?
+                IsOrdinal = App.RegularExpressions["ordinal"].IsMatch(_value);
+                IsIntersection = new Regex("^(at|and|[|]|@)$").IsMatch(_value);
+                IsPoBox = new Regex("^((p(b|o))|(po?(box))|(pob)|(box))$").IsMatch(_value);
+                IsSecondary = App.RegularExpressions["unitType"].IsMatch(_value);
+
                 if (IsHighway)
                 {
                     _value = "Highway";
                 }
-                // TODO: should ordinals be considered numbers?
-                IsOrdinal = App.RegularExpressions["ordinal"].IsMatch(_value);
 
                 // TODO: based on type replace with correction or have other code do this?
             }
+
+            public bool IsSecondary { get; set; }
+
+            public bool IsPoBox { get; set; }
+
+            public bool IsIntersection { get; set; }
 
             public static StreetType GetStreetType(string value)
             {
@@ -164,9 +177,9 @@ namespace WebAPI.API.Commands.Address
 
             // TODO: need to be careful of single letter street names
             // eg: E,N,S,W streets that are also directions
-            private Direction GetDirection(string value)
+            private static Direction GetDirection(string value)
             {
-                if (Enum.TryParse(_value, true, out Direction direction))
+                if (Enum.TryParse(value, true, out Direction direction))
                 {
                     return direction;
                 }
@@ -217,6 +230,48 @@ namespace WebAPI.API.Commands.Address
                 var matches = split.Split(part.GetValue().ToString());
 
                 return matches;
+            }
+        }
+
+        public class StreetAnalysis
+        {
+            private readonly LinkedList<StreetPart> _parts;
+
+            public StreetAnalysis(LinkedList<StreetPart> parts)
+            {
+                _parts = parts;
+            }
+
+            public bool PossibleAddress()
+            {
+                if (_parts.Count < 2)
+                {
+                    return false;
+                }
+
+                var number = _parts.FirstOrDefault(x => x.IsNumber);
+                var listNode = _parts.Find(number);
+
+                // addresses need to have a number
+                if (number is null)
+                {
+                    return false;
+                }
+
+                var nextPart = listNode?.Next;
+
+                if (nextPart is null)
+                {
+                    return false;
+                }
+
+                var previousPart = listNode.Previous;
+                var secondaryAddress = previousPart != null && previousPart.Value.IsSecondary;
+
+                // addresses need to have a number and street name
+                var possibleStreetName = !nextPart.Value.IsNumber;
+
+                return !secondaryAddress && possibleStreetName;
             }
         }
     }

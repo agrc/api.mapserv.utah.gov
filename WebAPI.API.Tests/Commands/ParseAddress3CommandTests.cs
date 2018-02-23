@@ -7,30 +7,23 @@ using WebAPI.Domain;
 
 namespace WebAPI.API.Tests.Commands
 {
-    [TestFixture]
-    public class ParseAddress3CommandTests
+    [SetUpFixture]
+    public class Setup
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void BuildCache()
         {
             App.UnitAbbreviations = CacheConfig.CacheUnitAbbreviations();
-            App.RegularExpressions = CacheConfig.CacheRegularExpressions();
             App.StreetTypeAbbreviations = CacheConfig.CacheStreetTypeAbbreviations();
+            App.RegularExpressions = CacheConfig.CacheRegularExpressions();
         }
+    }
 
-        [Test]
-        public void SplitsProperly()
-        {
-            
-
-//            var partOne = parts.Single(x => x.Index == 0);
-//            Assert.That(partOne.GetValue(), Is.EqualTo(123));
-//
-//            var partTwo = parts.Single(x => x.Index == 1);
-//            Assert.That(partTwo.GetValue(), Is.EqualTo(Direction.West));
-        }
-
-        [TestCase("123 north st.")]
+    [TestFixture]
+    public class ParseAddress3CommandTests
+    {
+        [TestCase("123 northwest st.")]
+        [TestCase("(123 northwest st)")]
         [TestCase("123 north-west st")]
         [TestCase("1:23 north-west st")]
         public void RemoveExtraniousCharacters(string street)
@@ -40,22 +33,11 @@ namespace WebAPI.API.Tests.Commands
             var result = command.RemoveExtraniousCharacters(street);
 
             Console.WriteLine(result);
-            Assert.That(result.Contains("."), Is.False);
-            Assert.That(result.Contains("-"), Is.False);
-            Assert.That(result.Contains(":"), Is.False);
+            Assert.That(result, Is.EqualTo("123 northwest st"));
         }
 
-        [TestFixture]
         public class GetStreetParts
         {
-            [SetUp]
-            public void BuildCache()
-            {
-                App.UnitAbbreviations = CacheConfig.CacheUnitAbbreviations();
-                App.RegularExpressions = CacheConfig.CacheRegularExpressions();
-                App.StreetTypeAbbreviations = CacheConfig.CacheStreetTypeAbbreviations();
-            }
-
             [TestCase("123 north st", 3)]
             [TestCase("123 northwest st", 3)]
             public void ReturnsCorrectCount(string street, int parts)
@@ -64,7 +46,7 @@ namespace WebAPI.API.Tests.Commands
 
                 var result = command.CreateStreetParts(street);
 
-                Assert.That(result.Count(), Is.EqualTo(parts));
+                Assert.That(result.Count, Is.EqualTo(parts));
             }
 
             [Test]
@@ -89,17 +71,8 @@ namespace WebAPI.API.Tests.Commands
             }
         }
 
-        [TestFixture]
         public class StreetParts
         {
-            [SetUp]
-            public void BuildCache()
-            {
-                App.UnitAbbreviations = CacheConfig.CacheUnitAbbreviations();
-                App.RegularExpressions = CacheConfig.CacheRegularExpressions();
-                App.StreetTypeAbbreviations = CacheConfig.CacheStreetTypeAbbreviations();
-            }
-
             [TestCase("", false)]
             [TestCase("1", true)]
             [TestCase("123", true)]
@@ -129,17 +102,15 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(part.IsDirection, Is.EqualTo(expectation));
             }
 
+            [TestCase("st", true)]
+            [TestCase("drive", true)]
             [TestCase("", false)]
-            [TestCase("14th", true)]
-            [TestCase("3rd", true)]
-            [TestCase("22nd", true)]
-            [TestCase("1", false)]
-            [TestCase("abc", false)]
-            public void IsOrdinal(string value, bool expectation)
+            [TestCase("xst", false)]
+            [TestCase("123west", false)]
+            public void IsStreetType(string value, bool expectation)
             {
                 var part = new ParseAddress3Command.StreetPart(value, 0);
-
-                Assert.That(part.IsOrdinal, Is.EqualTo(expectation));
+                Assert.That(part.IsStreetType, Is.EqualTo(expectation));
             }
 
             [TestCase("", false)]
@@ -162,6 +133,64 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(part.IsHighway, Is.EqualTo(expectation));
             }
 
+            [TestCase("", false)]
+            [TestCase("14th", true)]
+            [TestCase("3rd", true)]
+            [TestCase("22nd", true)]
+            [TestCase("1", false)]
+            [TestCase("abc", false)]
+            public void IsOrdinal(string value, bool expectation)
+            {
+                var part = new ParseAddress3Command.StreetPart(value, 0);
+
+                Assert.That(part.IsOrdinal, Is.EqualTo(expectation));
+            }
+
+            [TestCase("", false)]
+            [TestCase("and", true)]
+            [TestCase("at", true)]
+            [TestCase("@", true)]
+            [TestCase("|", true)]
+            [TestCase("1", false)]
+            [TestCase("abc", false)]
+            public void IsIntersection(string value, bool expectation)
+            {
+                var part = new ParseAddress3Command.StreetPart(value, 0);
+
+                Assert.That(part.IsIntersection, Is.EqualTo(expectation));
+            }
+
+            [TestCase("", false)]
+            [TestCase("pobox", true)]
+            [TestCase("pob", true)]
+            [TestCase("po", true)]
+            [TestCase("box", true)]
+            [TestCase("pbox", true)]
+            [TestCase("1", false)]
+            [TestCase("abc", false)]
+            [TestCase("pobbox", false)]
+            [TestCase("pb", true)]
+            public void IsPoBox(string value, bool expectation)
+            {
+                var part = new ParseAddress3Command.StreetPart(value, 0);
+
+                Assert.That(part.IsPoBox, Is.EqualTo(expectation));
+            }
+
+            [TestCase("bsmt", true)]
+            [TestCase("PENTHOUSE", true)]
+            [TestCase("unit", true)]
+            [TestCase("lot", true)]
+            [TestCase("TRLR", true)]
+            [TestCase("bldg", true)]
+            [TestCase("ste", true)]
+            [TestCase("#", true)]
+            public void IsSecondary(string value, bool expectation)
+            {
+                var part = new ParseAddress3Command.StreetPart(value, 0);
+                Assert.That(part.IsSecondary, Is.EqualTo(expectation));
+            }
+
             [TestCase("st", StreetType.Street)]
             [TestCase("drive", StreetType.Drive)]
             [TestCase("", StreetType.None)]
@@ -170,17 +199,6 @@ namespace WebAPI.API.Tests.Commands
             {
                 var output = ParseAddress3Command.StreetPart.GetStreetType(value);
                 Assert.That(output, Is.EqualTo(expectation));
-            }
-
-            [TestCase("st", true)]
-            [TestCase("drive", true)]
-            [TestCase("", false)]
-            [TestCase("xst", false)]
-            [TestCase("123west", false)]
-            public void IsStreetType(string value, bool expectation)
-            {
-                var part = new ParseAddress3Command.StreetPart(value, 0);
-                Assert.That(part.IsStreetType, Is.EqualTo(expectation));
             }
 
             [TestCase("", new string[]{})]
@@ -252,6 +270,26 @@ namespace WebAPI.API.Tests.Commands
 
                 node = node.Next;
                 Assert.That(node.Value.GetValue(), Is.EqualTo(StreetType.Street));
+            }
+        }
+
+        public class StreetAnalysis
+        {
+            [TestCase("See Listing See Listing", false)]
+            [TestCase("326 east south temple st", true)]
+            [TestCase("150 East", true)]
+            [TestCase("150", false)]
+            [TestCase("150 150", false)]
+            [TestCase("APT 201 714 N 900 W", true)]
+            [TestCase("APT 201", false)]
+            public void PossibleAddress(string street, bool expectation)
+            {
+                var command = new ParseAddress3Command(street);
+
+                var parts = command.CreateStreetParts(street);
+                var result = new ParseAddress3Command.StreetAnalysis(parts);
+
+                Assert.That(result.PossibleAddress, Is.EqualTo(expectation));
             }
         }
     }
