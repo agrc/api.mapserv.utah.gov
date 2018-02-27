@@ -44,15 +44,39 @@ namespace WebAPI.API.Commands.Drive
                 var deliveryPoints = GetUspsDeliveryPoints(service, "1rgqNweBxiqWVwxTlMWgX-sN8IJguvlUcY0yOvmI8JuQ",
                     "A2:H");
                 var corrections = GetCorrections(service, "1ZqXyQflKQ8q-sBHCHLaYaQXY90aOFU0JPc4-M_41GM0", "A2:H");
+                var poboxes = GetPoBoxes(service, "1DX5w1UDeANyrjr0C-13lJVal2sRcZ3U67Im1loIaFog", "A2:C");
 
                 Result = new DriveDataModel
                 {
                     PlaceGrids = BuildGridLinkableLookup(places),
                     ZipCodesGrids = BuildGridLinkableLookup(zips),
                     UspsDeliveryPoints = BuildGridLinkableLookup(deliveryPoints),
-                    PoBoxExclusions = corrections
+                    PoBoxExclusions = corrections,
+                    PoBoxes = poboxes
                 };
             }
+        }
+
+        private static Dictionary<int, PoBoxAddress> GetPoBoxes(SheetsService service, string spreadsheet, string range)
+        {
+            var request = service.Spreadsheets.Values.Get(spreadsheet, range);
+
+            var response = request.Execute();
+            var values = response.Values;
+
+            var items = new Dictionary<int, PoBoxAddress>();
+
+            if (values == null)
+            {
+                return items;
+            }
+
+            foreach (var row in values)
+            {
+                items.Add(Convert.ToInt32(row[0]), new PoBoxAddress(Convert.ToInt32(row[0]), Convert.ToDouble(row[1]), Convert.ToDouble(row[2])));
+            }
+
+            return items;
         }
 
         private static IEnumerable<PlaceGridLink> GetCityPlaceNames(SheetsService service, string spreadsheet,
@@ -195,5 +219,7 @@ namespace WebAPI.API.Commands.Drive
         public Dictionary<string, List<GridLinkable>> UspsDeliveryPoints { get; set; }
 
         public IEnumerable<PoBoxAddressCorrection> PoBoxExclusions { get; set; }
+
+        public Dictionary<int, PoBoxAddress> PoBoxes { get; set; }
     }
 }

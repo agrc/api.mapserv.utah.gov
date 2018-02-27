@@ -177,7 +177,6 @@
     <Compile Include="Commands\GetFeatureClassAttributesCommandTests.cs" />
     <Compile Include="Commands\GetLocatorsForAddressCommandTests.cs" />
     <Compile Include="Commands\GetLocatorsForLocationCommandTests.cs" />
-    <Compile Include="Commands\GetPoBoxLocationsCommandTests.cs" />
     <Compile Include="Commands\ParseAddressCommandTests.cs" />
     <Compile Include="Commands\ParseSingleLineInputCommandTests.cs" />
     <Compile Include="Commands\ParseZoneCommandTests.cs" />

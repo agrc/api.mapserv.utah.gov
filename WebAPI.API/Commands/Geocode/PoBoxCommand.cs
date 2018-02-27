@@ -32,11 +32,6 @@ namespace WebAPI.API.Commands.Geocode
 
             if (App.PoBoxLookup is null)
             {
-                App.PoBoxLookup = CommandExecutor.ExecuteCommand(new GetPoBoxLocationsCommand());
-            }
-
-            if (App.PoBoxLookup is null)
-            {
                 Result = null;
                 return;
             }
