@@ -38,12 +38,11 @@ namespace WebAPI.API
             App.PlaceGridLookup = lookups.PlaceGrids;
             App.ZipCodeGridLookup = lookups.ZipCodesGrids;
             App.UspsDeliveryPoints = lookups.UspsDeliveryPoints;
+            App.PoBoxLookup = lookups.PoBoxes;
 
             var exclusions = lookups.PoBoxExclusions.ToList();
             App.PoBoxZipCodesWithExclusions = exclusions.Select(x => x.Zip).Distinct();
             App.PoBoxExclusions = exclusions.ToDictionary(x => x.ZipPlusFour, y => y);
-
-            App.PoBoxLookup = CommandExecutor.ExecuteCommand(new GetPoBoxLocationsCommand());
 
             App.RegularExpressions = CacheRegularExpressions();
         }

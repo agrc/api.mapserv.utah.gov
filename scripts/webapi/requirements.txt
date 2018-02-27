@@ -1,3 +1,4 @@
 docopt>=0.6.2
 requests>=2.18.3
 glob2>=0.5
+pygsheets
