@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebAPI.API.Commands.Sgid;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Commands.Spatial;
 using WebAPI.Common.Executors;
@@ -28,11 +27,6 @@ namespace WebAPI.API.Commands.Geocode
             {
                 Result = null;
                 return;
-            }
-
-            if (App.PoBoxLookup is null)
-            {
-                App.PoBoxLookup = CommandExecutor.ExecuteCommand(new GetPoBoxLocationsCommand());
             }
 
             if (App.PoBoxLookup is null)

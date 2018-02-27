@@ -261,7 +261,6 @@
     <Compile Include="Commands\Search\FormatAttributesCommand.cs" />
     <Compile Include="Commands\Search\IsSafeSqlCommand.cs" />
     <Compile Include="Commands\Search\SqlQueryCommand.cs" />
-    <Compile Include="Commands\Sgid\GetPoBoxLocationsCommand.cs" />
     <Compile Include="Controllers\API\Version1\SearchController.cs" />
     <Compile Include="Controllers\CanaryController.cs" />
     <Compile Include="Controllers\ChangeLogController.cs" />
@@ -504,7 +503,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
