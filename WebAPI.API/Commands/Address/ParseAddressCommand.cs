@@ -34,6 +34,7 @@ namespace WebAPI.API.Commands.Address
         {
             street = street.Replace(".", "");
             street = street.Replace(",", "");
+            street = street.Replace("_", " ");
             Street = street;
             OriginalStreet = Street;
         }
