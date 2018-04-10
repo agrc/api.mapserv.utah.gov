@@ -24,8 +24,8 @@ namespace WebAPI.Common.Abstractions
                 timer.Start();
                 Execute();
                 timer.Stop();
-                Log.Verbose("{Task} Duration: {Duration}ms", ToString(), 
-                    timer.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
+                Log.Verbose("{Task} Duration: {Duration}ms", ToString(),
+                            timer.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
             }
             catch (AggregateException ex)
             {
@@ -48,6 +48,10 @@ namespace WebAPI.Common.Abstractions
                 }
 
                 Log.Fatal(ex, "Geocoding error occurred: {Task} {@errorList}", ToString(), errorList);
+            }
+            catch (CommandValidationException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
