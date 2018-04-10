@@ -1,22 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using GeoJSON.Net.Feature;
-using GeoJSON.Net.Geometry;
-using WebAPI.Common.Abstractions;
-using WebAPI.Domain;
-using WebAPI.Domain.ApiResponses;
-
-namespace WebAPI.API.Commands.Spatial
+﻿namespace WebAPI.API.Commands.Spatial
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Common.Abstractions;
+    using Domain;
+    using Domain.ApiResponses;
+    using GeoJSON.Net.Feature;
+    using GeoJSON.Net.Geometry;
 
     public class CreateFeatureFromCommand : Command<ResultContainer<Feature>>
     {
-        public object Container { get; set; }
-
         public CreateFeatureFromCommand(object container)
         {
             Container = container;
         }
+
+        public object Container { get; set; }
 
         public override string ToString()
         {
@@ -27,8 +26,8 @@ namespace WebAPI.API.Commands.Spatial
         {
             IGeometryObject geometry = null;
             Dictionary<string, object> attributes = null;
-            string message = null;
-            var status = 0;
+            string message;
+            int status;
 
             if (Container is ResultContainer<GeocodeAddressResult>)
             {
@@ -37,11 +36,11 @@ namespace WebAPI.API.Commands.Spatial
                 status = container.Status;
 
                 var result = container.Result;
-                attributes = GetProperties(result);
 
-                if (result.Location != null)
+                if (result?.Location != null)
                 {
                     geometry = new Point(new GeographicPosition(result.Location.Y, result.Location.X));
+                    attributes = GetProperties(result);
                 }
             }
             else if (Container is ResultContainer<RouteMilepostResult>)
@@ -51,11 +50,11 @@ namespace WebAPI.API.Commands.Spatial
                 status = container.Status;
 
                 var result = container.Result;
-                attributes = GetProperties(result);
 
-                if (result.Location != null)
+                if (result?.Location != null)
                 {
                     geometry = new Point(new GeographicPosition(result.Location.Y, result.Location.X));
+                    attributes = GetProperties(result);
                 }
             }
             else
@@ -64,25 +63,36 @@ namespace WebAPI.API.Commands.Spatial
                 return;
             }
 
-            var feature = new Feature(geometry, attributes);
-
-            var geoJsonContainer = new ResultContainer<Feature>
+            if (geometry == null && attributes == null)
+            {
+                Result = new ResultContainer<Feature>
                 {
-                    Result = feature,
                     Status = status,
                     Message = message
                 };
+
+                return;
+            }
+           
+            var feature = new Feature(geometry, attributes);
+
+            var geoJsonContainer = new ResultContainer<Feature>
+            {
+                Result = feature,
+                Status = status,
+                Message = message
+            };
 
             Result = geoJsonContainer;
         }
 
         public static Dictionary<string, object> GetProperties<T>(T obj)
-        {            
+        {
             var properties = typeof(T).GetProperties();
 
             var dictionary = properties.ToDictionary(prop => prop.Name, prop => prop.GetValue(obj, null));
-            
-            return dictionary.Where(x => x.Value != null).ToDictionary(x=>x.Key, x=>x.Value);
+
+            return dictionary.Where(x => x.Value != null).ToDictionary(x => x.Key, x => x.Value);
         }
     }
 }
