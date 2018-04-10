@@ -6,6 +6,8 @@ using WebAPI.Dashboard.Areas.secure.Models.ViewModels;
 
 namespace WebAPI.Dashboard.Commands.Key
 {
+    using Common.Exceptions;
+
     public class ValidateAndGetKeyTypeCommand : Command<ApiKey.ApplicationType>
     {
         private static readonly Regex IpValidate = new Regex(
@@ -35,15 +37,14 @@ namespace WebAPI.Dashboard.Commands.Key
                 return;
             }
 
-            throw new ArgumentNullException(
-                "UrlPattern and IP are empty. Please fill out one when trying to create an API key.");
+            throw new CommandValidationException("UrlPattern and IP are empty. Please fill out one when trying to create an API key.");
         }
 
         private ApiKey.ApplicationType ValidateIp()
         {
             if (!IpValidate.IsMatch(Data.Ip))
             {
-                throw new ArgumentException("IP is not in the correct format.");
+                throw new CommandValidationException("IP is not in the correct format.");
             }
 
             return ApiKey.ApplicationType.Server;

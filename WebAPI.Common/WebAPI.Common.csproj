@@ -187,6 +187,7 @@
     <Compile Include="ControlSelectors\AreaHttpControllerSelector.cs" />
     <Compile Include="ControlSelectors\ControllerTypeSpecifications.cs" />
     <Compile Include="DataStructures\TopNList.cs" />
+    <Compile Include="Exceptions\CommandValidationException.cs" />
     <Compile Include="Exceptions\GeocodingException.cs" />
     <Compile Include="Executors\CommandExecutor.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />

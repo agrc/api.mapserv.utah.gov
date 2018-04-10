@@ -14,6 +14,8 @@ using WebAPI.Dashboard.Queries;
 
 namespace WebAPI.Dashboard.Areas.secure.Controllers
 {
+    using Common.Exceptions;
+
     [Authorize]
     public class GenerateKeyController : RavenController
     {
@@ -50,8 +52,18 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
                 return RedirectToAction("Index", "KeyManagement");
             }
 
+            ApiKey.ApplicationType type;
             var command = new ValidateAndGetKeyTypeCommand(data);
-            var type = CommandExecutor.ExecuteCommand(command);
+            try
+            {
+                type = CommandExecutor.ExecuteCommand(command);
+            }
+            catch (CommandValidationException e)
+            {
+                ErrorMessage = e.Message;
+
+                return RedirectToAction("Index", "KeyManagement");
+            }
 
             if (type == ApiKey.ApplicationType.None)
             {
