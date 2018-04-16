@@ -51,9 +51,11 @@ namespace WebAPI.API.Commands.Geocode
             }
 
             // get best match from candidates
-            var result = Candidates.FirstOrDefault(x => 
-                x.Score >= GeocodeOptions.AcceptScore &&
-                GeocodedAddress.AddressGrids.Select(y => y.Grid).Contains(x.AddressGrid)) ?? new Candidate();
+            var result = Candidates.FirstOrDefault(x =>
+                                                       x.Score >= GeocodeOptions.AcceptScore &&
+                                                       GeocodedAddress
+                                                           .AddressGrids.Select(y => y.Grid.ToUpper())
+                                                           .Contains(x.AddressGrid.ToUpper())) ?? new Candidate();
 
             // remove the result from the candidate list if it meets the accept score since it is the match address
             if (GeocodeOptions.SuggestCount > 0 && result.Score >= GeocodeOptions.AcceptScore)
