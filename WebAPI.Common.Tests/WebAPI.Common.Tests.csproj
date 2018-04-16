@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="Extensions\QueryStringTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ApiKeyProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\packages\RavenDB.Database.3.5.3\tools\Raven.Studio.Html5.zip">
