@@ -10,7 +10,8 @@ namespace WebAPI.API.Commands.Geocode
 {
     public class ChooseBestAddressCandidateCommand : Command<GeocodeAddressResult>
     {
-        public ChooseBestAddressCandidateCommand(IEnumerable<Candidate> candidates, GeocodeOptions geocodeOptions, string street, string zone, GeocodeAddress geocodedAddress)
+        public ChooseBestAddressCandidateCommand(IEnumerable<Candidate> candidates, GeocodeOptions geocodeOptions,
+                                                 string street, string zone, GeocodeAddress geocodedAddress)
         {
             GeocodeOptions = geocodeOptions;
             Street = street;
@@ -35,17 +36,17 @@ namespace WebAPI.API.Commands.Geocode
         public string Street { get; set; }
         public string Zone { get; set; }
         public GeocodeAddress GeocodedAddress { get; set; }
-        private List<Candidate> Candidates { get; set; }
+        private List<Candidate> Candidates { get; }
 
         protected override void Execute()
         {
             if (Candidates == null || !Candidates.Any())
             {
                 Result = new GeocodeAddressResult
-                    {
-                        InputAddress = string.Format("{0}, {1}", Street, Zone),
-                        Score = -1
-                    };
+                {
+                    InputAddress = $"{Street}, {Zone}",
+                    Score = -1
+                };
 
                 return;
             }
@@ -73,7 +74,7 @@ namespace WebAPI.API.Commands.Geocode
                     // calculate score with next item in array
                     result.ScoreDifference = result.Score - Candidates.First().Score;
                 }
-                
+
                 Candidates.Clear();
             }
 
@@ -90,7 +91,7 @@ namespace WebAPI.API.Commands.Geocode
                 Locator = result.Locator,
                 Location = result.Location,
                 AddressGrid = result.AddressGrid,
-                InputAddress = string.Format("{0}, {1}", Street, Zone),
+                InputAddress = $"{Street}, {Zone}",
                 Candidates = Candidates.Take(GeocodeOptions.SuggestCount).ToArray(),
                 ScoreDifference = result.ScoreDifference
             };
@@ -102,14 +103,13 @@ namespace WebAPI.API.Commands.Geocode
             {
                 model.StandardizedAddress = standard;
             }
-            
+
             Result = model;
         }
 
         public override string ToString()
         {
-            return string.Format("{0}, GeocodeOptions: {1}, Candidates: {2}", "ChooseWinnerCommand2", GeocodeOptions,
-                                 Candidates.Count);
+            return $"ChooseWinnerCommand2, GeocodeOptions: {GeocodeOptions}, Candidates: {Candidates.Count}";
         }
     }
 }
