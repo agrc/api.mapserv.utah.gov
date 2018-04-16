@@ -15,7 +15,7 @@ namespace WebAPI.Common.Providers
 
                 if (!string.IsNullOrEmpty(key))
                 {
-                    return key;
+                    return key.Trim();
                 }
             }
             catch
@@ -28,7 +28,7 @@ namespace WebAPI.Common.Providers
 
                 if (formData.AllKeys.Contains("apikey") && !string.IsNullOrEmpty(formData.Get("apikey")))
                 {
-                    return formData.Get("apikey");
+                    return formData.Get("apikey").Trim();
                 }
             }
             catch
