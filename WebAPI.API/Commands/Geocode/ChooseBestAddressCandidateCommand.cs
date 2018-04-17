@@ -52,11 +52,10 @@ namespace WebAPI.API.Commands.Geocode
             }
 
             // get best match from candidates
-            var result = Candidates.FirstOrDefault(x =>
-                                                       x.Score >= GeocodeOptions.AcceptScore &&
-                                                       GeocodedAddress
-                                                           .AddressGrids.Select(y => y.Grid.ToUpper())
-                                                           .Contains(x.AddressGrid.ToUpper())) ?? new Candidate();
+            var result = Candidates.FirstOrDefault(x => x.Score >= GeocodeOptions.AcceptScore &&
+                                                        GeocodedAddress
+                                                            .AddressGrids.Select(y => y?.Grid?.ToUpper())
+                                                            .Contains(x.AddressGrid?.ToUpper())) ?? new Candidate();
 
             // remove the result from the candidate list if it meets the accept score since it is the match address
             if (GeocodeOptions.SuggestCount > 0 && result.Score >= GeocodeOptions.AcceptScore)
@@ -109,7 +108,7 @@ namespace WebAPI.API.Commands.Geocode
 
         public override string ToString()
         {
-            return $"ChooseWinnerCommand2, GeocodeOptions: {GeocodeOptions}, Candidates: {Candidates.Count}";
+            return $"ChooseBestAddressCandidateCommand, GeocodeOptions: {GeocodeOptions}, Candidates: {Candidates.Count}";
         }
     }
 }

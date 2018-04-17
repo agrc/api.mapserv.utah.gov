@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WebAPI.API.Commands.Geocode;
 using WebAPI.Domain;
@@ -71,7 +72,7 @@ namespace WebAPI.API.Tests.Commands
             command.Run();
             var match = command.Result;
 
-            Assert.That(match.ScoreDifference, Is.EqualTo(100 - 90.87));
+            Assert.That(Math.Round(match.ScoreDifference), Is.EqualTo(Math.Round(100 - 90.87)));
         }
 
         [Test]
@@ -111,7 +112,7 @@ namespace WebAPI.API.Tests.Commands
             command.Run();
             var match = command.Result;
 
-            Assert.That(match.ScoreDifference, Is.EqualTo(0));
+            Assert.That(match.ScoreDifference, Is.EqualTo(-1));
         }
 
         [Test]
@@ -160,6 +161,95 @@ namespace WebAPI.API.Tests.Commands
 
             Assert.That(match.Score, Is.EqualTo(100));
             Assert.That(match.Candidates.Length, Is.EqualTo(1));
+            Assert.That(match.ScoreDifference, Is.EqualTo(-1));
+        }
+
+        [Test]
+        public void ComparesCaseInsensitive()
+        {
+            var candidates = new List<Candidate>
+            {
+                new Candidate
+                {
+                    Address = "top match",
+                    Score = 100,
+                    Weight = 0,
+                    AddressGrid = "grid",
+                    Location = new Location(0, 0)
+                },
+                new Candidate
+                {
+                    Address = "top suggestion",
+                    Score = 90.87,
+                    Weight = 0,
+                    AddressGrid = "GRID"
+                }
+            };
+
+            var options = new GeocodeOptions();
+
+            var address = new GeocodeAddress(new CleansedAddress("", 0, 0, 0, Direction.None, "", StreetType.None, Direction.None, 0, 0, false, false))
+            {
+                AddressGrids = new List<GridLinkable>
+                {
+                    new PlaceGridLink("City", "GrId", 0)
+                }
+            };
+
+            var command = new ChooseBestAddressCandidateCommand(candidates,
+                                                                options,
+                                                                "top match",
+                                                                "test",
+                                                                address);
+
+            command.Run();
+            var match = command.Result;
+
+            Assert.That(match.Score, Is.EqualTo(100));
+        }
+
+        [Test]
+        public void IgnoresNoGrid()
+        {
+            var candidates = new List<Candidate>
+            {
+                new Candidate
+                {
+                    Address = "top match",
+                    Score = 100,
+                    Weight = 0,
+                    Location = new Location(0, 0)
+                },
+                new Candidate
+                {
+                    Address = "top suggestion",
+                    Score = 90.87,
+                    Weight = 0,
+                    AddressGrid = "GRID",
+                    Location = new Location(0, 0)
+                }
+            };
+
+            var options = new GeocodeOptions();
+
+            var address = new GeocodeAddress(new CleansedAddress("", 0, 0, 0, Direction.None, "", StreetType.None, Direction.None, 0, 0, false, false))
+            {
+                AddressGrids = new List<GridLinkable>
+                {
+                    new PlaceGridLink("City", "GrId", 0)
+                }
+            };
+
+            var command = new ChooseBestAddressCandidateCommand(candidates,
+                                                                options,
+                                                                "top match",
+                                                                "test",
+                                                                address);
+
+            command.Run();
+            var match = command.Result;
+
+            Assert.That(match.Score, Is.EqualTo(90.87));
         }
     }
 }
