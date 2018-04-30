@@ -30,8 +30,8 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
             var account = Account;
             if (account.KeyQuota.KeysAllowed - account.KeyQuota.KeysUsed <= 0)
             {
-                ErrorMessage =
-                    "You have reached the API key quota. Please delete or deactivate keys that aren't in use or contact AGRC to increase your quota.";
+                ErrorMessage = "You have reached the API key quota. Please delete or deactivate keys " +
+                               "that aren't in use or contact AGRC to increase your quota.";
 
                 return RedirectToAction("Index", "KeyManagement");
             }
@@ -46,8 +46,8 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
 
             if (account.KeyQuota.KeysAllowed - account.KeyQuota.KeysUsed <= 0)
             {
-                ErrorMessage =
-                    "You have reached the API key quota. Please delete or deactivate keys that aren't in use or contact AGRC to increase your quota.";
+                ErrorMessage = "You have reached the API key quota. Please delete or deactivate keys that " +
+                               "aren't in use or contact AGRC to increase your quota.";
 
                 return RedirectToAction("Index", "KeyManagement");
             }

@@ -16,6 +16,8 @@ namespace WebAPI.Dashboard.Commands.Key
         private static readonly Regex UrlValidate =
             new Regex(@"\*?[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\,\'/\\\~])*\*?$");
 
+        private static readonly Regex SubDomainValidate = new Regex("^[a-z][a-z0-9-]*");
+
         public ValidateAndGetKeyTypeCommand(ApiKeyData data)
         {
             Data = data;
@@ -37,7 +39,23 @@ namespace WebAPI.Dashboard.Commands.Key
                 return;
             }
 
-            throw new CommandValidationException("UrlPattern and IP are empty. Please fill out one when trying to create an API key.");
+            if (!string.IsNullOrEmpty(Data.AgolOrganization))
+            {
+                Result = ValidateOrganization();
+                return;
+            }
+
+            throw new CommandValidationException("Please fill out the key type information when creating an API key.");
+        }
+
+        private ApiKey.ApplicationType ValidateOrganization()
+        {
+            if (!SubDomainValidate.IsMatch(Data.AgolOrganization))
+            {
+                throw new CommandValidationException(" is not in the correct format.");
+            }
+
+            return ApiKey.ApplicationType.Browser;
         }
 
         private ApiKey.ApplicationType ValidateIp()
@@ -78,7 +96,7 @@ namespace WebAPI.Dashboard.Commands.Key
 
         public override string ToString()
         {
-            return string.Format("{0}, Data: {1}", "ValidateAndGetKeyTypeCommand", Data);
+            return $"{"ValidateAndGetKeyTypeCommand"}, Data: {Data}";
         }
     }
 }

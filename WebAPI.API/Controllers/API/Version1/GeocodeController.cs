@@ -521,8 +521,7 @@ namespace WebAPI.API.Controllers.API.Version1
                 spatialReference = wkidJson["latestWkid"];
             }
 
-            int wkid;
-            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out wkid);
+            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out int wkid);
 
             var response = Get(address.Street, address.Zone, new GeocodeOptions
             {
