@@ -49,7 +49,7 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
 
                 Message =
                     "You haven't created any API keys yet. To start using the web API " +
-                    string.Format("click <a href='{0}'>Generate</a>.", href);
+                    $"click <a href='{href}'>Generate</a>.";
             }
 
             return View(new MainViewModel(account)
@@ -72,28 +72,27 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
             {
                 return
                     new JsonNetResult(
-                        new JsonResponse<string>(string.Format("Key, {0}, was not found. {1}", key, ex.Message),
+                        new JsonResponse<string>($"Key, {key}, was not found. {ex.Message}",
                                                  HttpStatusCode.NotFound));
             } catch (InvalidOperationException ex)
             {
                 return
                     new JsonNetResult(
-                        new JsonResponse<string>(string.Format("Key, {0}, was not found. {1}", key, ex.Message),
+                        new JsonResponse<string>($"Key, {key}, was not found. {ex.Message}",
                                                  HttpStatusCode.NotFound));
             }
 
             if (apiKeyInfo == null)
             {
                 return
-                    new JsonNetResult(new JsonResponse<string>(string.Format("Key, {0}, was not found.", key),
+                    new JsonNetResult(new JsonResponse<string>($"Key, {key}, was not found.",
                                                                HttpStatusCode.NotFound));
             }
 
             if (apiKeyInfo.AccountId != account.Id)
             {
                 return
-                    new JsonNetResult(new JsonResponse<string>(
-                                          string.Format("Key, {0}, is owned by another user.", key),
+                    new JsonNetResult(new JsonResponse<string>($"Key, {key}, is owned by another user.",
                                           HttpStatusCode.Forbidden));
             }
 
@@ -118,28 +117,27 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
             {
                 return
                     new JsonNetResult(
-                        new JsonResponse<string>(string.Format("Key, {0}, was not found. {1}", key, ex.Message),
+                        new JsonResponse<string>($"Key, {key}, was not found. {ex.Message}",
                                                  HttpStatusCode.NotFound));
             } catch (InvalidOperationException ex)
             {
                 return
                     new JsonNetResult(
-                        new JsonResponse<string>(string.Format("Key, {0}, was not found. {1}", key, ex.Message),
+                        new JsonResponse<string>($"Key, {key}, was not found. {ex.Message}",
                                                  HttpStatusCode.NotFound));
             }
 
             if (apiKeyInfo == null)
             {
                 return
-                    new JsonNetResult(new JsonResponse<string>(string.Format("Key, {0}, was not found.", key),
+                    new JsonNetResult(new JsonResponse<string>($"Key, {key}, was not found.",
                                                                HttpStatusCode.NotFound));
             }
 
             if (apiKeyInfo.AccountId != account.Id)
             {
                 return
-                    new JsonNetResult(new JsonResponse<string>(
-                                          string.Format("Key, {0}, is owned by another user.", key),
+                    new JsonNetResult(new JsonResponse<string>($"Key, {key}, is owned by another user.",
                                           HttpStatusCode.Forbidden));
             }
 
@@ -173,28 +171,27 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
             {
                 return
                     new JsonNetResult(
-                        new JsonResponse<string>(string.Format("Key, {0}, was not found. {1}", key, ex.Message),
+                        new JsonResponse<string>($"Key, {key}, was not found. {ex.Message}",
                                                  HttpStatusCode.NotFound));
             } catch (InvalidOperationException ex)
             {
                 return
                     new JsonNetResult(
-                        new JsonResponse<string>(string.Format("Key, {0}, was not found. {1}", key, ex.Message),
+                        new JsonResponse<string>($"Key, {key}, was not found. {ex.Message}",
                                                  HttpStatusCode.NotFound));
             }
 
             if (apiKeyInfo == null)
             {
                 return
-                    new JsonNetResult(new JsonResponse<string>(string.Format("Key, {0}, was not found.", key),
+                    new JsonNetResult(new JsonResponse<string>($"Key, {key}, was not found.",
                                                                HttpStatusCode.NotFound));
             }
 
             if (apiKeyInfo.AccountId != account.Id)
             {
                 return
-                    new JsonNetResult(new JsonResponse<string>(
-                                          string.Format("Key, {0}, is owned by another user.", key),
+                    new JsonNetResult(new JsonResponse<string>($"Key, {key}, is owned by another user.",
                                           HttpStatusCode.Forbidden));
             }
 
