@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  api.mapserv.utah.gov:
+    image: ${DOCKER_REGISTRY}apimapservutahgov
+    build:
+      context: .
+      dockerfile: api.mapserv.utah.gov/Dockerfile
