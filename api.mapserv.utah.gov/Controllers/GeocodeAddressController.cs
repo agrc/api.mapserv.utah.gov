@@ -36,7 +36,7 @@ namespace api.mapserv.utah.gov.Controllers
 
         [HttpGet]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
-        public async Task<ObjectResult> Get(string street, string zone, GeocodingOptions options)
+        public async Task<ObjectResult> Get(string street, string zone, [FromQuery] GeocodingOptions options)
         {
             #region validation
 

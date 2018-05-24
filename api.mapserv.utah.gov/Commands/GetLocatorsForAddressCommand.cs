@@ -48,7 +48,7 @@ namespace api.mapserv.utah.gov.Commands
 
             foreach (var grid in Address.AddressGrids)
             {
-                AddressPermutations.Add(new GeocodeInput(Address, grid.Grid, grid.Weight, null, Options.WkId));
+                AddressPermutations.Add(new GeocodeInput(Address, grid.Grid, grid.Weight, null, Options.SpatialReference));
             }
         }
 

@@ -12,7 +12,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
             AcceptScore = 70;
             SuggestCount = 0;
             Locators = LocatorType.All;
-            WkId = 26912;
+            SpatialReference = 26912;
             PoBox = true;
             ScoreDifference = false;
         }
@@ -47,7 +47,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         /// <value>
         ///     The wkid.
         /// </value>
-        public int WkId { get; set; }
+        public int SpatialReference { get; set; }
 
         /// <summary>
         ///     Instructs the API to try to find the post office or delivery point for a post office address.
@@ -66,6 +66,6 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         /// </value>
         public bool ScoreDifference { get; set; }
 
-        public override string ToString() => $"AcceptScore: {AcceptScore}, SuggestCount: {SuggestCount}, JsonFormat: {JsonFormat}, Type: {Locators}";
+        public override string ToString() => $"AcceptScore: {AcceptScore}, SuggestCount: {SuggestCount}, JsonFormat: {Format}, Type: {Locators}, wkid: {SpatialReference} ";
     }
 }
