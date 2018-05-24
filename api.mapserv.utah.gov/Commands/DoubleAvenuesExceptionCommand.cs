@@ -76,10 +76,7 @@ namespace api.mapserv.utah.gov.Commands
           }
       }
 
-      public override string ToString()
-      {
-          return $"DoubleAvenuesExceptionCommand, zone: {_address.Zip5}, prefix: {_address.PrefixDirection}";
-      }
+      public override string ToString() => $"DoubleAvenuesExceptionCommand, zone: {_address.Zip5}, prefix: {_address.PrefixDirection}";
 
       protected override void Execute()
       {
@@ -93,8 +90,8 @@ namespace api.mapserv.utah.gov.Commands
 
           // it's in the problem area in midvale
           const int midvale = 84047;
-          if (((!string.IsNullOrEmpty(_city) && _city.ToUpperInvariant().Contains("MIDVALE")) ||
-               (_address.Zip5.HasValue && _address.Zip5.Value == midvale)))
+          if (!string.IsNullOrEmpty(_city) && _city.ToUpperInvariant().Contains("MIDVALE") ||
+              _address.Zip5.HasValue && _address.Zip5.Value == midvale)
           {
               _address.PrefixDirection = Direction.West;
               Result = _address;
