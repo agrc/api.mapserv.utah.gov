@@ -55,12 +55,12 @@ namespace api.mapserv.utah.gov.Commands
                                                         .Contains(x.AddressGrid?.ToUpper())) ?? new Candidate();
 
         // remove the result from the candidate list if it meets the accept score since it is the match address
-        if (GeocodeOptions.SuggestCount > 0 && result.Score >= GeocodeOptions.AcceptScore)
+        if (GeocodeOptions.Suggest > 0 && result.Score >= GeocodeOptions.AcceptScore)
         {
             Candidates.Remove(result);
         }
 
-        if (GeocodeOptions.SuggestCount == 0)
+        if (GeocodeOptions.Suggest == 0)
         {
             if (GeocodeOptions.ScoreDifference && Candidates.Count >= 2)
             {
@@ -74,7 +74,7 @@ namespace api.mapserv.utah.gov.Commands
             Candidates.Clear();
         }
 
-        if (result.Location == null && GeocodeOptions.SuggestCount == 0)
+        if (result.Location == null && GeocodeOptions.Suggest == 0)
         {
             Result = null;
             return;
@@ -88,7 +88,7 @@ namespace api.mapserv.utah.gov.Commands
             Location = result.Location,
             AddressGrid = result.AddressGrid,
             InputAddress = $"{Street}, {Zone}",
-            Candidates = Candidates.Take(GeocodeOptions.SuggestCount).ToArray(),
+            Candidates = Candidates.Take(GeocodeOptions.Suggest).ToArray(),
             ScoreDifference = result.ScoreDifference
         };
 

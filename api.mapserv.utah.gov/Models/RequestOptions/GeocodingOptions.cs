@@ -10,7 +10,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         public GeocodingOptions()
         {
             AcceptScore = 70;
-            SuggestCount = 0;
+            Suggest = 0;
             Locators = LocatorType.All;
             SpatialReference = 26912;
             PoBox = true;
@@ -31,7 +31,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         /// <value>
         ///     The suggest count.
         /// </value>
-        public int SuggestCount { get; set; }
+        public int Suggest { get; set; }
 
         /// <summary>
         ///     Gets or sets the locators.
@@ -66,6 +66,6 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         /// </value>
         public bool ScoreDifference { get; set; }
 
-        public override string ToString() => $"AcceptScore: {AcceptScore}, SuggestCount: {SuggestCount}, JsonFormat: {Format}, Type: {Locators}, wkid: {SpatialReference} ";
+        public override string ToString() => $"AcceptScore: {AcceptScore}, SuggestCount: {Suggest}, JsonFormat: {Format}, Type: {Locators}, wkid: {SpatialReference} ";
     }
 }
