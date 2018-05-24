@@ -21,16 +21,19 @@ namespace api.mapserv.utah.gov.Controllers
         private readonly HttpClient _client;
         private readonly GetLocatorsForAddressCommand _getLocatorsForAddressCommand;
         private readonly LocatePoBoxCommand _poboxCommand;
+        private readonly UspsDeliveryPointCommand _deliveryPointCommand;
         private readonly ParseAddressCommand _parseAddressCommand;
         private readonly ParseZoneCommand _parseZoneCommand;
 
         public GeocodeAddressController(ParseAddressCommand parseAddressCommand, ParseZoneCommand parseZoneCommand,
-                                        GetLocatorsForAddressCommand locatorCommand, LocatePoBoxCommand poboxCommand, HttpClient client)
+                                        GetLocatorsForAddressCommand locatorCommand, LocatePoBoxCommand poboxCommand,
+                                        UspsDeliveryPointCommand deliveryPointCommand, HttpClient client)
         {
             _parseAddressCommand = parseAddressCommand;
             _parseZoneCommand = parseZoneCommand;
             _getLocatorsForAddressCommand = locatorCommand;
             _poboxCommand = poboxCommand;
+            _deliveryPointCommand = deliveryPointCommand;
             _client = client;
         }
 
@@ -107,8 +110,38 @@ namespace api.mapserv.utah.gov.Controllers
             }
 
             // TODO see if that address is a delivery point
+            _deliveryPointCommand.Initialize(parsedAddress, options);
+            var uspsPoint = await _deliveryPointCommand.Execute();
 
-            var topCandidates = new TopAddressCandidates(options.SuggestCount,
+            if (uspsPoint != null)
+            {
+                // TODO this is silly change it
+                var model = new GeocodeAddressApiResponse
+                {
+                    MatchAddress = uspsPoint.Address,
+                    Score = uspsPoint.Score,
+                    Locator = uspsPoint.Locator,
+                    Location = uspsPoint.Location,
+                    AddressGrid = uspsPoint.AddressGrid,
+                    InputAddress = $"{street}, {zone}",
+                    ScoreDifference = uspsPoint.ScoreDifference
+                };
+
+                var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
+                var input = street?.ToLowerInvariant();
+
+                if (input != standard)
+                {
+                    model.StandardizedAddress = standard;
+                }
+
+                return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
+                {
+                    Result = model
+                });
+            }
+
+            var topCandidates = new TopAddressCandidates(options.Suggest,
                                                          new CandidateComparer(parsedAddress.StandardizedAddress
                                                                                             .ToUpperInvariant()));
             _getLocatorsForAddressCommand.Initialize(parsedAddress, options);
