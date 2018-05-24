@@ -1,0 +1,57 @@
+{
+	"info": {
+		"_postman_id": "c204ae9e-c2bd-41b9-a4d8-a51363cb106e",
+		"name": "webapi-core",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "street zone empty street",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:57692/api/v1/geocode/ /zone",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "57692",
+					"path": [
+						"api",
+						"v1",
+						"geocode",
+						" ",
+						"zone"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "street zone geocode",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:57692/api/v1/geocode/326 east south temple st/84109",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "57692",
+					"path": [
+						"api",
+						"v1",
+						"geocode",
+						"326 east south temple st",
+						"84109"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

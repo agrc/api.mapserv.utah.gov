@@ -32,6 +32,7 @@ namespace api.mapserv.utah.gov.Commands
             if (string.IsNullOrEmpty(_zip))
             {
                 Result = null;
+
                 return;
             }
 

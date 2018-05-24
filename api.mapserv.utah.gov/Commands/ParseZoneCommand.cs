@@ -53,6 +53,7 @@ namespace api.mapserv.utah.gov.Commands
                 }
 
                 Result = CommandExecutor.ExecuteCommand(new DoubleAvenuesExceptionCommand(AddressModel, ""));
+
                 return;
             }
 
@@ -72,6 +73,7 @@ namespace api.mapserv.utah.gov.Commands
                 AddressModel.AddressGrids = CommandExecutor.ExecuteCommand(getAddressSystemFromCityCommand);
 
                 Result = CommandExecutor.ExecuteCommand(new DoubleAvenuesExceptionCommand(AddressModel, cityKey));
+
                 return;
             }
 

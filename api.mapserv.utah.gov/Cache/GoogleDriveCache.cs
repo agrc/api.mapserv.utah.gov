@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.Options;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
-using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Retry;
 
@@ -34,12 +32,6 @@ namespace api.mapserv.utah.gov.Cache
             _retryPolicy = Policy.Handle<Exception>()
                                  .WaitAndRetryForever(retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
-//            var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "client_secret.json");
-//            using (var stream = new FileStream(file, FileMode.Open, FileAccess.Read))
-//            {
-//                credential = GoogleCredential.FromStream(stream).CreateScoped(Scopes);
-//            }
-
             using (var service = new SheetsService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
@@ -49,7 +41,7 @@ namespace api.mapserv.utah.gov.Cache
             {
                 service.HttpClient.Timeout = TimeSpan.FromSeconds(30);
 
-                // Define request parameters.
+                // TODO make async
                 var places = GetCityPlaceNames(service, "1Dc77HLVn9YXgY1JkcqqaMh1Tm0cemwXxFfyHb7dP0Cs", "A2:C");
                 var zips = GetZipCodesInQuadrants(service, "1HX47abPQ24LqB8iUHu6HTSmTnbU1YN9WvxO6BDsHCLg", "A2:C");
                 var deliveryPoints = GetUspsDeliveryPoints(service, "1rgqNweBxiqWVwxTlMWgX-sN8IJguvlUcY0yOvmI8JuQ", "A2:H");

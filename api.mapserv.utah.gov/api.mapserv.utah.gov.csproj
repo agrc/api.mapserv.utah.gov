@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.33.1.1229" />
+    <PackageReference Include="Fastenshtein" Version="1.0.0.4" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.33.1.1236" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />

@@ -7,9 +7,6 @@ namespace api.mapserv.utah.gov.Models
       [JsonProperty(PropertyName = "candidates")]
       public virtual Candidate[] Candidates { get; set; }
 
-      public bool ShouldSerializeCandidates()
-      {
-          return Candidates?.Length > 0;
-      }
+      public bool ShouldSerializeCandidates() => Candidates?.Length > 0;
   }
 }

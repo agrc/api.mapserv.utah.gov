@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace api.mapserv.utah.gov.Models
@@ -9,7 +8,7 @@ namespace api.mapserv.utah.gov.Models
         private double _scoreDifference;
 
         [JsonProperty(PropertyName = "location")]
-        public Location Location { get; set; }
+        public Point Location { get; set; }
 
         [JsonProperty(PropertyName = "score")]
         public double Score { get; set; }
@@ -39,29 +38,14 @@ namespace api.mapserv.utah.gov.Models
         [JsonIgnore]
         public int Wkid { get; set; }
 
-        public bool ShouldSerializeLocation()
-        {
-            return (Score > 0);
-        }
+        public bool ShouldSerializeLocation() => Score > 0;
 
-        public bool ShouldSerializeScore()
-        {
-            return (Score > 0);
-        }
+        public bool ShouldSerializeScore() => Score > 0;
 
-        public bool ShouldSerializeMatchAddress()
-        {
-            return (Score > 0);
-        }
+        public bool ShouldSerializeMatchAddress() => Score > 0;
 
-        public bool ShouldSerializeLocator()
-        {
-            return (Score > 0);
-        }
+        public bool ShouldSerializeLocator() => Score > 0;
 
-        public bool ShouldSerializeScoreDifference()
-        {
-            return ScoreDifference > -1;
-        }
+        public bool ShouldSerializeScoreDifference() => ScoreDifference > -1;
     }
 }
