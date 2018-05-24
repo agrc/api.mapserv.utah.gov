@@ -19,9 +19,13 @@ namespace api.mapserv.utah.gov.Commands
             _abbreviations = abbreviations;
         }
 
-        public ParseAddressCommand(string street)
+        public void Initialize(string street)
         {
-            SetStreet(street);
+            street = street.Replace(".", "");
+            street = street.Replace(",", "");
+            street = street.Replace("_", " ");
+            Street = street;
+            OriginalStreet = Street;
         }
 
         public string Street { get; set; }
@@ -33,15 +37,6 @@ namespace api.mapserv.utah.gov.Commands
         public override string ToString()
         {
             return $"ParseAddressCommand, Street: {Street}, OriginalStreet: {OriginalStreet}, StandardStreet: {StandardStreet}";
-        }
-
-        public void SetStreet(string street)
-        {
-            street = street.Replace(".", "");
-            street = street.Replace(",", "");
-            street = street.Replace("_", " ");
-            Street = street;
-            OriginalStreet = Street;
         }
 
         protected override void Execute()

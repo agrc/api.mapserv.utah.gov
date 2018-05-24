@@ -59,9 +59,6 @@ namespace api.mapserv.utah.gov.Models
           }
       }
 
-      public override string ToString()
-      {
-          return string.Format("[Address] InputAddress: {0}, Zip5: {1}", InputAddress, Zip5);
-      }
-  }
+        public override string ToString() => $"[Address] InputAddress: {InputAddress}, Zip5: {Zip5}";
+    }
 }

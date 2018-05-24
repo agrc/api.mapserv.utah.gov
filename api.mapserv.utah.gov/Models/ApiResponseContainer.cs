@@ -10,10 +10,7 @@ namespace api.mapserv.utah.gov.Models
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
 
-        public bool ShouldSerializeMessage()
-        {
-            return !string.IsNullOrEmpty(Message);
-        }
+        public bool ShouldSerializeMessage() => !string.IsNullOrEmpty(Message);
     }
 
     public class ApiResponseContainer<T> : ApiResponseContainer where T : class

@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace api.mapserv.utah.gov.Models
@@ -28,7 +27,7 @@ namespace api.mapserv.utah.gov.Models
         }
 
         [JsonProperty(PropertyName = "location")]
-        public Location Location { get; set; }
+        public Point Location { get; set; }
 
         [JsonProperty(PropertyName = "score")]
         public double Score { get; set; }
@@ -44,14 +43,8 @@ namespace api.mapserv.utah.gov.Models
         [JsonIgnore]
         public int Weight { get; set; }
 
-        public override string ToString()
-        {
-            return $"address: {Address}, location: {Location}, score: {Score}, locator: {Locator}";
-        }
+        public override string ToString() => $"address: {Address}, location: {Location}, score: {Score}, locator: {Locator}";
 
-        public bool ShouldSerializeScoreDifference()
-        {
-            return false;
-        }
+        public bool ShouldSerializeScoreDifference() => false;
     }
 }
