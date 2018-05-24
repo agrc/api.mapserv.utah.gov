@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using api.mapserv.utah.gov.Models;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
@@ -21,9 +22,11 @@ namespace api.mapserv.utah.gov.Cache
 
         public Dictionary<string, List<GridLinkable>> UspsDeliveryPoints { get; set; }
 
-        public IEnumerable<PoBoxAddressCorrection> PoBoxExclusions { get; set; }
-
         public Dictionary<int, PoBoxAddress> PoBoxes { get; set; }
+
+        public IEnumerable<int> PoBoxZipCodesWithExclusions { get; set; }
+
+        public Dictionary<int, PoBoxAddressCorrection> PoBoxExclusions { get; set; }
 
         public GoogleDriveCache(GoogleCredential creds)
         {
@@ -51,8 +54,11 @@ namespace api.mapserv.utah.gov.Cache
                 PlaceGrids = BuildGridLinkableLookup(places);
                 ZipCodesGrids = BuildGridLinkableLookup(zips);
                 UspsDeliveryPoints = BuildGridLinkableLookup(deliveryPoints);
-                PoBoxExclusions = corrections;
                 PoBoxes = poboxes;
+
+                var exclusions = corrections.ToList();
+                PoBoxZipCodesWithExclusions = exclusions.Select(x => x.Zip).Distinct();
+                PoBoxExclusions = exclusions.ToDictionary(x => x.ZipPlusFour, y => y);
             }
         }
 

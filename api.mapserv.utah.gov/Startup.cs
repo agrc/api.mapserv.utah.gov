@@ -44,6 +44,7 @@ namespace api.mapserv.utah.gov
             });
 
             services.Configure<GisServerConfiguration>(Configuration);
+            services.Configure<GeometryServiceConfiguration>(Configuration);
 
             if (_env.IsStaging())
             {
@@ -95,6 +96,8 @@ namespace api.mapserv.utah.gov
             services.AddTransient<ParseAddressCommand, ParseAddressCommand>();
             services.AddTransient<ParseZoneCommand, ParseZoneCommand>();
             services.AddTransient<GetLocatorsForAddressCommand, GetLocatorsForAddressCommand>();
+            services.AddTransient<LocatePoBoxCommand, LocatePoBoxCommand>();
+            services.AddTransient<ReprojectPointsCommand, ReprojectPointsCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
