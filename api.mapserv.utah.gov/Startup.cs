@@ -97,6 +97,7 @@ namespace api.mapserv.utah.gov
             services.AddTransient<ParseZoneCommand, ParseZoneCommand>();
             services.AddTransient<GetLocatorsForAddressCommand, GetLocatorsForAddressCommand>();
             services.AddTransient<LocatePoBoxCommand, LocatePoBoxCommand>();
+            services.AddTransient<UspsDeliveryPointCommand, UspsDeliveryPointCommand>();
             services.AddTransient<ReprojectPointsCommand, ReprojectPointsCommand>();
         }
 
