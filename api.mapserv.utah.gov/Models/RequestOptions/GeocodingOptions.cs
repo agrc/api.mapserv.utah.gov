@@ -13,7 +13,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
             SuggestCount = 0;
             Locators = LocatorType.All;
             WkId = 26912;
-            PoBox = false;
+            PoBox = true;
             ScoreDifference = false;
         }
 

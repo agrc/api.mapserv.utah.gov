@@ -7,7 +7,8 @@ namespace api.mapserv.utah.gov.Cache
     {
         Dictionary<string, List<GridLinkable>> PlaceGrids { get; set; }
         Dictionary<int, PoBoxAddress> PoBoxes { get; set; }
-        IEnumerable<PoBoxAddressCorrection> PoBoxExclusions { get; set; }
+        IEnumerable<int> PoBoxZipCodesWithExclusions { get; set; }
+        Dictionary<int, PoBoxAddressCorrection> PoBoxExclusions { get; set; }
         Dictionary<string, List<GridLinkable>> UspsDeliveryPoints { get; set; }
         Dictionary<string, List<GridLinkable>> ZipCodesGrids { get; set; }
     }

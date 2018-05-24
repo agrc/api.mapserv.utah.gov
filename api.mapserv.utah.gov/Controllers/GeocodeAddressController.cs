@@ -16,20 +16,24 @@ namespace api.mapserv.utah.gov.Controllers
 {
     [ApiVersion("1.0")]
     [Produces("application/json")]
-    public class GeocodeController : Controller
+    public class GeocodeAddressController : Controller
     {
+        private readonly HttpClient _client;
+        private readonly GetLocatorsForAddressCommand _getLocatorsForAddressCommand;
+        private readonly LocatePoBoxCommand _poboxCommand;
         private readonly ParseAddressCommand _parseAddressCommand;
         private readonly ParseZoneCommand _parseZoneCommand;
-        private readonly GetLocatorsForAddressCommand _getLocatorsForAddressCommand;
-        private readonly HttpClient _client;
 
-        public GeocodeController(ParseAddressCommand parseAddressCommand, ParseZoneCommand parseZoneCommand, GetLocatorsForAddressCommand locatorCommand, HttpClient client)
+        public GeocodeAddressController(ParseAddressCommand parseAddressCommand, ParseZoneCommand parseZoneCommand,
+                                        GetLocatorsForAddressCommand locatorCommand, LocatePoBoxCommand poboxCommand, HttpClient client)
         {
             _parseAddressCommand = parseAddressCommand;
             _parseZoneCommand = parseZoneCommand;
             _getLocatorsForAddressCommand = locatorCommand;
+            _poboxCommand = poboxCommand;
             _client = client;
         }
+
         [HttpGet]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
         public async Task<ObjectResult> Get(string street, string zone, GeocodingOptions options)
@@ -49,15 +53,16 @@ namespace api.mapserv.utah.gov.Controllers
 
             if (errors.Length > 0)
             {
-               return BadRequest(new ApiResponseContainer<GeocodeAddressApiResponse>
-               {
-                   Status = (int)HttpStatusCode.BadRequest,
-                   Message = errors
-               });
+                return BadRequest(new ApiResponseContainer<GeocodeAddressApiResponse>
+                {
+                    Status = (int) HttpStatusCode.BadRequest,
+                    Message = errors
+                });
             }
 
             street = street?.Trim();
             zone = zone?.Trim();
+
             #endregion
 
             _parseAddressCommand.Initialize(street);
@@ -68,15 +73,44 @@ namespace api.mapserv.utah.gov.Controllers
 
             if (options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue)
             {
+                _poboxCommand.Initialize(parsedAddress, options);
+                var result = await _poboxCommand.Execute();
+
+                if (result != null)
+                {
+                    // TODO this is silly change it
+                    var model = new GeocodeAddressApiResponse
+                    {
+                        MatchAddress = result.Address,
+                        Score = result.Score,
+                        Locator = result.Locator,
+                        Location = result.Location,
+                        AddressGrid = result.AddressGrid,
+                        InputAddress = $"{street}, {zone}",
+                        ScoreDifference = result.ScoreDifference
+                    };
+
+                    var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
+                    var input = street?.ToLowerInvariant();
+
+                    if (input != standard)
+                    {
+                        model.StandardizedAddress = standard;
+                    }
+
+                    return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
+                    {
+                        Result = model
+                    });
+                }
                 // TODO geocode pobox
-                return Ok("PoBox");
             }
 
             // TODO see if that address is a delivery point
 
             var topCandidates = new TopAddressCandidates(options.SuggestCount,
-                                                      new CandidateComparer(parsedAddress.StandardizedAddress
-                                                                                   .ToUpperInvariant()));
+                                                         new CandidateComparer(parsedAddress.StandardizedAddress
+                                                                                            .ToUpperInvariant()));
             _getLocatorsForAddressCommand.Initialize(parsedAddress, options);
             var locators = CommandExecutor.ExecuteCommand(_getLocatorsForAddressCommand);
 
@@ -128,8 +162,8 @@ namespace api.mapserv.utah.gov.Controllers
                 return NotFound(new ApiResponseContainer
                 {
                     Message = $"No address candidates found with a score of {options.AcceptScore} or better.",
-                    Status = (int)HttpStatusCode.NotFound
-                }); 
+                    Status = (int) HttpStatusCode.NotFound
+                });
             }
 
             if (winner.Location == null)
@@ -138,7 +172,7 @@ namespace api.mapserv.utah.gov.Controllers
 //                            options.AcceptScore);
             }
 
-            winner.Wkid = options.WkId;
+            winner.Wkid = options.SpatialReference;
 
             return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
             {
