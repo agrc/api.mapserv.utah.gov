@@ -52,6 +52,139 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "pobox - post office point",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:57692/api/v1/geocode/pobox 123/84109",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "57692",
+					"path": [
+						"api",
+						"v1",
+						"geocode",
+						"pobox 123",
+						"84109"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pobox - post office point exlusion",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:57692/api/v1/geocode/pobox 1313/84716",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "57692",
+					"path": [
+						"api",
+						"v1",
+						"geocode",
+						"pobox 1313",
+						"84716"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "street zone - model binding",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:57692/api/v1/geocode/326 east south temple st/slc?pobox=false&acceptscore=89&spatialReference=3857&locators=RoadCenterlines&suggest=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "57692",
+					"path": [
+						"api",
+						"v1",
+						"geocode",
+						"326 east south temple st",
+						"slc"
+					],
+					"query": [
+						{
+							"key": "pobox",
+							"value": "false"
+						},
+						{
+							"key": "acceptscore",
+							"value": "89"
+						},
+						{
+							"key": "spatialReference",
+							"value": "3857"
+						},
+						{
+							"key": "locators",
+							"value": "RoadCenterlines"
+						},
+						{
+							"key": "suggest",
+							"value": "2"
+						},
+						{
+							"key": "scoreDifference",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "suggest",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "format",
+							"value": "esrijson",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "usps delivery point",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:57692/api/v1/geocode/326 east south temple st/84114",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "57692",
+					"path": [
+						"api",
+						"v1",
+						"geocode",
+						"326 east south temple st",
+						"84114"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
