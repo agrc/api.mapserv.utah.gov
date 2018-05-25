@@ -3,7 +3,9 @@ using System.Net;
 using System.Net.Http;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Commands;
+using api.mapserv.utah.gov.Middleware;
 using api.mapserv.utah.gov.Models.SecretOptions;
+using api.mapserv.utah.gov.Services;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,8 +35,10 @@ namespace api.mapserv.utah.gov
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddMvc()
-                .AddJsonOptions(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
+                    .AddJsonOptions(options => options.SerializerSettings.NullValueHandling =
+                                        NullValueHandling.Ignore);
 
             services.AddApiVersioning(x =>
             {
@@ -45,6 +49,11 @@ namespace api.mapserv.utah.gov
 
             services.Configure<GisServerConfiguration>(Configuration);
             services.Configure<GeometryServiceConfiguration>(Configuration);
+
+            if (_env.IsDevelopment())
+            {
+                services.AddSingleton<IApiKeyRepository, PostmanApiKeyRepository>();
+            }
 
             if (_env.IsStaging())
             {
@@ -85,13 +94,15 @@ namespace api.mapserv.utah.gov
 
                 return new HttpClient(httpClientHandler)
                 {
-                    Timeout = new TimeSpan(0, 0, 60)
+                    Timeout = new TimeSpan(0, 0, 15)
                 };
             });
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
             services.AddSingleton<IGoogleDriveCache, GoogleDriveCache>();
+            services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
+            services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
 
             services.AddTransient<ParseAddressCommand, ParseAddressCommand>();
             services.AddTransient<ParseZoneCommand, ParseZoneCommand>();
@@ -108,7 +119,8 @@ namespace api.mapserv.utah.gov
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
+            app.UseApiKeyAuthorization();
             app.UseMvc();
         }
     }
