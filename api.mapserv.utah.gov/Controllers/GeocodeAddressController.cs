@@ -106,10 +106,8 @@ namespace api.mapserv.utah.gov.Controllers
                         Result = model
                     });
                 }
-                // TODO geocode pobox
             }
 
-            // TODO see if that address is a delivery point
             _deliveryPointCommand.Initialize(parsedAddress, options);
             var uspsPoint = await _deliveryPointCommand.Execute();
 
@@ -183,9 +181,9 @@ namespace api.mapserv.utah.gov.Controllers
 
             var highestScores = topCandidates.Get();
 
-            var winner =
-                CommandExecutor.ExecuteCommand(new ChooseBestAddressCandidateCommand(highestScores, options, street,
-                                                                                     zone, parsedAddress));
+            var chooseBestAddressCandidateCommand = new ChooseBestAddressCandidateCommand(highestScores, options, street,
+                                                                                          zone, parsedAddress);
+            var winner = CommandExecutor.ExecuteCommand(chooseBestAddressCandidateCommand);
 
             if (winner == null || winner.Score < 0)
             {
