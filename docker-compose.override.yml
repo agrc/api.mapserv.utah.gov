@@ -1,14 +1,14 @@
 version: '3.4'
 
 services:
-  api.mapserv.utah.gov:
+  webapi-core:
     links:
       - postgres
       - redis
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "1337:80"
+      - "1337:1337"
   postgres:
     environment:
       - POSTGRES_DB=webapi
