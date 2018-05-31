@@ -1,6 +1,6 @@
 FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
 WORKDIR /app
-ENV ASPNETCORE_URLS=http://[::]:1337
+ENV ASPNETCORE_URLS=http://+:1337
 EXPOSE 1337
 
 FROM microsoft/dotnet:2.1-sdk AS build
