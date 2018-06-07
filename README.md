@@ -18,4 +18,4 @@ _with container running_
 ### View database tables
 _with container running_
 
-- `docker exec -it $(docker-compose ps -q postgres ) psql -Upostgres -d webapi -c '\z'`
+- `docker exec -it $(docker-compose ps -q postgres ) psql -Upostgres -d webapi -c '\z'` // displays tables
