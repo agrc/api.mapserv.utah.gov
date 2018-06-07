@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.6'
 
 services:
   webapi-core:
@@ -15,8 +15,10 @@ services:
       - POSTGRES_DB=webapi
       - POSTGRES_USER=postgres
     volumes:
-      - data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
 volumes:
-  data: ./pgdata
+  pgdata:
+    external: true
