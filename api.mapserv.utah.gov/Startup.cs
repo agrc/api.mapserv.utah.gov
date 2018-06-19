@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Commands;
-using api.mapserv.utah.gov.Middleware;
+using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models.SecretOptions;
 using api.mapserv.utah.gov.Services;
 using Google.Apis.Auth.OAuth2;
@@ -103,6 +103,7 @@ namespace api.mapserv.utah.gov
             services.AddSingleton<IGoogleDriveCache, GoogleDriveCache>();
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
+            services.AddSingleton<AuthorizeApiKeyFromRequest, AuthorizeApiKeyFromRequest>();
 
             services.AddTransient<ParseAddressCommand, ParseAddressCommand>();
             services.AddTransient<ParseZoneCommand, ParseZoneCommand>();
@@ -119,8 +120,7 @@ namespace api.mapserv.utah.gov
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            app.UseApiKeyAuthorization();
+
             app.UseMvc();
         }
     }
