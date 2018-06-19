@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Exceptions;
 using api.mapserv.utah.gov.Extensions;
+using api.mapserv.utah.gov.Formatters;
 using api.mapserv.utah.gov.Models;
 
 namespace api.mapserv.utah.gov.Commands
@@ -11,10 +13,15 @@ namespace api.mapserv.utah.gov.Commands
     public class GetAddressCandidatesCommand
     {
         private readonly HttpClient _client;
+        private readonly MediaTypeFormatter[] _mediaTypes;
 
         public GetAddressCandidatesCommand(HttpClient client)
         {
             _client = client;
+            _mediaTypes = new MediaTypeFormatter[]
+            {
+                new TextPlainResponseFormatter()
+            };
         }
 
         internal LocatorProperties LocatorDetails { get; set; }
@@ -26,13 +33,13 @@ namespace api.mapserv.utah.gov.Commands
 
         public async Task<IEnumerable<Candidate>> Execute()
         {
-//            Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
-// TODO create a polly policy for the locators
+            //            Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
+            // TODO create a polly policy for the locators
             var httpResponse = await _client.GetAsync(LocatorDetails.Url).ConfigureAwait(false);
 
             try
             {
-                var geocodeResponse = await httpResponse.Content.ReadAsAsync<LocatorResponse>().ConfigureAwait(false);
+                var geocodeResponse = await httpResponse.Content.ReadAsAsync<LocatorResponse>(_mediaTypes).ConfigureAwait(false);
 
                 return ProcessResult(geocodeResponse);
             }
@@ -48,7 +55,7 @@ namespace api.mapserv.utah.gov.Commands
         {
             if (response.Error != null && response.Error.Code == 500)
             {
-//                    Log.Fatal($"{LocatorDetails.Name} geocoder is not started.");
+                //                    Log.Fatal($"{LocatorDetails.Name} geocoder is not started.");
 
                 throw new GeocodingException($"{LocatorDetails.Name} geocoder is not started.");
             }
