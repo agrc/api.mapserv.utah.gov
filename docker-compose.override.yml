@@ -3,14 +3,14 @@ version: '3.6'
 services:
   webapi-core:
     links:
-      - postgres
-      - redis
+      - db
+      - cache
     environment:
       - ASPNETCORE_URLS=http://+:1337
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "1337:1337"
-  postgres:
+  db:
     environment:
       - POSTGRES_DB=webapi
       - POSTGRES_USER=postgres
