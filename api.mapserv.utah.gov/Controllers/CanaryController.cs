@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using api.mapserv.utah.gov.Models.SecretOptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Npgsql;
-
+using StackExchange.Redis;
 
 namespace api.mapserv.utah.gov.Controllers
 {
@@ -20,7 +21,16 @@ namespace api.mapserv.utah.gov.Controllers
 
         [HttpGet]
         [Route("api/v{version:apiVersion}/canary")]
-        public IActionResult Index()
+        public ObjectResult Index()
+        {
+            return Ok(new CanaryResult
+            {
+                Db = CheckDb(),
+                Cache = CheckCache()
+            });
+        }
+
+        private dynamic CheckDb()
         {
             var connString = $"Host=db;Username=postgres;Password={DbOptions.Value.DbPassword};Database=webapi";
 
@@ -41,10 +51,34 @@ namespace api.mapserv.utah.gov.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { Success = false, ex.Message, TimeSpan = stopWatch.ElapsedMilliseconds });
+                return new { Success = false, ex.Message, TimeSpan = stopWatch.ElapsedMilliseconds };
             }
 
-            return Json(new { Success = true, Time = stopWatch.ElapsedMilliseconds });
+            return new { Success = true, Time = stopWatch.ElapsedMilliseconds };
+        }
+
+        private static dynamic CheckCache() {
+            var stopWatch = Stopwatch.StartNew();
+            try
+            {
+                var redis = ConnectionMultiplexer.Connect("cache");
+                var db = redis.GetDatabase();
+
+                db.StringIncrement("canary");
+                db.StringGet("canary");
+            } catch (Exception ex){
+                return new { Success = false, ex.Message, TimeSpan = stopWatch.ElapsedMilliseconds };
+            }
+
+            return new { Success = true, Time = stopWatch.ElapsedMilliseconds };
+        }
+
+        public class CanaryResult
+        {
+            public dynamic Sql { get; set; }
+            public dynamic Cache { get; set; }
+            public dynamic Db { get; set; }
+            public Dictionary<string, dynamic> Locators { get; set; }
         }
     }
 }
