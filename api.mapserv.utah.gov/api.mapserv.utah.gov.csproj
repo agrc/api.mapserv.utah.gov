@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" PrivateAssets="All" />
     <PackageReference Include="Polly" Version="6.0.1" />
+    <PackageReference Include="Npgsql" Version="4.0.0" />
   </ItemGroup>
 
 </Project>
