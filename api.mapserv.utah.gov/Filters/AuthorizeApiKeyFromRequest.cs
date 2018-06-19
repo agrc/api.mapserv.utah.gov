@@ -6,31 +6,30 @@ using System.Threading.Tasks;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Middleware
+namespace api.mapserv.utah.gov.Filters
 {
-    public class AuthorizeApiKeyFromRequest
+    public class AuthorizeApiKeyFromRequest : IAsyncResourceFilter
     {
-        private const int BadRequest = (int) HttpStatusCode.BadRequest;
-        private readonly RequestDelegate _next;
+        private const int BadRequest = (int)HttpStatusCode.BadRequest;
         private readonly IApiKeyRepository _repo;
         private readonly IBrowserKeyProvider _apiKeyProvider;
         private readonly IServerIpProvider _serverIpProvider;
 
-        public AuthorizeApiKeyFromRequest(RequestDelegate next, IBrowserKeyProvider apiKeyProvider,
+        public AuthorizeApiKeyFromRequest(IBrowserKeyProvider apiKeyProvider,
                                           IServerIpProvider serverIpProvider, IApiKeyRepository repo)
         {
-            _next = next;
             _apiKeyProvider = apiKeyProvider;
             _serverIpProvider = serverIpProvider;
             _repo = repo;
-        }
+        } 
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next)
         {
-            var key = _apiKeyProvider.Get(context.Request);
+            var key = _apiKeyProvider.Get(context.HttpContext.Request);
 
             // key hasn't been created
             if (string.IsNullOrWhiteSpace(key))
@@ -42,10 +41,7 @@ namespace api.mapserv.utah.gov.Middleware
                         "Your API key is missing from your request. Add an `apikey={key}` to the request as a query string parameter."
                 };
 
-                context.Response.StatusCode = BadRequest;
-                context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(missingResponse));
+                context.Result = new BadRequestObjectResult(missingResponse);
 
                 return;
             }
@@ -62,10 +58,7 @@ namespace api.mapserv.utah.gov.Middleware
             // key hasn't been created
             if (apiKey == null)
             {
-                context.Response.StatusCode = BadRequest;
-                context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(badKeyResponse));
+                context.Result = new BadRequestObjectResult(badKeyResponse);
 
                 return;
             }
@@ -76,14 +69,11 @@ namespace api.mapserv.utah.gov.Middleware
 
             if (apiKey.Deleted || apiKey.ApiKeyStatus == ApiKey.KeyStatus.Disabled)
             {
-                context.Response.StatusCode = BadRequest;
-                context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(new ApiResponseContainer
+                context.Result = new BadRequestObjectResult(new ApiResponseContainer
                 {
                     Status = BadRequest,
                     Message = $"{key} is no longer active. It has been disabled or deleted by it's owner."
-                }));
+                });
 
                 return;
             }
@@ -92,26 +82,23 @@ namespace api.mapserv.utah.gov.Middleware
             {
                 var pattern = new Regex(apiKey.RegexPattern, RegexOptions.IgnoreCase);
 
-                if (!context.Request.Headers.TryGetValue("Referrer", out var referrer))
+                if (!context.HttpContext.Request.Headers.TryGetValue("Referrer", out var referrer))
                 {
-                    context.Request.Headers.TryGetValue("Referer", out referrer);
+                    context.HttpContext.Request.Headers.TryGetValue("Referer", out referrer);
                 }
 
-                var hasOrigin = context.Request.Headers.Where(x => x.Key == "Origin").ToList();
+                var hasOrigin = context.HttpContext.Request.Headers.Where(x => x.Key == "Origin").ToList();
 
                 if (string.IsNullOrEmpty(referrer.ToString()) && !hasOrigin.Any())
                 {
-                    context.Response.StatusCode = BadRequest;
-                    context.Response.ContentType = "application/json";
-
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new ApiResponseContainer
+                    context.Result = new BadRequestObjectResult(new ApiResponseContainer
                     {
                         Status = BadRequest,
                         Message =
                             "The http referrer header is missing. Turn off any security solutions that may remove this " +
                             "header to use this service. If you are trying to test your query add the referer header via a tool like postman " +
                             "or browse to api.mapserv.utah.gov and use the api explorer."
-                    }));
+                    });
 
                     return;
                 }
@@ -127,17 +114,14 @@ namespace api.mapserv.utah.gov.Middleware
                 if (apiKey.AppStatus == ApiKey.ApplicationStatus.Development &&
                     IsLocalDevelopment(new Uri(referrer.ToString()), corsOriginValue))
                 {
-                    await _next(context);
+                    await next();
 
                     return;
                 }
 
                 if (!ApiKeyPatternMatches(pattern, corsOriginValue, new Uri(referrer.ToString())))
                 {
-                    context.Response.StatusCode = BadRequest;
-                    context.Response.ContentType = "application/json";
-
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(badKeyResponse));
+                    context.Result = new BadRequestObjectResult(badKeyResponse);
 
                     return;
                 }
@@ -145,26 +129,23 @@ namespace api.mapserv.utah.gov.Middleware
             else
             {
                 var ip = apiKey.Pattern;
-                var userHostAddress = _serverIpProvider.Get(context.Request);
+                var userHostAddress = _serverIpProvider.Get(context.HttpContext.Request);
 
                 if (ip != userHostAddress)
                 {
-                    context.Response.StatusCode = BadRequest;
-                    context.Response.ContentType = "application/json";
-
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new ApiResponseContainer
+                    context.Result = new BadRequestObjectResult(new ApiResponseContainer
                     {
                         Status = BadRequest,
                         Message =
                             $"Your API key does match the pattern created in the developer console for key `{key}`. " +
                             $"The request is not originiating from `{userHostAddress}`"
-                    }));
+                    });
 
                     return;
                 }
             }
 
-            await _next(context);
+            await next();
         }
 
         private static bool ApiKeyPatternMatches(Regex pattern, string origin, Uri referrer)
@@ -198,12 +179,12 @@ namespace api.mapserv.utah.gov.Middleware
             var isLocalBasedOnReferrer = false;
             var isLocalBasedOnOrigin = false;
 
-            if (isReferrer && referrer.AbsoluteUri.StartsWith("http://localhost/"))
+            if (isReferrer && referrer.AbsoluteUri.StartsWith("http://localhost/", StringComparison.OrdinalIgnoreCase))
             {
                 isLocalBasedOnReferrer = true;
             }
 
-            if (isOrigin && origin.StartsWith("http://localhost/"))
+            if (isOrigin && origin.StartsWith("http://localhost/", StringComparison.OrdinalIgnoreCase))
             {
                 isLocalBasedOnOrigin = true;
             }
