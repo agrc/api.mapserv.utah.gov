@@ -20,7 +20,7 @@ namespace api.mapserv.utah.gov.Controllers
     [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
     public class GeocodeAddressController : Controller
     {
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _clientFactory;
         private readonly GetLocatorsForAddressCommand _getLocatorsForAddressCommand;
         private readonly LocatePoBoxCommand _poboxCommand;
         private readonly UspsDeliveryPointCommand _deliveryPointCommand;
@@ -29,14 +29,14 @@ namespace api.mapserv.utah.gov.Controllers
 
         public GeocodeAddressController(ParseAddressCommand parseAddressCommand, ParseZoneCommand parseZoneCommand,
                                         GetLocatorsForAddressCommand locatorCommand, LocatePoBoxCommand poboxCommand,
-                                        UspsDeliveryPointCommand deliveryPointCommand, HttpClient client)
+                                        UspsDeliveryPointCommand deliveryPointCommand, IHttpClientFactory clientFactory)
         {
             _parseAddressCommand = parseAddressCommand;
             _parseZoneCommand = parseZoneCommand;
             _getLocatorsForAddressCommand = locatorCommand;
             _poboxCommand = poboxCommand;
             _deliveryPointCommand = deliveryPointCommand;
-            _client = client;
+            _clientFactory = clientFactory;
         }
 
         [HttpGet]
@@ -159,7 +159,7 @@ namespace api.mapserv.utah.gov.Controllers
             var commandsToExecute = new ConcurrentQueue<GetAddressCandidatesCommand>();
             foreach (var locator in locators)
             {
-                var geocodeWithLocator = new GetAddressCandidatesCommand(_client);
+                var geocodeWithLocator = new GetAddressCandidatesCommand(_clientFactory);
                 geocodeWithLocator.Initialize(locator);
 
                 commandsToExecute.Enqueue(geocodeWithLocator);
