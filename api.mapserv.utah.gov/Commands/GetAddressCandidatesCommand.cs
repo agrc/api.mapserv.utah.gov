@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Exceptions;
-using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Formatters;
 using api.mapserv.utah.gov.Models;
 
@@ -12,12 +11,12 @@ namespace api.mapserv.utah.gov.Commands
 {
     public class GetAddressCandidatesCommand
     {
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _clientFactory;
         private readonly MediaTypeFormatter[] _mediaTypes;
 
-        public GetAddressCandidatesCommand(HttpClient client)
+        public GetAddressCandidatesCommand(IHttpClientFactory clientFactory)
         {
-            _client = client;
+            _clientFactory = clientFactory;
             _mediaTypes = new MediaTypeFormatter[]
             {
                 new TextPlainResponseFormatter()
@@ -35,7 +34,8 @@ namespace api.mapserv.utah.gov.Commands
         {
             //            Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
             // TODO create a polly policy for the locators
-            var httpResponse = await _client.GetAsync(LocatorDetails.Url).ConfigureAwait(false);
+            var client = _clientFactory.CreateClient("default");
+            var httpResponse = await client.GetAsync(LocatorDetails.Url).ConfigureAwait(false);
 
             try
             {

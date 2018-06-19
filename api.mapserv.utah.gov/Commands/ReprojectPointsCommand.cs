@@ -11,14 +11,14 @@ namespace api.mapserv.utah.gov.Commands
 {
     public class ReprojectPointsCommand
     {
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _clientFactory;
         private readonly IOptions<GeometryServiceConfiguration> _geometryServiceConfiguration;
 
         public ReprojectPointsCommand(IOptions<GeometryServiceConfiguration> geometryServiceConfiguration,
-                                      HttpClient client)
+                                      IHttpClientFactory clientFactory)
         {
             _geometryServiceConfiguration = geometryServiceConfiguration;
-            _client = client;
+            _clientFactory = clientFactory;
         }
 
         public PointProjectQueryArgs Args { get; set; }
@@ -50,8 +50,10 @@ namespace api.mapserv.utah.gov.Commands
 
         public async Task<PointReprojectResponse> Execute()
         {
+            var client = _clientFactory.CreateClient("default");
+
             var requestUri = string.Format(ReprojectUrl, Args.ToQueryString());
-            var response = await _client.GetAsync(requestUri);
+            var response = await client.GetAsync(requestUri);
             var result = await response.Content.ReadAsAsync<PointReprojectResponse>();
 
             return result;
