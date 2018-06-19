@@ -7,7 +7,7 @@ services:
       - cache
     environment:
       - ASPNETCORE_URLS=http://+:1337
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
     ports:
       - "1337:1337"
   db:
