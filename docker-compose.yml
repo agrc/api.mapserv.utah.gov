@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: api.mapserv.utah.gov/Dockerfile
-  postgres:
+  db:
     image: postgres:10.4
-  redis:
+  cache:
     image: redis:latest
