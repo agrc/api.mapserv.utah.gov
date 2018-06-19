@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace api.mapserv.utah.gov.Middleware
+namespace api.mapserv.utah.gov.Filters
 {
     public interface IKeyProvider
     {
