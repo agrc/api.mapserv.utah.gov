@@ -259,3 +259,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+api.mapserv.utah.gov/appsettings.DockerDevelopment.json
