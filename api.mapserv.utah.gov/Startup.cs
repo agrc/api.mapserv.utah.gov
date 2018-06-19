@@ -1,11 +1,6 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Commands;
-using api.mapserv.utah.gov.Filters;
-using api.mapserv.utah.gov.Models.SecretOptions;
+﻿using api.mapserv.utah.gov.Models.SecretOptions;
 using api.mapserv.utah.gov.Services;
+using api.mapserv.utah.gov.Extensions;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,27 +42,14 @@ namespace api.mapserv.utah.gov
                 x.DefaultApiVersion = new ApiVersion(1, 0);
             });
 
-            services.Configure<GisServerConfiguration>(Configuration);
-            services.Configure<GeometryServiceConfiguration>(Configuration);
+            services.UseOptions(Configuration);
+
+            _log.LogWarning("Configuration: {0}", _env.EnvironmentName);
 
             if (_env.IsDevelopment())
             {
+                _log.LogWarning("Getting credentials from secret manager");
                 services.AddSingleton<IApiKeyRepository, PostmanApiKeyRepository>();
-            }
-
-            if (_env.IsStaging())
-            {
-                services.AddSingleton<GoogleCredential>(serviceProvider =>
-                {
-                    _log.LogWarning("Getting credentials from appsecrets");
-                    var secret = Configuration["json"].ToString();
-
-                    return GoogleCredential.FromJson(secret);
-                });
-            }
-            else
-            {
-                _log.LogWarning("Getting credentials from secrets");
                 services.Configure<GoogleCredentialConfiguration>(Configuration);
 
                 services.AddSingleton<GoogleCredential>(serviceProvider =>
@@ -78,45 +60,36 @@ namespace api.mapserv.utah.gov
                 });
             }
 
-// TODO add when out of preview (2.1)
-//            services.AddHttpClient("SomeCustomAPI", client =>
-//            {
-//                client.BaseAddress = new Uri("locator url");
-//            });            services.AddSingleton<IRegexCache, RegexCache>();
-
-            services.AddSingleton<HttpClient>(serviceProvider =>
+            if (_env.IsEnvironment("DockerDevelopment"))
             {
-                var httpClientHandler = new HttpClientHandler();
-                if (httpClientHandler.SupportsAutomaticDecompression)
+                _log.LogWarning("Getting credentials from appsecrets");
+                services.AddSingleton<IApiKeyRepository, PostmanApiKeyRepository>();
+                services.AddSingleton<GoogleCredential>(serviceProvider =>
                 {
-                    httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                }
+                    var secret = Configuration["json"];
 
-                return new HttpClient(httpClientHandler)
+                    return GoogleCredential.FromJson(secret);
+                });
+            }
+
+            if (_env.IsStaging())
+            {
+                services.AddSingleton<GoogleCredential>(serviceProvider =>
                 {
-                    Timeout = new TimeSpan(0, 0, 15)
-                };
-            });
+                    _log.LogWarning("Getting credentials from appsecrets");
+                    var secret = Configuration["json"];
 
-            services.AddSingleton<IAbbreviations, Abbreviations>();
-            services.AddSingleton<IRegexCache, RegexCache>();
-            services.AddSingleton<IGoogleDriveCache, GoogleDriveCache>();
-            services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
-            services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
-            services.AddSingleton<AuthorizeApiKeyFromRequest, AuthorizeApiKeyFromRequest>();
+                    return GoogleCredential.FromJson(secret);
+                });
+            }
 
-            services.AddTransient<ParseAddressCommand, ParseAddressCommand>();
-            services.AddTransient<ParseZoneCommand, ParseZoneCommand>();
-            services.AddTransient<GetLocatorsForAddressCommand, GetLocatorsForAddressCommand>();
-            services.AddTransient<LocatePoBoxCommand, LocatePoBoxCommand>();
-            services.AddTransient<UspsDeliveryPointCommand, UspsDeliveryPointCommand>();
-            services.AddTransient<ReprojectPointsCommand, ReprojectPointsCommand>();
+            services.UseDi();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsEnvironment("DockerDevelopment"))
             {
                 app.UseDeveloperExceptionPage();
             }
