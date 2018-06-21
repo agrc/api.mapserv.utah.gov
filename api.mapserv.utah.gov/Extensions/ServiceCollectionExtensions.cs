@@ -25,6 +25,7 @@ namespace api.mapserv.utah.gov.Extensions
                 //{
                 //    httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 //}
+
                 client.Timeout = new TimeSpan(0, 0, 15);
             });
 
@@ -33,14 +34,14 @@ namespace api.mapserv.utah.gov.Extensions
             services.AddSingleton<IGoogleDriveCache, GoogleDriveCache>();
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
-            services.AddSingleton<AuthorizeApiKeyFromRequest, AuthorizeApiKeyFromRequest>();
+            services.AddSingleton<AuthorizeApiKeyFromRequest>();
 
-            services.AddTransient<ParseAddressCommand, ParseAddressCommand>();
-            services.AddTransient<ParseZoneCommand, ParseZoneCommand>();
-            services.AddTransient<GetLocatorsForAddressCommand, GetLocatorsForAddressCommand>();
-            services.AddTransient<LocatePoBoxCommand, LocatePoBoxCommand>();
-            services.AddTransient<UspsDeliveryPointCommand, UspsDeliveryPointCommand>();
-            services.AddTransient<ReprojectPointsCommand, ReprojectPointsCommand>();
+            services.AddTransient<ParseAddressCommand>();
+            services.AddTransient<ParseZoneCommand>();
+            services.AddTransient<GetLocatorsForAddressCommand>();
+            services.AddTransient<LocatePoBoxCommand>();
+            services.AddTransient<UspsDeliveryPointCommand>();
+            services.AddTransient<ReprojectPointsCommand>();
         }
     }
 }
