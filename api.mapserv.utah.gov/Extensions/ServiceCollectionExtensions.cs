@@ -22,9 +22,6 @@ namespace api.mapserv.utah.gov.Extensions
         {
             services.AddHttpClient("default", client =>
             {
-                //var httpClientHandler = new HttpClientHandler();
-                //if (httpClientHandler.
-
                 client.Timeout = new TimeSpan(0, 0, 15);
             }).ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();
