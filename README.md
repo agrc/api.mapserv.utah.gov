@@ -17,9 +17,9 @@ I had to share `/usr/local/share/dotnet/sdk` to make the mounts work. Not sure w
 ### Import database
 _with container running_
 
-- `docker exec -i $(docker-compose ps -q postgres ) psql -Upostgres -d webapi < pgdata/pgdata` // imports the database into the docker volume
+- `docker exec -i $(docker-compose ps -q db ) psql -Upostgres -d webapi < pgdata/pgdata` // imports the database into the docker volume
 
 ### View database tables
 _with container running_
 
-- `docker exec -it $(docker-compose ps -q postgres ) psql -Upostgres -d webapi -c '\z'` // displays tables
+- `docker exec -it $(docker-compose ps -q db ) psql -Upostgres -d webapi -c '\z'` // displays tables
