@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Commands;
 using api.mapserv.utah.gov.Filters;
@@ -21,12 +23,17 @@ namespace api.mapserv.utah.gov.Extensions
             services.AddHttpClient("default", client =>
             {
                 //var httpClientHandler = new HttpClientHandler();
-                //if (httpClientHandler.SupportsAutomaticDecompression)
-                //{
-                //    httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                //}
+                //if (httpClientHandler.
 
                 client.Timeout = new TimeSpan(0, 0, 15);
+            }).ConfigurePrimaryHttpMessageHandler(() => {
+                var handler = new HttpClientHandler();
+                if (handler.SupportsAutomaticDecompression)
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                }
+
+                return handler;
             });
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
