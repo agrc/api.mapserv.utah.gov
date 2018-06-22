@@ -23,6 +23,8 @@
             Disabled
         }
 
+        public ApiKey(){}
+
         public ApiKey(string apiKey)
         {
             Key = apiKey;
@@ -36,5 +38,6 @@
         public string RegexPattern { get; set; }
         public bool IsMachineName { get; set; }
         public bool Deleted { get; set; }
+        public bool Whitelisted { get; set; }
     }
 }
