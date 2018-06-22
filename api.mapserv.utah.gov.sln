@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.mapserv.utah.gov", "api.mapserv.utah.gov\api.mapserv.utah.gov.csproj", "{C406CB16-AB93-4085-979D-CFB86E1AEEA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api.mapserv.utah.gov", "api.mapserv.utah.gov\api.mapserv.utah.gov.csproj", "{C406CB16-AB93-4085-979D-CFB86E1AEEA4}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{49BC919F-D981-4616-AA77-98E011923A13}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AC39638E-9B57-4A02-8443-C4B8AD8A4B18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "developer.mapserv.utah.gov", "developer.mapserv.utah.gov\developer.mapserv.utah.gov.csproj", "{0B7AFF17-6105-4F8C-A65E-F3D4D809B21A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{C406CB16-AB93-4085-979D-CFB86E1AEEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C406CB16-AB93-4085-979D-CFB86E1AEEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C406CB16-AB93-4085-979D-CFB86E1AEEA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B7AFF17-6105-4F8C-A65E-F3D4D809B21A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B7AFF17-6105-4F8C-A65E-F3D4D809B21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B7AFF17-6105-4F8C-A65E-F3D4D809B21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B7AFF17-6105-4F8C-A65E-F3D4D809B21A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
