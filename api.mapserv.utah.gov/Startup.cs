@@ -63,7 +63,7 @@ namespace api.mapserv.utah.gov
             if (_env.IsEnvironment("DockerDevelopment"))
             {
                 _log.LogWarning("Getting credentials from appsecrets");
-                services.AddSingleton<IApiKeyRepository, PostmanApiKeyRepository>();
+                services.AddSingleton<IApiKeyRepository, PostgreApiKeyRepository>();
                 services.AddSingleton<GoogleCredential>(serviceProvider =>
                 {
                     var secret = Configuration["json"];

@@ -63,8 +63,6 @@ namespace api.mapserv.utah.gov.Filters
                 return;
             }
 
-            // TODO handle whitelist
-
             // TODO make sure user has confirmed email address
 
             if (apiKey.Deleted || apiKey.ApiKeyStatus == ApiKey.KeyStatus.Disabled)
@@ -77,6 +75,16 @@ namespace api.mapserv.utah.gov.Filters
 
                 return;
             }
+
+            // TODO handle whitelist
+            if (apiKey.Whitelisted)
+            {
+                await next();
+
+                return;
+            }
+
+
 
             if (apiKey.Type == ApiKey.ApplicationType.Browser)
             {
