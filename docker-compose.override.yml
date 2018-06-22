@@ -1,15 +1,26 @@
 version: '3.6'
 
 services:
+
   webapi-core:
-    links:
-      - db
-      - cache
+    ports:
+      - "1337:1337"
     environment:
       - ASPNETCORE_URLS=http://+:1337
       - ASPNETCORE_ENVIRONMENT=DockerDevelopment
+    links:
+      - db
+      - cache
+
+  developer.mapserv.utah.gov:
     ports:
-      - "1337:1337"
+      - "1338:1338"
+    environment:
+      - ASPNETCORE_URLS=http://+:1338
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
+    links:
+      - db
+
   db:
     environment:
       - POSTGRES_DB=webapi

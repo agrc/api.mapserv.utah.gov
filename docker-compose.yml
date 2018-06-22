@@ -1,12 +1,21 @@
 version: '3.6'
 
 services:
+
   webapi-core:
-    image: ${DOCKER_REGISTRY}webapi
+    image: webapi-core
     build:
       context: .
       dockerfile: api.mapserv.utah.gov/Dockerfile
+
+  developer.mapserv.utah.gov:
+    image: developer.mapserv.utah.gov
+    build:
+      context: .
+      dockerfile: developer.mapserv.utah.gov/Dockerfile
+
   db:
     image: postgres:10.4
+
   cache:
     image: redis:latest
