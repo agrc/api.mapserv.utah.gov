@@ -1,0 +1,252 @@
+﻿@{
+    ViewData["Title"] = "Generate API Key";
+}
+<div id="home">
+    <h2>
+        Create a new API key
+    </h2>
+</div>
+<div class="col-sm-offset-3 col-sm-6">
+    Html.ErrorBox()
+    Html.MessageBox()
+</div>
+<div class="row">
+    <div class="col-sm-offset-1 col-sm-10">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">How to choose a key type</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    You will need to choose the type of API key to create depending on how you will be using the Web API.
+                    The Web API will return helpful error information about your request and key in the body of failing requests so be sure not
+                    to ignore that information.
+                </p>
+                <div class="col-sm-6">
+                    <h4><i class="glyphicon glyphicon-globe" aria-hidden="true"> </i> Client Side Browser Based Applications</h4>
+                    <p>
+                        This category includes your javascript based applications like, <a href="https://atlas.utah.gov">atlas.utah.gov</a>, that are running inside of a web browser.
+                        Web API requests will originate from a website initiated by a user interacting with your application in a browser.
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <h4><i class="glyphicon glyphicon-hdd" aria-hidden="true"> </i> Desktop and Server Side Applications</h4>
+                    <p>
+                        This category includes all code that executes from a server or desktop computer. Examples would include console applications, server side code from within a web framework, scripts, and add ins to name a few.
+                        Web API requests will originate from a computer running application code.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    @using (Html.BeginForm("Generate", "GenerateKey", FormMethod.Post, new
+    {
+        @class = "form-horizontal"
+    }))
+    {
+        <div class="col-sm-offset-1 col-sm-5">
+            <h4>
+                <i class="glyphicon glyphicon-globe" aria-hidden="true"> </i> Browser Applications
+            </h4>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="urlpattern">
+                    URL Pattern:
+                </label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        @Html.TextBox("urlpattern", TempData["url"],
+                            new
+                            {
+                                required = "true",
+                                @class = "form-control",
+                                placeHolder = "*.example.com/*"
+                            })
+                        <span class="input-group-btn">
+                            <button type="button" asp-action="createkey" asp-controller="home" asp-area="secure" class="btn btn-success">Create</button>
+                         </span>
+                    </div>
+                    <span class="help-block"><a href="#patternModal" data-toggle="modal">Help me with this pattern</a>.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="AppStatus">
+                    Key Use Status
+                </label>
+                <div class="col-sm-8">
+                    @Html.DropDownList("AppStatus", new[]
+                    {
+                        new SelectListItem
+                        {
+                            Text = "Production", Value = "1", Selected = true
+                        },
+                        new SelectListItem
+                        {
+                            Text = "Development", Value = "0"
+                        }
+                    }, new
+                    {
+                        @class = "form-control",
+                        id = "AppStatus"
+                    })
+                </div>
+            </div>
+        </div>
+    }
+    @using (Html.BeginForm("Generate", "GenerateKey", FormMethod.Post, new
+    {
+        @class = "form-horizontal"
+    }))
+    {
+        <div class="col-sm-5">
+            <h4>
+                <i class="glyphicon glyphicon-hdd" aria-hidden="true"> </i> Desktop Applications
+            </h4>
+            <p class="text-warning">
+                local ip addresses commonly starting with <code>192.</code> are not valid. Your public ip is what the Web API will see.
+                You can use <a href="http://www.whatismyip.com/">whatismyip.com</a> to find out your public ip.
+            </p>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="ip">
+                    Server IP:
+                </label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        @Html.TextBox("ip", TempData["ip"],
+                            new
+                            {
+                                required = "true",
+                                @class = "form-control",
+                                invalidMessage = "Invalid ip",
+                                placeHolder = "127.0.0.1",
+                                MaxLength = "100"
+                            })
+                        <span class="input-group-btn">
+                            <button class="btn btn-success">Create</button>
+                         </span>
+                    </div>
+                    <span class="help-block"><a href="#ipModal" data-toggle="modal">Help me find the IP</a>.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="AppStatus2">
+                    Application Status
+                </label>
+                <div class="col-sm-8">
+                    @Html.DropDownList("AppStatus", new[]
+                    {
+                        new SelectListItem
+                        {
+                            Text = "Production", Value = "1", Selected = true
+                        },
+                        new SelectListItem
+                        {
+                            Text = "Development", Value = "0"
+                        }
+                    }, new
+                    {
+                        @class = "form-control",
+                        id = "AppStatus2"
+                    })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<style>
+    body.mac .windows, /* hide windows download */ body.windows .mac, /* hide mac download */ body.unsupported .windows, /* hide windows download */ body.unsupported .mac, /* hide mac download */ body.unsupported .mobile, /* hide mac download */ body .unsupported /* hide unsupported message */ { /* hide versions link */
+        display: none;
+    }
+</style>
+<div id="ipModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ipModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="ipModalLabel">
+                    IP Instructions
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="mac">
+                    <h2>
+                        OSX
+                    </h2>
+                    <ul class="unstyled">
+                        <li>Open Network Preferences</li>
+                        <li>Click on the connection you are using</li>
+                        <li>
+                            <img alt="screenshot" src="//i.imgur.com/lx56m.png"/>
+                        </li>
+                        <li>Your IP is the IP Address value.</li>
+                    </ul>
+                </div>
+                <div class="windows">
+                    <h2>
+                        windows
+                    </h2>
+                    <ul class="unstyled">
+                        <li>Press windows button + R or go to Start > run</li>
+                        <li>Type cmd and hit enter</li>
+                        <li>
+                            <img src="//i.imgur.com/wRYcw.png"/>
+                        </li>
+                        <li>Type ipconfig and hit enter</li>
+                        <li>Your IP is usually the IPv4 Address value.</li>
+                    </ul>
+                </div>
+                <div class="unsupported">
+                    <p>
+                        Sorry we don't have instructions for your Operating System. Try <a href="http://www.whatismyip.com/">
+                            whatismyip.com
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="patternModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="patternModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="patternModalLabel">
+                    Pattern Instructions
+                </h4>
+            </div>
+            <div class="modal-body">
+                Html.Partial("Patterns")
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($.client.mac) {
+            $('body').addClass('mac');
+        } else if ($.client.windows) {
+            $('body').addClass('windows');
+        } else {
+            $('body').addClass('unsupported');
+        }
+    });
+</script>

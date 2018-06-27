@@ -1,0 +1,165 @@
+﻿@{
+    ViewData["Title"] = "AGRC Web API Key Management";
+}
+<div id="home">
+    <h2>
+        Your API Keys
+    </h2>
+</div>
+<div class="row">
+    <div class="col-sm-offset-3 col-sm-6" id="message">
+        Html.ErrorBox()
+        Html.MessageBox()
+    </div>
+</div>
+<div class="text-center">
+    <a asp-action="generatekey" asp-controller="Home" asp-area="secure" id="Create" class="btn btn-success" style="margin-bottom:10px">Generate Key</a>
+    <p class="badge">
+        Model.KeyQuota.KeysUsed / Model.KeyQuota.KeysAllowed
+        used
+    </p>
+</div>
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Uses</th>
+                    <th>Type</th>
+                    <th>Last Used</th>
+                    <th>Pattern</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                foreach (var apiKeyUsage in Model.AllUserKeys)
+                {
+                <tr>
+                    <td>
+                        apiKeyUsage.ApiKey
+                        <span style="margin-top: 5px;" class="pull-right apiKeyUsage.UseTypeIconCssClass">apiKeyUsage.UseType</span>
+                    </td>
+                    <td>
+                        <p class="text-right"> apiKeyUsage.UsageCount</p>
+                    </td>
+                    <td>
+                        apiKeyUsage.Type
+                    </td>
+                    <td>
+                        apiKeyUsage.LastUsed
+                    </td>
+                    <td>
+                        apiKeyUsage.Pattern
+                    </td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <a href="#" class="btn apiKeyUsage.ButtonCssClass">
+                                <i data-key="apiKeyUsage.ApiKey" class="apiKeyUsage.StutusIconCssClass">
+                                </i>&nbsp;apiKeyUsage.StatusIconText
+                            </a><a href="#" class="btn btn-danger" title="Delete Key">
+                                <i data-key="apiKeyUsage.ApiKey" class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h3 class="modal-title">
+                    Woops!
+                </h3>
+            </div>
+            <div class="modal-body alert-danger">
+                <p id="modal-content">
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-warning" data-dismiss="modal">Ok</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>$(function() {
+        var agrc = {
+            config: {
+                urls: {
+                    del: '@Url.Action("DeleteKey")',
+                    deactivate: '@Url.Action("PauseKey")',
+                    activate: '@Url.Action("PlayKey")'
+                }
+            }
+        };
+
+        $('i.glyphicon-trash').closest('a').on('click', function(e) {
+            var icon = $('i', this);
+            var target = this;
+            var message = $('#message');
+
+            $.ajax(agrc.config.urls.del,
+                {
+                    data: { key: icon.data('key') },
+                    type: 'DELETE',
+                    beforeSend: function() {
+                        icon.removeClass('glyphicon-trash')
+                            .addClass('glyphicon-time');
+                        message.html('');
+                    }
+                }).done(function(response) {
+                    if (!!response && !!response.status && response.status !== 200) {
+                        icon.removeClass('glyphicon-time').addClass('glyphicon-trash');
+                        var modal = $('#modal');
+                        $('#modal-content', modal).html(response.data);
+                        modal.modal({ backdrop: false });
+
+                        return;
+                    }
+
+                    $(target).closest('tr').remove();
+                });
+        });
+
+        $('i.glyphicon-play, i.glyphicon-pause').closest('a').on('click', function(e) {
+            var icon = $('i', this),
+                target = this,
+                activated = icon.hasClass('glyphicon-pause'),
+                url = activated ? agrc.config.urls.deactivate : agrc.config.urls.activate;
+
+            $.ajax(url,
+                {
+                    data: { key: icon.data('key') },
+                    type: 'PUT',
+                    beforeSend: function() {
+                        icon.removeClass('glyphicon-pause')
+                            .removeClass('glyphicon-play')
+                            .addClass('glyphicon-time');
+                    }
+                }).done(function(response) {
+                    if (!!response && !!response.status && response.status !== 200) {
+                        icon.removeClass('glyphicon-time').addClass(activated ? 'glyphicon-play' : 'glyphicon-pause');
+                        var modal = $('#modal');
+                        $('#modal-content', modal).html(response.data);
+                        modal.modal({ backdrop: false });
+
+                        return;
+                    }
+
+                    icon.removeClass('glyphicon-time').addClass(!activated ? 'glyphicon-pause' : 'glyphicon-play');
+                    var outerHtml = icon[0].outerHTML + '&nbsp;';
+                    outerHtml += !activated ? 'Deactivate' : 'Activate';
+                    $(target).removeClass('btn-success')
+                        .removeClass('btn-warning')
+                        .addClass(!activated ? 'btn-warning' : 'btn-success')
+                        .html(outerHtml);
+                });
+        });
+});</script>

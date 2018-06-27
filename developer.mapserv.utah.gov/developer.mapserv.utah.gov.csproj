@@ -7,6 +7,31 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Npgsql" Version="4.0.0" />
+    <PackageReference Include="Dapper" Version="1.50.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\" />
+    <Folder Include="Areas\Secure\" />
+    <Folder Include="Areas\Secure\Controllers\" />
+    <Folder Include="Views\AccountAccess\" />
+    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Models\SecretOptions\" />
+    <Folder Include="Models\Database\" />
+    <Folder Include="Areas\Secure\Views\" />
+    <Folder Include="Areas\Secure\Views\Home\" />
+    <Folder Include="Areas\Secure\Views\Shared\" />
+    <Folder Include="Areas\Secure\Views\Profile\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Areas\secure\Secure.cs" />
+    <Compile Remove="Areas\Secure\Secure.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Areas\Secure\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Areas\Secure\Views\_ViewImports.cshtml" />
+  </ItemGroup>
 </Project>

@@ -43,13 +43,12 @@ namespace api.mapserv.utah.gov
             });
 
             services.UseOptions(Configuration);
-
-            _log.LogWarning("Configuration: {0}", _env.EnvironmentName);
+            services.UseDi();
 
             if (_env.IsDevelopment())
             {
                 _log.LogWarning("Getting credentials from secret manager");
-                services.AddSingleton<IApiKeyRepository, PostmanApiKeyRepository>();
+                services.AddSingleton<IApiKeyRepository, PostgreApiKeyRepository>();
                 services.Configure<GoogleCredentialConfiguration>(Configuration);
 
                 services.AddSingleton<GoogleCredential>(serviceProvider =>
@@ -82,8 +81,6 @@ namespace api.mapserv.utah.gov
                     return GoogleCredential.FromJson(secret);
                 });
             }
-
-            services.UseDi();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

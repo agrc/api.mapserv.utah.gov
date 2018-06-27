@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<title>@ViewData["Title"] - developer.mapserv.utah.gov</title>
+<link rel="shortcut icon" href="//gis.utah.gov/images/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<environment include="Development">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+</environment>
+<body>
+    <div id="wrap">
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand" id="home">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="23">
+                            <path d="M29.908 5.567l7.596 7.693c2.067.105 4.051.252 5.93.438L29.908 0 16.362 13.718c1.88-.189 3.868-.34 5.939-.448l7.607-7.703zm-7.989.275l-2.736-2.77-11.87 12.02c1.959-.43 4.203-.803 6.673-1.109l7.933-8.14zm18.898-2.77l-2.736 2.77 7.933 8.141c2.47.305 4.715.68 6.672 1.109L40.817 3.072z" fill="#90c84b" />
+                            <path d="M32.327 16.014l-2.13 2.157-.355 2.909-.383-2.925-2.058-2.084-3.132-.394 3.223-.431 1.996-2.022.348-2.841.375 2.868 1.933 1.957 3.2.402-3.017.404zm21.876.924c-4.49-1.143-10.87-1.962-18.171-2.256l-6.196-6.274-6.208 6.287c-7.353.315-13.749 1.162-18.185 2.335-2.491.658-4.367 1.42-5.443 2.248 3.284-.77 7.632-1.408 12.69-1.855 3.39-.3 7.1-.514 11.02-.626L29.837 23l6.135-6.213c4.04.11 7.858.328 11.339.636 5.058.447 9.407 1.085 12.69 1.855-1.127-.867-3.13-1.66-5.797-2.34" fill="#373535" />
+                            <path d="M22.68 17.965l-1.973.07.039 1.114 1.972-.07-.038-1.114zm-5.242.242l.056 1.114 1.972-.101-.056-1.114-1.972.101zm-3.249.229l.078 1.113 1.97-.142-.078-1.112-1.97.14zm-3.252.258l.09 1.112 1.967-.164-.09-1.111-1.967.163zm-3.234.32l.106 1.11 1.966-.193-.106-1.11-1.966.193zm-3.237.372l.132 1.108 1.96-.24-.132-1.108-1.96.24zm-3.243.47l.159 1.103 1.954-.288-.159-1.103-1.954.288zm35.687-.776l1.974.07.039-1.116-1.973-.07-.04 1.115zm3.31-.974l-.057 1.114 1.973.1.055-1.113-1.972-.1zm3.25.189l-.077 1.112 1.97.142.078-1.113-1.97-.141zm3.255.236l-.09 1.111 1.969.164.09-1.112-1.97-.163zm3.236.29l-.106 1.11 1.965.193.107-1.11-1.966-.193zm3.242.325l-.132 1.108 1.96.24.133-1.108-1.961-.24zm3.25.422l-.16 1.103 1.955.288.159-1.103-1.955-.288z" fill="#00a7db" />
+                        </svg>
+                    </div>
+                    <div class="navbar-brand">
+                        <a asp-action="Index" asp-controller="home" class="brand">AGRC Web API</a>
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse" id="collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="">
+                            <a asp-action="index" asp-controller="home" asp-area="secure">Console</a>
+                        </li>
+                        <li class="">
+                            <a asp-action="keymanagement" asp-controller="home" asp-area="secure">Key Management</a>
+                        </li>
+                        <li class="">
+                            <a asp-action="profile" asp-controller="home" asp-area="secure">Profile</a>
+                        </li>
+                        <li class="">
+                            <a asp-action="api" asp-controller="go">API Explorer</a>
+                        </li>
+                        Html.Action("RenderAdminAnalyticLink")
+                    </ul>
+                    <p class="navbar-text navbar-right">
+                        Html.Action("RenderUserPanel")
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+    <div id="footer">
+        <div class="container">
+            Html.Partial("Footer")
+        </div>
+    </div>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>

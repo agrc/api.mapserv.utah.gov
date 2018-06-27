@@ -1,39 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using developer.mapserv.utah.gov.Models;
 
 namespace developer.mapserv.utah.gov.Controllers
 {
+    [Route("")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        [Route("")]
+        public RedirectToRouteResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToRoute("secure", new
+                {
+                    controller = "home"
+                });
+            }
+
+            return RedirectToRoute(new
+            {
+                controller = "accountaccess"
+            });
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        [Route("[action]")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
