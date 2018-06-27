@@ -16,7 +16,8 @@ namespace api.mapserv.utah.gov.Services
                     Deleted = false,
                     IsMachineName = false,
                     RegexPattern = "localhost",
-                    Type = ApiKey.ApplicationType.Browser
+                    Type = ApiKey.ApplicationType.Browser,
+                    Whitelisted = true
                 });
             }
 
