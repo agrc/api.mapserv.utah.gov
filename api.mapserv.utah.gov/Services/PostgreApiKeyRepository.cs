@@ -42,8 +42,6 @@ namespace api.mapserv.utah.gov.Services
 
                 return items.FirstOrDefault();
             }
-
-            return null;
         }
     }
 }
