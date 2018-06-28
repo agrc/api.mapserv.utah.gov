@@ -12,9 +12,10 @@ namespace developer.mapserv.utah.gov.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToRoute("secure", new
+                return RedirectToRoute(new
                 {
-                    controller = "home"
+                    controller = "home",
+                    area = "secure"
                 });
             }
 
