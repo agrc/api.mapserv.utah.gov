@@ -13,7 +13,7 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
 {
     [Authorize]
     [Area("secure")]
-    [Route("~/profile")]
+    [Route("secure/profile")]
     public class ProfileController : Controller
     {
         public ProfileController(NpgsqlConnection connection)
