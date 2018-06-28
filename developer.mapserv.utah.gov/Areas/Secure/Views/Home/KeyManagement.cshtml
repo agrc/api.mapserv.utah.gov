@@ -9,8 +9,7 @@
 </div>
 <div class="row">
     <div class="col-sm-offset-3 col-sm-6" id="message">
-        Html.ErrorBox()
-        Html.MessageBox()
+        <notification error="@ViewData["error"]" message="@ViewData["message"]" />
     </div>
 </div>
 <div class="row text-center">
