@@ -164,6 +164,7 @@ namespace developer.mapserv.utah.gov.Controllers
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties
             {
+                AllowRefresh = true,
                 IsPersistent = true,
                 IssuedUtc = DateTime.UtcNow,
                 ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1)
