@@ -1,19 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Dapper;
+using developer.mapserv.utah.gov.Areas.Secure.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Npgsql;
 
 namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
 {
+    [Authorize]
+    [Area("secure")]
+    [Route("~/profile")]
     public class ProfileController : Controller
     {
-        // GET: /<controller>/
-        public IActionResult Index()
+        public ProfileController(NpgsqlConnection connection)
         {
-            return View();
+            Connection = connection;
+        }
+
+        public NpgsqlConnection Connection { get; }
+
+        [Route("")]
+        public async Task<ViewResult> Index()
+        {
+            // TODO: Refactor
+            var idString = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            int id = -1;
+
+            if (!string.IsNullOrEmpty(idString))
+            {
+                id = Convert.ToInt32(idString);
+            }
+
+            var model = await Connection.QueryFirstOrDefaultAsync<ProfileViewModel>(
+                @"SELECT 
+                  	email, 
+                  	first_name as first, 
+                  	last_name as last, 
+                    company, 
+                    job_category as jobcategory, 
+                    job_title as jobtitle, 
+                    experience, 
+                    contact_route as contactroute
+                FROM public.accounts
+                WHERE id = @id", new { id }
+            );
+
+            return View(model);
         }
     }
 }

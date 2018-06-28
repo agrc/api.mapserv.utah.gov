@@ -1,19 +1,16 @@
 ﻿using System;
 namespace developer.mapserv.utah.gov.Models.Database
 {
-    public class AuthenticationDTO
+    public class AccountIdDTO 
     {
-        public string Password
-        {
-            get;
-            set;
-        }
+        public int Id { get; set; }
+    }
 
-        public string Salt
-        {
-            get;
-            set;
-        }
+    public class AuthenticationDTO : AccountIdDTO
+    {
+        public string Password { get; set; }
+
+        public string Salt { get; set; }
 
         public byte[] GetSaltBytes(string salt) {
             return Convert.FromBase64String(salt);

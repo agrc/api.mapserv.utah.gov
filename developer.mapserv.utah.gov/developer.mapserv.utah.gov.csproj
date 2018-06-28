@@ -23,10 +23,16 @@
     <Folder Include="Areas\Secure\Views\Home\" />
     <Folder Include="Areas\Secure\Views\Shared\" />
     <Folder Include="Areas\Secure\Views\Profile\" />
+    <Folder Include="Areas\Secure\Models\" />
+    <Folder Include="Areas\Secure\Models\ViewModels\" />
+    <Folder Include="TagHelpers\" />
+    <Folder Include="Areas\Secure\Models\Database\" />
+    <Folder Include="Areas\Secure\Formatters\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\secure\Secure.cs" />
-    <Compile Remove="Areas\Secure\Secure.cs" />
+    <Compile Remove="Areas\Secure\Models\PageModels\UserPanelModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Areas\Secure\Views\Web.config" />

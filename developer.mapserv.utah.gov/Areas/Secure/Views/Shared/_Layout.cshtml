@@ -51,8 +51,8 @@
                         </li>
                         Html.Action("RenderAdminAnalyticLink")
                     </ul>
-                    <p class="navbar-text navbar-right">
-                        Html.Action("RenderUserPanel")
+                    <p class="navbar-text navbar-right" style="padding-right: 3px">
+                        <partial name="LoginStatusPanel" for="@Context.User.Claims"/>
                     </p>
                 </div>
             </div>

@@ -47,8 +47,13 @@ namespace developer.mapserv.utah.gov
                 return conn;
             });
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options => {
+                        options.LoginPath = new PathString("/accountaccess/");
+                        options.AccessDeniedPath = new PathString("/accountaccess/");
+                        options.SlidingExpiration = true;
+                    });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,11 +66,12 @@ namespace developer.mapserv.utah.gov
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                //app.UseHsts();
+                app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc();
