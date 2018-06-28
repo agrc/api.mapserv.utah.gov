@@ -8,18 +8,21 @@
     <div class="col-sm-offset-1 col-sm-3 text-center" style="margin-top: 55px; padding-bottom: 55px;">
         <a asp-action="keymanagement" asp-controller="Home" asp-area="secure" class="btn btn-primary btn-lg">Manage my API Keys</a>
     </div>
-    <div class="col-sm-offset-1 col-sm-3 text-center">
-        <div style="padding: 5px 10px;">
-            <p>
-                <span class="badge badge-success badge-large">@Model.RequestsToDate</span>
-            </p>
-            API requests to date.
-            <hr />
-            <p>Keys Used</p>
-            <span class="badge badge-success badge-large">@Model.KeysUsed</span>
-        </div>
+</div>
+<div class="col-sm-offset-1 col-sm-3 text-center" style="margin-top: 55px; padding-bottom: 55px;">
+    <a asp-action="keymanagement" asp-controller="Home" asp-area="secure" class="btn btn-primary btn-lg">Manage my API Keys</a>
+</div>
+<div class="col-sm-offset-1 col-sm-3 text-center">
+    <div style="padding: 5px 10px;">
+        <p>
+            <span class="badge badge-success badge-large">@Model.RequestsToDate</span>
+        </p>
+        API requests to date.
+        <hr />
+        <p>Keys Used</p>
+        <span class="badge badge-success badge-large">@Model.KeysUsed</span>
     </div>
-    <div class="col-sm-offset-1 col-sm-3 text-center" style="padding: 55px 0;">
-        <a asp-action="" asp-controller="Profile" asp-area="secure" class="btn btn-primary btn-lg">Manage my Information</a>
-    </div>
+</div>
+<div class="col-sm-offset-1 col-sm-3 text-center" style="padding: 55px 0;">
+    <a asp-action="" asp-controller="Profile" asp-area="secure" class="btn btn-primary btn-lg">Manage my Information</a>
 </div>

@@ -13,12 +13,14 @@
         Html.MessageBox()
     </div>
 </div>
-<div class="text-center">
-    <a asp-action="generatekey" asp-controller="Home" asp-area="secure" id="Create" class="btn btn-success" style="margin-bottom:10px">Generate Key</a>
-    <p class="badge">
-        @Model.KeysUsed / @Model.KeysAllowed
-        used
-    </p>
+<div class="row text-center">
+    <div class="col-sm-offset-3 col-sm-6">
+        <a asp-action="generatekey" asp-controller="Home" asp-area="secure" id="Create" class="btn btn-success" style="margin-bottom:10px;display:block">Generate Key</a>
+        <p class="badge">
+            @Model.KeysUsed / @Model.KeysAllowed
+            used
+        </p>
+    </div>
 </div>
 <div class="row">
     <div class="table-responsive">
