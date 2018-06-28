@@ -41,11 +41,7 @@
     </div>
 </div>
 <div class="row">
-    @using (Html.BeginForm("Generate", "GenerateKey", FormMethod.Post, new
-    {
-        @class = "form-horizontal"
-    }))
-    {
+    <form asp-action="generatekey" asp-controller="home" asp-area="secure" method="post" class="form-horizontal">
         <div class="col-sm-offset-1 col-sm-5">
             <h4>
                 <i class="glyphicon glyphicon-globe" aria-hidden="true"> </i> Browser Applications
@@ -57,15 +53,15 @@
                 <div class="col-sm-8">
                     <div class="input-group">
                         @Html.TextBox("urlpattern", TempData["url"],
-                            new
-                            {
-                                required = "true",
-                                @class = "form-control",
-                                placeHolder = "*.example.com/*"
-                            })
+                                      new
+                                      {
+                                          required = "true",
+                                          @class = "form-control",
+                                          placeHolder = "*.example.com/*"
+                                      })
                         <span class="input-group-btn">
                             <button type="button" asp-action="createkey" asp-controller="home" asp-area="secure" class="btn btn-success">Create</button>
-                         </span>
+                        </span>
                     </div>
                     <span class="help-block"><a href="#patternModal" data-toggle="modal">Help me with this pattern</a>.</span>
                 </div>
@@ -76,83 +72,79 @@
                 </label>
                 <div class="col-sm-8">
                     @Html.DropDownList("AppStatus", new[]
-                    {
-                        new SelectListItem
-                        {
-                            Text = "Production", Value = "1", Selected = true
-                        },
-                        new SelectListItem
-                        {
-                            Text = "Development", Value = "0"
-                        }
-                    }, new
-                    {
-                        @class = "form-control",
-                        id = "AppStatus"
-                    })
+                              {
+                                        new SelectListItem
+                                        {
+                                            Text = "Production", Value = "1", Selected = true
+                                        },
+                                        new SelectListItem
+                                        {
+                                            Text = "Development", Value = "0"
+                                        }
+                                    }, new
+                                    {
+                                        @class = "form-control",
+                                        id = "AppStatus"
+                                    })
                 </div>
             </div>
         </div>
-    }
-    @using (Html.BeginForm("Generate", "GenerateKey", FormMethod.Post, new
-    {
-        @class = "form-horizontal"
-    }))
-    {
-        <div class="col-sm-5">
-            <h4>
-                <i class="glyphicon glyphicon-hdd" aria-hidden="true"> </i> Desktop Applications
-            </h4>
-            <p class="text-warning">
-                local ip addresses commonly starting with <code>192.</code> are not valid. Your public ip is what the Web API will see.
-                You can use <a href="http://www.whatismyip.com/">whatismyip.com</a> to find out your public ip.
-            </p>
-            <div class="form-group">
-                <label class="col-sm-4 control-label" for="ip">
-                    Server IP:
-                </label>
-                <div class="col-sm-8">
-                    <div class="input-group">
-                        @Html.TextBox("ip", TempData["ip"],
-                            new
-                            {
-                                required = "true",
-                                @class = "form-control",
-                                invalidMessage = "Invalid ip",
-                                placeHolder = "127.0.0.1",
-                                MaxLength = "100"
-                            })
-                        <span class="input-group-btn">
-                            <button class="btn btn-success">Create</button>
-                         </span>
+    </form>
+    <form asp-action="generatekey" asp-controller="home" asp-area="secure" method="post" class="form-horizontal">
+            <div class="col-sm-5">
+                <h4>
+                    <i class="glyphicon glyphicon-hdd" aria-hidden="true"> </i> Desktop Applications
+                </h4>
+                <p class="text-warning">
+                    local ip addresses commonly starting with <code>192.</code> are not valid. Your public ip is what the Web API will see.
+                    You can use <a href="http://www.whatismyip.com/">whatismyip.com</a> to find out your public ip.
+                </p>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="ip">
+                        Server IP:
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            @Html.TextBox("ip", TempData["ip"],
+                                          new
+                                          {
+                                              required = "true",
+                                              @class = "form-control",
+                                              invalidMessage = "Invalid ip",
+                                              placeHolder = "127.0.0.1",
+                                              MaxLength = "100"
+                                          })
+                            <span class="input-group-btn">
+                                <button class="btn btn-success">Create</button>
+                            </span>
+                        </div>
+                        <span class="help-block"><a href="#ipModal" data-toggle="modal">Help me find the IP</a>.</span>
                     </div>
-                    <span class="help-block"><a href="#ipModal" data-toggle="modal">Help me find the IP</a>.</span>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="AppStatus2">
+                        Application Status
+                    </label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("AppStatus", new[]
+                                  {
+                                    new SelectListItem
+                                    {
+                                        Text = "Production", Value = "1", Selected = true
+                                    },
+                                    new SelectListItem
+                                    {
+                                        Text = "Development", Value = "0"
+                                    }
+                                }, new
+                                {
+                                    @class = "form-control",
+                                    id = "AppStatus2"
+                                })
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-4 control-label" for="AppStatus2">
-                    Application Status
-                </label>
-                <div class="col-sm-8">
-                    @Html.DropDownList("AppStatus", new[]
-                    {
-                        new SelectListItem
-                        {
-                            Text = "Production", Value = "1", Selected = true
-                        },
-                        new SelectListItem
-                        {
-                            Text = "Development", Value = "0"
-                        }
-                    }, new
-                    {
-                        @class = "form-control",
-                        id = "AppStatus2"
-                    })
-                </div>
-            </div>
-        </div>
-    }
+        </form>
 </div>
 <style>
     body.mac .windows, /* hide windows download */ body.windows .mac, /* hide mac download */ body.unsupported .windows, /* hide windows download */ body.unsupported .mac, /* hide mac download */ body.unsupported .mobile, /* hide mac download */ body .unsupported /* hide unsupported message */ { /* hide versions link */

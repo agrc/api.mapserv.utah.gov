@@ -1,9 +1,10 @@
 ﻿@{
+    ViewData["Title"] = "Web API Profile";
 }
 @model developer.mapserv.utah.gov.Areas.Secure.Models.ViewModels.ProfileViewModel
 <div id="home">
     <h2>
-        Please update your profile
+        Keep your profile current!
     </h2>
 </div>
 <form asp-action="update" asp-controller="profile" asp-area="secure" method="put" class="form-horizontal">
@@ -12,241 +13,197 @@
         Html.MessageBox()
     </div>
     <div class="row">
-        <fieldset>
-            <div class="span6">
-                <div class="control-group">
-                    Html.Partial("Email", Model.User)
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="FirstName">
-                        First Name
-                    </label>
-                    <div class="controls">
-                        <input asp-for="First" class="input-large" />
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="LastName">
-                        Last Name
-                    </label>
-                    <div class="controls">
-                        <input asp-for="Last" class="input-large" />
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="Company">
-                        Company
-                    </label>
-                    <div class="controls">
-                        <input asp-for="Company" class="input-large" />
-                    </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <email confirmed="Model.Confirmed">@Model.Email</email>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="FirstName">
+                    First Name
+                </label>
+                <div class="col-sm-8">
+                    <input asp-for="First" class="form-control input-large" />
                 </div>
             </div>
-            <div class="span6">
-                <div class="control-group">
-                    <label class="control-label" for="JobCategoery">
-                        Job Category
-                    </label>
-                    <div class="controls">
-                        <input asp-for="JobCategory" class="input-large" />
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="JobTitle">
-                        Job Title
-                    </label>
-                    <div class="controls">
-                        <input asp-for="JobTitle" class="input-large" />
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="CodingExperience">
-                        Coding Experience
-                    </label>
-                    <div class="controls">
-                        <input asp-for="Experience" class="input-large" />
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="ContactRoute">
-                        Contact Route
-                    </label>
-                    <div class="controls">
-                        <input asp-for="ContactRoute" class="input-large" />
-                        <p class="help-block">
-                            Please enter your twitter handle, email address, phone number, or whatever method
-                            you would like us to use to contact you for any reason.
-                        </p>
-                    </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="LastName">
+                    Last Name
+                </label>
+                <div class="col-sm-8">
+                    <input asp-for="Last" class="form-control input-large" />
                 </div>
             </div>
-        </fieldset>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="Company">
+                    Company
+                </label>
+                <div class="col-sm-8">
+                    <input asp-for="Company" class="form-control input-large" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="JobCategoery">
+                    Job Category
+                </label>
+                <div class="col-sm-8">
+                    <input asp-for="JobCategory" class="form-control input-large" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="JobTitle">
+                    Job Title
+                </label>
+                <div class="col-sm-8">
+                    <input asp-for="JobTitle" class="form-control input-large" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="CodingExperience">
+                    Coding Experience
+                </label>
+                <div class="col-sm-8">
+                    <input type="number" step="1" max="10" min="0" asp-for="Experience" class="form-control input-large" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="ContactRoute">
+                    Contact Route
+                </label>
+                <div class="col-sm-8">
+                    <input asp-for="ContactRoute" class="form-control input-large" />
+                    <p class="help-block">
+                        We will almost never contact you, but if it looks like you need help or for some reason we do need to contact you, 
+                        please enter your twitter handle, email address, phone number, or whatever method
+                        you like.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
-        <div class="offset1 span8">
-            <div class="control-group">
-                <div class="controls">
-                    <div class="btn-group">
-                        Html.Button("Update", new
-                        {
-                        class = "btn btn-success", name = "FormAction", value = "Update"
-                        })
-                        Html.Button("Update and go to Console", new
-                        {
-                        class = "btn", name = "FormAction", value = "UpdateAndGo"
-                        })
-                        Html.Button("Change Password", new
-                        {
-                        id = "changePassword",
-                        class = "btn btn-danger"
-                        })
-                        Html.ActionLink("Console", "Index", new
-                        {
-                        Controller = "Home"
-                        }, new
-                        {
-                        class = "btn btn-info"
-                        })
+        <div class="col-md-offset-3 col-md-9 col-xs-offset-1 col-sm-11">
+            <div class="form-group">
+                <div class="btn-group">
+                    <button class="btn btn-success">Update</button>
+                    <button class="btn btn-primary">Update and go to Console</button>
+                    <button class="btn btn-danger" id="changePassword">Change Password</button>
+                    <a class="btn btn-info">Console</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<form asp-action="updatepassword" asp-controller="profile" asp-area="secure" method="post" class="form-horizontal">
+    <div id="passwordContainer" class="row" style="">
+        <div class="col-sm-offset-3 col-sm-5">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Update Password</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="CurrentPassword">
+                            Current Password
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <input type="password" id="CurrentPassword" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="NewPassword">
+                            New Password
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <input type="password" id="NewPassword" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="ConfirmPassword">
+                            Confirm New Password
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <input type="password" id="ConfirmPassword" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5">
+                            <button class="btn btn-danger" id="change">
+                                Change
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </form>
-@using (Html.BeginForm("UpdatePassword", "Profile", FormMethod.Post, new
-{
-    @class = "form-horizontal"
-}))
-{
-<div id="passwordContainer" class="row" style="display: none">
-    <div class="well offset3 span5">
-        <fieldset>
-            <legend>Update Password</legend>
-            <div class="control-group">
-                <label class="control-label" for="CurrentPassword">
-                    Current Password
-                </label>
-                <div class="controls">
-                    <div class="input-append">
-                        @Html.Password("CurrentPassword", null, new
-                        {
-                        @class = "input-medium",
-                        data_required = "",
-                        id = "CurrentPassword",
-                        MaxLength = "30"
-                        })
-                    </div>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="NewPassword">
-                    New Password
-                </label>
-                <div class="controls">
-                    <div class="input-append">
-                        @Html.Password("NewPassword", null, new
-                        {
-                        @class = "input-medium",
-                        data_required = "",
-                        id = "NewPassword",
-                        MaxLength = "30"
-                        })
-                    </div>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="ConfirmPassword">
-                    Confirm New Password
-                </label>
-                <div class="controls">
-                    <div class="input-append">
-                        @Html.Password("ConfirmPassword", null, new
-                        {
-                        @class = "input-medium",
-                        data_required = "",
-                        id = "ConfirmPassword",
-                        MaxLength = "30"
-                        })
-                    </div>
-                </div>
-            </div>
-            <div class="control-group offset1">
-                <div class="controls">
-                    <button class="btn btn-danger" id="change">
-                        Change
-                    </button>
-                </div>
-            </div>
-        </fieldset>
-    </div>
-</div>
-}
-<script>$(document).ready(function() {
-        $("#confirm").on("click", function(e) {
-            e.preventDefault();
-            $.post('@Url.Action("GenerateConfirmation")');
-
-            return false;
-        });
-
-        $("#changePassword")
-            .on("click", function(e) {
+    <script>$(document).ready(function() {
+            $('#confirm').on('click', function(e) {
                 e.preventDefault();
-                $("#passwordContainer").slideToggle("slow", "swing", function() {
-                    $("#CurrentPassword").focus();
+                $(e.target).addClass('disabled');
+                $.post('@Url.Action("GenerateConfirmation")').done(function() {
+                    $(e.target).removeClass('disabled');
+                    $('#message').html('<div class="alert alert-success text-center">Confirmation email sent.</div>');
                 });
 
                 return false;
             });
 
-        $("#change").on("click", function(e) {
-            var newPassword = $("#NewPassword"),
-                confirmPassword = $("#ConfirmPassword"),
-                currentPassword = $("#CurrentPassword"),
-                toggleState = function(node) {
-                    if ($.isArray(node)) {
-                        $(node).each(function() {
-                            this.closest(".control-group")
+            $('#changePassword')
+                .on('click', function(e) {
+                    e.preventDefault();
+                    $('#passwordContainer').slideToggle('slow', 'swing', function() {
+                        $('#CurrentPassword').focus();
+                    });
+
+                    return false;
+                });
+
+            $('#change').on('click', function(e) {
+                var newPassword = $('#NewPassword'),
+                    confirmPassword = $('#ConfirmPassword'),
+                    currentPassword = $('#CurrentPassword'),
+                    toggleState = function(node) {
+                        if ($.isArray(node)) {
+                            $(node).each(function() {
+                                this.closest('.form-group')
+                                    .addClass('error');
+                            });
+                        } else {
+                            $(node).closest('.form-group')
                                 .addClass('error');
-                        });
-                    } else {
-                        $(node).closest(".control-group")
-                            .addClass('error');
-                    }
-                };
+                        }
+                    };
 
-            $("div.control-group").removeClass("error");
+                $('div.form-group').removeClass('error');
 
-            if (newPassword.val() === "") {
-                e.preventDefault();
-                toggleState(newPassword);
-            }
+                if (newPassword.val() === '') {
+                    e.preventDefault();
+                    toggleState(newPassword);
+                }
 
-            if (confirmPassword.val() === "") {
-                e.preventDefault();
-                toggleState(confirmPassword);
-            }
+                if (confirmPassword.val() === '') {
+                    e.preventDefault();
+                    toggleState(confirmPassword);
+                }
 
-            if (currentPassword.val() === "") {
-                e.preventDefault();
-                toggleState(currentPassword);
-            }
+                if (currentPassword.val() === '') {
+                    e.preventDefault();
+                    toggleState(currentPassword);
+                }
 
-            if (newPassword.val() !== confirmPassword.val()) {
-                toggleState([newPassword, confirmPassword]);
-                e.preventDefault();
-                return false;
-            }
-        });
+                if (newPassword.val() !== confirmPassword.val()) {
+                    toggleState([newPassword, confirmPassword]);
+                    e.preventDefault();
+                    return false;
+                }
+            });
 });</script>
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-API
-Training
-Shop
-Blog
-About
