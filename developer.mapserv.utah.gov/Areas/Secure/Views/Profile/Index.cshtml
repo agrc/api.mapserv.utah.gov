@@ -8,9 +8,8 @@
     </h2>
 </div>
 <form asp-action="update" asp-controller="profile" asp-area="secure" method="put" class="form-horizontal">
-    <div class="offset3 span6">
-        Html.ErrorBox()
-        Html.MessageBox()
+    <div class="col-sm-offset-3 col-sm-6" id="message">
+        <notification error="@ViewData["error"]" message="@ViewData["message"]" />
     </div>
     <div class="row">
         <div class="col-sm-6">

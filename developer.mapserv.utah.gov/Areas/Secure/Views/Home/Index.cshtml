@@ -5,8 +5,8 @@
 <div class="col-sm-offset-3 col-sm-6 col-xs-10 col-xs-offset-1">
 </div>
 <div class="row" style="padding-top:5em">
-    <div class="col-sm-offset-1 col-sm-3 text-center" style="margin-top: 55px; padding-bottom: 55px;">
-        <a asp-action="keymanagement" asp-controller="Home" asp-area="secure" class="btn btn-primary btn-lg">Manage my API Keys</a>
+    <div class="col-sm-offset-3 col-sm-6">
+        <notification error="@ViewData["error"]" message="@ViewData["message"]" />
     </div>
 </div>
 <div class="col-sm-offset-1 col-sm-3 text-center" style="margin-top: 55px; padding-bottom: 55px;">
