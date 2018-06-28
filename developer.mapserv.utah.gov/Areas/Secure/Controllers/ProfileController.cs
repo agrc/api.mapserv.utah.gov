@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Dapper;
+using developer.mapserv.utah.gov.Areas.Secure.Models.Database;
 using developer.mapserv.utah.gov.Areas.Secure.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,7 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
                 id = Convert.ToInt32(idString);
             }
 
-            var model = await Connection.QueryFirstOrDefaultAsync<ProfileViewModel>(
+            var entity = await Connection.QueryFirstOrDefaultAsync<ProfileDTO>(
                 @"SELECT 
                   	email, 
                   	first_name as first, 
@@ -44,10 +45,13 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
                     job_category as jobcategory, 
                     job_title as jobtitle, 
                     experience, 
+					email_confirmed as confirmed,
                     contact_route as contactroute
                 FROM public.accounts
                 WHERE id = @id", new { id }
             );
+
+            var model = new ProfileViewModel(entity);
 
             return View(model);
         }
