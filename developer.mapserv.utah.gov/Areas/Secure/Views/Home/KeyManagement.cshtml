@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "AGRC Web API Key Management";
 }
+@model developer.mapserv.utah.gov.Areas.Secure.Models.ViewModels.KeyManagementViewModel
 <div id="home">
     <h2>
         Your API Keys
@@ -15,7 +16,7 @@
 <div class="text-center">
     <a asp-action="generatekey" asp-controller="Home" asp-area="secure" id="Create" class="btn btn-success" style="margin-bottom:10px">Generate Key</a>
     <p class="badge">
-        Model.KeyQuota.KeysUsed / Model.KeyQuota.KeysAllowed
+        @Model.KeysUsed / @Model.KeysAllowed
         used
     </p>
 </div>
@@ -25,45 +26,20 @@
             <thead>
                 <tr>
                     <th>Key</th>
-                    <th>Uses</th>
-                    <th>Type</th>
-                    <th>Last Used</th>
-                    <th>Pattern</th>
+                    <th class="hidden-xs hidden-sm">Created</th>
+                    <th class='hidden-xs hidden-sm'>Uses</th>
+                    <th class="hidden-xs hidden-sm">Type</th>
+                    <td class="hidden-xs">Last Used</td>
+                    <th class="hidden-xs">Pattern</th>
+                    <th>Notes</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                foreach (var apiKeyUsage in Model.AllUserKeys)
-                {
-                <tr>
-                    <td>
-                        apiKeyUsage.ApiKey
-                        <span style="margin-top: 5px;" class="pull-right apiKeyUsage.UseTypeIconCssClass">apiKeyUsage.UseType</span>
-                    </td>
-                    <td>
-                        <p class="text-right"> apiKeyUsage.UsageCount</p>
-                    </td>
-                    <td>
-                        apiKeyUsage.Type
-                    </td>
-                    <td>
-                        apiKeyUsage.LastUsed
-                    </td>
-                    <td>
-                        apiKeyUsage.Pattern
-                    </td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <a href="#" class="btn apiKeyUsage.ButtonCssClass">
-                                <i data-key="apiKeyUsage.ApiKey" class="apiKeyUsage.StutusIconCssClass">
-                                </i>&nbsp;apiKeyUsage.StatusIconText
-                            </a><a href="#" class="btn btn-danger" title="Delete Key">
-                                <i data-key="apiKeyUsage.ApiKey" class="glyphicon glyphicon-trash"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                }
+            @foreach (var key in @Model.Keys)
+            {
+                <api-key-row key="@key"></api-key-row>
+            }
             </tbody>
         </table>
     </div>

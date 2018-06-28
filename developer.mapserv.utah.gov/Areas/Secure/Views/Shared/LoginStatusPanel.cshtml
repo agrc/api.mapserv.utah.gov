@@ -1,0 +1,11 @@
+﻿@using System.Security.Claims
+@model IEnumerable<Claim>
+@{
+    var email = Model.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+    if (string.IsNullOrEmpty(email))
+    {
+        email = "Update Profile";
+    }
+}
+| <i class="glyphicon glyphicon-user"></i>&nbsp;<a asp-action="index" asp-controller="profile" asp-area="secure">@email</a>
+| <i class="glyphicon glyphicon-road"></i>&nbsp;<a asp-action="logout" asp-controller="accountaccess">Log out</a>
