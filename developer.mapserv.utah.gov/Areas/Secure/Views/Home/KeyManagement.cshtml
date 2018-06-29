@@ -37,7 +37,12 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach (var key in @Model.Keys)
+            @if(!Model.Keys.Any()) {
+               <tr>
+                    <td colspan="7" class="text-center">Go gerate your first key!</td>
+               </tr>
+            }
+            @foreach (var key in Model.Keys)
             {
                 <api-key-row key="@key"></api-key-row>
             }
