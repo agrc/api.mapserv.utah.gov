@@ -1,18 +1,18 @@
-version: '3.6'
+version: '3'
 
 services:
 
-  webapi-core:
-    image: webapi-core
+  api:
     build:
       context: .
       dockerfile: api.mapserv.utah.gov/Dockerfile
+    image: webapi/api
 
-  developer.mapserv.utah.gov:
-    image: developer.mapserv.utah.gov
+  developer:
     build:
       context: .
       dockerfile: developer.mapserv.utah.gov/Dockerfile
+    image: webapi/developer
 
   db:
     image: postgres:10.4

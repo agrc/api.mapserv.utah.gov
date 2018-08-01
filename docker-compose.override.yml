@@ -1,8 +1,8 @@
-version: '3.6'
+version: '3'
 
 services:
 
-  webapi-core:
+  api:
     ports:
       - "1337:1337"
     environment:
@@ -12,7 +12,7 @@ services:
       - db
       - cache
 
-  developer.mapserv.utah.gov:
+  developer:
     ports:
       - "1338:1338"
     environment:
