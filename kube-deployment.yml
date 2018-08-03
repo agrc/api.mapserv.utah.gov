@@ -1,0 +1,157 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapi-api
+  labels:
+    app: api
+    tier: backend
+    version: 1.0.0
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 1337
+  selector:
+    app: api
+    tier: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapi-api
+spec:
+  selector:
+    matchLabels:
+      app: api
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: api
+        tier: backend
+        version: 1.0.0
+    spec:
+      imagePullSecrets:
+      - name: gcr-json-key
+      containers:
+      - name: webapi-api
+        image: gcr.io/agrc-204220/webapi/api:latest
+        env:
+        - name: ASPNETCORE_URLS
+          value: http://+:1337
+        - name: ASPNETCORE_ENVIRONMENT
+          value: DockerDevelopment
+        ports:
+        - containerPort: 1337
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: developer-console
+  labels:
+    app: website
+    tier: frontend
+    version: 1.0.0
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 1338
+  selector:
+    app: website
+    tier: frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: developer-console
+spec:
+  selector:
+    matchLabels:
+      app: website
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: website
+        tier: frontend
+        version: 1.0.0
+    spec:
+      imagePullSecrets:
+      - name: gcr-json-key
+      containers:
+      - name: webapi-developer
+        image: gcr.io/agrc-204220/webapi/developer:latest
+        env:
+        - name: ASPNETCORE_URLS
+          value: http://+:1338
+        - name: ASPNETCORE_ENVIRONMENT
+          value: DockerDevelopment
+        ports:
+        - containerPort: 1338
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    app: postgres
+    tier: backend
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: postgres
+    tier: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: postgres
+        tier: backend
+        version: 1.0.0
+    spec:
+      containers:
+      - image: postgres:10.4
+        name: postgres
+        env:
+        - name: POSTGRES_DB
+          value: webapi
+        - name: POSTGRES_USER
+          value: postgres
+        - name: "POSTGRES_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: postgres-pass
+              key: password
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/postgresql/data
+          subPath: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: data
+  annotations:
+    volume.alpha.kubernetes.io/storage-class: default
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 5Gi
