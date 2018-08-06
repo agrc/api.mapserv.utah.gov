@@ -40,7 +40,7 @@ namespace api.mapserv.utah.gov.Commands
             Args = args;
             if (string.IsNullOrEmpty(reprojectUrl))
             {
-                reprojectUrl = _geometryServiceConfiguration.Value.GetUrl();
+                reprojectUrl = _geometryServiceConfiguration.Value.ProjectUrl;
             }
 
             ReprojectUrl = reprojectUrl;

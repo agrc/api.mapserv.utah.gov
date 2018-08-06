@@ -29,6 +29,7 @@
     <Folder Include="Areas\Secure\Models\Database\" />
     <Folder Include="Areas\Secure\Formatters\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Models\Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\secure\Secure.cs" />

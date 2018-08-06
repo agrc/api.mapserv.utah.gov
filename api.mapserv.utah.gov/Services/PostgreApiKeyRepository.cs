@@ -15,7 +15,7 @@ namespace api.mapserv.utah.gov.Services
         private const string apiKeyByKey = @"SELECT key,
                    account_id, 
                    whitelisted, 
-                   status, 
+                   enabled, 
                    deleted, 
                    configuration, 
                    regex_pattern, 
@@ -25,9 +25,9 @@ namespace api.mapserv.utah.gov.Services
                 WHERE 
                     lower(key) = @key";
 
-        public PostgreApiKeyRepository(IOptions<DbConfiguration> dbOptions)
+        public PostgreApiKeyRepository(IOptions<DatabaseConfiguration> dbOptions)
         {
-            ConnectionString = $"Host=db;Username=postgres;Password={dbOptions.Value.DbPassword};Database=webapi";
+            ConnectionString = dbOptions.Value.ConnectionString;
         }
 
         public async Task<ApiKey> GetKey(string key)

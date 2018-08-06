@@ -13,11 +13,11 @@ namespace api.mapserv.utah.gov.Controllers
     [Produces("application/json")]
     public class CanaryController : Controller
     {
-        public CanaryController(IOptions<DbConfiguration> dbOptions) {
+        public CanaryController(IOptions<DatabaseConfiguration> dbOptions) {
             DbOptions = dbOptions;
         }
 
-        public IOptions<DbConfiguration> DbOptions { get; }
+        public IOptions<DatabaseConfiguration> DbOptions { get; }
 
         [HttpGet]
         [Route("api/v{version:apiVersion}/canary")]
@@ -32,12 +32,10 @@ namespace api.mapserv.utah.gov.Controllers
 
         private dynamic CheckDb()
         {
-            var connString = $"Host=db;Username=postgres;Password={DbOptions.Value.DbPassword};Database=webapi";
-
             var stopWatch = Stopwatch.StartNew();
             try
             {
-                using (var conn = new NpgsqlConnection(connString))
+                using (var conn = new NpgsqlConnection(DbOptions.Value.ConnectionString))
                 {
                     conn.Open();
 

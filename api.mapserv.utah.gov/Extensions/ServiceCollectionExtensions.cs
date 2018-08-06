@@ -15,7 +15,7 @@ namespace api.mapserv.utah.gov.Extensions
         public static void UseOptions(this IServiceCollection services, IConfiguration config){
             services.Configure<GisServerConfiguration>(config);
             services.Configure<GeometryServiceConfiguration>(config);
-            services.Configure<DbConfiguration>(config);
+            services.Configure<DatabaseConfiguration>(config);
         }
 
         public static void UseDi(this IServiceCollection services)
