@@ -1,11 +1,59 @@
 --
+-- PostgreSQL database cluster dump
+--
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Drop databases
+--
+
+DROP DATABASE webapi;
+
+
+
+
+--
+-- Drop roles
+--
+
+DROP ROLE postgres;
+
+
+--
+-- Roles
+--
+
+CREATE ROLE postgres;
+ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'md5fadd4c20f617978710351a5de080cba1';
+
+
+
+
+
+
+--
+-- Database creation
+--
+
+REVOKE CONNECT,TEMPORARY ON DATABASE template1 FROM PUBLIC;
+GRANT CONNECT ON DATABASE template1 TO PUBLIC;
+CREATE DATABASE webapi WITH TEMPLATE = template0 OWNER = postgres;
+
+
+\connect postgres
+
+SET default_transaction_read_only = off;
+
+--
 -- PostgreSQL database dump
 --
 
 -- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
--- Dumped by pg_dump version 10.3
-
--- Started on 2018-06-26 14:05:48 MDT
+-- Dumped by pg_dump version 10.4 (Debian 10.4-2.pgdg90+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +66,13 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 1 (class 3079 OID 12980)
+-- Name: DATABASE postgres; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE postgres IS 'default administrative connection database';
+
+
+--
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -26,8 +80,91 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2874 (class 0 OID 0)
--- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect template1
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
+-- Dumped by pg_dump version 10.4 (Debian 10.4-2.pgdg90+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: DATABASE template1; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE template1 IS 'default template for new databases';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect webapi
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
+-- Dumped by pg_dump version 10.4 (Debian 10.4-2.pgdg90+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -39,7 +176,6 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 196 (class 1259 OID 16385)
 -- Name: accounts; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -49,16 +185,16 @@ CREATE TABLE public.accounts (
     first_name character varying(128),
     last_name character varying(128),
     admin boolean DEFAULT false,
-    keys_used integer,
-    keys_allowed integer,
+    keys_used integer DEFAULT 0,
+    keys_allowed integer DEFAULT 5,
     company character varying(512),
     job_category character varying(256),
     job_title character varying(256),
     experience integer,
     contact_route character varying(128),
-    email_confirmed boolean,
+    email_confirmed boolean DEFAULT false,
     email_confirmation_date date,
-    email_confirmation_tries smallint,
+    email_confirmation_tries smallint DEFAULT 1,
     email_key character varying(512),
     salt character varying(128),
     password character varying
@@ -68,7 +204,6 @@ CREATE TABLE public.accounts (
 ALTER TABLE public.accounts OWNER TO postgres;
 
 --
--- TOC entry 197 (class 1259 OID 16392)
 -- Name: accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -84,8 +219,6 @@ CREATE SEQUENCE public.accounts_id_seq
 ALTER TABLE public.accounts_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2875 (class 0 OID 0)
--- Dependencies: 197
 -- Name: accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -93,7 +226,6 @@ ALTER SEQUENCE public.accounts_id_seq OWNED BY public.accounts.id;
 
 
 --
--- TOC entry 198 (class 1259 OID 16394)
 -- Name: apikeys; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -102,20 +234,21 @@ CREATE TABLE public.apikeys (
     account_id integer,
     key character varying(20),
     whitelisted boolean DEFAULT false,
-    status boolean,
+    enabled boolean,
     deleted boolean,
     configuration character varying(20),
     created_at_ticks bigint,
     pattern character varying(500),
     regex_pattern character varying(500),
-    is_machine_name boolean
+    is_machine_name boolean,
+    notes character varying,
+    type character varying(10)
 );
 
 
 ALTER TABLE public.apikeys OWNER TO postgres;
 
 --
--- TOC entry 199 (class 1259 OID 16401)
 -- Name: apikeys_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -131,8 +264,6 @@ CREATE SEQUENCE public.apikeys_id_seq
 ALTER TABLE public.apikeys_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2876 (class 0 OID 0)
--- Dependencies: 199
 -- Name: apikeys_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -140,7 +271,6 @@ ALTER SEQUENCE public.apikeys_id_seq OWNED BY public.apikeys.id;
 
 
 --
--- TOC entry 2734 (class 2604 OID 16403)
 -- Name: accounts id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -148,7 +278,6 @@ ALTER TABLE ONLY public.accounts ALTER COLUMN id SET DEFAULT nextval('public.acc
 
 
 --
--- TOC entry 2736 (class 2604 OID 16404)
 -- Name: apikeys id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -156,39 +285,31 @@ ALTER TABLE ONLY public.apikeys ALTER COLUMN id SET DEFAULT nextval('public.apik
 
 
 --
--- TOC entry 2863 (class 0 OID 16385)
--- Dependencies: 196
 -- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.accounts (id, email, first_name, last_name, admin, keys_used, keys_allowed, company, job_category, job_title, experience, contact_route, email_confirmed, email_confirmation_date, email_confirmation_tries, email_key, salt, password) FROM stdin;
-1	test@test.com	agrc	dog	t	1	5	agrc	\N	\N	10	email	t	1980-01-01	1	\N	VvHJ6le3mVyFstXX2QxoKQ==	+VlpcEnzh9toGaPhAuXBTTYxgb0LeETGRUaSe4Glfqo=
+1	test@test.com	agrc	location matters	t	1	5	agrc	\N	\N	10	email	t	1980-01-01	1	\N	rq5vdoY5U2S5TxuXDbq8uQ==	eDf267fDK6wS71GOO8tehsuD0m8Tz0HNRMdfo8XyyKk=
 \.
 
 
 --
--- TOC entry 2865 (class 0 OID 16394)
--- Dependencies: 198
 -- Data for Name: apikeys; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.apikeys (id, account_id, key, whitelisted, status, deleted, configuration, created_at_ticks, pattern, regex_pattern, is_machine_name) FROM stdin;
-1	1	AGRC-Explorer	t	t	f	Development	234234234234	*	asdf	f
+COPY public.apikeys (id, account_id, key, whitelisted, enabled, deleted, configuration, created_at_ticks, pattern, regex_pattern, is_machine_name, notes, type) FROM stdin;
+1	1	AGRC-Explorer	t	t	f	Development	636657370427710489	*	asdf	f	key for the api explorer	 Browser
 \.
 
 
 --
--- TOC entry 2877 (class 0 OID 0)
--- Dependencies: 197
 -- Name: accounts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.accounts_id_seq', 1, false);
+SELECT pg_catalog.setval('public.accounts_id_seq', 10, true);
 
 
 --
--- TOC entry 2878 (class 0 OID 0)
--- Dependencies: 199
 -- Name: apikeys_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -196,7 +317,6 @@ SELECT pg_catalog.setval('public.apikeys_id_seq', 1, false);
 
 
 --
--- TOC entry 2738 (class 2606 OID 16406)
 -- Name: accounts accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -205,7 +325,6 @@ ALTER TABLE ONLY public.accounts
 
 
 --
--- TOC entry 2740 (class 2606 OID 16408)
 -- Name: apikeys apikeys_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -214,7 +333,6 @@ ALTER TABLE ONLY public.apikeys
 
 
 --
--- TOC entry 2741 (class 2606 OID 16409)
 -- Name: apikeys apikeys_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -222,9 +340,11 @@ ALTER TABLE ONLY public.apikeys
     ADD CONSTRAINT apikeys_account_id_fkey FOREIGN KEY (account_id) REFERENCES public.accounts(id) ON DELETE CASCADE;
 
 
--- Completed on 2018-06-26 14:05:48 MDT
-
 --
 -- PostgreSQL database dump complete
+--
+
+--
+-- PostgreSQL database cluster dump complete
 --
 
