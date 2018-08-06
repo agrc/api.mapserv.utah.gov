@@ -43,7 +43,7 @@ namespace api.mapserv.utah.gov.Commands
 
                 return ProcessResult(geocodeResponse);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //                Log.Fatal(ex, "Error reading geocode address response {Response}",
                 //                          response.Content.ReadAsStringAsync().Result);
