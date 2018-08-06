@@ -31,9 +31,9 @@
         }
 
         public string Key { get; set; }
-        public KeyStatus ApiKeyStatus { get; set; }
+        public KeyStatus Enabled { get; set; }
         public ApplicationType Type { get; set; }
-        public ApplicationStatus AppStatus { get; set; }
+        public ApplicationStatus Configuration { get; set; }
         public string Pattern { get; set; }
         public string RegexPattern { get; set; }
         public bool IsMachineName { get; set; }

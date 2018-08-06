@@ -65,7 +65,7 @@ namespace api.mapserv.utah.gov.Filters
 
             // TODO make sure user has confirmed email address
 
-            if (apiKey.Deleted || apiKey.ApiKeyStatus == ApiKey.KeyStatus.Disabled)
+            if (apiKey.Deleted || apiKey.Enabled == ApiKey.KeyStatus.Disabled)
             {
                 context.Result = new BadRequestObjectResult(new ApiResponseContainer
                 {
@@ -83,8 +83,6 @@ namespace api.mapserv.utah.gov.Filters
 
                 return;
             }
-
-
 
             if (apiKey.Type == ApiKey.ApplicationType.Browser)
             {
@@ -119,7 +117,7 @@ namespace api.mapserv.utah.gov.Filters
                     corsOriginValue = corsOriginHeader.Value.SingleOrDefault();
                 }
 
-                if (apiKey.AppStatus == ApiKey.ApplicationStatus.Development &&
+                if (apiKey.Configuration == ApiKey.ApplicationStatus.Development &&
                     IsLocalDevelopment(new Uri(referrer.ToString()), corsOriginValue))
                 {
                     await next();
