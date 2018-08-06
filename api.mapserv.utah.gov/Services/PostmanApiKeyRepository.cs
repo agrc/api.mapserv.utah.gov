@@ -11,8 +11,8 @@ namespace api.mapserv.utah.gov.Services
             {
                 return Task.FromResult(new ApiKey(key)
                 {
-                    ApiKeyStatus = ApiKey.KeyStatus.Active,
-                    AppStatus = ApiKey.ApplicationStatus.Production,
+                    Enabled = ApiKey.KeyStatus.Active,
+                    Configuration = ApiKey.ApplicationStatus.Production,
                     Deleted = false,
                     IsMachineName = false,
                     RegexPattern = "localhost",
@@ -25,8 +25,8 @@ namespace api.mapserv.utah.gov.Services
             {
                 return Task.FromResult(new ApiKey(key)
                 {
-                    ApiKeyStatus = ApiKey.KeyStatus.Disabled,
-                    AppStatus = ApiKey.ApplicationStatus.Production,
+                    Enabled = ApiKey.KeyStatus.Disabled,
+                    Configuration = ApiKey.ApplicationStatus.Production,
                     Deleted = false,
                     IsMachineName = false,
                     RegexPattern = "localhost",
@@ -38,8 +38,8 @@ namespace api.mapserv.utah.gov.Services
             {
                 return Task.FromResult(new ApiKey(key)
                 {
-                    ApiKeyStatus = ApiKey.KeyStatus.Active,
-                    AppStatus = ApiKey.ApplicationStatus.Production,
+                    Enabled = ApiKey.KeyStatus.Active,
+                    Configuration = ApiKey.ApplicationStatus.Production,
                     Deleted = true,
                     IsMachineName = false,
                     RegexPattern = "localhost",
@@ -51,8 +51,8 @@ namespace api.mapserv.utah.gov.Services
             {
                 return Task.FromResult(new ApiKey(key)
                 {
-                    ApiKeyStatus = ApiKey.KeyStatus.Active,
-                    AppStatus = ApiKey.ApplicationStatus.Production,
+                    Enabled = ApiKey.KeyStatus.Active,
+                    Configuration = ApiKey.ApplicationStatus.Production,
                     Deleted = false,
                     IsMachineName = false,
                     Pattern = "::1",
