@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using developer.mapserv.utah.gov.Models.Configuration;
 using developer.mapserv.utah.gov.Models.SecretOptions;
+using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +25,7 @@ namespace developer.mapserv.utah.gov
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<PepperModel>(Configuration);
+            services.Configure<DatabaseConfiguration>(Configuration);
 
             //services.Configure<CookiePolicyOptions>(options =>
             //{
@@ -38,10 +36,9 @@ namespace developer.mapserv.utah.gov
 
             services.AddScoped<NpgsqlConnection>((serviceProvider) =>
             {
-                var secrets = Configuration["dbPassword"];
-                var connString = $"Host=db;Username=postgres;Password={secrets};Database=webapi";
+                var dbOptions = serviceProvider.GetService<IOptions<DatabaseConfiguration>>();
 
-                var conn = new NpgsqlConnection(connString);
+                var conn = new NpgsqlConnection(dbOptions.Value.ConnectionString);
                 conn.Open();
 
                 return conn;
@@ -69,12 +66,11 @@ namespace developer.mapserv.utah.gov
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseCookiePolicy();
-
-            app.UseMvc();
+            app.UseHttpsRedirection()
+               .UseStaticFiles()
+               .UseAuthentication()
+               .UseCookiePolicy()
+               .UseMvc();
         }
     }
 }
