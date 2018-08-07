@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Fastenshtein" Version="1.0.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.2"/>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
     <PackageReference Include="Polly" Version="6.1.0" />
