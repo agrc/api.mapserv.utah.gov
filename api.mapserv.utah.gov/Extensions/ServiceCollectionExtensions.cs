@@ -5,6 +5,7 @@ using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Commands;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models.SecretOptions;
+using api.mapserv.utah.gov.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,9 +14,9 @@ namespace api.mapserv.utah.gov.Extensions
     public static class ServiceCollectionExtensions
     {
         public static void UseOptions(this IServiceCollection services, IConfiguration config){
-            services.Configure<GisServerConfiguration>(config);
-            services.Configure<GeometryServiceConfiguration>(config);
-            services.Configure<DatabaseConfiguration>(config);
+            services.Configure<GisServerConfiguration>(config.GetSection("webapi:arcgis"));
+            services.Configure<GeometryServiceConfiguration>(config.GetSection("webapi:arcgis"));
+            services.Configure<DatabaseConfiguration>(config.GetSection("webapi:database"));
         }
 
         public static void UseDi(this IServiceCollection services)
