@@ -2,6 +2,6 @@
 {
     public class GisServerConfiguration
     {
-        public string Host { get; set; }
+        public string Host { get; set; } = "localhost";
     }
 }
