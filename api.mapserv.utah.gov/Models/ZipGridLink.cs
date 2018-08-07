@@ -4,12 +4,11 @@ namespace api.mapserv.utah.gov.Models
 {
   public class ZipGridLink : GridLinkable
   {
-      public ZipGridLink(int zipCode, string gridName, int weight) :
-          base(gridName, weight)
+      public ZipGridLink(int zip, string grid, int weight) :
+          base(grid, weight)
       {
-          ZipCode = zipCode;
+          ZipCode = zip;
       }
-
 
       public int ZipCode { get; set; }
 

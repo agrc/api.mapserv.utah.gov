@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
-using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Services;
 
 namespace api.mapserv.utah.gov.Commands
 {
     public class GetAddressSystemFromZipCodeCommand : Command<List<GridLinkable>>
     {
-        private readonly IGoogleDriveCache _driveCache;
+        private readonly ILookupCache _driveCache;
         private string _zip;
         private string _grid;
 
-        public GetAddressSystemFromZipCodeCommand(IGoogleDriveCache driveCache)
+        public GetAddressSystemFromZipCodeCommand(ILookupCache driveCache)
         {
             _driveCache = driveCache;
         }

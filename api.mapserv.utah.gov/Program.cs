@@ -1,13 +1,20 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.Threading.Tasks;
+using api.mapserv.utah.gov.Services;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace api.mapserv.utah.gov
 {
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+
+            var lookupCache = host.Services.GetService(typeof(ILookupCache)) as ILookupCache;
+            await lookupCache.InitializeAsync();
+
+            host.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)

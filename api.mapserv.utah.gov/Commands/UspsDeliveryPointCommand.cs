@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
+using api.mapserv.utah.gov.Services;
 
 namespace api.mapserv.utah.gov.Commands
 {
     public class UspsDeliveryPointCommand
     {
-        private readonly IGoogleDriveCache _drivecCache;
+        private readonly ILookupCache _driveCache;
         private readonly ReprojectPointsCommand _reproject;
         private GeocodingOptions _options;
 
-        public UspsDeliveryPointCommand(IGoogleDriveCache drivecCache, ReprojectPointsCommand reproject)
+        public UspsDeliveryPointCommand(ILookupCache drivecCache, ReprojectPointsCommand reproject)
         {
-            _drivecCache = drivecCache;
+            _driveCache = drivecCache;
             _reproject = reproject;
         }
 
@@ -34,7 +34,7 @@ namespace api.mapserv.utah.gov.Commands
                 return null;
             }
 
-            _drivecCache.UspsDeliveryPoints.TryGetValue(GeocodedAddress.Zip5.Value.ToString(), out List<GridLinkable> items);
+            _driveCache.UspsDeliveryPoints.TryGetValue(GeocodedAddress.Zip5.Value.ToString(), out List<GridLinkable> items);
 
             if (items == null || !items.Any())
             {
