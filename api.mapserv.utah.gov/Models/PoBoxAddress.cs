@@ -1,4 +1,6 @@
-﻿namespace api.mapserv.utah.gov.Models
+﻿using System;
+
+namespace api.mapserv.utah.gov.Models
 {
     public class PoBoxAddress
     {
@@ -11,11 +13,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
-        public PoBoxAddress(int zip, double x, double y)
+        public PoBoxAddress(int zip, decimal x, decimal y)
         {
             Zip = zip;
-            X = x;
-            Y = y;
+            X = Convert.ToDouble(x);
+            Y = Convert.ToDouble(y);
         }
     }
 }

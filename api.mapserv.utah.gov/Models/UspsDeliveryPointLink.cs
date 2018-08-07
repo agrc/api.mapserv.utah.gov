@@ -1,4 +1,6 @@
-﻿namespace api.mapserv.utah.gov.Models
+﻿using System;
+
+namespace api.mapserv.utah.gov.Models
 {
     public class UspsDeliveryPointLink : ZipGridLink
     {
@@ -6,12 +8,12 @@
         public double X { get; set; }
         public double Y { get; set; }
 
-        public UspsDeliveryPointLink(int zipCode, string gridName, int weight, string name, double x, double y) :
-            base(zipCode, gridName, weight)
+        public UspsDeliveryPointLink(int zip, string grid, string place, decimal x, decimal y) :
+            base(zip, grid, 0)
         {
-            MatchAddress = name;
-            X = x;
-            Y = y;
+            MatchAddress = place;
+            X = Convert.ToDouble(x);
+            Y = Convert.ToDouble(y);
         }
     }
 }
