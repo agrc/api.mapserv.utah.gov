@@ -2,10 +2,10 @@
 {
   public class PlaceGridLink : GridLinkable
   {
-      public PlaceGridLink(string city, string grid, int weight) :
+      public PlaceGridLink(string place, string grid, int weight) :
           base(grid, weight)
       {
-          City = city;
+          City = place;
       }
 
       public string City { get; set; }

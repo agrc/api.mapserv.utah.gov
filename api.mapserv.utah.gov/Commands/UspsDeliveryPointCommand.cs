@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Services;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -13,9 +13,9 @@ namespace api.mapserv.utah.gov.Commands
         private readonly ReprojectPointsCommand _reproject;
         private GeocodingOptions _options;
 
-        public UspsDeliveryPointCommand(ILookupCache drivecCache, ReprojectPointsCommand reproject)
+        public UspsDeliveryPointCommand(ILookupCache driveCache, ReprojectPointsCommand reproject)
         {
-            _driveCache = drivecCache;
+            _driveCache = driveCache;
             _reproject = reproject;
         }
 
