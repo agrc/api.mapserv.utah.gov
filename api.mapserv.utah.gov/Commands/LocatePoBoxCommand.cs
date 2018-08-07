@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
+using api.mapserv.utah.gov.Services;
 
 namespace api.mapserv.utah.gov.Commands
 {
     public class LocatePoBoxCommand 
     {
-        private readonly IGoogleDriveCache _driveCache;
+        private readonly ILookupCache _driveCache;
         private readonly ReprojectPointsCommand _repojectPoints;
         private GeocodingOptions _options;
         private GeocodeAddress _geocodedAddress;
 
-        public LocatePoBoxCommand(IGoogleDriveCache driveCache, ReprojectPointsCommand repojectPoints)
+        public LocatePoBoxCommand(ILookupCache driveCache, ReprojectPointsCommand repojectPoints)
         {
             _driveCache = driveCache;
             _repojectPoints = repojectPoints;

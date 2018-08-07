@@ -35,7 +35,9 @@ namespace api.mapserv.utah.gov.Extensions
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
-            services.AddSingleton<IGoogleDriveCache, GoogleDriveCache>();
+            services.AddSingleton<ILookupCache, LookupCache>();
+            services.AddSingleton<IApiKeyRepository, PostgreApiKeyRepository>();
+            services.AddSingleton<ICacheRepository, PostgreApiKeyRepository>();
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();

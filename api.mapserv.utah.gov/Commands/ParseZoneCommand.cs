@@ -9,9 +9,9 @@ namespace api.mapserv.utah.gov.Commands
   public class ParseZoneCommand : Command<GeocodeAddress>
     {
         private readonly IRegexCache _regex;
-        private readonly IGoogleDriveCache _driveCache;
+        private readonly ILookupCache _driveCache;
 
-        public ParseZoneCommand(IRegexCache regex, IGoogleDriveCache driveCache)
+        public ParseZoneCommand(IRegexCache regex, ILookupCache driveCache)
         {
             _regex = regex;
             _driveCache = driveCache;
