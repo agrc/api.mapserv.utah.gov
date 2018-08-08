@@ -47,12 +47,14 @@ export WEBAPI__ARCGIS__GEOMETRY_SERVICE__PATH="arcgis/rest/services/Geometry/Geo
 
 - `docker volume create --name=pgdata` // creates the volume for the postgres database for persistence
 
-- `docker-compose build` // builds the image into a container. Do this anytime you change the dockerfile
-- `docker-compose up` // starts the container
-
 I had to share `/usr/local/share/dotnet/sdk` to make the mounts work. Not sure why?
 ![image](https://user-images.githubusercontent.com/325813/41327808-1b3a2bae-6e82-11e8-9b98-e7bf84a1cc6c.png)
 
+
+### Build and Start
+
+- `docker-compose build` // builds the images. Do this anytime you change the dockerfile or docker-compose files
+- `docker-compose up` // starts the containers
 
 ### Import database
 _with container running_
