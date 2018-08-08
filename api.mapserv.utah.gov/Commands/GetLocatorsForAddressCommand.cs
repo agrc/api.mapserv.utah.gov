@@ -8,6 +8,7 @@ using api.mapserv.utah.gov.Models.Constants;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Models.SecretOptions;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -56,6 +57,8 @@ namespace api.mapserv.utah.gov.Commands
         {
             var locatorLookup = new Dictionary<LocatorType, List<LocatorProperties>>();
 
+            Log.Verbose("Finding locators for {address}, {options}", Address, Options);
+
             Add(UspsDeliveryPoint(), ref locatorLookup, LocatorType.All);
             Add(Intersection(), ref locatorLookup, LocatorType.All);
             Add(AddressPoints(), ref locatorLookup, LocatorType.AddressPoints);
@@ -63,6 +66,8 @@ namespace api.mapserv.utah.gov.Commands
             Add(Centerlines(Address), ref locatorLookup, LocatorType.RoadCenterlines);
 
             LocatorLookup = locatorLookup;
+
+            Log.Debug("Using {locators} for {address}, {options}", LocatorLookup, Address, Options);
         }
 
         private IEnumerable<LocatorProperties> Centerlines(AddressBase address)

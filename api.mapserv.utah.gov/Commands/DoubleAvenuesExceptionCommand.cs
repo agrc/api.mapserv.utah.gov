@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -49,33 +50,6 @@ namespace api.mapserv.utah.gov.Commands
 
           return new Regex(string.Format("^({0})$", string.Join("|", ordinals)), RegexOptions.IgnoreCase);
       }
-
-      public static string ToOrdinal(int number)
-      {
-          if (number < 0)
-          {
-              return number.ToString();
-          }
-
-          var rem = number % 100;
-          if (rem >= 11 && rem <= 13)
-          {
-              return number + "th";
-          }
-
-          switch (number % 10)
-          {
-              case 1:
-                  return number + "st";
-              case 2:
-                  return number + "nd";
-              case 3:
-                  return number + "rd";
-              default:
-                  return number + "th";
-          }
-      }
-
       public override string ToString() => $"DoubleAvenuesExceptionCommand, zone: {_address.Zip5}, prefix: {_address.PrefixDirection}";
 
       protected override void Execute()
@@ -83,16 +57,21 @@ namespace api.mapserv.utah.gov.Commands
           // only avenue addresses with no prefix are affected
           if (_address.PrefixDirection != Direction.None || _address.StreetType != StreetType.Avenue || !IsOrdinal(_address.StreetName))
           {
+              Log.Debug("Only avenue addresses with no prefix are affected. skipping {address}", _address);
               Result = _address;
 
               return;
           }
+
+          Log.Debug("Possible double avenues exception {address}, {city}", _address, _city);
 
           // it's in the problem area in midvale
           const int midvale = 84047;
           if (!string.IsNullOrEmpty(_city) && _city.ToUpperInvariant().Contains("MIDVALE") ||
               _address.Zip5.HasValue && _address.Zip5.Value == midvale)
           {
+              Log.Information("Midvale avenues exception, updating {_address} to include West", _address);
+
               _address.PrefixDirection = Direction.West;
               Result = _address;
 
@@ -102,11 +81,15 @@ namespace api.mapserv.utah.gov.Commands
           // update the slc avenues to have an east
           if (_address.AddressGrids.Select(x => x.Grid).Contains("SALT LAKE CITY"))
           {
+              Log.Information("SLC avenues exception, updating {_address} to include East", _address);
+
               _address.PrefixDirection = Direction.East;
               Result = _address;
 
               return;
           }
+
+          Log.Debug("Not a double avenues exception", _address, _city);
 
           Result = _address;
       }

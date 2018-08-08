@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using api.mapserv.utah.gov.Exceptions;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Models
 {
@@ -19,8 +20,8 @@ namespace api.mapserv.utah.gov.Models
                 timer.Start();
                 Execute();
                 timer.Stop();
-//                Log.Verbose("{Task} Duration: {Duration}ms", ToString(),
-//                            timer.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
+                Log.Debug("{Task} Duration: {Duration}ms", ToString(),
+                           timer.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
             }
             catch (AggregateException ex)
             {
@@ -42,7 +43,7 @@ namespace api.mapserv.utah.gov.Models
                     throw exception;
                 }
 
-//                Log.Fatal(ex, "Geocoding error occurred: {Task} {@errorList}", ToString(), errorList);
+                Log.Fatal(ex, "Geocoding error occurred: {Task} {@errorList}", ToString(), errorList);
             }
             catch (CommandValidationException)
             {
@@ -51,7 +52,7 @@ namespace api.mapserv.utah.gov.Models
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
-//                Log.Fatal(ex, "Error processing task: {Task} {@errorList}", ToString(), errorList);
+                Log.Fatal(ex, "Error processing task: {Task} {@errorList}", ToString(), errorList);
             }
         }
 

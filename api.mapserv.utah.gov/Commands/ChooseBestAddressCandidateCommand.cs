@@ -2,6 +2,7 @@
 using System.Linq;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -39,6 +40,8 @@ namespace api.mapserv.utah.gov.Commands
     {
         if (Candidates == null || !Candidates.Any())
         {
+            Log.Debug("No candidates found for {address} with {options}", GeocodedAddress, GeocodeOptions);
+
             Result = new GeocodeAddressApiResponse
             {
                 InputAddress = $"{Street}, {Zone}",
@@ -47,6 +50,8 @@ namespace api.mapserv.utah.gov.Commands
 
             return;
         }
+
+        Log.Debug("Choosing result from grids {grids} with a score >= {score}", GeocodedAddress.AddressGrids, GeocodeOptions.AcceptScore);
 
         // get best match from candidates
         var result = Candidates.FirstOrDefault(x => x.Score >= GeocodeOptions.AcceptScore &&
@@ -76,7 +81,10 @@ namespace api.mapserv.utah.gov.Commands
 
         if (result.Location == null && GeocodeOptions.Suggest == 0)
         {
+            Log.Debug("The result had no location {result}", result);
+
             Result = null;
+
             return;
         }
 

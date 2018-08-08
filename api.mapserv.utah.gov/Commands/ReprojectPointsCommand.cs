@@ -6,6 +6,7 @@ using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.SecretOptions;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -51,10 +52,12 @@ namespace api.mapserv.utah.gov.Commands
         public async Task<PointReprojectResponse> Execute()
         {
             var client = _clientFactory.CreateClient("default");
-
             var requestUri = string.Format(ReprojectUrl, Args.ToQueryString());
-            var response = await client.GetAsync(requestUri);
-            var result = await response.Content.ReadAsAsync<PointReprojectResponse>();
+
+            Log.Debug("Repojecting {args} with {url}", Args);
+
+            var response = await client.GetAsync(requestUri).ConfigureAwait(false);
+            var result = await response.Content.ReadAsAsync<PointReprojectResponse>().ConfigureAwait(false);
 
             return result;
         }

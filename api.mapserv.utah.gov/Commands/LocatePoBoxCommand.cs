@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
-    public class LocatePoBoxCommand 
+    public class LocatePoBoxCommand
     {
         private readonly ILookupCache _driveCache;
         private readonly ReprojectPointsCommand _repojectPoints;
@@ -30,16 +31,22 @@ namespace api.mapserv.utah.gov.Commands
         {
             if (!_geocodedAddress.Zip5.HasValue)
             {
+                Log.Debug("No zip code, can't be po box {address}", _geocodedAddress);
+
                 return null;
             }
 
             if (_driveCache.PoBoxes is null)
             {
+                Log.Warning("Po Box cache is empty!");
+
                 return null;
             }
 
             if (!_driveCache.PoBoxes.ContainsKey(_geocodedAddress.Zip5.Value))
             {
+                Log.Debug("{zip} is not in the po box cache", _geocodedAddress.Zip5.Value);
+
                 return null;
             }
 
@@ -49,6 +56,8 @@ namespace api.mapserv.utah.gov.Commands
             if (_driveCache.PoBoxZipCodesWithExclusions.Any(x => x == _geocodedAddress.Zip5) &&
                 _driveCache.PoBoxExclusions.ContainsKey(key))
             {
+                Log.Information("{Using Post Office Point Exclusion for {zip}", key);
+
                 var exclusion = _driveCache.PoBoxExclusions[key];
                 candidate = new Candidate
                 {
@@ -61,6 +70,8 @@ namespace api.mapserv.utah.gov.Commands
             }
             else if (_driveCache.PoBoxes.ContainsKey(_geocodedAddress.Zip5.Value))
             {
+                Log.Information("Using post office point for {zip}", key);
+
                 var result = _driveCache.PoBoxes[_geocodedAddress.Zip5.Value];
                 candidate = new Candidate
                 {
@@ -88,10 +99,12 @@ namespace api.mapserv.utah.gov.Commands
                                                                                             candidate.Location.Y
                                                                                         }));
 
-            var pointReprojectResponse = await _repojectPoints.Execute();
+            var pointReprojectResponse = await _repojectPoints.Execute().ConfigureAwait(false);
 
             if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any())
             {
+                Log.Fatal("Could not reproject point for {candidate}", candidate);
+
                 return null;
             }
 

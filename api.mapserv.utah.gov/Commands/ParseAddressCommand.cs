@@ -5,6 +5,7 @@ using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Comparers;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -41,6 +42,8 @@ namespace api.mapserv.utah.gov.Commands
 
         protected override void Execute()
         {
+            Log.Debug("Parsing {street}", Street);
+
             var address = new CleansedAddress
             {
                 InputAddress = Street
@@ -61,6 +64,8 @@ namespace api.mapserv.utah.gov.Commands
             ParseStreetName(Street, address);
 
             StandardStreet = address.StandardizedAddress;
+
+            Log.Information("Replaced {original} with {standard}", OriginalStreet, StandardStreet);
 
             Result = address;
         }
@@ -241,8 +246,8 @@ namespace api.mapserv.utah.gov.Commands
 
             if (!unitType.Item3)
             {
-                // unit doesn't need a number after it. check that it is at 
-                // the end of the street and remove it if it is. 
+                // unit doesn't need a number after it. check that it is at
+                // the end of the street and remove it if it is.
 
                 if (!street.EndsWith(match, StringComparison.OrdinalIgnoreCase))
                 {

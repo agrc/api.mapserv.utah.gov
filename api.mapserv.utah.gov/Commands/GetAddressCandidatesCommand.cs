@@ -45,8 +45,8 @@ namespace api.mapserv.utah.gov.Commands
             }
             catch (Exception)
             {
-                //                Log.Fatal(ex, "Error reading geocode address response {Response}",
-                //                          response.Content.ReadAsStringAsync().Result);
+               Log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
+                         await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), LocatorDetails);
                 throw;
             }
         }
@@ -57,7 +57,7 @@ namespace api.mapserv.utah.gov.Commands
             {
                 //                    Log.Fatal($"{LocatorDetails.Name} geocoder is not started.");
 
-                throw new GeocodingException($"{LocatorDetails.Name} geocoder is not started.");
+                throw new GeocodingException($"{LocatorDetails.Name} geocoder is not started. {response.Error}");
             }
 
             var result = response.Candidates;
