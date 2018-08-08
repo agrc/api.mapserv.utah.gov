@@ -36,12 +36,30 @@ spec:
       - name: gcr-json-key
       containers:
       - name: webapi-api
-        image: gcr.io/agrc-204220/webapi/api:latest
+        image: gcr.io/agrc-204220/webapi/api
         env:
+        - name: WEBAPI__DATABASE__HOST
+          value: db
+        - name: WEBAPI__DATABASE__PORT
+          value: '5432'
+        - name: WEBAPI__DATABASE__DB
+          value: webapi
+        - name: WEBAPI__DATABASE__USERNAME
+          value: postgres
+        - name: WEBAPI__DATABASE__PASSWORD
+          value: what password
+        - name: WEBAPI__DATABASE__PEPPER
+          value: spicy
+        - name: WEBAPI__ARCGIS__HOST
+          value: mapserv.utah.gov
+        - name: WEBAPI__ARCGIS__PORT
+          value: '80'
+        - name: WEBAPI__ARCGIS__GEOMETRY_SERVICE__PATH
+          value: arcgis/rest/services/Geometry/GeometryServer
         - name: ASPNETCORE_URLS
           value: http://+:1337
         - name: ASPNETCORE_ENVIRONMENT
-          value: DockerDevelopment
+          value: Development
         ports:
         - containerPort: 1337
 ---
@@ -122,19 +140,18 @@ spec:
         tier: backend
         version: 1.0.0
     spec:
+      imagePullSecrets:
+      - name: gcr-json-key
       containers:
-      - image: postgres:10.4
-        name: postgres
+      - name: db
+        image: gcr.io/agrc-204220/webapi/db
         env:
         - name: POSTGRES_DB
           value: webapi
         - name: POSTGRES_USER
           value: postgres
-        - name: "POSTGRES_PASSWORD"
-          valueFrom:
-            secretKeyRef:
-              name: postgres-pass
-              key: password
+        - name: POSTGRES_PASSWORD
+          value: what password
         volumeMounts:
         - name: data
           mountPath: /var/lib/postgresql/data
