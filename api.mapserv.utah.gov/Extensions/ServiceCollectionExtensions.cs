@@ -49,6 +49,7 @@ namespace api.mapserv.utah.gov.Extensions
             services.AddTransient<LocatePoBoxCommand>();
             services.AddTransient<UspsDeliveryPointCommand>();
             services.AddTransient<ReprojectPointsCommand>();
+            services.AddTransient<DoubleAvenuesExceptionCommand>();
         }
     }
 }

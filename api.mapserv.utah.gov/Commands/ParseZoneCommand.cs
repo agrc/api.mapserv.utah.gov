@@ -11,11 +11,13 @@ namespace api.mapserv.utah.gov.Commands
     {
         private readonly IRegexCache _regex;
         private readonly ILookupCache _driveCache;
+        private readonly DoubleAvenuesExceptionCommand _exceptionCommand;
 
-        public ParseZoneCommand(IRegexCache regex, ILookupCache driveCache)
+        public ParseZoneCommand(IRegexCache regex, ILookupCache driveCache, DoubleAvenuesExceptionCommand exceptionCommand)
         {
             _regex = regex;
             _driveCache = driveCache;
+            _exceptionCommand = exceptionCommand;
         }
         public void Initialize(string inputZone, GeocodeAddress addressModel)
         {
@@ -61,7 +63,8 @@ namespace api.mapserv.utah.gov.Commands
                     AddressModel.Zip4 = int.Parse(zip4);
                 }
 
-                Result = CommandExecutor.ExecuteCommand(new DoubleAvenuesExceptionCommand(AddressModel, ""));
+                _exceptionCommand.Initialize(AddressModel, "");
+                Result = CommandExecutor.ExecuteCommand(_exceptionCommand);
 
                 return;
             }
@@ -83,7 +86,8 @@ namespace api.mapserv.utah.gov.Commands
 
                 AddressModel.AddressGrids = CommandExecutor.ExecuteCommand(getAddressSystemFromCityCommand);
 
-                Result = CommandExecutor.ExecuteCommand(new DoubleAvenuesExceptionCommand(AddressModel, cityKey));
+                _exceptionCommand.Initialize(AddressModel, cityKey);
+                Result = CommandExecutor.ExecuteCommand(_exceptionCommand);
 
                 return;
             }
