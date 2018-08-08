@@ -7,7 +7,7 @@ services:
       - "1337:1337"
     environment:
       - ASPNETCORE_URLS=http://+:1337
-      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
+      - ASPNETCORE_ENVIRONMENT=Development
     links:
       - db
       - cache
@@ -17,12 +17,13 @@ services:
       - "1338:1338"
     environment:
       - ASPNETCORE_URLS=http://+:1338
-      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
+      - ASPNETCORE_ENVIRONMENT=Development
     links:
       - db
 
   db:
     environment:
+      - POSTGRES_PASSWORD=what password
       - POSTGRES_DB=webapi
       - POSTGRES_USER=postgres
     volumes:
