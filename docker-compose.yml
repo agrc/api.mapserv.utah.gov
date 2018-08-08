@@ -15,7 +15,10 @@ services:
     image: webapi/developer
 
   db:
-    image: postgres:10.4
+    build:
+      context: .
+      dockerfile: pgdata/Dockerfile
+    image: webapi/db
 
   cache:
     image: redis:latest
