@@ -96,7 +96,9 @@ namespace api.mapserv.utah.gov.Commands
             Location = result.Location,
             AddressGrid = result.AddressGrid,
             InputAddress = $"{Street}, {Zone}",
-            Candidates = Candidates.Take(GeocodeOptions.Suggest).ToArray(),
+            Candidates = Candidates.Where(x => x.Score >= GeocodeOptions.AcceptScore)
+                                   .Take(GeocodeOptions.Suggest)
+                                   .ToArray(),
             ScoreDifference = result.ScoreDifference
         };
 
