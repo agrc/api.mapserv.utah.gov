@@ -37,6 +37,7 @@ spec:
       containers:
       - name: webapi-api
         image: gcr.io/agrc-204220/webapi/api
+        imagePullPolicy: Always
         env:
         - name: WEBAPI__DATABASE__HOST
           value: db
@@ -101,7 +102,8 @@ spec:
       - name: gcr-json-key
       containers:
       - name: webapi-developer
-        image: gcr.io/agrc-204220/webapi/developer:latest
+        image: gcr.io/agrc-204220/webapi/developer
+        imagePullPolicy: Always
         env:
         - name: ASPNETCORE_URLS
           value: http://+:1338
@@ -145,6 +147,7 @@ spec:
       containers:
       - name: db
         image: gcr.io/agrc-204220/webapi/db
+        imagePullPolicy: Always
         env:
         - name: POSTGRES_DB
           value: webapi
