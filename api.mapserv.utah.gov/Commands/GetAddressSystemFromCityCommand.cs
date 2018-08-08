@@ -2,6 +2,7 @@
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Services;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -24,15 +25,20 @@ namespace api.mapserv.utah.gov.Commands
 
         protected override void Execute()
         {
+            Log.Debug("Getting address system from {city}", _cityKey);
+
             if (string.IsNullOrEmpty(_cityKey))
             {
                 Result = null;
+
                 return;
             }
 
             _driveCache.PlaceGrids.TryGetValue(_cityKey, out List<GridLinkable> gridLinkables);
 
             Result = gridLinkables ?? new List<GridLinkable>();
+
+            Log.Debug("Found {systems}", Result);
         }
     }
 }

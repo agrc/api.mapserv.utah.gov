@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Filters
 {
@@ -34,6 +35,8 @@ namespace api.mapserv.utah.gov.Filters
             // key hasn't been created
             if (string.IsNullOrWhiteSpace(key))
             {
+                Log.Debug("API key missing from request");
+
                 var missingResponse = new ApiResponseContainer
                 {
                     Status = BadRequest,
@@ -58,6 +61,8 @@ namespace api.mapserv.utah.gov.Filters
             // key hasn't been created
             if (apiKey == null)
             {
+                Log.Information("Unknown API key usage attempt for {key}", apiKey);
+
                 context.Result = new BadRequestObjectResult(badKeyResponse);
 
                 return;
@@ -67,6 +72,8 @@ namespace api.mapserv.utah.gov.Filters
 
             if (apiKey.Deleted || apiKey.Enabled == ApiKey.KeyStatus.Disabled)
             {
+                Log.Information("Attempt to use deleted or disabled key {key}", apiKey);
+
                 context.Result = new BadRequestObjectResult(new ApiResponseContainer
                 {
                     Status = BadRequest,
@@ -76,9 +83,10 @@ namespace api.mapserv.utah.gov.Filters
                 return;
             }
 
-            // TODO handle whitelist
             if (apiKey.Whitelisted)
             {
+                Log.Information("Whitelisted key use {key} from {ip} with {headers}", apiKey, context.HttpContext.Request.Host, context.HttpContext.Request.Headers);
+
                 await next();
 
                 return;
@@ -97,11 +105,12 @@ namespace api.mapserv.utah.gov.Filters
 
                 if (string.IsNullOrEmpty(referrer.ToString()) && !hasOrigin.Any())
                 {
+                    Log.Information("API key usage without referrer header {key}", apiKey);
+
                     context.Result = new BadRequestObjectResult(new ApiResponseContainer
                     {
                         Status = BadRequest,
-                        Message =
-                            "The http referrer header is missing. Turn off any security solutions that may remove this " +
+                        Message = "The http referrer header is missing. Turn off any security solutions that may remove this " +
                             "header to use this service. If you are trying to test your query add the referer header via a tool like postman " +
                             "or browse to api.mapserv.utah.gov and use the api explorer."
                     });
@@ -139,11 +148,12 @@ namespace api.mapserv.utah.gov.Filters
 
                 if (ip != userHostAddress)
                 {
+                    Log.Information("Invalid api key pattern match {ip} != {host} for {key}", ip, userHostAddress, apiKey);
+
                     context.Result = new BadRequestObjectResult(new ApiResponseContainer
                     {
                         Status = BadRequest,
-                        Message =
-                            $"Your API key does match the pattern created in the developer console for key `{key}`. " +
+                        Message = $"Your API key does match the pattern created in the developer console for key `{key}`. " +
                             $"The request is not originiating from `{userHostAddress}`"
                     });
 
@@ -237,8 +247,7 @@ namespace api.mapserv.utah.gov.Filters
                 }
 
                 if (request.Path.Value.ToLower() == "/api/v1/geocode/ago/agrc-ago/geocodeserver" ||
-                    request.Path.Value.ToLower() ==
-                    "/api/v1/geocode/ago/agrc-ago/geocodeserver/findaddresscandidates")
+                    request.Path.Value.ToLower() == "/api/v1/geocode/ago/agrc-ago/geocodeserver/findaddresscandidates")
                 {
                     return "agrc-ago";
                 }

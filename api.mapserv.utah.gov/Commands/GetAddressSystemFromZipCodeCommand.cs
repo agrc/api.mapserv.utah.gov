@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -29,6 +30,8 @@ namespace api.mapserv.utah.gov.Commands
 
         protected override void Execute()
         {
+            Log.Debug("Getting address system from {city}", _zip);
+
             if (string.IsNullOrEmpty(_zip))
             {
                 Result = null;
@@ -40,6 +43,8 @@ namespace api.mapserv.utah.gov.Commands
 
             Result = gridLinkables ?? new List<GridLinkable>();
             _grid = string.Join(",", Result);
+
+            Log.Debug("Found {systems}", Result);
         }
     }
 }

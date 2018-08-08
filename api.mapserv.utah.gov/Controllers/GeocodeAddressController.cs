@@ -65,6 +65,8 @@ namespace api.mapserv.utah.gov.Controllers
 
             if (errors.Length > 0)
             {
+                Log.Debug("Bad geocode request", errors);
+
                 return BadRequest(new ApiResponseContainer<GeocodeAddressApiResponse>
                 {
                     Status = (int) HttpStatusCode.BadRequest,
@@ -110,6 +112,8 @@ namespace api.mapserv.utah.gov.Controllers
                         model.StandardizedAddress = standard;
                     }
 
+                    Log.Debug("Result score: {score} from {locator}", model.Score, model.Locator);
+
                     return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
                     {
                         Result = model
@@ -142,6 +146,8 @@ namespace api.mapserv.utah.gov.Controllers
                     model.StandardizedAddress = standard;
                 }
 
+                Log.Debug("Result score: {score} from {locator}", model.Score, model.Locator);
+
                 return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
                 {
                     Result = model
@@ -156,6 +162,8 @@ namespace api.mapserv.utah.gov.Controllers
 
             if (locators == null || !locators.Any())
             {
+                Log.Debug("No locators found for address {parsedAddress}", parsedAddress);
+
                 return NotFound(new ApiResponseContainer
                 {
                     Message = $"No address candidates found with a score of {options.AcceptScore} or better.",
@@ -179,7 +187,7 @@ namespace api.mapserv.utah.gov.Controllers
                 tasks.Add(currentCommand.Execute());
             }
 
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks).ConfigureAwait(false);
 
             var candidates = tasks.Where(x => x.Result != null).SelectMany(x => x.Result);
 
@@ -213,6 +221,8 @@ namespace api.mapserv.utah.gov.Controllers
             }
 
             winner.Wkid = options.SpatialReference;
+
+            Log.Debug("Result score: {score} from {locator}", winner.Score, winner.Locator);
 
             return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
             {

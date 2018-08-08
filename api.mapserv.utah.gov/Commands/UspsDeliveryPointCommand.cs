@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -29,8 +30,12 @@ namespace api.mapserv.utah.gov.Commands
 
         public async Task<Candidate> Execute()
         {
+            Log.Verbose("Testing for delivery points");
+
             if (!GeocodedAddress.Zip5.HasValue)
             {
+                Log.Debug("No delivery point for {address} because of no zip5", GeocodedAddress);
+
                 return null;
             }
 
@@ -38,6 +43,8 @@ namespace api.mapserv.utah.gov.Commands
 
             if (items == null || !items.Any())
             {
+                Log.Debug("No delivery point for {zip} in cache", GeocodedAddress.Zip5.Value);
+
                 return null;
             }
 
@@ -55,10 +62,14 @@ namespace api.mapserv.utah.gov.Commands
                 Location = new Point(deliveryPoint.X, deliveryPoint.Y)
             };
 
+            Log.Information("Found delivery point for {address}", GeocodedAddress);
+
             if (_options.SpatialReference == 26912)
             {
                 return result;
             }
+
+            Log.Debug("Reprojecting delivery point to {wkid}", _options.SpatialReference);
 
             _reproject.Initialize(new ReprojectPointsCommand.PointProjectQueryArgs(26912, _options.SpatialReference,
                                                                                    new List<double>
@@ -71,6 +82,8 @@ namespace api.mapserv.utah.gov.Commands
 
             if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any())
             {
+                Log.Fatal("Could not reproject point for {address}", GeocodedAddress);
+
                 return null;
             }
 
