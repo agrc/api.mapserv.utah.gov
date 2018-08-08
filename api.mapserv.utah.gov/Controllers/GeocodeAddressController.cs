@@ -12,6 +12,7 @@ using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Services;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Controllers
 {
@@ -47,6 +48,8 @@ namespace api.mapserv.utah.gov.Controllers
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
         public async Task<ObjectResult> Get(string street, string zone, [FromQuery] GeocodingOptions options)
         {
+            Log.Debug("Geocoding {street}, {zone} with options: {options}", street, zone, options);
+
             #region validation
 
             var errors = "";
@@ -193,8 +196,8 @@ namespace api.mapserv.utah.gov.Controllers
 
             if (winner == null || winner.Score < 0)
             {
-                //                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
-                //                            options.AcceptScore);
+                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
+                            options.AcceptScore);
 
                 return NotFound(new ApiResponseContainer
                 {
@@ -205,8 +208,8 @@ namespace api.mapserv.utah.gov.Controllers
 
             if (winner.Location == null)
             {
-//                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
-//                            options.AcceptScore);
+                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
+                            options.AcceptScore);
             }
 
             winner.Wkid = options.SpatialReference;
