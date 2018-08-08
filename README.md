@@ -1,5 +1,3 @@
-# webapi-core
-
 # webapi-developer
 
 There is a preexisting login created in the pgdata dump. If you used docker-compose or imported the pgdata to create the database you will be able to use the following credentials to access the developer.
@@ -40,7 +38,7 @@ export WEBAPI__DATABASE__PEPPER="spicy"
 # AGRC WebAPI ArcGIS Server Information
 export WEBAPI__ARCGIS__HOST="localhost"
 export WEBAPI__ARCGIS__PORT="6080"
-export WEBAPI__ARCGIS__GEOMETRY_SERVICE__PATH="/arcgis/rest/services/Geometry/GeometryServer/"
+export WEBAPI__ARCGIS__GEOMETRY_SERVICE__PATH="arcgis/rest/services/Geometry/GeometryServer"
 ```
 
 ## Docker Stuff
