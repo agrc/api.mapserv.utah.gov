@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using Serilog;
@@ -88,19 +89,10 @@ namespace api.mapserv.utah.gov.Commands
             return;
         }
 
-        var model = new GeocodeAddressApiResponse
-        {
-            MatchAddress = result.Address,
-            Score = result.Score,
-            Locator = result.Locator,
-            Location = result.Location,
-            AddressGrid = result.AddressGrid,
-            InputAddress = $"{Street}, {Zone}",
-            Candidates = Candidates.Where(x => x.Score >= GeocodeOptions.AcceptScore)
-                                   .Take(GeocodeOptions.Suggest)
-                                   .ToArray(),
-            ScoreDifference = result.ScoreDifference
-        };
+        var model = result.ToResponseObject(Street, Zone);
+        model.Candidates = Candidates.Where(x => x.Score >= GeocodeOptions.AcceptScore)
+                                     .Take(GeocodeOptions.Suggest)
+                                     .ToArray();
 
         var standard = GeocodedAddress.StandardizedAddress.ToLowerInvariant();
         var input = Street.ToLowerInvariant();
