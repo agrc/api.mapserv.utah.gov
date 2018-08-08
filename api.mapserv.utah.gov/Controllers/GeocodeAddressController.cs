@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Commands;
 using api.mapserv.utah.gov.Comparers;
+using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
@@ -92,17 +93,7 @@ namespace api.mapserv.utah.gov.Controllers
 
                 if (result != null)
                 {
-                    // TODO this is silly change it
-                    var model = new GeocodeAddressApiResponse
-                    {
-                        MatchAddress = result.Address,
-                        Score = result.Score,
-                        Locator = result.Locator,
-                        Location = result.Location,
-                        AddressGrid = result.AddressGrid,
-                        InputAddress = $"{street}, {zone}",
-                        ScoreDifference = result.ScoreDifference
-                    };
+                    var model = result.ToResponseObject(street, zone);
 
                     var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
                     var input = street?.ToLowerInvariant();
@@ -126,17 +117,7 @@ namespace api.mapserv.utah.gov.Controllers
 
             if (uspsPoint != null)
             {
-                // TODO this is silly change it
-                var model = new GeocodeAddressApiResponse
-                {
-                    MatchAddress = uspsPoint.Address,
-                    Score = uspsPoint.Score,
-                    Locator = uspsPoint.Locator,
-                    Location = uspsPoint.Location,
-                    AddressGrid = uspsPoint.AddressGrid,
-                    InputAddress = $"{street}, {zone}",
-                    ScoreDifference = uspsPoint.ScoreDifference
-                };
+                var model = uspsPoint.ToResponseObject(street, zone);
 
                 var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
                 var input = street?.ToLowerInvariant();
