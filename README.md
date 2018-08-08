@@ -8,7 +8,7 @@ There is a preexisting login created in the pgdata dump. If you used docker-comp
 _If you modified the database `WEBAPI__DATABASE__PEPPER` to something other than the default the credentials will not authorize access and will need to be recreated._
 
 ## Configuration
-Environmental variables are the sole mechanism for storing application secrets in this project. They work well in docker, k8s, and local development. The following are the env variables you will need to set to run this project.
+Environmental variables are the sole mechanism for storing application secrets in this project. They work well with [docker](docker-compose.override.yml), [k8s](kube-deployment.yml), and local development. The following are the env variables you will need to set to run this project.
 
 #### Postgres Information
 1. `WEBAPI__DATABASE__HOST` _default: localhost_ **Required for webapi/api, webapi/developer**
