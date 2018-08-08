@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
+using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
 using Serilog;
@@ -8,48 +9,22 @@ namespace api.mapserv.utah.gov.Commands
 {
   public class DoubleAvenuesExceptionCommand : Command<GeocodeAddress>
   {
-      private readonly GeocodeAddress _address;
-      private readonly string _city;
+      private GeocodeAddress _address;
+      private string _city;
       private readonly Regex _ordinal;
 
-      public DoubleAvenuesExceptionCommand(GeocodeAddress address, string city)
+      public DoubleAvenuesExceptionCommand(IRegexCache cache)
+      {
+          _ordinal = cache.Get("avesOrdinal");
+      }
+
+      public void Initialize(GeocodeAddress address, string city)
       {
           _address = address;
           _city = city ?? "";
           _city = _city.Trim();
-          _ordinal = BuildOridnalRegex();
       }
 
-      private static Regex BuildOridnalRegex()
-      {
-          // avenues in slc go to 18. 1-8 in midvale
-          var ordinals = Enumerable.Range(1, 18)
-                                   .Select(ToOrdinal)
-                                   .Concat(Enumerable.Range(1, 18).Select(x => x.ToString()))
-                                   .Concat(new[]
-                                   {
-                                       "one", "first",
-                                       "two", "second",
-                                       "three", "third",
-                                       "four", "fourth",
-                                       "five", "fifth",
-                                       "six", "sixth",
-                                       "seven", "seventh",
-                                       "eight", "eighth",
-                                       "nine", "ninth",
-                                       "ten", "tenth",
-                                       "eleven", "eleventh",
-                                       "twelve", "twelfth",
-                                       "thirteen", "thirteenth",
-                                       "fourteen", "fourteenth",
-                                       "fifteen", "fifteenth",
-                                       "sixteen", "sixteenth",
-                                       "seventeen", "seventeenth",
-                                       "eighteen", "eighteenth"
-                                   });
-
-          return new Regex(string.Format("^({0})$", string.Join("|", ordinals)), RegexOptions.IgnoreCase);
-      }
       public override string ToString() => $"DoubleAvenuesExceptionCommand, zone: {_address.Zip5}, prefix: {_address.PrefixDirection}";
 
       protected override void Execute()

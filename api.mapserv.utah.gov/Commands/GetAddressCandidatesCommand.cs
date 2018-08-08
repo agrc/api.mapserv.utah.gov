@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using api.mapserv.utah.gov.Exceptions;
 using api.mapserv.utah.gov.Formatters;
 using api.mapserv.utah.gov.Models;
+using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
@@ -32,7 +33,8 @@ namespace api.mapserv.utah.gov.Commands
 
         public async Task<IEnumerable<Candidate>> Execute()
         {
-            //            Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
+            Log.Debug("Request sent to locator, url={Url}", LocatorDetails.Url);
+
             // TODO create a polly policy for the locators
             var client = _clientFactory.CreateClient("default");
             var httpResponse = await client.GetAsync(LocatorDetails.Url).ConfigureAwait(false);
@@ -43,7 +45,7 @@ namespace api.mapserv.utah.gov.Commands
 
                 return ProcessResult(geocodeResponse);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                Log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
                          await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), LocatorDetails);
@@ -55,7 +57,7 @@ namespace api.mapserv.utah.gov.Commands
         {
             if (response.Error != null && response.Error.Code == 500)
             {
-                //                    Log.Fatal($"{LocatorDetails.Name} geocoder is not started.");
+                Log.Fatal($"{LocatorDetails.Name} geocoder is not started.");
 
                 throw new GeocodingException($"{LocatorDetails.Name} geocoder is not started. {response.Error}");
             }

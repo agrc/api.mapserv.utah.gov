@@ -69,6 +69,10 @@ namespace api.mapserv.utah.gov.Cache
                 {
                     "cityTownCruft",
                     new Regex(@"(?:city|town)(?: of)", RegexOptions.Compiled | RegexOptions.IgnoreCase)
+                },
+                {
+                    "avesOrdinal",
+                    BuildOridnalRegex()
                 }
             };
         }
@@ -114,5 +118,63 @@ namespace api.mapserv.utah.gov.Cache
             return new Regex(string.Format("({0})", string.Join("|", pattern)),
                              RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
+
+        private Regex BuildOridnalRegex()
+        {
+            // avenues in slc go to 18. 1-8 in midvale
+            var ordinals = Enumerable.Range(1, 18)
+                                     .Select(ToOrdinal)
+                                     .Concat(Enumerable.Range(1, 18).Select(x => x.ToString()))
+                                     .Concat(new[]
+                                     {
+                                         "one", "first",
+                                         "two", "second",
+                                         "three", "third",
+                                         "four", "fourth",
+                                         "five", "fifth",
+                                         "six", "sixth",
+                                         "seven", "seventh",
+                                         "eight", "eighth",
+                                         "nine", "ninth",
+                                         "ten", "tenth",
+                                         "eleven", "eleventh",
+                                         "twelve", "twelfth",
+                                         "thirteen", "thirteenth",
+                                         "fourteen", "fourteenth",
+                                         "fifteen", "fifteenth",
+                                         "sixteen", "sixteenth",
+                                         "seventeen", "seventeenth",
+                                         "eighteen", "eighteenth"
+                                     });
+
+            return new Regex(string.Format("^({0})$", string.Join("|", ordinals)), RegexOptions.IgnoreCase);
+        }
+
+        private static string ToOrdinal(int number)
+        {
+            if (number < 0)
+            {
+                return number.ToString();
+            }
+
+            var rem = number % 100;
+            if (rem >= 11 && rem <= 13)
+            {
+                return number + "th";
+            }
+
+            switch (number % 10)
+            {
+                case 1:
+                    return number + "st";
+                case 2:
+                    return number + "nd";
+                case 3:
+                    return number + "rd";
+                default:
+                    return number + "th";
+            }
+        }
+
     }
 }
