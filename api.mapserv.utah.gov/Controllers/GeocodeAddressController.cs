@@ -15,10 +15,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.mapserv.utah.gov.Controllers
 {
+    [ApiController]
     [ApiVersion("1.0")]
     [Produces("application/json")]
     [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
-    public class GeocodeAddressController : Controller
+    public class GeocodeAddressController : ControllerBase
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly GetLocatorsForAddressCommand _getLocatorsForAddressCommand;
@@ -40,6 +41,9 @@ namespace api.mapserv.utah.gov.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(ApiResponseContainer<GeocodeAddressApiResponse>))]
+        [ProducesResponseType(400, Type = typeof(ApiResponseContainer<GeocodeAddressApiResponse>))]
+        [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
         public async Task<ObjectResult> Get(string street, string zone, [FromQuery] GeocodingOptions options)
         {
