@@ -1,5 +1,4 @@
-﻿using api.mapserv.utah.gov.Services;
-using api.mapserv.utah.gov.Extensions;
+﻿using api.mapserv.utah.gov.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
