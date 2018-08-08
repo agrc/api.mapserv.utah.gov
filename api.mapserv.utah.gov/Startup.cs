@@ -28,6 +28,7 @@ namespace api.mapserv.utah.gov
         {
             services.AddCors();
             services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(options => options.SerializerSettings.NullValueHandling =
                                         NullValueHandling.Ignore);
 
