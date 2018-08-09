@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using api.mapserv.utah.gov.Models;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;

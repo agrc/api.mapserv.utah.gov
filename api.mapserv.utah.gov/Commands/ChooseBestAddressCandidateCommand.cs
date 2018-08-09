@@ -7,7 +7,7 @@ using Serilog;
 
 namespace api.mapserv.utah.gov.Commands
 {
-  public class ChooseBestAddressCandidateCommand : Command<GeocodeAddressApiResponse>
+    public class ChooseBestAddressCandidateCommand : Command<GeocodeAddressApiResponse>
 {
     public ChooseBestAddressCandidateCommand(IEnumerable<Candidate> candidates, GeocodingOptions geocodeOptions,
                                              string street, string zone, GeocodeAddress geocodedAddress)
