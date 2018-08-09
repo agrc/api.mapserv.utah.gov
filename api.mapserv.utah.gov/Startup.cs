@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using WebApiContrib.Core.Formatter.Jsonp;
 
 namespace api.mapserv.utah.gov
 {
@@ -29,7 +30,7 @@ namespace api.mapserv.utah.gov
         {
             services.AddCors();
             services.AddMvc(options => {
-                options.Filters.Add(typeof(JsonOutputFormatResultFilter));
+                options.AddJsonpOutputFormatter();
             })
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(options => options.SerializerSettings.NullValueHandling =
