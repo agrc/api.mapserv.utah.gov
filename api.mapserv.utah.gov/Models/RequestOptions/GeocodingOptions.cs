@@ -7,23 +7,13 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
     /// </summary>
     public class GeocodingOptions : OptionBase
     {
-        public GeocodingOptions()
-        {
-            AcceptScore = 70;
-            Suggest = 0;
-            Locators = LocatorType.All;
-            SpatialReference = 26912;
-            PoBox = true;
-            ScoreDifference = false;
-        }
-
         /// <summary>
         ///     Gets or sets the accept score for the address.
         /// </summary>
         /// <value>
         ///     The accept score defaults to 70 in the GeocodeOptionsModelBinder.
         /// </value>
-        public int AcceptScore { get; set; }
+        public int AcceptScore { get; set; } = 70;
 
         /// <summary>
         ///     Gets or sets the suggest count for how many address candidates to return.
@@ -31,7 +21,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         /// <value>
         ///     The suggest count.
         /// </value>
-        public int Suggest { get; set; }
+        public int Suggest { get; set; } = 0;
 
         /// <summary>
         ///     Gets or sets the locators.
@@ -39,7 +29,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         /// <value>
         ///     The locators to grab for geocoding.
         /// </value>
-        public LocatorType Locators { get; set; }
+        public LocatorType Locators { get; set; } = LocatorType.All;
 
         /// <summary>
         ///     Gets or sets the spatial reference well known id.
@@ -47,7 +37,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         /// <value>
         ///     The wkid.
         /// </value>
-        public int SpatialReference { get; set; }
+        public int SpatialReference { get; set; } = 26912;
 
         /// <summary>
         ///     Instructs the API to try to find the post office or delivery point for a post office address.
@@ -55,7 +45,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         /// <value>
         ///   <c>true</c> if should geocode po box; otherwise, <c>false</c>.
         /// </value>
-        public bool PoBox { get; set; }
+        public bool PoBox { get; set; } = true;
 
         /// <summary>
         ///     Instructs the api to return the difference between the match address and the next best option. 
@@ -64,7 +54,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions
         /// <value>
         ///   <c>true</c> if should calculate the sccore difference; otherwise, <c>false</c>.
         /// </value>
-        public bool ScoreDifference { get; set; }
+        public bool ScoreDifference { get; set; } = false;
 
         public override string ToString() => $"AcceptScore: {AcceptScore}, SuggestCount: {Suggest}, JsonFormat: {Format}, Type: {Locators}, wkid: {SpatialReference} ";
     }
