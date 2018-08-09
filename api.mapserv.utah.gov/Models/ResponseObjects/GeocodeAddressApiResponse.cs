@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models
+namespace api.mapserv.utah.gov.Models.ResponseObjects
 {
     public class GeocodeAddressApiResponse : Suggestable
     {

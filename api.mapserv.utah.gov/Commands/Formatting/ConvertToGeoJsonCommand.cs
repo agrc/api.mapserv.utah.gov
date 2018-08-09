@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.ResponseObjects;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using Newtonsoft.Json.Linq;

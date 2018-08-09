@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using api.mapserv.utah.gov.Commands.Formatting;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.ResponseObjects;
 using api.mapserv.utah.gov.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

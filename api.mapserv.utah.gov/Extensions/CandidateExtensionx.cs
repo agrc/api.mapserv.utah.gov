@@ -1,4 +1,5 @@
 ﻿using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.ResponseObjects;
 
 namespace api.mapserv.utah.gov.Extensions
 {
