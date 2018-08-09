@@ -1,4 +1,5 @@
 ﻿using api.mapserv.utah.gov.Extensions;
+using api.mapserv.utah.gov.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,9 @@ namespace api.mapserv.utah.gov
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddMvc()
+            services.AddMvc(options => {
+                options.Filters.Add(typeof(JsonOutputFormatResultFilter));
+            })
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(options => options.SerializerSettings.NullValueHandling =
                                         NullValueHandling.Ignore);
