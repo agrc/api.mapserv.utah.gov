@@ -1,5 +1,4 @@
 ﻿using api.mapserv.utah.gov.Extensions;
-using api.mapserv.utah.gov.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +29,7 @@ namespace api.mapserv.utah.gov
         {
             services.AddCors();
             services.AddMvc(options => {
+                options.AddApiResponseFormatters();
                 options.AddJsonpOutputFormatter();
             })
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
