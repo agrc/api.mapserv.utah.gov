@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using api.mapserv.utah.gov.Models;
 using EsriJson.Net;
+using Newtonsoft.Json.Linq;
 using Point = EsriJson.Net.Geometry.Point;
 
 namespace api.mapserv.utah.gov.Commands.Formatting
@@ -25,7 +26,8 @@ namespace api.mapserv.utah.gov.Commands.Formatting
             var status = Container.Status;
             var result = Container.Result;
 
-            var attributes = GetProperties(result);
+            var jobj = JObject.FromObject(Container.Result);
+            var attributes = jobj.ToObject<Dictionary<string, object>>();
 
             if (result.Location != null)
             {
@@ -48,16 +50,6 @@ namespace api.mapserv.utah.gov.Commands.Formatting
             };
 
             Result = responseContainer;
-        }
-
-        public static Dictionary<string, object> GetProperties<T>(T obj)
-        {
-            var properties = typeof(T).GetProperties();
-
-            var dictionary = properties.ToDictionary(prop => prop.Name, prop => prop.GetValue(obj, null));
-
-            return dictionary.Where(x => x.Value != null)
-                             .ToDictionary(x => x.Key, x => x.Value);
         }
     }
 }
