@@ -14,7 +14,7 @@ namespace api.mapserv.utah.gov.Filters
             var format = context.HttpContext.Request.Query["format"];
             if (string.IsNullOrEmpty(format))
             {
-                await next().ConfigureAwait(false);
+                await next();
 
                 return;
             }
@@ -43,7 +43,7 @@ namespace api.mapserv.utah.gov.Filters
                 }
             }
 
-            await next().ConfigureAwait(false);
+            await next();
         }
     }
 }
