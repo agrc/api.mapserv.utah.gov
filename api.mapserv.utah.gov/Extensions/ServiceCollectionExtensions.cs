@@ -46,10 +46,12 @@ namespace api.mapserv.utah.gov.Extensions
             services.AddTransient<ParseAddressCommand>();
             services.AddTransient<ParseZoneCommand>();
             services.AddTransient<GetLocatorsForAddressCommand>();
+            services.AddTransient<GetLocatorsForReverseLookupCommand>();
             services.AddTransient<LocatePoBoxCommand>();
             services.AddTransient<UspsDeliveryPointCommand>();
             services.AddTransient<ReprojectPointsCommand>();
             services.AddTransient<DoubleAvenuesExceptionCommand>();
+            services.AddTransient<ReverseGeocodeAddressCommand>();
         }
     }
 }

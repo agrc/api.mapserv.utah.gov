@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,6 +11,7 @@ using api.mapserv.utah.gov.Comparers;
 using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.ReponseObjects;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using api.mapserv.utah.gov.Services;
@@ -30,10 +32,15 @@ namespace api.mapserv.utah.gov.Controllers
         private readonly UspsDeliveryPointCommand _deliveryPointCommand;
         private readonly ParseAddressCommand _parseAddressCommand;
         private readonly ParseZoneCommand _parseZoneCommand;
+        private readonly ReprojectPointsCommand _reprojectCommnd;
+        private readonly GetLocatorsForReverseLookupCommand _reverseLocatorCommand;
+        private readonly ReverseGeocodeAddressCommand _reverseGeocodeCommand;
 
         public GeocodeAddressController(ParseAddressCommand parseAddressCommand, ParseZoneCommand parseZoneCommand,
                                         GetLocatorsForAddressCommand locatorCommand, LocatePoBoxCommand poboxCommand,
-                                        UspsDeliveryPointCommand deliveryPointCommand, IHttpClientFactory clientFactory)
+                                        UspsDeliveryPointCommand deliveryPointCommand, IHttpClientFactory clientFactory,
+                                        ReprojectPointsCommand reprojectCommnd, GetLocatorsForReverseLookupCommand reverseLocatorCommand,
+                                        ReverseGeocodeAddressCommand reverseGeocodeAddressCommand)
         {
             _parseAddressCommand = parseAddressCommand;
             _parseZoneCommand = parseZoneCommand;
@@ -41,6 +48,9 @@ namespace api.mapserv.utah.gov.Controllers
             _poboxCommand = poboxCommand;
             _deliveryPointCommand = deliveryPointCommand;
             _clientFactory = clientFactory;
+            _reprojectCommnd = reprojectCommnd;
+            _reverseLocatorCommand = reverseLocatorCommand;
+            _reverseGeocodeCommand = reverseGeocodeAddressCommand;
         }
 
         [HttpGet]
@@ -210,6 +220,110 @@ namespace api.mapserv.utah.gov.Controllers
             {
                 Result = winner
             });
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(ApiResponseContainer<ReverseGeocodeApiResponse>))]
+        [ProducesResponseType(400, Type = typeof(ApiResponseContainer<ReverseGeocodeApiResponse>))]
+        [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
+        [Route("api/v{version:apiVersion}/geocode/reverse/{x:double}/{y:double}")]
+        public async Task<ObjectResult> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options)
+        {
+            //#region validation
+
+            //var errors = "";
+            //if (!xIn.HasValue)
+            //{
+            //    errors = "X is empty. ";
+            //}
+
+            //if (!yIn.HasValue)
+            //{
+            //    errors += "Y is emtpy";
+            //}
+
+            //if (errors.Length > 0)
+            //{
+            //    Log.Debug("Bad reverse geocode request", errors);
+
+            //    return BadRequest(new ApiResponseContainer<ReverseGeocodeApiResponse>
+            //    {
+            //        Status = (int)HttpStatusCode.BadRequest,
+            //        Message = errors
+            //    });
+            //}
+
+            //#endregion
+
+            //var x = xIn.Value;
+            //var y = yIn.Value;
+
+            if (options.SpatialReference != 26912)
+            {
+                _reprojectCommnd.Initialize(new ReprojectPointsCommand.PointProjectQueryArgs(options.SpatialReference, 26912, new [] { x, y }));
+
+                var pointReprojectResponse = await _reprojectCommnd.Execute();
+
+                if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any())
+                {
+
+                } 
+
+                var points = pointReprojectResponse.Geometries.FirstOrDefault();
+
+                if (points != null)
+                {
+                    x = points.X;
+                    y = points.Y;
+                }
+            }
+
+            var locators = CommandExecutor.ExecuteCommand(_reverseLocatorCommand);
+
+            if (locators == null || !locators.Any())
+            {
+                Log.Debug("No locators found for address reversal");
+
+                return NotFound(new ApiResponseContainer
+                {
+                    Message = $"No address candidates found within {options.Distance} meters of {x}, {y}.",
+                    Status = (int)HttpStatusCode.NotFound
+                });
+            }
+
+            // there's only one
+            var locator = locators.First();
+
+            locator.Url = string.Format(locator.Url, x, y, options.Distance, options.SpatialReference);
+
+            _reverseGeocodeCommand.Initialize(locator);
+
+            try
+            {
+                var response = await _reverseGeocodeCommand.Execute().ConfigureAwait(false);
+
+                if (response == null) 
+                {
+                    return NotFound(new ApiResponseContainer
+                    {
+                        Message = $"No address candidates found within {options.Distance} meters of {x}, {y}.",
+                        Status = (int)HttpStatusCode.NotFound
+                    });
+                }
+
+                var result = response.ToResponseObject(new Point(x, y)); 
+
+                return Ok(new ApiResponseContainer<ReverseGeocodeApiResponse> {
+                    Result = result,
+                    Status = (int) HttpStatusCode.OK
+                });
+            }
+            catch (Exception ex)
+            {
+                //Log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
+                          //await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), locator.Url);
+                throw;
+            }
         }
     }
 }
