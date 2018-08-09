@@ -5,7 +5,7 @@ using api.mapserv.utah.gov.Models;
 using EsriJson.Net;
 using Point = EsriJson.Net.Geometry.Point;
 
-namespace api.mapserv.utah.gov
+namespace api.mapserv.utah.gov.Commands.Formatting
 {
     public class ConvertToEsriGraphicCommand : Command<ApiResponseContainer<Graphic>>
     {
