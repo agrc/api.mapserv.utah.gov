@@ -11,6 +11,7 @@ using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.RequestOptions;
+using api.mapserv.utah.gov.Models.ResponseObjects;
 using api.mapserv.utah.gov.Services;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;

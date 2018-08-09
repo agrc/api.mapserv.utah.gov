@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.ResponseObjects;
 using EsriJson.Net;
 using Newtonsoft.Json.Linq;
 using Point = EsriJson.Net.Geometry.Point;
