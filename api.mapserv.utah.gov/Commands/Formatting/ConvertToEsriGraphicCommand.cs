@@ -26,8 +26,8 @@ namespace api.mapserv.utah.gov.Commands.Formatting
             var status = Container.Status;
             var result = Container.Result;
 
-            var jobj = JObject.FromObject(Container.Result);
-            var attributes = jobj.ToObject<Dictionary<string, object>>();
+            var attributes = JObject.FromObject(Container.Result)
+                                    .ToObject<Dictionary<string, object>>();
 
             if (result.Location != null)
             {

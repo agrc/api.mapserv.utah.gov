@@ -32,8 +32,8 @@ namespace api.mapserv.utah.gov.Commands.Formatting
             {
                 geometry = new Point(new Position(result.Location.Y, result.Location.X));
 
-                var jobj = JObject.FromObject(Container.Result);
-                attributes = jobj.ToObject<Dictionary<string, object>>();
+                attributes = JObject.FromObject(Container.Result)
+                                    .ToObject<Dictionary<string, object>>();
             }
 
             if (geometry == null && attributes == null)
