@@ -65,7 +65,7 @@ namespace api.mapserv.utah.gov.Commands
         public class PointProjectQueryArgs
         {
             public PointProjectQueryArgs(int currentSpatialReference, int reprojectToSpatialReference,
-                                         List<double> coordinates)
+                                         IEnumerable<double> coordinates)
             {
                 CurrentSpatialReference = currentSpatialReference;
                 ReprojectToSpatialReference = reprojectToSpatialReference;
@@ -79,7 +79,7 @@ namespace api.mapserv.utah.gov.Commands
             public int ReprojectToSpatialReference { get; private set; }
 
             [JsonProperty(PropertyName = "geometries")]
-            public List<double> Coordinates { get; private set; }
+            public IEnumerable<double> Coordinates { get; private set; }
 
             /// <summary>Returns a string that represents the current object.</summary>
             /// <returns>A string that represents the current object.</returns>
