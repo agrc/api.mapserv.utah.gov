@@ -46,14 +46,14 @@ namespace api.mapserv.utah.gov.Commands.Formatting
 
             var feature = new Feature(geometry, attributes);
 
-            var geoJsonContainer = new ApiResponseContainer<Feature>
+            var responseContainer = new ApiResponseContainer<Feature>
             {
                 Result = feature,
                 Status = status,
                 Message = message
             };
 
-            Result = geoJsonContainer;
+            Result = responseContainer;
         }
 
         public static Dictionary<string, object> GetProperties<T>(T obj)
