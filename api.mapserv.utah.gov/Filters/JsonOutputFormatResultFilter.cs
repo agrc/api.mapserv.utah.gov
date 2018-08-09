@@ -34,6 +34,9 @@ namespace api.mapserv.utah.gov.Filters
                         }
                     case "esrijson":
                         {
+                            var command = new ConvertToEsriGraphicCommand(container);
+                            response.Value = CommandExecutor.ExecuteCommand(command);
+
                             break;
                         }
                     default:
