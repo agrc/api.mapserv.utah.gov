@@ -118,7 +118,8 @@ namespace api.mapserv.utah.gov.Controllers
 
                     return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
                     {
-                        Result = model
+                        Result = model,
+                        Status = (int)HttpStatusCode.OK
                     });
                 }
             }
@@ -142,7 +143,8 @@ namespace api.mapserv.utah.gov.Controllers
 
                 return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
                 {
-                    Result = model
+                    Result = model,
+                    Status = (int)HttpStatusCode.OK
                 });
             }
 
@@ -218,7 +220,8 @@ namespace api.mapserv.utah.gov.Controllers
 
             return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
             {
-                Result = winner
+                Result = winner,
+                Status = (int)HttpStatusCode.OK
             });
         }
 
