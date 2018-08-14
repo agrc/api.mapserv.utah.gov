@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.SecretOptions;
 using Microsoft.Extensions.Options;
@@ -21,7 +19,7 @@ namespace api.mapserv.utah.gov.Commands
         protected override void Execute()
         {
             Result = new ReadOnlyCollection<LocatorProperties>(new[] { new LocatorProperties {
-                Url = $"http://{Host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/GeocodeServer/reverseGeocode?location={0},{1}&distance={2}&outSR={3}&f=json",
+                    Url = $"http://{Host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/GeocodeServer/reverseGeocode?location={{0}},{{1}}&distance={{2}}&outSR={{3}}&f=json",
                 Name = "Centerlines.StatewideRoads"
             }});
         }
