@@ -54,6 +54,7 @@ namespace api.mapserv.utah.gov.Controllers
         }
 
         [HttpGet]
+        [Produces("application/json")]
         [ProducesResponseType(200, Type = typeof(ApiResponseContainer<GeocodeAddressApiResponse>))]
         [ProducesResponseType(400, Type = typeof(ApiResponseContainer<GeocodeAddressApiResponse>))]
         [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
@@ -226,6 +227,7 @@ namespace api.mapserv.utah.gov.Controllers
         }
 
         [HttpGet]
+        [Produces("application/json")]
         [ProducesResponseType(200, Type = typeof(ApiResponseContainer<ReverseGeocodeApiResponse>))]
         [ProducesResponseType(400, Type = typeof(ApiResponseContainer<ReverseGeocodeApiResponse>))]
         [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
