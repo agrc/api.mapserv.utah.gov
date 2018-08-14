@@ -20,6 +20,12 @@ using Serilog;
 
 namespace api.mapserv.utah.gov.Controllers
 {
+    /// <summary>
+    /// Geocoding API Methods
+    /// </summary>
+    /// <remarks>
+    /// API methods for finding a geolocation (x,y) for addresses.
+    /// </remarks>
     [ApiController]
     [ApiVersion("1.0")]
     [Produces("application/json")]
@@ -53,10 +59,19 @@ namespace api.mapserv.utah.gov.Controllers
             _reverseGeocodeCommand = reverseGeocodeAddressCommand;
         }
 
+        /// <summary>
+        /// Finds the x, y location for an input address
+        /// </summary>
+        /// <remarks>Requires an API Key</remarks>
+        /// <response code="200">The address was geocoded successfully</response>
+        /// <response code="400">The input address was not well formed</response>
+        /// <response code="404">The input address was unable to be geocoded</response>
+        /// <param name="street">A Utah street address. eg: 326 east south temple st. Intersections are separated by `and`</param>
+        /// <param name="zone">A Utah municipality name or 5 digit zip code</param>
+        /// <param name="options"></param>
         [HttpGet]
-        [Produces("application/json")]
         [ProducesResponseType(200, Type = typeof(ApiResponseContainer<GeocodeAddressApiResponse>))]
-        [ProducesResponseType(400, Type = typeof(ApiResponseContainer<GeocodeAddressApiResponse>))]
+        [ProducesResponseType(400, Type = typeof(ApiResponseContainer))]
         [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
         public async Task<ObjectResult> Get(string street, string zone, [FromQuery] GeocodingOptions options)
@@ -226,43 +241,23 @@ namespace api.mapserv.utah.gov.Controllers
             });
         }
 
+        /// <summary>
+        /// Finds the nearest address to the input location
+        /// </summary>
+        /// <remarks>Requires an API Key</remarks>
+        /// <response code="200">An address was found near the input location</response>
+        /// <response code="400">The input location was not well formed</response>
+        /// <response code="404">No house address could be found within the distance supplied from the input location</response>
+        /// <param name="x">A geographic coordinate representing the longitude or easting</param>
+        /// <param name="y">A geographic coordinate representing the latitdue or northing</param>
+        /// <param name="options"></param>
         [HttpGet]
-        [Produces("application/json")]
         [ProducesResponseType(200, Type = typeof(ApiResponseContainer<ReverseGeocodeApiResponse>))]
-        [ProducesResponseType(400, Type = typeof(ApiResponseContainer<ReverseGeocodeApiResponse>))]
+        [ProducesResponseType(400, Type = typeof(ApiResponseContainer))]
         [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
         [Route("api/v{version:apiVersion}/geocode/reverse/{x:double}/{y:double}")]
         public async Task<ObjectResult> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options)
         {
-            //#region validation
-
-            //var errors = "";
-            //if (!xIn.HasValue)
-            //{
-            //    errors = "X is empty. ";
-            //}
-
-            //if (!yIn.HasValue)
-            //{
-            //    errors += "Y is emtpy";
-            //}
-
-            //if (errors.Length > 0)
-            //{
-            //    Log.Debug("Bad reverse geocode request", errors);
-
-            //    return BadRequest(new ApiResponseContainer<ReverseGeocodeApiResponse>
-            //    {
-            //        Status = (int)HttpStatusCode.BadRequest,
-            //        Message = errors
-            //    });
-            //}
-
-            //#endregion
-
-            //var x = xIn.Value;
-            //var y = yIn.Value;
-
             if (options.SpatialReference != 26912)
             {
                 _reprojectCommnd.Initialize(new ReprojectPointsCommand.PointProjectQueryArgs(options.SpatialReference, 26912, new [] { x, y }));

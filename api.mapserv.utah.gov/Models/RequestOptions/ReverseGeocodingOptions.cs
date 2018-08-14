@@ -1,21 +1,14 @@
-﻿namespace api.mapserv.utah.gov.Models.RequestOptions
+﻿using System.ComponentModel;
+
+namespace api.mapserv.utah.gov.Models.RequestOptions
 {
-    public class ReverseGeocodingOptions : OptionBase
+    public class ReverseGeocodingOptions : ProjectableOptions
     {
         /// <summary>
-        ///     Gets or sets the distance in meters from the point to find an address.
+        ///     The distance in meters from the input location to look for an address.
+        ///     Default: 5
         /// </summary>
-        /// <value>
-        ///     The distance in meters.
-        /// </value>
+        [DefaultValue(5)]
         public double Distance { get; set; } = 5;
-
-        /// <summary>
-        ///     Gets or sets the spatial reference well known id for the input coordinates.
-        /// </summary>
-        /// <value>
-        ///     The wkid.
-        /// </value>
-        public int SpatialReference { get; set; } = 26912;
     }
 }

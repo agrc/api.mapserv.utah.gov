@@ -10,6 +10,7 @@ using StackExchange.Redis;
 namespace api.mapserv.utah.gov.Controllers
 {
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Produces("application/json")]
     public class CanaryController : Controller
     {
