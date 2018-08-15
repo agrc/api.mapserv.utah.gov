@@ -35,6 +35,7 @@
     <PackageReference Include="WebApiContrib.Core.Formatter.Jsonp" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="3.0.0" />
+    <PackageReference Include="MediatR" Version="5.1.0" />
   </ItemGroup>
 
 </Project>
