@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using api.mapserv.utah.gov.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ namespace api.mapserv.utah.gov
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatR(typeof(Startup));
             services.AddCors();
             services.AddMvc(options =>
             {
