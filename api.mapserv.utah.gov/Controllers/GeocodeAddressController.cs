@@ -66,6 +66,7 @@ namespace api.mapserv.utah.gov.Controllers
         /// <response code="200">The address was geocoded successfully</response>
         /// <response code="400">The input address was not well formed</response>
         /// <response code="404">The input address was unable to be geocoded</response>
+        /// <response code="500">Something went terribly wrong</response>
         /// <param name="street">A Utah street address. eg: 326 east south temple st. Intersections are separated by `and`</param>
         /// <param name="zone">A Utah municipality name or 5 digit zip code</param>
         /// <param name="options"></param>
@@ -73,6 +74,7 @@ namespace api.mapserv.utah.gov.Controllers
         [ProducesResponseType(200, Type = typeof(ApiResponseContainer<GeocodeAddressApiResponse>))]
         [ProducesResponseType(400, Type = typeof(ApiResponseContainer))]
         [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
+        [ProducesResponseType(500, Type = typeof(ApiResponseContainer))]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
         public async Task<ObjectResult> Get(string street, string zone, [FromQuery] GeocodingOptions options)
         {
@@ -248,6 +250,7 @@ namespace api.mapserv.utah.gov.Controllers
         /// <response code="200">An address was found near the input location</response>
         /// <response code="400">The input location was not well formed</response>
         /// <response code="404">No house address could be found within the distance supplied from the input location</response>
+        /// <response code="500">Something went terribly wrong</response>
         /// <param name="x">A geographic coordinate representing the longitude or easting</param>
         /// <param name="y">A geographic coordinate representing the latitdue or northing</param>
         /// <param name="options"></param>
@@ -255,6 +258,7 @@ namespace api.mapserv.utah.gov.Controllers
         [ProducesResponseType(200, Type = typeof(ApiResponseContainer<ReverseGeocodeApiResponse>))]
         [ProducesResponseType(400, Type = typeof(ApiResponseContainer))]
         [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
+        [ProducesResponseType(500, Type = typeof(ApiResponseContainer))]
         [Route("api/v{version:apiVersion}/geocode/reverse/{x:double}/{y:double}")]
         public async Task<ObjectResult> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options)
         {
@@ -266,7 +270,16 @@ namespace api.mapserv.utah.gov.Controllers
 
                 if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any())
                 {
+                    Log.Fatal("Could not reproject point for {x},{y} {wkid}", x, y, options);
 
+                    return new ObjectResult(new ApiResponseContainer
+                    {
+                        Message = "There was a problem reprojecting your input location",
+                        Status = (int)HttpStatusCode.InternalServerError
+                    })
+                    {
+                        StatusCode = (int)HttpStatusCode.InternalServerError
+                    };
                 } 
 
                 var points = pointReprojectResponse.Geometries.FirstOrDefault();
@@ -320,9 +333,15 @@ namespace api.mapserv.utah.gov.Controllers
             }
             catch (Exception ex)
             {
-                //Log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
-                          //await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), locator.Url);
-                throw;
+                Log.Fatal(ex, "Error reverse geocoding {locator}", locator.Url);
+
+                return new ObjectResult(new ApiResponseContainer
+                {
+                    Message = "There was a problem handling your request",
+                    Status = (int)HttpStatusCode.InternalServerError
+                }){
+                    StatusCode = (int) HttpStatusCode.InternalServerError
+                };
             }
         }
     }

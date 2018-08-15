@@ -25,14 +25,14 @@ namespace api.mapserv.utah.gov.Commands
         public PointProjectQueryArgs Args { get; set; }
 
         /// <summary>
-        ///     Gets or sets the reproject URL.
+        ///     The url for reprojecting geometry.
         /// </summary>
         /// <value>
         ///     The reproject URL.
         /// </value>
         /// <example>
-        ///     http://localhost/ArcGIS/rest/services/Geometry/GeometryServer/project?inSR=4326&outSR=102113&geometries
-        ///     =-104.53%2C+34.74%2C+-63.53%2C+10.23&f=HTML
+        ///     http://localhost/ArcGIS/rest/services/Geometry/GeometryServer/project?inSR=4326&amp;outSR=102113&amp;geometries
+        ///     =-104.53%2C+34.74%2C+-63.53%2C+10.23&amp;f=HTML
         /// </example>
         public string ReprojectUrl { get; set; }
 
