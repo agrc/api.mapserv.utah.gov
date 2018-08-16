@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Commands;
 using api.mapserv.utah.gov.Comparers;
 using api.mapserv.utah.gov.Extensions;
+using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Features.GeometryService;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.ReponseObjects;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using api.mapserv.utah.gov.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -32,31 +31,11 @@ namespace api.mapserv.utah.gov.Controllers
     [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
     public class GeocodeAddressController : ControllerBase
     {
-        private readonly IHttpClientFactory _clientFactory;
-        private readonly GetLocatorsForAddressCommand _getLocatorsForAddressCommand;
-        private readonly LocatePoBoxCommand _poboxCommand;
-        private readonly UspsDeliveryPointCommand _deliveryPointCommand;
-        private readonly ParseAddressCommand _parseAddressCommand;
-        private readonly ParseZoneCommand _parseZoneCommand;
-        private readonly ReprojectPointsCommand _reprojectCommnd;
-        private readonly GetLocatorsForReverseLookupCommand _reverseLocatorCommand;
-        private readonly ReverseGeocodeAddressCommand _reverseGeocodeCommand;
+        private readonly IMediator _mediator;
 
-        public GeocodeAddressController(ParseAddressCommand parseAddressCommand, ParseZoneCommand parseZoneCommand,
-                                        GetLocatorsForAddressCommand locatorCommand, LocatePoBoxCommand poboxCommand,
-                                        UspsDeliveryPointCommand deliveryPointCommand, IHttpClientFactory clientFactory,
-                                        ReprojectPointsCommand reprojectCommnd, GetLocatorsForReverseLookupCommand reverseLocatorCommand,
-                                        ReverseGeocodeAddressCommand reverseGeocodeAddressCommand)
+        public GeocodeAddressController(IMediator mediator)
         {
-            _parseAddressCommand = parseAddressCommand;
-            _parseZoneCommand = parseZoneCommand;
-            _getLocatorsForAddressCommand = locatorCommand;
-            _poboxCommand = poboxCommand;
-            _deliveryPointCommand = deliveryPointCommand;
-            _clientFactory = clientFactory;
-            _reprojectCommnd = reprojectCommnd;
-            _reverseLocatorCommand = reverseLocatorCommand;
-            _reverseGeocodeCommand = reverseGeocodeAddressCommand;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -109,16 +88,16 @@ namespace api.mapserv.utah.gov.Controllers
 
             #endregion
 
-            _parseAddressCommand.Initialize(street);
-            var parsedStreet = CommandExecutor.ExecuteCommand(_parseAddressCommand);
+            var parseAddressCommand = new AddressParsing.Command(street);
+            var parsedStreet = await _mediator.Send(parseAddressCommand);
 
-            _parseZoneCommand.Initialize(zone, new GeocodeAddress(parsedStreet));
-            var parsedAddress = CommandExecutor.ExecuteCommand(_parseZoneCommand);
+            var parseZoneCommand = new ZoneParsing.Command(zone, new GeocodeAddress(parsedStreet));
+            var parsedAddress = await _mediator.Send(parseZoneCommand);
 
             if (options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue)
             {
-                _poboxCommand.Initialize(parsedAddress, options);
-                var result = await _poboxCommand.Execute();
+                var poboxCommand = new PoBoxLocation.Command(parsedAddress, options);
+                var result = await _mediator.Send(poboxCommand);
 
                 if (result != null)
                 {
@@ -142,8 +121,8 @@ namespace api.mapserv.utah.gov.Controllers
                 }
             }
 
-            _deliveryPointCommand.Initialize(parsedAddress, options);
-            var uspsPoint = await _deliveryPointCommand.Execute();
+            var deliveryPointCommand = new UspsDeliveryPointLocation.Command(parsedAddress, options);
+            var uspsPoint = await _mediator.Send(deliveryPointCommand);
 
             if (uspsPoint != null)
             {
@@ -169,8 +148,8 @@ namespace api.mapserv.utah.gov.Controllers
             var topCandidates = new TopAddressCandidates(options.Suggest,
                                                          new CandidateComparer(parsedAddress.StandardizedAddress
                                                                                             .ToUpperInvariant()));
-            _getLocatorsForAddressCommand.Initialize(parsedAddress, options);
-            var locators = CommandExecutor.ExecuteCommand(_getLocatorsForAddressCommand);
+            var getLocatorsForAddressCommand = new LocatorsForGeocode.Command(parsedAddress, options);
+            var locators = await _mediator.Send(getLocatorsForAddressCommand);
 
             if (locators == null || !locators.Any())
             {
@@ -183,25 +162,8 @@ namespace api.mapserv.utah.gov.Controllers
                 });
             }
 
-            var commandsToExecute = new ConcurrentQueue<GetAddressCandidatesCommand>();
-            foreach (var locator in locators)
-            {
-                var geocodeWithLocator = new GetAddressCandidatesCommand(_clientFactory);
-                geocodeWithLocator.Initialize(locator);
-
-                commandsToExecute.Enqueue(geocodeWithLocator);
-            }
-
-            var tasks = new Collection<Task<IEnumerable<Candidate>>>();
-
-            while (commandsToExecute.TryDequeue(out GetAddressCandidatesCommand currentCommand))
-            {
-                tasks.Add(currentCommand.Execute());
-            }
-
-            await Task.WhenAll(tasks).ConfigureAwait(false);
-
-            var candidates = tasks.Where(x => x.Result != null).SelectMany(x => x.Result);
+            var tasks = await Task.WhenAll(locators.Select(locator => _mediator.Send(new Geocode.Command(locator))).ToArray());
+            var candidates = tasks.SelectMany(x => x);
 
             foreach (var candidate in candidates)
             {
@@ -210,9 +172,9 @@ namespace api.mapserv.utah.gov.Controllers
 
             var highestScores = topCandidates.Get();
 
-            var chooseBestAddressCandidateCommand = new ChooseBestAddressCandidateCommand(highestScores, options, street,
+            var chooseBestAddressCandidateCommand = new FilterCandidates.Command(highestScores, options, street,
                                                                                           zone, parsedAddress);
-            var winner = CommandExecutor.ExecuteCommand(chooseBestAddressCandidateCommand);
+            var winner = await _mediator.Send(chooseBestAddressCandidateCommand);
 
             if (winner == null || winner.Score < 0)
             {
@@ -262,11 +224,12 @@ namespace api.mapserv.utah.gov.Controllers
         [Route("api/v{version:apiVersion}/geocode/reverse/{x:double}/{y:double}")]
         public async Task<ObjectResult> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options)
         {
+            var inputLocation = new Point(x, y);
+
             if (options.SpatialReference != 26912)
             {
-                _reprojectCommnd.Initialize(new ReprojectPointsCommand.PointProjectQueryArgs(options.SpatialReference, 26912, new [] { x, y }));
-
-                var pointReprojectResponse = await _reprojectCommnd.Execute();
+                var reprojectCommand = new Reproject.Command(new PointReprojectOptions(options.SpatialReference, 26912, new [] { x, y }));
+                var pointReprojectResponse = await _mediator.Send(reprojectCommand);
 
                 if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any())
                 {
@@ -291,7 +254,8 @@ namespace api.mapserv.utah.gov.Controllers
                 }
             }
 
-            var locators = CommandExecutor.ExecuteCommand(_reverseLocatorCommand);
+            var locatorLookup = new LocatorsForReverseLookup.Command();
+            var locators = await _mediator.Send(locatorLookup);
 
             if (locators == null || !locators.Any())
             {
@@ -309,11 +273,11 @@ namespace api.mapserv.utah.gov.Controllers
 
             locator.Url = string.Format(locator.Url, x, y, options.Distance, options.SpatialReference);
 
-            _reverseGeocodeCommand.Initialize(locator);
+            var reverseGeocodeCommand = new ReverseGeocode.Command(locator);
 
             try
             {
-                var response = await _reverseGeocodeCommand.Execute().ConfigureAwait(false);
+                var response = await _mediator.Send(reverseGeocodeCommand);
 
                 if (response == null) 
                 {
@@ -324,7 +288,7 @@ namespace api.mapserv.utah.gov.Controllers
                     });
                 }
 
-                var result = response.ToResponseObject(new Point(x, y)); 
+                var result = response.ToResponseObject(inputLocation); 
 
                 return Ok(new ApiResponseContainer<ReverseGeocodeApiResponse> {
                     Result = result,
