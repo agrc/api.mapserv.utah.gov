@@ -3,22 +3,24 @@
     public class GeometryServiceConfiguration
     {
         // http://localhost:6080/arcgis/rest/services/Geometry/GeometryServer/project?f=json&amp;{0}
-        private const string _template = "{Host}/{ServiceLocation}/project?f=json&{0}";
+        private const string _template = "{Host}/{ServiceLocation}/project{0}";
+        public string Protocol { get; set; } = "http";
         public string Host { get; set; } = "localhost";
         public string Port { get; set; } = "80";
         public string Path { get; set; } = "/arcgis/rest/services/Geometry/GeometryServer/";
 
-        public string ProjectUrl
+        public override string ToString()
         {
-            get
-            {
-                if (Port != "80")
-                {
-                    Host = Host + ":" + Port;
-                }
+            var host = Host;
 
-                return _template.Replace("{Host}", Host).Replace("{ServiceLocation}", Path).Replace("//", "/");
+            if (Port != "80")
+            {
+                host = $"{host}:{Port}";
             }
+
+            host = $"{Protocol}://{host}";
+
+            return _template.Replace("{ServiceLocation}", Path).Replace("//", "/").Replace("{Host}", host);
         }
     }
 }

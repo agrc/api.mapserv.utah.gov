@@ -20,7 +20,7 @@ namespace api.mapserv.utah.gov.Models
                 )
       { }
 
-      public List<GridLinkable> AddressGrids { get; set; }
+      public IEnumerable<GridLinkable> AddressGrids { get; set; }
 
       public override string ToString() => $"[GeocodeAddress] InputAddress: {InputAddress}, Zip5: {Zip5}";
   }

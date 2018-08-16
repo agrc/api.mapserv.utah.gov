@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using api.mapserv.utah.gov.Commands.Formatting;
+using api.mapserv.utah.gov.Features.Converting;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ResponseObjects;
-using api.mapserv.utah.gov.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -10,6 +10,13 @@ namespace api.mapserv.utah.gov.Filters
 {
     public class JsonOutputFormatResultFilter : IAsyncResultFilter
     {
+        private readonly IMediator _mediator;
+
+        public JsonOutputFormatResultFilter(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
             var format = context.HttpContext.Request.Query["format"];
@@ -24,19 +31,19 @@ namespace api.mapserv.utah.gov.Filters
 
             if (response.Value is ApiResponseContainer<GeocodeAddressApiResponse> container)
             {
-                switch (format)
+                switch (format.ToString().ToLowerInvariant())
                 {
                     case "geojson":
                         {
-                            var command = new ConvertToGeoJsonCommand(container);
-                            response.Value = CommandExecutor.ExecuteCommand(command);
+                            var command = new GeoJsonFeature.Command(container);
+                            response.Value = await _mediator.Send(command);
 
                             break;
                         }
                     case "esrijson":
                         {
-                            var command = new ConvertToEsriGraphicCommand(container);
-                            response.Value = CommandExecutor.ExecuteCommand(command);
+                            var command = new EsriGraphic.Command(container);
+                            response.Value = await _mediator.Send(command);
 
                             break;
                         }

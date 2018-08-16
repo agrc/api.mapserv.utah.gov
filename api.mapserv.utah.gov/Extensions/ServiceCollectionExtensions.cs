@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Http;
 using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Commands;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models.SecretOptions;
 using api.mapserv.utah.gov.Services;
@@ -42,16 +41,6 @@ namespace api.mapserv.utah.gov.Extensions
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
-
-            services.AddTransient<ParseAddressCommand>();
-            services.AddTransient<ParseZoneCommand>();
-            services.AddTransient<GetLocatorsForAddressCommand>();
-            services.AddTransient<GetLocatorsForReverseLookupCommand>();
-            services.AddTransient<LocatePoBoxCommand>();
-            services.AddTransient<UspsDeliveryPointCommand>();
-            services.AddTransient<ReprojectPointsCommand>();
-            services.AddTransient<DoubleAvenuesExceptionCommand>();
-            services.AddTransient<ReverseGeocodeAddressCommand>();
         }
     }
 }
