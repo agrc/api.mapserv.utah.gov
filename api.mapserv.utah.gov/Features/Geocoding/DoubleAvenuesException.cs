@@ -1,82 +1,71 @@
-﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
 using MediatR;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding
-{
-    public class DoubleAvenuesException
-    {
-        public class Command : IRequest<GeocodeAddress>{
-            internal readonly GeocodeAddress address;
-            internal readonly string city;
+namespace api.mapserv.utah.gov.Features.Geocoding {
+    public class DoubleAvenuesException {
+        public class Command : IRequest<GeocodeAddress> {
+            internal readonly GeocodeAddress Address;
+            internal readonly string City;
 
-            public Command(GeocodeAddress address, string city)
-            {
-                this.address = address;
-                this.city = city ?? "";
-                this.city = this.city.Trim();
+            public Command(GeocodeAddress address, string city) {
+                Address = address;
+                City = city ?? "";
+                City = City.Trim();
             }
         }
 
-        public class Handler : RequestHandler<Command, GeocodeAddress>
-        {
+        public class Handler : RequestHandler<Command, GeocodeAddress> {
             private readonly Regex _ordinal;
 
-            public Handler(IRegexCache cache)
-            {
+            public Handler(IRegexCache cache) {
                 _ordinal = cache.Get("avesOrdinal");
             }
 
-            protected override GeocodeAddress Handle(Command request)
-            {
+            protected override GeocodeAddress Handle(Command request) {
                 // only avenue addresses with no prefix are affected
-                if (request.address.PrefixDirection != Direction.None || request.address.StreetType != StreetType.Avenue || !IsOrdinal(request.address.StreetName))
-                {
-                    Log.Debug("Only avenue addresses with no prefix are affected. skipping {address}", request.address);
+                if (request.Address.PrefixDirection != Direction.None ||
+                    request.Address.StreetType != StreetType.Avenue || !IsOrdinal(request.Address.StreetName)) {
+                    Log.Debug("Only avenue addresses with no prefix are affected. skipping {address}", request.Address);
 
-                    return request.address;
+                    return request.Address;
                 }
 
-                Log.Debug("Possible double avenues exception {address}, {city}", request.address, request.city);
+                Log.Debug("Possible double avenues exception {address}, {city}", request.Address, request.City);
 
                 // it's in the problem area in midvale
                 const int midvale = 84047;
-                if (!string.IsNullOrEmpty(request.city) && request.city.ToUpperInvariant().Contains("MIDVALE") ||
-                    request.address.Zip5.HasValue && request.address.Zip5.Value == midvale)
-                {
-                    Log.Information("Midvale avenues exception, updating {request.address} to include West", request.address);
+                if (!string.IsNullOrEmpty(request.City) && request.City.ToUpperInvariant().Contains("MIDVALE") ||
+                    request.Address.Zip5.HasValue && request.Address.Zip5.Value == midvale) {
+                    Log.Information("Midvale avenues exception, updating {request.address} to include West",
+                                    request.Address);
 
-                    request.address.PrefixDirection = Direction.West;
+                    request.Address.PrefixDirection = Direction.West;
 
-                    return request.address;
+                    return request.Address;
                 }
 
                 // update the slc avenues to have an east
-                if (request.address.AddressGrids.Select(x => x.Grid).Contains("SALT LAKE CITY"))
-                {
-                    Log.Information("SLC avenues exception, updating {request.address} to include East", request.address);
+                if (request.Address.AddressGrids.Select(x => x.Grid).Contains("SALT LAKE CITY")) {
+                    Log.Information("SLC avenues exception, updating {request.address} to include East",
+                                    request.Address);
 
-                    request.address.PrefixDirection = Direction.East;
+                    request.Address.PrefixDirection = Direction.East;
 
-                    return request.address;
+                    return request.Address;
                 }
 
-                Log.Debug("Not a double avenues exception", request.address, request.city);
+                Log.Debug("Not a double avenues exception", request.Address, request.City);
 
-                return request.address;
+                return request.Address;
             }
 
-            private bool IsOrdinal(string streetname)
-            {
-                if (string.IsNullOrWhiteSpace(streetname))
-                {
+            private bool IsOrdinal(string streetname) {
+                if (string.IsNullOrWhiteSpace(streetname)) {
                     return false;
                 }
 

@@ -1,49 +1,40 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.Linkables;
 using MediatR;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding
-{
-    public class AddressSystemFromZipCode
-    {
-        public class Command : IRequest<IEnumerable<GridLinkable>>
-        {
-            public readonly string Zip;
+namespace api.mapserv.utah.gov.Features.Geocoding {
+    public class AddressSystemFromZipCode {
+        public class Command : IRequest<IReadOnlyCollection<GridLinkable>> {
+            internal readonly string Zip;
 
-            public Command(int? zip)
-            {
-                if (zip.HasValue)
-                {
+            public Command(int? zip) {
+                if (zip.HasValue) {
                     Zip = zip.ToString();
                 }
             }
         }
 
-        public class Handler : RequestHandler<Command, IEnumerable<GridLinkable>> {
+        public class Handler : RequestHandler<Command, IReadOnlyCollection<GridLinkable>> {
             private readonly ILookupCache _driveCache;
 
-            public Handler(ILookupCache driveCache)
-            {
+            public Handler(ILookupCache driveCache) {
                 _driveCache = driveCache;
             }
 
-            protected override IEnumerable<GridLinkable> Handle(Command request)
-            {
+            protected override IReadOnlyCollection<GridLinkable> Handle(Command request) {
                 Log.Debug("Getting address system from {city}", request.Zip);
 
-                if (string.IsNullOrEmpty(request.Zip))
-                {
-                    return Enumerable.Empty<GridLinkable>();
+                if (string.IsNullOrEmpty(request.Zip)) {
+                    return Array.Empty<GridLinkable>();
                 }
 
-                _driveCache.ZipCodesGrids.TryGetValue(request.Zip, out List<GridLinkable> gridLinkables);
+                _driveCache.ZipCodesGrids.TryGetValue(request.Zip, out var gridLinkables);
 
                 var result = gridLinkables ?? new List<GridLinkable>();
-                var grid = string.Join(",", result);
 
                 Log.Debug("Found {systems}", result);
 

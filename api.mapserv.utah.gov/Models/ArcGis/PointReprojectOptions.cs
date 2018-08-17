@@ -1,14 +1,10 @@
-﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models.ArcGis
-{
-    public class PointReprojectOptions
-    {
+namespace api.mapserv.utah.gov.Models.ArcGis {
+    public class PointReprojectOptions {
         public PointReprojectOptions(int currentSpatialReference, int reprojectToSpatialReference,
-                                         IEnumerable<double> coordinates)
-        {
+                                     IReadOnlyCollection<double> coordinates) {
             CurrentSpatialReference = currentSpatialReference;
             ReprojectToSpatialReference = reprojectToSpatialReference;
             Coordinates = coordinates;
@@ -21,10 +17,6 @@ namespace api.mapserv.utah.gov.Models.ArcGis
         public int ReprojectToSpatialReference { get; private set; }
 
         [JsonProperty(PropertyName = "geometries")]
-        public IEnumerable<double> Coordinates { get; private set; }
-
-        /// <summary>Returns a string that represents the current object.</summary>
-        /// <returns>A string that represents the current object.</returns>
-        public override string ToString() => $"CurrentSpatialReference: {CurrentSpatialReference}, ReprojectToSpatialReference: {ReprojectToSpatialReference}, Geometries: {Coordinates}";
+        public IReadOnlyCollection<double> Coordinates { get; private set; }
     }
 }

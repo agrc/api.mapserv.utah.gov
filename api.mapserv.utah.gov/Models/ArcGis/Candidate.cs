@@ -1,25 +1,23 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models
-{
-    public class Candidate
-    {
+namespace api.mapserv.utah.gov.Models.ArcGis {
+    public class Candidate {
         private string _address;
 
         [JsonProperty(PropertyName = "address")]
-        public string Address
-        {
+        public string Address {
             get => _address;
-            set
-            {
+            set {
                 _address = value;
 
-                if (string.IsNullOrEmpty(_address)) return;
+                if (string.IsNullOrEmpty(_address))
+                    return;
 
-                var parts = _address.Split(new[] {','});
+                var parts = _address.Split(new[] { ',' });
 
-                if (parts.Length != 3) return;
+                if (parts.Length != 3)
+                    return;
 
                 AddressGrid = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parts[1].Trim().ToLowerInvariant());
                 _address = string.Join(",", parts[0], parts[2]).Trim();
@@ -42,8 +40,6 @@ namespace api.mapserv.utah.gov.Models
 
         [JsonIgnore]
         public int Weight { get; set; }
-
-        public override string ToString() => $"address: {Address}, location: {Location}, score: {Score}, locator: {Locator}";
 
         public bool ShouldSerializeScoreDifference() => false;
     }

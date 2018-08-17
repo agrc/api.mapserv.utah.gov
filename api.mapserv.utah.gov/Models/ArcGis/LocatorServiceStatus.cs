@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models
-{
-    public class ArcGisServiceStatus
-    {
+namespace api.mapserv.utah.gov.Models.ArcGis {
+    public class LocatorServiceStatus {
         [JsonProperty(PropertyName = "code")]
         public int Code { get; set; }
 

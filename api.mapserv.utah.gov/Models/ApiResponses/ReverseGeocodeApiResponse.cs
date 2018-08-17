@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models.ReponseObjects
-{
-    public class ReverseGeocodeApiResponse
-    {
+namespace api.mapserv.utah.gov.Models.ResponseObjects {
+    public class ReverseGeocodeApiResponse {
         [JsonProperty(PropertyName = "address", Order = 0)]
         public string Address { get; set; }
 
@@ -18,12 +16,9 @@ namespace api.mapserv.utah.gov.Models.ReponseObjects
         public Point InputPoint { get; set; }
 
         [JsonProperty(PropertyName = "pythagoreanDistance", Order = 4)]
-        public double? Distance
-        {
-            get
-            {
-                if (InputPoint == null || MatchPoint == null)
-                {
+        public double? Distance {
+            get {
+                if (InputPoint == null || MatchPoint == null) {
                     return null;
                 }
 

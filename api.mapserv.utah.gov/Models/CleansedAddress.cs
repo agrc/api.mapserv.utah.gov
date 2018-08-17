@@ -1,13 +1,9 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using api.mapserv.utah.gov.Models.Constants;
 
-namespace api.mapserv.utah.gov.Models
-{
-    public class CleansedAddress : AddressBase
-    {
-        public CleansedAddress()
-        {
-
+namespace api.mapserv.utah.gov.Models {
+    public class CleansedAddress : AddressBase {
+        public CleansedAddress() {
         }
 
         public CleansedAddress(string inputAddress, int? houseNumber, double milepost, int poBox,
@@ -24,9 +20,7 @@ namespace api.mapserv.utah.gov.Models
                  zip4,
                  zip5,
                  isHighway,
-                 isPobox)
-        {
-
+                 isPobox) {
         }
 
         /// <summary>
@@ -38,17 +32,13 @@ namespace api.mapserv.utah.gov.Models
         ///     1991N => 1991 N
         /// </value>
         // public string StandardizedAddress { get; set; }
-        public string StandardizedAddress
-        {
-            get
-            {
-                if (IsPoBox)
-                {
-                    return string.Format("P.O. Box {0}", PoBox);
+        public string StandardizedAddress {
+            get {
+                if (IsPoBox) {
+                    return $"P.O. Box {PoBox}";
                 }
 
-                var address = string.Format("{0} {1} {2} {4} {3}", HouseNumber, PrefixDirection, StreetName,
-                                            SuffixDirection, StreetType);
+                var address = $"{HouseNumber} {PrefixDirection} {StreetName} {StreetType} {SuffixDirection}";
 
                 address = address.Replace("None", "");
 
@@ -58,7 +48,5 @@ namespace api.mapserv.utah.gov.Models
                 return address.Trim();
             }
         }
-
-        public override string ToString() => $"[Address] InputAddress: {InputAddress}, Zip5: {Zip5}";
     }
 }

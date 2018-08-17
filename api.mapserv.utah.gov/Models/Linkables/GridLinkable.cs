@@ -1,4 +1,4 @@
-﻿namespace api.mapserv.utah.gov.Models
+namespace api.mapserv.utah.gov.Models.Linkables
 {
   public abstract class GridLinkable : IWeighable
   {
@@ -11,7 +11,5 @@
       public abstract string Key { get; }
       public string Grid { get; set; }
       public int Weight { get; set; }
-
-      public override string ToString() => $"Grid: {Grid}";
   }
 }

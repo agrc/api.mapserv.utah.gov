@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using api.mapserv.utah.gov.Models.Linkables;
 
 namespace api.mapserv.utah.gov.Models
 {
@@ -20,8 +21,6 @@ namespace api.mapserv.utah.gov.Models
                 )
       { }
 
-      public IEnumerable<GridLinkable> AddressGrids { get; set; }
-
-      public override string ToString() => $"[GeocodeAddress] InputAddress: {InputAddress}, Zip5: {Zip5}";
+      public IReadOnlyCollection<GridLinkable> AddressGrids { get; set; }
   }
 }

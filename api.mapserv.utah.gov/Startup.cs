@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using api.mapserv.utah.gov.Extensions;
@@ -13,38 +13,28 @@ using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApiContrib.Core.Formatter.Jsonp;
 
-namespace api.mapserv.utah.gov
-{
-    public class Startup
-    {
-        private readonly IHostingEnvironment _env;
-        private readonly ILogger _log;
-
-        public Startup(IConfiguration configuration, IHostingEnvironment env, ILoggerFactory logFactory)
-        {
-            _env = env;
+namespace api.mapserv.utah.gov {
+    public class Startup {
+        public Startup(IConfiguration configuration, IHostingEnvironment env, ILoggerFactory logFactory) {
             Configuration = configuration;
-            _log = logFactory.CreateLogger("Startup");
+            logFactory.CreateLogger("Startup");
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) {
             services.AddMediatR(typeof(Startup));
             services.AddCors();
-            services.AddMvc(options =>
-            {
-                options.AddApiResponseFormatters();
-                options.AddJsonpOutputFormatter();
-            })
+            services.AddMvc(options => {
+                        options.AddApiResponseFormatters();
+                        options.AddJsonpOutputFormatter();
+                    })
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(options => options.SerializerSettings.NullValueHandling =
                                         NullValueHandling.Ignore);
 
-            services.AddApiVersioning(x =>
-            {
+            services.AddApiVersioning(x => {
                 x.ReportApiVersions = true;
                 x.AssumeDefaultVersionWhenUnspecified = true;
                 x.DefaultApiVersion = new ApiVersion(1, 0);
@@ -53,26 +43,22 @@ namespace api.mapserv.utah.gov
             services.UseOptions(Configuration);
             services.UseDi();
 
-            services.AddSwaggerGen(c =>
-            {
+            services.AddSwaggerGen(c => {
                 c.EnableAnnotations();
                 c.DescribeAllParametersInCamelCase();
                 c.DescribeAllEnumsAsStrings();
                 c.DescribeStringEnumsInCamelCase();
 
-                c.SwaggerDoc("v1", new Info
-                {
+                c.SwaggerDoc("v1", new Info {
                     Version = "v1",
                     Title = "AGRC WebAPI : OpenAPI Documentation",
                     Description = "OpenAPI Documentation",
-                    Contact = new Contact
-                    {
+                    Contact = new Contact {
                         Name = "AGRC",
                         Email = string.Empty,
                         Url = "https://github.com/agrc/api.mapserv.utah.gov"
                     },
-                    License = new License
-                    {
+                    License = new License {
                         Name = "MIT",
                         Url = "https://github.com/agrc/api.mapserv.utah.gov/blob/master/LICENSE"
                     }
@@ -86,23 +72,18 @@ namespace api.mapserv.utah.gov
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger(c => {
-                c.RouteTemplate = "openapi/{documentName}/api.json";
-            });
+            app.UseSwagger(c => { c.RouteTemplate = "openapi/{documentName}/api.json"; });
 
-            app.UseSwaggerUI(c =>
-            {
+            app.UseSwaggerUI(c => {
                 c.DocumentTitle = "AGRC WebAPI OpenAPI Documentation";
                 c.RoutePrefix = "openapi";
                 c.SwaggerEndpoint("/openapi/v1/api.json", "v1");
-                c.SupportedSubmitMethods(new SubmitMethod[] {});
+                c.SupportedSubmitMethods();
                 c.EnableDeepLinking();
                 c.DocExpansion(DocExpansion.List);
             });
