@@ -1,7 +1,5 @@
-﻿namespace api.mapserv.utah.gov.Models.Constants
-{
-    public enum SecondaryUnit
-    {
+namespace api.mapserv.utah.gov.Models.Constants {
+    public enum SecondaryUnit {
         Apartment,
         Basement,
         Building,
@@ -26,5 +24,5 @@
         Trailer,
         Unit,
         Upper
-  }
+    }
 }

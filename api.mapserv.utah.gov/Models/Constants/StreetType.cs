@@ -1,7 +1,5 @@
-﻿namespace api.mapserv.utah.gov.Models.Constants
-{
-    public enum StreetType
-    {
+namespace api.mapserv.utah.gov.Models.Constants {
+    public enum StreetType {
         None,
 
         Alley,
@@ -61,5 +59,5 @@
         View,
 
         Way
-  }
+    }
 }

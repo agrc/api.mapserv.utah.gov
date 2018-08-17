@@ -1,17 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace api.mapserv.utah.gov.Comparers
-{
-    public class StreetTypeAbbreviationComparer : IEqualityComparer<string>
-    {
-        public bool Equals(string x, string y)
-        {
-            return x.Length == y.Length && string.Equals(x, y);
-        }
+namespace api.mapserv.utah.gov.Comparers {
+    public class StreetTypeAbbreviationComparer : IEqualityComparer<string> {
+        public bool Equals(string x, string y) => x.Length == y.Length && string.Equals(x, y);
 
-        public int GetHashCode(string obj)
-        {
-            return obj.GetHashCode();
-        }
+        public int GetHashCode(string obj) => obj.GetHashCode();
     }
 }

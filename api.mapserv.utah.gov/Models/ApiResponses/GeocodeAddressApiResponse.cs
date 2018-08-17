@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models.ResponseObjects
-{
-    public class GeocodeAddressApiResponse : Suggestable
-    {
+namespace api.mapserv.utah.gov.Models.ResponseObjects {
+    public class GeocodeAddressApiResponse : Suggestable {
         private double _scoreDifference;
 
         [JsonProperty(PropertyName = "location")]
@@ -29,8 +27,7 @@ namespace api.mapserv.utah.gov.Models.ResponseObjects
         public string AddressGrid { get; set; }
 
         [JsonProperty(PropertyName = "scoreDifference")]
-        public double ScoreDifference
-        {
+        public double ScoreDifference {
             get => _scoreDifference;
             set => _scoreDifference = Math.Round(value, 2);
         }

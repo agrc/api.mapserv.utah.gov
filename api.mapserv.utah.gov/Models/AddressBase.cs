@@ -1,20 +1,17 @@
-﻿using System.IO;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using api.mapserv.utah.gov.Models.Constants;
 
-namespace api.mapserv.utah.gov.Models
-{
-    public abstract class AddressBase
-    {
-        protected AddressBase()
-        {
+namespace api.mapserv.utah.gov.Models {
+    public abstract class AddressBase {
+        protected AddressBase() {
+            
         }
 
         protected AddressBase(string inputAddress, int? houseNumber, double milepost, int poBox,
                               Direction prefixDirection, string streetName, StreetType streetType,
-                              Direction suffixDirection, int zip4, int? zip5, bool isHighway, bool isPoBox)
-        {
+                              Direction suffixDirection, int zip4, int? zip5, bool isHighway, bool isPoBox) {
             InputAddress = inputAddress;
             HouseNumber = houseNumber;
             Milepost = milepost;
@@ -53,10 +50,8 @@ namespace api.mapserv.utah.gov.Models
 
         public bool IsPoBox { get; set; }
 
-        public virtual string ReversalAddress
-        {
-            get
-            {
+        public virtual string ReversalAddress {
+            get {
                 var address = string.Format("{2} {3} {4} {0} {1}", HouseNumber, PrefixDirection, StreetName,
                                             SuffixDirection, StreetType);
 
@@ -69,30 +64,22 @@ namespace api.mapserv.utah.gov.Models
             }
         }
 
-        public virtual bool IsNumericStreetName()
-        {
-            if (string.IsNullOrEmpty(StreetName))
-            {
+        public virtual bool IsNumericStreetName() {
+            if (string.IsNullOrEmpty(StreetName)) {
                 return false;
             }
 
-            return int.TryParse(StreetName, out int _);
+            return int.TryParse(StreetName, out _);
         }
 
-        public virtual bool HasPrefix()
-        {
-            return PrefixDirection != Direction.None;
-        }
+        public virtual bool HasPrefix() => PrefixDirection != Direction.None;
 
-        public virtual bool IsReversal()
-        {
-            if (string.IsNullOrEmpty(StreetName))
-            {
+        public virtual bool IsReversal() {
+            if (string.IsNullOrEmpty(StreetName)) {
                 return false;
             }
 
-            if (!IsNumericStreetName())
-            {
+            if (!IsNumericStreetName()) {
                 return false;
             }
 
@@ -101,17 +88,14 @@ namespace api.mapserv.utah.gov.Models
             return r.IsMatch(StreetName);
         }
 
-        public virtual bool PossibleReversal()
-        {
-            if (string.IsNullOrEmpty(StreetName))
-            {
+        public virtual bool PossibleReversal() {
+            if (string.IsNullOrEmpty(StreetName)) {
                 return false;
             }
 
             var stepOne = false;
 
-            if (int.TryParse(StreetName, out int num))
-            {
+            if (int.TryParse(StreetName, out var num)) {
                 stepOne = num % 5 == 0;
             }
 
@@ -120,40 +104,22 @@ namespace api.mapserv.utah.gov.Models
             return stepOne && stepTwo;
         }
 
-        public virtual bool IsIntersection()
-        {
+        public virtual bool IsIntersection() {
             var regex = new Regex(@"\band\b", RegexOptions.IgnoreCase);
 
             return regex.IsMatch(InputAddress);
         }
 
-        public virtual bool IsMachable()
-        {
-            if (IsIntersection())
-            {
+        public virtual bool IsMachable() {
+            if (IsIntersection()) {
                 return true;
             }
 
-            if (!HouseNumber.HasValue)
-            {
+            if (!HouseNumber.HasValue) {
                 return SuffixDirection != Direction.None;
             }
 
             return true;
-        }
-
-        public abstract override string ToString();
-
-        public virtual AddressBase DeepClone()
-        {
-            using (var stream = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, this);
-                stream.Position = 0;
-
-                return (AddressBase) formatter.Deserialize(stream);
-            }
         }
     }
 }

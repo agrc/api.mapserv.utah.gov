@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using api.mapserv.utah.gov.Models.ArcGis;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models
-{
-    public class LocatorResponse
-    {
+namespace api.mapserv.utah.gov.Models {
+    public class LocatorResponse {
         [JsonProperty(PropertyName = "candidates")]
-        public IEnumerable<Candidate> Candidates { get; set; }
+        public IList<Candidate> Candidates { get; set; }
 
         [JsonProperty(PropertyName = "error")]
-        public ArcGisServiceStatus Error { get; set; }
-  }
+        public LocatorServiceStatus Error { get; set; }
+    }
 }

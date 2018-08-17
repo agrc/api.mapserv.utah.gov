@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading;
@@ -7,61 +8,50 @@ using System.Threading.Tasks;
 using api.mapserv.utah.gov.Exceptions;
 using api.mapserv.utah.gov.Formatters;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.ArcGis;
 using MediatR;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding
-{
-    public class Geocode
-    {
-        public class Command : IRequest<IEnumerable<Candidate>>
-        {
+namespace api.mapserv.utah.gov.Features.Geocoding {
+    public class Geocode {
+        public class Command : IRequest<IReadOnlyCollection<Candidate>> {
             internal readonly LocatorProperties Locator;
 
-            public Command(LocatorProperties locator){
+            public Command(LocatorProperties locator) {
                 Locator = locator;
             }
         }
 
-        public class Handler : IRequestHandler<Command, IEnumerable<Candidate>>
-        {
+        public class Handler : IRequestHandler<Command, IReadOnlyCollection<Candidate>> {
             private readonly HttpClient _client;
             private readonly MediaTypeFormatter[] _mediaTypes;
 
-            public Handler(IHttpClientFactory clientFactory)
-            {
+            public Handler(IHttpClientFactory clientFactory) {
                 _client = clientFactory.CreateClient("default");
-                _mediaTypes = new MediaTypeFormatter[]
-                {
+                _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()
                 };
             }
 
-            public async Task<IEnumerable<Candidate>> Handle(Command request, CancellationToken cancellationToken)
-            {
+            public async Task<IReadOnlyCollection<Candidate>> Handle(Command request, CancellationToken cancellationToken) {
                 Log.Debug("Request sent to locator, url={Url}", request.Locator.Url);
 
                 // TODO create a polly policy for the locators
-                var httpResponse = await _client.GetAsync(request.Locator.Url);
+                var httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
 
-                try
-                {
-                    var geocodeResponse = await httpResponse.Content.ReadAsAsync<LocatorResponse>(_mediaTypes);
+                try {
+                    var geocodeResponse = await httpResponse.Content.ReadAsAsync<LocatorResponse>(_mediaTypes, cancellationToken);
 
                     return ProcessResult(geocodeResponse, request.Locator);
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     Log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
                               await httpResponse.Content.ReadAsStringAsync(), request.Locator);
                     throw;
                 }
             }
 
-            private IEnumerable<Candidate> ProcessResult(LocatorResponse response, LocatorProperties locator)
-            {
-                if (response.Error != null && response.Error.Code == 500)
-                {
+            private static IReadOnlyCollection<Candidate> ProcessResult(LocatorResponse response, LocatorProperties locator) {
+                if (response.Error != null && response.Error.Code == 500) {
                     Log.Fatal($"{locator.Name} geocoder is not started.");
 
                     throw new GeocodingException($"{locator.Name} geocoder is not started. {response.Error}");
@@ -69,25 +59,21 @@ namespace api.mapserv.utah.gov.Features.Geocoding
 
                 var result = response.Candidates;
 
-                if (result == null)
-                {
+                if (result == null) {
                     return null;
                 }
 
-                foreach (var candidate in result)
-                {
+                foreach (var candidate in result) {
                     candidate.Locator = locator.Name;
                     candidate.Weight = locator.Weight;
                     candidate.AddressGrid = ParseAddressGrid(candidate.Address);
                 }
 
-                return result;
+                return new ReadOnlyCollection<Candidate>(result);
             }
 
-            private static string ParseAddressGrid(string address)
-            {
-                if (!address.Contains(","))
-                {
+            private static string ParseAddressGrid(string address) {
+                if (!address.Contains(",")) {
                     return null;
                 }
 

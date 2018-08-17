@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -8,8 +8,8 @@ using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Features.GeometryService;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.ReponseObjects;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using api.mapserv.utah.gov.Services;
@@ -17,29 +17,27 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Controllers
-{
+namespace api.mapserv.utah.gov.Controllers {
+    /// <inheritdoc />
     /// <summary>
-    /// Geocoding API Methods
+    ///     Geocoding API Methods
     /// </summary>
     /// <remarks>
-    /// API methods for finding a geolocation (x,y) for addresses.
+    ///     API methods for finding a geolocation (x,y) for addresses.
     /// </remarks>
     [ApiController]
     [ApiVersion("1.0")]
     [Produces("application/json")]
     [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
-    public class GeocodeAddressController : ControllerBase
-    {
+    public class GeocodeAddressController : ControllerBase {
         private readonly IMediator _mediator;
 
-        public GeocodeAddressController(IMediator mediator)
-        {
+        public GeocodeAddressController(IMediator mediator) {
             _mediator = mediator;
         }
 
         /// <summary>
-        /// Finds the x, y location for an input address
+        ///     Finds the x, y location for an input address
         /// </summary>
         /// <remarks>Requires an API Key</remarks>
         /// <response code="200">The address was geocoded successfully</response>
@@ -55,30 +53,25 @@ namespace api.mapserv.utah.gov.Controllers
         [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
         [ProducesResponseType(500, Type = typeof(ApiResponseContainer))]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
-        public async Task<ObjectResult> Get(string street, string zone, [FromQuery] GeocodingOptions options)
-        {
+        public async Task<ObjectResult> Get(string street, string zone, [FromQuery] GeocodingOptions options) {
             Log.Debug("Geocoding {street}, {zone} with options: {options}", street, zone, options);
 
             #region validation
 
             var errors = "";
-            if (string.IsNullOrEmpty(street))
-            {
+            if (string.IsNullOrEmpty(street)) {
                 errors = "Street is empty.";
             }
 
-            if (string.IsNullOrEmpty(zone))
-            {
+            if (string.IsNullOrEmpty(zone)) {
                 errors += "Zip code or city name is emtpy";
             }
 
-            if (errors.Length > 0)
-            {
+            if (errors.Length > 0) {
                 Log.Debug("Bad geocode request", errors);
 
-                return BadRequest(new ApiResponseContainer<GeocodeAddressApiResponse>
-                {
-                    Status = (int) HttpStatusCode.BadRequest,
+                return BadRequest(new ApiResponseContainer<GeocodeAddressApiResponse> {
+                    Status = (int)HttpStatusCode.BadRequest,
                     Message = errors
                 });
             }
@@ -94,27 +87,23 @@ namespace api.mapserv.utah.gov.Controllers
             var parseZoneCommand = new ZoneParsing.Command(zone, new GeocodeAddress(parsedStreet));
             var parsedAddress = await _mediator.Send(parseZoneCommand);
 
-            if (options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue)
-            {
+            if (options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue) {
                 var poboxCommand = new PoBoxLocation.Command(parsedAddress, options);
                 var result = await _mediator.Send(poboxCommand);
 
-                if (result != null)
-                {
+                if (result != null) {
                     var model = result.ToResponseObject(street, zone);
 
                     var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
                     var input = street?.ToLowerInvariant();
 
-                    if (input != standard)
-                    {
+                    if (input != standard) {
                         model.StandardizedAddress = standard;
                     }
 
                     Log.Debug("Result score: {score} from {locator}", model.Score, model.Locator);
 
-                    return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
-                    {
+                    return Ok(new ApiResponseContainer<GeocodeAddressApiResponse> {
                         Result = model,
                         Status = (int)HttpStatusCode.OK
                     });
@@ -124,22 +113,19 @@ namespace api.mapserv.utah.gov.Controllers
             var deliveryPointCommand = new UspsDeliveryPointLocation.Command(parsedAddress, options);
             var uspsPoint = await _mediator.Send(deliveryPointCommand);
 
-            if (uspsPoint != null)
-            {
+            if (uspsPoint != null) {
                 var model = uspsPoint.ToResponseObject(street, zone);
 
                 var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
                 var input = street?.ToLowerInvariant();
 
-                if (input != standard)
-                {
+                if (input != standard) {
                     model.StandardizedAddress = standard;
                 }
 
                 Log.Debug("Result score: {score} from {locator}", model.Score, model.Locator);
 
-                return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
-                {
+                return Ok(new ApiResponseContainer<GeocodeAddressApiResponse> {
                     Result = model,
                     Status = (int)HttpStatusCode.OK
                 });
@@ -151,46 +137,43 @@ namespace api.mapserv.utah.gov.Controllers
             var getLocatorsForAddressCommand = new LocatorsForGeocode.Command(parsedAddress, options);
             var locators = await _mediator.Send(getLocatorsForAddressCommand);
 
-            if (locators == null || !locators.Any())
-            {
+            if (locators == null || !locators.Any()) {
                 Log.Debug("No locators found for address {parsedAddress}", parsedAddress);
 
-                return NotFound(new ApiResponseContainer
-                {
+                return NotFound(new ApiResponseContainer {
                     Message = $"No address candidates found with a score of {options.AcceptScore} or better.",
-                    Status = (int) HttpStatusCode.NotFound
+                    Status = (int)HttpStatusCode.NotFound
                 });
             }
 
-            var tasks = await Task.WhenAll(locators.Select(locator => _mediator.Send(new Geocode.Command(locator))).ToArray());
+            var tasks = await Task.WhenAll(locators.Select(locator => _mediator.Send(new Geocode.Command(locator)))
+                                                   .ToArray());
             var candidates = tasks.SelectMany(x => x);
 
-            foreach (var candidate in candidates)
-            {
+            foreach (var candidate in candidates) {
                 topCandidates.Add(candidate);
             }
 
             var highestScores = topCandidates.Get();
 
             var chooseBestAddressCandidateCommand = new FilterCandidates.Command(highestScores, options, street,
-                                                                                          zone, parsedAddress);
+                                                                                 zone, parsedAddress);
             var winner = await _mediator.Send(chooseBestAddressCandidateCommand);
 
-            if (winner == null || winner.Score < 0)
-            {
-                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
+            if (winner == null || winner.Score < 0) {
+                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street,
+                            zone,
                             options.AcceptScore);
 
-                return NotFound(new ApiResponseContainer
-                {
+                return NotFound(new ApiResponseContainer {
                     Message = $"No address candidates found with a score of {options.AcceptScore} or better.",
-                    Status = (int) HttpStatusCode.NotFound
+                    Status = (int)HttpStatusCode.NotFound
                 });
             }
 
-            if (winner.Location == null)
-            {
-                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
+            if (winner.Location == null) {
+                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street,
+                            zone,
                             options.AcceptScore);
             }
 
@@ -198,15 +181,14 @@ namespace api.mapserv.utah.gov.Controllers
 
             Log.Debug("Result score: {score} from {locator}", winner.Score, winner.Locator);
 
-            return Ok(new ApiResponseContainer<GeocodeAddressApiResponse>
-            {
+            return Ok(new ApiResponseContainer<GeocodeAddressApiResponse> {
                 Result = winner,
                 Status = (int)HttpStatusCode.OK
             });
         }
 
         /// <summary>
-        /// Finds the nearest address to the input location
+        ///     Finds the nearest address to the input location
         /// </summary>
         /// <remarks>Requires an API Key</remarks>
         /// <response code="200">An address was found near the input location</response>
@@ -222,33 +204,28 @@ namespace api.mapserv.utah.gov.Controllers
         [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
         [ProducesResponseType(500, Type = typeof(ApiResponseContainer))]
         [Route("api/v{version:apiVersion}/geocode/reverse/{x:double}/{y:double}")]
-        public async Task<ObjectResult> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options)
-        {
+        public async Task<ObjectResult> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options) {
             var inputLocation = new Point(x, y);
 
-            if (options.SpatialReference != 26912)
-            {
-                var reprojectCommand = new Reproject.Command(new PointReprojectOptions(options.SpatialReference, 26912, new [] { x, y }));
+            if (options.SpatialReference != 26912) {
+                var reprojectCommand =
+                    new Reproject.Command(new PointReprojectOptions(options.SpatialReference, 26912, new[] {x, y}));
                 var pointReprojectResponse = await _mediator.Send(reprojectCommand);
 
-                if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any())
-                {
+                if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any()) {
                     Log.Fatal("Could not reproject point for {x},{y} {wkid}", x, y, options);
 
-                    return new ObjectResult(new ApiResponseContainer
-                    {
+                    return new ObjectResult(new ApiResponseContainer {
                         Message = "There was a problem reprojecting your input location",
                         Status = (int)HttpStatusCode.InternalServerError
-                    })
-                    {
+                    }) {
                         StatusCode = (int)HttpStatusCode.InternalServerError
                     };
-                } 
+                }
 
                 var points = pointReprojectResponse.Geometries.FirstOrDefault();
 
-                if (points != null)
-                {
+                if (points != null) {
                     x = points.X;
                     y = points.Y;
                 }
@@ -257,12 +234,10 @@ namespace api.mapserv.utah.gov.Controllers
             var locatorLookup = new LocatorsForReverseLookup.Command();
             var locators = await _mediator.Send(locatorLookup);
 
-            if (locators == null || !locators.Any())
-            {
+            if (locators == null || !locators.Any()) {
                 Log.Debug("No locators found for address reversal");
 
-                return NotFound(new ApiResponseContainer
-                {
+                return NotFound(new ApiResponseContainer {
                     Message = $"No address candidates found within {options.Distance} meters of {x}, {y}.",
                     Status = (int)HttpStatusCode.NotFound
                 });
@@ -275,36 +250,30 @@ namespace api.mapserv.utah.gov.Controllers
 
             var reverseGeocodeCommand = new ReverseGeocode.Command(locator);
 
-            try
-            {
+            try {
                 var response = await _mediator.Send(reverseGeocodeCommand);
 
-                if (response == null) 
-                {
-                    return NotFound(new ApiResponseContainer
-                    {
+                if (response == null) {
+                    return NotFound(new ApiResponseContainer {
                         Message = $"No address candidates found within {options.Distance} meters of {x}, {y}.",
                         Status = (int)HttpStatusCode.NotFound
                     });
                 }
 
-                var result = response.ToResponseObject(inputLocation); 
+                var result = response.ToResponseObject(inputLocation);
 
                 return Ok(new ApiResponseContainer<ReverseGeocodeApiResponse> {
                     Result = result,
-                    Status = (int) HttpStatusCode.OK
+                    Status = (int)HttpStatusCode.OK
                 });
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Log.Fatal(ex, "Error reverse geocoding {locator}", locator.Url);
 
-                return new ObjectResult(new ApiResponseContainer
-                {
+                return new ObjectResult(new ApiResponseContainer {
                     Message = "There was a problem handling your request",
                     Status = (int)HttpStatusCode.InternalServerError
-                }){
-                    StatusCode = (int) HttpStatusCode.InternalServerError
+                }) {
+                    StatusCode = (int)HttpStatusCode.InternalServerError
                 };
             }
         }

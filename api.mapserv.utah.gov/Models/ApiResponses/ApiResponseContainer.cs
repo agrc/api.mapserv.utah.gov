@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models
-{
-    public class ApiResponseContainer
-    {
+namespace api.mapserv.utah.gov.Models.ApiResponses {
+    public class ApiResponseContainer {
         [JsonProperty(PropertyName = "status")]
         public int Status { get; set; }
 
@@ -13,8 +11,7 @@ namespace api.mapserv.utah.gov.Models
         public bool ShouldSerializeMessage() => !string.IsNullOrEmpty(Message);
     }
 
-    public class ApiResponseContainer<T> : ApiResponseContainer where T : class
-    {
+    public class ApiResponseContainer<T> : ApiResponseContainer where T : class {
         [JsonProperty(PropertyName = "result")]
         public T Result { get; set; }
     }
