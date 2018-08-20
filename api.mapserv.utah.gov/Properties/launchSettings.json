@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/api.mapserv.utah.gov",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:1337/",
       "sslPort": 0
@@ -13,24 +17,26 @@
       "launchBrowser": true,
       "launchUrl": "api/v1/geocode/326 east south temple/slc",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "WEBAPI_ARCGIS_HOST": "localhost",
+        "WEBAPI_DATABASE_DB": "webapi",
+        "WEBAPI_DATABASE_HOST": "localhost",
+        "WEBAPI_ARCGIS_PORT": "6080",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "WEBAPI_DATABASE_PORT": "5432",
+        "WEBAPI_ARCGIS_PROTOCOL": "http"
       }
-    },
-    "api.mapserv.utah.gov": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/values",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Staging"
-      },
-      "applicationUrl": "http://localhost:1337/"
     },
     "docker": {
       "commandName": "Project",
-      "launchBrowser": false,
-      "launchUrl": "api/values",
+      "launchUrl": "api/v1/geocode/326 east south temple/slc",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "DockerDevelopment"
+        "WEBAPI_ARCGIS_HOST": "localhost",
+        "WEBAPI_DATABASE_DB": "webapi",
+        "WEBAPI_DATABASE_HOST": "localhost",
+        "WEBAPI_ARCGIS_PORT": "6080",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "WEBAPI_DATABASE_PORT": "5432",
+        "WEBAPI_ARCGIS_PROTOCOL": "http"
       },
       "applicationUrl": "http://localhost:1337/"
     }
