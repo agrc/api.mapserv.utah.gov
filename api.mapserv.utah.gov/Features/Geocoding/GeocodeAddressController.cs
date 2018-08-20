@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Comparers;
 using api.mapserv.utah.gov.Extensions;
-using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Features.GeometryService;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
@@ -17,7 +16,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Controllers {
+namespace api.mapserv.utah.gov.Features.Geocoding {
     /// <inheritdoc />
     /// <summary>
     ///     Geocoding API Methods

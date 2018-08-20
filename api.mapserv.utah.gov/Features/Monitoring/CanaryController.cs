@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using Npgsql;
 using StackExchange.Redis;
 
-namespace api.mapserv.utah.gov.Controllers {
+namespace api.mapserv.utah.gov.Features.Monitoring {
     [ApiVersion("1.0")]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Produces("application/json")]
