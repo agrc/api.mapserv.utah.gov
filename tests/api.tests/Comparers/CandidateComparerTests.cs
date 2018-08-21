@@ -5,8 +5,10 @@ using api.mapserv.utah.gov.Models.ArcGis;
 using Xunit;
 
 namespace api.tests {
-    public class CandidateComparerTests {
-        public static IEnumerable<object[]> GetCandidates() {
+    public class CandidateComparerTests
+    {
+        public static IEnumerable<object[]> GetCandidates()
+        {
             yield return new object[] {
                 new Candidate {
                     Address = "GOLD",
@@ -41,22 +43,42 @@ namespace api.tests {
         [InlineData(1, "GOLDS", "GOLD", 5, 100, "GOLDS", 5, 100)]
         [InlineData(-1, "GOLD", "GOLD", 5, 100, "GOLDS", 5, 100)]
         [InlineData(0, "GOLD", "GOLD", 5, 100, "GOLD", 5, 100)]
-        public void Should_return_highest_score(int result, string address, string addressA, int scoreA, int weightA, string addressB, int scoreB, int weightB) {
+        public void Should_return_highest_score(int result, string address, string addressA, int scoreA, int weightA, string addressB, int scoreB, int weightB)
+        {
             var comparer = new CandidateComparer(address);
 
-            var a = new Candidate {
+            var a = new Candidate
+            {
                 Address = addressA,
                 Score = scoreA,
                 Weight = weightA
             };
 
-            var b = new Candidate {
+            var b = new Candidate
+            {
                 Address = addressB,
                 Score = scoreB,
                 Weight = weightB
             };
 
             Assert.Equal(result, comparer.Compare(a, b));
+        }
+
+        [Fact]
+        public void Should_handle_nulls()
+        {
+            var comparer = new CandidateComparer("address");
+
+            var x = new Candidate
+            {
+                Address = "address",
+                Score = 100,
+                Weight = 1
+            };
+
+            Assert.Equal(1, comparer.Compare(x, null));
+            Assert.Equal(-1, comparer.Compare(null, x));
+            Assert.Equal(0, comparer.Compare(null, null));
         }
     }
 }
