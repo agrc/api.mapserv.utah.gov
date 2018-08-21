@@ -5,7 +5,7 @@ using Fastenshtein;
 namespace api.mapserv.utah.gov.Comparers {
     /// <inheritdoc />
     /// <summary>
-    ///     Comparese address candidates by their geocode score
+    ///     Compares address candidates by their geocode score
     ///     Less than zero - x is less than y.
     ///     Zero - x equals y.
     ///     Greater than zero - x is greater than y.
