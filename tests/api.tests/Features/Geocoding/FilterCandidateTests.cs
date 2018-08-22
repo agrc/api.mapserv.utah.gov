@@ -20,7 +20,7 @@ using Xunit;
 namespace api.tests.Features.Geocoding {
     public class FilterCandidateTests {
         internal static IRequestHandler<FilterCandidates.Command, GeocodeAddressApiResponse> handler = new FilterCandidates.Handler();
-        internal static readonly CancellationToken cancellation;
+        internal static readonly CancellationToken cancellation = new CancellationToken();
 
         public class AcceptScoreTests {
             [Fact]

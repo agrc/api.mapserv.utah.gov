@@ -14,7 +14,7 @@ using Xunit;
 namespace api.tests.Features.Geocoding {
     public class AddressSystemFromZipTests {
         internal static IRequestHandler<AddressSystemFromZipCode.Command, IReadOnlyCollection<GridLinkable>> handler;
-        internal static readonly CancellationToken cancellation;
+        internal static readonly CancellationToken cancellation = new CancellationToken();
 
         private readonly Dictionary<string, List<GridLinkable>> _links = new Dictionary<string, List<GridLinkable>>(1);
 
