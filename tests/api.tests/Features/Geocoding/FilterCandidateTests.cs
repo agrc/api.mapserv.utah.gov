@@ -17,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Xunit;
 
-namespace api.tests.Filters {
+namespace api.tests.Features.Geocoding {
     public class FilterCandidateTests {
         internal static IRequestHandler<FilterCandidates.Command, GeocodeAddressApiResponse> handler = new FilterCandidates.Handler();
         internal static readonly CancellationToken cancellation;
