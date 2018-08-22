@@ -983,25 +983,25 @@ FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/Configuration/GisServerConfiguration.cs
 FN:2,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Protocol()
-FNDA:20,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Protocol()
-DA:3,20
+FNDA:28,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Protocol()
+DA:3,28
 FN:3,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Host()
-FNDA:20,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Host()
-DA:4,20
+FNDA:28,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Host()
+DA:4,28
 FN:4,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Port()
-FNDA:26,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Port()
-DA:5,26
+FNDA:35,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Port()
+DA:5,35
 FN:6,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::ToString()
-FNDA:6,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::ToString()
-DA:7,6
-DA:8,6
-DA:10,12
-DA:11,6
-DA:12,6
-DA:14,6
-DA:15,6
-BRDA:10,26,0,6
-BRDA:10,26,1,6
+FNDA:9,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::ToString()
+DA:7,9
+DA:8,9
+DA:10,16
+DA:11,7
+DA:12,7
+DA:14,9
+DA:15,9
+BRDA:10,26,0,7
+BRDA:10,26,1,9
 LF:10
 LH:10
 BRF:2
