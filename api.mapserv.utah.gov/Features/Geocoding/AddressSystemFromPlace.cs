@@ -6,7 +6,7 @@ using MediatR;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
-    public class AddressSystemFromCity {
+    public class AddressSystemFromPlace {
         public class Command : IRequest<IReadOnlyCollection<GridLinkable>> {
             internal readonly string CityKey;
 
