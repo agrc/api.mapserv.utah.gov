@@ -3,6 +3,7 @@ using System.Linq;
 using api.mapserv.utah.gov.Comparers;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Services;
+using Shouldly;
 using Xunit;
 
 namespace api.tests.Services {
@@ -48,9 +49,9 @@ namespace api.tests.Services {
 
             const int addOneForWinnerWhichIsRemoved = 1;
 
-            Assert.Equal(topItemCount + addOneForWinnerWhichIsRemoved, items.Count);
-            Assert.Equal(5, candidate.Score);
-            Assert.Equal("GOLD", candidate.Address);
+            items.Count.ShouldBe(topItemCount + addOneForWinnerWhichIsRemoved);
+            candidate.Score.ShouldBe(5);
+            candidate.Address.ShouldBe("GOLD");
         }
 
         [Fact]
@@ -89,8 +90,8 @@ namespace api.tests.Services {
 
             const int addOneForWinnerWhichIsRemoved = 1;
 
-            Assert.Equal(suggestCount + addOneForWinnerWhichIsRemoved, items.Count);
-            Assert.Equal(address.ToUpperInvariant(), topCandidates.Get().First().Address);
+            items.Count.ShouldBe(suggestCount + addOneForWinnerWhichIsRemoved);
+            topCandidates.Get().First().Address.ShouldBe(address.ToUpperInvariant());
         }
 
         [Fact]
@@ -129,7 +130,7 @@ namespace api.tests.Services {
                 Weight = 0
             });
 
-            Assert.Equal(suggestCount + 1, topCandidates.Get().ToList().Count);
+            topCandidates.Get().ToList().Count.ShouldBe(suggestCount + 1);
         }
 
         [Fact]
@@ -168,7 +169,7 @@ namespace api.tests.Services {
                 Weight = 0
             });
 
-            Assert.Equal(2, topCandidates.Get().ToList().Count);
+            topCandidates.Get().ToList().Count.ShouldBe(2);
         }
     }
 }
