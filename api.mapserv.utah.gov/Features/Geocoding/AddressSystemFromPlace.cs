@@ -8,7 +8,7 @@ using Serilog;
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class AddressSystemFromPlace {
         public class Command : IRequest<IReadOnlyCollection<GridLinkable>> {
-            internal readonly string CityKey;
+            public readonly string CityKey;
 
             public Command(string cityKey) {
                 CityKey = cityKey;
