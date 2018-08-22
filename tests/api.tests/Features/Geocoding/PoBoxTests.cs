@@ -18,11 +18,9 @@ namespace api.tests.Features.Geocoding {
         private readonly IDictionary<int, PoBoxAddress> _poBoxes = new Dictionary<int, PoBoxAddress>(1);
         private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions = new Dictionary<int, PoBoxAddressCorrection>(1);
         private readonly IReadOnlyCollection<int> _zipExclusions;
-
         private readonly PoBoxLocation.Handler _handler;
 
-        public PoBoxTests()
-        {
+        public PoBoxTests() {
             _poBoxes.Add(84114, new PoBoxAddress(84114, 1, 1));
             _exclusions.Add(841140001, new PoBoxAddressCorrection(84114, 841140001, 2, 2));
             _zipExclusions = new[] { 84114 };
@@ -36,8 +34,7 @@ namespace api.tests.Features.Geocoding {
         }
 
         [Fact]
-        public async Task Should_return_null_if_zip_not_found()
-        {
+        public async Task Should_return_null_if_zip_not_found() {
             var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street", StreetType.Alley, Direction.South, 0, -1, false, false);
             var address = new GeocodeAddress(parsedAddress);
 
@@ -52,8 +49,7 @@ namespace api.tests.Features.Geocoding {
         }
 
         [Fact]
-        public async Task Should_return_null_for_address_without_zip_code()
-        {
+        public async Task Should_return_null_for_address_without_zip_code() {
             var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street", StreetType.Alley, Direction.South, 0, new Nullable<int>(), false, false);
             var address = new GeocodeAddress(parsedAddress);
 
