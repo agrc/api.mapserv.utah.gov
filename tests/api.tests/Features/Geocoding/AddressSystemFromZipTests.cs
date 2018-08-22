@@ -11,25 +11,25 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-namespace api.tests.Filters {
-    public class AddressSystemFromPlaceTests {
-        internal static IRequestHandler<AddressSystemFromPlace.Command, IReadOnlyCollection<GridLinkable>> handler;
+namespace api.tests.Features.Geocoding {
+    public class AddressSystemFromZipTests {
+        internal static IRequestHandler<AddressSystemFromZipCode.Command, IReadOnlyCollection<GridLinkable>> handler;
         internal static readonly CancellationToken cancellation;
 
         private readonly Dictionary<string, List<GridLinkable>> _links = new Dictionary<string, List<GridLinkable>>(1);
 
-        public AddressSystemFromPlaceTests()
+        public AddressSystemFromZipTests()
         {
-            _links.Add("place", new List<GridLinkable> { new PlaceGridLink("place", "grid", 1) });
+            _links.Add("1", new List<GridLinkable> { new ZipGridLink(1, "grid", 1) });
             var mockCache = new Mock<ILookupCache>();
-            mockCache.Setup(x => x.PlaceGrids).Returns(_links);
+            mockCache.Setup(x => x.ZipCodesGrids).Returns(_links);
 
-            handler = new AddressSystemFromPlace.Handler(mockCache.Object);
+            handler = new AddressSystemFromZipCode.Handler(mockCache.Object);
         }
 
         [Fact]
-        public async Task Should_return_grid_from_place() {
-            var request = new AddressSystemFromPlace.Command("place");
+        public async Task Should_return_grid_from_zip() {
+            var request = new AddressSystemFromZipCode.Command(1);
             var result = await handler.Handle(request, cancellation);
 
             result.Count.ShouldBe(1);
@@ -38,7 +38,7 @@ namespace api.tests.Filters {
 
         [Fact]
         public async Task Should_return_empty_when_zip_not_found() {
-            var request = new AddressSystemFromPlace.Command("other place");
+            var request = new AddressSystemFromZipCode.Command(0);
             var result = await handler.Handle(request, cancellation);
 
             result.ShouldBeEmpty();
@@ -46,8 +46,8 @@ namespace api.tests.Filters {
 
         [Fact]
         public async Task Should_return_empty_when_zip_is_null() {
-            var place = string.Empty;
-            var request = new AddressSystemFromPlace.Command(place);
+            var zip = new Nullable<int>();
+            var request = new AddressSystemFromZipCode.Command(zip);
             var result = await handler.Handle(request, cancellation);
 
             result.ShouldBeEmpty();
