@@ -19,10 +19,10 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         }
 
         public class Handler : RequestHandler<Command, IReadOnlyCollection<GridLinkable>> {
-            private readonly ILookupCache _driveCache;
+            private readonly IDictionary<string, List<GridLinkable>> _zipCache;
 
             public Handler(ILookupCache driveCache) {
-                _driveCache = driveCache;
+                _zipCache = driveCache.ZipCodesGrids;
             }
 
             protected override IReadOnlyCollection<GridLinkable> Handle(Command request) {
@@ -32,7 +32,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     return Array.Empty<GridLinkable>();
                 }
 
-                _driveCache.ZipCodesGrids.TryGetValue(request.Zip, out var gridLinkables);
+                _zipCache.TryGetValue(request.Zip, out var gridLinkables);
 
                 var result = gridLinkables ?? new List<GridLinkable>();
 
