@@ -72,7 +72,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                     cityKey = _regex.Get("cityTownCruft").Replace(cityKey, "").Trim();
 
-                    var getAddressSystemFromCityCommand = new AddressSystemFromCity.Command(cityKey);
+                    var getAddressSystemFromCityCommand = new AddressSystemFromPlace.Command(cityKey);
                     request.AddressModel.AddressGrids = await _mediator.Send(getAddressSystemFromCityCommand, token);
 
                     var doubleAves = new DoubleAvenuesException.Command(request.AddressModel, cityKey);
