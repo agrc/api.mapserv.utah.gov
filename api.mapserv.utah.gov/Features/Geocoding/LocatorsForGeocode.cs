@@ -11,51 +11,40 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding
-{
-    public class LocatorsForGeocode
-    {
-        public class Command : IRequest<IReadOnlyCollection<LocatorProperties>>
-        {
+namespace api.mapserv.utah.gov.Features.Geocoding {
+    public class LocatorsForGeocode {
+        public class Command : IRequest<IReadOnlyCollection<LocatorProperties>> {
             internal readonly GeocodeAddress Address;
             internal readonly GeocodingOptions Options;
 
-            public Command(GeocodeAddress address, GeocodingOptions options)
-            {
+            public Command(GeocodeAddress address, GeocodingOptions options) {
                 Address = address;
                 Options = options;
             }
-
         }
 
-        public class Handler : RequestHandler<Command, IReadOnlyCollection<LocatorProperties>>
-        {
+        public class Handler : RequestHandler<Command, IReadOnlyCollection<LocatorProperties>> {
             private readonly string _host;
 
-            public Handler(IOptions<GisServerConfiguration> options)
-            {
+            public Handler(IOptions<GisServerConfiguration> options) {
                 _host = options.Value.ToString();
             }
 
-            private static IReadOnlyCollection<GeocodeInput> BuildAddressPermutations(GeocodeAddress address, int spatialReference)
-            {
+            private static IReadOnlyCollection<GeocodeInput> BuildAddressPermutations(GeocodeAddress address, int spatialReference) {
                 var addressPermutations = new List<GeocodeInput>();
 
-                if (!address.AddressGrids.Any())
-                {
+                if (!address.AddressGrids.Any()) {
                     return Array.Empty<GeocodeInput>();
                 }
 
-                foreach (var grid in address.AddressGrids)
-                {
+                foreach (var grid in address.AddressGrids) {
                     addressPermutations.Add(new GeocodeInput(address, grid.Grid, grid.Weight, null, spatialReference));
                 }
 
                 return addressPermutations;
             }
 
-            private Dictionary<LocatorType, IReadOnlyCollection<LocatorProperties>> BuildLocatorLookup(GeocodeAddress address, IReadOnlyCollection<GeocodeInput> permutations)
-            {
+            private Dictionary<LocatorType, IReadOnlyCollection<LocatorProperties>> BuildLocatorLookup(GeocodeAddress address, IReadOnlyCollection<GeocodeInput> permutations) {
                 var locatorLookup = new Dictionary<LocatorType, IReadOnlyCollection<LocatorProperties>>();
 
                 Log.Verbose("Finding locators for {address}", address);
@@ -77,31 +66,25 @@ namespace api.mapserv.utah.gov.Features.Geocoding
             /// <param name="lookup">The lookup.</param>
             /// <param name="key">The key.</param>
             private static void Add(IReadOnlyCollection<LocatorProperties> locatorsToAdd,
-                                    ref Dictionary<LocatorType, IReadOnlyCollection<LocatorProperties>> lookup, LocatorType key)
-            {
-                if (locatorsToAdd == null)
-                {
+                                    ref Dictionary<LocatorType, IReadOnlyCollection<LocatorProperties>> lookup, LocatorType key) {
+                if (locatorsToAdd == null) {
                     return;
                 }
 
                 locatorsToAdd = locatorsToAdd.ToList();
 
-                if (!locatorsToAdd.Any())
-                {
+                if (!locatorsToAdd.Any()) {
                     return;
                 }
 
-                if (!lookup.ContainsKey(key))
-                {
+                if (!lookup.ContainsKey(key)) {
                     lookup.Add(key, locatorsToAdd);
-                }
-                else {
+                } else {
                     lookup[key] = lookup[key].Concat(locatorsToAdd).ToArray();
                 }
             }
 
-            private IReadOnlyCollection<LocatorProperties> Centerlines(bool reversal, IReadOnlyCollection<GeocodeInput> permutations)
-            {
+            private IReadOnlyCollection<LocatorProperties> Centerlines(bool reversal, IReadOnlyCollection<GeocodeInput> permutations) {
                 var locators = new List<LocatorProperties>();
 
                 if (reversal) {
@@ -123,16 +106,12 @@ namespace api.mapserv.utah.gov.Features.Geocoding
                 return locators;
             }
 
-            private IReadOnlyCollection<LocatorProperties> AddressPoints(IReadOnlyCollection<GeocodeInput> permutations)
-            {
+            private IReadOnlyCollection<LocatorProperties> AddressPoints(IReadOnlyCollection<GeocodeInput> permutations) {
                 var locators = new List<LocatorProperties>();
 
-                foreach (var permutation in permutations)
-                {
-                    if (permutation.AddressInfo.IsReversal() || permutation.AddressInfo.PossibleReversal())
-                    {
-                        locators.Add(new LocatorProperties
-                        {
+                foreach (var permutation in permutations) {
+                    if (permutation.AddressInfo.IsReversal() || permutation.AddressInfo.PossibleReversal()) {
+                        locators.Add(new LocatorProperties {
                             Url = $"{_host}/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
                                   $"GeocodeServer/findAddressCandidates?f=json&Street={WebUtility.UrlEncode(permutation.AddressInfo.ReversalAddress)}" +
                                   $"&City={permutation.Grid}&outSR={permutation.WkId}",
@@ -141,8 +120,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding
                         });
                     }
 
-                    locators.Add(new LocatorProperties
-                    {
+                    locators.Add(new LocatorProperties {
                         Url = $"{_host}/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
                               $"GeocodeServer/findAddressCandidates?f=json&Street={WebUtility.UrlEncode(permutation.Address)}" +
                               $"&City={permutation.Grid}&outSR={permutation.WkId}",
@@ -159,17 +137,15 @@ namespace api.mapserv.utah.gov.Features.Geocoding
             ///     case 1: (300 S 437 E) where the street name ends in 2,3,4,6,7,8,9
             ///     case 2: (350 S 435 E) where street name and house number both end in a 0 or 5
             /// </summary>
-            private IReadOnlyCollection<LocatorProperties> Reversal(bool reversal, bool possibleReversal, IReadOnlyCollection<GeocodeInput> permutations)
-            {
-                if (!reversal && !possibleReversal)
-                {
+            private IReadOnlyCollection<LocatorProperties> Reversal(bool reversal, bool possibleReversal, IReadOnlyCollection<GeocodeInput> permutations) {
+                if (!reversal && !possibleReversal) {
                     return Array.Empty<LocatorProperties>();
                 }
 
                 return permutations.Select(permutation => new LocatorProperties {
-                                       Url = $"{_host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" + $"GeocodeServer/findAddressCandidates?f=json&Street={WebUtility.UrlEncode(permutation.AddressInfo.ReversalAddress)}&City={permutation.Grid}&outSR={permutation.WkId}",
-                                       Name = "Centerlines.StatewideRoads"
-                                   })
+                    Url = $"{_host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" + $"GeocodeServer/findAddressCandidates?f=json&Street={WebUtility.UrlEncode(permutation.AddressInfo.ReversalAddress)}&City={permutation.Grid}&outSR={permutation.WkId}",
+                    Name = "Centerlines.StatewideRoads"
+                })
                                    .ToList();
             }
 
@@ -180,26 +156,22 @@ namespace api.mapserv.utah.gov.Features.Geocoding
             /// <returns>locator_IntersectionPoints</returns>
             private static IReadOnlyCollection<LocatorProperties> Intersection() => Array.Empty<LocatorProperties>();
 
-            protected override IReadOnlyCollection<LocatorProperties> Handle(Command request)
-            {
+            protected override IReadOnlyCollection<LocatorProperties> Handle(Command request) {
                 var permutations = BuildAddressPermutations(request.Address, request.Options.SpatialReference);
                 var locators = BuildLocatorLookup(request.Address, permutations);
 
-                switch (request.Options.Locators)
-                {
+                switch (request.Options.Locators) {
                     case LocatorType.Default:
                     case LocatorType.All:
                         return locators.Values.SelectMany(x => x).ToList().AsReadOnly();
                     case LocatorType.AddressPoints:
-                        if (!locators.ContainsKey(request.Options.Locators))
-                        {
+                        if (!locators.ContainsKey(request.Options.Locators)) {
                             break;
                         }
 
                         return locators[LocatorType.AddressPoints].ToList().AsReadOnly();
                     case LocatorType.RoadCenterlines:
-                        if (!locators.ContainsKey(request.Options.Locators))
-                        {
+                        if (!locators.ContainsKey(request.Options.Locators)) {
                             break;
                         }
 
