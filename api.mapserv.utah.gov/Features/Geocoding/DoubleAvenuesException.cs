@@ -9,7 +9,7 @@ using Serilog;
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class DoubleAvenuesException {
         public class Command : IRequest<GeocodeAddress> {
-            internal readonly GeocodeAddress Address;
+            public readonly GeocodeAddress Address;
             internal readonly string City;
 
             public Command(GeocodeAddress address, string city) {
