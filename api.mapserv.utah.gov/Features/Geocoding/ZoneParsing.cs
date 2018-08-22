@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -83,7 +84,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 if (request.AddressModel.AddressGrids == null) {
                     Log.Warning("No address grid found for {zone}", request.InputZone);
 
-                    request.AddressModel.AddressGrids = Enumerable.Empty<GridLinkable>().ToList();
+                    request.AddressModel.AddressGrids = Array.Empty<GridLinkable>();
                 }
 
                 return request.AddressModel;
