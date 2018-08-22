@@ -19,7 +19,7 @@ namespace api.mapserv.utah.gov.Features.Monitoring {
         public IOptions<DatabaseConfiguration> DbOptions { get; }
 
         [HttpGet]
-        [Route("api/v{version:apiVersion}/canary")]
+        [Route("api/v{version:apiVersion}/health")]
         public ObjectResult Index() => Ok(new CanaryResult {
             Db = CheckDb(),
             Cache = CheckCache()
