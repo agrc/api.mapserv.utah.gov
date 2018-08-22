@@ -3,7 +3,6 @@ using Xunit;
 
 namespace api.tests.Filters {
     public class AuthorizeApiKeyTests {
-        [Theory]
         [InlineData("www.example.com", "http://www.example.com/", 200)]
         [InlineData("www.example.com", "http://www.example.com/index.html", 200)]
         [InlineData("www.example.com", "http://www.example.com/request/test.html", 200)]
@@ -60,8 +59,6 @@ namespace api.tests.Filters {
                 Configuration = ApiKey.ApplicationStatus.Production,
                 RegexPattern = pattern
             };
-
-
         }
     }
 }
