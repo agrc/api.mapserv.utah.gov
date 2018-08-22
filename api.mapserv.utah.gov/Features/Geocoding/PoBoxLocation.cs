@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,11 +23,16 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         }
 
         public class Handler : IRequestHandler<Command, Candidate> {
-            private readonly ILookupCache _driveCache;
+            private readonly IDictionary<int, PoBoxAddress> _poBoxes;
+            private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions;
+            private readonly IReadOnlyCollection<int> _zipExclusions;
+
             private readonly IMediator _mediator;
 
             public Handler(ILookupCache driveCache, IMediator mediator) {
-                _driveCache = driveCache;
+                _poBoxes = driveCache.PoBoxes;
+                _exclusions = driveCache.PoBoxExclusions;
+                _zipExclusions = driveCache.PoBoxZipCodesWithExclusions;
                 _mediator = mediator;
             }
 
@@ -37,13 +43,13 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     return null;
                 }
 
-                if (_driveCache.PoBoxes is null) {
+                if (_poBoxes is null) {
                     Log.Warning("Po Box cache is empty!");
 
                     return null;
                 }
 
-                if (!_driveCache.PoBoxes.ContainsKey(request.Address.Zip5.Value)) {
+                if (!_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
                     Log.Debug("{zip} is not in the po box cache", request.Address.Zip5.Value);
 
                     return null;
@@ -52,11 +58,11 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 Candidate candidate;
                 var key = request.Address.Zip5.Value * 10000 + request.Address.PoBox;
 
-                if (_driveCache.PoBoxZipCodesWithExclusions.Any(x => x == request.Address.Zip5) &&
-                    _driveCache.PoBoxExclusions.ContainsKey(key)) {
+                if (_zipExclusions.Any(x => x == request.Address.Zip5) &&
+                    _exclusions.ContainsKey(key)) {
                     Log.Information("{Using Post Office Point Exclusion for {zip}", key);
 
-                    var exclusion = _driveCache.PoBoxExclusions[key];
+                    var exclusion = _exclusions[key];
                     candidate = new Candidate {
                         Address = request.Address.StandardizedAddress,
                         Locator = "Post Office Point Exclusions",
@@ -64,10 +70,10 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                         Location = new Point(exclusion.X, exclusion.Y),
                         AddressGrid = request.Address?.AddressGrids?.FirstOrDefault()?.Grid
                     };
-                } else if (_driveCache.PoBoxes.ContainsKey(request.Address.Zip5.Value)) {
+                } else if (_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
                     Log.Information("Using post office point for {zip}", key);
 
-                    var result = _driveCache.PoBoxes[request.Address.Zip5.Value];
+                    var result = _poBoxes[request.Address.Zip5.Value];
                     candidate = new Candidate {
                         Address = request.Address.StandardizedAddress,
                         Locator = "Post Office Point",
