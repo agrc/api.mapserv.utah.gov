@@ -20,18 +20,26 @@ namespace api.mapserv.utah.gov.Features.Converting {
         public class Handler : RequestHandler<Command, ApiResponseContainer<Graphic>> {
             protected override ApiResponseContainer<Graphic> Handle(Command request) {
                 EsriJsonObject geometry = null;
+                var attributes = new Dictionary<string, object>();
                 var message = request.Container.Message;
                 var status = request.Container.Status;
                 var result = request.Container.Result;
 
-                var attributes = JObject.FromObject(request.Container.Result)
-                                        .ToObject<Dictionary<string, object>>();
-
-                if (result.Location != null) {
+                if (result?.Location != null) {
                     geometry = new Point(result.Location.X, result.Location.Y) {
                         CRS = new Crs {
                             WellKnownId = result.Wkid
                         }
+                    };
+
+                    attributes = JObject.FromObject(request.Container.Result)
+                                        .ToObject<Dictionary<string, object>>();
+                }
+
+                if (geometry == null && attributes.Count < 1) {
+                    return new ApiResponseContainer<Graphic> {
+                        Status = status,
+                        Message = message
                     };
                 }
 
