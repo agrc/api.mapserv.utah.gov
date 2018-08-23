@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
@@ -14,75 +16,90 @@ namespace api.tests.Features.Geocoding {
             IRequestHandler<AddressParsing.Command, CleansedAddress> _handler;
             CancellationToken cancellation = new CancellationToken();
 
-            public PoBoxes()
-            {
+            public PoBoxes() {
                 var abbrs = new Abbreviations();
                 var regex = new RegexCache(abbrs);
 
                 _handler = new AddressParsing.Handler(regex, abbrs);
             }
 
-            [Fact]
-            public async Task Should_parse_input_with_spaces() {
-                var request = new AddressParsing.Command("P O Box 123");
-                var result = await _handler.Handle(request, cancellation);
+            public static IEnumerable<object[]> GetPoBoxes() {
+                yield return new object[]
+                {
+                    new CleansedAddress {
+                        InputAddress = "P O Box 123",
+                        PoBox = 123,
+                        HouseNumber = null,
+                        PrefixDirection = Direction.None,
+                        StreetName = "P.O. Box",
+                        StreetType = StreetType.None,
+                        SuffixDirection = Direction.None
+                    },
+                    "P.O. Box 123",
+                    false
+                };
 
-                result.PoBox.ShouldBe(123);
-                result.HouseNumber.ShouldBeNull();
-                result.PrefixDirection.ShouldBe(Direction.None);
-                result.StreetName.ShouldBe("P.O. Box");
-                result.StreetType.ShouldBe(StreetType.None);
-                result.SuffixDirection.ShouldBe(Direction.None);
-                result.StandardizedAddress.ShouldBe("P.O. Box 123");
-                result.IsReversal().ShouldBeFalse();
+                yield return new object[]
+                {
+                    new CleansedAddress {
+                        InputAddress = "PO Box 123",
+                        PoBox = 123,
+                        HouseNumber = null,
+                        PrefixDirection = Direction.None,
+                        StreetName = "P.O. Box",
+                        StreetType = StreetType.None,
+                        SuffixDirection = Direction.None
+                    },
+                    "P.O. Box 123",
+                    false
+                };
+
+                yield return new object[]
+                {
+                    new CleansedAddress {
+                        InputAddress = "POBox 123",
+                        PoBox = 123,
+                        HouseNumber = null,
+                        PrefixDirection = Direction.None,
+                        StreetName = "P.O. Box",
+                        StreetType = StreetType.None,
+                        SuffixDirection = Direction.None
+                    },
+                    "P.O. Box 123",
+                    false
+                };
+
+                yield return new object[]
+                {
+                    new CleansedAddress {
+                        InputAddress = "P.O. Box 123",
+                        PoBox = 123,
+                        HouseNumber = null,
+                        PrefixDirection = Direction.None,
+                        StreetName = "P.O. Box",
+                        StreetType = StreetType.None,
+                        SuffixDirection = Direction.None
+                    },
+                    "P.O. Box 123",
+                    false
+                };
             }
 
-            [Fact]
-            public async Task Should_parse_input_without_spaces() {
-                var request = new AddressParsing.Command("PO Box 123");
+            [Theory]
+            [MemberData(nameof(GetPoBoxes))]
+            public async Task Should_parse_input_with_spaces(CleansedAddress input, string standardAddress, bool reversal) {
+                var request = new AddressParsing.Command(input.InputAddress);
                 var result = await _handler.Handle(request, cancellation);
 
+                result.PoBox.ShouldBe(input.PoBox);
+                result.HouseNumber.ShouldBe(input.HouseNumber);
+                result.PrefixDirection.ShouldBe(input.PrefixDirection);
+                result.StreetName.ShouldBe(input.StreetName);
+                result.StreetType.ShouldBe(input.StreetType);
+                result.SuffixDirection.ShouldBe(input.SuffixDirection);
+                result.StandardizedAddress.ShouldBe(standardAddress);
+                result.IsReversal().ShouldBe(reversal);
                 result.IsPoBox.ShouldBeTrue();
-                result.PoBox.ShouldBe(123);
-                result.HouseNumber.ShouldBeNull();
-                result.PrefixDirection.ShouldBe(Direction.None);
-                result.StreetName.ShouldBe("P.O. Box");
-                result.StreetType.ShouldBe(StreetType.None);
-                result.SuffixDirection.ShouldBe(Direction.None);
-                result.StandardizedAddress.ShouldBe("P.O. Box 123");
-                result.IsReversal().ShouldBeFalse();
-            }
-
-            [Fact]
-            public async Task Should_parse_input_with_no_spaces() {
-                var request = new AddressParsing.Command("POBox 123");
-                var result = await _handler.Handle(request, cancellation);
-
-                result.IsPoBox.ShouldBeTrue();
-                result.PoBox.ShouldBe(123);
-                result.HouseNumber.ShouldBeNull();
-                result.PrefixDirection.ShouldBe(Direction.None);
-                result.StreetName.ShouldBe("P.O. Box");
-                result.StreetType.ShouldBe(StreetType.None);
-                result.SuffixDirection.ShouldBe(Direction.None);
-                result.StandardizedAddress.ShouldBe("P.O. Box 123");
-                result.IsReversal().ShouldBeFalse();
-            }
-
-            [Fact]
-            public async Task Should_parse_input_with_period_separation() {
-                var request = new AddressParsing.Command("P.O.Box 123");
-                var result = await _handler.Handle(request, cancellation);
-
-                result.IsPoBox.ShouldBeTrue();
-                result.PoBox.ShouldBe(123);
-                result.HouseNumber.ShouldBeNull();
-                result.PrefixDirection.ShouldBe(Direction.None);
-                result.StreetName.ShouldBe("P.O. Box");
-                result.StreetType.ShouldBe(StreetType.None);
-                result.SuffixDirection.ShouldBe(Direction.None);
-                result.StandardizedAddress.ShouldBe("P.O. Box 123");
-                result.IsReversal().ShouldBeFalse();
             }
 
             [Fact]
