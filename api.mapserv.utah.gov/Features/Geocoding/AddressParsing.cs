@@ -94,46 +94,6 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 return false;
             }
 
-            public static bool TryParseStreet(string part, out StreetType street) {
-                street = StreetType.None;
-
-                if (string.IsNullOrEmpty(part)) {
-                    return false;
-                }
-
-                if (part.Length > 1) {
-                    if (Enum.TryParse(part, true, out street)) {
-                        return true;
-                    }
-                } else {
-                    switch (part.ToLower()) {
-                        case "aly":
-                            street = StreetType.Alley;
-                            return true;
-                        case "ave":
-                            street = StreetType.Avenue;
-                            return true;
-                        case "blvd":
-                            street = StreetType.Boulevard;
-                            return true;
-                        case "cir":
-                            street = StreetType.Circle;
-                            return true;
-                        case "ct":
-                            street = StreetType.Court;
-                            return true;
-                        case "cv":
-                            street = StreetType.Cove;
-                            return true;
-
-                        default:
-                            return false;
-                    }
-                }
-
-                return false;
-            }
-
             public bool IsOneCharacterStreetName(AddressBase address, string candidate) {
                 // is the street name empty if we remove the direction?
                 var candidateRemoved = Street
