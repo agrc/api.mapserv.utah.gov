@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -32,6 +33,12 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
             public async Task<GeocodeAddress> Handle(Command request, CancellationToken token) {
                 Log.Debug("Parsing {zone}", request.InputZone);
+
+                if (string.IsNullOrEmpty(request.InputZone)) {
+                    request.AddressModel.AddressGrids = Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>;
+
+                    return request.AddressModel;
+                }
 
                 request.InputZone = request.InputZone.Replace("-", "");
                 var zipPlusFour = _regex.Get("zipPlusFour").Match(request.InputZone);
