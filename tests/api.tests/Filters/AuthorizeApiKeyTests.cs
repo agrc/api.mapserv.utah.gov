@@ -1,4 +1,9 @@
+using System.Threading.Tasks;
+using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Services;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Moq;
 using Xunit;
 
 namespace api.tests.Filters {
@@ -54,11 +59,21 @@ namespace api.tests.Filters {
         [InlineData("*.nedds.health.utah.gov*", "http://www.nedds.health.utah.gov", 200)]
         [InlineData("api.utlegislators.com", "http://api.utlegislators.com", 200)]
         [InlineData("*168.177.222.22/app/*", "http://168.177.222.22/app/whatever", 200)]
-        public void Production_key_is_valid(string pattern, string url, int response) {
+        public async Task Production_key_is_valid(string pattern, string url, int response) {
             var key = new ApiKey {
                 Configuration = ApiKey.ApplicationStatus.Production,
                 RegexPattern = pattern
             };
+
+            var keyProvider = new Mock<IBrowserKeyProvider>();
+            var ipProvider = new Mock<IServerIpProvider>();
+            var apiRepo = new Mock<IApiKeyRepository>();
+            var context = new Mock<ResourceExecutingContext>();
+            var resultContext = new Mock<ResourceExecutedContext>();
+
+            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object);
+
+            await filter.OnResourceExecutionAsync(context.Object, () => { return Task.FromResult(resultContext.Object); });
         }
     }
 }
