@@ -13,16 +13,15 @@ using System;
 using System.Linq;
 using api.mapserv.utah.gov.Models.Linkables;
 using System.Collections.ObjectModel;
+using Microsoft.Extensions.DependencyInjection;
+using api.mapserv.utah.gov;
+using api.mapserv.utah.gov.Extensions;
 
 namespace api.tests.Features.Geocoding {
     public class ZoneParsingTests {
         private readonly ZoneParsing.Handler _handler;
         public ZoneParsingTests() {
-            var abbr = new Mock<IAbbreviations>();
-            abbr.Setup(x => x.StreetTypeAbbreviations).Returns(new Dictionary<StreetType, string>());
-            abbr.Setup(x => x.UnitAbbreviations).Returns(new List<Tuple<string, string, bool>>());
-
-            var regex = new RegexCache(abbr.Object);
+            var regex = new RegexCache(new Abbreviations());
             var mediator = new Mock<IMediator>();
 
             mediator.Setup(x => x.Send(It.IsAny<DoubleAvenuesException.Command>(),
@@ -37,7 +36,6 @@ namespace api.tests.Features.Geocoding {
                             return Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>);
                         }
                     });
-
 
             _handler = new ZoneParsing.Handler(regex, mediator.Object);
         }
