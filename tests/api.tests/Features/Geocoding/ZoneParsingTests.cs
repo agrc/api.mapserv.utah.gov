@@ -24,9 +24,6 @@ namespace api.tests.Features.Geocoding {
             var regex = new RegexCache(new Abbreviations());
             var mediator = new Mock<IMediator>();
 
-            mediator.Setup(x => x.Send(It.IsAny<DoubleAvenuesException.Command>(),
-                                       It.IsAny<CancellationToken>()))
-                    .Returns((DoubleAvenuesException.Command g, CancellationToken t) => Task.FromResult(g.Address));
             mediator.Setup(x => x.Send(It.IsAny<AddressSystemFromPlace.Command>(),
                                        It.IsAny<CancellationToken>()))
                     .Returns((AddressSystemFromPlace.Command g, CancellationToken t) => {

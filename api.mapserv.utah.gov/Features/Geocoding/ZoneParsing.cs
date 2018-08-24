@@ -57,9 +57,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                         request.AddressModel.Zip4 = int.Parse(zip4);
                     }
 
-                    var doubleAves = new DoubleAvenuesException.Command(request.AddressModel, "");
-
-                    return await _mediator.Send(doubleAves, token);
+                    return request.AddressModel;
                 }
 
                 var cityName = _regex.Get("cityName").Match(request.InputZone);
@@ -76,9 +74,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     var getAddressSystemFromCityCommand = new AddressSystemFromPlace.Command(cityKey);
                     request.AddressModel.AddressGrids = await _mediator.Send(getAddressSystemFromCityCommand, token);
 
-                    var doubleAves = new DoubleAvenuesException.Command(request.AddressModel, cityKey);
-
-                    return await _mediator.Send(doubleAves, token);
+                    return request.AddressModel;
                 }
 
                 if (request.AddressModel.AddressGrids == null) {

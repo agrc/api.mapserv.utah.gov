@@ -2,11 +2,15 @@ using System;
 using System.Net;
 using System.Net.Http;
 using api.mapserv.utah.gov.Cache;
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Filters;
+using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Configuration;
 using api.mapserv.utah.gov.Services;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static api.mapserv.utah.gov.Features.Geocoding.DoubleAvenuesException;
 
 namespace api.mapserv.utah.gov.Extensions {
     public static class ServiceCollectionExtensions {
@@ -34,6 +38,7 @@ namespace api.mapserv.utah.gov.Extensions {
             services.AddSingleton<ICacheRepository, PostgreApiKeyRepository>();
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
+            services.AddTransient<IPipelineBehavior<ZoneParsing.Command, GeocodeAddress>, DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
         }
     }
