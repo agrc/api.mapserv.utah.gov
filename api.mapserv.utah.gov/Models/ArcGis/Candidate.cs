@@ -5,19 +5,22 @@ namespace api.mapserv.utah.gov.Models.ArcGis {
     public class Candidate {
         private string _address;
 
+        // TODO: figure out what is going on with the splitting
         [JsonProperty(PropertyName = "address")]
         public string Address {
             get => _address;
             set {
                 _address = value;
 
-                if (string.IsNullOrEmpty(_address))
+                if (string.IsNullOrEmpty(_address)) {
                     return;
+                }
 
                 var parts = _address.Split(new[] { ',' });
 
-                if (parts.Length != 3)
+                if (parts.Length != 3) {
                     return;
+                }
 
                 AddressGrid = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parts[1].Trim().ToLowerInvariant());
                 _address = string.Join(",", parts[0], parts[2]).Trim();
