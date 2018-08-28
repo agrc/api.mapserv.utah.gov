@@ -5,7 +5,7 @@ using api.mapserv.utah.gov.Models.ArcGis;
 using Shouldly;
 using Xunit;
 
-namespace api.tests {
+namespace api.tests.Comparers {
     public class CandidateComparerTests {
         [Theory]
         [InlineData(1, "GOLDS", "GOLD", 5, 100, "GOLDS", 5, 100)]
