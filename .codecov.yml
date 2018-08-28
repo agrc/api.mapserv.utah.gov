@@ -1,0 +1,7 @@
+ignore:
+  - "api.mapserv.utah.gov/Exceptions"
+  - "api.mapserv.utah.gov/Formatters"
+  - "api.mapserv.utah.gov/Program.cs"
+  - "api.mapserv.utah.gov/Startup.cs"
+  - "api.mapserv.utah.gov/Extensions/ServiceCollectionExtensions.cs"
+  - "api.mapserv.utah.gov/Extensions/MvcOptionsExtensions.cs"
