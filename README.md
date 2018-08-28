@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/steveoh/webapi-core.svg?branch=master)](https://travis-ci.com/steveoh/webapi-core)
+
 # webapi-developer
 
 There is a preexisting login created in the pgdata dump. If you used docker-compose or imported the pgdata to create the database you will be able to use the following credentials to access the developer.
