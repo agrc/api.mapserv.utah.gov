@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/steveoh/webapi-core.svg?branch=master)](https://travis-ci.com/steveoh/webapi-core)
+[![codecov](https://codecov.io/gh/steveoh/webapi-core/branch/master/graph/badge.svg)](https://codecov.io/gh/steveoh/webapi-core)
 
 # webapi-developer
 
