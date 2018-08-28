@@ -1,0 +1,10 @@
+language: csharp
+solution: api.mapserv.utah.gov.sln
+mono: none
+dotnet: 2.1.302
+script:
+  - dotnet test api.mapserv.utah.gov.sln
+notifications:
+  email:
+    on_success: change
+    on_failure: change
