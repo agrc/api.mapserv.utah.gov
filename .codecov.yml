@@ -5,3 +5,5 @@ ignore:
   - "api.mapserv.utah.gov/Startup.cs"
   - "api.mapserv.utah.gov/Extensions/ServiceCollectionExtensions.cs"
   - "api.mapserv.utah.gov/Extensions/MvcOptionsExtensions.cs"
+  - "api.mapserv.utah.gov/Services/PostmanApiKeyRepository.cs"
+  - "api.mapserv.utah.gov/Services/PostgreApiKeyRepository.cs"
