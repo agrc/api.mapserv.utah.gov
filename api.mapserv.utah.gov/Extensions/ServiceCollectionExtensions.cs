@@ -52,6 +52,7 @@ namespace api.mapserv.utah.gov.Extensions {
                                                        .CreateLogger());
             services.AddSingleton<IHealthCheck, CacheHealthCheck>();
             services.AddSingleton<IHealthCheck, KeyStoreHealthCheck>();
+            services.AddSingleton<IHealthCheck, GeometryServiceHealthCheck>();
         }
     }
 }
