@@ -7,14 +7,18 @@ namespace api.mapserv.utah.gov.Models.Configuration {
         public string Port { get; set; } = "80";
         public string Path { get; set; } = "/arcgis/rest/services/Geometry/GeometryServer/";
 
-        public override string ToString() {
+        public string GetHost() {
             var host = Host;
 
             if (Port != "80") {
                 host = $"{host}:{Port}";
             }
 
-            host = $"{Protocol}://{host}";
+            return $"{Protocol}://{host}";
+        }
+
+        public override string ToString() {
+            var host = GetHost();
 
             return Template.Replace("{ServiceLocation}", Path).Replace("//", "/").Replace("{Host}", host);
         }
