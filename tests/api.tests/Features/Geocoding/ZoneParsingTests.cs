@@ -1,25 +1,19 @@
-using Shouldly;
-using Moq;
-using Xunit;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
-using MediatR;
-using System.Collections.Generic;
-using api.mapserv.utah.gov.Models.Constants;
-using System;
-using System.Linq;
+using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Linkables;
-using System.Collections.ObjectModel;
-using Microsoft.Extensions.DependencyInjection;
-using api.mapserv.utah.gov;
-using api.mapserv.utah.gov.Extensions;
+using MediatR;
+using Moq;
+using Shouldly;
+using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class ZoneParsingTests {
-        private readonly ZoneParsing.Handler _handler;
         public ZoneParsingTests() {
             var regex = new RegexCache(new Abbreviations());
             var mediator = new Mock<IMediator>();
@@ -28,14 +22,17 @@ namespace api.tests.Features.Geocoding {
                                        It.IsAny<CancellationToken>()))
                     .Returns((AddressSystemFromPlace.Command g, CancellationToken t) => {
                         if (g.CityKey == "alta") {
-                            return Task.FromResult(new[] { new PlaceGridLink("alta", "grid", 1) } as IReadOnlyCollection<GridLinkable>);
-                        } else {
-                            return Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>);
+                            return Task.FromResult(new[] {new PlaceGridLink("alta", "grid", 1)} as
+                                                       IReadOnlyCollection<GridLinkable>);
                         }
+
+                        return Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>);
                     });
 
             _handler = new ZoneParsing.Handler(regex, mediator.Object);
         }
+
+        private readonly ZoneParsing.Handler _handler;
 
         [Theory]
         [InlineData("123456789")]

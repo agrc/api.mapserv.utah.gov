@@ -5,8 +5,7 @@ using Xunit;
 namespace api.tests.Models.Configuration {
     public class GisServerConfigurationTests {
         [Fact]
-        public void Should_format_url_with_non_standard_port()
-        {
+        public void Should_format_url_with_non_standard_port() {
             var config = new GisServerConfiguration {
                 Host = "host",
                 Port = "1",
@@ -29,7 +28,7 @@ namespace api.tests.Models.Configuration {
 
         [Fact]
         public void Should_set_good_default() {
-            var config = new GisServerConfiguration();;
+            var config = new GisServerConfiguration();
 
             config.ToString().ShouldBe("http://localhost");
         }

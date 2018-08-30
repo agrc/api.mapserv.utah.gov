@@ -2,19 +2,21 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Converting;
-using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using GeoJSON.Net.Feature;
+using GeoJSON.Net.Geometry;
 using MediatR;
 using Newtonsoft.Json;
 using Shouldly;
 using Xunit;
+using Point = api.mapserv.utah.gov.Models.Point;
 
 namespace api.tests.Features.Converting {
     public class GeoJsonTests {
-        IRequestHandler<GeoJsonFeature.Command, ApiResponseContainer<Feature>> handler = new GeoJsonFeature.Handler();
+        private readonly IRequestHandler<GeoJsonFeature.Command, ApiResponseContainer<Feature>> _handler =
+            new GeoJsonFeature.Handler();
 
         [Fact]
         public async Task Should_convert_to_geojson_feature() {
@@ -35,17 +37,17 @@ namespace api.tests.Features.Converting {
             };
 
             var request = new GeoJsonFeature.Command(responseContainer);
-            var result = await handler.Handle(request, new CancellationToken());
+            var result = await _handler.Handle(request, new CancellationToken());
 
-            var position = new GeoJSON.Net.Geometry.Position(1, 1);
+            var position = new Position(1, 1);
             var point = new GeoJSON.Net.Geometry.Point(position);
-            var properties = new Dictionary<string, object>{
-                { "location", new Point(1, 1)},
-                { "score", 100.0 },
-                { "locator", "Centerlines" },
-                { "matchAddress", "Matched Address" },
-                { "inputAddress", "Input Address" },
-                { "scoreDifference", 0.0 },
+            var properties = new Dictionary<string, object> {
+                {"location", new Point(1, 1)},
+                {"score", 100.0},
+                {"locator", "Centerlines"},
+                {"matchAddress", "Matched Address"},
+                {"inputAddress", "Input Address"},
+                {"scoreDifference", 0.0}
             };
 
             var feature = JsonConvert.SerializeObject(new Feature(point, properties));
@@ -63,7 +65,7 @@ namespace api.tests.Features.Converting {
             };
 
             var request = new GeoJsonFeature.Command(responseContainer);
-            var result = await handler.Handle(request, new CancellationToken());
+            var result = await _handler.Handle(request, new CancellationToken());
 
             result.Result.ShouldBeNull();
             result.Message.ShouldBe(responseContainer.Message);
