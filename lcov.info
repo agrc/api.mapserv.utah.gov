@@ -95,7 +95,8 @@ DA:66,0
 DA:67,0
 DA:68,0
 DA:69,0
-DA:70,0
+DA:71,0
+DA:72,0
 BRDA:27,41,0,0
 BRDA:27,41,1,0
 BRDA:27,83,0,0
@@ -104,35 +105,36 @@ BRDA:35,121,0,0
 BRDA:35,121,1,0
 BRDA:44,179,0,0
 BRDA:44,179,1,0
-FN:72,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
+FN:74,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
 FNDA:0,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
-DA:73,0
-DA:74,0
 DA:75,0
 DA:76,0
+DA:77,0
 DA:78,0
 DA:80,0
-DA:81,0
 DA:82,0
 DA:83,0
 DA:84,0
 DA:85,0
 DA:86,0
 DA:87,0
+DA:88,0
 DA:89,0
-DA:90,0
-BRDA:74,9,0,0
-BRDA:74,9,1,0
-BRDA:78,27,0,0
-BRDA:78,27,1,0
-BRDA:80,65,0,0
-BRDA:80,65,1,0
+DA:91,0
+DA:92,0
+DA:93,0
+BRDA:76,9,0,0
+BRDA:76,9,1,0
+BRDA:80,27,0,0
+BRDA:80,27,1,0
+BRDA:82,65,0,0
+BRDA:82,65,1,0
 FN:16,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
 FNDA:0,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
 DA:17,0
 DA:18,0
 DA:19,0
-LF:63
+LF:65
 LH:0
 BRF:14
 BRH:0
