@@ -20,11 +20,13 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
         public class Handler : RequestHandler<Command, CleansedAddress> {
             private readonly IAbbreviations _abbreviations;
+            private readonly ILogger _log;
             private readonly IRegexCache _regexCache;
 
-            public Handler(IRegexCache regexCache, IAbbreviations abbreviations) {
+            public Handler(IRegexCache regexCache, IAbbreviations abbreviations, ILogger log) {
                 _regexCache = regexCache;
                 _abbreviations = abbreviations;
+                _log = log;
             }
 
             private string Street { get; set; }
@@ -32,7 +34,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             private string StandardStreet { get; set; }
 
             protected override CleansedAddress Handle(Command request) {
-                Log.Debug("Parsing {street}", request.Street);
+                _log.Debug("Parsing {street}", request.Street);
 
                 var street = request.Street.Replace(".", "").Replace(",", "").Replace("_", " ");
                 Street = street;
@@ -56,7 +58,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 StandardStreet = address.StandardizedAddress;
 
-                Log.Information("Replaced {original} with {standard}", OriginalStreet, StandardStreet);
+                _log.Information("Replaced {original} with {standard}", OriginalStreet, StandardStreet);
 
                 return address;
             }

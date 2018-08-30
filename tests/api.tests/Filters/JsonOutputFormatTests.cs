@@ -14,31 +14,85 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Moq;
 using Shouldly;
 using Xunit;
+using Point = EsriJson.Net.Geometry.Point;
 
 namespace api.tests.Filters {
     public class JsonOutputFormatTests {
+        private static Contexts CreateContext(DefaultHttpContext httpContext) {
+            var routeData = new RouteData();
+            var actionDescription = new ActionDescriptor();
+
+            var actionContext = new ActionContext(httpContext, routeData, actionDescription);
+            var filterMetadata = new IFilterMetadata[0];
+
+            var actionResult = new ObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse>());
+            var controller = new CanaryController(null);
+
+            var context = new ResultExecutingContext(actionContext, filterMetadata, actionResult, controller);
+            var resultContext = new ResultExecutedContext(actionContext, filterMetadata, actionResult, controller);
+
+            return new Contexts(context, resultContext);
+        }
+
+        private class Contexts {
+            public Contexts(ResultExecutingContext c1, ResultExecutedContext c2) {
+                ExecutingContext = c1;
+                ExecutedContext = c2;
+            }
+
+            public ResultExecutingContext ExecutingContext { get; }
+            public ResultExecutedContext ExecutedContext { get; }
+        }
+
+
         [Fact]
-        public async Task Should_skip_if_format_is_empty() {
+        public async Task Should_be_ok_if_format_is_unknown() {
             var httpContext = new DefaultHttpContext();
-            httpContext.Request.QueryString = new QueryString("?test=1");
+            httpContext.Request.QueryString = new QueryString("?format=someUnknownFormat");
 
             var mediator = new Mock<IMediator>();
 
             var filter = new JsonOutputFormatResultFilter(mediator.Object);
             var contexts = CreateContext(httpContext);
 
-            await filter.OnResultExecutionAsync(contexts.ExecutingContext, () => Task.FromResult(contexts.ExecutedContext));
+            await filter.OnResultExecutionAsync(contexts.ExecutingContext,
+                                                () => Task.FromResult(contexts.ExecutedContext));
 
             var result = contexts.ExecutingContext.Result as ObjectResult;
             var result2 = contexts.ExecutedContext.Result as ObjectResult;
 
             result.Value.ShouldBeOfType<ApiResponseContainer<GeocodeAddressApiResponse>>();
             result2.Value.ShouldBeOfType<ApiResponseContainer<GeocodeAddressApiResponse>>();
+        }
+
+        [Fact]
+        public async Task Should_call_esrijson() {
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.QueryString = new QueryString("?format=esriJSON");
+
+            var mediator = new Mock<IMediator>();
+            var response = new ApiResponseContainer<Graphic> {
+                Result = new Graphic(new Point(2, 2), new Dictionary<string, object>())
+            };
+
+            mediator.Setup(x => x.Send(It.IsAny<EsriGraphic.Command>(), It.IsAny<CancellationToken>()))
+                    .Returns(Task.FromResult(response));
+
+            var filter = new JsonOutputFormatResultFilter(mediator.Object);
+            var contexts = CreateContext(httpContext);
+
+            await filter.OnResultExecutionAsync(contexts.ExecutingContext,
+                                                () => Task.FromResult(contexts.ExecutedContext));
+
+            var result = contexts.ExecutingContext.Result as ObjectResult;
+            var result2 = contexts.ExecutedContext.Result as ObjectResult;
+
+            result.Value.ShouldBeOfType<ApiResponseContainer<Graphic>>();
+            result2.Value.ShouldBeOfType<ApiResponseContainer<Graphic>>();
         }
 
         [Fact]
@@ -57,7 +111,8 @@ namespace api.tests.Filters {
             var filter = new JsonOutputFormatResultFilter(mediator.Object);
             var contexts = CreateContext(httpContext);
 
-            await filter.OnResultExecutionAsync(contexts.ExecutingContext, () => Task.FromResult(contexts.ExecutedContext));
+            await filter.OnResultExecutionAsync(contexts.ExecutingContext,
+                                                () => Task.FromResult(contexts.ExecutedContext));
 
             var result = contexts.ExecutingContext.Result as ObjectResult;
             var result2 = contexts.ExecutedContext.Result as ObjectResult;
@@ -67,75 +122,23 @@ namespace api.tests.Filters {
         }
 
         [Fact]
-        public async Task Should_call_esrijson() {
+        public async Task Should_skip_if_format_is_empty() {
             var httpContext = new DefaultHttpContext();
-            httpContext.Request.QueryString = new QueryString("?format=esriJSON");
-
-            var mediator = new Mock<IMediator>();
-            var response = new ApiResponseContainer<Graphic> {
-                Result = new Graphic(new EsriJson.Net.Geometry.Point(2, 2), new Dictionary<string, object>())
-            };
-
-            mediator.Setup(x => x.Send(It.IsAny<EsriGraphic.Command>(), It.IsAny<CancellationToken>()))
-                    .Returns(Task.FromResult(response));
-
-            var filter = new JsonOutputFormatResultFilter(mediator.Object);
-            var contexts = CreateContext(httpContext);
-
-            await filter.OnResultExecutionAsync(contexts.ExecutingContext, () => Task.FromResult(contexts.ExecutedContext));
-
-            var result = contexts.ExecutingContext.Result as ObjectResult;
-            var result2 = contexts.ExecutedContext.Result as ObjectResult;
-
-            result.Value.ShouldBeOfType<ApiResponseContainer<Graphic>>();
-            result2.Value.ShouldBeOfType<ApiResponseContainer<Graphic>>();
-        }
-
-
-        [Fact]
-        public async Task Should_be_ok_if_format_is_unknown() {
-            var httpContext = new DefaultHttpContext();
-            httpContext.Request.QueryString = new QueryString("?format=someUnknownFormat");
+            httpContext.Request.QueryString = new QueryString("?test=1");
 
             var mediator = new Mock<IMediator>();
 
             var filter = new JsonOutputFormatResultFilter(mediator.Object);
             var contexts = CreateContext(httpContext);
 
-            await filter.OnResultExecutionAsync(contexts.ExecutingContext, () => Task.FromResult(contexts.ExecutedContext));
+            await filter.OnResultExecutionAsync(contexts.ExecutingContext,
+                                                () => Task.FromResult(contexts.ExecutedContext));
 
             var result = contexts.ExecutingContext.Result as ObjectResult;
             var result2 = contexts.ExecutedContext.Result as ObjectResult;
 
             result.Value.ShouldBeOfType<ApiResponseContainer<GeocodeAddressApiResponse>>();
             result2.Value.ShouldBeOfType<ApiResponseContainer<GeocodeAddressApiResponse>>();
-        }
-
-        private Contexts CreateContext(DefaultHttpContext httpContext) {
-            var routeData = new RouteData();
-            var actionDescription = new ActionDescriptor();
-
-            var actionContext = new ActionContext(httpContext, routeData, actionDescription);
-            var filterMetadata = new IFilterMetadata[0];
-            var valueProvider = new IValueProviderFactory[0];
-
-            var actionResult = new ObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse>());
-            var controller = new CanaryController(null);
-
-            var context = new ResultExecutingContext(actionContext, filterMetadata, actionResult, controller);
-            var resultContext = new ResultExecutedContext(actionContext, filterMetadata, actionResult, controller);
-
-            return new Contexts(context, resultContext);
-        }
-
-        private class Contexts {
-            public Contexts(ResultExecutingContext c1, ResultExecutedContext c2) {
-                ExecutingContext = c1;
-                ExecutedContext = c2;
-            }
-
-            public ResultExecutingContext ExecutingContext { get; set; }
-            public ResultExecutedContext ExecutedContext { get; set; }
         }
     }
 }

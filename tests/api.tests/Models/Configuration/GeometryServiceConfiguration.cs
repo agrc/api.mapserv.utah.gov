@@ -5,8 +5,7 @@ using Xunit;
 namespace api.tests.Models.Configuration {
     public class GeometryServiceConfigurationTests {
         [Fact]
-        public void Should_format_url_with_non_standard_port()
-        {
+        public void Should_format_url_with_non_standard_port() {
             var model = new GeometryServiceConfiguration {
                 Host = "host",
                 Port = "1",
@@ -43,7 +42,7 @@ namespace api.tests.Models.Configuration {
 
         [Fact]
         public void Should_set_good_default() {
-            var model = new GeometryServiceConfiguration();;
+            var model = new GeometryServiceConfiguration();
 
             model.ToString().ShouldBe("http://localhost/arcgis/rest/services/Geometry/GeometryServer/project{0}");
         }

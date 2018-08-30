@@ -26,11 +26,13 @@ namespace api.mapserv.utah.gov.Features.GeometryService {
         public class Handler : IRequestHandler<Command, ReprojectResponse<Point>> {
             private readonly HttpClient _client;
             private readonly IOptions<GeometryServiceConfiguration> _geometryServiceConfiguration;
+            private readonly ILogger _log;
             private readonly MediaTypeFormatter[] _mediaTypes;
 
             public Handler(IOptions<GeometryServiceConfiguration> geometryServiceConfiguration,
-                           IHttpClientFactory clientFactory) {
+                           IHttpClientFactory clientFactory, ILogger log) {
                 _geometryServiceConfiguration = geometryServiceConfiguration;
+                _log = log;
                 _client = clientFactory.CreateClient("default");
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()
@@ -49,10 +51,11 @@ namespace api.mapserv.utah.gov.Features.GeometryService {
 
                 var requestUri = string.Format(request.ReprojectUrl, query.Value);
 
-                Log.Debug("Repojecting {args} with {url}", request.Options, request.ReprojectUrl);
+                _log.Debug("Repojecting {args} with {url}", request.Options, request.ReprojectUrl);
 
                 var response = await _client.GetAsync(requestUri, cancellationToken);
-                var result = await response.Content.ReadAsAsync<ReprojectResponse<Point>>(_mediaTypes, cancellationToken);
+                var result =
+                    await response.Content.ReadAsAsync<ReprojectResponse<Point>>(_mediaTypes, cancellationToken);
 
                 return result;
             }

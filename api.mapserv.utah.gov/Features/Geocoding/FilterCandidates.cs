@@ -38,10 +38,16 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         }
 
         public class Handler : RequestHandler<Command, GeocodeAddressApiResponse> {
+            private readonly ILogger _log;
+
+            public Handler(ILogger log) {
+                _log = log;
+            }
+
             protected override GeocodeAddressApiResponse Handle(Command request) {
                 if (request.Candidates == null || !request.Candidates.Any()) {
-                    Log.Debug("No request.Candidates found for {address} with {options}", request.GeocodedAddress,
-                              request.GeocodeOptions);
+                    _log.Debug("No request.Candidates found for {address} with {options}", request.GeocodedAddress,
+                               request.GeocodeOptions);
 
                     return new GeocodeAddressApiResponse {
                         InputAddress = $"{request.Street}, {request.Zone}",
@@ -49,8 +55,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     };
                 }
 
-                Log.Debug("Choosing result from grids {grids} with a score >= {score}",
-                          request.GeocodedAddress.AddressGrids, request.GeocodeOptions.AcceptScore);
+                _log.Debug("Choosing result from grids {grids} with a score >= {score}",
+                           request.GeocodedAddress.AddressGrids, request.GeocodeOptions.AcceptScore);
 
                 // get best match from request.Candidates
                 var result = request.Candidates.FirstOrDefault(x => x.Score >= request.GeocodeOptions.AcceptScore &&
@@ -80,7 +86,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
 
                 if (result.Location == null && request.GeocodeOptions.Suggest == 0) {
-                    Log.Debug("The result had no location {result}", result);
+                    _log.Debug("The result had no location {result}", result);
 
                     return null;
                 }

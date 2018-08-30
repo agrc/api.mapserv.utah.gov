@@ -15,14 +15,16 @@ namespace api.mapserv.utah.gov.Filters {
     public class AuthorizeApiKeyFromRequest : IAsyncResourceFilter {
         private const int BadRequest = (int)HttpStatusCode.BadRequest;
         private readonly IBrowserKeyProvider _apiKeyProvider;
+        private readonly ILogger _log;
         private readonly IApiKeyRepository _repo;
         private readonly IServerIpProvider _serverIpProvider;
 
         public AuthorizeApiKeyFromRequest(IBrowserKeyProvider apiKeyProvider,
-                                          IServerIpProvider serverIpProvider, IApiKeyRepository repo) {
+                                          IServerIpProvider serverIpProvider, IApiKeyRepository repo, ILogger log) {
             _apiKeyProvider = apiKeyProvider;
             _serverIpProvider = serverIpProvider;
             _repo = repo;
+            _log = log;
         }
 
         public async Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next) {
@@ -30,7 +32,7 @@ namespace api.mapserv.utah.gov.Filters {
 
             // key hasn't been created
             if (string.IsNullOrWhiteSpace(key)) {
-                Log.Debug("API key missing from request");
+                _log.Debug("API key missing from request");
 
                 var missingResponse = new ApiResponseContainer {
                     Status = BadRequest,
@@ -53,7 +55,7 @@ namespace api.mapserv.utah.gov.Filters {
 
             // key hasn't been created
             if (apiKey == null) {
-                Log.Information("Unknown API key usage attempt for {key}", context.HttpContext.Request.Query);
+                _log.Information("Unknown API key usage attempt for {key}", context.HttpContext.Request.Query);
 
                 context.Result = new BadRequestObjectResult(badKeyResponse);
 
@@ -63,7 +65,7 @@ namespace api.mapserv.utah.gov.Filters {
             // TODO make sure user has confirmed email address
 
             if (apiKey.Deleted || apiKey.Enabled == ApiKey.KeyStatus.Disabled) {
-                Log.Information("Attempt to use deleted or disabled key {key}", apiKey);
+                _log.Information("Attempt to use deleted or disabled key {key}", apiKey);
 
                 context.Result = new BadRequestObjectResult(new ApiResponseContainer {
                     Status = BadRequest,
@@ -74,8 +76,8 @@ namespace api.mapserv.utah.gov.Filters {
             }
 
             if (apiKey.Whitelisted) {
-                Log.Information("Whitelisted key use {key} from {ip} with {headers}", apiKey,
-                                context.HttpContext.Request.Host, context.HttpContext.Request.Headers);
+                _log.Information("Whitelisted key use {key} from {ip} with {headers}", apiKey,
+                                 context.HttpContext.Request.Host, context.HttpContext.Request.Headers);
 
                 await next();
 
@@ -92,7 +94,7 @@ namespace api.mapserv.utah.gov.Filters {
                 var hasOrigin = context.HttpContext.Request.Headers.Where(x => x.Key == "Origin").ToList();
 
                 if (string.IsNullOrEmpty(referrer.ToString()) && !hasOrigin.Any()) {
-                    Log.Information("API key usage without referrer header {key}", apiKey);
+                    _log.Information("API key usage without referrer header {key}", apiKey);
 
                     context.Result = new BadRequestObjectResult(new ApiResponseContainer {
                         Status = BadRequest,
@@ -129,8 +131,8 @@ namespace api.mapserv.utah.gov.Filters {
                 var userHostAddress = _serverIpProvider.Get(context.HttpContext.Request);
 
                 if (ip != userHostAddress) {
-                    Log.Information("Invalid api key pattern match {ip} != {host} for {key}", ip, userHostAddress,
-                                    apiKey);
+                    _log.Information("Invalid api key pattern match {ip} != {host} for {key}", ip, userHostAddress,
+                                     apiKey);
 
                     context.Result = new BadRequestObjectResult(new ApiResponseContainer {
                         Status = BadRequest,

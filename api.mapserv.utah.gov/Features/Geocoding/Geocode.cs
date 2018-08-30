@@ -24,35 +24,40 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
         public class Handler : IRequestHandler<Command, IReadOnlyCollection<Candidate>> {
             private readonly HttpClient _client;
+            private readonly ILogger _log;
             private readonly MediaTypeFormatter[] _mediaTypes;
 
-            public Handler(IHttpClientFactory clientFactory) {
+            public Handler(IHttpClientFactory clientFactory, ILogger log) {
+                _log = log;
                 _client = clientFactory.CreateClient("default");
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()
                 };
             }
 
-            public async Task<IReadOnlyCollection<Candidate>> Handle(Command request, CancellationToken cancellationToken) {
-                Log.Debug("Request sent to locator, url={Url}", request.Locator.Url);
+            public async Task<IReadOnlyCollection<Candidate>> Handle(Command request,
+                                                                     CancellationToken cancellationToken) {
+                _log.Debug("Request sent to locator, url={Url}", request.Locator.Url);
 
                 // TODO create a polly policy for the locators
                 var httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
 
                 try {
-                    var geocodeResponse = await httpResponse.Content.ReadAsAsync<LocatorResponse>(_mediaTypes, cancellationToken);
+                    var geocodeResponse =
+                        await httpResponse.Content.ReadAsAsync<LocatorResponse>(_mediaTypes, cancellationToken);
 
                     return ProcessResult(geocodeResponse, request.Locator);
                 } catch (Exception ex) {
-                    Log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
-                              await httpResponse.Content.ReadAsStringAsync(), request.Locator);
+                    _log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
+                               await httpResponse.Content.ReadAsStringAsync(), request.Locator);
                     throw;
                 }
             }
 
-            private static IReadOnlyCollection<Candidate> ProcessResult(LocatorResponse response, LocatorProperties locator) {
+            private IReadOnlyCollection<Candidate> ProcessResult(LocatorResponse response,
+                                                                        LocatorProperties locator) {
                 if (response.Error != null && response.Error.Code == 500) {
-                    Log.Fatal($"{locator.Name} geocoder is not started.");
+                    _log.Fatal($"{locator.Name} geocoder is not started.");
 
                     throw new GeocodingException($"{locator.Name} geocoder is not started. {response.Error}");
                 }
