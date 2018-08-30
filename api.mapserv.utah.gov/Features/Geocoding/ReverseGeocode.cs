@@ -21,9 +21,11 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
         public class Handler : IRequestHandler<Command, ReverseGeocodeRestResponse> {
             private readonly HttpClient _client;
+            private readonly ILogger _log;
             private readonly MediaTypeFormatter[] _mediaTypes;
 
-            public Handler(IHttpClientFactory clientFactory) {
+            public Handler(IHttpClientFactory clientFactory, ILogger log) {
+                _log = log;
                 _client = clientFactory.CreateClient("default");
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()
@@ -31,14 +33,15 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             }
 
             public async Task<ReverseGeocodeRestResponse> Handle(Command request, CancellationToken cancellationToken) {
-                Log.Debug("Request sent to locator, url={Url}", request.Locator.Url);
+                _log.Debug("Request sent to locator, url={Url}", request.Locator.Url);
 
                 // TODO create a polly policy for the locators
                 var httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
 
                 try {
                     var reverseResponse =
-                        await httpResponse.Content.ReadAsAsync<ReverseGeocodeRestResponse>(_mediaTypes, cancellationToken);
+                        await httpResponse.Content.ReadAsAsync<ReverseGeocodeRestResponse>(_mediaTypes,
+                                                                                           cancellationToken);
 
                     if (!reverseResponse.IsSuccessful) {
                         return null;
@@ -46,8 +49,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                     return reverseResponse;
                 } catch (Exception ex) {
-                    Log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
-                              await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), request.Locator);
+                    _log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
+                               await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), request.Locator);
                     throw;
                 }
             }

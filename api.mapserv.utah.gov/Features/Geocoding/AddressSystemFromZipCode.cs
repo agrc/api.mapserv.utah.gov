@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Models.Linkables;
 using MediatR;
@@ -19,14 +18,16 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         }
 
         public class Handler : RequestHandler<Command, IReadOnlyCollection<GridLinkable>> {
+            private readonly ILogger _log;
             private readonly IDictionary<string, List<GridLinkable>> _zipCache;
 
-            public Handler(ILookupCache driveCache) {
+            public Handler(ILookupCache driveCache, ILogger log) {
+                _log = log;
                 _zipCache = driveCache.ZipCodesGrids;
             }
 
             protected override IReadOnlyCollection<GridLinkable> Handle(Command request) {
-                Log.Debug("Getting address system from {city}", request.Zip);
+                _log.Debug("Getting address system from {city}", request.Zip);
 
                 if (string.IsNullOrEmpty(request.Zip)) {
                     return Array.Empty<GridLinkable>();
@@ -36,7 +37,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 var result = gridLinkables ?? new List<GridLinkable>();
 
-                Log.Debug("Found {systems}", result);
+                _log.Debug("Found {systems}", result);
 
                 return result;
             }

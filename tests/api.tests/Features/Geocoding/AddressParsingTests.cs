@@ -6,6 +6,8 @@ using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
 using MediatR;
+using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
@@ -15,7 +17,7 @@ namespace api.tests.Features.Geocoding {
             var abbrs = new Abbreviations();
             var regex = new RegexCache(abbrs);
 
-            _handler = new AddressParsing.Handler(regex, abbrs);
+            _handler = new AddressParsing.Handler(regex, abbrs, new Mock<ILogger>().Object);
         }
 
         private readonly IRequestHandler<AddressParsing.Command, CleansedAddress> _handler;
