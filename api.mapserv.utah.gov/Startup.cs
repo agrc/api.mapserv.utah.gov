@@ -2,8 +2,10 @@ using System;
 using System.IO;
 using System.Reflection;
 using api.mapserv.utah.gov.Extensions;
+using api.mapserv.utah.gov.Features.Health;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +40,7 @@ namespace api.mapserv.utah.gov {
                 x.DefaultApiVersion = new ApiVersion(1, 0);
             });
 
+            services.AddHealthChecks();
             services.UseOptions(Configuration);
             services.UseDi();
 
@@ -67,8 +70,6 @@ namespace api.mapserv.utah.gov {
 
                 c.IncludeXmlComments(xmlPath);
             });
-
-            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,7 +90,10 @@ namespace api.mapserv.utah.gov {
             });
 
             app.UseMvc();
-            app.UseHealthChecks("/healthz");
+            app.UseHealthChecks("/health/details", new HealthCheckOptions {
+                ResponseWriter = HealthCheckResponseWriter.WriteDetailsJson
+            });
+            app.UseHealthChecks("/health");
         }
     }
 }
