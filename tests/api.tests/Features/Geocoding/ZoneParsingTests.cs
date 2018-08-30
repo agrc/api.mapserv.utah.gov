@@ -9,6 +9,7 @@ using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Linkables;
 using MediatR;
 using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
@@ -29,7 +30,7 @@ namespace api.tests.Features.Geocoding {
                         return Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>);
                     });
 
-            _handler = new ZoneParsing.Handler(regex, mediator.Object);
+            _handler = new ZoneParsing.Handler(regex, mediator.Object, new Mock<ILogger>().Object);
         }
 
         private readonly ZoneParsing.Handler _handler;

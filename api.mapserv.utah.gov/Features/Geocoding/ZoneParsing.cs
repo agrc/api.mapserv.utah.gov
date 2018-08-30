@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,19 +21,21 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         }
 
         public class Handler : IRequestHandler<Command, GeocodeAddress> {
+            private readonly ILogger _log;
             private readonly IMediator _mediator;
             private readonly IRegexCache _regex;
 
-            public Handler(IRegexCache regex, IMediator mediator) {
+            public Handler(IRegexCache regex, IMediator mediator, ILogger log) {
                 _regex = regex;
                 _mediator = mediator;
+                _log = log;
             }
 
             public async Task<GeocodeAddress> Handle(Command request, CancellationToken token) {
-                Log.Debug("Parsing {zone}", request.InputZone);
+                _log.Debug("Parsing {zone}", request.InputZone);
 
                 if (string.IsNullOrEmpty(request.InputZone)) {
-                    request.AddressModel.AddressGrids = Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>;
+                    request.AddressModel.AddressGrids = Array.Empty<GridLinkable>();
 
                     return request.AddressModel;
                 }
@@ -46,20 +46,21 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 if (zipPlusFour.Success) {
                     if (zipPlusFour.Groups[1].Success) {
                         var zip5 = zipPlusFour.Groups[1].Value;
-                        Log.Debug("Zone has a zip code of {zip}", zip5);
+                        _log.Debug("Zone has a zip code of {zip}", zip5);
 
                         request.AddressModel.Zip5 = int.Parse(zip5);
 
                         var getAddressSystemFromZipCodeCommand =
                             new AddressSystemFromZipCode.Command(request.AddressModel.Zip5);
 
-                        request.AddressModel.AddressGrids = await _mediator.Send(getAddressSystemFromZipCodeCommand, token);
+                        request.AddressModel.AddressGrids =
+                            await _mediator.Send(getAddressSystemFromZipCodeCommand, token);
                     }
 
                     if (zipPlusFour.Groups[2].Success) {
                         var zip4 = zipPlusFour.Groups[2].Value;
 
-                        Log.Debug("Zone has a zip + 4 {zip}", zip4);
+                        _log.Debug("Zone has a zip + 4 {zip}", zip4);
 
                         request.AddressModel.Zip4 = int.Parse(zip4);
                     }
@@ -70,7 +71,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var cityName = _regex.Get("cityName").Match(request.InputZone);
 
                 if (cityName.Success) {
-                    Log.Debug("Zone is a place {place}", cityName.Value);
+                    _log.Debug("Zone is a place {place}", cityName.Value);
 
                     var cityKey = cityName.Value.ToLower();
                     cityKey = cityKey.Replace(".", "");
@@ -85,7 +86,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
 
                 if (request.AddressModel.AddressGrids == null) {
-                    Log.Warning("No address grid found for {zone}", request.InputZone);
+                    _log.Warning("No address grid found for {zone}", request.InputZone);
 
                     request.AddressModel.AddressGrids = Array.Empty<GridLinkable>();
                 }

@@ -7,6 +7,7 @@ using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Models.Linkables;
 using MediatR;
 using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
@@ -17,7 +18,7 @@ namespace api.tests.Features.Geocoding {
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.PlaceGrids).Returns(_links);
 
-            Handler = new AddressSystemFromPlace.Handler(mockCache.Object);
+            Handler = new AddressSystemFromPlace.Handler(mockCache.Object, new Mock<ILogger>().Object);
         }
 
         internal static IRequestHandler<AddressSystemFromPlace.Command, IReadOnlyCollection<GridLinkable>> Handler;

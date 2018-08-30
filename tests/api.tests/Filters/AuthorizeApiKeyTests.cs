@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
@@ -78,7 +79,7 @@ namespace api.tests.Filters {
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["Referrer"] = url;
 
-            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object);
+            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, new Mock<ILogger>().Object);
             var contexts = CreateContext(httpContext);
 
             await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
@@ -157,7 +158,7 @@ namespace api.tests.Filters {
             httpContext.Request.Headers["Referrer"] = url;
             httpContext.Request.Headers["Origin"] = url;
 
-            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object);
+            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, new Mock<ILogger>().Object);
             var contexts = CreateContext(httpContext);
 
             await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
@@ -196,7 +197,7 @@ namespace api.tests.Filters {
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["Referrer"] = url;
 
-            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object);
+            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, new Mock<ILogger>().Object);
             var contexts = CreateContext(httpContext);
 
             await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
@@ -226,7 +227,7 @@ namespace api.tests.Filters {
 
             var httpContext = new DefaultHttpContext();
 
-            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object);
+            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, new Mock<ILogger>().Object);
             var contexts = CreateContext(httpContext);
 
             await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
@@ -262,7 +263,7 @@ namespace api.tests.Filters {
 
             var httpContext = new DefaultHttpContext();
 
-            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object);
+            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, new Mock<ILogger>().Object);
             var contexts = CreateContext(httpContext);
 
             await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
@@ -300,7 +301,7 @@ namespace api.tests.Filters {
 
             var httpContext = new DefaultHttpContext();
 
-            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object);
+            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, new Mock<ILogger>().Object);
             var contexts = CreateContext(httpContext);
 
             await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
@@ -351,7 +352,7 @@ namespace api.tests.Filters {
 
             var httpContext = new DefaultHttpContext();
 
-            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object);
+            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, new Mock<ILogger>().Object);
             var contexts = CreateContext(httpContext);
 
             await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
@@ -385,7 +386,7 @@ namespace api.tests.Filters {
 
             var httpContext = new DefaultHttpContext();
 
-            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object);
+            var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, new Mock<ILogger>().Object);
             var contexts = CreateContext(httpContext);
 
             await filter.OnResourceExecutionAsync(contexts.ExecutingContext,

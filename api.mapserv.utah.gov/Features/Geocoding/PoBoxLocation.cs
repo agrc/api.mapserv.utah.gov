@@ -23,34 +23,36 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         }
 
         public class Handler : IRequestHandler<Command, Candidate> {
-            private readonly IDictionary<int, PoBoxAddress> _poBoxes;
             private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions;
-            private readonly IReadOnlyCollection<int> _zipExclusions;
+            private readonly ILogger _log;
 
             private readonly IMediator _mediator;
+            private readonly IDictionary<int, PoBoxAddress> _poBoxes;
+            private readonly IReadOnlyCollection<int> _zipExclusions;
 
-            public Handler(ILookupCache driveCache, IMediator mediator) {
+            public Handler(ILookupCache driveCache, IMediator mediator, ILogger log) {
                 _poBoxes = driveCache.PoBoxes;
                 _exclusions = driveCache.PoBoxExclusions;
                 _zipExclusions = driveCache.PoBoxZipCodesWithExclusions;
                 _mediator = mediator;
+                _log = log;
             }
 
             public async Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {
                 if (!request.Address.Zip5.HasValue) {
-                    Log.Debug("No zip code, can't be po box {address}", request.Address);
+                    _log.Debug("No zip code, can't be po box {address}", request.Address);
 
                     return null;
                 }
 
                 if (_poBoxes is null) {
-                    Log.Warning("Po Box cache is empty!");
+                    _log.Warning("Po Box cache is empty!");
 
                     return null;
                 }
 
                 if (!_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
-                    Log.Debug("{zip} is not in the po box cache", request.Address.Zip5.Value);
+                    _log.Debug("{zip} is not in the po box cache", request.Address.Zip5.Value);
 
                     return null;
                 }
@@ -60,7 +62,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 if (_zipExclusions.Any(x => x == request.Address.Zip5) &&
                     _exclusions.ContainsKey(key)) {
-                    Log.Information("{Using Post Office Point Exclusion for {zip}", key);
+                    _log.Information("{Using Post Office Point Exclusion for {zip}", key);
 
                     var exclusion = _exclusions[key];
                     candidate = new Candidate {
@@ -71,7 +73,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                         AddressGrid = request.Address?.AddressGrids?.FirstOrDefault()?.Grid
                     };
                 } else if (_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
-                    Log.Information("Using post office point for {zip}", key);
+                    _log.Information("Using post office point for {zip}", key);
 
                     var result = _poBoxes[request.Address.Zip5.Value];
                     candidate = new Candidate {
@@ -99,7 +101,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var pointReprojectResponse = await _mediator.Send(reprojectCommand, cancellationToken);
 
                 if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any()) {
-                    Log.Fatal("Could not reproject point for {candidate}", candidate);
+                    _log.Fatal("Could not reproject point for {candidate}", candidate);
 
                     return null;
                 }

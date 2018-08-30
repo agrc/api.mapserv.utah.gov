@@ -8,6 +8,7 @@ using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Models.Linkables;
 using MediatR;
 using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
@@ -23,7 +24,7 @@ namespace api.tests.Features.Geocoding {
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.ZipCodesGrids).Returns(_links);
 
-            Handler = new AddressSystemFromZipCode.Handler(mockCache.Object);
+            Handler = new AddressSystemFromZipCode.Handler(mockCache.Object, new Mock<ILogger>().Object);
         }
 
         [Fact]

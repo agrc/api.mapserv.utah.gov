@@ -9,6 +9,7 @@ using api.mapserv.utah.gov.Models.Constants;
 using api.mapserv.utah.gov.Models.Linkables;
 using MediatR;
 using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
@@ -34,8 +35,8 @@ namespace api.tests.Features.Geocoding {
 
             var regex = new RegexCache(new Abbreviations());
             _handler =
-                new DoubleAvenuesException.DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>(regex);
-            _requestHandler = new ZoneParsing.Handler(regex, mediator.Object);
+                new DoubleAvenuesException.DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>(regex, new Mock<ILogger>().Object);
+            _requestHandler = new ZoneParsing.Handler(regex, mediator.Object, new Mock<ILogger>().Object);
         }
 
         [Theory]

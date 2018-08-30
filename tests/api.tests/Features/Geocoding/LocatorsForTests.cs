@@ -12,6 +12,7 @@ using api.mapserv.utah.gov.Models.RequestOptions;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
@@ -60,17 +61,18 @@ namespace api.tests.Features.Geocoding {
                     Protocol = "proto"
                 });
 
-                handler = new LocatorsForGeocode.Handler(options.Object);
+                Handler = new LocatorsForGeocode.Handler(options.Object, new Mock<ILogger>().Object);
             }
 
-            internal IRequestHandler<LocatorsForGeocode.Command, IReadOnlyCollection<LocatorProperties>> handler;
+            internal IRequestHandler<LocatorsForGeocode.Command, IReadOnlyCollection<LocatorProperties>> Handler;
 
             [Fact]
             public async Task Should_create_extra_for_address_reversal() {
                 var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "2", StreetType.Alley,
                                                         Direction.South, 0, 84114, false, false);
-                var address = new GeocodeAddress(parsedAddress);
-                address.AddressGrids = new[] {new PlaceGridLink("place", "grid", 0)};
+                var address = new GeocodeAddress(parsedAddress) {
+                    AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
+                };
 
                 var geocodeOptions = new GeocodingOptions {
                     Locators = LocatorType.RoadCenterlines,
@@ -78,7 +80,7 @@ namespace api.tests.Features.Geocoding {
                 };
 
                 var request = new LocatorsForGeocode.Command(address, geocodeOptions);
-                var result = await handler.Handle(request, new CancellationToken());
+                var result = await Handler.Handle(request, new CancellationToken());
 
                 result.Count.ShouldBe(2);
 
@@ -104,7 +106,7 @@ namespace api.tests.Features.Geocoding {
                 };
 
                 var request = new LocatorsForGeocode.Command(address, geocodeOptions);
-                var result = await handler.Handle(request, new CancellationToken());
+                var result = await Handler.Handle(request, new CancellationToken());
 
                 result.ShouldHaveSingleItem();
 
@@ -127,7 +129,7 @@ namespace api.tests.Features.Geocoding {
                 };
 
                 var request = new LocatorsForGeocode.Command(address, geocodeOptions);
-                var result = await handler.Handle(request, new CancellationToken());
+                var result = await Handler.Handle(request, new CancellationToken());
 
                 result.Count.ShouldBe(2);
 
@@ -137,7 +139,7 @@ namespace api.tests.Features.Geocoding {
                 };
 
                 request = new LocatorsForGeocode.Command(address, geocodeOptions);
-                result = await handler.Handle(request, new CancellationToken());
+                result = await Handler.Handle(request, new CancellationToken());
 
                 result.Count.ShouldBe(2);
             }
@@ -156,7 +158,7 @@ namespace api.tests.Features.Geocoding {
                 };
 
                 var request = new LocatorsForGeocode.Command(address, geocodeOptions);
-                var result = await handler.Handle(request, new CancellationToken());
+                var result = await Handler.Handle(request, new CancellationToken());
 
                 result.ShouldHaveSingleItem();
 
@@ -179,7 +181,7 @@ namespace api.tests.Features.Geocoding {
                 };
 
                 var request = new LocatorsForGeocode.Command(address, geocodeOptions);
-                var result = await handler.Handle(request, new CancellationToken());
+                var result = await Handler.Handle(request, new CancellationToken());
 
                 result.ShouldBeEmpty();
             }

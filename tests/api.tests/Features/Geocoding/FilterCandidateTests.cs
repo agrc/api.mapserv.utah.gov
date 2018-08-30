@@ -9,13 +9,15 @@ using api.mapserv.utah.gov.Models.Linkables;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using MediatR;
+using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class FilterCandidateTests {
         internal static IRequestHandler<FilterCandidates.Command, GeocodeAddressApiResponse> Handler =
-            new FilterCandidates.Handler();
+            new FilterCandidates.Handler(new Mock<ILogger>().Object);
 
         public class AcceptScoreTests {
             [Fact]
