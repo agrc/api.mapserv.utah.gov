@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Features.Health;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Configuration;
@@ -10,6 +11,7 @@ using api.mapserv.utah.gov.Services;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 using Serilog.Events;
 using static api.mapserv.utah.gov.Features.Geocoding.DoubleAvenuesException;
@@ -48,6 +50,8 @@ namespace api.mapserv.utah.gov.Extensions {
                                                        .Enrich.FromLogContext()
                                                        .WriteTo.Console()
                                                        .CreateLogger());
+            services.AddSingleton<IHealthCheck, CacheHealthCheck>();
+            services.AddSingleton<IHealthCheck, KeyStoreHealthCheck>();
         }
     }
 }
