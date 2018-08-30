@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ResponseObjects;
@@ -31,7 +30,7 @@ namespace api.tests.Models.ApiResponses {
             yield return new object[] {
                 null,
                 new Point(0, 0),
-                new Nullable<double>()
+                new double?()
             };
         }
 
@@ -39,8 +38,8 @@ namespace api.tests.Models.ApiResponses {
         [MemberData(nameof(GetPoints))]
         public void Should_calculate_distance(Point input, Point match, double? distance) {
             var model = new ReverseGeocodeApiResponse {
-                 InputPoint = input,
-                 MatchPoint = match
+                InputPoint = input,
+                MatchPoint = match
             };
 
             model.Distance.ShouldBe(distance);

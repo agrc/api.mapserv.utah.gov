@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,9 +11,6 @@ using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class AddressParsingTests {
-        IRequestHandler<AddressParsing.Command, CleansedAddress> _handler;
-        CancellationToken cancellation = new CancellationToken();
-
         public AddressParsingTests() {
             var abbrs = new Abbreviations();
             var regex = new RegexCache(abbrs);
@@ -22,142 +18,140 @@ namespace api.tests.Features.Geocoding {
             _handler = new AddressParsing.Handler(regex, abbrs);
         }
 
+        private readonly IRequestHandler<AddressParsing.Command, CleansedAddress> _handler;
+
         public static IEnumerable<object[]> GetPoBoxes() {
-            yield return new object[]
-            {
-                    new CleansedAddress {
-                        InputAddress = "P O Box 123",
-                        PoBox = 123,
-                        HouseNumber = null,
-                        PrefixDirection = Direction.None,
-                        StreetName = "P.O. Box",
-                        StreetType = StreetType.None,
-                        SuffixDirection = Direction.None
-                    },
-                    "P.O. Box 123",
-                    false
+            yield return new object[] {
+                new CleansedAddress {
+                    InputAddress = "P O Box 123",
+                    PoBox = 123,
+                    HouseNumber = null,
+                    PrefixDirection = Direction.None,
+                    StreetName = "P.O. Box",
+                    StreetType = StreetType.None,
+                    SuffixDirection = Direction.None
+                },
+                "P.O. Box 123",
+                false
             };
 
-            yield return new object[]
-            {
-                    new CleansedAddress {
-                        InputAddress = "PO Box 123",
-                        PoBox = 123,
-                        HouseNumber = null,
-                        PrefixDirection = Direction.None,
-                        StreetName = "P.O. Box",
-                        StreetType = StreetType.None,
-                        SuffixDirection = Direction.None
-                    },
-                    "P.O. Box 123",
-                    false
+            yield return new object[] {
+                new CleansedAddress {
+                    InputAddress = "PO Box 123",
+                    PoBox = 123,
+                    HouseNumber = null,
+                    PrefixDirection = Direction.None,
+                    StreetName = "P.O. Box",
+                    StreetType = StreetType.None,
+                    SuffixDirection = Direction.None
+                },
+                "P.O. Box 123",
+                false
             };
 
-            yield return new object[]
-            {
-                    new CleansedAddress {
-                        InputAddress = "POBox 123",
-                        PoBox = 123,
-                        HouseNumber = null,
-                        PrefixDirection = Direction.None,
-                        StreetName = "P.O. Box",
-                        StreetType = StreetType.None,
-                        SuffixDirection = Direction.None
-                    },
-                    "P.O. Box 123",
-                    false
+            yield return new object[] {
+                new CleansedAddress {
+                    InputAddress = "POBox 123",
+                    PoBox = 123,
+                    HouseNumber = null,
+                    PrefixDirection = Direction.None,
+                    StreetName = "P.O. Box",
+                    StreetType = StreetType.None,
+                    SuffixDirection = Direction.None
+                },
+                "P.O. Box 123",
+                false
             };
 
-            yield return new object[]
-            {
-                    new CleansedAddress {
-                        InputAddress = "P.O. Box 123",
-                        PoBox = 123,
-                        HouseNumber = null,
-                        PrefixDirection = Direction.None,
-                        StreetName = "P.O. Box",
-                        StreetType = StreetType.None,
-                        SuffixDirection = Direction.None
-                    },
-                    "P.O. Box 123",
-                    false
+            yield return new object[] {
+                new CleansedAddress {
+                    InputAddress = "P.O. Box 123",
+                    PoBox = 123,
+                    HouseNumber = null,
+                    PrefixDirection = Direction.None,
+                    StreetName = "P.O. Box",
+                    StreetType = StreetType.None,
+                    SuffixDirection = Direction.None
+                },
+                "P.O. Box 123",
+                false
             };
         }
 
         public static IEnumerable<object[]> UnitsWithNoTypeDesignation() {
             yield return new object[] {
-                    new CleansedAddress {
-                        InputAddress = "625 NORTH REDWOOD ROAD 6",
-                        HouseNumber = 625,
-                        PrefixDirection = Direction.North,
-                        StreetName = "REDWOOD",
-                        StreetType = StreetType.Road,
-                        SuffixDirection = Direction.None
-                    },
-                    "625 north redwood road"
-                };
+                new CleansedAddress {
+                    InputAddress = "625 NORTH REDWOOD ROAD 6",
+                    HouseNumber = 625,
+                    PrefixDirection = Direction.North,
+                    StreetName = "REDWOOD",
+                    StreetType = StreetType.Road,
+                    SuffixDirection = Direction.None
+                },
+                "625 north redwood road"
+            };
 
             yield return new object[] {
-                    new CleansedAddress {
-                        InputAddress = "295 North 120 West 1",
-                        HouseNumber = 295,
-                        PrefixDirection = Direction.North,
-                        StreetName = "120",
-                        StreetType = StreetType.None,
-                        SuffixDirection = Direction.West
-                    },
-                    "295 north 120 west"
-                };
+                new CleansedAddress {
+                    InputAddress = "295 North 120 West 1",
+                    HouseNumber = 295,
+                    PrefixDirection = Direction.North,
+                    StreetName = "120",
+                    StreetType = StreetType.None,
+                    SuffixDirection = Direction.West
+                },
+                "295 north 120 west"
+            };
         }
 
         public static IEnumerable<object[]> AbbreviatedHighways() {
             yield return new object[] {
-                    new CleansedAddress {
-                        InputAddress = "401 N HWY 68",
-                        HouseNumber = 401,
-                        PrefixDirection = Direction.North,
-                        StreetName = "Highway 68",
-                        StreetType = StreetType.None,
-                        SuffixDirection = Direction.None
-                    },
-                    "401 north highway 68"
-                };
+                new CleansedAddress {
+                    InputAddress = "401 N HWY 68",
+                    HouseNumber = 401,
+                    PrefixDirection = Direction.North,
+                    StreetName = "Highway 68",
+                    StreetType = StreetType.None,
+                    SuffixDirection = Direction.None
+                },
+                "401 north highway 68"
+            };
 
             yield return new object[] {
-                    new CleansedAddress {
-                        InputAddress = "401 N SR 68",
-                        HouseNumber = 401,
-                        PrefixDirection = Direction.North,
-                        StreetName = "Highway 68",
-                        StreetType = StreetType.None,
-                        SuffixDirection = Direction.None
-                    },
-                    "401 north highway 68"
-                };
+                new CleansedAddress {
+                    InputAddress = "401 N SR 68",
+                    HouseNumber = 401,
+                    PrefixDirection = Direction.North,
+                    StreetName = "Highway 68",
+                    StreetType = StreetType.None,
+                    SuffixDirection = Direction.None
+                },
+                "401 north highway 68"
+            };
 
             yield return new object[] {
-                    new CleansedAddress {
-                        InputAddress = "401 N US 89",
-                        HouseNumber = 401,
-                        PrefixDirection = Direction.North,
-                        StreetName = "Highway 89",
-                        StreetType = StreetType.None,
-                        SuffixDirection = Direction.None
-                    },
-                    "401 north highway 89"
-                };
+                new CleansedAddress {
+                    InputAddress = "401 N US 89",
+                    HouseNumber = 401,
+                    PrefixDirection = Direction.North,
+                    StreetName = "Highway 89",
+                    StreetType = StreetType.None,
+                    SuffixDirection = Direction.None
+                },
+                "401 north highway 89"
+            };
 
             yield return new object[] {
-                    new CleansedAddress {
-                        InputAddress = "401 N U.S. 89",
-                        HouseNumber = 401,
-                        PrefixDirection = Direction.North,
-                        StreetName = "Highway 89",
-                        StreetType = StreetType.None,
-                        SuffixDirection = Direction.None
-                    },
-                    "401 north highway 89"
-                };
+                new CleansedAddress {
+                    InputAddress = "401 N U.S. 89",
+                    HouseNumber = 401,
+                    PrefixDirection = Direction.North,
+                    StreetName = "Highway 89",
+                    StreetType = StreetType.None,
+                    SuffixDirection = Direction.None
+                },
+                "401 north highway 89"
+            };
         }
 
         public static IEnumerable<object[]> EnumsInStreetName() {
@@ -890,7 +884,7 @@ namespace api.tests.Features.Geocoding {
         [MemberData(nameof(GetPoBoxes))]
         public async Task Should_parse_input_with_spaces(CleansedAddress input, string standardAddress, bool reversal) {
             var request = new AddressParsing.Command(input.InputAddress);
-            var result = await _handler.Handle(request, cancellation);
+            var result = await _handler.Handle(request, CancellationToken.None);
 
             result.PoBox.ShouldBe(input.PoBox);
             result.HouseNumber.ShouldBe(input.HouseNumber);
@@ -901,22 +895,6 @@ namespace api.tests.Features.Geocoding {
             result.StandardizedAddress.ShouldBe(standardAddress);
             result.IsReversal().ShouldBe(reversal);
             result.IsPoBox.ShouldBeTrue();
-        }
-
-        [Fact]
-        public async Task Should_not_flag_house_address_as_pobox() {
-            var request = new AddressParsing.Command("123 west house st");
-            var result = await _handler.Handle(request, cancellation);
-
-            result.IsPoBox.ShouldBeFalse();
-            result.PoBox.ShouldBe(0);
-            result.HouseNumber.ShouldBe(123);
-            result.PrefixDirection.ShouldBe(Direction.West);
-            result.StreetName.ShouldBe("house");
-            result.StreetType.ShouldBe(StreetType.Street);
-            result.SuffixDirection.ShouldBe(Direction.None);
-            result.StandardizedAddress.ToLowerInvariant().ShouldBe("123 west house street");
-            result.IsReversal().ShouldBeFalse();
         }
 
         [Theory]
@@ -935,7 +913,7 @@ namespace api.tests.Features.Geocoding {
         [MemberData(nameof(GithubIssues))]
         public async Task Should_parse_address_parts(CleansedAddress input, string standardAddress) {
             var request = new AddressParsing.Command(input.InputAddress);
-            var result = await _handler.Handle(request, cancellation);
+            var result = await _handler.Handle(request, CancellationToken.None);
 
             result.PoBox.ShouldBe(0);
             result.HouseNumber.ShouldBe(input.HouseNumber);
@@ -949,9 +927,11 @@ namespace api.tests.Features.Geocoding {
 
         [Theory]
         [MemberData(nameof(OriginalTestAddresses))]
-        public async Task Should_parse_address_parts_with_insights(CleansedAddress input, bool reversal, bool possibleReversal, bool hasPrefix, bool isNumeric) {
+        public async Task Should_parse_address_parts_with_insights(CleansedAddress input, bool reversal,
+                                                                   bool possibleReversal, bool hasPrefix,
+                                                                   bool isNumeric) {
             var request = new AddressParsing.Command(input.InputAddress);
-            var result = await _handler.Handle(request, cancellation);
+            var result = await _handler.Handle(request, CancellationToken.None);
 
             result.HouseNumber.ShouldBe(input.HouseNumber);
             result.PrefixDirection.ShouldBe(input.PrefixDirection);
@@ -972,9 +952,25 @@ namespace api.tests.Features.Geocoding {
         [MemberData(nameof(ReversalAddress))]
         public async Task Should_create_reversal_address(string address, string reversalAddress) {
             var request = new AddressParsing.Command(address);
-            var result = await _handler.Handle(request, cancellation);
+            var result = await _handler.Handle(request, CancellationToken.None);
 
             result.ReversalAddress.ToLowerInvariant().ShouldBe(reversalAddress);
+        }
+
+        [Fact]
+        public async Task Should_not_flag_house_address_as_pobox() {
+            var request = new AddressParsing.Command("123 west house st");
+            var result = await _handler.Handle(request, CancellationToken.None);
+
+            result.IsPoBox.ShouldBeFalse();
+            result.PoBox.ShouldBe(0);
+            result.HouseNumber.ShouldBe(123);
+            result.PrefixDirection.ShouldBe(Direction.West);
+            result.StreetName.ShouldBe("house");
+            result.StreetType.ShouldBe(StreetType.Street);
+            result.SuffixDirection.ShouldBe(Direction.None);
+            result.StandardizedAddress.ToLowerInvariant().ShouldBe("123 west house street");
+            result.IsReversal().ShouldBeFalse();
         }
     }
 }
