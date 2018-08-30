@@ -8,16 +8,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApiContrib.Core.Formatter.Jsonp;
 
 namespace api.mapserv.utah.gov {
     public class Startup {
-        public Startup(IConfiguration configuration, IHostingEnvironment env, ILoggerFactory logFactory) {
+        public Startup(IConfiguration configuration) {
             Configuration = configuration;
-            logFactory.CreateLogger("Startup");
         }
 
         public IConfiguration Configuration { get; }
