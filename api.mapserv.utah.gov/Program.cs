@@ -3,18 +3,19 @@ using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 
 namespace api.mapserv.utah.gov {
     public static class Program {
         public static async Task<int> Main(string[] args) {
-            Log.Logger = new LoggerConfiguration()
-                         .MinimumLevel.Debug()
-                         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                         .Enrich.FromLogContext()
-                         .WriteTo.Console()
-                         .CreateLogger();
+           Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
 
             try {
                 Log.Information("Starting web host");
@@ -36,8 +37,9 @@ namespace api.mapserv.utah.gov {
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) => WebHost.CreateDefaultBuilder(args)
-                                                                                    .UseStartup<Startup>()
-                                                                                    .UseSerilog();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                   .UseStartup<Startup>()
+                   .ConfigureLogging(x => x.ClearProviders().AddSerilog());
     }
 }

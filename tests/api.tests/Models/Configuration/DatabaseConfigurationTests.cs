@@ -5,8 +5,7 @@ using Xunit;
 namespace api.tests.Models.Configuration {
     public class DatabaseConfigurationTests {
         [Fact]
-        public void Should_format_connections_string()
-        {
+        public void Should_format_connections_string() {
             var model = new DatabaseConfiguration {
                 Host = "host",
                 Port = "port",

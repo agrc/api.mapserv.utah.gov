@@ -14,7 +14,8 @@ using Xunit;
 
 namespace api.tests.Features.Converting {
     public class EsriJsonTests {
-        IRequestHandler<EsriGraphic.Command, ApiResponseContainer<Graphic>> handler = new EsriGraphic.Handler();
+        private readonly IRequestHandler<EsriGraphic.Command, ApiResponseContainer<Graphic>> _handler =
+            new EsriGraphic.Handler();
 
         [Fact]
         public async Task Should_convert_to_esri_graphic() {
@@ -35,7 +36,7 @@ namespace api.tests.Features.Converting {
             };
 
             var request = new EsriGraphic.Command(responseContainer);
-            var result = await handler.Handle(request, new CancellationToken());
+            var result = await _handler.Handle(request, new CancellationToken());
 
             var point = new EsriJson.Net.Geometry.Point(1, 1) {
                 CRS = new Crs {
@@ -43,13 +44,13 @@ namespace api.tests.Features.Converting {
                 }
             };
 
-            var attributes = new Dictionary<string, object>{
-                { "location", new Point(1, 1)},
-                { "score", 100.0 },
-                { "locator", "Centerlines" },
-                { "matchAddress", "Matched Address" },
-                { "inputAddress", "Input Address" },
-                { "scoreDifference", 0.0 },
+            var attributes = new Dictionary<string, object> {
+                {"location", new Point(1, 1)},
+                {"score", 100.0},
+                {"locator", "Centerlines"},
+                {"matchAddress", "Matched Address"},
+                {"inputAddress", "Input Address"},
+                {"scoreDifference", 0.0}
             };
 
             var graphic = JsonConvert.SerializeObject(new Graphic(point, attributes));
@@ -67,7 +68,7 @@ namespace api.tests.Features.Converting {
             };
 
             var request = new EsriGraphic.Command(responseContainer);
-            var result = await handler.Handle(request, new CancellationToken());
+            var result = await _handler.Handle(request, new CancellationToken());
 
             result.Result.ShouldBeNull();
             result.Message.ShouldBe(responseContainer.Message);

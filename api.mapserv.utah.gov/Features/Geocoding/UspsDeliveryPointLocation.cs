@@ -24,18 +24,20 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
         public class Handler : IRequestHandler<Command, Candidate> {
             private readonly ILookupCache _driveCache;
+            private readonly ILogger _log;
             private readonly IMediator _mediator;
 
-            public Handler(ILookupCache driveCache, IMediator mediator) {
+            public Handler(ILookupCache driveCache, IMediator mediator, ILogger log) {
                 _driveCache = driveCache;
                 _mediator = mediator;
+                _log = log;
             }
 
             public async Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {
-                Log.Verbose("Testing for delivery points");
+                _log.Verbose("Testing for delivery points");
 
                 if (!request.Address.Zip5.HasValue) {
-                    Log.Debug("No delivery point for {address} because of no zip5", request.Address);
+                    _log.Debug("No delivery point for {address} because of no zip5", request.Address);
 
                     return null;
                 }
@@ -43,7 +45,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _driveCache.UspsDeliveryPoints.TryGetValue(request.Address.Zip5.Value.ToString(), out var items);
 
                 if (items == null || !items.Any()) {
-                    Log.Debug("No delivery point for {zip} in cache", request.Address.Zip5.Value);
+                    _log.Debug("No delivery point for {zip} in cache", request.Address.Zip5.Value);
 
                     return null;
                 }
@@ -60,13 +62,13 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     Location = new Point(deliveryPoint.X, deliveryPoint.Y)
                 };
 
-                Log.Information("Found delivery point for {address}", request.Address);
+                _log.Information("Found delivery point for {address}", request.Address);
 
                 if (request.Options.SpatialReference == 26912) {
                     return result;
                 }
 
-                Log.Debug("Reprojecting delivery point to {wkid}", request.Options.SpatialReference);
+                _log.Debug("Reprojecting delivery point to {wkid}", request.Options.SpatialReference);
 
                 var reproject =
                     new Reproject.Command(new PointReprojectOptions(26912, request.Options.SpatialReference,
@@ -78,7 +80,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var pointReprojectResponse = await _mediator.Send(reproject, cancellationToken);
 
                 if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any()) {
-                    Log.Fatal("Could not reproject point for {address}", request.Address);
+                    _log.Fatal("Could not reproject point for {address}", request.Address);
 
                     return null;
                 }

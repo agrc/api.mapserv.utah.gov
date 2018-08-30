@@ -5,19 +5,6 @@ using Xunit;
 
 namespace api.tests.Models {
     public class CleansedAddressTests {
-        [Fact]
-        public void Should_create_reversal() {
-            var model = new CleansedAddress {
-                HouseNumber = 1,
-                PrefixDirection = Direction.West,
-                StreetName = "street name",
-                SuffixDirection = Direction.South,
-                StreetType = StreetType.Alley
-            };
-
-            model.ReversalAddress.ToLowerInvariant().ShouldBe("street name south alley 1 west");
-        }
-
         [Theory]
         [InlineData("123 south main st", false)]
         [InlineData("123 band sand south andy", false)]
@@ -64,6 +51,19 @@ namespace api.tests.Models {
             };
 
             model.IsReversal().ShouldBe(reversal);
+        }
+
+        [Fact]
+        public void Should_create_reversal() {
+            var model = new CleansedAddress {
+                HouseNumber = 1,
+                PrefixDirection = Direction.West,
+                StreetName = "street name",
+                SuffixDirection = Direction.South,
+                StreetType = StreetType.Alley
+            };
+
+            model.ReversalAddress.ToLowerInvariant().ShouldBe("street name south alley 1 west");
         }
 
         [Fact]

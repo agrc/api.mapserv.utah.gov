@@ -10,6 +10,8 @@ using api.mapserv.utah.gov.Services;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Events;
 using static api.mapserv.utah.gov.Features.Geocoding.DoubleAvenuesException;
 
 namespace api.mapserv.utah.gov.Extensions {
@@ -40,6 +42,12 @@ namespace api.mapserv.utah.gov.Extensions {
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddTransient<IPipelineBehavior<ZoneParsing.Command, GeocodeAddress>, DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
+            services.AddSingleton<ILogger>(provider => new LoggerConfiguration()
+                                                       .MinimumLevel.Debug()
+                                                       .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                                                       .Enrich.FromLogContext()
+                                                       .WriteTo.Console()
+                                                       .CreateLogger());
         }
     }
 }

@@ -8,13 +8,13 @@ using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Models.Linkables;
 using MediatR;
 using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class AddressSystemFromZipTests {
-        internal static IRequestHandler<AddressSystemFromZipCode.Command, IReadOnlyCollection<GridLinkable>> handler;
-        internal static readonly CancellationToken cancellation = new CancellationToken();
+        internal static IRequestHandler<AddressSystemFromZipCode.Command, IReadOnlyCollection<GridLinkable>> Handler;
 
         private readonly Dictionary<string, List<GridLinkable>> _links = new Dictionary<string, List<GridLinkable>>(1);
 
@@ -24,13 +24,13 @@ namespace api.tests.Features.Geocoding {
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.ZipCodesGrids).Returns(_links);
 
-            handler = new AddressSystemFromZipCode.Handler(mockCache.Object);
+            Handler = new AddressSystemFromZipCode.Handler(mockCache.Object, new Mock<ILogger>().Object);
         }
 
         [Fact]
         public async Task Should_return_grid_from_zip() {
             var request = new AddressSystemFromZipCode.Command(1);
-            var result = await handler.Handle(request, cancellation);
+            var result = await Handler.Handle(request, CancellationToken.None);
 
             result.Count.ShouldBe(1);
             result.First().Grid.ShouldBe("grid");
@@ -39,16 +39,15 @@ namespace api.tests.Features.Geocoding {
         [Fact]
         public async Task Should_return_empty_when_zip_not_found() {
             var request = new AddressSystemFromZipCode.Command(0);
-            var result = await handler.Handle(request, cancellation);
+            var result = await Handler.Handle(request, CancellationToken.None);
 
             result.ShouldBeEmpty();
         }
 
         [Fact]
         public async Task Should_return_empty_when_zip_is_null() {
-            var zip = new Nullable<int>();
-            var request = new AddressSystemFromZipCode.Command(zip);
-            var result = await handler.Handle(request, cancellation);
+            var request = new AddressSystemFromZipCode.Command(null);
+            var result = await Handler.Handle(request, CancellationToken.None);
 
             result.ShouldBeEmpty();
         }
