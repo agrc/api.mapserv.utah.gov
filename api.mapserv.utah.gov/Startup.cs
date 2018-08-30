@@ -67,6 +67,8 @@ namespace api.mapserv.utah.gov {
 
                 c.IncludeXmlComments(xmlPath);
             });
+
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,6 +89,7 @@ namespace api.mapserv.utah.gov {
             });
 
             app.UseMvc();
+            app.UseHealthChecks("/healthz");
         }
     }
 }
