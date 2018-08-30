@@ -28,7 +28,7 @@ namespace api.mapserv.utah.gov {
                         options.AddApiResponseFormatters();
                         options.AddJsonpOutputFormatter();
                     })
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                     .AddJsonOptions(options => options.SerializerSettings.NullValueHandling =
                                         NullValueHandling.Ignore);
 
