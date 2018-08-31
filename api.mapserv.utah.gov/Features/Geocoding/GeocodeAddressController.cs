@@ -232,7 +232,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
             }
 
-            var locatorLookup = new LocatorsForReverseLookup.Command();
+            var locatorLookup = new LocatorsForReverseLookup.Command(x, y, options.Distance, options.SpatialReference);
             var locators = await _mediator.Send(locatorLookup);
 
             if (locators == null || !locators.Any()) {
@@ -244,12 +244,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 });
             }
 
-            // there's only one
-            var locator = locators.First();
-
-            locator.Url = string.Format(locator.Url, x, y, options.Distance, options.SpatialReference);
-
-            var reverseGeocodeCommand = new ReverseGeocode.Command(locator);
+            // TODO: would there ever be more than one?
+            var reverseGeocodeCommand = new ReverseGeocode.Command(locators.First());
 
             try {
                 var response = await _mediator.Send(reverseGeocodeCommand);
@@ -268,7 +264,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     Status = (int)HttpStatusCode.OK
                 });
             } catch (Exception ex) {
-                _log.Fatal(ex, "Error reverse geocoding {locator}", locator.Url);
+                _log.Fatal(ex, "Error reverse geocoding {locator}", locators);
 
                 return new ObjectResult(new ApiResponseContainer {
                     Message = "There was a problem handling your request",

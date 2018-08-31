@@ -21,6 +21,11 @@ using Xunit;
 using Point = EsriJson.Net.Geometry.Point;
 
 namespace api.tests.Filters {
+
+    internal class TestController : Controller {
+
+    }
+
     public class JsonOutputFormatTests {
         private static Contexts CreateContext(DefaultHttpContext httpContext) {
             var routeData = new RouteData();
@@ -30,7 +35,7 @@ namespace api.tests.Filters {
             var filterMetadata = new IFilterMetadata[0];
 
             var actionResult = new ObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse>());
-            var controller = new CanaryController(null);
+            var controller = new TestController();
 
             var context = new ResultExecutingContext(actionContext, filterMetadata, actionResult, controller);
             var resultContext = new ResultExecutedContext(actionContext, filterMetadata, actionResult, controller);
