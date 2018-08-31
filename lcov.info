@@ -47,13 +47,11 @@ FNF:2
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Startup.cs
-FN:20,Microsoft.Extensions.Configuration.IConfiguration api.mapserv.utah.gov.Startup::get_Configuration()
+FN:22,Microsoft.Extensions.Configuration.IConfiguration api.mapserv.utah.gov.Startup::get_Configuration()
 FNDA:0,Microsoft.Extensions.Configuration.IConfiguration api.mapserv.utah.gov.Startup::get_Configuration()
-DA:21,0
-FN:23,System.Void api.mapserv.utah.gov.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+DA:23,0
+FN:25,System.Void api.mapserv.utah.gov.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
 FNDA:0,System.Void api.mapserv.utah.gov.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
-DA:24,0
-DA:25,0
 DA:26,0
 DA:27,0
 DA:28,0
@@ -62,16 +60,16 @@ DA:30,0
 DA:31,0
 DA:32,0
 DA:33,0
+DA:34,0
 DA:35,0
-DA:36,0
 DA:37,0
 DA:38,0
 DA:39,0
+DA:40,0
 DA:41,0
-DA:42,0
+DA:43,0
 DA:44,0
 DA:45,0
-DA:46,0
 DA:47,0
 DA:48,0
 DA:49,0
@@ -95,24 +93,25 @@ DA:66,0
 DA:67,0
 DA:68,0
 DA:69,0
+DA:70,0
 DA:71,0
 DA:72,0
-BRDA:27,41,0,0
-BRDA:27,41,1,0
-BRDA:27,83,0,0
-BRDA:27,83,1,0
-BRDA:35,121,0,0
-BRDA:35,121,1,0
-BRDA:44,179,0,0
-BRDA:44,179,1,0
-FN:74,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
+DA:73,0
+BRDA:29,41,0,0
+BRDA:29,41,1,0
+BRDA:29,83,0,0
+BRDA:29,83,1,0
+BRDA:37,121,0,0
+BRDA:37,121,1,0
+BRDA:47,186,0,0
+BRDA:47,186,1,0
+FN:75,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
 FNDA:0,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
-DA:75,0
 DA:76,0
 DA:77,0
 DA:78,0
-DA:80,0
-DA:82,0
+DA:79,0
+DA:81,0
 DA:83,0
 DA:84,0
 DA:85,0
@@ -120,21 +119,25 @@ DA:86,0
 DA:87,0
 DA:88,0
 DA:89,0
-DA:91,0
+DA:90,0
 DA:92,0
 DA:93,0
-BRDA:76,9,0,0
-BRDA:76,9,1,0
-BRDA:80,27,0,0
-BRDA:80,27,1,0
-BRDA:82,65,0,0
-BRDA:82,65,1,0
-FN:16,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+BRDA:77,9,0,0
+BRDA:77,9,1,0
+BRDA:81,27,0,0
+BRDA:81,27,1,0
+BRDA:83,65,0,0
+BRDA:83,65,1,0
+FN:18,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
 FNDA:0,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
-DA:17,0
-DA:18,0
 DA:19,0
-LF:65
+DA:20,0
+DA:21,0
+LF:68
 LH:0
 BRF:14
 BRH:0
@@ -385,8 +388,8 @@ FN:28,System.String api.mapserv.utah.gov.Models.AddressBase::get_InputAddress()
 FNDA:394,System.String api.mapserv.utah.gov.Models.AddressBase::get_InputAddress()
 DA:29,394
 FN:30,System.Nullable`1<System.Int32> api.mapserv.utah.gov.Models.AddressBase::get_HouseNumber()
-FNDA:735,System.Nullable`1<System.Int32> api.mapserv.utah.gov.Models.AddressBase::get_HouseNumber()
-DA:31,735
+FNDA:732,System.Nullable`1<System.Int32> api.mapserv.utah.gov.Models.AddressBase::get_HouseNumber()
+DA:31,732
 FN:32,System.Double api.mapserv.utah.gov.Models.AddressBase::get_Milepost()
 FNDA:177,System.Double api.mapserv.utah.gov.Models.AddressBase::get_Milepost()
 DA:33,177
@@ -394,17 +397,17 @@ FN:34,System.Int32 api.mapserv.utah.gov.Models.AddressBase::get_PoBox()
 FNDA:263,System.Int32 api.mapserv.utah.gov.Models.AddressBase::get_PoBox()
 DA:35,263
 FN:36,api.mapserv.utah.gov.Models.Constants.Direction api.mapserv.utah.gov.Models.AddressBase::get_PrefixDirection()
-FNDA:743,api.mapserv.utah.gov.Models.Constants.Direction api.mapserv.utah.gov.Models.AddressBase::get_PrefixDirection()
-DA:37,743
+FNDA:742,api.mapserv.utah.gov.Models.Constants.Direction api.mapserv.utah.gov.Models.AddressBase::get_PrefixDirection()
+DA:37,742
 FN:38,System.String api.mapserv.utah.gov.Models.AddressBase::get_StreetName()
-FNDA:1075,System.String api.mapserv.utah.gov.Models.AddressBase::get_StreetName()
-DA:39,1075
+FNDA:1041,System.String api.mapserv.utah.gov.Models.AddressBase::get_StreetName()
+DA:39,1041
 FN:40,api.mapserv.utah.gov.Models.Constants.StreetType api.mapserv.utah.gov.Models.AddressBase::get_StreetType()
-FNDA:683,api.mapserv.utah.gov.Models.Constants.StreetType api.mapserv.utah.gov.Models.AddressBase::get_StreetType()
-DA:41,683
+FNDA:682,api.mapserv.utah.gov.Models.Constants.StreetType api.mapserv.utah.gov.Models.AddressBase::get_StreetType()
+DA:41,682
 FN:42,api.mapserv.utah.gov.Models.Constants.Direction api.mapserv.utah.gov.Models.AddressBase::get_SuffixDirection()
-FNDA:652,api.mapserv.utah.gov.Models.Constants.Direction api.mapserv.utah.gov.Models.AddressBase::get_SuffixDirection()
-DA:43,652
+FNDA:651,api.mapserv.utah.gov.Models.Constants.Direction api.mapserv.utah.gov.Models.AddressBase::get_SuffixDirection()
+DA:43,651
 FN:44,System.Int32 api.mapserv.utah.gov.Models.AddressBase::get_Zip4()
 FNDA:181,System.Int32 api.mapserv.utah.gov.Models.AddressBase::get_Zip4()
 DA:45,181
@@ -418,59 +421,59 @@ FN:50,System.Boolean api.mapserv.utah.gov.Models.AddressBase::get_IsPoBox()
 FNDA:565,System.Boolean api.mapserv.utah.gov.Models.AddressBase::get_IsPoBox()
 DA:51,565
 FN:53,System.String api.mapserv.utah.gov.Models.AddressBase::get_ReversalAddress()
-FNDA:68,System.String api.mapserv.utah.gov.Models.AddressBase::get_ReversalAddress()
-DA:54,68
-DA:55,68
-DA:56,68
-DA:58,68
-DA:60,68
-DA:61,68
-DA:63,68
-DA:64,68
+FNDA:67,System.String api.mapserv.utah.gov.Models.AddressBase::get_ReversalAddress()
+DA:54,67
+DA:55,67
+DA:56,67
+DA:58,67
+DA:60,67
+DA:61,67
+DA:63,67
+DA:64,67
 FN:66,System.Boolean api.mapserv.utah.gov.Models.AddressBase::IsNumericStreetName()
-FNDA:60,System.Boolean api.mapserv.utah.gov.Models.AddressBase::IsNumericStreetName()
-DA:67,60
-DA:68,60
+FNDA:51,System.Boolean api.mapserv.utah.gov.Models.AddressBase::IsNumericStreetName()
+DA:67,51
+DA:68,51
 DA:69,0
-DA:72,60
-DA:73,60
+DA:72,51
+DA:73,51
 BRDA:68,14,0,0
-BRDA:68,14,1,60
+BRDA:68,14,1,51
 FN:74,System.Boolean api.mapserv.utah.gov.Models.AddressBase::HasPrefix()
 FNDA:14,System.Boolean api.mapserv.utah.gov.Models.AddressBase::HasPrefix()
 DA:75,14
 FN:76,System.Boolean api.mapserv.utah.gov.Models.AddressBase::IsReversal()
-FNDA:47,System.Boolean api.mapserv.utah.gov.Models.AddressBase::IsReversal()
-DA:77,47
-DA:78,48
+FNDA:38,System.Boolean api.mapserv.utah.gov.Models.AddressBase::IsReversal()
+DA:77,38
+DA:78,39
 DA:79,1
-DA:82,75
-DA:83,29
-DA:86,17
-DA:88,17
-DA:89,47
+DA:82,59
+DA:83,22
+DA:86,15
+DA:88,15
+DA:89,38
 BRDA:78,14,0,1
-BRDA:78,14,1,46
-BRDA:82,32,0,29
-BRDA:82,32,1,17
+BRDA:78,14,1,37
+BRDA:82,32,0,22
+BRDA:82,32,1,15
 FN:90,System.Boolean api.mapserv.utah.gov.Models.AddressBase::PossibleReversal()
-FNDA:29,System.Boolean api.mapserv.utah.gov.Models.AddressBase::PossibleReversal()
-DA:91,29
-DA:92,30
+FNDA:27,System.Boolean api.mapserv.utah.gov.Models.AddressBase::PossibleReversal()
+DA:91,27
+DA:92,28
 DA:93,1
-DA:96,28
-DA:98,37
+DA:96,26
+DA:98,35
 DA:99,9
 DA:100,9
-DA:102,28
-DA:104,28
-DA:105,29
+DA:102,26
+DA:104,26
+DA:105,27
 BRDA:92,14,0,1
-BRDA:92,14,1,28
+BRDA:92,14,1,26
 BRDA:98,41,0,9
-BRDA:98,41,1,28
+BRDA:98,41,1,26
 BRDA:102,67,0,0
-BRDA:102,67,1,28
+BRDA:102,67,1,26
 FN:106,System.Boolean api.mapserv.utah.gov.Models.AddressBase::IsIntersection()
 FNDA:17,System.Boolean api.mapserv.utah.gov.Models.AddressBase::IsIntersection()
 DA:107,17
@@ -632,23 +635,23 @@ FNH:2
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/GeocodeInput.cs
 FN:14,api.mapserv.utah.gov.Models.GeocodeAddress api.mapserv.utah.gov.Models.GeocodeInput::get_AddressInfo()
-FNDA:16,api.mapserv.utah.gov.Models.GeocodeAddress api.mapserv.utah.gov.Models.GeocodeInput::get_AddressInfo()
-DA:15,16
+FNDA:6,api.mapserv.utah.gov.Models.GeocodeAddress api.mapserv.utah.gov.Models.GeocodeInput::get_AddressInfo()
+DA:15,6
 FN:15,System.String api.mapserv.utah.gov.Models.GeocodeInput::get_Address()
-FNDA:15,System.String api.mapserv.utah.gov.Models.GeocodeInput::get_Address()
-DA:16,15
+FNDA:11,System.String api.mapserv.utah.gov.Models.GeocodeInput::get_Address()
+DA:16,11
 FN:16,System.String api.mapserv.utah.gov.Models.GeocodeInput::get_Grid()
-FNDA:17,System.String api.mapserv.utah.gov.Models.GeocodeInput::get_Grid()
-DA:17,17
+FNDA:12,System.String api.mapserv.utah.gov.Models.GeocodeInput::get_Grid()
+DA:17,12
 FN:17,System.Int32 api.mapserv.utah.gov.Models.GeocodeInput::get_Weight()
-FNDA:16,System.Int32 api.mapserv.utah.gov.Models.GeocodeInput::get_Weight()
-DA:18,16
+FNDA:12,System.Int32 api.mapserv.utah.gov.Models.GeocodeInput::get_Weight()
+DA:18,12
 FN:18,api.mapserv.utah.gov.Models.LocatorProperties api.mapserv.utah.gov.Models.GeocodeInput::get_Locator()
 FNDA:5,api.mapserv.utah.gov.Models.LocatorProperties api.mapserv.utah.gov.Models.GeocodeInput::get_Locator()
 DA:19,5
 FN:19,System.Int32 api.mapserv.utah.gov.Models.GeocodeInput::get_WkId()
-FNDA:17,System.Int32 api.mapserv.utah.gov.Models.GeocodeInput::get_WkId()
-DA:20,17
+FNDA:12,System.Int32 api.mapserv.utah.gov.Models.GeocodeInput::get_WkId()
+DA:20,12
 FN:2,System.Void api.mapserv.utah.gov.Models.GeocodeInput::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,System.String,System.Int32,api.mapserv.utah.gov.Models.LocatorProperties,System.Int32)
 FNDA:5,System.Void api.mapserv.utah.gov.Models.GeocodeInput::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,System.String,System.Int32,api.mapserv.utah.gov.Models.LocatorProperties,System.Int32)
 DA:3,5
@@ -670,20 +673,20 @@ FNH:7
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/LocatorProperties.cs
 FN:2,System.String api.mapserv.utah.gov.Models.LocatorProperties::get_Url()
-FNDA:20,System.String api.mapserv.utah.gov.Models.LocatorProperties::get_Url()
-DA:3,20
+FNDA:12,System.String api.mapserv.utah.gov.Models.LocatorProperties::get_Url()
+DA:3,12
 FN:3,System.String api.mapserv.utah.gov.Models.LocatorProperties::get_Name()
-FNDA:16,System.String api.mapserv.utah.gov.Models.LocatorProperties::get_Name()
-DA:4,16
+FNDA:11,System.String api.mapserv.utah.gov.Models.LocatorProperties::get_Name()
+DA:4,11
 FN:4,System.Int32 api.mapserv.utah.gov.Models.LocatorProperties::get_Weight()
-FNDA:11,System.Int32 api.mapserv.utah.gov.Models.LocatorProperties::get_Weight()
-DA:5,11
+FNDA:0,System.Int32 api.mapserv.utah.gov.Models.LocatorProperties::get_Weight()
+DA:5,0
 LF:3
-LH:3
+LH:2
 BRF:0
 BRH:0
 FNF:3
-FNH:3
+FNH:2
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/LocatorResponse.cs
 FN:7,System.Collections.Generic.IList`1<api.mapserv.utah.gov.Models.ArcGis.Candidate> api.mapserv.utah.gov.Models.LocatorResponse::get_Candidates()
@@ -790,8 +793,8 @@ FN:20,System.Int32 api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions::
 FNDA:31,System.Int32 api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions::get_Suggest()
 DA:21,31
 FN:29,api.mapserv.utah.gov.Models.Constants.LocatorType api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions::get_Locators()
-FNDA:33,api.mapserv.utah.gov.Models.Constants.LocatorType api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions::get_Locators()
-DA:30,33
+FNDA:29,api.mapserv.utah.gov.Models.Constants.LocatorType api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions::get_Locators()
+DA:30,29
 FN:38,System.Boolean api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions::get_PoBox()
 FNDA:24,System.Boolean api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions::get_PoBox()
 DA:39,24
@@ -953,64 +956,132 @@ FNF:6
 FNH:6
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/Configuration/GeometryServiceConfiguration.cs
-FN:4,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::get_Protocol()
-FNDA:11,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::get_Protocol()
-DA:5,11
-FN:5,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::get_Host()
-FNDA:11,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::get_Host()
-DA:6,11
-FN:6,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::get_Port()
-FNDA:12,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::get_Port()
-DA:7,12
-FN:7,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::get_Path()
+FN:4,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::get_Path()
 FNDA:11,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::get_Path()
-DA:8,11
-FN:9,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::ToString()
-FNDA:4,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::ToString()
+DA:5,11
+FN:6,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::Url()
+FNDA:4,System.String api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration::Url()
+DA:7,4
+DA:8,4
 DA:10,4
 DA:11,4
-DA:13,5
-DA:14,1
-DA:15,1
-DA:17,4
-DA:19,4
-DA:20,4
-BRDA:13,26,0,1
-BRDA:13,26,1,4
-LF:12
-LH:12
-BRF:2
-BRH:2
-FNF:5
-FNH:5
+LF:5
+LH:5
+BRF:0
+BRH:0
+FNF:2
+FNH:2
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/Configuration/GisServerConfiguration.cs
-FN:2,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Protocol()
-FNDA:28,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Protocol()
-DA:3,28
-FN:3,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Host()
-FNDA:28,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Host()
-DA:4,28
-FN:4,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Port()
-FNDA:35,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::get_Port()
-DA:5,35
-FN:6,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::ToString()
-FNDA:9,System.String api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration::ToString()
-DA:7,9
-DA:8,9
-DA:10,16
-DA:11,7
-DA:12,7
-DA:14,9
-DA:15,9
-BRDA:10,26,0,7
-BRDA:10,26,1,9
+FN:2,System.String api.mapserv.utah.gov.Models.Configuration.UrlConfigurationBase::get_Protocol()
+FNDA:51,System.String api.mapserv.utah.gov.Models.Configuration.UrlConfigurationBase::get_Protocol()
+DA:3,51
+FN:3,System.String api.mapserv.utah.gov.Models.Configuration.UrlConfigurationBase::get_Host()
+FNDA:51,System.String api.mapserv.utah.gov.Models.Configuration.UrlConfigurationBase::get_Host()
+DA:4,51
+FN:4,System.String api.mapserv.utah.gov.Models.Configuration.UrlConfigurationBase::get_Port()
+FNDA:61,System.String api.mapserv.utah.gov.Models.Configuration.UrlConfigurationBase::get_Port()
+DA:5,61
+FN:6,System.String api.mapserv.utah.gov.Models.Configuration.UrlConfigurationBase::GetHost()
+FNDA:15,System.String api.mapserv.utah.gov.Models.Configuration.UrlConfigurationBase::GetHost()
+DA:7,15
+DA:8,15
+DA:10,25
+DA:11,10
+DA:12,10
+DA:14,15
+DA:15,15
+BRDA:10,26,0,10
+BRDA:10,26,1,15
 LF:10
 LH:10
 BRF:2
 BRH:2
 FNF:4
 FNH:4
+end_of_record
+SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/Configuration/LocatorConfiguration.cs
+FN:6,System.String api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_DisplayName()
+FNDA:17,System.String api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_DisplayName()
+DA:7,17
+FN:7,System.String api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_ServiceName()
+FNDA:17,System.String api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_ServiceName()
+DA:8,17
+FN:8,System.Boolean api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_ReverseGeocodes()
+FNDA:0,System.Boolean api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_ReverseGeocodes()
+DA:9,0
+FN:9,api.mapserv.utah.gov.Models.Constants.LocatorType api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_LocatorType()
+FNDA:26,api.mapserv.utah.gov.Models.Constants.LocatorType api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_LocatorType()
+DA:10,26
+FN:10,System.Int32 api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_Weight()
+FNDA:13,System.Int32 api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_Weight()
+DA:11,13
+FN:11,System.String api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_PathToLocator()
+FNDA:20,System.String api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::get_PathToLocator()
+DA:12,20
+FN:19,System.String api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::Url()
+FNDA:7,System.String api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::Url()
+DA:20,7
+DA:21,7
+DA:23,7
+DA:24,7
+FN:25,api.mapserv.utah.gov.Models.LocatorProperties api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::ToLocatorProperty(api.mapserv.utah.gov.Models.GeocodeInput,System.Func`2<api.mapserv.utah.gov.Models.GeocodeInput,System.String>)
+FNDA:7,api.mapserv.utah.gov.Models.LocatorProperties api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::ToLocatorProperty(api.mapserv.utah.gov.Models.GeocodeInput,System.Func`2<api.mapserv.utah.gov.Models.GeocodeInput,System.String>)
+DA:26,7
+DA:27,7
+DA:28,7
+FN:29,api.mapserv.utah.gov.Models.LocatorProperties api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::ToLocatorPropertyBase(System.String,System.Int32,System.Object[])
+FNDA:7,api.mapserv.utah.gov.Models.LocatorProperties api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration::ToLocatorPropertyBase(System.String,System.Int32,System.Object[])
+DA:30,7
+DA:31,7
+DA:32,7
+DA:34,7
+DA:35,7
+DA:36,7
+DA:37,7
+DA:38,7
+LF:21
+LH:20
+BRF:0
+BRH:0
+FNF:9
+FNH:8
+end_of_record
+SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/Configuration/ReverseLocatorConfiguration.cs
+FN:6,System.String api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::get_DisplayName()
+FNDA:3,System.String api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::get_DisplayName()
+DA:7,3
+FN:7,System.String api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::get_ServiceName()
+FNDA:3,System.String api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::get_ServiceName()
+DA:8,3
+FN:8,System.Boolean api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::get_ReverseGeocodes()
+FNDA:4,System.Boolean api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::get_ReverseGeocodes()
+DA:9,4
+FN:9,System.String api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::get_PathToLocator()
+FNDA:3,System.String api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::get_PathToLocator()
+DA:10,3
+FN:14,System.String api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::Url()
+FNDA:1,System.String api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::Url()
+DA:15,1
+DA:16,1
+DA:18,1
+DA:19,1
+FN:20,api.mapserv.utah.gov.Models.LocatorProperties api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::ToLocatorProperty(System.Double,System.Double,System.Double,System.Int32)
+FNDA:1,api.mapserv.utah.gov.Models.LocatorProperties api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration::ToLocatorProperty(System.Double,System.Double,System.Double,System.Int32)
+DA:21,1
+DA:22,1
+DA:23,1
+DA:25,1
+DA:26,1
+DA:27,1
+DA:28,1
+DA:29,1
+LF:16
+LH:16
+BRF:0
+BRH:0
+FNF:6
+FNH:6
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/ArcGis/Candidate.cs
 FN:10,System.String api.mapserv.utah.gov.Models.ArcGis.Candidate::get_Address()
@@ -1059,6 +1130,17 @@ BRF:4
 BRH:4
 FNF:9
 FNH:8
+end_of_record
+SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/ArcGis/GeometryServiceInformation.cs
+FN:2,System.String api.mapserv.utah.gov.Models.ArcGis.GeometryServiceInformation::get_ServiceDescription()
+FNDA:0,System.String api.mapserv.utah.gov.Models.ArcGis.GeometryServiceInformation::get_ServiceDescription()
+DA:3,0
+LF:1
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Models/ArcGis/LocatorServiceStatus.cs
 FN:5,System.Int32 api.mapserv.utah.gov.Models.ArcGis.LocatorServiceStatus::get_Code()
@@ -1555,83 +1637,149 @@ BRH:12
 FNF:2
 FNH:2
 end_of_record
-SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Features/Health/CanaryController.cs
-FN:18,Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.DatabaseConfiguration> api.mapserv.utah.gov.Features.Monitoring.CanaryController::get_DbOptions()
-FNDA:0,Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.DatabaseConfiguration> api.mapserv.utah.gov.Features.Monitoring.CanaryController::get_DbOptions()
+SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Features/Health/CacheHealthCheck.cs
+FN:10,System.String api.mapserv.utah.gov.Features.Health.CacheHealthCheck::get_Name()
+FNDA:0,System.String api.mapserv.utah.gov.Features.Health.CacheHealthCheck::get_Name()
+DA:11,0
+FN:12,System.Threading.Tasks.Task`1<Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult> api.mapserv.utah.gov.Features.Health.CacheHealthCheck::CheckHealthAsync(System.Threading.CancellationToken)
+FNDA:0,System.Threading.Tasks.Task`1<Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult> api.mapserv.utah.gov.Features.Health.CacheHealthCheck::CheckHealthAsync(System.Threading.CancellationToken)
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
 DA:19,0
-FN:22,Microsoft.AspNetCore.Mvc.ObjectResult api.mapserv.utah.gov.Features.Monitoring.CanaryController::Index()
-FNDA:0,Microsoft.AspNetCore.Mvc.ObjectResult api.mapserv.utah.gov.Features.Monitoring.CanaryController::Index()
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+LF:17
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Features/Health/GeometryServiceHealthCheck.cs
+FN:26,System.String api.mapserv.utah.gov.Features.Health.GeometryServiceHealthCheck::get_Name()
+FNDA:0,System.String api.mapserv.utah.gov.Features.Health.GeometryServiceHealthCheck::get_Name()
+DA:27,0
+FN:19,System.Void api.mapserv.utah.gov.Features.Health.GeometryServiceHealthCheck::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration>,System.Net.Http.IHttpClientFactory)
+FNDA:0,System.Void api.mapserv.utah.gov.Features.Health.GeometryServiceHealthCheck::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.GeometryServiceConfiguration>,System.Net.Http.IHttpClientFactory)
+DA:20,0
+DA:21,0
+DA:22,0
 DA:23,0
 DA:24,0
 DA:25,0
 DA:26,0
-FN:27,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController::CheckDb()
-FNDA:0,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController::CheckDb()
+FN:28,System.Void api.mapserv.utah.gov.Features.Health.GeometryServiceHealthCheck/<CheckHealthAsync>d__6::MoveNext()
+FNDA:0,System.Void api.mapserv.utah.gov.Features.Health.GeometryServiceHealthCheck/<CheckHealthAsync>d__6::MoveNext()
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+BRDA:30,29,0,0
+BRDA:30,35,0,0
+BRDA:32,87,0,0
+BRDA:30,29,1,0
+BRDA:32,87,1,0
+BRDA:33,229,0,0
+BRDA:30,35,1,0
+BRDA:33,229,1,0
+BRDA:35,350,0,0
+BRDA:35,350,1,0
+LF:25
+LH:0
+BRF:10
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Features/Health/HealthCheckResponseWriter.cs
+FN:8,System.Threading.Tasks.Task api.mapserv.utah.gov.Features.Health.HealthCheckResponseWriter::WriteDetailsJson(Microsoft.AspNetCore.Http.HttpContext,Microsoft.Extensions.Diagnostics.HealthChecks.CompositeHealthCheckResult)
+FNDA:0,System.Threading.Tasks.Task api.mapserv.utah.gov.Features.Health.HealthCheckResponseWriter::WriteDetailsJson(Microsoft.AspNetCore.Http.HttpContext,Microsoft.Extensions.Diagnostics.HealthChecks.CompositeHealthCheckResult)
+DA:9,0
+DA:10,0
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+BRDA:12,50,0,0
+BRDA:12,50,1,0
+LF:16
+LH:0
+BRF:2
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Features/Health/KeyStoreHealthCheck.cs
+FN:18,System.String api.mapserv.utah.gov.Features.Health.KeyStoreHealthCheck::get_Name()
+FNDA:0,System.String api.mapserv.utah.gov.Features.Health.KeyStoreHealthCheck::get_Name()
+DA:19,0
+FN:20,System.Threading.Tasks.Task`1<Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult> api.mapserv.utah.gov.Features.Health.KeyStoreHealthCheck::CheckHealthAsync(System.Threading.CancellationToken)
+FNDA:0,System.Threading.Tasks.Task`1<Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult> api.mapserv.utah.gov.Features.Health.KeyStoreHealthCheck::CheckHealthAsync(System.Threading.CancellationToken)
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:27,0
 DA:28,0
 DA:29,0
 DA:30,0
 DA:31,0
 DA:32,0
+DA:33,0
 DA:34,0
 DA:35,0
 DA:36,0
 DA:37,0
-DA:38,0
-DA:39,0
 DA:40,0
 DA:41,0
 DA:42,0
 DA:43,0
-DA:44,0
-DA:45,0
-DA:48,0
-DA:49,0
-DA:50,0
-DA:51,0
-DA:52,0
-FN:53,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController::CheckCache()
-FNDA:0,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController::CheckCache()
-DA:54,0
-DA:55,0
-DA:56,0
-DA:57,0
-DA:58,0
-DA:60,0
-DA:61,0
-DA:62,0
-DA:63,0
-DA:64,0
-DA:65,0
-DA:66,0
-DA:67,0
-DA:70,0
-DA:71,0
-DA:72,0
-DA:73,0
-DA:74,0
-FN:14,System.Void api.mapserv.utah.gov.Features.Monitoring.CanaryController::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.DatabaseConfiguration>)
-FNDA:8,System.Void api.mapserv.utah.gov.Features.Monitoring.CanaryController::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.DatabaseConfiguration>)
-DA:15,8
-DA:16,4
-DA:17,4
-FN:76,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController/CanaryResult::get_Sql()
-FNDA:0,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController/CanaryResult::get_Sql()
-DA:77,0
-FN:77,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController/CanaryResult::get_Cache()
-FNDA:0,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController/CanaryResult::get_Cache()
-DA:78,0
-FN:78,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController/CanaryResult::get_Db()
-FNDA:0,System.Object api.mapserv.utah.gov.Features.Monitoring.CanaryController/CanaryResult::get_Db()
-DA:79,0
-FN:79,System.Collections.Generic.Dictionary`2<System.String,System.Object> api.mapserv.utah.gov.Features.Monitoring.CanaryController/CanaryResult::get_Locators()
-FNDA:0,System.Collections.Generic.Dictionary`2<System.String,System.Object> api.mapserv.utah.gov.Features.Monitoring.CanaryController/CanaryResult::get_Locators()
-DA:80,0
-LF:52
-LH:3
+FN:15,System.Void api.mapserv.utah.gov.Features.Health.KeyStoreHealthCheck::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.DatabaseConfiguration>)
+FNDA:0,System.Void api.mapserv.utah.gov.Features.Health.KeyStoreHealthCheck::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.DatabaseConfiguration>)
+DA:16,0
+DA:17,0
+DA:18,0
+LF:24
+LH:0
 BRF:0
 BRH:0
-FNF:9
-FNH:1
+FNF:3
+FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Features/GeometryService/Reproject.cs
 FN:22,System.String api.mapserv.utah.gov.Features.GeometryService.Reproject/Command::get_ReprojectUrl()
@@ -2713,28 +2861,26 @@ DA:243,0
 DA:244,0
 DA:248,0
 DA:250,0
-DA:252,0
+DA:251,0
+DA:253,0
 DA:254,0
 DA:255,0
+DA:256,0
 DA:257,0
-DA:258,0
-DA:259,0
 DA:260,0
-DA:261,0
+DA:262,0
+DA:263,0
 DA:264,0
+DA:265,0
 DA:266,0
 DA:267,0
-DA:268,0
 DA:269,0
 DA:270,0
 DA:271,0
+DA:272,0
 DA:273,0
 DA:274,0
-DA:275,0
 DA:276,0
-DA:277,0
-DA:278,0
-DA:280,0
 BRDA:211,89,0,0
 BRDA:214,196,0,0
 BRDA:214,196,1,0
@@ -2745,19 +2891,19 @@ BRDA:216,337,1,0
 BRDA:229,472,0,0
 BRDA:229,472,1,0
 BRDA:211,89,1,0
-BRDA:236,589,0,0
-BRDA:236,589,1,0
-BRDA:238,699,0,0
-BRDA:238,699,1,0
-BRDA:238,722,0,0
-BRDA:238,722,1,0
-BRDA:252,973,0,0
-BRDA:255,1026,0,0
-BRDA:252,973,1,0
-BRDA:255,1026,1,0
-BRDA:257,1143,0,0
-BRDA:257,1143,1,0
-LF:148
+BRDA:236,623,0,0
+BRDA:236,623,1,0
+BRDA:238,733,0,0
+BRDA:238,733,1,0
+BRDA:238,756,0,0
+BRDA:238,756,1,0
+BRDA:248,895,0,0
+BRDA:251,948,0,0
+BRDA:248,895,1,0
+BRDA:251,948,1,0
+BRDA:253,1065,0,0
+BRDA:253,1065,1,0
+LF:146
 LH:0
 BRF:78
 BRH:0
@@ -2765,196 +2911,133 @@ FNF:5
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Features/Geocoding/LocatorsForGeocode.cs
-FN:18,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
+FN:19,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
 FNDA:12,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
-DA:19,12
-DA:20,6
+DA:20,12
 DA:21,6
 DA:22,6
-FN:34,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::BuildAddressPermutations(api.mapserv.utah.gov.Models.GeocodeAddress,System.Int32)
+DA:23,6
+FN:35,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::BuildAddressPermutations(api.mapserv.utah.gov.Models.GeocodeAddress,System.Int32)
 FNDA:6,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::BuildAddressPermutations(api.mapserv.utah.gov.Models.GeocodeAddress,System.Int32)
-DA:35,6
 DA:36,6
-DA:38,7
-DA:39,1
-DA:42,30
-DA:43,5
+DA:37,6
+DA:39,7
+DA:40,1
+DA:43,30
 DA:44,5
-DA:46,5
-DA:47,6
-BRDA:38,23,0,1
-BRDA:38,23,1,5
-BRDA:42,94,1,5
-BRDA:42,94,0,5
-FN:49,System.Collections.Generic.Dictionary`2<api.mapserv.utah.gov.Models.Constants.LocatorType,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties>> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::BuildLocatorLookup(api.mapserv.utah.gov.Models.GeocodeAddress,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>)
-FNDA:6,System.Collections.Generic.Dictionary`2<api.mapserv.utah.gov.Models.Constants.LocatorType,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties>> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::BuildLocatorLookup(api.mapserv.utah.gov.Models.GeocodeAddress,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>)
-DA:50,6
+DA:45,5
+DA:47,5
+DA:48,6
+BRDA:39,23,0,1
+BRDA:39,23,1,5
+BRDA:43,94,1,5
+BRDA:43,94,0,5
+FN:50,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::BuildLocatorLookup(api.mapserv.utah.gov.Models.GeocodeAddress,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>,api.mapserv.utah.gov.Models.Constants.LocatorType)
+FNDA:6,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::BuildLocatorLookup(api.mapserv.utah.gov.Models.GeocodeAddress,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>,api.mapserv.utah.gov.Models.Constants.LocatorType)
 DA:51,6
-DA:53,6
-DA:55,6
-DA:56,6
-DA:57,6
-DA:58,6
-DA:59,6
-DA:61,6
-DA:63,6
-DA:64,6
-FN:73,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Add(System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties>,System.Collections.Generic.Dictionary`2<api.mapserv.utah.gov.Models.Constants.LocatorType,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties>>&,api.mapserv.utah.gov.Models.Constants.LocatorType)
-FNDA:24,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Add(System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties>,System.Collections.Generic.Dictionary`2<api.mapserv.utah.gov.Models.Constants.LocatorType,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties>>&,api.mapserv.utah.gov.Models.Constants.LocatorType)
-DA:74,24
-DA:75,24
-DA:76,0
-DA:79,24
-DA:81,37
-DA:82,13
-DA:85,21
-DA:86,10
-DA:87,11
-DA:88,1
-DA:89,1
-DA:90,24
-BRDA:75,7,0,0
-BRDA:75,7,1,24
-BRDA:81,31,0,13
-BRDA:81,31,1,11
-BRDA:85,49,0,10
-BRDA:85,49,1,1
-FN:92,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Centerlines(System.Boolean,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>)
-FNDA:6,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Centerlines(System.Boolean,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>)
-DA:93,6
-DA:94,6
-DA:96,7
-DA:97,2
-DA:98,2
-DA:99,2
-DA:100,2
-DA:101,2
-DA:102,2
-DA:103,2
-DA:105,1
-DA:108,9
-DA:109,9
-DA:110,9
-DA:111,9
-DA:112,9
-DA:113,9
-DA:114,9
-DA:116,5
-DA:117,6
-BRDA:96,10,0,1
-BRDA:96,10,1,5
-FN:119,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::AddressPoints(System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>)
-FNDA:6,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::AddressPoints(System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>)
-DA:120,6
-DA:121,6
-DA:123,33
-DA:124,6
-DA:125,1
-DA:126,1
-DA:127,1
-DA:128,1
-DA:129,1
-DA:130,1
-DA:131,1
-DA:132,1
-DA:134,5
-DA:135,5
-DA:136,5
-DA:137,5
-DA:138,5
-DA:139,5
-DA:140,5
-DA:141,5
-DA:143,6
-DA:144,6
-BRDA:123,269,1,5
-BRDA:124,39,0,4
-BRDA:124,39,1,1
-BRDA:124,57,0,1
-BRDA:124,57,1,5
-BRDA:123,269,0,6
-FN:151,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Reversal(System.Boolean,System.Boolean,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>)
-FNDA:6,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Reversal(System.Boolean,System.Boolean,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>)
-DA:152,6
-DA:153,11
-DA:154,5
-DA:157,2
-DA:158,2
-DA:159,2
-DA:160,2
-DA:161,2
-DA:162,1
-DA:163,6
-BRDA:153,2,0,5
-BRDA:153,2,1,1
-BRDA:153,13,0,5
-BRDA:153,13,1,1
-FN:169,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Intersection()
-FNDA:6,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Intersection()
-DA:170,6
-FN:171,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Command)
+DA:52,6
+DA:54,6
+DA:56,8
+DA:57,2
+DA:58,2
+DA:59,2
+DA:61,2
+DA:62,2
+DA:63,2
+DA:65,2
+DA:68,4
+DA:69,4
+DA:70,4
+DA:72,4
+DA:74,4
+DA:75,6
+BRDA:56,26,0,5
+BRDA:56,26,1,1
+BRDA:56,37,0,2
+BRDA:56,37,1,4
+FN:77,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::LocatorProperties(System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>,System.Boolean,System.Boolean,api.mapserv.utah.gov.Models.Constants.LocatorType)
+FNDA:8,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::LocatorProperties(System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.GeocodeInput>,System.Boolean,System.Boolean,api.mapserv.utah.gov.Models.Constants.LocatorType)
+DA:78,8
+DA:79,8
+DA:80,24
+DA:82,9
+DA:83,6
+DA:84,3
+DA:85,1
+DA:87,1
+DA:90,7
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:96,42
+DA:97,19
+DA:98,7
+DA:100,7
+DA:101,8
+BRDA:82,48,0,1
+BRDA:83,118,1,1
+BRDA:83,118,0,1
+BRDA:82,48,1,7
+BRDA:90,148,0,0
+BRDA:91,218,1,0
+BRDA:91,218,0,0
+BRDA:90,148,1,7
+BRDA:96,303,1,7
+BRDA:96,303,0,7
+FN:102,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Command)
 FNDA:6,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Command)
-DA:172,6
-DA:173,6
-DA:174,6
-DA:176,6
-DA:179,6
-DA:181,1
-DA:182,0
-DA:185,1
-DA:187,4
-DA:188,1
-DA:191,2
-DA:193,0
-DA:194,0
-DA:195,0
-DA:198,1
-DA:199,6
-BRDA:176,51,1,2
-BRDA:176,51,2,2
-BRDA:179,89,0,1
-BRDA:179,89,1,2
-BRDA:176,51,3,1
-BRDA:181,159,0,0
-BRDA:181,159,1,1
-BRDA:176,51,4,3
-BRDA:187,208,0,1
-BRDA:187,208,1,2
-BRDA:176,51,0,0
-FN:28,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration>,Serilog.ILogger)
-FNDA:10,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration>,Serilog.ILogger)
-DA:29,10
-DA:30,5
+DA:103,6
+DA:104,6
+DA:106,6
+DA:107,6
+FN:29,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::.ctor(Microsoft.Extensions.Options.IOptions`1<System.Collections.Generic.List`1<api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration>>,Serilog.ILogger)
+FNDA:10,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForGeocode/Handler::.ctor(Microsoft.Extensions.Options.IOptions`1<System.Collections.Generic.List`1<api.mapserv.utah.gov.Models.Configuration.LocatorConfiguration>>,Serilog.ILogger)
+DA:30,10
 DA:31,5
 DA:32,5
-LF:109
-LH:104
-BRF:33
-BRH:30
-FNF:10
-FNH:10
+DA:33,5
+LF:56
+LH:52
+BRF:24
+BRH:19
+FNF:6
+FNH:6
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Features/Geocoding/LocatorsForReverseLookup.cs
-FN:18,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Command)
-FNDA:1,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Command)
+FN:15,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Command::.ctor(System.Double,System.Double,System.Double,System.Int32)
+FNDA:2,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Command::.ctor(System.Double,System.Double,System.Double,System.Int32)
+DA:16,2
+DA:17,1
+DA:18,1
 DA:19,1
 DA:20,1
 DA:21,1
-DA:22,1
-DA:23,1
-DA:24,1
-DA:25,1
-FN:14,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Handler::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration>)
-FNDA:2,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Handler::.ctor(Microsoft.Extensions.Options.IOptions`1<api.mapserv.utah.gov.Models.Configuration.GisServerConfiguration>)
-DA:15,2
-DA:16,1
-DA:17,1
-LF:10
-LH:10
-BRF:0
-BRH:0
-FNF:2
-FNH:2
+FN:30,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Command)
+FNDA:1,System.Collections.Generic.IReadOnlyCollection`1<api.mapserv.utah.gov.Models.LocatorProperties> api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Command)
+DA:31,1
+DA:32,3
+DA:33,1
+DA:35,6
+DA:36,1
+DA:37,1
+DA:39,1
+DA:40,1
+BRDA:32,13,0,1
+BRDA:32,13,1,1
+BRDA:35,112,1,1
+BRDA:35,112,0,1
+FN:26,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Handler::.ctor(Microsoft.Extensions.Options.IOptions`1<System.Collections.Generic.List`1<api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration>>)
+FNDA:4,System.Void api.mapserv.utah.gov.Features.Geocoding.LocatorsForReverseLookup/Handler::.ctor(Microsoft.Extensions.Options.IOptions`1<System.Collections.Generic.List`1<api.mapserv.utah.gov.Models.Configuration.ReverseLocatorConfiguration>>)
+DA:27,4
+DA:28,2
+DA:29,2
+LF:17
+LH:17
+BRF:4
+BRH:4
+FNF:3
+FNH:3
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Features/Geocoding/PoBoxLocation.cs
 FN:18,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
@@ -3437,18 +3520,15 @@ FNF:1
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/api.mapserv.utah.gov/Extensions/ServiceCollectionExtensions.cs
-FN:18,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
+FN:21,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
 FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
-DA:19,0
-DA:20,0
-DA:21,0
 DA:22,0
 DA:23,0
-FN:24,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
-FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+DA:24,0
 DA:25,0
 DA:26,0
-DA:27,0
+FN:27,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
 DA:28,0
 DA:29,0
 DA:30,0
@@ -3456,9 +3536,9 @@ DA:31,0
 DA:32,0
 DA:33,0
 DA:34,0
+DA:35,0
 DA:36,0
 DA:37,0
-DA:38,0
 DA:39,0
 DA:40,0
 DA:41,0
@@ -3472,13 +3552,19 @@ DA:48,0
 DA:49,0
 DA:50,0
 DA:51,0
-BRDA:26,13,0,0
-BRDA:26,13,1,0
-BRDA:26,49,0,0
-BRDA:26,49,1,0
-BRDA:45,150,0,0
-BRDA:45,150,1,0
-LF:31
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+BRDA:29,13,0,0
+BRDA:29,13,1,0
+BRDA:29,49,0,0
+BRDA:29,49,1,0
+BRDA:48,150,0,0
+BRDA:48,150,1,0
+LF:34
 LH:0
 BRF:8
 BRH:0

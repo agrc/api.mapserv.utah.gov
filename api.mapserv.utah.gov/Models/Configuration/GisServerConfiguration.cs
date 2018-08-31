@@ -1,10 +1,10 @@
 namespace api.mapserv.utah.gov.Models.Configuration {
-    public class GisServerConfiguration {
-        public string Protocol { get; set; } = "http";
-        public string Host { get; set; } = "localhost";
-        public string Port { get; set; } = "80";
+    public abstract class UrlConfigurationBase {
+        public virtual string Protocol { get; set; } = "http";
+        public virtual string Host { get; set; } = "localhost";
+        public virtual string Port { get; set; } = "80";
 
-        public override string ToString() {
+        public virtual string GetHost() {
             var host = Host;
 
             if (Port != "80") {
@@ -13,5 +13,7 @@ namespace api.mapserv.utah.gov.Models.Configuration {
 
             return $"{Protocol}://{host}";
         }
+
+        public abstract string Url();
     }
 }

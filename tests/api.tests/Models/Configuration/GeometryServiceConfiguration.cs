@@ -13,7 +13,7 @@ namespace api.tests.Models.Configuration {
                 Protocol = "protocol"
             };
 
-            model.ToString().ShouldBe("protocol://host:1/path/project{0}");
+            model.Url().ShouldBe("protocol://host:1/path/project{0}");
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace api.tests.Models.Configuration {
                 Protocol = "protocol"
             };
 
-            model.ToString().ShouldBe("protocol://host/path/project{0}");
+            model.Url().ShouldBe("protocol://host/path/project{0}");
         }
 
         [Fact]
@@ -37,14 +37,14 @@ namespace api.tests.Models.Configuration {
                 Protocol = "protocol"
             };
 
-            model.ToString().ShouldBe("protocol://host/path/project{0}");
+            model.Url().ShouldBe("protocol://host/path/project{0}");
         }
 
         [Fact]
         public void Should_set_good_default() {
             var model = new GeometryServiceConfiguration();
 
-            model.ToString().ShouldBe("http://localhost/arcgis/rest/services/Geometry/GeometryServer/project{0}");
+            model.Url().ShouldBe("http://localhost/arcgis/rest/services/Geometry/GeometryServer/project{0}");
         }
     }
 }
