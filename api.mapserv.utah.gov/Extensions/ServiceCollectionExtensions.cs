@@ -20,7 +20,7 @@ using static api.mapserv.utah.gov.Features.Geocoding.DoubleAvenuesException;
 namespace api.mapserv.utah.gov.Extensions {
     public static class ServiceCollectionExtensions {
         public static void UseOptions(this IServiceCollection services, IConfiguration config) {
-            services.Configure<IReadOnlyCollection<LocatorConfiguration>>(config.GetSection("locators"));
+            services.Configure<List<LocatorConfiguration>>(config.GetSection("webapi:locators"));
             services.Configure<GeometryServiceConfiguration>(config.GetSection("webapi:arcgis"));
             services.Configure<DatabaseConfiguration>(config.GetSection("webapi:database"));
         }
