@@ -54,6 +54,7 @@ namespace api.mapserv.utah.gov.Extensions {
             services.AddSingleton<IHealthCheck, CacheHealthCheck>();
             services.AddSingleton<IHealthCheck, KeyStoreHealthCheck>();
             services.AddSingleton<IHealthCheck, GeometryServiceHealthCheck>();
+            services.AddSingleton<IHealthCheck, LocatorHealthCheck>();
         }
     }
 }
