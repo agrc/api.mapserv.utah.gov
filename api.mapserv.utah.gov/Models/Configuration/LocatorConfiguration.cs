@@ -3,7 +3,7 @@ using System.Net;
 using api.mapserv.utah.gov.Models.Constants;
 
 namespace api.mapserv.utah.gov.Models.Configuration {
-    public class LocatorConfiguration : UrlConfigurationBase {
+    public class LocatorConfiguration : GisServerConfigurationBase {
         public string DisplayName { get; set; }
         public string ServiceName { get; set; }
         public bool ReverseGeocodes { get; set; }
@@ -11,20 +11,18 @@ namespace api.mapserv.utah.gov.Models.Configuration {
         public int Weight { get; set; } = 0;
         public string PathToLocator { get; set; } = "/arcgis/rest/services/Geolocators/";
 
-        private const string FindCandidateTemplate = "{0}/GeocodeServer/findAddressCandidates?f=json" +
+        private const string Template = "{0}/GeocodeServer/findAddressCandidates?f=json" +
                                         "&Street={1}" +
                                         "&City={2}" +
                                         "&outSR={3}";
-        private const string ReverseTemplate = "/GeocodeServer/reverseGeocode?f=json" +
-                                               "location={0},{1}&distance={2}&outSR={3}";
         public override string Url() {
             var host = base.GetHost();
 
             return $"{host}{PathToLocator}";
         }
 
-        public LocatorProperties ToLocatorProperty(GeocodeInput address, Func<GeocodeInput, string> addressChooser) {
-            return ToLocatorPropertyBase(FindCandidateTemplate, address.Weight, ServiceName, WebUtility.UrlEncode(addressChooser(address)), address.Grid, address.WkId);
+        public LocatorProperties ToLocatorProperty(GeocodeInput address, Func<GeocodeInput, string> addressResolver) {
+            return ToLocatorPropertyBase(Template, address.Weight, ServiceName, WebUtility.UrlEncode(addressResolver(address)), address.Grid, address.WkId);
         }
 
         private LocatorProperties ToLocatorPropertyBase(string template, int weight, params object[] args) {

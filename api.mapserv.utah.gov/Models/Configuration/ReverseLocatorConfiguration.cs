@@ -3,7 +3,7 @@ using System.Net;
 using api.mapserv.utah.gov.Models.Constants;
 
 namespace api.mapserv.utah.gov.Models.Configuration {
-    public class ReverseLocatorConfiguration : UrlConfigurationBase {
+    public class ReverseLocatorConfiguration : GisServerConfigurationBase {
         public string DisplayName { get; set; }
         public string ServiceName { get; set; }
         public bool ReverseGeocodes { get; set; }
