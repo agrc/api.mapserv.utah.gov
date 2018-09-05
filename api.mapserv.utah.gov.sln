@@ -3,18 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.mapserv.utah.gov", "api.mapserv.utah.gov\api.mapserv.utah.gov.csproj", "{C406CB16-AB93-4085-979D-CFB86E1AEEA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.mapserv.utah.gov", "src\api\api.mapserv.utah.gov.csproj", "{C406CB16-AB93-4085-979D-CFB86E1AEEA4}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AC39638E-9B57-4A02-8443-C4B8AD8A4B18}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "developer.mapserv.utah.gov", "developer.mapserv.utah.gov\developer.mapserv.utah.gov.csproj", "{0B7AFF17-6105-4F8C-A65E-F3D4D809B21A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "developer.mapserv.utah.gov", "src\developer\developer.mapserv.utah.gov.csproj", "{0B7AFF17-6105-4F8C-A65E-F3D4D809B21A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{062A35B6-8B1E-4BBF-8241-1D5E14C570A7}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.tests", "tests\api.tests\api.tests.csproj", "{38B5BD78-0570-4BE8-8413-BE98AA795F0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.tests", "test\api.unit.tests\api.tests.csproj", "{38B5BD78-0570-4BE8-8413-BE98AA795F0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

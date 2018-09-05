@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/api.mapserv.utah.gov/api.mapserv.utah.gov.csproj"
+                "${workspaceFolder}/src/api/api.mapserv.utah.gov.csproj"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "test",
-                "${workspaceFolder}/tests/api.tests/api.tests.csproj"
+                "${workspaceFolder}/test/api.unit.tests/api.tests.csproj"
             ],
             "problemMatcher": "$msCompile",
             "group": {
@@ -34,7 +34,7 @@
                 "/p:CollectCoverage=true",
                 "/p:CoverletOutputFormat=lcov",
                 "/p:CoverletOutput=../../lcov.info",
-                "${workspaceFolder}/tests/api.tests/api.tests.csproj"
+                "${workspaceFolder}/test/api.unit.tests/api.tests.csproj"
             ],
             "problemMatcher": "$msCompile",
             "group": {

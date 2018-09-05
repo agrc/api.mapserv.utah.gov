@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/api.mapserv.utah.gov/bin/Debug/netcoreapp2.2/api.mapserv.utah.gov.dll",
+            "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp2.2/api.mapserv.utah.gov.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/api.mapserv.utah.gov",
+            "cwd": "${workspaceFolder}/src/api",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {

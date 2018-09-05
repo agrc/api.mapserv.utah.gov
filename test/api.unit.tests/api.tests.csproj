@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\api.mapserv.utah.gov\api.mapserv.utah.gov.csproj" />
+    <ProjectReference Include="..\..\src\api\api.mapserv.utah.gov.csproj" />
   </ItemGroup>
 
 </Project>
