@@ -5,19 +5,19 @@ services:
   api:
     build:
       context: .
-      dockerfile: api.mapserv.utah.gov/Dockerfile
+      dockerfile: src/api/Dockerfile
     image: webapi/api
 
   developer:
     build:
       context: .
-      dockerfile: developer.mapserv.utah.gov/Dockerfile
+      dockerfile: src/developer/Dockerfile
     image: webapi/developer
 
   db:
     build:
       context: .
-      dockerfile: pgdata/Dockerfile
+      dockerfile: data/pg/Dockerfile
     image: webapi/db
 
   cache:
