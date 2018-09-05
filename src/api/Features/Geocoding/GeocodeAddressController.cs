@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Comparers;
+using api.mapserv.utah.gov.Conventions;
 using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Features.GeometryService;
 using api.mapserv.utah.gov.Filters;
@@ -13,6 +14,7 @@ using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using api.mapserv.utah.gov.Services;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -49,12 +51,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         /// <param name="zone">A Utah municipality name or 5 digit zip code</param>
         /// <param name="options"></param>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(ApiResponseContainer<GeocodeAddressApiResponse>))]
-        [ProducesResponseType(400, Type = typeof(ApiResponseContainer))]
-        [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
-        [ProducesResponseType(500, Type = typeof(ApiResponseContainer))]
+        [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
-        public async Task<ObjectResult> Get(string street, string zone, [FromQuery] GeocodingOptions options) {
+        public async Task<ActionResult<ApiResponseContainer<GeocodeAddressApiResponse>>> Geocode(string street, string zone, [FromQuery] GeocodingOptions options) {
             _log.Debug("Geocoding {street}, {zone} with options: {options}", street, zone, options);
 
             #region validation
@@ -200,12 +199,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         /// <param name="y">A geographic coordinate representing the latitdue or northing</param>
         /// <param name="options"></param>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(ApiResponseContainer<ReverseGeocodeApiResponse>))]
-        [ProducesResponseType(400, Type = typeof(ApiResponseContainer))]
-        [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
-        [ProducesResponseType(500, Type = typeof(ApiResponseContainer))]
+        [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
         [Route("api/v{version:apiVersion}/geocode/reverse/{x:double}/{y:double}")]
-        public async Task<ObjectResult> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options) {
+        public async Task<ActionResult<ApiResponseContainer<ReverseGeocodeApiResponse>>> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options) {
             var inputLocation = new Point(x, y);
 
             if (options.SpatialReference != 26912) {
