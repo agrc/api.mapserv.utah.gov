@@ -47,99 +47,37 @@ FNF:2
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/src/api/Startup.cs
-FN:22,Microsoft.Extensions.Configuration.IConfiguration api.mapserv.utah.gov.Startup::get_Configuration()
+FN:13,Microsoft.Extensions.Configuration.IConfiguration api.mapserv.utah.gov.Startup::get_Configuration()
 FNDA:0,Microsoft.Extensions.Configuration.IConfiguration api.mapserv.utah.gov.Startup::get_Configuration()
-DA:23,0
-FN:25,System.Void api.mapserv.utah.gov.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+DA:14,0
+FN:16,System.Void api.mapserv.utah.gov.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
 FNDA:0,System.Void api.mapserv.utah.gov.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
-DA:26,0
-DA:27,0
-DA:28,0
-DA:29,0
-DA:30,0
-DA:31,0
-DA:32,0
-DA:33,0
-DA:34,0
-DA:35,0
-DA:37,0
-DA:38,0
-DA:39,0
-DA:40,0
-DA:41,0
-DA:43,0
-DA:44,0
-DA:45,0
-DA:47,0
-DA:48,0
-DA:49,0
-DA:50,0
-DA:51,0
-DA:52,0
-DA:53,0
-DA:54,0
-DA:55,0
-DA:56,0
-DA:57,0
-DA:58,0
-DA:59,0
-DA:60,0
-DA:61,0
-DA:62,0
-DA:63,0
-DA:64,0
-DA:65,0
-DA:66,0
-DA:67,0
-DA:68,0
-DA:69,0
-DA:70,0
-DA:71,0
-DA:72,0
-DA:73,0
-BRDA:29,41,0,0
-BRDA:29,41,1,0
-BRDA:29,83,0,0
-BRDA:29,83,1,0
-BRDA:37,121,0,0
-BRDA:37,121,1,0
-BRDA:47,186,0,0
-BRDA:47,186,1,0
-FN:75,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
-FNDA:0,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
-DA:76,0
-DA:77,0
-DA:78,0
-DA:79,0
-DA:81,0
-DA:83,0
-DA:84,0
-DA:85,0
-DA:86,0
-DA:87,0
-DA:88,0
-DA:89,0
-DA:90,0
-DA:92,0
-DA:93,0
-DA:94,0
-DA:95,0
-DA:96,0
-DA:97,0
-BRDA:77,9,0,0
-BRDA:77,9,1,0
-BRDA:81,27,0,0
-BRDA:81,27,1,0
-BRDA:83,65,0,0
-BRDA:83,65,1,0
-FN:18,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
-FNDA:0,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
+DA:17,0
+DA:18,0
 DA:19,0
 DA:20,0
 DA:21,0
-LF:68
+DA:22,0
+FN:24,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
+FNDA:0,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:30,0
+DA:32,0
+DA:33,0
+DA:34,0
+BRDA:26,9,0,0
+BRDA:26,9,1,0
+FN:9,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
+FNDA:0,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
+DA:10,0
+DA:11,0
+DA:12,0
+LF:18
 LH:0
-BRF:14
+BRF:2
 BRH:0
 FNF:4
 FNH:0
@@ -1241,51 +1179,51 @@ FNF:4
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/src/api/Models/ApiResponses/GeocodeAddressApiResponse.cs
-FN:8,api.mapserv.utah.gov.Models.Point api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Location()
+FN:10,api.mapserv.utah.gov.Models.Point api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Location()
 FNDA:13,api.mapserv.utah.gov.Models.Point api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Location()
-DA:9,13
-FN:11,System.Double api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Score()
+DA:11,13
+FN:14,System.Double api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Score()
 FNDA:19,System.Double api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Score()
-DA:12,19
-FN:14,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Locator()
+DA:15,19
+FN:18,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Locator()
 FNDA:7,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Locator()
-DA:15,7
-FN:17,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_MatchAddress()
+DA:19,7
+FN:22,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_MatchAddress()
 FNDA:9,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_MatchAddress()
-DA:18,9
-FN:20,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_InputAddress()
+DA:23,9
+FN:26,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_InputAddress()
 FNDA:11,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_InputAddress()
-DA:21,11
-FN:23,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_StandardizedAddress()
+DA:27,11
+FN:30,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_StandardizedAddress()
 FNDA:5,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_StandardizedAddress()
-DA:24,5
-FN:26,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_AddressGrid()
+DA:31,5
+FN:34,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_AddressGrid()
 FNDA:5,System.String api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_AddressGrid()
-DA:27,5
-FN:30,System.Double api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_ScoreDifference()
+DA:35,5
+FN:39,System.Double api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_ScoreDifference()
 FNDA:7,System.Double api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_ScoreDifference()
-DA:31,7
-FN:31,System.Void api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::set_ScoreDifference(System.Double)
+DA:40,7
+FN:40,System.Void api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::set_ScoreDifference(System.Double)
 FNDA:5,System.Void api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::set_ScoreDifference(System.Double)
-DA:32,5
-FN:35,System.Int32 api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Wkid()
+DA:41,5
+FN:44,System.Int32 api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Wkid()
 FNDA:3,System.Int32 api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::get_Wkid()
-DA:36,3
-FN:37,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeLocation()
+DA:45,3
+FN:46,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeLocation()
 FNDA:2,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeLocation()
-DA:38,2
-FN:39,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeScore()
+DA:47,2
+FN:48,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeScore()
 FNDA:2,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeScore()
-DA:40,2
-FN:41,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeMatchAddress()
+DA:49,2
+FN:50,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeMatchAddress()
 FNDA:2,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeMatchAddress()
-DA:42,2
-FN:43,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeLocator()
+DA:51,2
+FN:52,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeLocator()
 FNDA:2,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeLocator()
-DA:44,2
-FN:45,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeScoreDifference()
+DA:53,2
+FN:54,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeScoreDifference()
 FNDA:2,System.Boolean api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse::ShouldSerializeScoreDifference()
-DA:46,2
+DA:55,2
 LF:15
 LH:15
 BRF:0
@@ -1327,18 +1265,18 @@ FNF:5
 FNH:3
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/src/api/Models/ApiResponses/ApiResponseContainer.cs
-FN:5,System.Int32 api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer::get_Status()
+FN:8,System.Int32 api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer::get_Status()
 FNDA:108,System.Int32 api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer::get_Status()
-DA:6,108
-FN:8,System.String api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer::get_Message()
+DA:9,108
+FN:12,System.String api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer::get_Message()
 FNDA:106,System.String api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer::get_Message()
-DA:9,106
-FN:10,System.Boolean api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer::ShouldSerializeMessage()
+DA:13,106
+FN:14,System.Boolean api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer::ShouldSerializeMessage()
 FNDA:0,System.Boolean api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer::ShouldSerializeMessage()
-DA:11,0
-FN:15,T api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer`1::get_Result()
+DA:15,0
+FN:22,T api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer`1::get_Result()
 FNDA:18,T api.mapserv.utah.gov.Models.ApiResponses.ApiResponseContainer`1::get_Result()
-DA:16,18
+DA:23,18
 LF:4
 LH:3
 BRF:0
@@ -1578,6 +1516,95 @@ BRF:64
 BRH:43
 FNF:7
 FNH:5
+end_of_record
+SF:/Users/sgourley/Projects/webapi-core/src/api/Filters/CacheResourceFilter.cs
+FN:15,System.Void api.mapserv.utah.gov.Filters.CacheResourceFilter::.ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache)
+FNDA:0,System.Void api.mapserv.utah.gov.Filters.CacheResourceFilter::.ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache)
+DA:16,0
+DA:17,0
+DA:18,0
+FN:18,System.Void api.mapserv.utah.gov.Filters.CacheResourceFilter/<OnResourceExecutionAsync>d__2::MoveNext()
+FNDA:0,System.Void api.mapserv.utah.gov.Filters.CacheResourceFilter/<OnResourceExecutionAsync>d__2::MoveNext()
+DA:19,0
+DA:20,0
+DA:21,0
+DA:25,0
+DA:28,0
+DA:29,0
+DA:31,0
+DA:35,0
+DA:36,0
+DA:38,0
+DA:42,0
+BRDA:19,14,0,0
+BRDA:25,135,0,0
+BRDA:25,135,1,0
+BRDA:28,244,0,0
+BRDA:28,244,1,0
+BRDA:28,259,0,0
+BRDA:29,287,0,0
+BRDA:19,14,1,0
+BRDA:29,287,1,0
+BRDA:28,259,1,0
+LF:14
+LH:0
+BRF:10
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:/Users/sgourley/Projects/webapi-core/src/api/Filters/CacheResultFilter.cs
+FN:38,System.Byte[] api.mapserv.utah.gov.Filters.CacheResultFilter::ToByteArray(T)
+FNDA:0,System.Byte[] api.mapserv.utah.gov.Filters.CacheResultFilter::ToByteArray(T)
+DA:39,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:46,0
+DA:47,0
+FN:14,System.Void api.mapserv.utah.gov.Filters.CacheResultFilter::.ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache)
+FNDA:0,System.Void api.mapserv.utah.gov.Filters.CacheResultFilter::.ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache)
+DA:15,0
+DA:16,0
+DA:17,0
+FN:18,System.Void api.mapserv.utah.gov.Filters.CacheResultFilter/<OnResultExecutionAsync>d__2::MoveNext()
+FNDA:0,System.Void api.mapserv.utah.gov.Filters.CacheResultFilter/<OnResultExecutionAsync>d__2::MoveNext()
+DA:19,0
+DA:20,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:32,0
+DA:34,0
+DA:36,0
+DA:37,0
+BRDA:19,14,0,0
+BRDA:25,128,0,0
+BRDA:25,128,1,0
+BRDA:25,157,0,0
+BRDA:25,157,1,0
+BRDA:28,186,0,0
+BRDA:28,186,1,0
+BRDA:28,219,0,0
+BRDA:28,219,1,0
+BRDA:32,292,0,0
+BRDA:32,292,1,0
+BRDA:34,397,0,0
+BRDA:19,14,1,0
+BRDA:34,397,1,0
+LF:25
+LH:0
+BRF:14
+BRH:0
+FNF:3
+FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/src/api/Filters/JsonOutputFormatResultFilter.cs
 FN:12,System.Void api.mapserv.utah.gov.Filters.JsonOutputFormatResultFilter::.ctor(MediatR.IMediator)
@@ -3550,6 +3577,39 @@ BRH:14
 FNF:2
 FNH:2
 end_of_record
+SF:/Users/sgourley/Projects/webapi-core/src/api/Extensions/ApplicationBuilderExtensions.cs
+FN:6,System.Void api.mapserv.utah.gov.Extensions.ApplicationBuilderExtensions::UseSwagger(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ApplicationBuilderExtensions::UseSwagger(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+DA:7,0
+DA:8,0
+DA:10,0
+DA:11,0
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+BRDA:8,8,0,0
+BRDA:8,8,1,0
+BRDA:10,46,0,0
+BRDA:10,46,1,0
+FN:19,System.Void api.mapserv.utah.gov.Extensions.ApplicationBuilderExtensions::UseHealthChecks(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ApplicationBuilderExtensions::UseHealthChecks(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+LF:17
+LH:0
+BRF:4
+BRH:0
+FNF:2
+FNH:0
+end_of_record
 SF:/Users/sgourley/Projects/webapi-core/src/api/Extensions/CandidateExtension.cs
 FN:7,api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse api.mapserv.utah.gov.Extensions.ConversionExtensions::ToResponseObject(api.mapserv.utah.gov.Models.ArcGis.Candidate,System.String,System.String)
 FNDA:3,api.mapserv.utah.gov.Models.ResponseObjects.GeocodeAddressApiResponse api.mapserv.utah.gov.Extensions.ConversionExtensions::ToResponseObject(api.mapserv.utah.gov.Models.ArcGis.Candidate,System.String,System.String)
@@ -3581,33 +3641,37 @@ SF:/Users/sgourley/Projects/webapi-core/src/api/Extensions/MvcOptionsExtensions.
 FN:6,System.Void api.mapserv.utah.gov.Extensions.MvcOptionsExtensions::AddApiResponseFormatters(Microsoft.AspNetCore.Mvc.MvcOptions)
 FNDA:0,System.Void api.mapserv.utah.gov.Extensions.MvcOptionsExtensions::AddApiResponseFormatters(Microsoft.AspNetCore.Mvc.MvcOptions)
 DA:7,0
-LF:1
+FN:8,System.Void api.mapserv.utah.gov.Extensions.MvcOptionsExtensions::AddResponseCache(Microsoft.AspNetCore.Mvc.MvcOptions)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.MvcOptionsExtensions::AddResponseCache(Microsoft.AspNetCore.Mvc.MvcOptions)
+DA:9,0
+DA:10,0
+DA:11,0
+FN:12,System.Void api.mapserv.utah.gov.Extensions.MvcOptionsExtensions::AddResultCache(Microsoft.AspNetCore.Mvc.MvcOptions)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.MvcOptionsExtensions::AddResultCache(Microsoft.AspNetCore.Mvc.MvcOptions)
+DA:13,0
+DA:14,0
+DA:15,0
+LF:7
 LH:0
 BRF:0
 BRH:0
-FNF:1
+FNF:3
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/src/api/Extensions/ServiceCollectionExtensions.cs
-FN:21,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
-FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
-DA:22,0
-DA:23,0
-DA:24,0
-DA:25,0
-DA:26,0
-FN:27,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
-FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+FN:27,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::AddEnvOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::AddEnvOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
 DA:28,0
 DA:29,0
 DA:30,0
 DA:31,0
 DA:32,0
-DA:33,0
+FN:33,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::AddDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::AddDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
 DA:34,0
 DA:35,0
-DA:36,0
 DA:37,0
+DA:38,0
 DA:39,0
 DA:40,0
 DA:41,0
@@ -3615,7 +3679,6 @@ DA:42,0
 DA:43,0
 DA:44,0
 DA:45,0
-DA:46,0
 DA:47,0
 DA:48,0
 DA:49,0
@@ -3628,17 +3691,88 @@ DA:55,0
 DA:56,0
 DA:57,0
 DA:58,0
-BRDA:29,13,0,0
-BRDA:29,13,1,0
-BRDA:29,49,0,0
-BRDA:29,49,1,0
-BRDA:48,150,0,0
-BRDA:48,150,1,0
-LF:35
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+BRDA:37,39,0,0
+BRDA:37,39,1,0
+BRDA:37,75,0,0
+BRDA:37,75,1,0
+BRDA:56,176,0,0
+BRDA:56,176,1,0
+BRDA:67,242,0,0
+BRDA:67,242,1,0
+FN:71,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::AddOpenApi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::AddOpenApi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+BRDA:73,8,0,0
+BRDA:73,8,1,0
+FN:100,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::AddMvcConfiguration(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::AddMvcConfiguration(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:119,0
+DA:120,0
+BRDA:103,15,0,0
+BRDA:103,15,1,0
+BRDA:103,57,0,0
+BRDA:103,57,1,0
+BRDA:113,95,0,0
+BRDA:113,95,1,0
+LF:85
 LH:0
-BRF:8
+BRF:18
 BRH:0
-FNF:2
+FNF:4
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/webapi-core/src/api/Exceptions/CommandValidationException.cs

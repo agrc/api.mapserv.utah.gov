@@ -71,7 +71,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             if (errors.Length > 0) {
                 _log.Debug("Bad geocode request", errors);
 
-                return BadRequest(new ApiResponseContainer<GeocodeAddressApiResponse> {
+                return BadRequest(new ApiResponseContainer {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = errors
                 });
