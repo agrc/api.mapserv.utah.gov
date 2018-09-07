@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Features.Health;
+using api.mapserv.utah.gov.Features.Searching;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.Configuration;
 using api.mapserv.utah.gov.Services;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -26,6 +30,13 @@ namespace api.mapserv.utah.gov.Extensions {
         }
 
         public static void UseDi(this IServiceCollection services) {
+            services.AddSingleton<ILogger>(provider => new LoggerConfiguration()
+                                                       .MinimumLevel.Debug()
+                                                       .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                                                       .Enrich.FromLogContext()
+                                                       .WriteTo.Console()
+                                                       .CreateLogger());
+
             services.AddHttpClient("default", client => { client.Timeout = new TimeSpan(0, 0, 15); })
                     .ConfigurePrimaryHttpMessageHandler(() => {
                         var handler = new HttpClientHandler();
@@ -43,18 +54,18 @@ namespace api.mapserv.utah.gov.Extensions {
             services.AddSingleton<ICacheRepository, PostgreApiKeyRepository>();
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
-            services.AddTransient<IPipelineBehavior<ZoneParsing.Command, GeocodeAddress>, DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
-            services.AddSingleton<ILogger>(provider => new LoggerConfiguration()
-                                                       .MinimumLevel.Debug()
-                                                       .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                                                       .Enrich.FromLogContext()
-                                                       .WriteTo.Console()
-                                                       .CreateLogger());
+
+            services.AddTransient<IPipelineBehavior<ZoneParsing.Command, GeocodeAddress>, DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>>();
+            services.AddTransient<IPipelineBehavior<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>, KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>>();
+            // services.AddTransient<IRequestPreProcessor<SqlQuery.Command>, SqlPreProcessor<SqlQuery.Command>>();
+
             services.AddSingleton<IHealthCheck, CacheHealthCheck>();
             services.AddSingleton<IHealthCheck, KeyStoreHealthCheck>();
             services.AddSingleton<IHealthCheck, GeometryServiceHealthCheck>();
             services.AddSingleton<IHealthCheck, LocatorHealthCheck>();
+
+            services.AddMediatR(typeof(Startup));
         }
     }
 }
