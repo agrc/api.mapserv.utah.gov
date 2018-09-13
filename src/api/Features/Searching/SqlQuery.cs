@@ -45,10 +45,7 @@ namespace SqlQuery {
             using (var session = new SqlConnection(_connectionString)) {
                 session.Open();
 
-                var queryProcessor = new SqlPreProcessor();
-                var query = queryProcessor.Process(request, CancellationToken.None);
-
-                var queryResults = await session.QueryAsync(query);
+                var queryResults = await session.QueryAsync(request.Query);
 
                 return queryResults.Select(x => new SearchApiResponse {
                     Attributes = x

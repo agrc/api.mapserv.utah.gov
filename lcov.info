@@ -31,13 +31,13 @@ FNDA:0,System.Void SqlQuery.Handler::.ctor(Microsoft.Extensions.Options.IOptions
 DA:36,0
 DA:37,0
 DA:38,0
-FN:52,api.mapserv.utah.gov.Models.ApiResponses.SearchApiResponse SqlQuery.Handler/<>c::<Handle>b__3_0(System.Object)
+FN:49,api.mapserv.utah.gov.Models.ApiResponses.SearchApiResponse SqlQuery.Handler/<>c::<Handle>b__3_0(System.Object)
 FNDA:0,api.mapserv.utah.gov.Models.ApiResponses.SearchApiResponse SqlQuery.Handler/<>c::<Handle>b__3_0(System.Object)
-DA:53,0
-DA:54,0
-DA:55,0
-BRDA:53,12,1,0
-BRDA:53,12,0,0
+DA:50,0
+DA:51,0
+DA:52,0
+BRDA:50,12,1,0
+BRDA:50,12,0,0
 FN:39,System.Void SqlQuery.Handler/<Handle>d__3::MoveNext()
 FNDA:0,System.Void SqlQuery.Handler/<Handle>d__3::MoveNext()
 DA:40,0
@@ -46,18 +46,16 @@ DA:42,0
 DA:45,0
 DA:46,0
 DA:48,0
-DA:49,0
-DA:51,0
-DA:57,0
+DA:54,0
 BRDA:41,33,0,0
 BRDA:41,33,1,0
 BRDA:45,67,0,0
-BRDA:51,180,0,0
+BRDA:48,143,0,0
 BRDA:45,67,1,0
-BRDA:51,180,1,0
-BRDA:53,294,0,0
-BRDA:53,294,1,0
-LF:28
+BRDA:48,143,1,0
+BRDA:50,257,0,0
+BRDA:50,257,1,0
+LF:26
 LH:8
 BRF:10
 BRH:0
@@ -65,61 +63,62 @@ FNF:10
 FNH:2
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Program.cs
-FN:40,Microsoft.AspNetCore.Hosting.IWebHostBuilder api.mapserv.utah.gov.Program::CreateWebHostBuilder(System.String[])
+FN:41,Microsoft.AspNetCore.Hosting.IWebHostBuilder api.mapserv.utah.gov.Program::CreateWebHostBuilder(System.String[])
 FNDA:0,Microsoft.AspNetCore.Hosting.IWebHostBuilder api.mapserv.utah.gov.Program::CreateWebHostBuilder(System.String[])
-DA:41,0
 DA:42,0
 DA:43,0
-BRDA:41,17,0,0
-BRDA:41,17,1,0
-FN:11,System.Void api.mapserv.utah.gov.Program/<Main>d__0::MoveNext()
+DA:44,0
+DA:45,0
+BRDA:42,17,0,0
+BRDA:42,17,1,0
+BRDA:42,53,0,0
+BRDA:42,53,1,0
+FN:12,System.Void api.mapserv.utah.gov.Program/<Main>d__0::MoveNext()
 FNDA:0,System.Void api.mapserv.utah.gov.Program/<Main>d__0::MoveNext()
-DA:12,0
 DA:13,0
 DA:14,0
 DA:15,0
 DA:16,0
 DA:17,0
 DA:18,0
-DA:20,0
+DA:19,0
 DA:21,0
-DA:23,0
-DA:25,0
+DA:22,0
+DA:24,0
 DA:26,0
-DA:28,0
-DA:30,0
+DA:27,0
+DA:29,0
 DA:31,0
 DA:32,0
-DA:34,0
+DA:33,0
 DA:35,0
 DA:36,0
 DA:37,0
 DA:38,0
-BRDA:13,98,0,0
-BRDA:13,104,0,0
-BRDA:26,213,0,0
-BRDA:13,98,1,0
-BRDA:26,213,1,0
-BRDA:28,326,0,0
-BRDA:13,104,1,0
-BRDA:28,326,1,0
-BRDA:34,444,0,0
-BRDA:34,444,1,0
-LF:24
+DA:39,0
+BRDA:14,98,0,0
+BRDA:14,104,0,0
+BRDA:27,213,0,0
+BRDA:14,98,1,0
+BRDA:27,213,1,0
+BRDA:29,326,0,0
+BRDA:14,104,1,0
+BRDA:29,326,1,0
+BRDA:35,444,0,0
+BRDA:35,444,1,0
+LF:25
 LH:0
-BRF:12
+BRF:14
 BRH:0
 FNF:2
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Startup.cs
-FN:22,Microsoft.Extensions.Configuration.IConfiguration api.mapserv.utah.gov.Startup::get_Configuration()
+FN:24,Microsoft.Extensions.Configuration.IConfiguration api.mapserv.utah.gov.Startup::get_Configuration()
 FNDA:0,Microsoft.Extensions.Configuration.IConfiguration api.mapserv.utah.gov.Startup::get_Configuration()
-DA:23,0
-FN:25,System.Void api.mapserv.utah.gov.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+DA:25,0
+FN:27,System.Void api.mapserv.utah.gov.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
 FNDA:0,System.Void api.mapserv.utah.gov.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
-DA:26,0
-DA:27,0
 DA:28,0
 DA:29,0
 DA:30,0
@@ -127,16 +126,16 @@ DA:31,0
 DA:32,0
 DA:33,0
 DA:34,0
+DA:35,0
 DA:36,0
-DA:37,0
 DA:38,0
 DA:39,0
 DA:40,0
+DA:41,0
 DA:42,0
-DA:43,0
 DA:44,0
+DA:45,0
 DA:46,0
-DA:47,0
 DA:48,0
 DA:49,0
 DA:50,0
@@ -162,51 +161,79 @@ DA:69,0
 DA:70,0
 DA:71,0
 DA:72,0
-BRDA:28,15,0,0
-BRDA:28,15,1,0
-BRDA:28,57,0,0
-BRDA:28,57,1,0
-BRDA:36,95,0,0
-BRDA:36,95,1,0
-BRDA:46,160,0,0
-BRDA:46,160,1,0
-FN:74,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
-FNDA:0,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
-DA:75,0
+DA:73,0
+DA:74,0
+BRDA:30,15,0,0
+BRDA:30,15,1,0
+BRDA:30,57,0,0
+BRDA:30,57,1,0
+BRDA:38,95,0,0
+BRDA:38,95,1,0
+BRDA:48,160,0,0
+BRDA:48,160,1,0
+FN:75,System.Void api.mapserv.utah.gov.Startup::ConfigureContainer(Autofac.ContainerBuilder)
+FNDA:0,System.Void api.mapserv.utah.gov.Startup::ConfigureContainer(Autofac.ContainerBuilder)
 DA:76,0
 DA:77,0
-DA:78,0
+DA:79,0
 DA:80,0
+DA:81,0
 DA:82,0
 DA:83,0
-DA:84,0
 DA:85,0
 DA:86,0
 DA:87,0
 DA:88,0
 DA:89,0
-DA:91,0
+DA:90,0
 DA:92,0
 DA:93,0
-DA:94,0
 DA:95,0
 DA:96,0
-BRDA:76,9,0,0
-BRDA:76,9,1,0
-BRDA:80,27,0,0
-BRDA:80,27,1,0
-BRDA:82,65,0,0
-BRDA:82,65,1,0
-FN:18,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
+DA:97,0
+DA:98,0
+DA:99,0
+BRDA:85,143,1,0
+BRDA:85,143,0,0
+BRDA:95,234,0,0
+BRDA:95,234,1,0
+FN:101,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
+FNDA:0,System.Void api.mapserv.utah.gov.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:107,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+BRDA:103,9,0,0
+BRDA:103,9,1,0
+BRDA:107,27,0,0
+BRDA:107,27,1,0
+BRDA:109,65,0,0
+BRDA:109,65,1,0
+FN:20,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
 FNDA:0,System.Void api.mapserv.utah.gov.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
-DA:19,0
-DA:20,0
 DA:21,0
-LF:67
+DA:22,0
+DA:23,0
+LF:87
 LH:0
-BRF:14
+BRF:18
 BRH:0
-FNF:4
+FNF:5
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Services/PostgreApiKeyRepository.cs
@@ -1936,62 +1963,64 @@ FNF:3
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Features/Searching/SqlPreProcessor.cs
-FN:10,System.String api.mapserv.utah.gov.Features.Searching.SqlPreProcessor::Process(SqlQuery.Command,System.Threading.CancellationToken)
-FNDA:0,System.String api.mapserv.utah.gov.Features.Searching.SqlPreProcessor::Process(SqlQuery.Command,System.Threading.CancellationToken)
-DA:11,0
+FN:11,System.Threading.Tasks.Task api.mapserv.utah.gov.Features.Searching.SqlPreProcessor::Process(SqlQuery.Command,System.Threading.CancellationToken)
+FNDA:0,System.Threading.Tasks.Task api.mapserv.utah.gov.Features.Searching.SqlPreProcessor::Process(SqlQuery.Command,System.Threading.CancellationToken)
 DA:12,0
-DA:14,0
-DA:16,0
+DA:13,0
+DA:15,0
 DA:17,0
 DA:18,0
 DA:19,0
-DA:21,0
+DA:20,0
 DA:22,0
-DA:24,0
-DA:26,0
+DA:23,0
+DA:25,0
 DA:27,0
-DA:29,0
-DA:31,0
-DA:33,0
-DA:35,0
+DA:28,0
+DA:30,0
+DA:32,0
+DA:34,0
 DA:36,0
-DA:38,0
+DA:37,0
 DA:39,0
 DA:40,0
-DA:42,0
+DA:41,0
 DA:43,0
+DA:44,0
 DA:45,0
-DA:47,0
+DA:46,0
 DA:48,0
 DA:50,0
 DA:51,0
-DA:52,0
 DA:53,0
 DA:54,0
+DA:55,0
 DA:56,0
 DA:57,0
 DA:59,0
-DA:61,0
+DA:60,0
 DA:62,0
-BRDA:16,47,0,0
-BRDA:16,47,1,0
-BRDA:21,87,0,0
-BRDA:24,127,0,0
-BRDA:27,153,0,0
-BRDA:27,153,1,0
-BRDA:31,166,0,0
-BRDA:33,188,0,0
-BRDA:33,188,1,0
-BRDA:40,259,0,0
-BRDA:40,259,1,0
-BRDA:31,166,1,0
-BRDA:43,275,0,0
-BRDA:43,275,1,0
-BRDA:24,127,1,0
-BRDA:50,289,0,0
-BRDA:50,289,1,0
-BRDA:21,87,1,0
-LF:35
+DA:64,0
+DA:65,0
+BRDA:17,47,0,0
+BRDA:17,47,1,0
+BRDA:22,87,0,0
+BRDA:25,127,0,0
+BRDA:28,153,0,0
+BRDA:28,153,1,0
+BRDA:32,166,0,0
+BRDA:34,191,0,0
+BRDA:34,191,1,0
+BRDA:41,262,0,0
+BRDA:41,262,1,0
+BRDA:32,166,1,0
+BRDA:46,323,0,0
+BRDA:46,323,1,0
+BRDA:25,127,1,0
+BRDA:53,337,0,0
+BRDA:53,337,1,0
+BRDA:22,87,1,0
+LF:37
 LH:0
 BRF:18
 BRH:0
@@ -4013,11 +4042,11 @@ DA:56,0
 DA:57,0
 DA:59,0
 DA:60,0
+DA:61,0
 DA:63,0
 DA:64,0
 DA:65,0
 DA:66,0
-DA:68,0
 DA:69,0
 BRDA:33,8,0,0
 BRDA:33,8,1,0

@@ -3,7 +3,9 @@ using System.IO;
 using System.Reflection;
 using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Features.Health;
+using Autofac;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -68,6 +70,31 @@ namespace api.mapserv.utah.gov {
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
                 c.IncludeXmlComments(xmlPath);
+            });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder) {
+            builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
+
+            var mediatrOpenTypes = new[]
+            {
+                typeof(IRequestHandler<,>),
+                typeof(INotificationHandler<>),
+            };
+
+            foreach (var mediatrOpenType in mediatrOpenTypes) {
+                builder
+                    .RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly)
+                    .AsClosedTypesOf(mediatrOpenType)
+                    .AsImplementedInterfaces();
+            }
+
+            builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+
+            builder.Register<ServiceFactory>(ctx => {
+                var c = ctx.Resolve<IComponentContext>();
+                return t => c.Resolve(t);
             });
         }
 

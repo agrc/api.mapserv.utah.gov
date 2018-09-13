@@ -5,7 +5,7 @@
    "version": "0.2.0",
    "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": ".NET Core Launch",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -18,6 +18,38 @@
             "launchBrowser": {
                 "enabled": true,
                 "args": "${auto-detect-url}/health/details",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:1337"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        }, {
+            "name": "search sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp2.2/api.mapserv.utah.gov.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/api",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}/api/v1/search/boundaries.muniCIPALITIES_CARTO/NaMe?apikey=agrc-explorer&attributeStyle=lower&geometry=point:[426553,%204511970]",
                 "windows": {
                     "command": "cmd.exe",
                     "args": "/C start ${auto-detect-url}"
