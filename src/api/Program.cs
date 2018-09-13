@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
@@ -40,6 +41,7 @@ namespace api.mapserv.utah.gov {
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                    .UseStartup<Startup>()
+                   .ConfigureServices(x => x.AddAutofac())
                    .ConfigureLogging(x => x.ClearProviders().AddSerilog());
     }
 }

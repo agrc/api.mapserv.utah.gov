@@ -56,16 +56,16 @@ namespace api.mapserv.utah.gov.Extensions {
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
 
-            services.AddTransient<IPipelineBehavior<ZoneParsing.Command, GeocodeAddress>, DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>>();
             services.AddTransient<IPipelineBehavior<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>, KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>>();
-            // services.AddTransient<IRequestPreProcessor<SqlQuery.Command>, SqlPreProcessor<SqlQuery.Command>>();
+            services.AddTransient<IPipelineBehavior<ZoneParsing.Command, GeocodeAddress>, DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>>();
+            services.AddTransient<IRequestPreProcessor<SqlQuery.Command>, SqlPreProcessor>();
 
             services.AddSingleton<IHealthCheck, CacheHealthCheck>();
             services.AddSingleton<IHealthCheck, KeyStoreHealthCheck>();
             services.AddSingleton<IHealthCheck, GeometryServiceHealthCheck>();
             services.AddSingleton<IHealthCheck, LocatorHealthCheck>();
 
-            services.AddMediatR(typeof(Startup));
+            // services.AddMediatR(typeof(Startup));
         }
     }
 }
