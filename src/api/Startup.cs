@@ -130,7 +130,6 @@ namespace api.mapserv.utah.gov {
             app.UseHealthChecks("/api/v1/health/details", new HealthCheckOptions {
                 ResponseWriter = HealthCheckResponseWriter.WriteDetailsJson
             });
-
         }
     }
 }
