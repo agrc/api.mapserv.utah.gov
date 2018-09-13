@@ -27,15 +27,13 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions;
             private readonly ILogger _log;
 
-            private readonly IMediator _mediator;
             private readonly IDictionary<int, PoBoxAddress> _poBoxes;
             private readonly IReadOnlyCollection<int> _zipExclusions;
 
-            public Handler(ILookupCache driveCache, IMediator mediator, ILogger log) {
+            public Handler(ILookupCache driveCache, ILogger log) {
                 _poBoxes = driveCache.PoBoxes;
                 _exclusions = driveCache.PoBoxExclusions;
                 _zipExclusions = driveCache.PoBoxZipCodesWithExclusions;
-                _mediator = mediator;
                 _log = log;
             }
 

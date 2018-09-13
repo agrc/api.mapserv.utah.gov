@@ -7,7 +7,6 @@ using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
 using api.mapserv.utah.gov.Models.Linkables;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using MediatR;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -25,7 +24,7 @@ namespace api.tests.Features.Geocoding {
             mockCache.Setup(x => x.PoBoxExclusions).Returns(_exclusions);
             mockCache.Setup(x => x.PoBoxZipCodesWithExclusions).Returns(zipExclusions);
 
-            _handler = new PoBoxLocation.Handler(mockCache.Object, new Mock<IMediator>().Object, new Mock<ILogger>().Object);
+            _handler = new PoBoxLocation.Handler(mockCache.Object, new Mock<ILogger>().Object);
         }
 
         private readonly IDictionary<int, PoBoxAddress> _poBoxes = new Dictionary<int, PoBoxAddress>(1);

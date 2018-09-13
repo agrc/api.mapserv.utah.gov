@@ -26,11 +26,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         public class Handler : IRequestHandler<Command, Candidate> {
             private readonly ILookupCache _driveCache;
             private readonly ILogger _log;
-            private readonly IMediator _mediator;
 
-            public Handler(ILookupCache driveCache, IMediator mediator, ILogger log) {
+            public Handler(ILookupCache driveCache, ILogger log) {
                 _driveCache = driveCache;
-                _mediator = mediator;
                 _log = log;
             }
 
