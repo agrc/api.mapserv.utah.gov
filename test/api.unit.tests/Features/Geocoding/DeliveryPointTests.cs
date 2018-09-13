@@ -8,7 +8,6 @@ using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
 using api.mapserv.utah.gov.Models.Linkables;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using MediatR;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -23,7 +22,7 @@ namespace api.tests.Features.Geocoding {
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.UspsDeliveryPoints).Returns(_deliveryPoints);
 
-            _handler = new UspsDeliveryPointLocation.Handler(mockCache.Object, new Mock<IMediator>().Object, new Mock<ILogger>().Object);
+            _handler = new UspsDeliveryPointLocation.Handler(mockCache.Object, new Mock<ILogger>().Object);
         }
 
         private readonly IDictionary<string, List<GridLinkable>> _deliveryPoints =
