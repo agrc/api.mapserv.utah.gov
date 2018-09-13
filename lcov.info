@@ -225,7 +225,11 @@ DA:129,0
 DA:130,0
 DA:131,0
 DA:132,0
+<<<<<<< HEAD
 DA:133,0
+=======
+DA:134,0
+>>>>>>> refactor: remove projection from commands
 BRDA:108,9,0,0
 BRDA:108,9,1,0
 BRDA:112,27,0,0
@@ -914,8 +918,8 @@ FNH:2
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Models/RequestOptions/ProjectableOptions.cs
 FN:20,System.Int32 api.mapserv.utah.gov.Models.RequestOptions.ProjectableOptions::get_SpatialReference()
-FNDA:35,System.Int32 api.mapserv.utah.gov.Models.RequestOptions.ProjectableOptions::get_SpatialReference()
-DA:21,35
+FNDA:32,System.Int32 api.mapserv.utah.gov.Models.RequestOptions.ProjectableOptions::get_SpatialReference()
+DA:21,32
 LF:1
 LH:1
 BRF:0
@@ -2330,6 +2334,70 @@ BRH:0
 FNF:4
 FNH:0
 end_of_record
+SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Features/GeometryService/ReprojectBehavior.cs
+FN:22,System.Void api.mapserv.utah.gov.Features.GeometryService.ReprojectPipeline`2::.ctor(MediatR.IMediator,Serilog.ILogger)
+FNDA:0,System.Void api.mapserv.utah.gov.Features.GeometryService.ReprojectPipeline`2::.ctor(MediatR.IMediator,Serilog.ILogger)
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:27,0
+FN:28,System.Void api.mapserv.utah.gov.Features.GeometryService.ReprojectPipeline`2/<Handle>d__3::MoveNext()
+FNDA:0,System.Void api.mapserv.utah.gov.Features.GeometryService.ReprojectPipeline`2/<Handle>d__3::MoveNext()
+DA:29,0
+DA:30,0
+DA:31,0
+DA:33,0
+DA:34,0
+DA:37,0
+DA:38,0
+DA:40,0
+DA:41,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:51,0
+DA:52,0
+DA:55,0
+DA:57,0
+DA:58,0
+DA:60,0
+DA:63,0
+DA:65,0
+DA:66,0
+DA:69,0
+DA:71,0
+DA:72,0
+BRDA:29,14,0,0
+BRDA:30,50,0,0
+BRDA:30,50,1,0
+BRDA:33,181,0,0
+BRDA:33,181,1,0
+BRDA:37,219,0,0
+BRDA:40,274,0,0
+BRDA:40,274,1,0
+BRDA:37,219,1,0
+BRDA:51,391,0,0
+BRDA:51,391,1,0
+BRDA:55,457,0,0
+BRDA:29,14,1,0
+BRDA:55,457,1,0
+BRDA:57,571,0,0
+BRDA:57,571,1,0
+BRDA:57,599,0,0
+BRDA:57,599,1,0
+BRDA:65,674,0,0
+BRDA:65,674,1,0
+LF:32
+LH:0
+BRF:20
+BRH:0
+FNF:2
+FNH:0
+end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Features/Geocoding/AddressParsing.cs
 FN:17,System.String api.mapserv.utah.gov.Features.Geocoding.AddressParsing/Command::get_Street()
 FNDA:198,System.String api.mapserv.utah.gov.Features.Geocoding.AddressParsing/Command::get_Street()
@@ -3537,40 +3605,31 @@ FNF:3
 FNH:3
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Features/Geocoding/PoBoxLocation.cs
-FN:18,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
+FN:22,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Command::get_Options()
+FNDA:0,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Command::get_Options()
+DA:23,0
+FN:17,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
 FNDA:8,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
-DA:19,8
+DA:18,8
+DA:19,4
 DA:20,4
 DA:21,4
-DA:22,4
-FN:32,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler::.ctor(api.mapserv.utah.gov.Cache.ILookupCache,MediatR.IMediator,Serilog.ILogger)
-FNDA:8,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler::.ctor(api.mapserv.utah.gov.Cache.ILookupCache,MediatR.IMediator,Serilog.ILogger)
-DA:33,8
-DA:34,4
-DA:35,4
-DA:36,4
-DA:37,4
-DA:38,4
-DA:39,4
-FN:62,System.Boolean api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler/<>c__DisplayClass6_0::<Handle>b__0(System.Int32)
-FNDA:4,System.Boolean api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler/<>c__DisplayClass6_0::<Handle>b__0(System.Int32)
-DA:63,4
-FN:40,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler/<Handle>d__6::MoveNext()
-FNDA:4,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler/<Handle>d__6::MoveNext()
-DA:41,4
-DA:42,5
-DA:43,1
-DA:45,1
-DA:48,3
-DA:49,0
-DA:51,0
-DA:54,4
-DA:55,1
-DA:57,1
-DA:61,2
-DA:64,3
-DA:65,1
-DA:67,1
+FN:41,System.Threading.Tasks.Task`1<api.mapserv.utah.gov.Models.ArcGis.Candidate> api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Command,System.Threading.CancellationToken)
+FNDA:4,System.Threading.Tasks.Task`1<api.mapserv.utah.gov.Models.ArcGis.Candidate> api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Command,System.Threading.CancellationToken)
+DA:42,4
+DA:43,5
+DA:44,1
+DA:46,1
+DA:49,3
+DA:50,0
+DA:52,0
+DA:55,4
+DA:56,1
+DA:58,1
+DA:62,2
+DA:64,4
+DA:65,3
+DA:66,1
 DA:68,1
 DA:69,1
 DA:70,1
@@ -3578,9 +3637,9 @@ DA:71,1
 DA:72,1
 DA:73,1
 DA:74,1
-DA:75,3
-DA:76,1
-DA:78,1
+DA:75,1
+DA:76,3
+DA:77,1
 DA:79,1
 DA:80,1
 DA:81,1
@@ -3589,61 +3648,45 @@ DA:83,1
 DA:84,1
 DA:85,1
 DA:86,1
-DA:87,0
-DA:90,4
+DA:87,1
+DA:88,0
 DA:91,2
-DA:94,0
-DA:95,0
-DA:96,0
-DA:97,0
-DA:98,0
-DA:99,0
-DA:101,0
-DA:103,0
-DA:104,0
-DA:106,0
-DA:109,0
-DA:111,0
-DA:112,0
-DA:113,0
-DA:115,0
-DA:116,4
-BRDA:42,80,0,1
-BRDA:42,80,1,3
-BRDA:48,146,0,0
-BRDA:48,146,1,3
-BRDA:54,230,0,1
-BRDA:54,230,1,2
-BRDA:63,387,0,2
-BRDA:63,387,1,0
-BRDA:63,418,0,1
-BRDA:68,594,0,0
-BRDA:68,594,1,1
-BRDA:68,606,0,0
-BRDA:68,606,1,1
-BRDA:68,618,0,0
-BRDA:68,618,1,1
-BRDA:63,418,1,1
-BRDA:75,702,0,1
-BRDA:79,911,0,0
-BRDA:79,911,1,1
-BRDA:75,702,1,0
-BRDA:90,983,0,2
-BRDA:90,983,1,0
-BRDA:101,1126,0,0
-BRDA:101,1126,1,0
-BRDA:103,1241,0,0
-BRDA:103,1241,1,0
-BRDA:103,1269,0,0
-BRDA:103,1269,1,0
-BRDA:111,1339,0,0
-BRDA:111,1339,1,0
-LF:63
-LH:45
-BRF:30
-BRH:14
+DA:92,4
+BRDA:43,44,0,1
+BRDA:43,44,1,3
+BRDA:49,101,0,0
+BRDA:49,101,1,3
+BRDA:55,177,0,1
+BRDA:55,177,1,2
+BRDA:64,307,0,2
+BRDA:64,307,1,0
+BRDA:64,328,0,1
+BRDA:69,461,0,0
+BRDA:69,461,1,1
+BRDA:69,473,0,0
+BRDA:69,473,1,1
+BRDA:69,485,0,0
+BRDA:69,485,1,1
+BRDA:64,328,1,1
+BRDA:76,549,0,1
+BRDA:80,716,0,0
+BRDA:80,716,1,1
+BRDA:76,549,1,0
+FN:33,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler::.ctor(api.mapserv.utah.gov.Cache.ILookupCache,MediatR.IMediator,Serilog.ILogger)
+FNDA:8,System.Void api.mapserv.utah.gov.Features.Geocoding.PoBoxLocation/Handler::.ctor(api.mapserv.utah.gov.Cache.ILookupCache,MediatR.IMediator,Serilog.ILogger)
+DA:34,8
+DA:35,4
+DA:36,4
+DA:37,4
+DA:38,4
+DA:39,4
+DA:40,4
+LF:48
+LH:44
+BRF:20
+BRH:13
 FNF:4
-FNH:4
+FNH:3
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Features/Geocoding/ReverseGeocode.cs
 FN:16,System.Void api.mapserv.utah.gov.Features.Geocoding.ReverseGeocode/Command::.ctor(api.mapserv.utah.gov.Models.LocatorProperties)
@@ -3700,82 +3743,58 @@ FNF:3
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Features/Geocoding/UspsDeliveryPointLocation.cs
-FN:18,System.Void api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
+FN:22,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Command::get_Options()
+FNDA:0,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Command::get_Options()
+DA:23,0
+FN:17,System.Void api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
 FNDA:6,System.Void api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Command::.ctor(api.mapserv.utah.gov.Models.GeocodeAddress,api.mapserv.utah.gov.Models.RequestOptions.GeocodingOptions)
-DA:19,6
+DA:18,6
+DA:19,3
 DA:20,3
 DA:21,3
-DA:22,3
-FN:29,System.Void api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Handler::.ctor(api.mapserv.utah.gov.Cache.ILookupCache,MediatR.IMediator,Serilog.ILogger)
-FNDA:6,System.Void api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Handler::.ctor(api.mapserv.utah.gov.Cache.ILookupCache,MediatR.IMediator,Serilog.ILogger)
-DA:30,6
-DA:31,3
-DA:32,3
-DA:33,3
-DA:34,3
-FN:35,System.Void api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Handler/<Handle>d__4::MoveNext()
-FNDA:3,System.Void api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Handler/<Handle>d__4::MoveNext()
-DA:36,3
+FN:36,System.Threading.Tasks.Task`1<api.mapserv.utah.gov.Models.ArcGis.Candidate> api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Command,System.Threading.CancellationToken)
+FNDA:3,System.Threading.Tasks.Task`1<api.mapserv.utah.gov.Models.ArcGis.Candidate> api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Handler::Handle(api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Command,System.Threading.CancellationToken)
 DA:37,3
-DA:39,4
-DA:40,1
-DA:42,1
-DA:45,2
-DA:47,3
-DA:48,1
-DA:50,1
-DA:53,1
-DA:54,0
-DA:57,1
+DA:38,3
+DA:40,4
+DA:41,1
+DA:43,1
+DA:46,2
+DA:48,3
+DA:49,1
+DA:51,1
+DA:54,1
+DA:55,0
 DA:58,1
 DA:59,1
 DA:60,1
 DA:61,1
 DA:62,1
 DA:63,1
-DA:65,1
-DA:67,2
+DA:64,1
+DA:66,1
 DA:68,1
-DA:71,0
-DA:73,0
-DA:74,0
-DA:75,0
-DA:76,0
-DA:77,0
-DA:78,0
-DA:80,0
-DA:82,0
-DA:83,0
-DA:85,0
-DA:88,0
-DA:90,0
-DA:91,0
-DA:92,0
-DA:94,0
-DA:95,3
-BRDA:39,69,0,1
-BRDA:39,69,1,2
-BRDA:47,179,0,1
-BRDA:47,179,1,1
-BRDA:47,202,0,1
-BRDA:47,202,1,1
-BRDA:53,292,0,0
-BRDA:53,292,1,1
-BRDA:67,471,0,1
-BRDA:67,471,1,0
-BRDA:80,637,0,0
-BRDA:80,637,1,0
-BRDA:82,752,0,0
-BRDA:82,752,1,0
-BRDA:82,780,0,0
-BRDA:82,780,1,0
-BRDA:90,855,0,0
-BRDA:90,855,1,0
-LF:47
-LH:30
-BRF:18
-BRH:8
-FNF:3
+DA:69,3
+BRDA:40,43,0,1
+BRDA:40,43,1,2
+BRDA:48,131,0,1
+BRDA:48,131,1,1
+BRDA:48,149,0,1
+BRDA:48,149,1,1
+BRDA:54,222,0,0
+BRDA:54,222,1,1
+FN:30,System.Void api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Handler::.ctor(api.mapserv.utah.gov.Cache.ILookupCache,MediatR.IMediator,Serilog.ILogger)
+FNDA:6,System.Void api.mapserv.utah.gov.Features.Geocoding.UspsDeliveryPointLocation/Handler::.ctor(api.mapserv.utah.gov.Cache.ILookupCache,MediatR.IMediator,Serilog.ILogger)
+DA:31,6
+DA:32,3
+DA:33,3
+DA:34,3
+DA:35,3
+LF:31
+LH:29
+BRF:8
+BRH:7
+FNF:4
 FNH:3
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Features/Geocoding/ZoneParsing.cs
@@ -4017,24 +4036,22 @@ FNF:1
 FNH:0
 end_of_record
 SF:/Users/sgourley/Projects/api.mapserv.utah.gov/src/api/Extensions/ServiceCollectionExtensions.cs
-FN:25,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
+FN:27,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
 FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
-DA:26,0
-DA:27,0
 DA:28,0
 DA:29,0
 DA:30,0
-FN:31,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
-FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+DA:31,0
 DA:32,0
-DA:33,0
+FN:33,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+FNDA:0,System.Void api.mapserv.utah.gov.Extensions.ServiceCollectionExtensions::UseDi(Microsoft.Extensions.DependencyInjection.IServiceCollection)
 DA:34,0
 DA:35,0
 DA:36,0
 DA:37,0
 DA:38,0
+DA:39,0
 DA:40,0
-DA:41,0
 DA:42,0
 DA:43,0
 DA:44,0
@@ -4042,25 +4059,29 @@ DA:45,0
 DA:46,0
 DA:47,0
 DA:48,0
+DA:49,0
 DA:50,0
-DA:51,0
 DA:52,0
 DA:53,0
 DA:54,0
 DA:55,0
 DA:56,0
 DA:57,0
+DA:58,0
 DA:59,0
-DA:60,0
 DA:61,0
 DA:62,0
-BRDA:33,8,0,0
-BRDA:33,8,1,0
-BRDA:40,51,0,0
-BRDA:40,51,1,0
-BRDA:40,87,0,0
-BRDA:40,87,1,0
-LF:33
+DA:64,0
+DA:65,0
+DA:67,0
+DA:68,0
+BRDA:35,8,0,0
+BRDA:35,8,1,0
+BRDA:42,51,0,0
+BRDA:42,51,1,0
+BRDA:42,87,0,0
+BRDA:42,87,1,0
+LF:35
 LH:0
 BRF:8
 BRH:0

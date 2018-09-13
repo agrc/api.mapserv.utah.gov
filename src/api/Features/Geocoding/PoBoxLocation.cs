@@ -12,14 +12,15 @@ using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class PoBoxLocation {
-        public class Command : IRequest<Candidate> {
+        public class Command : IHasGeocodingOptions, IRequest<Candidate> {
             internal readonly GeocodeAddress Address;
-            internal readonly GeocodingOptions Options;
 
             public Command(GeocodeAddress address, GeocodingOptions options) {
                 Address = address;
                 Options = options;
             }
+
+            public GeocodingOptions Options { get; }
         }
 
         public class Handler : IRequestHandler<Command, Candidate> {
@@ -38,23 +39,23 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _log = log;
             }
 
-            public async Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {
+            public Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {
                 if (!request.Address.Zip5.HasValue) {
                     _log.Debug("No zip code, can't be po box {address}", request.Address);
 
-                    return null;
+                    return Task.FromResult((Candidate)null);
                 }
 
                 if (_poBoxes is null) {
                     _log.Warning("Po Box cache is empty!");
 
-                    return null;
+                    return Task.FromResult((Candidate)null);
                 }
 
                 if (!_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
                     _log.Debug("{zip} is not in the po box cache", request.Address.Zip5.Value);
 
-                    return null;
+                    return Task.FromResult((Candidate)null);
                 }
 
                 Candidate candidate;
@@ -84,35 +85,10 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                         AddressGrid = request.Address.AddressGrids.FirstOrDefault()?.Grid
                     };
                 } else {
-                    return null;
+                    return Task.FromResult((Candidate)null);
                 }
 
-                if (request.Options.SpatialReference == 26912) {
-                    return candidate;
-                }
-
-                var reprojectCommand =
-                    new Reproject.Command(new PointReprojectOptions(26912, request.Options.SpatialReference,
-                                                                    new[] {
-                                                                        candidate.Location.X,
-                                                                        candidate.Location.Y
-                                                                    }));
-
-                var pointReprojectResponse = await _mediator.Send(reprojectCommand, cancellationToken);
-
-                if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any()) {
-                    _log.Fatal("Could not reproject point for {candidate}", candidate);
-
-                    return null;
-                }
-
-                var points = pointReprojectResponse.Geometries.FirstOrDefault();
-
-                if (points != null) {
-                    candidate.Location = new Point(points.X, points.Y);
-                }
-
-                return candidate;
+                return Task.FromResult(candidate);
             }
         }
     }

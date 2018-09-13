@@ -5,11 +5,13 @@ using System.Net;
 using System.Net.Http;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Features.GeometryService;
 using api.mapserv.utah.gov.Features.Health;
 using api.mapserv.utah.gov.Features.Searching;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ApiResponses;
+using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.Configuration;
 using api.mapserv.utah.gov.Services;
 using MediatR;
@@ -58,6 +60,10 @@ namespace api.mapserv.utah.gov.Extensions {
 
             services.AddTransient<IPipelineBehavior<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>, KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>>();
             services.AddTransient<IPipelineBehavior<ZoneParsing.Command, GeocodeAddress>, DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>>();
+
+            services.AddTransient<IPipelineBehavior<PoBoxLocation.Command, Candidate>, ReprojectPipeline<PoBoxLocation.Command, Candidate>>();
+            services.AddTransient<IPipelineBehavior<UspsDeliveryPointLocation.Command, Candidate>, ReprojectPipeline<UspsDeliveryPointLocation.Command, Candidate>>();
+
             services.AddTransient<IRequestPreProcessor<SqlQuery.Command>, SqlPreProcessor>();
         }
     }
