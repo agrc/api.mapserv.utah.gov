@@ -12,14 +12,15 @@ using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class UspsDeliveryPointLocation {
-        public class Command : IRequest<Candidate> {
+        public class Command : IHasGeocodingOptions, IRequest<Candidate> {
             internal readonly GeocodeAddress Address;
-            internal readonly GeocodingOptions Options;
 
             public Command(GeocodeAddress address, GeocodingOptions options) {
                 Address = address;
                 Options = options;
             }
+
+            public GeocodingOptions Options { get; }
         }
 
         public class Handler : IRequestHandler<Command, Candidate> {
@@ -33,13 +34,13 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _log = log;
             }
 
-            public async Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {
+            public Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {
                 _log.Verbose("Testing for delivery points");
 
                 if (!request.Address.Zip5.HasValue) {
                     _log.Debug("No delivery point for {address} because of no zip5", request.Address);
 
-                    return null;
+                    return Task.FromResult((Candidate)null);
                 }
 
                 _driveCache.UspsDeliveryPoints.TryGetValue(request.Address.Zip5.Value.ToString(), out var items);
@@ -47,11 +48,11 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 if (items == null || !items.Any()) {
                     _log.Debug("No delivery point for {zip} in cache", request.Address.Zip5.Value);
 
-                    return null;
+                    return Task.FromResult((Candidate)null);
                 }
 
                 if (!(items.FirstOrDefault() is UspsDeliveryPointLink deliveryPoint)) {
-                    return null;
+                    return Task.FromResult((Candidate)null);
                 }
 
                 var result = new Candidate {
@@ -64,34 +65,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 _log.Information("Found delivery point for {address}", request.Address);
 
-                if (request.Options.SpatialReference == 26912) {
-                    return result;
-                }
-
-                _log.Debug("Reprojecting delivery point to {wkid}", request.Options.SpatialReference);
-
-                var reproject =
-                    new Reproject.Command(new PointReprojectOptions(26912, request.Options.SpatialReference,
-                                                                    new[] {
-                                                                        deliveryPoint.X,
-                                                                        deliveryPoint.Y
-                                                                    }));
-
-                var pointReprojectResponse = await _mediator.Send(reproject, cancellationToken);
-
-                if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any()) {
-                    _log.Fatal("Could not reproject point for {address}", request.Address);
-
-                    return null;
-                }
-
-                var points = pointReprojectResponse.Geometries.FirstOrDefault();
-
-                if (points != null) {
-                    result.Location = new Point(points.X, points.Y);
-                }
-
-                return result;
+                return Task.FromResult(result);
             }
         }
     }
