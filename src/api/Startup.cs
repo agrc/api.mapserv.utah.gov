@@ -41,7 +41,12 @@ namespace api.mapserv.utah.gov {
                 x.DefaultApiVersion = new ApiVersion(1, 0);
             });
 
-            services.AddHealthChecks();
+            services.AddHealthChecks()
+                    .AddCheck<CacheHealthCheck>()
+                    .AddCheck<KeyStoreHealthCheck>()
+                    .AddCheck<GeometryServiceHealthCheck>()
+                    .AddCheck<LocatorHealthCheck>();
+
             services.UseOptions(Configuration);
             services.UseDi();
 
