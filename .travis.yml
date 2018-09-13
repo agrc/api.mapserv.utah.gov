@@ -2,7 +2,7 @@ language: csharp
 sudo: false
 solution: api.mapserv.utah.gov.sln
 mono: none
-dotnet: 2.2.100-preview1-009349
+dotnet: 2.2.100-preview2-009404
 script:
   - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=info /p:CoverletOutput=coverage.info /p:Configuration=Release api.mapserv.utah.gov.sln
 after_success:
