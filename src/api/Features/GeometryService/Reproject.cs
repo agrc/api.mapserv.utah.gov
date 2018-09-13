@@ -41,7 +41,7 @@ namespace api.mapserv.utah.gov.Features.GeometryService {
 
             public async Task<ReprojectResponse<Point>> Handle(Command request, CancellationToken cancellationToken) {
                 if (string.IsNullOrEmpty(request.ReprojectUrl)) {
-                    request.ReprojectUrl = _geometryServiceConfiguration.Value.ToString();
+                    request.ReprojectUrl = _geometryServiceConfiguration.Value.Url();
                 }
 
                 var query = new QueryString("?f=json");
