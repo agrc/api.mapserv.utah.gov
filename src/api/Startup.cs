@@ -116,10 +116,10 @@ namespace api.mapserv.utah.gov {
             });
 
             app.UseMvc();
-            app.UseHealthChecks("/health/details", new HealthCheckOptions {
+            app.UseHealthChecks("/api/v1/health/details", new HealthCheckOptions {
                 ResponseWriter = HealthCheckResponseWriter.WriteDetailsJson
             });
-            app.UseHealthChecks("/health");
+            app.UseHealthChecks("/api/v1/health");
         }
     }
 }
