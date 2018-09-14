@@ -60,11 +60,7 @@ namespace api.mapserv.utah.gov.Features.GeometryService {
                 return response;
             }
 
-            var points = projected.Geometries.FirstOrDefault();
-
-            if (points == null) {
-                return response;
-            }
+            var points = projected.Geometries.First();
 
             response.Location = new Point(points.X, points.Y);
 
