@@ -45,8 +45,8 @@ namespace api.mapserv.utah.gov.Features.GeometryService {
                 }
 
                 var query = new QueryString("?f=json");
-                query = query.Add("outSR", request.Options.ReprojectToSpatialReference.ToString());
                 query = query.Add("inSR", request.Options.CurrentSpatialReference.ToString());
+                query = query.Add("outSR", request.Options.ReprojectToSpatialReference.ToString());
                 query = query.Add("geometries", string.Join(",", request.Options.Coordinates));
 
                 var requestUri = string.Format(request.ReprojectUrl, query.Value);
