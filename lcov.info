@@ -225,11 +225,7 @@ DA:129,0
 DA:130,0
 DA:131,0
 DA:132,0
-<<<<<<< HEAD
 DA:133,0
-=======
-DA:134,0
->>>>>>> refactor: remove projection from commands
 BRDA:108,9,0,0
 BRDA:108,9,1,0
 BRDA:112,27,0,0
@@ -4414,13 +4410,13 @@ FN:64,System.String api.mapserv.utah.gov.Cache.RegexCache::BuildUnitTypeRegularE
 FNDA:182,System.String api.mapserv.utah.gov.Cache.RegexCache::BuildUnitTypeRegularExpression()
 DA:65,182
 DA:66,182
-DA:68,13650
+DA:68,13649
 DA:69,4368
 DA:70,4368
 DA:71,4368
 DA:72,4368
 DA:74,4368
-DA:75,4368
+DA:75,4367
 DA:77,182
 DA:78,182
 BRDA:68,104,1,4368
@@ -4430,11 +4426,11 @@ FNDA:91,System.Text.RegularExpressions.Regex api.mapserv.utah.gov.Cache.RegexCac
 DA:80,91
 DA:81,91
 DA:83,182
-DA:84,10920
-DA:85,3549
+DA:84,10917
+DA:85,3548
 DA:86,3549
-DA:88,3549
-DA:89,3549
+DA:88,3548
+DA:89,3547
 DA:90,91
 DA:92,91
 DA:93,91
@@ -4474,18 +4470,18 @@ DA:123,91
 BRDA:98,40,0,1
 BRDA:98,40,1,91
 FN:124,System.String api.mapserv.utah.gov.Cache.RegexCache::ToOrdinal(System.Int32)
-FNDA:1638,System.String api.mapserv.utah.gov.Cache.RegexCache::ToOrdinal(System.Int32)
-DA:125,1638
-DA:126,1638
+FNDA:1637,System.String api.mapserv.utah.gov.Cache.RegexCache::ToOrdinal(System.Int32)
+DA:125,1637
+DA:126,1637
 DA:127,0
-DA:130,1638
-DA:131,1911
+DA:130,1637
+DA:131,1910
 DA:132,273
-DA:135,1365
+DA:135,1364
 DA:137,91
 DA:139,91
 DA:141,91
-DA:143,1092
+DA:143,1091
 DA:145,1638
 BRDA:126,7,0,0
 BRDA:126,7,1,1638
