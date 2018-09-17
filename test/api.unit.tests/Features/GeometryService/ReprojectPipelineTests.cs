@@ -16,15 +16,13 @@ using Shouldly;
 using Xunit;
 
 namespace api.tests.Features.GeometryService {
-    public class ReprojectBehaviorTests {
+    public class ReprojectPipelineTests {
         private readonly Mock<IMediator> _mediator;
         private readonly ILogger _log;
 
-        public ReprojectBehaviorTests() {
+        public ReprojectPipelineTests() {
             _mediator = new Mock<IMediator>();
             _log = new Mock<ILogger>().Object;
-            // _handler = new ReprojectPipeline<ZoneParsing.Command, GeocodeAddress>(regex, new Mock<ILogger>().Object);
-            // _requestHandler = new ZoneParsing.Handler(regex, mediator.Object, new Mock<ILogger>().Object);
         }
 
         [Fact]
