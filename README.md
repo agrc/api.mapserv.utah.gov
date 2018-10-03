@@ -41,7 +41,7 @@ Currently
 
 ## Configuration
 
-To make the project as flexible as possible, the connection strings, urls to services, etc required by the web API are read from environment variables at application startup. Environmental variables are the sole mechanism for storing application secrets in this project. They work well with [docker](docker-compose.override.yml), [k8s](kube-deployment.yml), and local development. The following will describe what is required before the application will function properly.
+To make the project as flexible as possible, the connection strings, urls to services, etc required by the web API are read from environment variables or [appsettings.json](src/api/appsettings.json) at application startup. Environmental variables will overide values in appsetttings. They both work well with [docker](docker-compose.override.yml), [k8s](.kube/kube-deployment.yml), and local development. The following will describe what is required before the application will function properly.
 
 ### Databases
 
@@ -169,4 +169,59 @@ Building Docker images is necessary any time values in the `Dockerfile` or `dock
 Starting a container is basically like turning on the service. `docker-compose up` will start all the containers referenced in this projects `docker-compose.yaml`. For development purposes, we suggest running PostgreSQL and/or Redis in containers and letting Visual Studio (Code, for Mac, or Windows) run the web API or developer website. PostgreSQL is required for the application to start while Redis is not required.
 
 - `docker-compose up -d db`
+
+## Kubernetes
+
+The containers created with Docker can be run in a Kubernetes cluster. The project contains configuration files for [Docker Kubernetes](.kube/kube-deployment.yml) and also [Google Kubernetes Engine](.kube/gke-deployment.yml).
+
+### Docker Kubernetes
+
+Make sure to first change the `kubectl` context to docker-for-desktop with Docker.
+
+#### Creating config objects
+
+##### imagePullSecrets
+
+imagePullSecrets are needed to pull containers from GCR.
+
+```bash
+kubectl create secret docker-registry gcr-json-key \
+  --docker-server=https://gcr.io \
+  --docker-username=_json_key \
+  --docker-email=required_but_unused@anywhere.com \
+  --docker-password="$(cat /path/to/service/account/key/image_puller_key.json)"
+```
+
+##### configMaps
+
+app-config for mounting [appsettings.json](src/api/appsettings.json).
+
+- `kubectl create configmap app-config --from-file=src/api/appsettings.json`
+
+#### Starting all pods and services
+
+- `kubectl apply -f .kube/kube-deployment.yml`
+
+### Google Kubernetes Engine
+
+Make sure to first change the `kubectl` context to GKE cluster with `gcloud`.
+- `gcloud container clusters get-credentials agrc-api`
+
+#### Creating config objects
+
+##### configMaps
+
+app-config for mounting [appsettings.json](src/api/appsettings.json).
+
+- `kubectl create configmap app-config --from-file=src/api/appsettings.json`
+
+#### Starting all pods and services
+
+- `kubectl apply -f .kube/gke-deployment.yml`
+
+#### Accessing webpi/api external IP
+
+The loadbalancer takes a couple minutes to be assigned. Once it is the external IP can be found in the `EXTERNAL-IP` field of the `webapi-api` service
+
+- `kubectl get services webapi-api`
 
