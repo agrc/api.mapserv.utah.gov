@@ -6,11 +6,6 @@ services:
     ports:
       - "1337:1337"
     environment:
-      - WEBAPI__DATABASE__HOST=db
-      - WEBAPI__DATABASE__PORT=5432
-      - WEBAPI__DATABASE__DB=webapi
-      - WEBAPI__DATABASE__USERNAME=postgres
-      - WEBAPI__DATABASE__PASSWORD=what password
       - WEBAPI__ARCGIS__HOST=localhost
       - WEBAPI__ARCGIS__PORT=6080
       - WEBAPI__ARCGIS__GEOMETRY_SERVICE__PATH=arcgis/rest/services/Geometry/GeometryServer
