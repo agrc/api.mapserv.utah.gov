@@ -174,6 +174,10 @@ Starting a container is basically like turning on the service. `docker-compose u
 
 The containers created with Docker can be run in a Kubernetes cluster. The project contains configuration files for [Docker Kubernetes](.kube/kube-deployment.yml) and also [Google Kubernetes Engine](.kube/gke-deployment.yml).
 
+### Pushing containers to gcr.io
+
+Both Docker and GKE configuration files expect containers in GCR. Containers built locally with Docker can be tagged and [pushed to GCR](https://cloud.google.com/container-registry/docs/pushing-and-pulling) with `gcloud` and `docker`.
+
 ### Docker Kubernetes
 
 Make sure to first change the `kubectl` context to docker-for-desktop with Docker.
@@ -204,7 +208,7 @@ app-config for mounting [appsettings.json](src/api/appsettings.json).
 
 ### Google Kubernetes Engine
 
-Make sure to first change the `kubectl` context to GKE cluster with `gcloud`.
+Make sure to first change the `kubectl` context to the GKE cluster with `gcloud`.
 - `gcloud container clusters get-credentials agrc-api`
 
 #### Creating config objects
