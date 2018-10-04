@@ -200,7 +200,7 @@ kubectl create secret docker-registry gcr-json-key \
 
 app-config for mounting [appsettings.json](src/api/appsettings.json).
 
-- `kubectl create configmap app-config --from-file=src/api/appsettings.json`
+- `kubectl create configmap app-config --from-file=appsettings.json=./.kube/appsettings.kube.json`
 
 #### Starting all pods and services
 
@@ -217,7 +217,7 @@ Make sure to first change the `kubectl` context to the GKE cluster with `gcloud`
 
 app-config for mounting [appsettings.json](src/api/appsettings.json).
 
-- `kubectl create configmap app-config --from-file=src/api/appsettings.json`
+- `kubectl create configmap app-config --from-file=appsettings.json=./.kube/appsettings.kube.json`
 
 #### Starting all pods and services
 
