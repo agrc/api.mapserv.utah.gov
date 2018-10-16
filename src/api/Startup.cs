@@ -48,7 +48,7 @@ namespace api.mapserv.utah.gov {
                     .AddCheck<LocatorHealthCheck>();
 
             services.UseOptions(Configuration);
-            services.UseDi();
+            services.UseDi(Configuration);
 
             services.AddSwaggerGen(c => {
                 c.EnableAnnotations();
