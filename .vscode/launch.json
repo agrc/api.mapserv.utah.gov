@@ -105,7 +105,7 @@
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
                 "enabled": true,
-                "args": "${auto-detect-url}/api/v1/geocode/326 easth south temple st/slc?apikey=AGRC-Explorer",
+                "args": "${auto-detect-url}/api/v1/geocode/326%20east%20south%20temple%20st/slc?apikey=AGRC-Explorer",
                 "windows": {
                     "command": "cmd.exe",
                     "args": "/C start ${auto-detect-url}"
