@@ -31,12 +31,9 @@ namespace api.mapserv.utah.gov.Extensions {
             services.Configure<DatabaseConfiguration>(config.GetSection("webapi:database"));
         }
 
-        public static void UseDi(this IServiceCollection services) {
+        public static void UseDi(this IServiceCollection services, IConfiguration config) {
             services.AddSingleton<ILogger>(provider => new LoggerConfiguration()
-                                                       .MinimumLevel.Debug()
-                                                       .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                                                       .Enrich.FromLogContext()
-                                                       .WriteTo.Console()
+                                                       .ReadFrom.Configuration(config)
                                                        .CreateLogger());
 
             services.AddHttpClient("default", client => { client.Timeout = new TimeSpan(0, 0, 15); })
