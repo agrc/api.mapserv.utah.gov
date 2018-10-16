@@ -102,11 +102,11 @@ namespace api.tests.Features.Geocoding {
                 var request = new LocatorsForGeocode.Command(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
-                result.ShouldHaveSingleItem();
+                result.Count.ShouldBe(2);
 
-                // result.Count(x => x.Url ==
-                //                   "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Street=1+North+2+Alley+South&City=grid&outSR=26912")
-                //       .ShouldBe(1);
+                result.Count(x => x.Url ==
+                                  "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Street=1+North+2+Alley+South&City=grid&outSR=26912")
+                      .ShouldBe(1);
 
                 result.Count(x => x.Url ==
                                   "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Street=2+South+Alley+1+North&City=grid&outSR=26912")
