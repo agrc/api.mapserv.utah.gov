@@ -79,15 +79,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var locatorsForAddress = new List<LocatorProperties>();
                 var locators = _locators.Where(x => x.LocatorType == locatorType);
 
-                if (reversal) {
-                    foreach (var locator in locators) {
-                        locatorsForAddress.AddRange(permutations.Select(p => locator.ToLocatorProperty(p, (a) => a.AddressInfo.ReversalAddress)));
-                    }
-
-                    return locatorsForAddress;
-                }
-
-                if (likelyReversal) {
+                if (reversal || likelyReversal) {
                     foreach (var locator in locators) {
                         locatorsForAddress.AddRange(permutations.Select(p => locator.ToLocatorProperty(p, (a) => a.AddressInfo.ReversalAddress)));
                     }
