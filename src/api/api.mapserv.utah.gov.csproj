@@ -22,7 +22,7 @@
     <PackageReference Include="Fastenshtein" Version="1.0.0.5" />
     <PackageReference Include="GeoJSON.Net" Version="1.1.70" />
     <PackageReference Include="MediatR" Version="5.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0-preview3-35497" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0-preview3-35497" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Api.Analyzers" Version="2.2.0-preview3-35497" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
