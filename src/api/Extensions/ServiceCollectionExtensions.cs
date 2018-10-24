@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Features.GeometryService;
@@ -44,7 +45,8 @@ namespace api.mapserv.utah.gov.Extensions {
                         }
 
                         return handler;
-                    });
+                    })
+                    .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
