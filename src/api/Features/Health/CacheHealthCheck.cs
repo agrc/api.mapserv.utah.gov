@@ -10,24 +10,25 @@ namespace api.mapserv.utah.gov.Features.Health {
     public class CacheHealthCheck : IHealthCheck {
         public string Name => nameof(CacheHealthCheck);
 
-        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
             var stopWatch = Stopwatch.StartNew();
             try {
-                var redis = ConnectionMultiplexer.Connect("cache");
-                var db = redis.GetDatabase();
+                using (var redis = await ConnectionMultiplexer.ConnectAsync("cache")) {
+                    var db = redis.GetDatabase();
 
-                db.StringIncrement("health");
-                db.StringGet("health");
+                    db.StringIncrement("health");
+                    db.StringGet("health");
+                }
             } catch (Exception ex) {
-                return Task.FromResult(HealthCheckResult.Failed("Unable to access redis cache", ex, new Dictionary<string, object> {
+                return HealthCheckResult.Failed("Unable to access redis cache", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }
-                ));
+                );
             }
 
-            return Task.FromResult(HealthCheckResult.Passed("cache ready", new Dictionary<string, object> {
+            return HealthCheckResult.Passed("cache ready", new Dictionary<string, object> {
                 { "duration", stopWatch.ElapsedMilliseconds }
-            }));
+            });
         }
     }
 }
