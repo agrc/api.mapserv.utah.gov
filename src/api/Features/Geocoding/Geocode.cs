@@ -39,18 +39,31 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                                                                      CancellationToken cancellationToken) {
                 _log.Debug("Request sent to locator, url={Url}", request.Locator.Url);
 
-                // TODO create a polly policy for the locators
-                var httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
+                HttpResponseMessage httpResponse = null;
+                try {
+                    httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
+                } catch (TaskCanceledException ex) {
+                    _log.Fatal(ex, "Did not receive a response from {@locator} after retry attempts", request.Locator);
+
+                    return Array.Empty<Candidate>();
+                } catch (HttpRequestException ex) {
+                    _log.Fatal(ex, "Error reading geocode address response from {@locator}", request.Locator);
+
+                    return Array.Empty<Candidate>();
+                }
 
                 try {
+
                     var geocodeResponse =
                         await httpResponse.Content.ReadAsAsync<LocatorResponse>(_mediaTypes, cancellationToken);
 
                     return ProcessResult(geocodeResponse, request.Locator);
-                } catch (Exception ex) {
-                    _log.Fatal(ex, "Error reading geocode address response {Response} from {locator}",
-                               await httpResponse.Content.ReadAsStringAsync(), request.Locator);
-                    throw;
+                }
+                catch (Exception ex) {
+                    _log.Fatal(ex, "Error reading geocode address response {Response} from {@locator}",
+                               await httpResponse?.Content?.ReadAsStringAsync(), request.Locator);
+
+                    return Array.Empty<Candidate>();
                 }
             }
 

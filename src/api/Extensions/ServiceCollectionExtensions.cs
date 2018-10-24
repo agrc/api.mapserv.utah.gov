@@ -20,6 +20,9 @@ using MediatR.Pipeline;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Polly;
+using Polly.Extensions.Http;
+using Polly.Timeout;
 using Serilog;
 using Serilog.Events;
 using static api.mapserv.utah.gov.Features.Geocoding.DoubleAvenuesException;
@@ -28,6 +31,7 @@ namespace api.mapserv.utah.gov.Extensions {
     public static class ServiceCollectionExtensions {
         public static void UseOptions(this IServiceCollection services, IConfiguration config) {
             services.Configure<List<LocatorConfiguration>>(config.GetSection("webapi:locators"));
+            services.Configure<List<ReverseLocatorConfiguration>>(config.GetSection("webapi:locators"));
             services.Configure<GeometryServiceConfiguration>(config.GetSection("webapi:arcgis"));
             services.Configure<DatabaseConfiguration>(config.GetSection("webapi:database"));
         }
@@ -36,6 +40,14 @@ namespace api.mapserv.utah.gov.Extensions {
             services.AddSingleton<ILogger>(provider => new LoggerConfiguration()
                                                        .ReadFrom.Configuration(config)
                                                        .CreateLogger());
+
+            var retryPolicy = HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .Or<TimeoutRejectedException>() // thrown by Polly's TimeoutPolicy if the inner call times out
+                .WaitAndRetryAsync(3, retryAttempt =>
+                        TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+            var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(8); // Timeout for an individual try
 
             services.AddHttpClient("default", client => { client.Timeout = new TimeSpan(0, 0, 15); })
                     .ConfigurePrimaryHttpMessageHandler(() => {
@@ -46,7 +58,9 @@ namespace api.mapserv.utah.gov.Extensions {
 
                         return handler;
                     })
-                    .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+                    .AddPolicyHandler(retryPolicy)
+                    .AddPolicyHandler(timeoutPolicy)
+                    .SetHandlerLifetime(Timeout.InfiniteTimeSpan); // TODO: Remove after preview 3 or when fixed
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
