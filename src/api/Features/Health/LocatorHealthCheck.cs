@@ -30,7 +30,7 @@ namespace api.mapserv.utah.gov.Features.Health {
             _locatorMetadata = options.Value;
         }
 
-        public async Task<HealthCheckResult> CheckHealthAsync(CancellationToken cancellationToken = default) {
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
             var results = new Dictionary<string, HealthCheckResult>(_locatorMetadata.Count);
 
             foreach (var locator in _locatorMetadata) {
@@ -40,34 +40,35 @@ namespace api.mapserv.utah.gov.Features.Health {
                     var result = await message.Content.ReadAsAsync<LocatorServiceStatus>(_mediaTypes);
 
                     if (!result.IsSuccessful) {
-                        results.Add(locator.ServiceName, HealthCheckResult.Degraded("Unable to access geocode service", new Dictionary<string, object> {
+                        results.Add(locator.ServiceName, HealthCheckResult.Failed("Unable to access geocode service", null, new Dictionary<string, object> {
                             { "duration", stopWatch.ElapsedMilliseconds }
                         }));
 
                         continue;
                     }
                 } catch (Exception ex) {
-                    results.Add(locator.ServiceName, HealthCheckResult.Degraded("Unable to access geocode service", ex, new Dictionary<string, object> {
+                    results.Add(locator.ServiceName, HealthCheckResult.Failed("Unable to access geocode service", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }));
 
                     continue;
                 }
 
-                results.Add(locator.ServiceName, HealthCheckResult.Healthy("geocode service ready", new Dictionary<string, object> {
+                results.Add(locator.ServiceName, HealthCheckResult.Passed("geocode service ready", new Dictionary<string, object> {
                     { "duration", stopWatch.ElapsedMilliseconds }
                 }));
             }
 
-            if (results.Values.All(x => x.Status == HealthCheckStatus.Degraded)) {
-                return HealthCheckResult.Unhealthy("Unable to access any geocode services");
+            if (results.Values.All(x => x.Result == false)) {
+                return HealthCheckResult.Failed("Unable to access any geocode services");
             }
 
-            if (results.Values.Any(x => x.Status == HealthCheckStatus.Degraded)) {
-                return HealthCheckResult.Degraded("Unable to access all geocode services");
+            if (results.Values.Any(x => x.Result == false)) {
+                // this should be handled as a degrade
+                return HealthCheckResult.Failed("Unable to access all geocode services");
             }
 
-            return HealthCheckResult.Healthy("All geocode services ready");
+            return HealthCheckResult.Passed("All geocode services ready");
         }
     }
 }

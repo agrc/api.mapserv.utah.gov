@@ -18,7 +18,7 @@ namespace api.mapserv.utah.gov.Features.Health {
         }
         public string Name => nameof(KeyStoreHealthCheck);
 
-        public Task<HealthCheckResult> CheckHealthAsync(CancellationToken cancellationToken = default) {
+        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
             var stopWatch = Stopwatch.StartNew();
             try {
                 using (var conn = new NpgsqlConnection(_connectionString)) {
@@ -31,13 +31,13 @@ namespace api.mapserv.utah.gov.Features.Health {
                     }
                 }
             } catch (Exception ex) {
-                return Task.FromResult(HealthCheckResult.Unhealthy("Unable to access key store", ex, new Dictionary<string, object> {
+                return Task.FromResult(HealthCheckResult.Failed("Unable to access key store", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }
                 ));
             }
 
-            return Task.FromResult(HealthCheckResult.Healthy("key store ready", new Dictionary<string, object> {
+            return Task.FromResult(HealthCheckResult.Passed("key store ready", new Dictionary<string, object> {
                 { "duration", stopWatch.ElapsedMilliseconds }
             }));
         }

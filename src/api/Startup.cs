@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApiContrib.Core.Formatter.Jsonp;
@@ -42,10 +43,10 @@ namespace api.mapserv.utah.gov {
             });
 
             services.AddHealthChecks()
-                    .AddCheck<CacheHealthCheck>()
-                    .AddCheck<KeyStoreHealthCheck>()
-                    .AddCheck<GeometryServiceHealthCheck>()
-                    .AddCheck<LocatorHealthCheck>();
+                    .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded)
+                    .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy)
+                    .AddCheck<GeometryServiceHealthCheck>("GeometryService", failureStatus: HealthStatus.Degraded)
+                    .AddCheck<LocatorHealthCheck>("Geolocators");
 
             services.UseOptions(Configuration);
             services.UseDi(Configuration);

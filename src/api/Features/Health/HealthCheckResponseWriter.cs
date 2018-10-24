@@ -6,12 +6,12 @@ using Newtonsoft.Json;
 
 namespace api.mapserv.utah.gov.Features.Health {
     internal static class HealthCheckResponseWriter {
-        public static Task WriteDetailsJson(HttpContext httpContext, CompositeHealthCheckResult result) {
+        public static Task WriteDetailsJson(HttpContext httpContext, HealthReport result) {
             httpContext.Response.ContentType = "application/json";
 
             var response = new {
                 status = result.Status.ToString(),
-                checks = result.Results.Select(x => new {
+                checks = result.Entries.Select(x => new {
                     check = x.Key,
                     status = x.Value.Status.ToString(),
                     description = x.Value.Description

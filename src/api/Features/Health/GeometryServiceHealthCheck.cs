@@ -26,24 +26,24 @@ namespace api.mapserv.utah.gov.Features.Health {
         }
         public string Name => nameof(GeometryServiceHealthCheck);
 
-        public async Task<HealthCheckResult> CheckHealthAsync(CancellationToken cancellationToken = default) {
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
             var stopWatch = Stopwatch.StartNew();
             try {
                 var message = await _client.GetAsync(_url);
                 var result = await message.Content.ReadAsAsync<GeometryServiceInformation>(_mediaTypes);
 
                 if (!result.IsSuccessful) {
-                    return HealthCheckResult.Degraded("Unable to access geometry service", new Dictionary<string, object> {
+                    return HealthCheckResult.Failed("Unable to access geometry service", null, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     });
                 }
             } catch (Exception ex) {
-                return HealthCheckResult.Degraded("Unable to access geometry service", ex, new Dictionary<string, object> {
+                return HealthCheckResult.Failed("Unable to access geometry service", ex, new Dictionary<string, object> {
                     { "duration", stopWatch.ElapsedMilliseconds }
                 });
             }
 
-            return HealthCheckResult.Healthy("geometry service ready", new Dictionary<string, object> {
+            return HealthCheckResult.Passed("geometry service ready", new Dictionary<string, object> {
                 { "duration", stopWatch.ElapsedMilliseconds }
             });
         }

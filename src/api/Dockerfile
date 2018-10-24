@@ -1,7 +1,7 @@
-FROM microsoft/dotnet:2.2.0-preview2-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2.0-preview3-aspnetcore-runtime AS base
 WORKDIR /app
 
-FROM microsoft/dotnet:2.2.100-preview2-sdk AS build
+FROM microsoft/dotnet:2.2.100-preview3-sdk AS build
 WORKDIR /src
 COPY src/api/api.mapserv.utah.gov.csproj project/
 WORKDIR /src/project
