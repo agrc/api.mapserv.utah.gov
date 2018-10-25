@@ -41,7 +41,7 @@ Currently
 
 ## Configuration
 
-To make the project as flexible as possible, the connection strings, urls to services, etc required by the web API are read from environment variables or [appsettings.json](src/api/appsettings.json) at application startup. Environmental variables will overide values in appsetttings. They both work well with [docker](docker-compose.override.yml), [k8s](.kube/kube-deployment.yml), and local development. The following will describe what is required before the application will function properly.
+To make the project as flexible as possible, the connection strings, urls to services, etc required by the web API are read from [appsettings.json](src/api/appsettings.json) at application startup. Appsettings files can be created for development and production environments. They work well with [docker](docker-compose.override.yml), [k8s](.kube/kube-deployment.yml), and local development. The following will describe what is required before the application will function properly.
 
 ### Databases
 
@@ -228,4 +228,3 @@ app-config for mounting [appsettings.json](src/api/appsettings.json).
 The loadbalancer takes a couple minutes to be assigned. Once it is the external IP can be found in the `EXTERNAL-IP` field of the `webapi-api` service
 
 - `kubectl get services webapi-api`
-
