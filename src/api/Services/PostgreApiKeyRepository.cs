@@ -17,8 +17,9 @@ namespace api.mapserv.utah.gov.Services {
                    enabled,
                    deleted,
                    configuration,
-                   regex_pattern,
-                   is_machine_name
+                   regex_pattern as RegexPattern,
+                   is_machine_name,
+                   type
                 FROM
                     public.apikeys
                 WHERE
