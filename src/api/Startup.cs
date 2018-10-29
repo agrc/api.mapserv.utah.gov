@@ -123,7 +123,7 @@ namespace api.mapserv.utah.gov {
 
             app.UseMvc();
 
-            app.UseHealthChecks("/health/alive", new HealthCheckOptions() {
+            app.UseHealthChecks("", new HealthCheckOptions() {
                 Predicate = (check) => false
             });
             app.UseHealthChecks("/api/v1/health/details", new HealthCheckOptions {
