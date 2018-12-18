@@ -37,7 +37,7 @@ namespace api.tests.Features.Geocoding {
 
             var parsedAddress = new CleansedAddress("inputAddress", 1, 0, pobox, Direction.North, "street",
                                                     StreetType.Alley, Direction.South, 0, zip, false, false);
-            var address = new GeocodeAddress(parsedAddress) {
+            var address = new AddressWithGrids(parsedAddress) {
                 AddressGrids = new[] {new ZipGridLink(84114, "grid", 0)}
             };
 
@@ -60,7 +60,7 @@ namespace api.tests.Features.Geocoding {
         public async Task Should_return_null_for_address_without_zip_code() {
             var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
                                                     StreetType.Alley, Direction.South, 0, new int?(), false, false);
-            var address = new GeocodeAddress(parsedAddress);
+            var address = new AddressWithGrids(parsedAddress);
 
             var geocodeOptions = new GeocodingOptions {
                 PoBox = true
@@ -76,7 +76,7 @@ namespace api.tests.Features.Geocoding {
         public async Task Should_return_null_if_zip_not_found() {
             var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
                                                     StreetType.Alley, Direction.South, 0, -1, false, false);
-            var address = new GeocodeAddress(parsedAddress);
+            var address = new AddressWithGrids(parsedAddress);
 
             var geocodeOptions = new GeocodingOptions {
                 PoBox = true

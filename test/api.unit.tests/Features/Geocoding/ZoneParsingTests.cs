@@ -39,7 +39,7 @@ namespace api.tests.Features.Geocoding {
         [InlineData("123456789")]
         [InlineData("12345-6789")]
         public async Task Should_parse_zip_parts(string input) {
-            var address = new GeocodeAddress(new CleansedAddress());
+            var address = new AddressWithGrids(new CleansedAddress());
             var request = new ZoneParsing.Command(input, address);
 
             var result = await _handler.Handle(request, new CancellationToken());
@@ -53,7 +53,7 @@ namespace api.tests.Features.Geocoding {
         [InlineData("Town of     Alta")]
         [InlineData("Alta ")]
         public async Task Should_find_grid_from_place(string input) {
-            var address = new GeocodeAddress(new CleansedAddress());
+            var address = new AddressWithGrids(new CleansedAddress());
             var request = new ZoneParsing.Command(input, address);
 
             var result = await _handler.Handle(request, new CancellationToken());
@@ -64,7 +64,7 @@ namespace api.tests.Features.Geocoding {
 
         [Fact]
         public async Task Should_return_empty_grid_if_zone_not_found() {
-            var address = new GeocodeAddress(new CleansedAddress());
+            var address = new AddressWithGrids(new CleansedAddress());
             var request = new ZoneParsing.Command("123eastbumble", address);
 
             var result = await _handler.Handle(request, new CancellationToken());

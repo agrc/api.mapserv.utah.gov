@@ -14,10 +14,10 @@ using Serilog;
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class LocatorsForGeocode {
         public class Command : IRequest<IReadOnlyCollection<LocatorProperties>> {
-            internal readonly GeocodeAddress Address;
+            internal readonly AddressWithGrids Address;
             internal readonly GeocodingOptions Options;
 
-            public Command(GeocodeAddress address, GeocodingOptions options) {
+            public Command(AddressWithGrids address, GeocodingOptions options) {
                 Address = address;
                 Options = options;
             }
@@ -33,7 +33,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             }
 
             private static IReadOnlyCollection<GeocodeInput> BuildAddressPermutations(
-                GeocodeAddress address, int spatialReference) {
+                AddressWithGrids address, int spatialReference) {
                 var addressPermutations = new List<GeocodeInput>();
 
                 if (!address.AddressGrids.Any()) {
@@ -48,7 +48,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             }
 
             private IReadOnlyCollection<LocatorProperties> BuildLocatorLookup(
-                GeocodeAddress address, IReadOnlyCollection<GeocodeInput> permutations, LocatorType locatorType) {
+                AddressWithGrids address, IReadOnlyCollection<GeocodeInput> permutations, LocatorType locatorType) {
                 var locators = new List<LocatorProperties>();
 
                 _log.Verbose("Finding locators for {address}", address);

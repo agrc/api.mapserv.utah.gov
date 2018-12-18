@@ -28,6 +28,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
     /// </remarks>
     [ApiController]
     [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Produces("application/json")]
     [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
     public class GeocodeAddressController : ControllerBase {
@@ -50,141 +51,16 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         /// <param name="street">A Utah street address. eg: 326 east south temple st. Intersections are separated by `and`</param>
         /// <param name="zone">A Utah municipality name or 5 digit zip code</param>
         /// <param name="options"></param>
-        [HttpGet]
+        [HttpGet, MapToApiVersion("2.0")]
         [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
         public async Task<ActionResult<ApiResponseContainer<GeocodeAddressApiResponse>>> Geocode(string street, string zone, [FromQuery] GeocodingOptions options) {
             _log.Debug("Geocoding {street}, {zone} with options: {options}", street, zone, options);
 
-            #region validation
+            var geocodeAddressCommand = new GeocodeAddress.Command(street, zone, options);
+            var result = await _mediator.Send(geocodeAddressCommand);
 
-            var errors = "";
-            if (string.IsNullOrEmpty(street)) {
-                errors = "Street is empty.";
-            }
-
-            if (string.IsNullOrEmpty(zone)) {
-                errors += "Zip code or city name is emtpy";
-            }
-
-            if (errors.Length > 0) {
-                _log.Debug("Bad geocode request", errors);
-
-                return BadRequest(new ApiResponseContainer<GeocodeAddressApiResponse> {
-                    Status = (int)HttpStatusCode.BadRequest,
-                    Message = errors
-                });
-            }
-
-            street = street?.Trim();
-            zone = zone?.Trim();
-
-            #endregion
-
-            var parseAddressCommand = new AddressParsing.Command(street);
-            var parsedStreet = await _mediator.Send(parseAddressCommand);
-
-            var parseZoneCommand = new ZoneParsing.Command(zone, new GeocodeAddress(parsedStreet));
-            var parsedAddress = await _mediator.Send(parseZoneCommand);
-
-            if (options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue) {
-                var poboxCommand = new PoBoxLocation.Command(parsedAddress, options);
-                var result = await _mediator.Send(poboxCommand);
-
-                if (result != null) {
-                    var model = result.ToResponseObject(street, zone);
-
-                    var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
-                    var input = street?.ToLowerInvariant();
-
-                    if (input != standard) {
-                        model.StandardizedAddress = standard;
-                    }
-
-                    _log.Debug("Result score: {score} from {locator}", model.Score, model.Locator);
-
-                    return Ok(new ApiResponseContainer<GeocodeAddressApiResponse> {
-                        Result = model,
-                        Status = (int)HttpStatusCode.OK
-                    });
-                }
-            }
-
-            var deliveryPointCommand = new UspsDeliveryPointLocation.Command(parsedAddress, options);
-            var uspsPoint = await _mediator.Send(deliveryPointCommand);
-
-            if (uspsPoint != null) {
-                var model = uspsPoint.ToResponseObject(street, zone);
-
-                var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
-                var input = street?.ToLowerInvariant();
-
-                if (input != standard) {
-                    model.StandardizedAddress = standard;
-                }
-
-                _log.Debug("Result score: {score} from {locator}", model.Score, model.Locator);
-
-                return Ok(new ApiResponseContainer<GeocodeAddressApiResponse> {
-                    Result = model,
-                    Status = (int)HttpStatusCode.OK
-                });
-            }
-
-            var topCandidates = new TopAddressCandidates(options.Suggest,
-                                                         new CandidateComparer(parsedAddress.StandardizedAddress
-                                                                                            .ToUpperInvariant()));
-            var getLocatorsForAddressCommand = new LocatorsForGeocode.Command(parsedAddress, options);
-            var locators = await _mediator.Send(getLocatorsForAddressCommand);
-
-            if (locators == null || !locators.Any()) {
-                _log.Debug("No locators found for address {parsedAddress}", parsedAddress);
-
-                return NotFound(new ApiResponseContainer {
-                    Message = $"No address candidates found with a score of {options.AcceptScore} or better.",
-                    Status = (int)HttpStatusCode.NotFound
-                });
-            }
-
-            var tasks = await Task.WhenAll(locators.Select(locator => _mediator.Send(new Geocode.Command(locator)))
-                                                   .ToArray());
-            var candidates = tasks.SelectMany(x => x);
-
-            foreach (var candidate in candidates) {
-                topCandidates.Add(candidate);
-            }
-
-            var highestScores = topCandidates.Get();
-
-            var chooseBestAddressCandidateCommand = new FilterCandidates.Command(highestScores, options, street,
-                                                                                 zone, parsedAddress);
-            var winner = await _mediator.Send(chooseBestAddressCandidateCommand);
-
-            if (winner == null || winner.Score < 0) {
-                _log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street,
-                             zone,
-                             options.AcceptScore);
-
-                return NotFound(new ApiResponseContainer {
-                    Message = $"No address candidates found with a score of {options.AcceptScore} or better.",
-                    Status = (int)HttpStatusCode.NotFound
-                });
-            }
-
-            if (winner.Location == null) {
-                _log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street,
-                             zone,
-                             options.AcceptScore);
-            }
-
-            winner.Wkid = options.SpatialReference;
-
-            _log.Debug("Result score: {score} from {locator}", winner.Score, winner.Locator);
-
-            return Ok(new ApiResponseContainer<GeocodeAddressApiResponse> {
-                Result = winner,
-                Status = (int)HttpStatusCode.OK
-            });
+            return result;
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class DoubleAveExceptionTests {
-        private readonly IPipelineBehavior<ZoneParsing.Command, GeocodeAddress> _handler;
+        private readonly IPipelineBehavior<ZoneParsing.Command, AddressWithGrids> _handler;
         private readonly ZoneParsing.Handler _requestHandler;
 
         public DoubleAveExceptionTests() {
@@ -35,7 +35,7 @@ namespace api.tests.Features.Geocoding {
 
             var regex = new RegexCache(new Abbreviations());
             _handler =
-                new DoubleAvenuesException.DoubleAvenueExceptionPipeline<ZoneParsing.Command, GeocodeAddress>(regex, new Mock<ILogger>().Object);
+                new DoubleAvenuesException.DoubleAvenueExceptionPipeline<ZoneParsing.Command, AddressWithGrids>(regex, new Mock<ILogger>().Object);
             _requestHandler = new ZoneParsing.Handler(regex, mediator.Object, new Mock<ILogger>().Object);
         }
 
@@ -47,10 +47,10 @@ namespace api.tests.Features.Geocoding {
         [InlineData("seventh heaven", 84047, Direction.None)]
         [InlineData("7", 11111, Direction.None)]
         [InlineData("7th", 11111, Direction.None)]
-        [InlineData("7th", null, Direction.None)]
+        [InlineData("7th", 0, Direction.None)]
         public async Task Should_add_west_to_midvale_avenue_if_not_supplied_for_zip(
             string streetname, int zipcode, Direction direction) {
-            var address = new GeocodeAddress(new CleansedAddress("", 0, 0, 0, Direction.None, streetname,
+            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetname,
                                                                  StreetType.Avenue, Direction.None, 0, zipcode, false,
                                                                  false));
 
@@ -71,7 +71,7 @@ namespace api.tests.Features.Geocoding {
         [InlineData("7th", null, Direction.None)]
         public async Task Should_add_west_to_midvale_avenue_if_not_supplied_for_city(
             string streetname, string city, Direction direction) {
-            var address = new GeocodeAddress(new CleansedAddress("", 0, 0, 0, Direction.None, streetname,
+            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetname,
                                                                  StreetType.Avenue, Direction.None, 0, null, false,
                                                                  false));
 
@@ -89,7 +89,7 @@ namespace api.tests.Features.Geocoding {
         [InlineData("7", "  slc", Direction.East)]
         public async Task Should_add_east_to_slc_avenue_if_not_supplied_for_city(
             string streetname, string city, Direction direction) {
-            var address = new GeocodeAddress(new CleansedAddress("", 0, 0, 0, Direction.None, streetname,
+            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetname,
                                                                  StreetType.Avenue, Direction.None, 0, null, false,
                                                                  false));
 

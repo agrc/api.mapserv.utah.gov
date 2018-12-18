@@ -13,9 +13,9 @@ using Serilog;
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class UspsDeliveryPointLocation {
         public class Command : IHasGeocodingOptions, IRequest<Candidate> {
-            internal readonly GeocodeAddress Address;
+            internal readonly AddressWithGrids Address;
 
-            public Command(GeocodeAddress address, GeocodingOptions options) {
+            public Command(AddressWithGrids address, GeocodingOptions options) {
                 Address = address;
                 Options = options;
             }

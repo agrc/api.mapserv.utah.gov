@@ -3,9 +3,9 @@ using api.mapserv.utah.gov.Models.Linkables;
 
 namespace api.mapserv.utah.gov.Models
 {
-  public class GeocodeAddress : CleansedAddress
+  public class AddressWithGrids : CleansedAddress
   {
-      public GeocodeAddress(AddressBase address)
+      public AddressWithGrids(AddressBase address)
           : base(address.InputAddress,
                  address.HouseNumber,
                  address.Milepost,
