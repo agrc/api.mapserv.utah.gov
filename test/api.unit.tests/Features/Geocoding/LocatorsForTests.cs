@@ -90,7 +90,7 @@ namespace api.tests.Features.Geocoding {
             public async Task Should_create_extra_for_address_reversal() {
                 var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "2", StreetType.Alley,
                                                         Direction.South, 0, 84114, false, false);
-                var address = new GeocodeAddress(parsedAddress) {
+                var address = new AddressWithGrids(parsedAddress) {
                     AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
                 };
 
@@ -117,7 +117,7 @@ namespace api.tests.Features.Geocoding {
             public async Task Should_return_address_point_geocoder_only() {
                 var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
                                                         StreetType.Alley, Direction.South, 0, 84114, false, false);
-                var address = new GeocodeAddress(parsedAddress) {
+                var address = new AddressWithGrids(parsedAddress) {
                     AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
                 };
 
@@ -140,7 +140,7 @@ namespace api.tests.Features.Geocoding {
             public async Task Should_return_all_geocoders() {
                 var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
                                                         StreetType.Alley, Direction.South, 0, 84114, false, false);
-                var address = new GeocodeAddress(parsedAddress) {
+                var address = new AddressWithGrids(parsedAddress) {
                     AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
                 };
 
@@ -169,7 +169,7 @@ namespace api.tests.Features.Geocoding {
             public async Task Should_return_centerline_geocoder_only() {
                 var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
                                                         StreetType.Alley, Direction.South, 0, 84114, false, false);
-                var address = new GeocodeAddress(parsedAddress) {
+                var address = new AddressWithGrids(parsedAddress) {
                     AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
                 };
 
@@ -192,7 +192,7 @@ namespace api.tests.Features.Geocoding {
             public async Task Should_return_empty_when_no_grids() {
                 var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
                                                         StreetType.Alley, Direction.South, 0, 84114, false, false);
-                var address = new GeocodeAddress(parsedAddress) {
+                var address = new AddressWithGrids(parsedAddress) {
                     AddressGrids = Array.Empty<GridLinkable>()
                 };
 

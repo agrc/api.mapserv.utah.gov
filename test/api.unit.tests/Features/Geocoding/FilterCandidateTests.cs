@@ -42,7 +42,7 @@ namespace api.tests.Features.Geocoding {
                     Suggest = 1
                 };
 
-                var address = new GeocodeAddress(new CleansedAddress()) {
+                var address = new AddressWithGrids(new CleansedAddress()) {
                     AddressGrids = new[] {new ZipGridLink(0, "grid", 0)}
                 };
 
@@ -81,7 +81,7 @@ namespace api.tests.Features.Geocoding {
                     Suggest = 1
                 };
 
-                var address = new GeocodeAddress(new CleansedAddress()) {
+                var address = new AddressWithGrids(new CleansedAddress()) {
                     AddressGrids = new[] {new ZipGridLink(0, "grid", 0)}
                 };
 
@@ -114,7 +114,7 @@ namespace api.tests.Features.Geocoding {
                     AcceptScore = 2
                 };
 
-                var address = new GeocodeAddress(new CleansedAddress()) {
+                var address = new AddressWithGrids(new CleansedAddress()) {
                     AddressGrids = new[] {new ZipGridLink(0, "grid", 0)}
                 };
 
@@ -148,7 +148,7 @@ namespace api.tests.Features.Geocoding {
                     ScoreDifference = true
                 };
 
-                var address = new GeocodeAddress(new CleansedAddress()) {
+                var address = new AddressWithGrids(new CleansedAddress()) {
                     AddressGrids = new[] {new ZipGridLink(0, "grid", 0)}
                 };
 

@@ -10,17 +10,17 @@ using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class ZoneParsing {
-        public class Command : IRequest<GeocodeAddress> {
-            public Command(string inputZone, GeocodeAddress addressModel) {
+        public class Command : IRequest<AddressWithGrids> {
+            public Command(string inputZone, AddressWithGrids addressModel) {
                 InputZone = inputZone;
                 AddressModel = addressModel;
             }
 
             public string InputZone { get; set; }
-            public GeocodeAddress AddressModel { get; set; }
+            public AddressWithGrids AddressModel { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, GeocodeAddress> {
+        public class Handler : IRequestHandler<Command, AddressWithGrids> {
             private readonly ILogger _log;
             private readonly IMediator _mediator;
             private readonly IRegexCache _regex;
@@ -31,7 +31,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _log = log;
             }
 
-            public async Task<GeocodeAddress> Handle(Command request, CancellationToken token) {
+            public async Task<AddressWithGrids> Handle(Command request, CancellationToken token) {
                 _log.Debug("Parsing {zone}", request.InputZone);
 
                 if (string.IsNullOrEmpty(request.InputZone)) {

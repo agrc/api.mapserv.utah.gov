@@ -13,7 +13,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
     public class FilterCandidates {
         public class Command : IRequest<GeocodeAddressApiResponse> {
             public Command(IList<Candidate> candidates, GeocodingOptions geocodeOptions,
-                           string street, string zone, GeocodeAddress geocodedAddress) {
+                           string street, string zone, AddressWithGrids geocodedAddress) {
                 GeocodeOptions = geocodeOptions;
                 Street = street;
                 Zone = zone;
@@ -33,7 +33,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             internal GeocodingOptions GeocodeOptions { get; set; }
             internal string Street { get; set; }
             internal string Zone { get; set; }
-            internal GeocodeAddress GeocodedAddress { get; set; }
+            internal AddressWithGrids GeocodedAddress { get; set; }
             internal IList<Candidate> Candidates { get; }
         }
 

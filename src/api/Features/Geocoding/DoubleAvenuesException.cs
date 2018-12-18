@@ -12,7 +12,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
     public class DoubleAvenuesException {
         public class DoubleAvenueExceptionPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
             where TRequest : ZoneParsing.Command
-            where TResponse : GeocodeAddress {
+            where TResponse : AddressWithGrids {
             private readonly ILogger _log;
             private readonly Regex _ordinal;
 

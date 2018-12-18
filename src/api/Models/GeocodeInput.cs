@@ -1,6 +1,6 @@
 namespace api.mapserv.utah.gov.Models {
     public class GeocodeInput {
-        public GeocodeInput(GeocodeAddress addressInfo, string grid, int weight, LocatorProperties locator,
+        public GeocodeInput(AddressWithGrids addressInfo, string grid, int weight, LocatorProperties locator,
                             int wkId = 26912) {
             var street = addressInfo.StandardizedAddress;
 
@@ -12,7 +12,7 @@ namespace api.mapserv.utah.gov.Models {
             WkId = wkId;
         }
 
-        public GeocodeAddress AddressInfo { get; set; }
+        public AddressWithGrids AddressInfo { get; set; }
         public string Address { get; set; }
         public string Grid { get; set; }
         public int Weight { get; set; }
