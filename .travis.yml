@@ -1,8 +1,9 @@
-language: csharp
+dist: bionic
 sudo: false
-solution: api.mapserv.utah.gov.sln
 mono: none
+language: csharp
 dotnet: 2.2.101
+solution: api.mapserv.utah.gov.sln
 script:
   - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=info /p:CoverletOutput=coverage.info /p:Configuration=Release api.mapserv.utah.gov.sln
 after_success:
