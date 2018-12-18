@@ -40,35 +40,34 @@ namespace api.mapserv.utah.gov.Features.Health {
                     var result = await message.Content.ReadAsAsync<LocatorServiceStatus>(_mediaTypes);
 
                     if (!result.IsSuccessful) {
-                        results.Add(locator.ServiceName, HealthCheckResult.Failed("Unable to access geocode service", null, new Dictionary<string, object> {
+                        results.Add(locator.ServiceName, HealthCheckResult.Degraded("Unable to access geocode service", null, new Dictionary<string, object> {
                             { "duration", stopWatch.ElapsedMilliseconds }
                         }));
 
                         continue;
                     }
                 } catch (Exception ex) {
-                    results.Add(locator.ServiceName, HealthCheckResult.Failed("Unable to access geocode service", ex, new Dictionary<string, object> {
+                    results.Add(locator.ServiceName, HealthCheckResult.Degraded("Unable to access geocode service", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }));
 
                     continue;
                 }
 
-                results.Add(locator.ServiceName, HealthCheckResult.Passed("geocode service ready", new Dictionary<string, object> {
+                results.Add(locator.ServiceName, HealthCheckResult.Healthy("geocode service ready", new Dictionary<string, object> {
                     { "duration", stopWatch.ElapsedMilliseconds }
                 }));
             }
 
-            if (results.Values.All(x => x.Result == false)) {
-                return HealthCheckResult.Failed("Unable to access any geocode services");
+            if (results.Values.All(x => x.Status == HealthStatus.Degraded)) {
+                return HealthCheckResult.Unhealthy("Unable to access any geocode services");
             }
 
-            if (results.Values.Any(x => x.Result == false)) {
-                // this should be handled as a degrade
-                return HealthCheckResult.Failed("Unable to access all geocode services");
+            if (results.Values.Any(x => x.Status == HealthStatus.Degraded)) {
+                return HealthCheckResult.Degraded("Unable to access all geocode services");
             }
 
-            return HealthCheckResult.Passed("All geocode services ready");
+            return HealthCheckResult.Healthy("All geocode services ready");
         }
     }
 }

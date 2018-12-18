@@ -20,13 +20,13 @@ namespace api.mapserv.utah.gov.Features.Health {
                     db.StringGet("health");
                 }
             } catch (Exception ex) {
-                return HealthCheckResult.Failed("Unable to access redis cache", ex, new Dictionary<string, object> {
+                return HealthCheckResult.Degraded("Unable to access redis cache", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }
                 );
             }
 
-            return HealthCheckResult.Passed("cache ready", new Dictionary<string, object> {
+            return HealthCheckResult.Healthy("cache ready", new Dictionary<string, object> {
                 { "duration", stopWatch.ElapsedMilliseconds }
             });
         }
