@@ -5,7 +5,7 @@ language: csharp
 dotnet: 2.2.101
 solution: api.mapserv.utah.gov.sln
 script:
-  - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=info /p:CoverletOutput=coverage.info /p:Configuration=Release api.mapserv.utah.gov.sln
+  - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 notifications:
