@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using WebApiContrib.Core.Formatter.Jsonp;
 
 namespace api.mapserv.utah.gov {
@@ -123,13 +124,13 @@ namespace api.mapserv.utah.gov {
 
             app.UseMvc();
 
-            app.UseHealthChecks("", new HealthCheckOptions() {
-                Predicate = (check) => false
-            });
             app.UseHealthChecks("/api/v1/health/details", new HealthCheckOptions {
                 ResponseWriter = HealthCheckResponseWriter.WriteDetailsJson
             });
             app.UseHealthChecks("/api/v1/health");
+            app.UseHealthChecks("", new HealthCheckOptions() {
+                Predicate = (check) => false
+            });
         }
     }
 }

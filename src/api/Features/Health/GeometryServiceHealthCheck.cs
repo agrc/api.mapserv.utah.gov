@@ -33,17 +33,17 @@ namespace api.mapserv.utah.gov.Features.Health {
                 var result = await message.Content.ReadAsAsync<GeometryServiceInformation>(_mediaTypes);
 
                 if (!result.IsSuccessful) {
-                    return HealthCheckResult.Failed("Unable to access geometry service", null, new Dictionary<string, object> {
+                    return HealthCheckResult.Degraded("Unable to access geometry service", null, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     });
                 }
             } catch (Exception ex) {
-                return HealthCheckResult.Failed("Unable to access geometry service", ex, new Dictionary<string, object> {
+                return HealthCheckResult.Degraded("Unable to access geometry service", ex, new Dictionary<string, object> {
                     { "duration", stopWatch.ElapsedMilliseconds }
                 });
             }
 
-            return HealthCheckResult.Passed("geometry service ready", new Dictionary<string, object> {
+            return HealthCheckResult.Healthy("geometry service ready", new Dictionary<string, object> {
                 { "duration", stopWatch.ElapsedMilliseconds }
             });
         }

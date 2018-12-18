@@ -50,7 +50,7 @@ namespace developer.mapserv.utah.gov
                         options.AccessDeniedPath = new PathString("/accountaccess/");
                         options.SlidingExpiration = true;
                     });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
