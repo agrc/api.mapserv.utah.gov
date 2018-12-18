@@ -32,7 +32,7 @@ Currently,
 ```json
 {
   "sdk": {
-    "version": "2.2.100-preview3-35497"
+    "version": "2.2.101"
   }
 }
 ```
