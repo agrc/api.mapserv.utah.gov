@@ -21,6 +21,7 @@ namespace api.mapserv.utah.gov.Features.Searching {
     /// </remarks>
     [ApiController]
     [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Produces("application/json")]
     [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
     public class SearchController : ControllerBase {
