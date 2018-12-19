@@ -34,7 +34,7 @@ namespace api.mapserv.utah.gov.Models.RequestOptions {
                     attributeStyle = AttributeStyle.Input;
                 }
             } else {
-                attributeStyle = (AttributeStyle)Enum.Parse(typeof(AttributeStyle), attribute, true);
+                Enum.TryParse(attribute, out AttributeStyle attributeStyle);
             }
 
             var result = new SearchingOptions {
