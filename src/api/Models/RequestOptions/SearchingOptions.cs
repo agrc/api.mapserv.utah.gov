@@ -1,7 +1,9 @@
 using System.ComponentModel;
 using api.mapserv.utah.gov.Models.Constants;
+using Microsoft.AspNetCore.Mvc;
 
 namespace api.mapserv.utah.gov.Models.RequestOptions {
+    [ModelBinder(BinderType = typeof(SearchingOptionsBinder))]
     public class SearchingOptions : ProjectableOptions {
         private string _predicate = "";
         private double _buffer;
