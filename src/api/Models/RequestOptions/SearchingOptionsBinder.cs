@@ -1,11 +1,8 @@
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Models.Constants;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 
 namespace api.mapserv.utah.gov.Models.RequestOptions {
     public class SearchingOptionsBinder : IModelBinder {
