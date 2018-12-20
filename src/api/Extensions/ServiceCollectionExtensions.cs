@@ -10,6 +10,7 @@ using api.mapserv.utah.gov.Features.GeometryService;
 using api.mapserv.utah.gov.Features.Health;
 using api.mapserv.utah.gov.Features.Searching;
 using api.mapserv.utah.gov.Filters;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ArcGis;
@@ -78,6 +79,8 @@ namespace api.mapserv.utah.gov.Extensions {
             services.AddTransient<IPipelineBehavior<UspsDeliveryPointLocation.Command, Candidate>, ReprojectPipeline<UspsDeliveryPointLocation.Command, Candidate>>();
 
             services.AddTransient<IRequestPreProcessor<SqlQuery.Command>, SqlPreProcessor>();
+            services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RequestLogger<>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceLogger<,>));
         }
     }
 }
