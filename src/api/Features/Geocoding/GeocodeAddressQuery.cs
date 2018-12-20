@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
-    public class GeocodeAddress {
+    public class GeocodeAddressQuery {
         public class Command : IRequest<ObjectResult> {
             internal readonly string Street;
             internal readonly string Zone;
