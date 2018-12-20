@@ -32,8 +32,8 @@
             "args": [
                 "test",
                 "/p:CollectCoverage=true",
-                "/p:CoverletOutputFormat=lcov",
-                "/p:CoverletOutput=../../lcov.info",
+                "/p:CoverletOutputFormat=opencover",
+                "/p:CoverletOutput=../../coverage.xml",
                 "${workspaceFolder}/test/api.unit.tests/api.tests.csproj"
             ],
             "problemMatcher": "$msCompile",
