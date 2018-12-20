@@ -10,7 +10,7 @@ using MediatR;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
-    public class ReverseGeocode {
+    public class ReverseGeocodeQuery {
         public class Command : IRequest<ReverseGeocodeRestResponse> {
             internal readonly LocatorProperties Locator;
 
