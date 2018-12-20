@@ -50,7 +50,7 @@ namespace api.mapserv.utah.gov.Features.Searching {
         [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
         [ProducesResponseType(500, Type = typeof(ApiResponseContainer))]
         [Route("api/v{version:apiVersion}/search/{tableName}/{returnValues}")]
-        public async Task<ObjectResult> Get(string tableName, string returnValues, [FromQuery] SearchingOptions options) {
+        public async Task<ObjectResult> Get(string tableName, string returnValues, SearchingOptions options) {
             _log.Debug("Searching {tableName} for {returnValues} with options: {options}", tableName, returnValues, options);
 
             #region validation
