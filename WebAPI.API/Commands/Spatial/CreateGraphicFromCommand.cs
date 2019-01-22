@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using EsriJson.Net;
-using EsriJson.Net.CoordinateReferenceSystem;
 using EsriJson.Net.Geometry;
-using EsriJson.Net.Graphic;
 using WebAPI.Common.Abstractions;
 using WebAPI.Domain;
 using WebAPI.Domain.ApiResponses;
@@ -44,7 +42,7 @@ namespace WebAPI.API.Commands.Spatial
                 {
                     geometry = new Point(result.Location.X, result.Location.Y)
                         {
-                            CRS = new CRS
+                            CRS = new Crs
                                 {
                                     WellKnownId = result.Wkid
                                 }
@@ -64,7 +62,7 @@ namespace WebAPI.API.Commands.Spatial
                 {
                     geometry = new Point(result.Location.X, result.Location.Y)
                     {
-                        CRS = new CRS
+                        CRS = new Crs
                         {
                             WellKnownId = 26912
                         }
