@@ -16,11 +16,11 @@ namespace WebAPI.API
         {
             messageHandlers.Add(new SuppressStatusCodeHandler());
             messageHandlers.Add(new ElapsedTimeMessageHandler());
+            messageHandlers.Add(new CorsHandler());
             messageHandlers.Add(App.Kernel.Get<AuthorizeRequestHandler>());
             messageHandlers.Add(new GeometryFormatHandler());
             messageHandlers.Add(App.Kernel.Get<EsriJsonHandler>());
             messageHandlers.Add(App.Kernel.Get<GeoJsonHandler>());
-            messageHandlers.Add(new CorsHandler());
             messageHandlers.Add(App.Kernel.Get<ApiLoggingHandler>());
         }
     }
