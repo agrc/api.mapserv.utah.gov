@@ -35,6 +35,11 @@ namespace WebAPI.API.Controllers.API.Version1
         {
             #region validation
 
+            street = street?.Trim();
+            zone = zone?.Trim();
+
+            zone = zone?.Replace(".", "").Replace(",", "").Replace("_", " ");
+
             var errors = "";
             if (string.IsNullOrEmpty(street))
             {
@@ -56,8 +61,6 @@ namespace WebAPI.API.Controllers.API.Version1
                                                   });
             }
 
-            street = street.Trim();
-            zone = zone.Trim();
             #endregion
 
             GeocodeAddressResult geocodeAddressResult;
