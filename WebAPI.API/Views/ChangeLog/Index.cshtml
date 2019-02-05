@@ -6,6 +6,13 @@
 
 <h1>Changelog</h1>
 <h2>
+    1.10.0
+    <small>1/21/2019</small>
+</h2>
+<ul>
+    <li class="item">Add `suggest` property to Reverse Milepost geocoding to get nearby candidates (#84)
+</ul>
+<h2>
     1.9.7
     <small>1/21/2019</small>
 </h2>
@@ -156,19 +163,19 @@
 </h2>
 <ul>
     <li class="item">
-    Fixed a bug related to route and milepost reprojecting #25
+        Fixed a bug related to route and milepost reprojecting #25
 
     <li class="item">
-    Removed the beta ribbon!
+        Removed the beta ribbon!
 
     <li class="item">
-    Added the callback form elements to the explorer. #35
+        Added the callback form elements to the explorer. #35
 
     <li class="item">
-    Updated the spatialReference help text
+        Updated the spatialReference help text
 
     <li class="item">
-    Created more appriate error messages for invalid search geometry inputs.
+        Created more appriate error messages for invalid search geometry inputs.
 
 </ul>
 <h2>
@@ -177,7 +184,7 @@
 </h2>
 <ul>
     <li class="item">
-    Fix endoint /info/FieldNames.
+        Fix endoint /info/FieldNames.
 
 </ul>
 <h2>
@@ -186,11 +193,11 @@
 </h2>
 <ul>
     <li class="item">
-    Before fixing #29, all returnValues input for the search api were uppercased. camelCase was the default response casing and since the values were all uppercased the api would return all lowercased values.
-    This patch update changes the default response casing to lowercase to match this behavior.
+        Before fixing #29, all returnValues input for the search api were uppercased. camelCase was the default response casing and since the values were all uppercased the api would return all lowercased values.
+        This patch update changes the default response casing to lowercase to match this behavior.
 
     <li class="item">
-    Placename and zip code lookup improvements for Eagle Mountain.
+        Placename and zip code lookup improvements for Eagle Mountain.
 
 </ul>
 <h2>
@@ -199,7 +206,7 @@
 </h2>
 <ul>
     <li class="item">
-    Fix attributeStyle inconsistency. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/29">#29</a>
+        Fix attributeStyle inconsistency. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/29">#29</a>
 
 </ul>
 <h2>
@@ -208,7 +215,7 @@
 </h2>
 <ul>
     <li class="item">
-    Fix issue with over replacement of unit values in street names. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/22">#22</a>
+        Fix issue with over replacement of unit values in street names. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/22">#22</a>
 
 </ul>
 <h2>
@@ -217,7 +224,7 @@
 </h2>
 <ul>
     <li class="item">
-    Allow reverse geocode to handle other spatial refereces. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/26">#26</a>
+        Allow reverse geocode to handle other spatial refereces. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/26">#26</a>
 
 </ul>
 <h2>
@@ -226,10 +233,10 @@
 </h2>
 <ul>
     <li class="item">
-    Strip city of and down of text from zone. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/6">#6</a>
+        Strip city of and down of text from zone. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/6">#6</a>
 
     <li class="item">
-    Update documentation around spatial reference and remove not implemented badge on search endpoint. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/5">#5</a>
+        Update documentation around spatial reference and remove not implemented badge on search endpoint. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/5">#5</a>
 
 </ul>
 <h2>
@@ -238,7 +245,7 @@
 </h2>
 <ul>
     <li class="item">
-    Introduce ability to geocode from arcgis.com
+        Introduce ability to geocode from arcgis.com
 
 </ul>
 <h2>
@@ -247,7 +254,7 @@
 </h2>
 <ul>
     <li class="item">
-    Ability to query raster datasets in the SGID.
+        Ability to query raster datasets in the SGID.
 
     <li class="item">Display message when requests time out.
 </ul>
@@ -258,10 +265,10 @@
 <ul>
     <li class="item">upgrade underlying libraries
     <li class="item">
-    Ability to geocode P.O. Boxes in "Street Zone" geocoding. Use the pobox=true flag to opt in to this feature.
+        Ability to geocode P.O. Boxes in "Street Zone" geocoding. Use the pobox=true flag to opt in to this feature.
 
     <li class="item">
-    Fixed CSS bug with API Explorer demos.
+        Fixed CSS bug with API Explorer demos.
 
     <li class="item">Removed callback parameter from multiple geocoding requests since you cannot POST with JSONP. Use CORS.
 </ul>
@@ -299,7 +306,7 @@
 </h2>
 <ul>
     <li class="item">
-    Placename lookup improvements.
+        Placename lookup improvements.
 
     <li class="item">Better handling of malformed addresses.
 </ul>
@@ -353,7 +360,7 @@
 </h2>
 <ul>
     <li class="item">
-    Improved geocoding in castledale
+        Improved geocoding in castledale
 
     <li class="item">Address grids are now upper case instead of title case
 </ul>
@@ -440,7 +447,7 @@
 </h2>
 <ul>
     <li class="item">
-    Implemented field names endpoint.
+        Implemented field names endpoint.
 
     <li class="item">Route and mile post can return a reprojected coordinate.
 </ul>
@@ -501,7 +508,7 @@
 </h2>
 <ul>
     <li class="item">
-    Can supply wkid to search.
+        Can supply wkid to search.
 
     <li class="item">Can now use SSL.
 </ul>
@@ -511,10 +518,10 @@
 </h2>
 <ul>
     <li class="item">
-    Changed Search parameter Point to Geometry.
+        Changed Search parameter Point to Geometry.
 
     <li class="item">
-    Geometry syntax for point is now point:[x,y]
+        Geometry syntax for point is now point:[x,y]
 
     <li class="item">Added wkid for Search API
 </ul>
@@ -553,7 +560,7 @@
 </h2>
 <ul>
     <li class="item">
-    Fixed a bug with trying address reversals on non numeric street types.
+        Fixed a bug with trying address reversals on non numeric street types.
 
     <li class="item">Added more place names and updated zip codes to include delivery point locations.
 </ul>
@@ -616,15 +623,17 @@
         letter-spacing: -2px;
     }
 
-    h2 { font-size: 20px; }
-
-    h2 > small {
-        color: #888;
-        display: block;
-        font-size: 12px;
-        font-weight: normal;
-        letter-spacing: 0px;
+    h2 {
+        font-size: 20px;
     }
+
+        h2 > small {
+            color: #888;
+            display: block;
+            font-size: 12px;
+            font-weight: normal;
+            letter-spacing: 0px;
+        }
 
     ul {
         list-style: none;
