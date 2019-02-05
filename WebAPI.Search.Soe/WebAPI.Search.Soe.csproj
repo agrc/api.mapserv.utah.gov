@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebAPI.Search.Soe</RootNamespace>
     <AssemblyName>WebAPI.Search.Soe</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>WebApi.Search.Soe.snk</AssemblyOriginatorKeyFile>
@@ -160,7 +160,7 @@
       <Name>Soe.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebAPI.Domain\WebAPI.Domain.csproj">
-      <Project>{DC6A50CB-059B-4418-BBDF-58C40198BEBE}</Project>
+      <Project>{dc6a50cb-059b-4418-bbdf-58c40198bebe}</Project>
       <Name>WebAPI.Domain</Name>
     </ProjectReference>
   </ItemGroup>
