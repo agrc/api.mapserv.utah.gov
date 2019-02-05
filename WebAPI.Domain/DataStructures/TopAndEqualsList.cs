@@ -14,17 +14,13 @@ namespace WebAPI.Domain.DataStructures
         protected TopAndEqualsList(IComparer<T> comparer)
         {
             _comparer = comparer;
-            Candidates = new Collection<T>();
         }
 
         public T TopResult { get; set; }
 
-        private ICollection<T> Candidates { get; set; }
+        public ICollection<T> CandidatesNearby { get; set; } = new Collection<T>();
 
-        public ICollection<T> EqualCandidates
-        {
-            get { return Candidates; }
-        }
+        public ICollection<T> EqualCandidates { get; set; } = new Collection<T>();
 
         public void Add(T item)
         {
@@ -38,17 +34,23 @@ namespace WebAPI.Domain.DataStructures
 
             if (result == 0)
             {
-                Candidates.Add(item);
+                EqualCandidates.Add(item);
                 return;
             }
 
             if (result > 0)
             {
+                CandidatesNearby.Add(item);
                 return;
             }
 
             TopResult = item;
-            Candidates.Clear();
+            foreach (var candidate in EqualCandidates)
+            {
+              CandidatesNearby.Add(candidate);  
+            }
+
+            EqualCandidates.Clear();
         }
     }
 }
