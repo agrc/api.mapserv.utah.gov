@@ -24,18 +24,11 @@ namespace WebAPI.API.ModelBindings
             var locatorType = LocatorType.All;
             var jsonFormat = JsonFormat.None;
 
-            int count,
-                score,
-                wkid;
-
-            bool geocodePoBox,
-                 calculateScoreDifference;
-
-            int.TryParse(string.IsNullOrEmpty(acceptScore) ? "70" : acceptScore, out score);
-            int.TryParse(string.IsNullOrEmpty(suggestCount) ? "0" : suggestCount, out count);
-            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out wkid);
-            bool.TryParse(string.IsNullOrEmpty(pobox) ? "false" : pobox, out geocodePoBox);
-            bool.TryParse(string.IsNullOrEmpty(scoreDifference) ? "false" : scoreDifference, out calculateScoreDifference);
+            int.TryParse(string.IsNullOrEmpty(acceptScore) ? "70" : acceptScore, out var score);
+            int.TryParse(string.IsNullOrEmpty(suggestCount) ? "0" : suggestCount, out var count);
+            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out var wkid);
+            bool.TryParse(string.IsNullOrEmpty(pobox) ? "false" : pobox, out var geocodePoBox);
+            bool.TryParse(string.IsNullOrEmpty(scoreDifference) ? "false" : scoreDifference, out var calculateScoreDifference);
 
             try
             {
