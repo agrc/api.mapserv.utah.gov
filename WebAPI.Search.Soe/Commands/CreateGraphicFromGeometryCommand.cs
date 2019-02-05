@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using EsriJson.Net;
 using ESRI.ArcGIS.Geometry;
-using EsriJson.Net.CoordinateReferenceSystem;
 using EsriJson.Net.Geometry;
 using Newtonsoft.Json;
 using Soe.Common.Infastructure.Commands;
@@ -33,7 +33,7 @@ namespace WebAPI.Search.Soe.Commands
             {
                 var polygon = new Polygon
                     {
-                        CRS = new CRS
+                        CRS = new Crs
                             {
                                 WellKnownId = 26912
                             }
@@ -81,7 +81,7 @@ namespace WebAPI.Search.Soe.Commands
                 var esriPoint = Geometry as IPoint;
                 var point = new Point
                     {
-                        CRS = new CRS
+                        CRS = new Crs
                             {
                                 WellKnownId = 26912
                             }
@@ -104,7 +104,7 @@ namespace WebAPI.Search.Soe.Commands
             {
                 var line = new Polyline
                 {
-                    CRS = new CRS
+                    CRS = new Crs
                     {
                         WellKnownId = 26912
                     }
@@ -149,7 +149,7 @@ namespace WebAPI.Search.Soe.Commands
             {
                 var polygon = new Polygon
                 {
-                    CRS = new CRS
+                    CRS = new Crs
                     {
                         WellKnownId = 26912
                     }
