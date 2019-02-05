@@ -450,7 +450,8 @@ namespace WebAPI.API.Controllers.API.Version1
                     OffsetMeters = response.TopResult.Distance,
                     Milepost = response.TopResult.Milepost,
                     Increasing = response.TopResult.Increasing,
-                    Candidates = response.EqualCandidates.Concat(response.CandidatesNearby)
+                    Candidates = response.EqualCandidates
+                                         .Concat(response.CandidatesNearby)
                                          .Select(item => new ReverseMilepostResult
                                          {
                                              Route = item.Route,
@@ -458,7 +459,9 @@ namespace WebAPI.API.Controllers.API.Version1
                                              Milepost = item.Milepost,
                                              Increasing = item.Increasing
                                          })
-                };
+                                         .OrderBy(c => c.OffsetMeters)
+                                         .Take(options.SuggestCount)
+            };
 
             return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<ReverseMilepostResult>
                 {
