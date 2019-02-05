@@ -25,5 +25,13 @@
         /// To include ramps and collectors the value is 1.
         /// </value>
         public int IncludeRampSystems { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the suggest count for how many address candidates to return.
+        /// </summary>
+        /// <value>
+        ///     The suggest count.
+        /// </value>
+        public int SuggestCount { get; set; } = 0;
     }
 }

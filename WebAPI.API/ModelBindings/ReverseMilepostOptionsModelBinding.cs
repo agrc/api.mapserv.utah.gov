@@ -16,17 +16,15 @@ namespace WebAPI.API.ModelBindings
             string buffer = keyValueModel["buffer"],
                    format = keyValueModel["format"],
                    spatialReference = keyValueModel["spatialReference"],
-                   includeRamps = keyValueModel["includeRampSystem"];
+                   includeRamps = keyValueModel["includeRampSystem"],
+                   suggestCount = keyValueModel["suggest"];
 
             var jsonFormat = JsonFormat.None;
 
-            int wkid;
-            double bufferDistance;
-            bool includeRampSystems;
-
-            double.TryParse(string.IsNullOrEmpty(buffer) ? "0" : buffer, out bufferDistance);
-            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out wkid);
-            bool.TryParse(string.IsNullOrEmpty(includeRamps) ? bool.FalseString : includeRamps, out includeRampSystems);
+            int.TryParse(string.IsNullOrEmpty(suggestCount) ? "0" : suggestCount, out var count);
+            double.TryParse(string.IsNullOrEmpty(buffer) ? "0" : buffer, out var bufferDistance);
+            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out var wkid);
+            bool.TryParse(string.IsNullOrEmpty(includeRamps) ? bool.FalseString : includeRamps, out var includeRampSystems);
 
             try
             {
@@ -42,8 +40,9 @@ namespace WebAPI.API.ModelBindings
                     Buffer = bufferDistance,
                     JsonFormat = jsonFormat,
                     WkId = wkid,
-                    IncludeRampSystems = includeRampSystems ? 1 : 0
-                };
+                    IncludeRampSystems = includeRampSystems ? 1 : 0,
+                    SuggestCount = count
+            };
 
             return true;
         }
