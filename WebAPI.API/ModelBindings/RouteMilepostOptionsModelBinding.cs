@@ -35,7 +35,7 @@ namespace WebAPI.API.ModelBindings
 
             var sideType = SideDelineation.P;
 
-            if (!string.IsNullOrEmpty(side) && side.ToUpperInvariant() == "DESCREASING")
+            if (!string.IsNullOrEmpty(side) && side.ToUpperInvariant() == "DECREASING")
             {
                 sideType = SideDelineation.N;
             }
