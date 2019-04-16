@@ -263,3 +263,6 @@ __pycache__/
 lcov.info
 src/api/appsettings.production.json
 coverage.xml
+
+# terraform
+.terra/
