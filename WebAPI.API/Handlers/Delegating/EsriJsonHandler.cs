@@ -23,23 +23,26 @@ namespace WebAPI.API.Handlers.Delegating
         {
             return base.SendAsync(request, cancellationToken).ContinueWith(response =>
             {
-                IEnumerable<string> formats, types;
-
                 var requestContent = HttpContentProvider.GetRequestContent(request);
 
-                if (!requestContent.Headers.TryGetValues("X-Format", out formats))
+                if (response.Result.StatusCode != HttpStatusCode.OK)
                 {
                     return response.Result;
                 }
 
-                if (response.Result == null || response.Result.Content == null || !formats.Contains("esrijson"))
+                if (!requestContent.Headers.TryGetValues("X-Format", out var formats))
+                {
+                    return response.Result;
+                }
+
+                if (response.Result?.Content == null || !formats.Contains("esrijson"))
                 {
                     return response.Result;
                 }
 
                 var responseContent = HttpContentProvider.GetResponseContent(response.Result);
 
-                if (!responseContent.Headers.TryGetValues("X-Type", out types))
+                if (!responseContent.Headers.TryGetValues("X-Type", out var types))
                 {
                     return response.Result;
                 }
@@ -56,10 +59,9 @@ namespace WebAPI.API.Handlers.Delegating
 
                 try
                 {
-                    var result = responseContent.ReadAsAsync(type)
+                    var result = responseContent.ReadAsAsync(type, cancellationToken)
                                 .ContinueWith(y =>
                                 {
-                                    HttpStatusCode status;
                                     var graphic = CommandExecutor.ExecuteCommand(new CreateGraphicFromCommand(y.Result));
 
                                     if (graphic == null)
@@ -67,13 +69,13 @@ namespace WebAPI.API.Handlers.Delegating
                                         return response.Result;
                                     }
 
-                                    if(!Enum.TryParse(graphic.Status.ToString(), out status))
+                                    if(!Enum.TryParse(graphic.Status.ToString(), out HttpStatusCode status))
                                     {
                                         status = HttpStatusCode.OK;
                                     }
 
                                     return request.CreateResponse(status, graphic);
-                                });
+                                }, cancellationToken);
 
                     return result.Result;
                 }
@@ -83,7 +85,7 @@ namespace WebAPI.API.Handlers.Delegating
                 }
 
                 return response.Result;
-            });
+            }, cancellationToken);
         }
     }
 }
