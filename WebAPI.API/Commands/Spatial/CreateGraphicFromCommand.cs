@@ -19,23 +19,22 @@ namespace WebAPI.API.Commands.Spatial
 
         public override string ToString()
         {
-            return string.Format("{0}, Container: {1}", "CreateGraphicFromCommand", Container);
+            return $"CreateGraphicFromCommand, Container: {Container}";
         }
 
         protected override void Execute()
         {
-            Dictionary<string, object> attributes = null;
-            string message = null;
-            var status = 0;
+            Dictionary<string, object> attributes;
+            string message;
+            int status;
             EsriJsonObject geometry = null;
 
-            if (Container is ResultContainer<GeocodeAddressResult>)
+            if (Container is ResultContainer<GeocodeAddressResult> container1)
             {
-                var container = Container as ResultContainer<GeocodeAddressResult>;
-                message = container.Message;
-                status = container.Status;
-
-                var result = container.Result;
+                message = container1.Message;
+                status = container1.Status;
+                
+                var result = container1.Result;
                 attributes = GetProperties(result);
 
                 if (result.Location != null)
@@ -49,9 +48,8 @@ namespace WebAPI.API.Commands.Spatial
                         };
                 }
             }
-            else if (Container is ResultContainer<RouteMilepostResult>)
+            else if (Container is ResultContainer<RouteMilepostResult> container)
             {
-                var container = Container as ResultContainer<RouteMilepostResult>;
                 message = container.Message;
                 status = container.Status;
 
