@@ -29,9 +29,14 @@ namespace WebAPI.Domain.InputOptions
         /// </value>
         public int WkId { get; set; }
 
+        /// <summary>
+        ///  Decides whether the route is the highway only or the highway + direction + milepost from the data
+        /// </summary>
+        public bool FullRoute { get; set; }
+
         public override string ToString()
         {
-            return string.Format("Side: {0}", Side);
+            return $"Side: {Side}. Use FullRoute {FullRoute}";
         }
     }
 }

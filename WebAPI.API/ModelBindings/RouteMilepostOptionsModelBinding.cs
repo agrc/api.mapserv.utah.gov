@@ -15,9 +15,12 @@ namespace WebAPI.API.ModelBindings
 
             string side = keyValueModel["side"],
                    format = keyValueModel["format"],
-                   spatialReference = keyValueModel["spatialReference"];
+                   spatialReference = keyValueModel["spatialReference"],
+                   fullRoute = keyValueModel["fullRoute"];
 
             var jsonFormat = JsonFormat.None;
+
+            bool.TryParse(string.IsNullOrEmpty(fullRoute) ? "false" : fullRoute, out var usingFullRouteName);
 
             int wkid;
 
@@ -44,8 +47,9 @@ namespace WebAPI.API.ModelBindings
                 {
                     Side = sideType,
                     JsonFormat = jsonFormat,
-                    WkId = wkid
-                };
+                    WkId = wkid,
+                    FullRoute = usingFullRouteName
+            };
 
             return true;
         }

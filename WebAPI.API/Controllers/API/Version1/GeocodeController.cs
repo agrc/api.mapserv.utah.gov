@@ -312,7 +312,11 @@ namespace WebAPI.API.Controllers.API.Version1
 
             var errors = "";
 
-            var standardRoute = CommandExecutor.ExecuteCommand(new StandardizeRouteNameCommand(route));
+            var standardRoute = route;
+            if (!options.FullRoute)
+            {
+                standardRoute = CommandExecutor.ExecuteCommand(new StandardizeRouteNameCommand(route));
+            }
 
             if (string.IsNullOrEmpty(route) || string.IsNullOrEmpty(standardRoute))
             {
@@ -321,7 +325,7 @@ namespace WebAPI.API.Controllers.API.Version1
 
             if (string.IsNullOrEmpty(milepost) || !double.TryParse(milepost, out milepostNumber))
             {
-                errors += "milepost is emtpy or in unexpected format. Expected number eg: 300, 300.009";
+                errors += "milepost is empty or in unexpected format. Expected number eg: 300, 300.009";
             }
 
             if (errors.Length > 0)
