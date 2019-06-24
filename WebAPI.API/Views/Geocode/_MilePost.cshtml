@@ -1,6 +1,8 @@
 ﻿<div class="well">
-    <span class="label label-verb label-get pull-left">Get</span> <span class="label label-url url pull-right">
-                                                                      /geocode/milepost/:route/:milepost</span>
+    <span class="label label-verb label-get pull-left">Get</span>
+    <span class="label label-url url pull-right">
+        /geocode/milepost/:route/:milepost
+    </span>
     <div class="clearfix">
     </div>
     <h3>
@@ -24,8 +26,10 @@
                 </label>
                 <div class="col-sm-8">
                     <input type="text" id="route" name="route" class="form-control" data-required/>
-                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
-                                                                                 required</span>
+                    <span class="help-inline label label-info">number</span>
+                    <span class="help-inline label label-danger">
+                        required
+                    </span>
                     <p class="help-block">
                         The Utah highway number. eg: <code>15</code>.
                     </p>
@@ -37,8 +41,10 @@
                 </label>
                 <div class="col-sm-8">
                     <input type="text" id="milepost" name="milepost" class="form-control" data-required/>
-                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-danger">
-                                                                                 required</span>
+                    <span class="help-inline label label-info">number</span>
+                    <span class="help-inline label label-danger">
+                        required
+                    </span>
                     <p class="help-block">
                         The highway milepost. eg: <code>309.001</code>. Milepost precision is up to 1/1000 of a mile (approximately 5 feet).
                     </p>
@@ -54,8 +60,10 @@
                         <option value="increasing">increasing</option>
                         <option value="decreasing">decreasing</option>
                     </select>
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                    <span class="help-inline label label-info">string</span>
+                    <span class="help-inline label label-success">
+                        optional
+                    </span>
                     <p class="help-block">
                         <span class="label label-warning">For divided highways only.</span>. The side of the divided highway to match. <code>Increasing</code> if you are on the positive side of the divided highway (The mileposts are getting larger as you drive). <code>Decreasing</code> if you are on the negative side of a divided highway (the mileposts are getting smaller as you drive). Default is <code>Increasing</code>.
                     </p>
@@ -67,8 +75,10 @@
                 </label>
                 <div class="col-sm-8">
                     <input type="text" id="spatialReference" name="spatialReference" class="form-control"/>
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                    <span class="help-inline label label-info">string</span>
+                    <span class="help-inline label label-success">
+                        optional
+                    </span>
                     <p class="help-block">
                         The spatial reference for the output and input geometries.
                         <strong class="text-warning">The output and input spatial references must match.</strong>
@@ -80,15 +90,36 @@
                     @Html.Partial("_SpatialReference")
                 </div>
             </div>
-
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="fullRoute">
+                    fullRoute
+                </label>
+                <div class="col-sm-8">
+                    <select id="fullRoute" name="fullRoute" class="form-control">
+                        <option value>fullRoute
+                        <option value="true">True
+                        <option value="false">False
+                    </select>
+                    <span class="help-inline label label-info">boolean</span>
+                    <span class="help-inline label label-success">
+                        optional
+                    </span>
+                    <p class="help-block">
+                        Search using the full route name as it is in the source data (e.g., <code>0015PC30554</code>).
+                        <span class="text-warning"><code>route</code> changes from a number to a string. <code>side</code> is ignored as it becomes a part of the <code>route</code></span>. <code>False</code> is the default.
+                    </p>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="callback">
                     callback
                 </label>
                 <div class="col-sm-8">
                     <input type="text" id="callback" name="callback" class="form-control"/>
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                    <span class="help-inline label label-info">string</span>
+                    <span class="help-inline label label-success">
+                        optional
+                    </span>
                     <p class="help-block">
                         The callback function to call for cross domain javascript calls (jsonp).
                     </p>
@@ -104,8 +135,10 @@
                         <option value="esrijson">esrijson</option>
                         <option value="geojson">geojson</option>
                     </select>
-                    <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
+                    <span class="help-inline label label-info">string</span>
+                    <span class="help-inline label label-success">
+                        optional
+                    </span>
                     <p class="help-block">
                         The format of the resulting milepost. esri json will easily parse into an esri.Graphic
                         for display on a map and geojson will easily parse into a feature for use in many
