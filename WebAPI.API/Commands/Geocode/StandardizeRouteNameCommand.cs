@@ -14,7 +14,7 @@ namespace WebAPI.API.Commands.Geocode
 
         public override string ToString()
         {
-            return string.Format("{0}, Route: {1}", "StandardizeRouteNameCommand", Route);
+            return $"StandardizeRouteNameCommand, Route: {Route}";
         }
 
         protected override void Execute()

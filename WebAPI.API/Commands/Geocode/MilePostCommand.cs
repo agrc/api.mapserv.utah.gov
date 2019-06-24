@@ -39,7 +39,7 @@ namespace WebAPI.API.Commands.Geocode
 
         protected override void Execute()
         {
-            var requestUri = string.Format(Url, Route, Milepost, Options.Side);
+            var requestUri = string.Format(Url, Route, Milepost, Options.Side, Options.FullRoute);
 
             var response = App.HttpClient.GetAsync(requestUri).ContinueWith(
                 httpResponse => ConvertResponseToObjectAsync(httpResponse.Result)).Unwrap().Result;
