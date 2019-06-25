@@ -40,25 +40,41 @@ namespace Wsut.Upgrade.Soe.Endpoints
         {
             responseProperties = null;
 
-            double? milepost;
+            double? milepost = null;
+            double? routeNumber = null;
+            string routeType = null;
+            string route = null;
+            bool? fullRoute;
+
             var found = operationInput.TryGetAsDouble("milepost", out milepost);
             if (!found || !milepost.HasValue)
             {
                 throw new ArgumentNullException("milepost");
             }
 
-            double? routeNumber;
-            found = operationInput.TryGetAsDouble("routeNumber", out routeNumber);
-            if (!found || !routeNumber.HasValue)
-            {
-                throw new ArgumentNullException("routeNumber");
-            }
+            found = operationInput.TryGetAsBoolean("fullRoute", out fullRoute);
 
-            string routeType;
-            found = operationInput.TryGetString("routeType", out routeType);
-            if (!found || string.IsNullOrEmpty(routeType))
+            if (found && fullRoute.HasValue && fullRoute.Value)
             {
-                throw new ArgumentNullException("routeType");
+                found = operationInput.TryGetString("routeNumber", out route);
+                if (!found || string.IsNullOrEmpty(route))
+                {
+                    throw new ArgumentNullException("route");
+                }
+            }
+            else
+            {
+                found = operationInput.TryGetAsDouble("routeNumber", out routeNumber);
+                if (!found || !routeNumber.HasValue)
+                {
+                    throw new ArgumentNullException("routeNumber");
+                }
+
+                found = operationInput.TryGetString("routeType", out routeType);
+                if (!found || string.IsNullOrEmpty(routeType))
+                {
+                    throw new ArgumentNullException("routeType");
+                }
             }
 
             var connector = SdeConnectorFactory.Create(LayerName);
@@ -83,18 +99,35 @@ namespace Wsut.Upgrade.Soe.Endpoints
                     });
             }
 
-            var response =
-                CommandExecutor.ExecuteCommand(
-                    new FindRouteMilepostCommand(milepost.Value.ToString(CultureInfo.InvariantCulture), routeType,
-                                                 routeNumber.Value.ToString("0000"), LayerName,
-                                                 featureWorkSpace));
+            FindRouteMilepostCommand command = null;
+
+            if (fullRoute.HasValue && fullRoute.Value)
+            {
+                command = new FindRouteMilepostCommand(route, milepost.Value.ToString(CultureInfo.InvariantCulture), LayerName,
+                                                       featureWorkSpace);
+            }
+            else
+            {
+                command = new FindRouteMilepostCommand(milepost.Value.ToString(CultureInfo.InvariantCulture),
+                                                                            routeType,
+                                                                            routeNumber.Value.ToString("0000"),
+                                                                            LayerName,
+                                                                            featureWorkSpace);
+            }
+
+            var response = CommandExecutor.ExecuteCommand(command);
 
             if (response == null)
             {
+                var message = routeNumber + routeType;
+                if (string.IsNullOrEmpty(message))
+                {
+                    message = route;
+                }
+
                 return Json(new
                     {
-                        Message =
-                                "No mile post found for {0} on route {1}{2}".With(milepost, routeNumber, routeType)
+                        Message = "No mile post found for {0} on route {1}".With(milepost, message)
                     });
             }
 
