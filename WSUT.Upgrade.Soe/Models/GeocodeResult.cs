@@ -9,6 +9,7 @@ namespace WSUT.Upgrade.Soe.Models
     {
         private string _matchAddress;
         private double _longi, _lati;
+        private readonly bool _doNotFormat;
 
         [DataMember(Order = 1)]
         public string MatchAddress
@@ -16,9 +17,16 @@ namespace WSUT.Upgrade.Soe.Models
             get { return _matchAddress; }
             set
             {
-                var cultureInfo = Thread.CurrentThread.CurrentCulture;
-                var titleCaser = cultureInfo.TextInfo;
-                _matchAddress = titleCaser.ToTitleCase(value.ToLower());
+                if (_doNotFormat)
+                {
+                    _matchAddress = value.ToUpper();
+                }
+                else
+                {
+                    var cultureInfo = Thread.CurrentThread.CurrentCulture;
+                    var titleCaser = cultureInfo.TextInfo;
+                    _matchAddress = titleCaser.ToTitleCase(value.ToLower());
+                }
             }
         }
 
@@ -26,6 +34,7 @@ namespace WSUT.Upgrade.Soe.Models
         public string Geocoder;
         [DataMember(Order = 3)]
         public double Score;
+
         [DataMember(Order = 4)]
         public double UTM_X;
         [DataMember(Order = 5)]
@@ -46,8 +55,9 @@ namespace WSUT.Upgrade.Soe.Models
         public GeocodeResult()
         { }
 
-        public GeocodeResult(string matchAddress, string geocoder, double score)
+        public GeocodeResult(string matchAddress, string geocoder, double score, bool doNotFormat=false)
         {
+            _doNotFormat = doNotFormat;
             MatchAddress = matchAddress;
             Geocoder = geocoder;
             Score = score;
