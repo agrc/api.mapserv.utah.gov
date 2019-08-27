@@ -96,11 +96,11 @@ _It is worth noting that after the volume is created and the image is built, cha
 
 #### Import database _with container running_
 
-- `docker exec -i $(docker-compose ps -q db ) psql -Upostgres -d webapi < data/pg/pgdatq.sql`
+- `docker exec -i $(docker-compose ps -q db) psql -Upostgres -d webapi < data/pg/pgdatq.sql`
 
 #### View database tables _with container running_
 
-- `docker exec -it $(docker-compose ps -q db ) psql -Upostgres -d webapi -c '\z'`
+- `docker exec -it $(docker-compose ps -q db) psql -Upostgres -d webapi -c '\z'`
 
 ### Building images
 
