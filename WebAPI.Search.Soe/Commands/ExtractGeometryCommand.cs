@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.SOESupport;
 using Soe.Common.Infastructure.Commands;
@@ -79,7 +80,7 @@ namespace WebAPI.Search.Soe.Commands
                 container = CheckForLegacyGeometryInput(container, _geometryText);
             }
 
-            if (container.Geometry != null && container.Geometry.SpatialReference == null)
+            if (container?.Geometry != null && container?.Geometry?.SpatialReference == null)
             {
                 var srFactory = new SpatialReferenceEnvironmentClass();
 
