@@ -5,7 +5,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: src/api/Dockerfile
+      dockerfile: Dockerfile
     image: webapi/api
 
   developer:
