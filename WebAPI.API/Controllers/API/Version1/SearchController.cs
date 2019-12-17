@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using WebAPI.API.Commands.Search;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Extensions;
@@ -26,6 +27,11 @@ namespace WebAPI.API.Controllers.API.Version1 {
         public async Task<HttpResponseMessage> Get(string featureClass, string returnValues,
                                                    [FromUri] SearchOptions options)
         {
+            var log = Log.ForContext<SearchController>();
+            var specificLog = log.ForContext("request-id", featureClass);
+
+            specificLog.Warning("search: {table}, {fields}, with {@options}", featureClass, returnValues, options);
+
             #region validation
 
             var errors = "";
@@ -87,6 +93,8 @@ namespace WebAPI.API.Controllers.API.Version1 {
 
             if (isStraightSql)
             {
+                specificLog.Warning("search: non spatial query");
+
                 var sqlQueryCommand = new SqlQueryCommand(featureClass, returnValues, options.Predicate);
                 var list = CommandExecutor.ExecuteCommand(sqlQueryCommand);
 
@@ -121,6 +129,8 @@ namespace WebAPI.API.Controllers.API.Version1 {
                         message = "{0} probably does not exist. Check your spelling.".With(featureClass);
                     }
 
+                    specificLog.Error("search(non-spatial): {message}, {featurClass}, {returnValues}", message, featureClass, returnValues);
+
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultContainer<List<SearchResult>>
                         {
                             Message = message,
@@ -138,6 +148,8 @@ namespace WebAPI.API.Controllers.API.Version1 {
                                                                                        list));
                     }
                 }
+
+                specificLog.Warning("search(non-spatial): success");
 
                 return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<List<SearchResult>>
                     {
@@ -159,8 +171,10 @@ namespace WebAPI.API.Controllers.API.Version1 {
             {
                 request = await App.HttpClient.GetAsync(requestUri);
             }
-            catch (AggregateException)
+            catch (AggregateException ex)
             {
+                specificLog.Fatal(ex, "search(spatial): aggregate");
+
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
                                               new ResultContainer<List<SearchResult>>
                                                   {
@@ -173,8 +187,10 @@ namespace WebAPI.API.Controllers.API.Version1 {
             {
                 request.EnsureSuccessStatusCode();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                specificLog.Fatal(ex, "search(spatial): soe communication error");
+
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
                                               new ResultContainer<List<SearchResult>>
                                                   {
@@ -198,6 +214,8 @@ namespace WebAPI.API.Controllers.API.Version1 {
                     message = "{0} does not exist. Check your spelling.".With(featureClass);
                 }
 
+                specificLog.Error("search(spatial): {featureClass} {message}", featureClass, message);
+
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultContainer<List<SearchResult>>
                     {
                         Status = (int) HttpStatusCode.BadRequest,
@@ -208,6 +226,8 @@ namespace WebAPI.API.Controllers.API.Version1 {
 
             if (response.Results == null)
             {
+                specificLog.Warning("search(spatial): success count: 0");
+
                 return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<List<SearchResult>>
                     {
                         Status = (int) HttpStatusCode.OK,
@@ -229,6 +249,8 @@ namespace WebAPI.API.Controllers.API.Version1 {
                     CommandExecutor.ExecuteCommand(new FormatAttributesCommand(options.AttributeStyle,
                                                                                resultsWithGeometry));
             }
+
+            specificLog.Warning("search(spatial): success count: {count}", resultsWithGeometry.Count());
 
             return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<List<SearchResult>>
                 {

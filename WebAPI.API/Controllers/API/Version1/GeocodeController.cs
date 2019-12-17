@@ -33,6 +33,11 @@ namespace WebAPI.API.Controllers.API.Version1
         [HttpGet]
         public HttpResponseMessage Get(string street, string zone, [FromUri] GeocodeOptions options)
         {
+            var log = Log.ForContext<GeocodeController>();
+            var geocodeLog = log.ForContext("request-id", $"{street},{zone}");
+
+            geocodeLog.Warning("geocode(single): street {street}, zone {zone}, with {@options}", street, zone, options);
+
             #region validation
 
             street = street?.Trim();
@@ -72,7 +77,7 @@ namespace WebAPI.API.Controllers.API.Version1
             }
             catch (AggregateException ex)
             {
-                Log.Fatal(ex, "Aggregate error from geocoding");
+                geocodeLog.Fatal(ex, "geocode(single): Aggregate error from geocoding");
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
                         new ResultContainer<GeocodeAddressResult>
                         {
@@ -88,6 +93,7 @@ namespace WebAPI.API.Controllers.API.Version1
             }
             catch (GeocodingException ex)
             {
+                geocodeLog.Fatal(ex, "geocode(single): Geocoding error from geocoding");
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
                             new ResultContainer<GeocodeAddressResult>
                             {
@@ -103,7 +109,7 @@ namespace WebAPI.API.Controllers.API.Version1
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Normal error from geocoding");
+                geocodeLog.Fatal(ex, "geocode(single): Normal error from geocoding");
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
                         new ResultContainer<GeocodeAddressResult>
                         {
@@ -120,7 +126,7 @@ namespace WebAPI.API.Controllers.API.Version1
 
             if (geocodeAddressResult == null || geocodeAddressResult.Score < 0)
             {
-                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
+                geocodeLog.Warning("geocode(single): Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
                          options.AcceptScore);
 
                 return Request.CreateResponse(HttpStatusCode.NotFound,
@@ -135,11 +141,13 @@ namespace WebAPI.API.Controllers.API.Version1
 
             if (geocodeAddressResult.Location == null)
             {
-                Log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
+                geocodeLog.Warning("geocode(single): Could not find match for {Street}, {Zone} with a score of {Score} or better.", street, zone,
                          options.AcceptScore);
             }
 
             geocodeAddressResult.Wkid = options.WkId;
+
+            geocodeLog.Warning("geocode(single): success score {score}, {@result}", geocodeAddressResult.Score, geocodeAddressResult);
 
             var response = Request.CreateResponse(HttpStatusCode.OK,
                                                                 new ResultContainer<GeocodeAddressResult>
@@ -156,6 +164,9 @@ namespace WebAPI.API.Controllers.API.Version1
         [HttpPost]
         public HttpResponseMessage Multiple(MultipleGeocodeContainerArgs addresseses, [FromUri] GeocodeOptions options)
         {
+            var log = Log.ForContext<GeocodeController>();
+            log.Warning("geocode(multiple): options {@options}", options);
+
             var notifications = "";
 
             #region validation
@@ -237,6 +248,7 @@ namespace WebAPI.API.Controllers.API.Version1
             HttpResponseMessage response;
             try
             {
+                log.Warning("success(multiple): success count {count}, average score {score}", result.Addresses.Count(), result.Addresses.Select(x => x.Score).Distinct());
                 response = Request.CreateResponse(HttpStatusCode.OK,
                                                   new ResultContainer
                                                       <MultipleGeocdeAddressResultContainer>
@@ -248,8 +260,10 @@ namespace WebAPI.API.Controllers.API.Version1
                                   .AddCache()
                                   .AddTypeHeader(typeof (ResultContainer<MultipleGeocdeAddressResultContainer>));
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                log.Fatal(ex, "geocode(multiple): invalid operation jsonp?");
+
                 response = new HttpResponseMessage(HttpStatusCode.BadGateway) {
                     Content = new ObjectContent(typeof(ResultContainer), new ResultContainer
                     {
@@ -257,12 +271,18 @@ namespace WebAPI.API.Controllers.API.Version1
                         Status = 400
                     }, new JsonMediaTypeFormatter())};
             }
+
             return response;
         }
 
         [HttpGet]
         public HttpResponseMessage Reverse(double? x, double? y, [FromUri] ReverseGeocodeOptions options)
         {
+            var log = Log.ForContext<GeocodeController>();
+            var reverseLog = log.ForContext("request-id", $"{x},{y}");
+
+            reverseLog.Warning("geocode(reverse): {x},{y}, with {@options}", x, y, options);
+
             #region validation
 
             var errors = "";
@@ -292,6 +312,7 @@ namespace WebAPI.API.Controllers.API.Version1
                 CommandExecutor.ExecuteCommand(new ReverseGeocodeCommand(new Location {X = x.Value, Y = y.Value},
                                                                          options.WkId, options.Distance));
 
+            reverseLog.Warning("geocode(reverse): success {@result}", reverseGeocodeResponse);
 
             return Request.CreateResponse(HttpStatusCode.OK,
                                                         new ResultContainer<ReverseGeocodeResult>
@@ -306,6 +327,11 @@ namespace WebAPI.API.Controllers.API.Version1
         [HttpGet]
         public HttpResponseMessage RouteMilePost(string route, string milepost, [FromUri] MilepostOptions options)
         {
+            var log = Log.ForContext<GeocodeController>();
+            var specificLog = log.ForContext("request-id", $"{route},{milepost}");
+
+            specificLog.Warning("geocode(milepost): {route},{milepost}, with {@options}", route, milepost, options);
+
             double milepostNumber = -1;
 
             #region validation
@@ -345,6 +371,8 @@ namespace WebAPI.API.Controllers.API.Version1
 
             if (string.IsNullOrEmpty(response.Source))
             {
+                specificLog.Warning("geocode(milepost): invalid source");
+
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                               new ResultContainer<RouteMilepostResult>
                                                   {
@@ -354,6 +382,8 @@ namespace WebAPI.API.Controllers.API.Version1
                               .AddTypeHeader(typeof (ResultContainer<RouteMilepostResult>))
                               .AddCache();
             }
+
+            specificLog.Warning("geocode(milepost): success {@response}", response);
 
             return Request.CreateResponse(HttpStatusCode.OK,
                                                         new ResultContainer<RouteMilepostResult>
@@ -369,6 +399,11 @@ namespace WebAPI.API.Controllers.API.Version1
         public async Task<HttpResponseMessage> ReverseMilePost(double? x, double? y,
                                                                [FromUri] ReverseMilepostOptions options)
         {
+            var log = Log.ForContext<GeocodeController>();
+            var specificLog = log.ForContext("request-id", $"{x},{y}");
+
+            specificLog.Warning("geocode(reverse-milepost): {x},{y}, with {@options}", x, y, options);
+
             #region validation
 
             var errors = "";
@@ -405,8 +440,10 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 request = await App.HttpClient.GetAsync(requestUri);
             }
-            catch (AggregateException)
+            catch (AggregateException ex)
             {
+                specificLog.Fatal(ex, "geocode(reverse - milepost): aggregate exception");
+
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
                                               new ResultContainer
                                                   {
@@ -420,8 +457,10 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 request.EnsureSuccessStatusCode();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                specificLog.Fatal(ex, "geocode(reverse-milepost): general exception");
+
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
                                               new ResultContainer
                                                   {
@@ -439,6 +478,8 @@ namespace WebAPI.API.Controllers.API.Version1
 
             if (response.TopResult == null)
             {
+                specificLog.Warning("geocode(reverse-milepost): no milepost found");
+
                 return Request.CreateResponse(HttpStatusCode.NotFound, new ResultContainer
                     {
                         Status = (int) HttpStatusCode.NotFound,
@@ -467,6 +508,8 @@ namespace WebAPI.API.Controllers.API.Version1
                                          .Take(options.SuggestCount)
             };
 
+            specificLog.Warning("geocode(reverse-milepost): success {@response}", transformed);
+
             return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<ReverseMilepostResult>
                 {
                     Status = (int) HttpStatusCode.OK,
@@ -475,7 +518,6 @@ namespace WebAPI.API.Controllers.API.Version1
                           .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>))
                           .AddCache();
         }
-
 
         [HttpGet]
         public HttpResponseMessage ArcGisOnlineActivation(string callback)

@@ -4,6 +4,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Sinks.Email;
+using Serilog.Sinks.GoogleCloudLogging;
 
 namespace WebAPI.Common.Logging
 {
@@ -11,6 +12,16 @@ namespace WebAPI.Common.Logging
     {
         public static void Register(string name)
         {
+            var config = new GoogleCloudLoggingSinkOptions {
+                ProjectId = "agrc-admin",
+                UseJsonOutput = true,
+                LogName = "api.mapserv.utah.gov",
+                UseSourceContextAsLogName = false,
+                ResourceType = "global",
+                ServiceName = "api.mapserv.utah.gov",
+                ServiceVersion = "1.12.0"
+            };
+
             var email = new EmailConnectionInfo
             {
                 EmailSubject = "Geocoding Log Email",
@@ -20,10 +31,12 @@ namespace WebAPI.Common.Logging
 
             var dir = Path.Combine(HttpRuntime.AppDomainAppPath, $@"..\logs\geocoding\{name}.log-{{Date}}.txt");
             var levelSwitch = new LoggingLevelSwitch();
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.ControlledBy(levelSwitch)
-                .WriteTo.RollingFile(dir)
+                // .WriteTo.RollingFile(dir)
                 .WriteTo.Email(email, restrictedToMinimumLevel: LogEventLevel.Error)
+                .WriteTo.GoogleCloudLogging(config)
                 .CreateLogger();
 
 #if DEBUG
