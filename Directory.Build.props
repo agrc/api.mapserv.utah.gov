@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <TargetFrameworkVersion>net48</TargetFrameworkVersion>
+      <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <LangVersion>preview</LangVersion>
     </PropertyGroup>
 </Project>
