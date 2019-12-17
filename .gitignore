@@ -126,3 +126,4 @@ WebAPI.API/client_secret.json
 WebAPI.API/sgid10.sde
 Soe.Common/App.config
 logs/
+log-writer-sa.json
