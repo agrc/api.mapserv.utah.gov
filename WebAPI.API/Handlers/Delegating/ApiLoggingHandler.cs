@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Hosting;
 using Ninject;
+using Serilog;
 using StackExchange.Redis;
 using WebAPI.Common.Providers;
 
@@ -114,6 +115,7 @@ namespace WebAPI.API.Handlers.Delegating
 
         private static void LogRequest(string type, string key, IDatabase db)
         {
+            Log.Warning("api({type}): {key}", type.ToLower(), key);
             db.StringIncrement(string.Format("{0}:{1}", key, type), flags: CommandFlags.FireAndForget);
         }
 
