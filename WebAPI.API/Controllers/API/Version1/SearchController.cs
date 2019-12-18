@@ -129,7 +129,7 @@ namespace WebAPI.API.Controllers.API.Version1 {
                         message = "{0} probably does not exist. Check your spelling.".With(featureClass);
                     }
 
-                    specificLog.Error("search(non-spatial): {message}, {featurClass}, {returnValues}", message, featureClass, returnValues);
+                    specificLog.Warning("search(non-spatial): {message}, {featurClass}, {returnValues}", message, featureClass, returnValues);
 
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultContainer<List<SearchResult>>
                         {
@@ -212,9 +212,11 @@ namespace WebAPI.API.Controllers.API.Version1 {
                 if (error == "DBMS TABLE NOT FOUND")
                 {
                     message = "{0} does not exist. Check your spelling.".With(featureClass);
+
+                    specificLog.Error("search(spatial): {featureClass} {message} {@options}", featureClass, message, options);
                 }
 
-                specificLog.Error("search(spatial): {featureClass} {message}", featureClass, message);
+                specificLog.Warning("search(spatial): {featureClass} {message} {@options}", featureClass, message, options);
 
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultContainer<List<SearchResult>>
                     {
