@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Raven.Client;
+using Serilog;
 using StackExchange.Redis;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Extensions;
@@ -63,9 +64,21 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                 return;
             }
 
-            StatCache.AllKeys = Session.Query<ApiKey>()
-                .Take(1024)
-                .ToArray();
+            const int pageSize = 1024;
+
+            var keys = Session.Query<ApiKey>()
+                .Take(pageSize)
+                .ToList();
+
+            keys.AddRange(Session.Query<ApiKey>()
+                .Skip(pageSize)
+                .Take(pageSize)
+                .ToList()
+            );
+
+            StatCache.AllKeys = keys.ToArray();
+            
+            Log.Warning("analytics(key-count): {key}", StatCache.AllKeys.Length);
 
             var totalKeys = Session.Query<ApiKey>().Count();
             var totalUsers = Session.Query<Account>().Count();
