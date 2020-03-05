@@ -1,4 +1,8 @@
 {
     "dotnet-test-explorer.testProjectPath": "test/**/*.csproj",
-    "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=../../lcov.info"
+    "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=../../lcov.info",
+    "cSpell.words": [
+        "semibold",
+        "tailwind"
+    ]
  }
