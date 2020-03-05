@@ -31,6 +31,10 @@ services:
     ports:
       - '5432:5432'
 
+  explorer:
+    ports:
+      - '8080:80'
+
 volumes:
   pgdata:
     external: true
