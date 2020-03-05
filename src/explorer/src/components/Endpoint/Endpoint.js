@@ -12,9 +12,9 @@ export default function Endpoint(props) {
         </div>
         <div className="flex justify-end">
           <div className="flex mt-4 md:mt-0">
-            <a
+            <button
               onClick={() => setCollapsed(!collapsed)}
-              className="flex cursor-pointer items-center px-10 py-3">
+              className="flex cursor-pointer focus:outline-none items-center px-10 py-3">
               {collapsed ? (
                 <svg className="h-10 w-10 fill-current text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -29,7 +29,7 @@ export default function Endpoint(props) {
                     fill-rule="evenodd"
                   />
                 </svg>
-              )}</a>
+              )}</button>
           </div>
         </div>
       </header>
