@@ -20,5 +20,10 @@ services:
       dockerfile: data/pg/Dockerfile
     image: webapi/db
 
+  explorer:
+    build:
+      context: ./src/explorer
+      dockerfile: Dockerfile
+
   cache:
     image: redis:latest
