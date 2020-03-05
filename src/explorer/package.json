@@ -13,7 +13,14 @@
     "react-toggle": "^4.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@storybook/addon-actions": "^5.3.14",
+    "@storybook/addon-links": "^5.3.14",
+    "@storybook/addons": "^5.3.14",
+    "@storybook/preset-create-react-app": "^1.5.2",
+    "@storybook/react": "^5.3.14",
     "autoprefixer": "^9.7.4",
+    "babel-loader": "^8.0.6",
     "postcss-cli": "^7.1.0",
     "tailwindcss": "^1.2.0"
   },
@@ -22,6 +29,8 @@
     "start": "npm run build:style && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
