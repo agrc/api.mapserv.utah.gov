@@ -1,14 +1,13 @@
 import React from 'react';
-import Endpoint from './Endpoint';
-import EndpointInput from './EndpointInput';
-import EndpointSelect from './EndpointSelect';
-import EndpointSwitch from './EndpointSwitch';
-import EndpointFormat from './EndpointFormat';
-import EndpointAdvancedToggle from './EndpointAdvancedToggle';
+import EndpointInput from '../../EndpointInput';
+import EndpointSelect from '../../EndpointSelect';
+import EndpointSwitch from '../../EndpointSwitch';
+import EndpointFormat from '../../EndpointFormat';
+import EndpointAdvancedToggle from '../../EndpointAdvancedToggle';
 
 export default function StreetZone() {
   return (
-    <Endpoint name="Street and Zone" description="Finding a spatial coordinate on the ground for an address">
+    <>
       <EndpointInput name="street" placeholder="123 main street" type="string" required="true" />
       <EndpointInput name="zone" placeholder="SLC" type="string" required={true} />
       <EndpointAdvancedToggle>
@@ -25,6 +24,6 @@ export default function StreetZone() {
         <EndpointFormat />
         <EndpointInput name="callback" type="string" required={false} />
       </EndpointAdvancedToggle>
-    </Endpoint>
+      </>
   );
 }
