@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import { RequiredLabel } from '../EndpointLabel';
 
 function Tip(props) {
   return (
@@ -50,8 +49,10 @@ function Description(props) {
 }
 
 function Heading(props) {
+  const classes = classNames(props.className, 'text-gray-500', 'text-3xl', 'font-thin', 'tracking-tight');
+
   return (
-    <h2 className="text-gray-500 text-3xl font-thin tracking-tight">{props.children}</h2>
+    <h2 className={classes}>{props.children}</h2>
   );
 }
 
