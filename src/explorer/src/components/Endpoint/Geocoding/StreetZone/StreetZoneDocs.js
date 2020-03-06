@@ -25,7 +25,7 @@ export default function StreetZone() {
         <span className="font-normal">geocode</span>/<span className="text-indigo-900 font-semibold">:street</span>/
         <span className="text-indigo-900 font-semibold">:zone</span>
       </p>
-      <Heading>Required Fields</Heading>
+      <Heading className="mt-8">Required Fields</Heading>
       <Label>street</Label>
       <Description>
         A Utah street address. eg: <Code>326 east south temple st</Code>. A valid mailing address or structure does not need to exist at the input street to get
@@ -35,7 +35,7 @@ export default function StreetZone() {
       <Description>
         A Utah municipality name or 5 digit zip code eg <Code>Provo</Code> or <Code>84111</Code>.
       </Description>
-      <Heading>Optional Fields</Heading>
+      <Heading className="mt-8">Optional Fields</Heading>
       <Label>spatialReference</Label>
       <Description>
         The spatial reference defines how the coordinates will represent a location on the earth defined by how the round earth was made flat. The well known
@@ -138,20 +138,63 @@ export default function StreetZone() {
       </Description>
       <Label>suggest</Label>
       <Description>
-        The <strong className="text-indigo-900">default</strong> value of <strong className="text-indigo-900">0</strong> will return the highest match. To
-        include the other candidates, set this value between 1-5. The candidates respect the <Code>acceptScore</Code> option.
+        The <strong className="text-indigo-900">default</strong> value of <Code>0</Code> will return the highest match. To include the other candidates, set
+        this value between 1-5. The candidates respect the <Code>acceptScore</Code> option.
       </Description>
       <Label>scoreDifference</Label>
       <Description>
-        When suggest is set to 0, the difference in score between the top match and the next highest match is calculated and returned on the result object. This
-        can help determine if there was a tie. If the value is 0, repeat the request with suggest > 0 and investigate the results. A common scenario to cause a
-        0 is when and input address of 100 main street is input. The two highest score matches will be 100 south main and 100 north main. The system will
-        arbitrarily choose one because they will have the same score.
+        When suggest is set to the <strong className="text-indigo-900">default</strong> value of <Code>0</Code>, the difference in score between the top match
+        and the next highest match is calculated and returned on the result object. This can help determine if there was a tie. If the value is 0, repeat the
+        request with suggest > 0 and investigate the results. A common scenario to cause a 0 is when and input address of 100 main street is input. The two
+        highest score matches will be 100 south main and 100 north main. The system will arbitrarily choose one because they will have the same score.
       </Description>
       <Label>callback</Label>
       <Description>
         The callback function to execute for cross domain javascript calls (jsonp). This API supports CORS and does not recommend the use of callback and jsonp.
       </Description>
+      <footer className="ml-2 pt-2 mt-8 md:ml-0 md:flex md:justify-around">
+        <div>
+          <Heading>Default Response Shape</Heading>
+          <pre className="ml-4">
+            {JSON.stringify(
+              {
+                result: {
+                  location: {
+                    x: 0,
+                    y: 0
+                  },
+                  score: 100,
+                  locator: '',
+                  matchAddress: '',
+                  inputAddress: '',
+                  addressGrid: ''
+                },
+                status: 200
+              },
+              null,
+              1
+            )}
+          </pre>
+        </div>
+        <div>
+          <Heading>Error Response Shape</Heading>
+          <pre className="ml-4">
+            {JSON.stringify(
+              {
+                status: 0,
+                message: ''
+              },
+              null,
+              1
+            )}
+          </pre>
+          <p className="md:max-w-xs mt-8 text-gray-700">
+            <span class="text-indigo-100 rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Tip</span>
+            Be sure to inspect the failed requests as they contain useful information. <Code>401</Code> status codes mean that your API key is having problems.{' '}
+            <Code>404</Code> means the address was not found. <Code>200</Code> is successful.
+          </p>
+        </div>
+      </footer>
     </section>
   );
 }
