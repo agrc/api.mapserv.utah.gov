@@ -7,7 +7,7 @@ function TypeLabel(props) {
   }
 
   return (
-    <span className="inline-flex px-2 text-xs leading-5 font-semibold rounded md:rounded-none md:rounded-tr bg-blue-100 text-blue-800 border md:border-b-0 border-blue-700">
+    <span className="ml-4 md:m-0 md:mr-2 inline-flex px-2 text-xs leading-5 font-semibold rounded md:rounded-none md:rounded-tr bg-blue-100 text-blue-800 border md:border-b-0 border-blue-700">
       {props.type}
     </span>
   );
@@ -15,6 +15,8 @@ function TypeLabel(props) {
 
 function RequiredLabel(props) {
   const classes = classNames(
+    'md:m-0',
+    'md:mr-2',
     'px-2',
     'ml-1',
     'md:ml-0',
