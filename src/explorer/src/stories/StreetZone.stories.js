@@ -9,5 +9,6 @@ export default {
 };
 
 export const Component = () => <StreetZoneEndpoint></StreetZoneEndpoint>;
+export const ComponentOpen = () => <StreetZoneEndpoint collapsed={false}></StreetZoneEndpoint>;
 export const Api = () => <StreetZoneApi></StreetZoneApi>
 export const Docs = () => <StreetZoneDocs></StreetZoneDocs>
