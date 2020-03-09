@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import EndpointDemoDocToggle from './EndpointDemoDocToggle';
 
 const getComponent = (key, children) => {
   return children.filter((comp) => {
@@ -8,11 +9,16 @@ const getComponent = (key, children) => {
 };
 
 export default function Endpoint(props) {
-  const [collapsed, setCollapsed] = useState(true);
+  let defaultValue = true;
+  if (props.collapsed !== undefined) {
+    defaultValue = props.collapsed;
+  }
+
+  const [collapsed, setCollapsed] = useState(defaultValue);
   const [api, setApi] = useState(true);
 
   return (
-    <article className="bg-white shadow sm:rounded-lg pb-2 md:py-8 ml-3 m-2 border-b border-gray-200">
+    <article className="bg-white shadow ml-3 m-2 border-b border-gray-200 rounded-lg">
       <header className="p-3 flex justify-between w-full">
         <div className="">
           <h3 className="text-2xl font-hairline tracking-tight">{props.name}</h3>
@@ -48,17 +54,13 @@ export default function Endpoint(props) {
       </header>
       {collapsed ? null : (
         <main className="relative bg-gray-100 border-t border-gray-200 rounded-b sm:rounded-b-lg">
-          <section className="flex">
-            <aside
-              onClick={() => setApi(!api)}
-              className="bg-indigo-600 absolute inset-y-0 rounded-bl sm:rounded-bl-lg w-6 cursor-pointer uppercase text-xs md:text-base tracking-wider text-gray-200 font-semibold">
-              <span className="sticky transform rotate-90 origin-bottom-left float-left whitespace-no-wrap">{api ? 'more documentation' : 'api'}</span>
-            </aside>
+          <EndpointDemoDocToggle active={api ? 'api' : 'docs'} showApi={setApi}></EndpointDemoDocToggle>
+          <section className="flex mr-2">
             <section className="w-full">{getComponent(api ? 'api' : 'docs', props.children)}</section>
           </section>
           {api ? (
             <div className="flex justify-center w-full">
-              <button className="flex justify-center w-3/4 self-center mt-5 px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+              <button className="flex justify-center w-3/4 self-center my-5 px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
                 Send it
               </button>
             </div>

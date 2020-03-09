@@ -2,7 +2,7 @@ import React from 'react';
 import EndpointInput from '../../EndpointInput';
 import EndpointSelect from '../../EndpointSelect';
 import EndpointSwitch from '../../EndpointSwitch';
-import EndpointFormat from '../../EndpointFormat';
+import EndpointResponseFormat from '../../EndpointResponseFormat';
 import EndpointAdvancedToggle from '../../EndpointAdvancedToggle';
 
 export default function StreetZone() {
@@ -21,9 +21,9 @@ export default function StreetZone() {
         </EndpointSelect>
         <EndpointInput name="suggest" placeholder="0" type="int" required={false} />
         <EndpointSwitch name="scoreDifference" placeholder="false" type="boolean" required={false} />
-        <EndpointFormat />
+        <EndpointResponseFormat />
         <EndpointInput name="callback" type="string" required={false} />
       </EndpointAdvancedToggle>
-      </>
+    </>
   );
 }
