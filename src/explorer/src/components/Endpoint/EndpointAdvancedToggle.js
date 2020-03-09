@@ -6,9 +6,9 @@ export default function Toggle(props) {
   return (
     <>
       <div className="flex items-center cursor-pointer pt-3 justify-between lg:justify-start" onClick={() => setAdvanced(!advanced)}>
-        <h4 className="lg:w-1/5 -ml-3 text-gray-500 text-xl font-hairline tracking-tight">Advanced Usage</h4>
+        <h4 className="ml-2 lg:w-1/5 text-gray-500 text-xl font-hairline tracking-tight">Advanced Usage</h4>
         <svg
-          className="h-5 w-5 fill-current text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out"
+          className="w-1/12 lg:w-5 h-5 w-5 fill-current text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg">
           <path

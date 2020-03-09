@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 function Tip(props) {
   return (
-    <div class="bg-indigo-900 py-4 md:px-4">
+    <div class="py-4 md:px-4">
       <div class="p-2 bg-indigo-800 text-indigo-100 leading-none md:rounded-full flex md:inline-flex" role="alert">
         <span class="flex self-start md:self-center rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Tip</span>
         <span class="mr-2 text-left flex-auto font-light leading-5">
@@ -41,11 +41,11 @@ function Link(props) {
 }
 
 function Label(props) {
-  return <label className="block text-xl font-thin leading-10 font-medium text-gray-700">{props.children}</label>
+  return <label className="ml-2 block text-xl font-thin leading-10 font-medium text-gray-700">{props.children}</label>
 }
 
 function Description(props) {
-  return (<p className="pl-5">{props.children}</p>);
+  return <div className="ml-4">{props.children}</div>;
 }
 
 function Heading(props) {
