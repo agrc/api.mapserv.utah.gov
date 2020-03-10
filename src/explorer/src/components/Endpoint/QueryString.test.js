@@ -1,5 +1,7 @@
 import stringify, { hasRequiredParts, getRequiredParts } from './QueryString';
 
+const apiKey = 'access-key';
+
 test('gets required parts', () => {
   const parts = getRequiredParts('/:these/:are/:required/this/is/not');
 
@@ -32,16 +34,17 @@ test('returns true when required parts have value', () => {
 test('replaces required parts with values', () => {
   const initialState = { required: false, alsoRequired: 0 };
 
-  expect(stringify({ required: true, alsoRequired: 1 }, '/not-required/:required/:alsoRequired/extra', initialState)).toEqual('/not-required/true/1/extra');
+  expect(stringify({ required: true, alsoRequired: 1 }, '/not-required/:required/:alsoRequired/extra', initialState, apiKey)).toEqual(`/not-required/true/1/extra?apiKey=${apiKey}`);
 });
 
 test('append extra properties as querystring values', () => {
   const initialState = { required: false, optional: '' };
 
-  expect(stringify({ required: true, optional: 'yes' }, '/:required/part', initialState)).toEqual('/true/part?optional=yes');
+  expect(stringify({ required: true, optional: 'yes' }, '/:required/part', initialState, apiKey)).toEqual(`/true/part?optional=yes&apiKey=${apiKey}`);
 });
 
 test('does not stringify optional parameters if they are default values', () => {
   const initialState = { required: false, optional: 'yes' };
-  expect(stringify({ required: true, optional: 'yes' }, '/:required/part', initialState)).toEqual('/true/part');
+
+  expect(stringify({ required: true, optional: 'yes' }, '/:required/part', initialState, apiKey)).toEqual(`/true/part?apiKey=${apiKey}`);
 });
