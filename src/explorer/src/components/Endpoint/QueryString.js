@@ -9,7 +9,6 @@ export default function stringify(values, url, initial) {
   // replace required parts
   requiredParts.forEach(part => {
     url = url.replace(`:${part}`, values[part]);
-    console.log(values);
     delete values[part];
   });
 
