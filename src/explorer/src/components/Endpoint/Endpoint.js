@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import EndpointDemoDocToggle from './EndpointDemoDocToggle';
+import Button from '../Button';
 
 const getComponent = (key, children) => {
   return children.filter((comp) => {
@@ -59,9 +60,9 @@ export default function Endpoint(props) {
           </section>
           {api ? (
             <div className="flex justify-center w-full">
-              <button className="flex justify-center w-3/4 self-center my-5 px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+              <Button type="submit" disabled={!props.url || props.url.length < 1} className="justify-center w-1/2 self-center my-5 font-medium">
                 Send it
-              </button>
+              </Button>
             </div>
           ) : null}
         </main>
