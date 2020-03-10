@@ -23,6 +23,7 @@ export default function Input(props) {
           type: props.name,
           payload: event.target.value
         })}
+        required={props.required}
       ></input>
       <div className="flex md:flex-col pt-2 md:pt-0 align-center opacity-75">
         <TypeLabel type={props.type} />
