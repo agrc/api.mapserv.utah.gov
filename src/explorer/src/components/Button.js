@@ -7,7 +7,7 @@ export default function Button(props) {
     'border-transparent',
     'border',
     { 'cursor-not-allowed': props.disabled },
-    { 'opacity-50': props.disabled },
+    { 'opacity-25': props.disabled },
     'duration-150',
     'ease-in-out',
     'flex',
