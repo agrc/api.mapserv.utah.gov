@@ -19,7 +19,7 @@ export default function stringify(values, url, initial) {
     }
 
     // remove values that equal the initial
-    if (values[property] === initial[property]) {
+    if (!values[property] || values[property] === initial[property]) {
       delete values[property];
     }
   }
