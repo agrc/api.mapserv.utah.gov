@@ -1,13 +1,29 @@
-dist: bionic
-sudo: false
-mono: none
+version: ~> 1.0
+dist: xenial
+os: linux
 language: csharp
-dotnet: 2.2.101
-solution: api.mapserv.utah.gov.sln
-script:
-  - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+jobs:
+  include:
+    - dotnet: 2.2.101
+      mono: none
+      solution: api.mapserv.utah.gov.sln
+      script:
+        - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
+    - language: node_js
+      node_js: lts/*
+      cache:
+        directories:
+        -  src/explorer/node_modules
+      before_install: cd src/explorer
+    - language: node_js
+      node_js: node
+      cache:
+        directories:
+        -  src/explorer/node_modules
+      before_install: cd src/explorer
+
 notifications:
   email:
     on_success: change
