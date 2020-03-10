@@ -1,28 +1,101 @@
-import React from 'react';
+import React, { useReducer, useEffect } from 'react';
+import produce from 'immer';
 import EndpointInput from '../../EndpointInput';
 import EndpointSelect from '../../EndpointSelect';
 import EndpointSwitch from '../../EndpointSwitch';
 import EndpointResponseFormat from '../../EndpointResponseFormat';
 import EndpointAdvancedToggle from '../../EndpointAdvancedToggle';
 
+const reducer = produce((draft, action) => {
+  draft[action.type] = action.payload;
+
+  return draft;
+});
+
+const initialState = {
+  street: '',
+  zone: '',
+  spatialReference: 26912,
+  acceptScore: 70,
+  pobox: false,
+  locators: '',
+  format: '',
+  suggest: 0,
+  scoreDifference: false,
+  callback: ''
+};
+
+const options = {
+  street: {
+    placeholder: '123 main street',
+    type: 'string',
+    required: true
+  },
+  zone: {
+    placeholder: 'SLC',
+    type: 'string',
+    required: true
+  },
+  sr: {
+    placeholder: 26912,
+    type: 'int',
+    required: false
+  },
+  acceptScore: {
+    placeholder: 70,
+    type: 'int',
+    required: false
+  },
+  pobox: {
+    type: 'boolean',
+    required: false
+  },
+  locators: {
+    placeholder: 'all',
+    type: 'string',
+    required: false
+  },
+  suggest: {
+    placeholder: 0,
+    type: 'int',
+    required: false
+  },
+  scoreDifference: {
+    placeholder: 0,
+    type: 'int',
+    required: false
+  },
+  callback: {
+    placeholder: 'callback',
+    type: 'string',
+    required: false
+  }
+};
+
+const url = 'https://api.mapserv.utah.gov/api/v1/geocode/:street/:zone';
+
 export default function StreetZone() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
     <>
-      <EndpointInput name="street" placeholder="123 main street" type="string" required="true" />
-      <EndpointInput name="zone" placeholder="SLC" type="string" required={true} />
+      <EndpointInput name="street" {...options.street} dispatch={dispatch} />
+      <EndpointInput name="zone" {...options.zone} dispatch={dispatch} />
       <EndpointAdvancedToggle>
-        <EndpointInput name="spatialReference" placeholder="26912" type="int" required={false} />
-        <EndpointInput name="acceptScore" placeholder="70" type="int" required={false} />
-        <EndpointSwitch name="pobox" placeholder="true" type="boolean" required={false} />
-        <EndpointSelect name="locators" placeholder="all" type="string" required={false}>
-          <option selected>all</option>
-          <option>addressPoints</option>
-          <option>roadCenterlines</option>
+        <EndpointInput name="spatialReference" {...options.sr} dispatch={dispatch} />
+        <EndpointInput name="acceptScore" {...options.acceptScore} dispatch={dispatch} />
+        <EndpointSwitch name="pobox" {...options.pobox} dispatch={dispatch} />
+        <EndpointSelect name="locators" {...options.locators} dispatch={dispatch}>
+          <option selected value="all">
+            all
+          </option>
+          <option value="addressPoints">addressPoints</option>
+          <option value="roadCenterlines">roadCenterlines</option>
         </EndpointSelect>
-        <EndpointInput name="suggest" placeholder="0" type="int" required={false} />
-        <EndpointSwitch name="scoreDifference" placeholder="false" type="boolean" required={false} />
-        <EndpointResponseFormat />
-        <EndpointInput name="callback" type="string" required={false} />
+        <EndpointInput name="suggest" {...options.suggest} dispatch={dispatch} />
+        <EndpointSwitch name="scoreDifference" {...options.scoreDifference} dispatch={dispatch} />
+        <EndpointResponseFormat dispatch={dispatch} />
+        <EndpointInput name="callback" {...options.callback} dispatch={dispatch} />
       </EndpointAdvancedToggle>
     </>
   );
