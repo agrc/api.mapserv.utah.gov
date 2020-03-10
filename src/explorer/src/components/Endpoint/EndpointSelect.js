@@ -13,6 +13,7 @@ export default function Field(props) {
             payload: event.target.value
           })
         }
+        required={props.required}
         className="bg-white focus:outline-none focus:border-indigo-200 border border-gray-300 rounded md:rounded-none md:rounded-l-lg mx-2 md:mx-0 py-2 px-4 block w-full appearance-none leading-normal">
         {props.children}
       </select>
