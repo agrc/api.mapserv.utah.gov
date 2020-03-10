@@ -20,8 +20,8 @@ export default function StreetZone() {
       </Tip>
       <section className="max-w-4xl ml-2">
         <Heading>URI Format</Heading>
-        <p className="pl-5 font-hairline">
-          <span className="bg-indigo-200 border border-indigo-700 py-1 px-2 rounded-full mr-4 font-bold text-indigo-700 uppercase tracking-wider">GET</span>
+        <p className="pl-5 font-hairline text-base md:text-lg lg:text-2xl">
+          <span className="bg-indigo-200 border border-indigo-700 py-1 px-2 rounded-full mr-4 text-base font-bold text-indigo-700 uppercase tracking-wider">GET</span>
           https://api.mapserv.utah.gov/api/v1/
           <span className="font-normal">geocode</span>/<span className="text-indigo-900 font-semibold">:street</span>/
           <span className="text-indigo-900 font-semibold">:zone</span>
@@ -53,13 +53,13 @@ export default function StreetZone() {
             <table>
               <thead>
                 <tr>
-                  <th className="px-6 py-3 border-b border-gray-300 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 border-b border-gray-500 bg-gray-400 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
                     WKID
                   </th>
-                  <th className="px-6 py-3 border-b border-gray-300 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 border-b border-gray-500 bg-gray-400 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-6 py-3 border-b border-gray-300 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 border-b border-gray-500 bg-gray-400 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
                     Reason
                   </th>
                 </tr>
