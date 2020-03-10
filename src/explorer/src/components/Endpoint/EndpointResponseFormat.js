@@ -15,6 +15,7 @@ export default function Format(props) {
       type="string"
       required={false}>
       <option disabled selected></option>
+      <option value="default">default</option>
       <option value="esrijson">esrijson</option>
       <option value="geojson">geojson</option>
     </EndpointSelect>
