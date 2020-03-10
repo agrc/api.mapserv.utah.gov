@@ -18,7 +18,12 @@ export default function Input(props) {
       <input
         type={lookupType(props.type)}
         className="mx-2 md:mx-0 bg-white focus:outline-none focus:border-indigo-200 border border-gray-300 rounded md:rounded-none md:rounded-l-lg py-2 px-4 block w-full appearance-none leading-normal"
-        placeholder={props.placeholder}></input>
+        placeholder={props.placeholder}
+        onChange={event => props.dispatch({
+          type: props.name,
+          payload: event.target.value
+        })}
+      ></input>
       <div className="flex md:flex-col pt-2 md:pt-0 align-center opacity-75">
         <TypeLabel type={props.type} />
         <RequiredLabel required={props.required} />
