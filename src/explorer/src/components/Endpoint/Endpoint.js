@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import EndpointDemoDocToggle from './EndpointDemoDocToggle';
+import EndpointResponse from './EndpointResponse';
 import EndpointUrl from './EndpointUrl';
 import Button from '../Button';
 
 const getComponent = (key, children) => {
-  return children.filter((comp) => {
+  return children.filter(comp => {
     return comp.key === key;
-  })
+  });
 };
 
 export default function Endpoint(props) {
@@ -15,8 +16,20 @@ export default function Endpoint(props) {
     defaultValue = props.collapsed;
   }
 
+  const fetchApi = async url => {
+    const response = await fetch(url, {
+      method: 'GET',
+      mode: 'cors'
+    });
+
+    const result = await response.json();
+
+    setResponse(JSON.stringify(result, null, 2));
+  };
+
   const [collapsed, setCollapsed] = useState(defaultValue);
   const [api, setApi] = useState(true);
+  const [response, setResponse] = useState();
 
   return (
     <article className="bg-white shadow ml-3 m-2 border-b border-gray-200 rounded-lg">
@@ -54,20 +67,26 @@ export default function Endpoint(props) {
         </div>
       </header>
       {collapsed ? null : (
-        <main className="relative bg-gray-100 border-t border-gray-200 rounded-b sm:rounded-b-lg">
+        <form
+          onSubmit={event => {
+            event.preventDefault();
+            fetchApi(props.url);
+          }}
+          className="relative bg-gray-100 border-t border-gray-200 rounded-b sm:rounded-b-lg">
           <EndpointDemoDocToggle active={api ? 'api' : 'docs'} showApi={setApi}></EndpointDemoDocToggle>
           <section className="flex mr-2">
             <section className="w-full">{getComponent(api ? 'api' : 'docs', props.children)}</section>
           </section>
           {api ? (
-            <div className="flex justify-center w-full">
+            <div className="flex flex-col justify-center w-full py-3">
               <EndpointUrl url={props.url}></EndpointUrl>
+              {response ? <EndpointResponse code={response}></EndpointResponse> : null}
               <Button type="submit" disabled={!props.url || props.url.length < 1} className="justify-center w-1/2 self-center my-5 font-medium">
                 Send it
               </Button>
             </div>
           ) : null}
-        </main>
+        </form>
       )}
     </article>
   );
