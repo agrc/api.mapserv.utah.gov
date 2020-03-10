@@ -24,6 +24,7 @@ export default function stringify(values, url, initial) {
     }
   }
 
+  values.apiKey = process.env.REACT_APP_API_KEY;
   const queryString = querystring.stringify(values);
 
   if (queryString) {
