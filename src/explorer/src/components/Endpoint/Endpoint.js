@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import EndpointDemoDocToggle from './EndpointDemoDocToggle';
+import EndpointUrl from './EndpointUrl';
 import Button from '../Button';
 
 const getComponent = (key, children) => {
@@ -60,6 +61,7 @@ export default function Endpoint(props) {
           </section>
           {api ? (
             <div className="flex justify-center w-full">
+              <EndpointUrl url={props.url}></EndpointUrl>
               <Button type="submit" disabled={!props.url || props.url.length < 1} className="justify-center w-1/2 self-center my-5 font-medium">
                 Send it
               </Button>
