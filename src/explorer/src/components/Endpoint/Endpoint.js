@@ -3,7 +3,6 @@ import EndpointDemoDocToggle from './EndpointDemoDocToggle';
 
 const getComponent = (key, children) => {
   return children.filter((comp) => {
-    console.log(comp);
     return comp.key === key;
   })
 };

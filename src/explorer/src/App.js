@@ -13,8 +13,8 @@ export default function App() {
         <section className="flex-auto overflow-auto">
           <main className="h-full min-h-screen max-w-screen-xl mx-auto md:px-4 lg:px-8">
             <Header></Header>
-            <section className="bg-pattern mt-12 bg-gray-300 h-full py-2">
-              <div className="ml-1 bg-white border-l-2 border-indigo-300 md:rounded-l md:rounded-r md:-mr-1 border-r-8 border-t-2 border-b-2">
+            <section className="bg-pattern border border-gray-400 mt-12 h-screen py-2">
+              <div id="geocoding" className="ml-1 bg-white border-l-2 border-indigo-300 md:rounded-l md:rounded-r md:-mr-1 border-r-8 border-t-2 border-b-2">
                 <header className="p-3">
                   <h3 className="text-3xl font-extrabold tracking-tight">Geocoding Endpoints</h3>
                   <p className="text-sm text-gray-500 tracking-wider">Everything related to addresses</p>
