@@ -1,8 +1,8 @@
 import * as querystring from 'querystring';
 
-export default function stringify(values, url, initial) {
+export default function stringify(values, url, initial, apiKey) {
   // clone values
-  values = JSON.parse(JSON.stringify(values));
+  values = Object.assign({}, values);
 
   const requiredParts = getRequiredParts(url);
 
@@ -24,7 +24,9 @@ export default function stringify(values, url, initial) {
     }
   }
 
-  values.apiKey = process.env.REACT_APP_API_KEY;
+  // add api key
+  values.apiKey = apiKey;
+
   const queryString = querystring.stringify(values);
 
   if (queryString) {

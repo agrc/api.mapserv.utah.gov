@@ -70,7 +70,7 @@ export default function Endpoint(props) {
         <form
           onSubmit={event => {
             event.preventDefault();
-            fetchApi(props.url);
+            fetchApi(props.fetchUrl);
           }}
           className="relative bg-gray-100 border-t border-gray-200 rounded-b sm:rounded-b-lg">
           <EndpointDemoDocToggle active={api ? 'api' : 'docs'} showApi={setApi}></EndpointDemoDocToggle>
@@ -79,9 +79,9 @@ export default function Endpoint(props) {
           </section>
           {api ? (
             <div className="flex flex-col justify-center w-full py-3">
-              <EndpointUrl url={props.url}></EndpointUrl>
+              <EndpointUrl url={props.displayUrl}></EndpointUrl>
               {response ? <EndpointResponse code={response}></EndpointResponse> : null}
-              <Button type="submit" disabled={!props.url || props.url.length < 1} className="justify-center w-1/2 self-center my-5 font-medium">
+              <Button type="submit" disabled={!props.fetchUrl || props.fetchUrl.length < 1} className="justify-center w-1/2 self-center my-5 font-medium">
                 Send it
               </Button>
             </div>

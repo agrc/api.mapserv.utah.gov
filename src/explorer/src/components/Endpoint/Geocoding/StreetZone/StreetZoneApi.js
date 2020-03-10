@@ -18,16 +18,19 @@ const reducer = produce((draft, action) => {
 
 export default function StreetZone(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { setUrl } = props;
+  const { setFetchUrl, setDisplayUrl } = props.urls;
+
   useEffect(() => {
     if (!hasRequiredParts(state, url, initialState)) {
-      setUrl(null);
+      setDisplayUrl(null);
+      setFetchUrl(null);
 
       return;
     }
 
-    setUrl(stringify(state, url, initialState));
-  }, [state, setUrl]);
+    setDisplayUrl(stringify(state, url, initialState, 'your-api-key'));
+    setFetchUrl(stringify(state, url, initialState, process.env.REACT_APP_API_KEY));
+  }, [state, setFetchUrl, setDisplayUrl]);
 
   return (
     <>
