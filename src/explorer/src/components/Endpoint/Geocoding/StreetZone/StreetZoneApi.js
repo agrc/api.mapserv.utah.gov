@@ -95,9 +95,7 @@ export default function StreetZone() {
         <EndpointInput name="acceptScore" {...options.acceptScore} dispatch={dispatch} />
         <EndpointSwitch name="pobox" {...options.pobox} dispatch={dispatch} />
         <EndpointSelect name="locators" {...options.locators} dispatch={dispatch}>
-          <option selected value="all">
-            all
-          </option>
+          <option value="all">all</option>
           <option value="addressPoints">addressPoints</option>
           <option value="roadCenterlines">roadCenterlines</option>
         </EndpointSelect>
