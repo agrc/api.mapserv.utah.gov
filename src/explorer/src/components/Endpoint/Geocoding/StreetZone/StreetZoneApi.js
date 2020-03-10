@@ -5,6 +5,7 @@ import EndpointSelect from '../../EndpointSelect';
 import EndpointSwitch from '../../EndpointSwitch';
 import EndpointResponseFormat from '../../EndpointResponseFormat';
 import EndpointAdvancedToggle from '../../EndpointAdvancedToggle';
+import stringify, { hasRequiredParts } from '../../QueryString';
 
 const reducer = produce((draft, action) => {
   draft[action.type] = action.payload;
@@ -76,6 +77,14 @@ const url = 'https://api.mapserv.utah.gov/api/v1/geocode/:street/:zone';
 
 export default function StreetZone() {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    if (!hasRequiredParts(state, url, initialState)) {
+      return;
+    }
+
+    console.log(stringify(state, url, initialState));
+  }, [state]);
 
   return (
     <>
