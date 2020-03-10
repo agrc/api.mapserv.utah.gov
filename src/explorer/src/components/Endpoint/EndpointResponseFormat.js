@@ -3,18 +3,11 @@ import EndpointSelect from './EndpointSelect';
 
 export default function Format(props) {
   return (
-    <EndpointSelect
-      onChange={event =>
-        props.dispatch({
-          type: 'format',
-          payload: event.target.value
-        })
-      }
+    <EndpointSelect dispatch={props.dispatch}
       name="format"
       placeholder="default"
       type="string"
-      required={false}>
-      <option disabled selected></option>
+      required={false} >
       <option value="default">default</option>
       <option value="esrijson">esrijson</option>
       <option value="geojson">geojson</option>
