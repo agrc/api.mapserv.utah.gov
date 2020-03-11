@@ -17,6 +17,10 @@ export default function Endpoint(props) {
   }
 
   const fetchApi = async url => {
+    if (!url) {
+      return;
+    }
+
     const response = await fetch(url, {
       method: 'GET',
       mode: 'cors'

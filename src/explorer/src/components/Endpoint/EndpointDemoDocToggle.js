@@ -32,12 +32,12 @@ export default function Toggle(props) {
     <div className="bg-gray-200 shadow-inner border-b border-gray-300">
       <ul className="flex justify-center p-3">
         <li>
-          <button className={props.active === 'api' ? activeApi : normalApi} onClick={() => props.showApi(true)}>
+          <button type="button" className={props.active === 'api' ? activeApi : normalApi} onClick={() => props.showApi(true)}>
             demo
           </button>
         </li>
         <li>
-          <button className={props.active === 'docs' ? activeDoc : normalDoc} onClick={() => props.showApi(false)}>
+          <button type="button" className={props.active === 'docs' ? activeDoc : normalDoc} onClick={() => props.showApi(false)}>
             documentation
           </button>
         </li>
