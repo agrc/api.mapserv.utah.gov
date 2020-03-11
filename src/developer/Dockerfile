@@ -3,10 +3,10 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /src
-COPY src/developer/developer.mapserv.utah.gov.csproj project/
+COPY developer.mapserv.utah.gov.csproj project/
 WORKDIR /src/project
 RUN dotnet restore
-COPY src/developer .
+COPY . ./
 RUN dotnet build -c Release -o /app
 
 FROM build AS publish

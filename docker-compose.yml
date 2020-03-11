@@ -4,14 +4,14 @@ services:
 
   api:
     build:
-      context: .
+      context: ./src/api
       dockerfile: Dockerfile
     image: webapi/api
 
   developer:
     build:
-      context: .
-      dockerfile: src/developer/Dockerfile
+      context: ./src/developer
+      dockerfile: Dockerfile
     image: webapi/developer
 
   db:
@@ -24,6 +24,7 @@ services:
     build:
       context: ./src/explorer
       dockerfile: Dockerfile
+    image: webapi/explorer
 
   cache:
     image: redis:latest
