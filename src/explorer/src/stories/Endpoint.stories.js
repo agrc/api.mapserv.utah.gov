@@ -35,7 +35,7 @@ export const ResponseFormat = () => <EndpointResponseFormat></EndpointResponseFo
 export const AdvancedToggle = () => <EndpointAdvancedToggle></EndpointAdvancedToggle>;
 export const Input = () => <EndpointInput type="int" placeholder="placeholder" required={true}></EndpointInput>;
 export const Label = () => (
-  <div className="w-1/6">
+  <div className="w-1/6 bg-gray-100">
     <div className="flex md:flex-col pt-2 md:pt-0 align-center opacity-75">
       <TypeLabel type="string"></TypeLabel>
       <RequiredLabel required={false}></RequiredLabel>
