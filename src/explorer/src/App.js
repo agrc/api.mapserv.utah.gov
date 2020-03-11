@@ -1,5 +1,4 @@
 import React from 'react';
-import "./App.css";
 import { TopNav, SideNav } from './components/Navigation';
 import Header from './components/Header';
 import { StreetZoneEndpoint } from './components/Endpoint/Geocoding';
