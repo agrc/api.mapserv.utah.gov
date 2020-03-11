@@ -18,7 +18,7 @@ const defaultAttributes = {
     required: true
   },
   zone: {
-    placeholder: 'SLC',
+    placeholder: 'SLC or 84111',
     type: 'string',
     required: true
   },
