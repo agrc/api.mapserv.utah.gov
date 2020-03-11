@@ -29,13 +29,11 @@ function RequiredLabel(props) {
     'md:rounded-br',
     'border',
     'md:border-t-0',
+    'border-gray-300',
+    'bg-white',
     {
-      'bg-red-100': props.required,
       'text-red-800': props.required,
-      'border-red-200': props.required,
-      'bg-gray-100': !props.required,
-      'text-gray-800': !props.required,
-      'border-gray-300': !props.required
+      'text-gray-800': !props.required
     }
   );
 
