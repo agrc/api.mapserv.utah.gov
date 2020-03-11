@@ -32,15 +32,15 @@ export default function Endpoint(props) {
   const [response, setResponse] = useState();
 
   return (
-    <article onClick={() => setCollapsed(!collapsed)} className="bg-white shadow ml-3 m-2 border-b border-gray-200 rounded-lg cursor-pointer">
-      <header className="p-3 flex justify-between w-full">
-        <div className="">
+    <article className="bg-white shadow ml-3 m-2 border-b border-gray-200 rounded-lg">
+      <header onClick={() => setCollapsed(!collapsed)} className="p-3 flex justify-between items-center w-full cursor-pointer">
+        <div>
           <h3 className="text-2xl font-hairline tracking-tight">{props.name}</h3>
           <p className="text-sm text-gray-500 tracking-wider">{props.description}</p>
         </div>
         <div className="flex justify-end">
           <div className="flex mt-4 md:mt-0">
-            <button className="flex cursor-pointer focus:outline-none items-center px-10 py-3">
+            <button className="flex cursor-pointer focus:outline-none px-10 py-3">
               {collapsed ? (
                 <svg
                   className="h-10 w-10 fill-current text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out"
@@ -74,7 +74,7 @@ export default function Endpoint(props) {
           }}
           className="relative bg-gray-100 border-t border-gray-200 rounded-b sm:rounded-b-lg">
           <EndpointDemoDocToggle active={api ? 'api' : 'docs'} showApi={setApi}></EndpointDemoDocToggle>
-          <section className="flex mr-2">
+          <section className="flex">
             <section className="w-full">{getComponent(api ? 'api' : 'docs', props.children)}</section>
           </section>
           {api ? (
