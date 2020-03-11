@@ -120,7 +120,7 @@ Starting a container is like turning on the service. `docker-compose up` will st
 
 The containers created with Docker can be run in a Kubernetes cluster. The project contains configuration files for [Docker Kubernetes](.kube/kube-deployment.yml) and also [Google Kubernetes Engine](.kube/gke-deployment.yml).
 
-In order to use the Docker Kubernetes locally, make sure to first change the `kubectl` context to `docker-for-desktop with` Docker. When using Google Kubernetes Engine, make sure to change the `kubectl` context to the GKE cluster with `gloud`.
+In order to use the Docker Kubernetes locally, make sure to first change the `kubectl` context to `docker-for-desktop with` Docker. When using Google Kubernetes Engine, make sure to change the `kubectl` context to the GKE cluster with `gcloud`.
 
 ### Publishing Containers
 
@@ -131,7 +131,7 @@ Both Docker and GKE configuration files expect containers to be published to gcr
 
 ### Creating config objects
 
-`imagePullSecrets` are needed to pull containers from GCR. This authenticets the requests as the authorized service account.
+`imagePullSecrets` are needed to pull containers from GCR. This authenticates the requests as the authorized service account.
 
 ```bash
 kubectl create secret docker-registry gcr-json-key \
@@ -151,7 +151,7 @@ app-config for mounting [appsettings.json](src/api/appsettings.json).
 
 - `kubectl apply -f .kube/gke-deployment.yml`
 
-#### Accessing webpi/api external IP
+#### Accessing webapi/api external IP
 
 The loadbalancer takes a couple minutes to be assigned. Once it is assigned, the external IP can be found in the `EXTERNAL-IP` field of the `webapi-api` service.
 
