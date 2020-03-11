@@ -3,7 +3,7 @@ import { Code, Tip, TipLink, Link, Label, Description, Heading, SubHeading } fro
 
 export default function StreetZone() {
   return (
-    <section className="mt-2">
+    <section>
       <Tip>
         This endpoint validates that an address can exist along a road, however, there may be no structure or mail delivery at the address. This endpoint should
         not be used to validate mailing addresses.
@@ -18,7 +18,7 @@ export default function StreetZone() {
         <strong>Salt Lake City address grid system</strong>. It is neither within the boundaries of Salt Lake City proper, nor is that the preferred mailing
         address placename.
       </Tip>
-      <section className="max-w-4xl ml-2">
+      <section className="max-w-4xl mx-2">
         <Heading>URI Format</Heading>
         <p className="pl-5 font-hairline text-base md:text-lg lg:text-2xl">
           <span className="bg-indigo-200 border border-indigo-700 py-1 px-2 rounded-full mr-4 text-base font-bold text-indigo-700 uppercase tracking-wider">GET</span>
