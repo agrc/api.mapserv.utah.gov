@@ -5,7 +5,14 @@ export default {
   title: 'Documentation Parts'
 };
 
-export const Tips = () => <Tip>Don't stick your hand in a blender</Tip>;
+export const Tips = () => (
+         <>
+           <Tip>Don't stick your hand in a blender</Tip>
+           <Tip>
+             <TipLink url="https://gis.utah.gov">Utah GIS</TipLink> is great!
+           </Tip>
+         </>
+       );
 export const CodeBlock = () => <Code>x = x * 2</Code>;
 export const LinkInTip = () => <TipLink url="https://gis.utah.gov">Utah GIS</TipLink>;
 export const NormalLink = () => <Link url="https://gis.utah.gov">Utah GIS</Link>;
