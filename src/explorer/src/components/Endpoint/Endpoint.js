@@ -32,7 +32,7 @@ export default function Endpoint(props) {
   const [response, setResponse] = useState();
 
   return (
-    <article className="bg-white shadow ml-3 m-2 border-b border-gray-200 rounded-lg">
+    <article onClick={() => setCollapsed(!collapsed)} className="bg-white shadow ml-3 m-2 border-b border-gray-200 rounded-lg cursor-pointer">
       <header className="p-3 flex justify-between w-full">
         <div className="">
           <h3 className="text-2xl font-hairline tracking-tight">{props.name}</h3>
@@ -40,7 +40,7 @@ export default function Endpoint(props) {
         </div>
         <div className="flex justify-end">
           <div className="flex mt-4 md:mt-0">
-            <button onClick={() => setCollapsed(!collapsed)} className="flex cursor-pointer focus:outline-none items-center px-10 py-3">
+            <button className="flex cursor-pointer focus:outline-none items-center px-10 py-3">
               {collapsed ? (
                 <svg
                   className="h-10 w-10 fill-current text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out"
