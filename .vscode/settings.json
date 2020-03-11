@@ -2,8 +2,20 @@
     "dotnet-test-explorer.testProjectPath": "test/**/*.csproj",
     "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=../../lcov.info",
     "cSpell.words": [
+        "codecov",
+        "esrijson",
         "evenodd",
+        "gcloud",
+        "immer",
+        "kube",
+        "kubectl",
+        "kubernetes",
+        "pgdata",
+        "pobox",
         "semibold",
-        "tailwind"
+        "tailwind",
+        "tailwindcss",
+        "webapi",
+        "wkids"
     ]
  }
