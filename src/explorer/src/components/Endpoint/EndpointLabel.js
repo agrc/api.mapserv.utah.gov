@@ -7,7 +7,7 @@ function TypeLabel(props) {
   }
 
   return (
-    <span className="ml-4 md:m-0 md:mr-2 inline-flex px-2 text-xs leading-5 font-semibold rounded md:rounded-none md:rounded-tr bg-blue-100 text-blue-800 border md:border-b-0 border-blue-700">
+    <span className="ml-4 md:m-0 md:mr-2 inline-flex px-2 text-xs leading-5 font-semibold rounded md:rounded-none md:rounded-tr bg-blue-100 text-blue-800 border border-blue-200">
       {props.type}
     </span>
   );
@@ -28,13 +28,14 @@ function RequiredLabel(props) {
     'md:rounded-none',
     'md:rounded-br',
     'border',
+    'md:border-t-0',
     {
       'bg-red-100': props.required,
       'text-red-800': props.required,
-      'border-red-700': props.required,
-      'bg-yellow-100': !props.required,
-      'text-yellow-800': !props.required,
-      'border-yellow-700': !props.required
+      'border-red-200': props.required,
+      'bg-gray-100': !props.required,
+      'text-gray-800': !props.required,
+      'border-gray-300': !props.required
     }
   );
 
