@@ -49,7 +49,7 @@ export default function StreetZone() {
           accurate reflection of Utah. It is recommended to use this coordinate system if length and area calculations are important as other coordinate systems
           will skew the truth.
           <h2>Popular Spatial Reference Ids</h2>
-          <div class="align-middle mx-4 mt-4 inline-block shadow overflow-hidden sm:rounded-lg">
+          <div className="align-middle mx-4 mt-4 inline-block shadow overflow-hidden sm:rounded-lg">
             <table>
               <thead>
                 <tr>
@@ -191,7 +191,7 @@ export default function StreetZone() {
               )}
             </pre>
             <p className="md:max-w-xs mt-8 text-gray-700">
-              <span class="text-indigo-100 rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Tip</span>
+              <span className="text-indigo-100 rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Tip</span>
               Be sure to inspect the failed requests as they contain useful information. <Code>401</Code> status codes equates to your API key having problems.{' '}
               <Code>404</Code> equates to the address not being found. <Code>200</Code> is successful.
             </p>
