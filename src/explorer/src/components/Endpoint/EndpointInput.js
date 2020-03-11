@@ -17,14 +17,15 @@ export default function Input(props) {
       <label className="mx-2 md:ml-4 self-center pb-2 md:pb-2 text-sm leading-5 font-medium text-gray-700 lg:w-1/4 md:w-1/2">{props.name}</label>
       <input
         type={lookupType(props.type)}
-        className="mx-2 md:mx-0 bg-white focus:outline-none focus:border-indigo-200 border border-gray-300 rounded md:rounded-none md:rounded-l-lg py-2 px-4 block w-full appearance-none leading-normal"
+        className="mx-2 md:mx-0 bg-white focus:outline-none focus:border-indigo-200 border border-gray-300 md:border-r-0 rounded md:rounded-none md:rounded-l-lg py-2 px-4 block w-full appearance-none leading-normal"
         placeholder={props.placeholder}
-        onChange={event => props.dispatch({
-          type: props.name,
-          payload: event.target.value
-        })}
-        required={props.required}
-      ></input>
+        onChange={event =>
+          props.dispatch({
+            type: props.name,
+            payload: event.target.value
+          })
+        }
+        required={props.required}></input>
       <div className="flex md:flex-col pt-2 md:pt-0 align-center opacity-75">
         <TypeLabel type={props.type} />
         <RequiredLabel required={props.required} />
