@@ -1,5 +1,7 @@
+/* purgecss start ignore */
 @tailwind base;
 @tailwind components;
+/* purgecss send ignore */
 @tailwind utilities;
 
 .flex-0 {
