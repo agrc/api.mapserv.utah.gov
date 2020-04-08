@@ -266,3 +266,4 @@ coverage.xml
 
 # terraform
 .terra/
+src/explorer/src/styles/tailwind.css
