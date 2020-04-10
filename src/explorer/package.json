@@ -8,6 +8,7 @@
     "immer": "^6.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-syntax-highlighter": "^12.2.1",
     "react-toggle": "^4.1.1"
@@ -31,7 +32,8 @@
   },
   "scripts": {
     "build:css": "postcss -o src/styles/tailwind.css src/styles/index.css",
-    "start": "npm run build:css && react-scripts start",
+    "build:full-css": "tailwind build src/styles/index.css -o src/styles/tailwind.css",
+    "start": "react-scripts start",
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
     "storybook": "start-storybook -p 9009 -s public",
