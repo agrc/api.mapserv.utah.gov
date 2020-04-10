@@ -1,5 +1,6 @@
 import React from 'react';
-import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
+// import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
+import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/light-async'
 import json from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
 import theme from 'react-syntax-highlighter/dist/esm/styles/hljs/mono-blue';
 
