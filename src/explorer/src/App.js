@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollToTop from './components/ScrollToTop';
 import { TopNav, SideNav } from './components/Navigation';
 import Landing from './components/Home/Landing';
 import SellIt from './components/Home/Sellit';
@@ -11,6 +12,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 export default function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Switch>
         <Route exact path="/">
           <div>
