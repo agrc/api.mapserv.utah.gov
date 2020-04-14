@@ -6,6 +6,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This app runs as a docker container. To build the image `docker-compose build explorer`. To run the container `docker run -p 8080:80 apimapservutahgov_explorer`
 
+1. `docker-compose build explorer`
+1. `docker tag webapi/explorer gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api-explorer`
+1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api-explorer`
+
 ## Development
 
 ### Available Scripts
