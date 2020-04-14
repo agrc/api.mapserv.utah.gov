@@ -122,7 +122,7 @@ export default function GettingStarted() {
               <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">tip</span>
               <span className="font-semibold mr-2 text-left flex-auto">
                 During local development of browser based applications, the Application Status of the key needs to be set to{' '}
-                <span className="font-semibold">Development</span> for requests originating from localhost or machine name urls.
+                <span className="font-semibold">Development</span> for requests originating from localhost or machine name urls to be successful.
               </span>
             </div>
           </div>
