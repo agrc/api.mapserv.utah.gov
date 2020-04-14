@@ -117,10 +117,10 @@ export default function GettingStarted() {
 
         <section className="max-w-5xl mt-6 md:mx-auto md:grid md:grid-cols-2 md:col-gap-5">
           <H2 className="px-6 col-span-2">Choosing a browser key</H2>
-          <div class="md:col-span-2 text-center flex mb-6">
-            <div class="p-2 bg-indigo-800 items-center text-indigo-100 lg:rounded-full flex lg:inline-flex" role="alert">
-              <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">tip</span>
-              <span class="font-semibold mr-2 text-left flex-auto">
+          <div className="md:col-span-2 text-center flex mb-6">
+            <div className="p-2 bg-indigo-800 items-center text-indigo-100 lg:rounded-full flex lg:inline-flex" role="alert">
+              <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">tip</span>
+              <span className="font-semibold mr-2 text-left flex-auto">
                 During local development of browser based applications, the Application Status of the key needs to be set to{' '}
                 <span className="font-semibold">Development</span> for requests originating from localhost or machine name urls.
               </span>
@@ -145,10 +145,10 @@ export default function GettingStarted() {
         </section>
         <section className="max-w-5xl mx-auto mt-6">
           <H2 className="px-6 col-span-2">Choosing a desktop key</H2>
-          <div class="md:col-span-2 text-center lg:px-4 flex mb-6">
-            <div class="p-2 bg-indigo-800 items-center text-indigo-100 lg:rounded-full flex lg:inline-flex" role="alert">
-              <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">tip</span>
-              <span class="font-semibold mr-2 text-left flex-auto">
+          <div className="md:col-span-2 text-center lg:px-4 flex mb-6">
+            <div className="p-2 bg-indigo-800 items-center text-indigo-100 lg:rounded-full flex lg:inline-flex" role="alert">
+              <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">tip</span>
+              <span className="font-semibold mr-2 text-left flex-auto">
                 A common mistake is to use your local IP address. Check with a website like <Link to="https://www.whatismyip.net/">what is my ip</Link> to see
                 what your public IP address is.
               </span>
