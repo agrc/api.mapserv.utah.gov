@@ -1,6 +1,6 @@
 import React from 'react';
 import { H1 } from './Elements';
-import { P } from '../Elements';
+import { P } from '../../Elements';
 
 export default function Whats() {
   return (
@@ -129,9 +129,9 @@ export default function Whats() {
             <defs />
             <defs>
               <linearGradient id="a" x1="942.8" y1="529.6" x2="942.8" y2="529.1" gradientUnits="userSpaceOnUse">
-                <stop offset="0" stop-color="gray" stop-opacity=".3" />
-                <stop offset=".5" stop-color="gray" stop-opacity=".1" />
-                <stop offset="1" stop-color="gray" stop-opacity=".1" />
+                <stop offset="0" stopColor="gray" stopOpacity=".3" />
+                <stop offset=".5" stopColor="gray" stopOpacity=".1" />
+                <stop offset="1" stopColor="gray" stopOpacity=".1" />
               </linearGradient>
               <linearGradient id="b" x1="970.5" y1="857" x2="970.5" y2="435" />
             </defs>

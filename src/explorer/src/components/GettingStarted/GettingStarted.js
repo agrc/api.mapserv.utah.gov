@@ -1,15 +1,16 @@
 import React from 'react';
 import CallToAction from '../Action';
-import { Link, H2, P, BrowserKeyExamples, Card, CardItem } from './Elements';
+import { Link, H1, H2, BrowserKeyExamples, Card, CardItem } from './Elements';
+import { P } from '../Elements';
 
 export default function GettingStarted() {
   return (
     <article className="text-gray-700">
       <div className="bg-pattern bg-topo p-6 border-b border-gray-400 shadow-xs">
         <header className="text-center">
-          <h1 className="md:text-5xl text-3xl text-gray-800 leading-tight font-light font-extrabold tracking-tight">
+          <H1>
             Getting <span className="text-indigo-600">started</span>
-          </h1>
+          </H1>
           <h2 className="md:text-3xl text-2xl block text-gray-700 font-light tracking-tight">
             Your first <span className="font-semibold">successful</span> request in <span className="text-indigo-600 font-semibold">3</span> steps.
           </h2>

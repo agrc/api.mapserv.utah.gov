@@ -1,6 +1,6 @@
 import React from 'react';
 import { H1 } from './Elements';
-import { P } from '../Elements';
+import { P } from '../../Elements';
 
 export default function Header() {
   return (
