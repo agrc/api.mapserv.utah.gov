@@ -8,6 +8,7 @@ import Goals from './components/Home/Goals';
 import GettingStarted from './components/GettingStarted';
 import { StreetZoneEndpoint } from './components/Endpoint/Geocoding';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
 export default function App() {
   return (
@@ -62,6 +63,9 @@ export default function App() {
             </section>
           </main>
           <TopNav></TopNav>
+        </Route>
+        <Route exact path="/privacy-policy">
+          <PrivacyPolicy></PrivacyPolicy>
         </Route>
       </Switch>
     </Router>
