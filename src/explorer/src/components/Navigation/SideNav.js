@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const nav = 'hidden md:block flex-none w-40 pl-2 text-base md:text-sm md:pt-2';
 export default function SideNav() {
   return (
-    <nav className="">
+    <nav>
       <div className="mb-8">
         <h5 className="mb-3 text-gray-500 uppercase tracking-wide font-bold text-sm">Getting Started</h5>
         <ul>
