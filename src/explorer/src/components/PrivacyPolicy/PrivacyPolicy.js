@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
         <div className="rounded-md bg-white p-6 border border-indigo-600">
           Input parameter values submitted in requests to the AGRC Web API may be temporarily retained by AGRC exclusively for the purpose of overall quality
           control and performance tuning of the API conducted by AGRC employees. No other access to or use of input parameter values will be permitted without
-          prior written approval of the State's Chief Information Officer and the executive officer of the agency submitting requests to the Web API.
+          prior written approval of the State of Utah's Chief Information Officer and the executive officer of the agency submitting requests to the Web API.
         </div>
         <div className="flex self-center justify-center mt-6 md:mt-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="250" height="225.4" viewBox="0 0 922 831">
