@@ -1,14 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export function P(props) {
-  const classes = ['mt-0', 'text-lg'];
-
-  return <p className={classNames(classes, props.className)}>{props.children}</p>;
-}
-
 export function H1(props) {
-  const classes = ['text-3xl', 'font-light'];
+  const classes = ['md:text-5xl', 'text-3xl', 'text-gray-800', 'leading-tight', 'font-light', 'font-extrabold', 'tracking-tight'];
 
   return <h1 className={classNames(classes, props.className)}>{props.children}</h1>;
 }
