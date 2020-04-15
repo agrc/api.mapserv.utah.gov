@@ -79,11 +79,11 @@ export default function GettingStarted() {
         <section className="px-6 max-w-5xl mx-auto">
           <H2>Key Creation</H2>
           <P>
-            Once you have have an account and confirmed ownership of your email address, you can{' '}
+            Once you have an account and confirmed ownership of your email address, you can{' '}
             <a href="https://developer.mapserv.utah.gov/secure/GenerateKey">generate API keys</a>. Each key is specific to an application you have created;
-            Either a browser or desktop based application. Browser based applications run in a web browser. eg: the javascript geocoding component dartboard,
-            running on atlas.utah.gov. The request to the Web API is created in javascript running inside the browser using the browsers fetch API or with an
-            XHR request. Desktop based applications run on a computer. eg: the ArcGIS Pro Geocoding tool running on your desktop. The request to the Web API is
+            either a browser or desktop based application. Browser based applications run in a web browser. For example, the javascript geocoding component dartboard,
+            running on atlas.utah.gov. The request to the Web API is created in javascript running inside the browser using the browser's fetch API or with an
+            XHR request. Desktop based applications run on a computer. For example, the ArcGIS Pro Geocoding tool running on your desktop. The request to the Web API is
             coded directly or indirectly from a server side programming or scripting language like Python, Java, or C#.
           </P>
         </section>
@@ -114,7 +114,6 @@ export default function GettingStarted() {
             </div>
           </section>
         </section>
-
         <section className="max-w-5xl mt-6 md:mx-auto md:grid md:grid-cols-2 md:col-gap-5">
           <H2 className="px-6 col-span-2">Choosing a browser key</H2>
           <div className="md:col-span-2 text-center flex mb-6">
