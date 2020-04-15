@@ -64,17 +64,6 @@ export default function GettingStarted() {
         </section>
         <CallToAction></CallToAction>
       </div>
-      {/* <aside className="px-6 max-w-5xl mx-auto pt-6 mb-10">
-        <div>
-          <H2>Location Matters</H2>
-          <P>
-            The demand for <span className="font-semibold">geospatial</span> and <span className="font-semibold">location</span> based information has increased dramatically as many disciplines realize
-            the power of spatial data. A customer's address stored in a database has only so many uses. With this API, the door opens to many spatial
-            opportunities from <span className="font-semibold">visually</span> seeing customer locations on a map to being able to spatially analyze their relationship or patterns in
-            conjunction with other events such as disease occurrences, natural disaster affected areas, and other location based occurrences.
-          </P>
-        </div>
-      </aside> */}
       <div className="p-6 border-b border-gray-400 shadow-xs">
         <section className="px-6 max-w-5xl mx-auto">
           <H2>Key Creation</H2>
