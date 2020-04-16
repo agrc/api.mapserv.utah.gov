@@ -1,4 +1,3 @@
-import SideNav from './SideNav';
-import TopNav from './TopNav';
+import { ResponsiveSideNav, FixedBottomNav, InlineTopNav, MyNavLink, CommonLinks } from './Navigation';
 
-export { SideNav, TopNav };
+export { ResponsiveSideNav, FixedBottomNav, InlineTopNav, MyNavLink as NavLink, CommonLinks};

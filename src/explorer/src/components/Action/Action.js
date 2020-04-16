@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function Action() {
   return (
-    <div className="flex justify-center my-4">
-      <aside className="max-w-xl w-full my-8 flex sm:item-center justify-evenly flex-wrap bg-white p-5 rounded-lg border border-gray-300">
+    <div className="flex justify-center md:my-4">
+      <aside className="max-w-xl w-full mt-6 md:mb-6 md:mt-10 flex sm:item-center justify-evenly flex-wrap bg-white p-5 rounded-lg border border-gray-300">
         <h2 className="text-2xl leading-7 font-extrabold tracking-tight sm:text-2xl sm:leading-6">
           Ready to dive in?
           <br />
