@@ -1,10 +1,7 @@
 import React from 'react';
 import ScrollToTop from './components/ScrollToTop';
 import { ResponsiveSideNav, FixedBottomNav, InlineTopNav, CommonLinks } from './components/Navigation';
-import Landing from './components/Home/Landing';
-import SellIt from './components/Home/Sellit';
-import Whats from './components/Home/Whats';
-import Goals from './components/Home/Goals';
+import { Landing, SellIt, Whats, Goals } from './components/Home';
 import GettingStarted from './components/GettingStarted';
 import { StreetZoneEndpoint } from './components/Endpoint/Geocoding';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
