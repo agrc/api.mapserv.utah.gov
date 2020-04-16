@@ -15,12 +15,12 @@ export default function GettingStarted() {
             Your first <span className="font-semibold">successful</span> request in <span className="text-indigo-600 font-semibold">3</span> steps.
           </h2>
         </header>
-        <section className="px-6 max-w-5xl mx-auto pt-6 ">
-          <div className="mt-10">
+        <section className="px-6 max-w-5xl mx-auto md:mt-3">
+          <div className="mt-6 md:mt-8">
             <ul className="md:grid md:grid-cols-2 md:col-gap-8 md:row-gap-10">
               <li>
                 <div className="flex">
-                  <div className="flex-shrink-0 self-center">
+                  <div className="flex-shrink-0 md:self-center">
                     <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white text-3xl font-black">1</div>
                   </div>
                   <div className="ml-4">
@@ -33,7 +33,7 @@ export default function GettingStarted() {
               </li>
               <li className="mt-10 md:mt-0">
                 <div className="flex">
-                  <div className="flex-shrink-0 self-center">
+                  <div className="flex-shrink-0 md:self-center">
                     <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white text-3xl font-black">2</div>
                   </div>
                   <div className="ml-4">
@@ -46,7 +46,7 @@ export default function GettingStarted() {
               </li>
               <li className="mt-10 md:mt-0">
                 <div className="flex">
-                  <div className="flex-shrink-0 self-center">
+                  <div className="flex-shrink-0 md:self-center">
                     <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white text-3xl font-black">3</div>
                   </div>
                   <div className="ml-4">
@@ -59,7 +59,7 @@ export default function GettingStarted() {
               </li>
               <li className="mt-10 md:mt-0">
                 <div className="flex">
-                  <div className="flex-shrink-0 self-center">
+                  <div className="flex-shrink-0 md:self-center">
                     <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white text-3xl font-black">4</div>
                   </div>
                   <div className="ml-4">
@@ -76,7 +76,7 @@ export default function GettingStarted() {
         <CallToAction></CallToAction>
       </div>
       <div className="p-6 border-b border-gray-400">
-        <section className="px-6 max-w-5xl mx-auto">
+        <section className="md:px-6 max-w-5xl mx-auto">
           <H2>Key Creation</H2>
           <P>
             Once you have an account and confirmed ownership of your email address, you can{' '}
