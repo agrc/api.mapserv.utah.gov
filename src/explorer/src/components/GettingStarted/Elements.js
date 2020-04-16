@@ -14,15 +14,15 @@ export function H2(props) {
 }
 
 export function BrowserKeyExamples(props) {
-  const classes = ['table-auto', 'shadow-md'];
+  const classes = ['table-auto', 'shadow-md', 'border', 'border-gray-300'];
   return (
     <table className={classNames(classes, props.className)}>
       <thead>
         <tr>
-          <th className="px-6 py-3 border-b border-gray-500 bg-gray-400 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+          <th className="px-6 py-3 border-b border-gray-400 bg-gray-200 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
             URL Pattern
           </th>
-          <th className="px-6 py-3 border-b border-gray-500 bg-gray-400 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+          <th className="px-6 py-3 border-b border-gray-400 bg-gray-200 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
             Description
           </th>
         </tr>
