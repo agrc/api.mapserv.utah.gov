@@ -55,7 +55,7 @@ export default function App() {
             </div>
             <section className="flex-auto overflow-auto">
               <main className="h-full min-h-screen max-w-screen-xl mx-auto md:px-4 lg:px-8">
-                <section className="bg-pattern bg-circuit border border-gray-400 mt-12 h-screen py-2">
+                <section className="bg-gray-300 bg-circuit--light border border-gray-400 mt-12 h-screen py-2">
                   <div
                     id="geocoding"
                     className="ml-1 bg-white border-l-2 border-indigo-300 md:rounded-l md:rounded-r md:-mr-1 border-r-8 border-t-2 border-b-2">
