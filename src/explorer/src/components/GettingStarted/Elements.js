@@ -10,7 +10,7 @@ export function H1(props) {
 export function H2(props) {
   const classes = ['text-3xl', 'font-thin', 'mb-3', 'ml-2'];
 
-  return <h2 className={classNames(classes, props.className)}>{props.children}</h2>;
+  return <h2 id={props.id} className={classNames(classes, props.className)}>{props.children}</h2>;
 }
 
 export function BrowserKeyExamples(props) {
