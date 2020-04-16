@@ -6,7 +6,7 @@ import { P } from '../Elements';
 export default function GettingStarted() {
   return (
     <article className="text-gray-700">
-      <div className="bg-pattern bg-topo p-6 border-b border-gray-400 shadow-xs">
+      <div className="bg-topo p-6 border-b border-gray-400 shadow-xs">
         <header className="text-center">
           <H1>
             Getting <span className="text-indigo-600">started</span>
@@ -89,7 +89,7 @@ export default function GettingStarted() {
         </section>
       </div>
       <section className="w-full relative">
-        <div className="bg-indigo-800 h-64 absolute inset-0 shadow-lg"></div>
+        <div className="bg-circuit bg-indigo-800 h-64 absolute inset-0 shadow-lg"></div>
         <section className="px-6 max-w-5xl mx-auto z-10 relative">
           <H2 className="pt-3 md:col-span-2 text-white text-center">Choosing the key type</H2>
           <div className="md:grid md:grid-cols-2 md:col-gap-10">
