@@ -22,10 +22,8 @@ namespace graphql
             // this enables you to use DataLoader in your resolvers.
             services.AddDataLoaderRegistry();
 
-            // Add GraphQL Services
-            services.AddGraphQL(SchemaBuilder.New()
-                // enable for authorization support
-                // .AddAuthorizeDirectiveType()
+            services.AddGraphQL(sb => SchemaBuilder.New()
+                .AddType<SpatialType>()
                 .AddQueryType<Query>()
                 .ModifyOptions(o => o.RemoveUnreachableTypes = true));
         }
