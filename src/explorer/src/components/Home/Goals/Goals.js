@@ -3,7 +3,7 @@ import { Item } from './Elements';
 
 export default function Goals() {
   return (
-    <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-9 gap-6 mx-auto my-6 text-gray-700">
+    <section className="mb-16 md:mb-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-9 gap-6 mx-auto my-6 text-gray-700">
       <Item>Locally sourced data</Item>
       <Item>Address Reversals</Item>
       <Item>Delivery Points</Item>

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 export function H1(props) {
-  const classes = ['md:text-5xl', 'text-3xl', 'text-gray-800', 'leading-tight', 'font-light', 'font-extrabold', 'tracking-tight'];
+  const classes = ['md:text-5xl', 'text-4xl', 'text-gray-800', 'leading-tight', 'font-light', 'font-extrabold', 'tracking-tight'];
 
   return <h1 className={classNames(classes, props.className)}>{props.children}</h1>;
 }
@@ -56,12 +56,12 @@ export function BrowserKeyExamples(props) {
         </tr>
         <tr>
           <td className="border-b border-gray-200 p-2">
-            <span className="text-indigo-600 block leading-loose">www.examples.com/test</span>
-            <span className="text-indigo-600 block leading-loose">www.example.com/test/</span>
-            <span className="text-indigo-600 block leading-loose">www.example.com/test/*</span>
+            <span className="text-indigo-600 block leading-loose">example.com/test</span>
+            <span className="text-indigo-600 block leading-loose">example.com/test/</span>
+            <span className="text-indigo-600 block leading-loose">example.com/test/*</span>
           </td>
           <td className="border-b border-gray-200 p-2">
-            Matches all referrers in <span className="text-indigo-600">www.examples.com/test/</span> and all subpaths
+            Matches all referrers in <span className="text-indigo-600">example.com/test/</span> and all subpaths
           </td>
         </tr>
       </tbody>
