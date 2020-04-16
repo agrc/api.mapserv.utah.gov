@@ -77,7 +77,7 @@ export default function GettingStarted() {
       </div>
       <div className="p-6 border-b border-gray-400">
         <section className="md:px-6 max-w-5xl mx-auto">
-          <H2>Key Creation</H2>
+          <H2 id="key-creation">Key Creation</H2>
           <P>
             Once you have an account and confirmed ownership of your email address, you can{' '}
             <a href="https://developer.mapserv.utah.gov/secure/GenerateKey">generate API keys</a>. Each key is specific to an application you have created;
@@ -114,7 +114,9 @@ export default function GettingStarted() {
         </section>
       </section>
       <section className="max-w-5xl mt-6 md:mx-auto md:grid md:grid-cols-2 md:col-gap-5">
-        <H2 className="px-6 col-span-2">Choosing a browser key</H2>
+        <H2 id="browser-key" className="px-6 col-span-2">
+          Choosing a browser key
+        </H2>
         <div className="md:col-span-2 text-center flex mb-6">
           <div className="p-2 bg-indigo-800 items-center text-indigo-100 lg:rounded-full flex lg:inline-flex" role="alert">
             <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">tip</span>
@@ -142,7 +144,7 @@ export default function GettingStarted() {
         <BrowserKeyExamples className="mx-6 mt-6 md:mt-0 md:max-w-5xl md:mr-6"></BrowserKeyExamples>
       </section>
       <section className="max-w-5xl mx-auto mt-6">
-        <H2 className="px-6 col-span-2">Choosing a desktop key</H2>
+        <H2 id="desktop-key" className="px-6 col-span-2">Choosing a desktop key</H2>
         <div className="md:col-span-2 text-center lg:px-4 flex mb-6">
           <div className="p-2 bg-indigo-800 items-center text-indigo-100 lg:rounded-full flex lg:inline-flex" role="alert">
             <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">tip</span>
