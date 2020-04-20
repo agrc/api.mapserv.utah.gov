@@ -1,42 +1,35 @@
 using HotChocolate;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
+using HotChocolate.Execution.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace graphql
-{
-    public class Startup
-    {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // If you need dependency injection with your query object add your query type as a services.
-            // services.AddSingleton<Query>();
+namespace graphql {
+    public class Startup {
+        public Startup(IConfiguration configuration, IWebHostEnvironment env) {
+            Configuration = configuration;
+            Environment = env;
+        }
 
-            // enable InMemory messaging services for subscription support.
-            // services.AddInMemorySubscriptionProvider();
-
-            // this enables you to use DataLoader in your resolvers.
-            services.AddDataLoaderRegistry();
+        public IWebHostEnvironment Environment { get; set; }
+        public IConfiguration Configuration { get; }
+        public void ConfigureServices(IServiceCollection services) {
+            services.AddDbContext<CloudSqlContext>(options => options.UseNpgsql(Configuration.GetConnectionString("OpenSGID"), o => o.UseNetTopologySuite()));
 
             services.AddGraphQL(sb => SchemaBuilder.New()
                 .AddType<SpatialType>()
                 .AddQueryType<Query>()
-                .ModifyOptions(o => o.RemoveUnreachableTypes = true));
+                .ModifyOptions(o => o.RemoveUnreachableTypes = true).Create(),
+                new QueryExecutionOptions {
+                    IncludeExceptionDetails = Environment.IsDevelopment(),
+                    ForceSerialExecution = true
+                });
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            app
-                .UseRouting()
-                .UseWebSockets()
-                .UseGraphQL()
-                .UsePlayground()
-                .UseVoyager();
-        }
+        public void Configure(IApplicationBuilder app) => app.UseRouting().UseWebSockets().UseGraphQL().UsePlayground().UseVoyager();
     }
 }

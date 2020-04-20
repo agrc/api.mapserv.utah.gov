@@ -1,16 +1,16 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
-namespace graphql
-{
-    public class Program
-    {
+namespace graphql {
+    public class Program {
         public static Task Main(string[] args) =>
-            CreateWebHostBuilder(args).Build().RunAsync();
+            CreateHostBuilder(args).Build().RunAsync();
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(builder => {
+                    builder.UseStartup<Startup>();
+                });
     }
 }
