@@ -3,6 +3,7 @@
     "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=../../lcov.info",
     "cSpell.words": [
         "codecov",
+        "dbcontext",
         "esrijson",
         "evenodd",
         "fullhuman",
