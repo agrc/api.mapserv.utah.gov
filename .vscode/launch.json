@@ -5,6 +5,35 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "graphql playground",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-graphql",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/graphql/bin/Debug/netcoreapp3.1/graphql.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/graphql",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "http://localhost:5000/playground",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+            }
+        },
+        {
             "name": "start without browser",
             "type": "coreclr",
             "request": "launch",
