@@ -1,3 +1,4 @@
+using System;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
@@ -20,6 +21,10 @@ namespace graphql {
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services) {
             services.AddDbContext<CloudSqlContext>(options => options.UseNpgsql(Configuration.GetConnectionString("OpenSGID"), o => o.UseNetTopologySuite()));
+
+            services.AddHttpClient("geocoder", o => {
+                o.Timeout = TimeSpan.FromSeconds(5);
+            });
 
             services.AddGraphQL(sb => SchemaBuilder.New()
                 .AddType<SpatialType>()
