@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,15 +42,14 @@ namespace SqlQuery {
                 return null;
             }
 
-            using (var session = new SqlConnection(_connectionString)) {
-                session.Open();
+            using var session = new SqlConnection(_connectionString);
+            session.Open();
 
-                var queryResults = await session.QueryAsync(request.Query);
+            var queryResults = await session.QueryAsync(request.Query);
 
-                return queryResults.Select(x => new SearchApiResponse {
-                    Attributes = x
-                }).AsList();
-            }
+            return queryResults.Select(x => new SearchApiResponse {
+                Attributes = x
+            }).AsList();
         }
     }
 }
