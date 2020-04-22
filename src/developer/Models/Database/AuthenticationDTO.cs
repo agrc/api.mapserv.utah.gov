@@ -1,7 +1,7 @@
 ﻿using System;
 namespace developer.mapserv.utah.gov.Models.Database
 {
-    public class AccountIdDTO 
+    public class AccountIdDTO
     {
         public int Id { get; set; }
     }
@@ -12,12 +12,8 @@ namespace developer.mapserv.utah.gov.Models.Database
 
         public string Salt { get; set; }
 
-        public byte[] GetSaltBytes(string salt) {
-            return Convert.FromBase64String(salt);
-        }
+        public byte[] GetSaltBytes(string salt) => Convert.FromBase64String(salt);
 
-        public bool IsValid(){
-            return !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Salt);
-        }
+        public bool IsValid() => !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Salt);
     }
 }

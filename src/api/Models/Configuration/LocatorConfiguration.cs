@@ -21,9 +21,7 @@ namespace api.mapserv.utah.gov.Models.Configuration {
             return $"{host}{PathToLocator}";
         }
 
-        public LocatorProperties ToLocatorProperty(GeocodeInput address, Func<GeocodeInput, string> addressResolver) {
-            return ToLocatorPropertyBase(Template, address.Weight, ServiceName, WebUtility.UrlEncode(addressResolver(address)), address.Grid, address.WkId);
-        }
+        public LocatorProperties ToLocatorProperty(GeocodeInput address, Func<GeocodeInput, string> addressResolver) => ToLocatorPropertyBase(Template, address.Weight, ServiceName, WebUtility.UrlEncode(addressResolver(address)), address.Grid, address.WkId);
 
         private LocatorProperties ToLocatorPropertyBase(string template, int weight, params object[] args) {
             var url = Url();

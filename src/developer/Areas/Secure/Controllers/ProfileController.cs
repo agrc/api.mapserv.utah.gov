@@ -29,7 +29,7 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
         {
             // TODO: Refactor
             var idString = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            int id = -1;
+            var id = -1;
 
             if (!string.IsNullOrEmpty(idString))
             {
@@ -37,14 +37,14 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
             }
 
             var entity = await Connection.QueryFirstOrDefaultAsync<ProfileDTO>(
-                @"SELECT 
-                  	email, 
-                  	first_name as first, 
-                  	last_name as last, 
-                    company, 
-                    job_category as jobcategory, 
-                    job_title as jobtitle, 
-                    experience, 
+                @"SELECT
+                  	email,
+                  	first_name as first,
+                  	last_name as last,
+                    company,
+                    job_category as jobcategory,
+                    job_title as jobtitle,
+                    experience,
 					email_confirmed as confirmed,
                     contact_route as contactroute
                 FROM public.accounts

@@ -34,8 +34,8 @@ namespace api.mapserv.utah.gov.Features.GeometryService {
                 return response;
             }
 
-            if (request is IHasGeocodingOptions) {
-                var geocodingOptions = ((IHasGeocodingOptions)request).Options;
+            if (request is IHasGeocodingOptions options1) {
+                var geocodingOptions = options1.Options;
 
                 if (geocodingOptions.SpatialReference == 26912) {
                     return response;

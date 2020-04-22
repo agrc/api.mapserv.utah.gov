@@ -41,62 +41,56 @@ namespace api.mapserv.utah.gov.Services {
         public async Task<ApiKey> GetKey(string key) {
             key = key.ToLowerInvariant();
 
-            using (var conn = new NpgsqlConnection(_connectionString)) {
-                conn.Open();
+            using var conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-                var items = await conn.QueryAsync<ApiKey>(ApiKeyByKey, new {key});
+            var items = await conn.QueryAsync<ApiKey>(ApiKeyByKey, new { key });
 
-                return items.FirstOrDefault();
-            }
+            return items.FirstOrDefault();
         }
 
         public async Task<IEnumerable<PlaceGridLink>> GetPlaceNames() {
-            using (var conn = new NpgsqlConnection(_connectionString)) {
-                conn.Open();
+            using var conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-                return await
-                    conn.QueryAsync<PlaceGridLink>("SELECT place, address_system as grid, weight from public.place_names");
-            }
+            return await
+                conn.QueryAsync<PlaceGridLink>("SELECT place, address_system as grid, weight from public.place_names");
         }
 
         public async Task<IEnumerable<ZipGridLink>> GetZipCodes() {
-            using (var conn = new NpgsqlConnection(_connectionString)) {
-                conn.Open();
+            using var conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-                return await
-                    conn.QueryAsync<ZipGridLink>("SELECT zip, address_system as grid, weight from public.zip_codes");
-            }
+            return await
+                conn.QueryAsync<ZipGridLink>("SELECT zip, address_system as grid, weight from public.zip_codes");
         }
 
         public async Task<IEnumerable<UspsDeliveryPointLink>> GetDeliveryPoints() {
-            using (var conn = new NpgsqlConnection(_connectionString)) {
-                conn.Open();
+            using var conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-                return await
-                    conn.QueryAsync<UspsDeliveryPointLink>("SELECT zip, address_system as grid, place, x, y from public.delivery_points");
-            }
+            return await
+                conn.QueryAsync<UspsDeliveryPointLink>("SELECT zip, address_system as grid, place, x, y from public.delivery_points");
         }
 
         public async Task<IDictionary<int, PoBoxAddress>> GetPoBoxes() {
-            using (var conn = new NpgsqlConnection(_connectionString)) {
-                conn.Open();
+            using var conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-                var pos = await conn.QueryAsync<PoBoxAddress>("SELECT zip, x, y from public.po_boxes");
+            var pos = await conn.QueryAsync<PoBoxAddress>("SELECT zip, x, y from public.po_boxes");
 
-                return pos.ToDictionary(x => x.Zip, y => y);
-            }
+            return pos.ToDictionary(x => x.Zip, y => y);
         }
 
         public async Task<IEnumerable<PoBoxAddressCorrection>> GetCorrections() {
-            using (var conn = new NpgsqlConnection(_connectionString)) {
-                conn.Open();
+            using var conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-                var corrections = await conn.QueryAsync("SELECT zip, zip_9 as zip9, place from public.zip_corrections");
+            var corrections = await conn.QueryAsync("SELECT zip, zip_9 as zip9, place from public.zip_corrections");
 
-                return corrections.Where(x => _exclusions.ContainsKey(x.place.ToLower()))
-                                  .Select(x => new PoBoxAddressCorrection(x.zip, x.zip9, _exclusions[x.place][0],
-                                                                          _exclusions[x.place][1]));
-            }
+            return corrections.Where(x => _exclusions.ContainsKey(x.place.ToLower()))
+                              .Select(x => new PoBoxAddressCorrection(x.zip, x.zip9, _exclusions[x.place][0],
+                                                                      _exclusions[x.place][1]));
         }
     }
 }
