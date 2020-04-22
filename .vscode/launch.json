@@ -131,5 +131,38 @@
             "request": "attach",
             "processId": "${command:pickProcess}"
         },
+         {
+            "name": "developer portal",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build developer",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/developer/bin/Debug/netcoreapp3.1/developer.mapserv.utah.gov.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/developer",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}/accountaccess",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:1337"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        }
     ]
 }

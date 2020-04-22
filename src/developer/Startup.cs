@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
+using Microsoft.Extensions.Hosting;
 
 namespace developer.mapserv.utah.gov
 {
@@ -26,6 +26,8 @@ namespace developer.mapserv.utah.gov
         {
             services.Configure<PepperModel>(Configuration);
             services.Configure<DatabaseConfiguration>(Configuration);
+
+            services.AddControllersWithViews();
 
             //services.Configure<CookiePolicyOptions>(options =>
             //{
@@ -50,11 +52,10 @@ namespace developer.mapserv.utah.gov
                         options.AccessDeniedPath = new PathString("/accountaccess/");
                         options.SlidingExpiration = true;
                     });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment() || env.IsEnvironment("DockerDevelopment"))
             {
@@ -66,11 +67,19 @@ namespace developer.mapserv.utah.gov
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection()
-               .UseStaticFiles()
-               .UseAuthentication()
-               .UseCookiePolicy()
-               .UseMvc();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
+
+            app.UseCookiePolicy();
         }
     }
 }
