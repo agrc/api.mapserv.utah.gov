@@ -27,12 +27,13 @@ namespace graphql {
             });
 
             services.AddGraphQL(sb => SchemaBuilder.New()
-                .AddType<SpatialType>()
+                .AddType<types.MultiPolygonType>()
+                .AddType<types.MultiLineType>()
+                .AddType<types.PointType>()
                 .AddQueryType<Query>()
                 .ModifyOptions(o => o.RemoveUnreachableTypes = true).Create(),
                 new QueryExecutionOptions {
-                    IncludeExceptionDetails = Environment.IsDevelopment(),
-                    ForceSerialExecution = true
+                    IncludeExceptionDetails = Environment.IsDevelopment()
                 });
         }
         public void Configure(IApplicationBuilder app) => app.UseRouting().UseWebSockets().UseGraphQL().UsePlayground().UseVoyager();

@@ -10,9 +10,9 @@ namespace graphql {
     public class Query {
 
         [UseSelection]
-        // [UseFiltering]
+        [UseFiltering]
         public async Task<IQueryable<schemas.CountyBoundaries>> GetCounties([Service]CloudSqlContext context, [Service]IHttpClientFactory clientFactory, GeocodingFilter geocode) {
-            if (!geocode.HasFilter()) {
+            if (geocode is null || !geocode.HasFilter()) {
                 return context.CountyBoundaries;
             };
 
@@ -29,7 +29,7 @@ namespace graphql {
 
         // [UsePaging]
         [UseSelection]
-        [UseFiltering]
+        // [UseFiltering]
         public IQueryable<schemas.MunicipalBoundaries> GetMunis([Service]CloudSqlContext context) => context.MunicipalBoundaries;
     }
 }
