@@ -120,6 +120,8 @@ namespace api.mapserv.utah.gov {
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            app.UseRouting();
+
             app.UseCors();
 
             if (env.IsDevelopment()) {
@@ -137,14 +139,15 @@ namespace api.mapserv.utah.gov {
                 c.DocExpansion(DocExpansion.List);
             });
 
-            app.UseRouting();
-
-            app.UseHealthChecks("/api/v1/health/details", new HealthCheckOptions {
-                ResponseWriter = HealthCheckResponseWriter.WriteDetailsJson
-            });
-            app.UseHealthChecks("/api/v1/health");
-            app.UseHealthChecks("", new HealthCheckOptions() {
-                Predicate = (check) => false
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+                endpoints.MapHealthChecks("/api/v1/health/details", new HealthCheckOptions {
+                    ResponseWriter = HealthCheckResponseWriter.WriteDetailsJson
+                });
+                endpoints.MapHealthChecks("/api/v1/health");
+                endpoints.MapHealthChecks("", new HealthCheckOptions() {
+                    Predicate = (check) => false
+                });
             });
         }
     }
