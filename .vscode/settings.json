@@ -11,6 +11,8 @@
         "kube",
         "kubectl",
         "kubernetes",
+        "mediatr",
+        "npgsql",
         "pgdata",
         "pobox",
         "purgecss",

@@ -4,12 +4,19 @@
         {
             "label": "build",
             "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/src/api/api.mapserv.utah.gov.csproj"
-            ],
-            "problemMatcher": "$msCompile"
+            "type": "shell",
+            "args": [ "build" ],
+            "options": {
+                "cwd": "${workspaceFolder}/src/api"
+            },
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent"
+            }
         },
         {
             "label": "test",
