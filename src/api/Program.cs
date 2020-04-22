@@ -6,6 +6,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
@@ -28,7 +29,7 @@ namespace api.mapserv.utah.gov {
             try {
                 logger.Information("Starting web host");
 
-                var host = CreateWebHostBuilder(args).Build();
+                var host = CreateHostBuilder(args).Build();
 
                 var lookupCache = host.Services.GetService(typeof(ILookupCache)) as ILookupCache;
                 await lookupCache.InitializeAsync();
@@ -43,11 +44,13 @@ namespace api.mapserv.utah.gov {
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                   .UseStartup<Startup>()
-                   .UseConfiguration(Configuration)
-                   .ConfigureServices(x => x.AddAutofac())
-                   .ConfigureLogging(x => x.ClearProviders().AddSerilog());
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(builder => {
+                builder.UseStartup<Startup>();
+                builder.UseConfiguration(Configuration);
+                builder.ConfigureServices(x => x.AddAutofac());
+                builder.ConfigureLogging(x => x.ClearProviders().AddSerilog());
+            });
     }
 }
