@@ -18,13 +18,10 @@ using System.Globalization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace developer.mapserv.utah.gov.Controllers
-{
+namespace developer.mapserv.utah.gov.Controllers {
     [Route("accountaccess")]
-    public class AccountAccessController : Controller
-    {
-        public AccountAccessController(NpgsqlConnection connection, IOptions<PepperModel> options)
-        {
+    public class AccountAccessController : Controller {
+        public AccountAccessController(NpgsqlConnection connection, IOptions<PepperModel> options) {
             Connection = connection;
             Pepper = options.Value.Pepper;
         }
@@ -34,38 +31,30 @@ namespace developer.mapserv.utah.gov.Controllers
 
         [HttpGet]
         [Route("")]
-        public ViewResult Index()
-        {
-            return View();
-        }
+        public ViewResult Index() => View();
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult> Register(LoginViewModel credentials)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> Register(LoginViewModel credentials) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
-            var count = await Connection.QueryFirstOrDefaultAsync<int>("SELECT COUNT(id) FROM public.accounts WHERE email = @email", new
-            {
+            var count = await Connection.QueryFirstOrDefaultAsync<int>("SELECT COUNT(id) FROM public.accounts WHERE email = @email", new {
                 email = credentials.Email
             });
 
-            if (count != 0)
-            {
+            if (count != 0) {
                 return BadRequest(ModelState);
             }
 
             var saltBytes = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
+            using (var rng = RandomNumberGenerator.Create()) {
                 rng.GetBytes(saltBytes);
             }
 
             var salt = Convert.ToBase64String(saltBytes);
-            string hash = HashPassword(credentials, saltBytes);
+            var hash = HashPassword(credentials, saltBytes);
 
             var rand = new Random(DateTime.Now.Millisecond);
             var guid = Guid.NewGuid().ToString();
@@ -75,8 +64,7 @@ namespace developer.mapserv.utah.gov.Controllers
 
             var id = await Connection.QuerySingleAsync<int>(@"INSERT INTO public.accounts (email, email_key, salt, password)
             						 VALUES (@email, @confirmationCode, @salt, @hash)
-									 RETURNING id", new
-            {
+									 RETURNING id", new {
                 credentials.Email,
                 confirmationCode,
                 salt,
@@ -87,55 +75,45 @@ namespace developer.mapserv.utah.gov.Controllers
 
             // TODO send email
 
-            return RedirectToRoute(new
-            {
+            return RedirectToRoute(new {
                 area = "secure",
                 controller = "profile",
                 action = "index",
             });
         }
 
-        private string HashPassword(LoginViewModel credentials, byte[] saltBytes)
-        {
-            return Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                            password: Pepper + credentials.Password,
-                            salt: saltBytes,
-                            prf: KeyDerivationPrf.HMACSHA512,
-                            iterationCount: 10000,
-                            numBytesRequested: 256 / 8));
-        }
+        private string HashPassword(LoginViewModel credentials, byte[] saltBytes) => Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: Pepper + credentials.Password,
+            salt: saltBytes,
+            prf: KeyDerivationPrf.HMACSHA512,
+            iterationCount: 10000,
+            numBytesRequested: 256 / 8));
 
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult> Login(LoginViewModel credentials, string returnUrl)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> Login(LoginViewModel credentials, string returnUrl) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
-            var resetUrl = Url.Action("PasswordReset", "AccountAccess", new
-            {
+            var resetUrl = Url.Action("PasswordReset", "AccountAccess", new {
                 email = credentials.Email
             }, "http");
             var resetMessage = $"Your password does not match. <a href='{resetUrl}'>Reset</a> your password.";
 
-            var userData = await Connection.QueryFirstOrDefaultAsync<AuthenticationDTO>("SELECT id, salt, password FROM public.accounts WHERE email = @email", new
-            {
+            var userData = await Connection.QueryFirstOrDefaultAsync<AuthenticationDTO>("SELECT id, salt, password FROM public.accounts WHERE email = @email", new {
                 email = credentials.Email
             });
 
-            if (!userData.IsValid())
-            {
+            if (!userData.IsValid()) {
                 ViewData.Add("Error", resetMessage);
 
                 return View("Index");
             }
 
-            string hash = HashPassword(credentials, userData.GetSaltBytes(userData.Salt));
+            var hash = HashPassword(credentials, userData.GetSaltBytes(userData.Salt));
 
-            if (hash != userData.Password)
-            {
+            if (hash != userData.Password) {
                 ViewData.Add("Error", resetMessage);
 
                 return View("Index");
@@ -143,16 +121,14 @@ namespace developer.mapserv.utah.gov.Controllers
 
             await SignIn(credentials, userData.Id);
 
-            return RedirectToRoute(new
-            {
+            return RedirectToRoute(new {
                 area = "secure",
                 controller = "home",
                 action = "index"
             });
         }
 
-        private async Task SignIn(LoginViewModel credentials, int id)
-        {
+        private async Task SignIn(LoginViewModel credentials, int id) {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, credentials.Email),
@@ -162,8 +138,7 @@ namespace developer.mapserv.utah.gov.Controllers
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var authProperties = new AuthenticationProperties
-            {
+            var authProperties = new AuthenticationProperties {
                 AllowRefresh = true,
                 IsPersistent = true,
                 IssuedUtc = DateTime.UtcNow,
@@ -177,11 +152,10 @@ namespace developer.mapserv.utah.gov.Controllers
 
         [HttpGet]
         [Route("logout")]
-        public async Task<RedirectToRouteResult> Logout(){
+        public async Task<RedirectToRouteResult> Logout() {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToRoute(new
-            {
+            return RedirectToRoute(new {
                 action = "index",
                 controller = "accountaccess"
             });

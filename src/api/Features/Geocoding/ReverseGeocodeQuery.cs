@@ -35,7 +35,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             public async Task<ReverseGeocodeRestResponse> Handle(Command request, CancellationToken cancellationToken) {
                 _log.Debug("Request sent to locator, url={Url}", request.Locator.Url);
 
-                HttpResponseMessage httpResponse = null;
+                HttpResponseMessage httpResponse;
                 try {
                     httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
                 } catch (TaskCanceledException ex) {

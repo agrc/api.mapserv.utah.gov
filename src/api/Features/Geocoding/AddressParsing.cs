@@ -168,7 +168,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
 
                 //get last match since street name could be in there?
-                var match = matches[matches.Count - 1].Value.ToLower();
+                var match = matches[^1].Value.ToLower();
 
                 var unitType = _abbreviations.UnitAbbreviations.Single(x => x.Item1 == match || x.Item2 == match);
 
@@ -194,8 +194,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var moreMatches = regex.Matches(street);
 
                 if (moreMatches.Count > 0 &&
-                    street.EndsWith(moreMatches[moreMatches.Count - 1].Value, StringComparison.OrdinalIgnoreCase)) {
-                    var theMatch = moreMatches[moreMatches.Count - 1];
+                    street.EndsWith(moreMatches[^1].Value, StringComparison.OrdinalIgnoreCase)) {
+                    var theMatch = moreMatches[^1];
                     var index = street.LastIndexOf(theMatch.Value, StringComparison.OrdinalIgnoreCase);
                     street = street.Substring(0, index) + street.Substring(index + theMatch.Length);
 
@@ -209,9 +209,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     return;
                 }
 
-                string Replace(string original, string matchedValue, string replaced) {
-                    return original.Replace(matchedValue, replaced);
-                }
+                static string Replace(string original, string matchedValue, string replaced) => original.Replace(matchedValue, replaced);
 
                 while (match.Success) {
                     var value = match.Value;
@@ -295,7 +293,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                                 break;
                             }
 
-                            var segment = Street.Substring(index, Street.Length - index).Trim();
+                            var segment = Street[index..].Trim();
 
                             // also check for ordinal numbers like the aves.
                             var ordinalStreetMatch = _regexCache.Get("ordinal").Matches(segment);

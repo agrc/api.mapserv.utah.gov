@@ -9,9 +9,6 @@ namespace developer.mapserv.utah.gov.Models.Configuration
         public string Username { get; set; } = "postgres";
         public string Password { get; set; } = "what password";
 
-        public string ConnectionString
-        {
-            get => $"Host={Host};Port={Port};Username={Username};Password={Password};Database={Db}";
-        }
+        public string ConnectionString => $"Host={Host};Port={Port};Username={Username};Password={Password};Database={Db}";
     }
 }

@@ -44,8 +44,6 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         [HttpGet]
         [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
-        public async Task<ActionResult<ApiResponseContainer<GeocodeAddressApiResponse>>> Geocode(string street, string zone, [FromQuery] GeocodingOptions options) {
-            return await _mediator.Send(new GeocodeAddressQuery.Command(street, zone, options));
-        }
+        public async Task<ActionResult<ApiResponseContainer<GeocodeAddressApiResponse>>> Geocode(string street, string zone, [FromQuery] GeocodingOptions options) => await _mediator.Send(new GeocodeAddressQuery.Command(street, zone, options));
     }
 }
