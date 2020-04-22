@@ -38,8 +38,9 @@ namespace api.mapserv.utah.gov {
             services.AddControllers(options => {
                 options.AddApiResponseFormatters();
                 // options.AddJsonpOutputFormatter();
-            }).AddJsonOptions(options => {
-                options.JsonSerializerOptions.IgnoreNullValues = true;
+            })
+            .AddNewtonsoftJson(options => {
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
             // services.AddMvc(options => {
             //             options.AddApiResponseFormatters();
