@@ -48,6 +48,23 @@
                 "kind": "test",
                 "isDefault": true
             }
+        },
+        {
+            "label": "build developer",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [ "build" ],
+            "options": {
+                "cwd": "${workspaceFolder}/src/developer"
+            },
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent"
+            }
         }
     ]
 }
