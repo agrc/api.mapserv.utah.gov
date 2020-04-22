@@ -4,7 +4,7 @@ os: linux
 language: csharp
 jobs:
   include:
-    - dotnet: 2.2.101
+    - dotnet: 3.1.201
       mono: none
       solution: api.mapserv.utah.gov.sln
       script:
