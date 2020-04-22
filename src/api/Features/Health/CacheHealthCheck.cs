@@ -13,12 +13,11 @@ namespace api.mapserv.utah.gov.Features.Health {
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
             var stopWatch = Stopwatch.StartNew();
             try {
-                using (var redis = await ConnectionMultiplexer.ConnectAsync("cache")) {
-                    var db = redis.GetDatabase();
+                using var redis = await ConnectionMultiplexer.ConnectAsync("cache");
+                var db = redis.GetDatabase();
 
-                    db.StringIncrement("health");
-                    db.StringGet("health");
-                }
+                db.StringIncrement("health");
+                db.StringGet("health");
             } catch (Exception ex) {
                 return HealthCheckResult.Degraded("Unable to access redis cache", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }

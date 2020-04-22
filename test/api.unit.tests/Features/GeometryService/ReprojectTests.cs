@@ -27,8 +27,9 @@ namespace api.tests.Features.GeometryService {
     public class ReprojectTests {
         [Fact]
         public async Task Should_prefer_request_url() {
-            var command = new Reproject.Command(new PointReprojectOptions(0, 0, new[] { 0.0, 1.1 }));
-            command.ReprojectUrl = "http://useme";
+            var command = new Reproject.Command(new PointReprojectOptions(0, 0, new[] { 0.0, 1.1 })) {
+                ReprojectUrl = "http://useme"
+            };
 
             var options = new Mock<IOptions<GeometryServiceConfiguration>>();
             options.Setup(x => x.Value).Returns(new GeometryServiceConfiguration {

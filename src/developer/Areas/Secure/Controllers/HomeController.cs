@@ -30,7 +30,7 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
         {
             // TODO: Refactor
             var idString = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            int id = -1;
+            var id = -1;
 
             if (!string.IsNullOrEmpty(idString))
             {
@@ -38,8 +38,8 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
             }
 
             var count = await Connection.QueryFirstOrDefaultAsync<int>(
-                @"SELECT COUNT(apikeys.id) 
-                FROM public.apikeys 
+                @"SELECT COUNT(apikeys.id)
+                FROM public.apikeys
 			    WHERE account_id = @id
                 AND deleted = @deleted",
                 new
@@ -57,7 +57,7 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
         {
             // TODO: Refactor
             var idString = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            int id = -1;
+            var id = -1;
 
             if (!string.IsNullOrEmpty(idString))
             {
@@ -104,9 +104,6 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
 
         [HttpGet]
         [Route("generatekey")]
-        public ViewResult GenerateKey()
-        {
-            return View();
-        }
+        public ViewResult GenerateKey() => View();
     }
 }

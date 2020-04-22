@@ -21,15 +21,14 @@ namespace api.mapserv.utah.gov.Features.Health {
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
             var stopWatch = Stopwatch.StartNew();
             try {
-                using (var conn = new NpgsqlConnection(_connectionString)) {
-                    conn.Open();
+                using var conn = new NpgsqlConnection(_connectionString);
+                conn.Open();
 
-                    using (var cmd = new NpgsqlCommand()) {
-                        cmd.Connection = conn;
-                        cmd.CommandText = "SELECT 1";
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                using var cmd = new NpgsqlCommand {
+                    Connection = conn,
+                    CommandText = "SELECT 1"
+                };
+                cmd.ExecuteNonQuery();
             } catch (Exception ex) {
                 return Task.FromResult(HealthCheckResult.Unhealthy("Unable to access key store", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
