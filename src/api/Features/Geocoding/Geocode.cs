@@ -39,7 +39,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                                                                      CancellationToken cancellationToken) {
                 _log.Debug("Request sent to locator, url={Url}", request.Locator.Url);
 
-                HttpResponseMessage httpResponse = null;
+                HttpResponseMessage httpResponse;
                 try {
                     httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
                 } catch (TaskCanceledException ex) {
