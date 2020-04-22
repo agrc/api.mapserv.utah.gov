@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using WebApiContrib.Core.Formatter.Jsonp;
+using Serilog;
 
 namespace api.mapserv.utah.gov {
     public class Startup {
@@ -150,6 +151,8 @@ namespace api.mapserv.utah.gov {
                     Predicate = (check) => false
                 });
             });
+
+            app.UseSerilogRequestLogging();
         }
     }
 }

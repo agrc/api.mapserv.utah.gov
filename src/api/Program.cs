@@ -34,6 +34,8 @@ namespace api.mapserv.utah.gov {
                 var lookupCache = host.Services.GetService(typeof(ILookupCache)) as ILookupCache;
                 await lookupCache.InitializeAsync();
 
+                logger.Information("Completed");
+
                 await host.RunAsync();
 
                 return 0;
@@ -41,16 +43,19 @@ namespace api.mapserv.utah.gov {
                 logger.Fatal(ex, "Host terminated unexpectedly");
 
                 return 1;
+            } finally {
+
             }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .UseSerilog()
             .ConfigureWebHostDefaults(builder => {
                 builder.UseStartup<Startup>();
                 builder.UseConfiguration(Configuration);
-                builder.ConfigureLogging(x => x.ClearProviders().AddSerilog());
+                builder.ConfigureLogging(x => x.ClearProviders());
             });
     }
 }
