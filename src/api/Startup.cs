@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -68,21 +69,21 @@ namespace api.mapserv.utah.gov {
             services.AddSwaggerGen(c => {
                 c.EnableAnnotations();
                 c.DescribeAllParametersInCamelCase();
-                c.DescribeAllEnumsAsStrings();
-                c.DescribeStringEnumsInCamelCase();
+                // c.DescribeAllEnumsAsStrings();
+                // c.DescribeStringEnumsInCamelCase();
 
-                c.SwaggerDoc("v1", new Info {
+                c.SwaggerDoc("v1", new OpenApiInfo {
                     Version = "v1",
                     Title = "AGRC WebAPI : OpenAPI Documentation",
                     Description = "OpenAPI Documentation",
-                    Contact = new Contact {
+                    Contact = new OpenApiContact {
                         Name = "AGRC",
                         Email = string.Empty,
-                        Url = "https://github.com/agrc/api.mapserv.utah.gov"
+                        Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
                     },
-                    License = new License {
+                    License = new OpenApiLicense {
                         Name = "MIT",
-                        Url = "https://github.com/agrc/api.mapserv.utah.gov/blob/master/LICENSE"
+                        Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/master/LICENSE")
                     }
                 });
 

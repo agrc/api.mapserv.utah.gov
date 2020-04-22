@@ -46,10 +46,10 @@ namespace api.mapserv.utah.gov {
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .ConfigureWebHostDefaults(builder => {
                 builder.UseStartup<Startup>();
                 builder.UseConfiguration(Configuration);
-                builder.ConfigureServices(x => x.AddAutofac());
                 builder.ConfigureLogging(x => x.ClearProviders().AddSerilog());
             });
     }
