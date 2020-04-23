@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../clones/hotchocolate"
+		}
+	],
+	"settings": {
+		"dotnet-test-explorer.testProjectPath": "test/**/*.csproj",
+		"dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=../../lcov.info"
+	}
+}
