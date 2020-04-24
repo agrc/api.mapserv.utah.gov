@@ -20,6 +20,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using WebApiContrib.Core.Formatter.Jsonp;
 using Serilog;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace api.mapserv.utah.gov {
     public class Startup {
@@ -72,6 +73,9 @@ namespace api.mapserv.utah.gov {
                 c.DescribeAllParametersInCamelCase();
                 // c.DescribeAllEnumsAsStrings();
                 // c.DescribeStringEnumsInCamelCase();
+                c.CustomOperationIds(apiDesc => {
+                    return apiDesc.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null;
+                });
 
                 c.SwaggerDoc("v1", new OpenApiInfo {
                     Version = "v1",
@@ -79,7 +83,7 @@ namespace api.mapserv.utah.gov {
                     Description = "OpenAPI Documentation",
                     Contact = new OpenApiContact {
                         Name = "AGRC",
-                        Email = string.Empty,
+                        Email = "sgourley@utah.gov",
                         Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
                     },
                     License = new OpenApiLicense {
@@ -130,7 +134,10 @@ namespace api.mapserv.utah.gov {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger(c => { c.RouteTemplate = "openapi/{documentName}/api.json"; });
+            app.UseSwagger(c => {
+                c.SerializeAsV2 = true;
+                c.RouteTemplate = "openapi/{documentName}/api.json";
+            });
 
             app.UseSwaggerUI(c => {
                 c.DocumentTitle = "AGRC WebAPI OpenAPI Documentation";

@@ -49,7 +49,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         /// <response code="404">No house address could be found within the distance supplied from the input location</response>
         /// <response code="500">Something went terribly wrong</response>
         /// <param name="x">A geographic coordinate representing the longitude or easting</param>
-        /// <param name="y">A geographic coordinate representing the latitdue or northing</param>
+        /// <param name="y">A geographic coordinate representing the latitude or northing</param>
         /// <param name="options"></param>
         [HttpGet]
         [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
