@@ -156,3 +156,7 @@ app-config for mounting [appsettings.json](src/api/appsettings.json).
 The loadbalancer takes a couple minutes to be assigned. Once it is assigned, the external IP can be found in the `EXTERNAL-IP` field of the `webapi-api` service.
 
 - `kubectl get services webapi-api`
+
+## Swagger
+
+- openapi/v1/api.json
