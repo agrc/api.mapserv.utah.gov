@@ -30,12 +30,12 @@ class Geocoder(object):
         response = r.json()
 
         if r.status_code is not 200 or response["status"] is not 200:
-            print "{} {} was not found. {}".format(street, zone, response["message"])
+            print("{} {} was not found. {}".format(street, zone, response["message"]))
             return None
 
         result = response["result"]
 
-        print "match: {} score [{}]".format(result["score"], result["matchAddress"])
+        print("match: {} score [{}]".format(result["score"], result["matchAddress"]))
         return result["location"]
 
 if __name__ == "__main__":
@@ -45,5 +45,5 @@ if __name__ == "__main__":
     """
     geocoder = Geocoder('insert your api key here')
     result = geocoder.locate("123 South Main Street", "SLC", **{"acceptScore": 90, "spatialReference": 4326})
-    
-    print result
+
+    print(result)
