@@ -13,7 +13,7 @@ namespace WebAPI.Common.Logging
         public static void Register(string name)
         {
             var config = new GoogleCloudLoggingSinkOptions {
-                ProjectId = "agrc-admin",
+                ProjectId = "ut-dts-agrc-web-api-prod",
                 UseJsonOutput = true,
                 LogName = "api.mapserv.utah.gov",
                 UseSourceContextAsLogName = false,
