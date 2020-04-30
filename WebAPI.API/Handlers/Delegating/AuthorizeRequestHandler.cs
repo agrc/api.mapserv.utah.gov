@@ -172,6 +172,17 @@ namespace WebAPI.API.Handlers.Delegating
                         new MediaTypeHeaderValue("application/json"));
                 }
 
+                if (!referrer.IsAbsoluteUri)
+                {
+                    return request.CreateResponse(HttpStatusCode.BadRequest,
+                        new ResultContainer
+                        {
+                            Status = (int)HttpStatusCode.BadRequest,
+                            Message = "Referrer http header is invalid. The value must be a vaid URI. e.g. http://my.url.com"
+                        },
+                        new MediaTypeHeaderValue("application/json"));
+                }
+
                 var corsOriginHeader = hasOrigin.FirstOrDefault();
                 var corsOriginValue = "";
 
