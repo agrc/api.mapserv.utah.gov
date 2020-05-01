@@ -19,7 +19,7 @@ namespace WebAPI.Common.Logging
                 UseSourceContextAsLogName = false,
                 ResourceType = "global",
                 ServiceName = "api.mapserv.utah.gov",
-                ServiceVersion = "1.12.0"
+                ServiceVersion = "1.12.1"
             };
 
             var email = new EmailConnectionInfo
