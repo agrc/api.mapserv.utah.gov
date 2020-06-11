@@ -1,168 +1,123 @@
 {
-    // Use IntelliSense to find out which attributes exist for C# debugging
-    // Use hover for the description of the existing attributes
-    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "start without browser",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/api",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "launchBrowser": {
-                "enabled": false
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:1337"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
-            "name": "health",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/api",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "launchBrowser": {
-                "enabled": true,
-                "args": "${auto-detect-url}/api/v1/health/details",
-                "windows": {
-                    "command": "cmd.exe",
-                    "args": "/C start ${auto-detect-url}"
-                },
-                "osx": {
-                    "command": "open"
-                },
-                "linux": {
-                    "command": "xdg-open"
-                }
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:1337"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
-            "name": "search sample",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/api",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "launchBrowser": {
-                "enabled": true,
-                "args": "${auto-detect-url}/api/v1/search/boundaries.muniCIPALITIES_CARTO/NaMe?apikey=agrc-explorer&attributeStyle=lower&geometry=point:[426553,%204511970]",
-                "windows": {
-                    "command": "cmd.exe",
-                    "args": "/C start ${auto-detect-url}"
-                },
-                "osx": {
-                    "command": "open"
-                },
-                "linux": {
-                    "command": "xdg-open"
-                }
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:1337"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
-            "name": "geocode sample",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/api",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "launchBrowser": {
-                "enabled": true,
-                "args": "${auto-detect-url}/api/v1/geocode/326%20east%20south%20temple%20st/slc?apikey=AGRC-Explorer",
-                "windows": {
-                    "command": "cmd.exe",
-                    "args": "/C start ${auto-detect-url}"
-                },
-                "osx": {
-                    "command": "open"
-                },
-                "linux": {
-                    "command": "xdg-open"
-                }
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:1337"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
-        },
-         {
-            "name": "developer portal",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build developer",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/developer/bin/Debug/netcoreapp3.1/developer.mapserv.utah.gov.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/developer",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "launchBrowser": {
-                "enabled": true,
-                "args": "${auto-detect-url}/accountaccess",
-                "windows": {
-                    "command": "cmd.exe",
-                    "args": "/C start ${auto-detect-url}"
-                },
-                "osx": {
-                    "command": "open"
-                },
-                "linux": {
-                    "command": "xdg-open"
-                }
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:1337"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        }
-    ]
+  // Use IntelliSense to find out which attributes exist for C# debugging
+  // Use hover for the description of the existing attributes
+  // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "start api without browser",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/api",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:1337"
+      }
+    },
+    {
+      "name": "health",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/api",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/api/v1/health/details"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:1337"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
+      "name": "search sample",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/api",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/api/v1/search/boundaries.muniCIPALITIES_CARTO/NaMe?apikey=agrc-explorer&attributeStyle=lower&geometry=point:[426553,%204511970]"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:1337"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
+      "name": "geocode sample",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/api",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/api/v1/geocode/326%20east%20south%20temple%20st/slc?apikey=AGRC-Explorer"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:1337"
+      }
+    },
+    {
+      "name": ".NET Core Attach",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:pickProcess}"
+    },
+    {
+      "name": "developer portal",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build developer",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/developer/bin/Debug/netcoreapp3.1/developer.mapserv.utah.gov.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/developer",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+       "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/accountaccess"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:1337"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    }
+  ]
 }
