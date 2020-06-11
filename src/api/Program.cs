@@ -50,12 +50,14 @@ namespace api.mapserv.utah.gov {
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-            .UseSerilog()
             .ConfigureWebHostDefaults(builder => {
                 builder.UseStartup<Startup>();
                 builder.UseConfiguration(Configuration);
                 builder.ConfigureLogging(x => x.ClearProviders());
+            })
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .UseSerilog((context, config) => {
+                config.ReadFrom.Configuration(context.Configuration);
             });
     }
 }
