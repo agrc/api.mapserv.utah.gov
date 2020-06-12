@@ -100,7 +100,7 @@ namespace api.mapserv.utah.gov.Filters {
                         Status = BadRequest,
                         Message =
                             "The http referrer header is missing. Turn off any security solutions that may remove this " +
-                            "header to use this service. If you are trying to test your query add the referer header via a tool like postman " +
+                            "header to use this service. If you are trying to test your query add the referrer header via a tool like postman " +
                             "or browse to api.mapserv.utah.gov and use the api explorer."
                     });
 
@@ -138,7 +138,7 @@ namespace api.mapserv.utah.gov.Filters {
                         Status = BadRequest,
                         Message =
                             $"Your API key does match the pattern created in the developer console for key `{key}`. " +
-                            $"The request is not originiating from `{userHostAddress}`"
+                            $"The request is not originating from `{userHostAddress}`"
                     });
 
                     return;

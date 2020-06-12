@@ -47,7 +47,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
 
                 if (string.IsNullOrEmpty(zone)) {
-                    errors += "Zip code or city name is emtpy";
+                    errors += "Zip code or city name is empty";
                 }
 
                 if (errors.Length > 0) {
