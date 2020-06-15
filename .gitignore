@@ -267,3 +267,6 @@ coverage.xml
 # terraform
 .terra/
 src/explorer/src/styles/tailwind.css
+
+# OSX
+.DS_Store
