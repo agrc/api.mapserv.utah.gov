@@ -91,11 +91,24 @@ namespace WebAPI.API.Handlers.Delegating
                 return response.Result;
             }
 
+            var geocodingClient = string.Empty;
+            var clientVersion = string.Empty;
+
+            if (request.Headers.TryGetValues("x-agrc-geocode-client", out var client))
+            {
+                geocodingClient = client.First();
+            }
+
+            if (request.Headers.TryGetValues("x-agrc-geocode-client-version", out var version))
+            {
+                clientVersion = version.First();
+            }
+
             switch (routeData.Controller.ToUpper())
             {
                 case "GEOCODE":
                 {
-                    LogRequest("geocode", apikey, db);
+                    LogRequest("geocode", apikey, db, geocodingClient, clientVersion);
                     break;
                 }
                 case "INFO":
@@ -113,10 +126,18 @@ namespace WebAPI.API.Handlers.Delegating
             return response.Result;
         }
 
-        private static void LogRequest(string type, string key, IDatabase db)
+        private static void LogRequest(string type, string key, IDatabase db, string client="", string version="")
         {
-            Log.Warning("api({type}): {key}", type.ToLower(), key);
             db.StringIncrement(string.Format("{0}:{1}", key, type), flags: CommandFlags.FireAndForget);
+
+            if (!string.IsNullOrEmpty(client))
+            {
+                Log.Warning("api({type}): {key} from {@client}", type.ToLower(), key, new { client, version });
+
+                return;
+            }
+
+            Log.Warning("api({type}): {key}", type.ToLower(), key);
         }
 
         public static TimeSpan CalculateTimeUntil(DateTime currentTime, DateTime specifiedTime)
