@@ -127,3 +127,4 @@ WebAPI.API/sgid10.sde
 Soe.Common/App.config
 logs/
 log-writer-sa.json
+WebAPI.API/ut-dts-agrc-web-api-dv-log-writer.json
