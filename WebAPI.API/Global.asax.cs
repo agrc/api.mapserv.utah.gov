@@ -100,7 +100,6 @@ namespace WebAPI.API
             ModelBindingConfig.RegisterModelBindings(GlobalConfiguration.Configuration.Services);
             ViewEngineConfig.RegisterViewEngine(new RazorViewEngine());
             HandlerConfig.RegisterHandlers(GlobalConfiguration.Configuration.MessageHandlers);
-            AutoMapperConfig.RegisterMaps();
             CacheConfig.BuildCache();
             FormatterConfig.RegisterFormatters(GlobalConfiguration.Configuration.Formatters);
         }

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-namespace WebAPI.Dashboard.Models.ViewModels.Keys
+﻿namespace WebAPI.Dashboard.Models.ViewModels.Keys
 {
     public class ApiKeyViewModel
     {
@@ -42,11 +40,6 @@ namespace WebAPI.Dashboard.Models.ViewModels.Keys
         public string UseType
         {
             get { return Development ? "dev" : ""; }
-        }
-
-        public string[] ToArray()
-        {
-            return Mapper.Map<ApiKeyViewModel, string[]>(this);
         }
     }
 }

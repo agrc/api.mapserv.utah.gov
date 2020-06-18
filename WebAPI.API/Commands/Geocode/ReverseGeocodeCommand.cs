@@ -2,9 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using AutoMapper;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Commands.Spatial;
 using WebAPI.Common.Executors;
@@ -67,7 +65,13 @@ namespace WebAPI.API.Commands.Geocode
                 App.HttpClient.GetAsync(requestUri).ContinueWith(
                     httpResponse => ConvertResponseToObjectAsync(httpResponse.Result)).Unwrap().Result;
 
-            Result = Mapper.Map<ReverseGeocodeResponse, ReverseGeocodeResult>(response);
+            var result = new ReverseGeocodeResult
+            {
+                InputLocation = response.Location,
+                Address = response.Address
+            };
+
+            Result = result;
         }
 
         private static Task<ReverseGeocodeResponse> ConvertResponseToObjectAsync(HttpResponseMessage task)

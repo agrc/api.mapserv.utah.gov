@@ -3,9 +3,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using AutoMapper;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Commands.Spatial;
 using WebAPI.Common.Executors;
@@ -44,7 +42,16 @@ namespace WebAPI.API.Commands.Geocode
             var response = App.HttpClient.GetAsync(requestUri).ContinueWith(
                 httpResponse => ConvertResponseToObjectAsync(httpResponse.Result)).Unwrap().Result;
 
-            var result = Mapper.Map<GeocodeMilepostResponse, RouteMilepostResult>(response);
+            var result = new RouteMilepostResult { 
+                Source = response.Geocoder,
+                MatchRoute = response.MatchAddress,
+                Location = new Location
+                {
+                    X = response.UTM_X,
+                    Y = response.UTM_Y
+                }
+            };
+
             result.InputRouteMilePost = $"Route {Route} Milepost {Milepost}";
 
             if (Options.WkId != 26912)
