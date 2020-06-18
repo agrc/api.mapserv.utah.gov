@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -39,7 +40,7 @@ namespace WebAPI.API.Tests
                     var csvfile = Path.Combine(TestContext.CurrentContext.TestDirectory, "baseline_zipcodes.csv");
                     using (var file = File.OpenText(csvfile))
                     {
-                        var csv = new CsvReader(file);
+                        var csv = new CsvReader(file, CultureInfo.CurrentCulture);
                         var addresses = csv.GetRecords<CsvTestAddress>();
 
                         foreach (var address in addresses)
@@ -57,7 +58,7 @@ namespace WebAPI.API.Tests
                     var csvfile = Path.Combine(TestContext.CurrentContext.TestDirectory, "baseline_citynames.csv");
                     using (var file = File.OpenText(csvfile))
                     {
-                        var csv = new CsvReader(file);
+                        var csv = new CsvReader(file, CultureInfo.CurrentCulture);
                         var addresses = csv.GetRecords<CsvTestAddress>();
 
                         foreach (var address in addresses)
