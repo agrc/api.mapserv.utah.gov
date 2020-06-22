@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Features.GeometryService;
-using api.mapserv.utah.gov.Features.Health;
 using api.mapserv.utah.gov.Features.Searching;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Infrastructure;
@@ -20,12 +18,9 @@ using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
-using Serilog;
-using Serilog.Events;
 using static api.mapserv.utah.gov.Features.Geocoding.DoubleAvenuesException;
 
 namespace api.mapserv.utah.gov.Extensions {
@@ -38,10 +33,6 @@ namespace api.mapserv.utah.gov.Extensions {
         }
 
         public static void UseDi(this IServiceCollection services, IConfiguration config) {
-            services.AddSingleton<ILogger>(provider => new LoggerConfiguration()
-                                                       .ReadFrom.Configuration(config)
-                                                       .CreateLogger());
-
             var retryPolicy = HttpPolicyExtensions
                 .HandleTransientHttpError()
                 .Or<TimeoutRejectedException>() // thrown by Polly's TimeoutPolicy if the inner call times out

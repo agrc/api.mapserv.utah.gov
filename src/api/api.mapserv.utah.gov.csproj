@@ -18,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Autofac" Version="5.2.0" />
+    <PackageReference Include="CorrelationId" Version="3.0.0" />
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="EsriJson.Net" Version="1.0.0" />
     <PackageReference Include="Fastenshtein" Version="1.0.0.5" />
@@ -33,6 +34,7 @@
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.GoogleCloudLogging" Version="3.2.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />

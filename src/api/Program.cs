@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.GoogleCloudLogging;
 
 namespace api.mapserv.utah.gov {
     public static class Program {
@@ -22,8 +23,30 @@ namespace api.mapserv.utah.gov {
             .Build();
 
         public static async Task<int> Main(string[] args) {
+            var config = new GoogleCloudLoggingSinkOptions {
+                UseJsonOutput = true,
+                LogName = "api.mapserv.utah.gov",
+                UseSourceContextAsLogName = false,
+                ResourceType = "global",
+                ServiceName = "api.mapserv.utah.gov",
+                ServiceVersion = "1.12.2",
+                ProjectId = "ut-dts-agrc-web-api-prod"
+            };
+
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            if (environment == Environments.Development) {
+                var projectId = "ut-dts-agrc-web-api-dv";
+                var fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
+                var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+
+                config.GoogleCredentialJson = serviceAccount;
+                config.ProjectId = projectId;
+            }
+
             var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
+                .WriteTo.GoogleCloudLogging(config)
                 .CreateLogger();
 
             try {
@@ -44,7 +67,8 @@ namespace api.mapserv.utah.gov {
 
                 return 1;
             } finally {
-
+                logger.Information("Shutting down");
+                Log.CloseAndFlush();
             }
         }
 
@@ -57,7 +81,29 @@ namespace api.mapserv.utah.gov {
             })
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .UseSerilog((context, config) => {
+                var googleConfig = new GoogleCloudLoggingSinkOptions {
+                    UseJsonOutput = true,
+                    LogName = "api.mapserv.utah.gov",
+                    UseSourceContextAsLogName = false,
+                    ResourceType = "global",
+                    ServiceName = "api.mapserv.utah.gov",
+                    ServiceVersion = "1.12.2",
+                    ProjectId = "ut-dts-agrc-web-api-prod"
+                };
+
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+                if (environment == Environments.Development) {
+                    var projectId = "ut-dts-agrc-web-api-dv";
+                    var fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
+                    var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+
+                    googleConfig.GoogleCredentialJson = serviceAccount;
+                    googleConfig.ProjectId = projectId;
+                }
+
                 config.ReadFrom.Configuration(context.Configuration);
+                config.WriteTo.GoogleCloudLogging(googleConfig);
             });
     }
 }
