@@ -69,7 +69,7 @@ namespace api.mapserv.utah.gov {
                     .AddCheck<LocatorHealthCheck>("Geolocators");
 
             services.UseOptions(Configuration);
-            services.UseDi(Configuration);
+            services.UseDi();
 
             services.AddSwaggerGen(c => {
                 c.EnableAnnotations();

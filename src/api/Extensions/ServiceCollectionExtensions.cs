@@ -32,7 +32,7 @@ namespace api.mapserv.utah.gov.Extensions {
             services.Configure<DatabaseConfiguration>(config.GetSection("webapi:database"));
         }
 
-        public static void UseDi(this IServiceCollection services, IConfiguration config) {
+        public static void UseDi(this IServiceCollection services) {
             var retryPolicy = HttpPolicyExtensions
                 .HandleTransientHttpError()
                 .Or<TimeoutRejectedException>() // thrown by Polly's TimeoutPolicy if the inner call times out
