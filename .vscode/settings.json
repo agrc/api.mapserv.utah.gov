@@ -29,5 +29,6 @@
         "webapi",
         "wkids",
         "xunit"
-    ]
+    ],
+    "editor.rulers": [120]
  }
