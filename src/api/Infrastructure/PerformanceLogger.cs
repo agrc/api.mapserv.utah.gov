@@ -11,7 +11,7 @@ namespace api.mapserv.utah.gov.Infrastructure {
 
         public PerformanceLogger(ILogger log) {
             _timer = new Stopwatch();
-            _log = log;
+            _log = log?.ForContext<PerformanceLogger<TRequest, TResponse>>();
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next) {

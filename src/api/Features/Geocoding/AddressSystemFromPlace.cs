@@ -20,7 +20,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             private readonly IDictionary<string, List<GridLinkable>> _placeGrids;
 
             public Handler(ILookupCache driveCache, ILogger log) {
-                _log = log;
+                _log = log?.ForContext<AddressSystemFromPlace>();
                 _placeGrids = driveCache.PlaceGrids;
             }
 

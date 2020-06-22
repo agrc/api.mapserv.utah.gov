@@ -33,7 +33,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
             public Handler(IMediator mediator, ILogger log) {
                 _mediator = mediator;
-                _log = log;
+                _log = log?.ForContext<GeocodeAddressQuery>();
             }
             public async Task<ObjectResult> Handle(Command request, CancellationToken cancellationToken) {
                 #region validation

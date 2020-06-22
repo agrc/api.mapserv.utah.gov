@@ -30,7 +30,7 @@ namespace api.mapserv.utah.gov.Features.Searching {
 
         public SearchController(IMediator mediator, ILogger log) {
             _mediator = mediator;
-            _log = log;
+            _log = log?.ForContext<SearchController>();
         }
 
         /// <summary>

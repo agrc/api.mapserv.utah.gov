@@ -28,7 +28,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             public Handler(IRegexCache regex, IMediator mediator, ILogger log) {
                 _regex = regex;
                 _mediator = mediator;
-                _log = log;
+                _log = log?.ForContext<ZoneParsing>();
             }
 
             public async Task<AddressWithGrids> Handle(Command request, CancellationToken token) {

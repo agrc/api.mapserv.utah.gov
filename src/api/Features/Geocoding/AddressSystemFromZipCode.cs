@@ -22,7 +22,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             private readonly IDictionary<string, List<GridLinkable>> _zipCache;
 
             public Handler(ILookupCache driveCache, ILogger log) {
-                _log = log;
+                _log = log?.ForContext<AddressSystemFromZipCode>();
                 _zipCache = driveCache.ZipCodesGrids;
             }
 

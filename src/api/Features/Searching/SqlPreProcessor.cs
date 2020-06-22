@@ -1,5 +1,3 @@
-using System;
-using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Models;
@@ -8,7 +6,7 @@ using Newtonsoft.Json;
 using SqlQuery;
 
 namespace api.mapserv.utah.gov.Features.Searching {
-    public class SqlPreProcessor : IRequestPreProcessor<SqlQuery.Command> {
+    public class SqlPreProcessor : IRequestPreProcessor<Command> {
         public Task Process(Command request, CancellationToken cancellationToken) {
             var hasWhere = false;
 

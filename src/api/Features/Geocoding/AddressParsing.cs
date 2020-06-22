@@ -26,7 +26,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             public Handler(IRegexCache regexCache, IAbbreviations abbreviations, ILogger log) {
                 _regexCache = regexCache;
                 _abbreviations = abbreviations;
-                _log = log;
+                _log = log?.ForContext<AddressParsing>();
             }
 
             private string Street { get; set; }

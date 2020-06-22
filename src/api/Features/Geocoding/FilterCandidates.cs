@@ -41,7 +41,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             private readonly ILogger _log;
 
             public Handler(ILogger log) {
-                _log = log;
+                _log = log?.ForContext<FilterCandidates>();
             }
 
             protected override GeocodeAddressApiResponse Handle(Command request) {

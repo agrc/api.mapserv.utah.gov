@@ -27,7 +27,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
         public ApiSingleController(IMediator mediator, ILogger log) {
             _mediator = mediator;
-            _log = log;
+            _log = log?.ForContext<ApiSingleController>();
         }
 
         /// <summary>

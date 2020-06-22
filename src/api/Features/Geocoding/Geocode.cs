@@ -28,7 +28,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             private readonly MediaTypeFormatter[] _mediaTypes;
 
             public Handler(IHttpClientFactory clientFactory, ILogger log) {
-                _log = log;
+                _log = log?.ForContext<Geocode>();
                 _client = clientFactory.CreateClient("default");
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()

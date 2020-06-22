@@ -24,7 +24,7 @@ namespace api.mapserv.utah.gov.Filters {
             _apiKeyProvider = apiKeyProvider;
             _serverIpProvider = serverIpProvider;
             _repo = repo;
-            _log = log;
+            _log = log?.ForContext<AuthorizeApiKeyFromRequest>();
         }
 
         public async Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next) {
@@ -76,7 +76,7 @@ namespace api.mapserv.utah.gov.Filters {
             }
 
             if (apiKey.Whitelisted) {
-                _log.Information("Whitelisted key use {key} from {ip} with {headers}", apiKey,
+                _log.Information("Unrestricted key use {key} from {ip} with {headers}", apiKey,
                                  context.HttpContext.Request.Host, context.HttpContext.Request.Headers);
 
                 await next();

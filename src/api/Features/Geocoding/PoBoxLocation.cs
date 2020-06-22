@@ -34,7 +34,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _poBoxes = driveCache.PoBoxes;
                 _exclusions = driveCache.PoBoxExclusions;
                 _zipExclusions = driveCache.PoBoxZipCodesWithExclusions;
-                _log = log;
+                _log = log?.ForContext<PoBoxLocation>();
             }
 
             public Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {

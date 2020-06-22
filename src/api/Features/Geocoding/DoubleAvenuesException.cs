@@ -17,7 +17,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             private readonly Regex _ordinal;
 
             public DoubleAvenueExceptionPipeline(IRegexCache cache, ILogger log) {
-                _log = log;
+                _log = log?.ForContext<DoubleAvenuesException>();
                 _ordinal = cache.Get("avesOrdinal");
             }
 

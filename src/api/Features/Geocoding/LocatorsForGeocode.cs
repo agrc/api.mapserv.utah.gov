@@ -28,7 +28,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             private readonly ILogger _log;
 
             public Handler(IOptions<List<LocatorConfiguration>> options, ILogger log) {
-                _log = log;
+                _log = log?.ForContext<LocatorsForGeocode>();
                 _locators = options.Value;
             }
 

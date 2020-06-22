@@ -32,7 +32,7 @@ namespace api.mapserv.utah.gov.Features.GeometryService {
             public Handler(IOptions<GeometryServiceConfiguration> geometryServiceConfiguration,
                            IHttpClientFactory clientFactory, ILogger log) {
                 _geometryServiceConfiguration = geometryServiceConfiguration;
-                _log = log;
+                _log = log?.ForContext<Reproject>();
                 _client = clientFactory.CreateClient("default");
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()

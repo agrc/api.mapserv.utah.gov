@@ -29,7 +29,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
             public Handler(ILookupCache driveCache, ILogger log) {
                 _driveCache = driveCache;
-                _log = log;
+                _log = log?.ForContext<UspsDeliveryPointLocation>();
             }
 
             public Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {

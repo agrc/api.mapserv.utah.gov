@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Features.Searching;
 using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.Configuration;
 using api.mapserv.utah.gov.Models.Constants;

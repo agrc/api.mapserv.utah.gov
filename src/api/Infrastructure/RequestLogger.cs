@@ -9,13 +9,13 @@ namespace api.mapserv.utah.gov.Infrastructure
         private readonly ILogger _log;
 
         public RequestLogger(ILogger log) {
-            _log = log;
+            _log = log?.ForContext<MediatR.IMediator>();
         }
 
         public Task Process(TRequest request, CancellationToken cancellationToken) {
             var name = typeof(TRequest).Name;
 
-            _log.Information("Request: {Name} {@Request}", name, request);
+            _log.Information("processing: {Name} {@Request}", name, request);
 
             return Task.CompletedTask;
         }

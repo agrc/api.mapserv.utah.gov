@@ -37,7 +37,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
         public ApiReverseController(IMediator mediator, ILogger log) {
             _mediator = mediator;
-            _log = log;
+            _log = log?.ForContext<ApiReverseController>();
         }
 
         /// <summary>

@@ -1,17 +1,10 @@
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Formatters;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.Configuration;
 using MediatR;
-using MediatR.Pipeline;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.GeometryService {
@@ -23,7 +16,7 @@ namespace api.mapserv.utah.gov.Features.GeometryService {
         public ReprojectPipeline(IMediator mediator, ILogger log)
         {
             _mediator = mediator;
-            _log = log;
+            _log = log?.ForContext<ReprojectPipeline<TRequest, TResponse>>();
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next) {
