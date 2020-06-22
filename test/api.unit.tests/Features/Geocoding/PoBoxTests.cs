@@ -24,7 +24,10 @@ namespace api.tests.Features.Geocoding {
             mockCache.Setup(x => x.PoBoxExclusions).Returns(_exclusions);
             mockCache.Setup(x => x.PoBoxZipCodesWithExclusions).Returns(zipExclusions);
 
-            _handler = new PoBoxLocation.Handler(mockCache.Object, new Mock<ILogger>().Object);
+            var mock = new Mock<ILogger>();
+            mock.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+
+            _handler = new PoBoxLocation.Handler(mockCache.Object, mock.Object);
         }
 
         private readonly IDictionary<int, PoBoxAddress> _poBoxes = new Dictionary<int, PoBoxAddress>(1);

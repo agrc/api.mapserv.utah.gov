@@ -22,7 +22,11 @@ namespace api.tests.Features.GeometryService {
 
         public ReprojectPipelineTests() {
             _mediator = new Mock<IMediator>();
-            _log = new Mock<ILogger>().Object;
+
+            var mock = new Mock<ILogger>();
+            mock.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+
+            _log = mock.Object;
         }
 
         [Fact]

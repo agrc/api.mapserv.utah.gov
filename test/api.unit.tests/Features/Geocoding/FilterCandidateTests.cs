@@ -16,8 +16,14 @@ using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class FilterCandidateTests {
-        internal static IRequestHandler<FilterCandidates.Command, GeocodeAddressApiResponse> Handler =
-            new FilterCandidates.Handler(new Mock<ILogger>().Object);
+        static FilterCandidateTests() {
+            var logger = new Mock<ILogger>();
+            logger.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+
+            Handler = new FilterCandidates.Handler(logger.Object);
+        }
+
+        internal static IRequestHandler<FilterCandidates.Command, GeocodeAddressApiResponse> Handler;
 
         public class AcceptScoreTests {
             [Fact]

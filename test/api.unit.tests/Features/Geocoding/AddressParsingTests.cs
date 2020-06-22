@@ -17,7 +17,10 @@ namespace api.tests.Features.Geocoding {
             var abbrs = new Abbreviations();
             var regex = new RegexCache(abbrs);
 
-            _handler = new AddressParsing.Handler(regex, abbrs, new Mock<ILogger>().Object);
+            var mock = new Mock<ILogger>();
+            mock.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+
+            _handler = new AddressParsing.Handler(regex, abbrs, mock.Object);
         }
 
         private readonly IRequestHandler<AddressParsing.Command, CleansedAddress> _handler;

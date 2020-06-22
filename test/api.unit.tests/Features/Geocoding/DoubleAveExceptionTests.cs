@@ -19,6 +19,9 @@ namespace api.tests.Features.Geocoding {
         private readonly ZoneParsing.Handler _requestHandler;
 
         public DoubleAveExceptionTests() {
+            var mock = new Mock<ILogger>();
+            mock.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+
             var mediator = new Mock<IMediator>();
 
             mediator.Setup(x => x.Send(It.IsAny<AddressSystemFromPlace.Command>(), It.IsAny<CancellationToken>()))
@@ -35,8 +38,8 @@ namespace api.tests.Features.Geocoding {
 
             var regex = new RegexCache(new Abbreviations());
             _handler =
-                new DoubleAvenuesException.DoubleAvenueExceptionPipeline<ZoneParsing.Command, AddressWithGrids>(regex, new Mock<ILogger>().Object);
-            _requestHandler = new ZoneParsing.Handler(regex, mediator.Object, new Mock<ILogger>().Object);
+                new DoubleAvenuesException.DoubleAvenueExceptionPipeline<ZoneParsing.Command, AddressWithGrids>(regex, mock.Object);
+            _requestHandler = new ZoneParsing.Handler(regex, mediator.Object, mock.Object);
         }
 
         [Theory]

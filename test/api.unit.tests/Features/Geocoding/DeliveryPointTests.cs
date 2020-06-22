@@ -22,7 +22,10 @@ namespace api.tests.Features.Geocoding {
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.UspsDeliveryPoints).Returns(_deliveryPoints);
 
-            _handler = new UspsDeliveryPointLocation.Handler(mockCache.Object, new Mock<ILogger>().Object);
+            var mock = new Mock<ILogger>();
+            mock.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+
+            _handler = new UspsDeliveryPointLocation.Handler(mockCache.Object, mock.Object);
         }
 
         private readonly IDictionary<string, List<GridLinkable>> _deliveryPoints =

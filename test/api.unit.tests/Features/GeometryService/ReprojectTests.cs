@@ -25,6 +25,15 @@ namespace api.tests.Features.GeometryService {
     }
 
     public class ReprojectTests {
+        private readonly ILogger _log;
+
+        public ReprojectTests() {
+            var logger = new Mock<ILogger>();
+            logger.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+
+            _log = logger.Object;
+        }
+
         [Fact]
         public async Task Should_prefer_request_url() {
             var command = new Reproject.Command(new PointReprojectOptions(0, 0, new[] { 0.0, 1.1 })) {
@@ -36,15 +45,13 @@ namespace api.tests.Features.GeometryService {
                 Host = "options"
             });
 
-            var logger = new Mock<ILogger>();
-
             var messageHandler = new FakeHttpMessageHandler();
             var client = new HttpClient(messageHandler);
 
             var factory = new Mock<IHttpClientFactory>();
             factory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(client);
 
-            var handler = new Reproject.Handler(options.Object, factory.Object, logger.Object);
+            var handler = new Reproject.Handler(options.Object, factory.Object, _log);
 
             var response = await handler.Handle(command, CancellationToken.None);
 
@@ -60,15 +67,13 @@ namespace api.tests.Features.GeometryService {
                 Host = "options"
             });
 
-            var logger = new Mock<ILogger>();
-
             var messageHandler = new FakeHttpMessageHandler();
             var client = new HttpClient(messageHandler);
 
             var factory = new Mock<IHttpClientFactory>();
             factory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(client);
 
-            var handler = new Reproject.Handler(options.Object, factory.Object, logger.Object);
+            var handler = new Reproject.Handler(options.Object, factory.Object, _log);
 
             var response = await handler.Handle(command, CancellationToken.None);
 
@@ -84,15 +89,13 @@ namespace api.tests.Features.GeometryService {
                 Host = "options"
             });
 
-            var logger = new Mock<ILogger>();
-
             var messageHandler = new FakeHttpMessageHandler();
             var client = new HttpClient(messageHandler);
 
             var factory = new Mock<IHttpClientFactory>();
             factory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(client);
 
-            var handler = new Reproject.Handler(options.Object, factory.Object, logger.Object);
+            var handler = new Reproject.Handler(options.Object, factory.Object, _log);
 
             var response = await handler.Handle(command, CancellationToken.None);
 

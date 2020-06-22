@@ -81,7 +81,10 @@ namespace api.tests.Features.Geocoding {
                     }
                 });
 
-                Handler = new LocatorsForGeocode.Handler(options.Object, new Mock<ILogger>().Object);
+                var logger = new Mock<ILogger>();
+                logger.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+
+                Handler = new LocatorsForGeocode.Handler(options.Object, logger.Object);
             }
 
             internal IRequestHandler<LocatorsForGeocode.Command, IReadOnlyCollection<LocatorProperties>> Handler;

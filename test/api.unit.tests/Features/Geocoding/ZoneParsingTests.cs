@@ -30,7 +30,10 @@ namespace api.tests.Features.Geocoding {
                         return Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>);
                     });
 
-            _handler = new ZoneParsing.Handler(regex, mediator.Object, new Mock<ILogger>().Object);
+            var mock = new Mock<ILogger>();
+            mock.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+
+            _handler = new ZoneParsing.Handler(regex, mediator.Object, mock.Object);
         }
 
         private readonly ZoneParsing.Handler _handler;
