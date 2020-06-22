@@ -51,8 +51,7 @@ namespace api.mapserv.utah.gov.Extensions {
                         return handler;
                     })
                     .AddPolicyHandler(retryPolicy)
-                    .AddPolicyHandler(timeoutPolicy)
-                    .SetHandlerLifetime(Timeout.InfiniteTimeSpan); // TODO: Remove after preview 3 or when fixed
+                    .AddPolicyHandler(timeoutPolicy);
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
