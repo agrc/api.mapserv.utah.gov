@@ -21,9 +21,11 @@
         "reprojecting",
         "semibold",
         "serilog",
+        "shouldly",
         "tailwind",
         "tailwindcss",
         "webapi",
-        "wkids"
+        "wkids",
+        "xunit"
     ]
  }
