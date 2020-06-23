@@ -34,6 +34,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             internal string Street { get; set; }
             internal string Zone { get; set; }
             internal AddressWithGrids GeocodedAddress { get; set; }
+            internal bool FilterByScore { get; }
             internal IList<Candidate> Candidates { get; }
         }
 
@@ -92,8 +93,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
 
                 var model = result.ToResponseObject(request.Street, request.Zone);
-                model.Candidates = candidates.Where(x => x.Score >= request.GeocodeOptions.AcceptScore)
-                                             .Take(request.GeocodeOptions.Suggest)
+                model.Candidates = candidates.Take(request.GeocodeOptions.Suggest)
                                              .ToArray();
 
                 var standard = request.GeocodedAddress.StandardizedAddress.ToLowerInvariant();
