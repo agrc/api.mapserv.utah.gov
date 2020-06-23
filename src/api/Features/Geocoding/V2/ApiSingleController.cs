@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace api.mapserv.utah.gov.Features.Geocoding.V2 {
     /// <inheritdoc />
     /// <summary>
     ///     Geocoding API Methods
@@ -17,8 +17,6 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
     ///     API methods for finding a geolocation (x,y) for addresses.
     /// </remarks>
     [ApiController]
-    [ApiVersion("1.0")]
-    [ApiVersion("2.0")]
     [Produces("application/json")]
     [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
     public class ApiSingleController : ControllerBase {
@@ -44,6 +42,6 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         [HttpGet]
         [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
-        public async Task<ActionResult<ApiResponseContainer<GeocodeAddressApiResponse>>> Geocode(string street, string zone, [FromQuery] GeocodingOptions options) => await _mediator.Send(new GeocodeAddressQuery.Command(street, zone, options));
+        public async Task<ActionResult<ApiResponseContainer<GeocodeAddressApiResponse>>> Geocode(string street, string zone, [FromQuery] GeocodingOptions options) => await _mediator.Send(new GeocodeAddressQuery.Command(street, zone, options, true));
     }
 }

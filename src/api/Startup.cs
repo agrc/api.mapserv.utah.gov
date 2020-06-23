@@ -23,6 +23,7 @@ using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using CorrelationId.DependencyInjection;
 using CorrelationId;
+using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
 
 namespace api.mapserv.utah.gov {
     public class Startup {
@@ -60,6 +61,7 @@ namespace api.mapserv.utah.gov {
                 x.ReportApiVersions = true;
                 x.AssumeDefaultVersionWhenUnspecified = true;
                 x.DefaultApiVersion = new ApiVersion(1, 0);
+                x.Conventions.Add(new VersionByNamespaceConvention());
             });
 
             services.AddHealthChecks()
