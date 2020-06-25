@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding.V2 {
+namespace api.mapserv.utah.gov.Features.Geocoding.v2 {
     /// <inheritdoc />
     /// <summary>
     ///     Geocoding API Methods
