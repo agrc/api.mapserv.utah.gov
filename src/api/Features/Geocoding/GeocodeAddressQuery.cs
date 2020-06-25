@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Comparers;
 using api.mapserv.utah.gov.Extensions;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.RequestOptions;
@@ -32,10 +33,12 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         public class Handler : IRequestHandler<Command, ObjectResult> {
             private readonly ILogger _log;
             private readonly IMediator _mediator;
+            private readonly IComputer _computer;
 
-            public Handler(IMediator mediator, ILogger log) {
+            public Handler(IMediator mediator, IComputer computer, ILogger log) {
                 _mediator = mediator;
                 _log = log?.ForContext<GeocodeAddressQuery>();
+                _computer = computer;
             }
             public async Task<ObjectResult> Handle(Command request, CancellationToken cancellationToken) {
                 #region validation
@@ -138,9 +141,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 var highestScores = topCandidates.Get();
 
-                var chooseBestAddressCandidateCommand = new FilterCandidates.Command(highestScores, request.Options, street,
+                var chooseBestAddressCandidateCommand = new FilterCandidates.Computation(highestScores, request.Options, street,
                                                                                      zone, parsedAddress);
-                var winner = await _mediator.Send(chooseBestAddressCandidateCommand);
+                var winner = await _computer.Handle(chooseBestAddressCandidateCommand, cancellationToken);
 
                 if (winner == null || winner.Score < 0) {
                     _log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street,
