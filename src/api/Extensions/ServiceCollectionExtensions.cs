@@ -63,7 +63,6 @@ namespace api.mapserv.utah.gov.Extensions {
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
 
             services.AddTransient<IPipelineBehavior<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>, KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>>();
-            services.AddTransient<IPipelineBehavior<ZoneParsing.Command, AddressWithGrids>, DoubleAvenueExceptionPipeline<ZoneParsing.Command, AddressWithGrids>>();
 
             services.AddTransient<IPipelineBehavior<PoBoxLocation.Command, Candidate>, ReprojectPipeline<PoBoxLocation.Command, Candidate>>();
             services.AddTransient<IPipelineBehavior<UspsDeliveryPointLocation.Command, Candidate>, ReprojectPipeline<UspsDeliveryPointLocation.Command, Candidate>>();

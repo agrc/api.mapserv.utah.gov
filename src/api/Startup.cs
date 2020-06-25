@@ -113,6 +113,7 @@ namespace api.mapserv.utah.gov {
                     .AsClosedTypesOf(typeof(IComputationHandler<,>))
                     .AsImplementedInterfaces();
 
+            builder.RegisterDecorator<DoubleAvenuesException.Decorator, IComputationHandler<ZoneParsing.Computation, AddressWithGrids>>();
 
             builder.Register(c => new Computer(c.Resolve<IComponentContext>().Resolve))
                    .AsImplementedInterfaces()
