@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Linkables;
 using MediatR;
@@ -10,8 +11,8 @@ using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class ZoneParsing {
-        public class Command : IRequest<AddressWithGrids> {
-            public Command(string inputZone, AddressWithGrids addressModel) {
+        public class Computation : IComputation<AddressWithGrids> {
+            public Computation(string inputZone, AddressWithGrids addressModel) {
                 InputZone = inputZone;
                 AddressModel = addressModel;
             }
@@ -20,7 +21,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             public AddressWithGrids AddressModel { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, AddressWithGrids> {
+        public class Handler : IComputationHandler<Computation, AddressWithGrids> {
             private readonly ILogger _log;
             private readonly IMediator _mediator;
             private readonly IRegexCache _regex;
@@ -31,7 +32,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _log = log?.ForContext<ZoneParsing>();
             }
 
-            public async Task<AddressWithGrids> Handle(Command request, CancellationToken token) {
+            public async Task<AddressWithGrids> Handle(Computation request, CancellationToken token) {
                 _log.Debug("Parsing {zone}", request.InputZone);
 
                 if (string.IsNullOrEmpty(request.InputZone)) {
