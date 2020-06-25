@@ -3,44 +3,43 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
-using MediatR;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class DoubleAvenuesException {
-        public class DoubleAvenueExceptionPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-            where TRequest : ZoneParsing.Command
-            where TResponse : AddressWithGrids {
+        public class Decorator : IComputationHandler<ZoneParsing.Computation, AddressWithGrids> {
+            private readonly IComputationHandler<ZoneParsing.Computation, AddressWithGrids> _decorated;
             private readonly ILogger _log;
             private readonly Regex _ordinal;
 
-            public DoubleAvenueExceptionPipeline(IRegexCache cache, ILogger log) {
+            public Decorator(IComputationHandler<ZoneParsing.Computation, AddressWithGrids> decorated, IRegexCache cache, ILogger log) {
                 _log = log?.ForContext<DoubleAvenuesException>();
                 _ordinal = cache.Get("avesOrdinal");
+                _decorated = decorated;
             }
-
-            public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
-                                                RequestHandlerDelegate<TResponse> next) {
-                var response = await next();
+            public async Task<AddressWithGrids> Handle(ZoneParsing.Computation computation, CancellationToken cancellationToken) {
+                var response = await _decorated.Handle(computation, cancellationToken);
 
                 if (response.PrefixDirection != Direction.None ||
                     response.StreetType != StreetType.Avenue || !IsOrdinal(response.StreetName)) {
-                    _log.Debug("Only avenue addresses with no prefix are affected. skipping {address}", response);
+                    _log.Debug("not a candidate");
 
                     return response;
                 }
 
-                _log.Debug("Possible double avenues exception {address}, {city}", response, request.InputZone);
+                _log.ForContext("street", response.StandardizedAddress)
+                    .ForContext("zone", computation.InputZone)
+                    .Debug("possible candidate");
 
                 // it's in the problem area in midvale
                 const int midvale = 84047;
-                if (!string.IsNullOrEmpty(request.InputZone) &&
-                    request.InputZone.ToLowerInvariant().Contains("midvale") ||
+                if (!string.IsNullOrEmpty(computation.InputZone) &&
+                    computation.InputZone.ToLowerInvariant().Contains("midvale") ||
                     response.Zip5.HasValue && response.Zip5.Value == midvale) {
-                    _log.Information("Midvale avenues exception, updating {response} to include West",
-                                     response);
+                    _log.Information("midvale avenues match");
 
                     response.PrefixDirection = Direction.West;
 
@@ -49,15 +48,14 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 // update the slc avenues to have an east
                 if (response.AddressGrids.Select(x => x.Grid.ToLowerInvariant()).Contains("salt lake city")) {
-                    _log.Information("SLC avenues exception, updating {response} to include East",
-                                     response);
+                    _log.Information("slc avenues match");
 
                     response.PrefixDirection = Direction.East;
 
                     return response;
                 }
 
-                _log.Debug("Not a double avenues exception {address}, {zone}", response, request.InputZone);
+                _log.Debug("no match");
 
                 return response;
             }
