@@ -69,8 +69,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var parseAddressCommand = new AddressParsing.Command(street);
                 var parsedStreet = await _mediator.Send(parseAddressCommand);
 
-                var parseZoneCommand = new ZoneParsing.Command(zone, new AddressWithGrids(parsedStreet));
-                var parsedAddress = await _mediator.Send(parseZoneCommand);
+                var parseZoneCommand = new ZoneParsing.Computation(zone, new AddressWithGrids(parsedStreet));
+                var parsedAddress = await _computer.Handle(parseZoneCommand, cancellationToken);
 
                 if (request.Options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue) {
                     var poboxCommand = new PoBoxLocation.Command(parsedAddress, request.Options);
