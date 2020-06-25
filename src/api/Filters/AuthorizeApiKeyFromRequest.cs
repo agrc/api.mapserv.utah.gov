@@ -76,7 +76,7 @@ namespace api.mapserv.utah.gov.Filters {
             }
 
             if (apiKey.Whitelisted) {
-                _log.Information("Unrestricted key use {key} from {ip} with {headers}", apiKey,
+                _log.Information("Unrestricted key use {key} from {ip} with {headers}", apiKey.Key,
                                  context.HttpContext.Request.Host, context.HttpContext.Request.Headers);
 
                 await next();
