@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Features.Health;
+using api.mapserv.utah.gov.Infrastructure;
 using Autofac;
 using MediatR;
 using MediatR.Pipeline;
@@ -24,6 +25,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using CorrelationId.DependencyInjection;
 using CorrelationId;
 using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
+using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Models;
 
 namespace api.mapserv.utah.gov {
     public class Startup {
@@ -105,20 +108,23 @@ namespace api.mapserv.utah.gov {
         }
 
         public void ConfigureContainer(ContainerBuilder builder) {
+            // set up computations
+            builder.RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly)
+                    .AsClosedTypesOf(typeof(IComputationHandler<,>))
+                    .AsImplementedInterfaces();
+
+
+            builder.Register(c => new Computer(c.Resolve<IComponentContext>().Resolve))
+                   .AsImplementedInterfaces()
+                   .SingleInstance();
+
+            // set up mediatr
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
-            var mediatrOpenTypes = new[]
-            {
-                typeof(IRequestHandler<,>),
-                typeof(INotificationHandler<>),
-            };
-
-            foreach (var mediatrOpenType in mediatrOpenTypes) {
-                builder
-                    .RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly)
-                    .AsClosedTypesOf(mediatrOpenType)
-                    .AsImplementedInterfaces();
-            }
+            builder
+                .RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly)
+                .AsClosedTypesOf(typeof(IRequestHandler <,>))
+                .AsImplementedInterfaces();
 
             builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
