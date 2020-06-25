@@ -13,7 +13,7 @@ namespace api.mapserv.utah.gov.Infrastructure
         }
 
         public Task Process(TRequest request, CancellationToken cancellationToken) {
-            var name = typeof(TRequest).Name;
+            var name = typeof(TRequest).FullName;
 
             _log.Information("processing: {Name} {@Request}", name, request);
 
