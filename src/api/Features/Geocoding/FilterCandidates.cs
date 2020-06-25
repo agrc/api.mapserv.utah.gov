@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using api.mapserv.utah.gov.Extensions;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.RequestOptions;
@@ -11,8 +14,8 @@ using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class FilterCandidates {
-        public class Command : IRequest<GeocodeAddressApiResponse> {
-            public Command(IList<Candidate> candidates, GeocodingOptions geocodeOptions,
+        public class Computation : IComputation<GeocodeAddressApiResponse> {
+            public Computation(IList<Candidate> candidates, GeocodingOptions geocodeOptions,
                            string street, string zone, AddressWithGrids geocodedAddress) {
                 GeocodeOptions = geocodeOptions;
                 Street = street;
@@ -38,14 +41,14 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             internal IList<Candidate> Candidates { get; }
         }
 
-        public class Handler : RequestHandler<Command, GeocodeAddressApiResponse> {
+        public class Handler : ComputationHandler<Computation, GeocodeAddressApiResponse> {
             private readonly ILogger _log;
 
             public Handler(ILogger log) {
                 _log = log?.ForContext<FilterCandidates>();
             }
 
-            protected override GeocodeAddressApiResponse Handle(Command request) {
+            protected override GeocodeAddressApiResponse Handle(Computation request) {
                 if (request.Candidates == null || !request.Candidates.Any()) {
                     _log.Debug("No request.Candidates found for {address} with {options}", request.GeocodedAddress,
                                request.GeocodeOptions);
