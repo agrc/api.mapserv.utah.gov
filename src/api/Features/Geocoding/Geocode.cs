@@ -7,47 +7,50 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Exceptions;
 using api.mapserv.utah.gov.Formatters;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ArcGis;
-using MediatR;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class Geocode {
-        public class Command : IRequest<IReadOnlyCollection<Candidate>> {
+        public class Computation : IComputation<IReadOnlyCollection<Candidate>> {
             internal readonly LocatorProperties Locator;
 
-            public Command(LocatorProperties locator) {
+            public Computation(LocatorProperties locator) {
                 Locator = locator;
             }
         }
 
-        public class Handler : IRequestHandler<Command, IReadOnlyCollection<Candidate>> {
+        public class Handler : IComputationHandler<Computation, IReadOnlyCollection<Candidate>> {
             private readonly HttpClient _client;
             private readonly ILogger _log;
             private readonly MediaTypeFormatter[] _mediaTypes;
 
             public Handler(IHttpClientFactory clientFactory, ILogger log) {
-                _log = log?.ForContext<Geocode>();
                 _client = clientFactory.CreateClient("default");
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()
                 };
+                _log = log?.ForContext<Geocode>();
             }
 
-            public async Task<IReadOnlyCollection<Candidate>> Handle(Command request,
+            public async Task<IReadOnlyCollection<Candidate>> Handle(Computation request,
                                                                      CancellationToken cancellationToken) {
-                _log.Debug("Request sent to locator, url={Url}", request.Locator.Url);
+                _log.ForContext("url", request.Locator.Url)
+                    .Debug("request generated");
 
                 HttpResponseMessage httpResponse;
                 try {
                     httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
                 } catch (TaskCanceledException ex) {
-                    _log.Fatal(ex, "Did not receive a response from {@locator} after retry attempts", request.Locator);
+                    _log.ForContext("url", request.Locator.Url)
+                        .Fatal(ex, "failed");
 
                     return Array.Empty<Candidate>();
                 } catch (HttpRequestException ex) {
-                    _log.Fatal(ex, "Error reading geocode address response from {@locator}", request.Locator);
+                    _log.ForContext("url", request.Locator.Url)
+                        .Fatal(ex, "request error");
 
                     return Array.Empty<Candidate>();
                 }
@@ -60,8 +63,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     return ProcessResult(geocodeResponse, request.Locator);
                 }
                 catch (Exception ex) {
-                    _log.Fatal(ex, "Error reading geocode address response {Response} from {@locator}",
-                               await httpResponse?.Content?.ReadAsStringAsync(), request.Locator);
+                    _log.ForContext("url", request.Locator.Url)
+                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync())
+                        .Fatal(ex, "error reading response");
 
                     return Array.Empty<Candidate>();
                 }
@@ -70,7 +74,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             private IReadOnlyCollection<Candidate> ProcessResult(LocatorResponse response,
                                                                         LocatorProperties locator) {
                 if (response.Error != null && response.Error.Code == 500) {
-                    _log.Fatal($"{locator.Name} geocoder is not started.");
+                    _log.Fatal("geocoder down {locator.Name}", locator.Name);
 
                     throw new GeocodingException($"{locator.Name} geocoder is not started. {response.Error}");
                 }

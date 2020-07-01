@@ -3,19 +3,18 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Features.GeometryService;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using MediatR;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class PoBoxLocation {
-        public class Command : IHasGeocodingOptions, IRequest<Candidate> {
+        public class Computation : IComputation<Candidate>, IHasGeocodingOptions {
             internal readonly AddressWithGrids Address;
 
-            public Command(AddressWithGrids address, GeocodingOptions options) {
+            public Computation(AddressWithGrids address, GeocodingOptions options) {
                 Address = address;
                 Options = options;
             }
@@ -23,7 +22,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             public GeocodingOptions Options { get; }
         }
 
-        public class Handler : IRequestHandler<Command, Candidate> {
+        public class Handler : IComputationHandler<Computation, Candidate> {
             private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions;
             private readonly ILogger _log;
 
@@ -37,21 +36,22 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _log = log?.ForContext<PoBoxLocation>();
             }
 
-            public Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {
+            public Task<Candidate> Handle(Computation request, CancellationToken cancellationToken) {
                 if (!request.Address.Zip5.HasValue) {
-                    _log.Debug("No zip code, can't be po box {address}", request.Address);
+                    _log.Debug("no candidate");
 
                     return Task.FromResult((Candidate)null);
                 }
 
                 if (_poBoxes is null) {
-                    _log.Warning("Po Box cache is empty!");
+                    _log.Warning("cache is empty");
 
                     return Task.FromResult((Candidate)null);
                 }
 
                 if (!_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
-                    _log.Debug("{zip} is not in the po box cache", request.Address.Zip5.Value);
+                    _log.ForContext("zip", request.Address.Zip5.Value)
+                        .Debug("cache miss");
 
                     return Task.FromResult((Candidate)null);
                 }
@@ -61,7 +61,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 if (_zipExclusions.Any(x => x == request.Address.Zip5) &&
                     _exclusions.ContainsKey(key)) {
-                    _log.Information("{Using Post Office Point Exclusion for {zip}", key);
+                    _log.ForContext("post office exclusion", key)
+                        .Information("match");
 
                     var exclusion = _exclusions[key];
                     candidate = new Candidate {
@@ -72,7 +73,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                         AddressGrid = request.Address?.AddressGrids?.FirstOrDefault()?.Grid
                     };
                 } else if (_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
-                    _log.Information("Using post office point for {zip}", key);
+                    _log.Information("match");
 
                     var result = _poBoxes[request.Address.Zip5.Value];
                     candidate = new Candidate {

@@ -2,20 +2,19 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Features.GeometryService;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.Linkables;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using MediatR;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class UspsDeliveryPointLocation {
-        public class Command : IHasGeocodingOptions, IRequest<Candidate> {
+        public class Computation : IComputation<Candidate>, IHasGeocodingOptions {
             internal readonly AddressWithGrids Address;
 
-            public Command(AddressWithGrids address, GeocodingOptions options) {
+            public Computation(AddressWithGrids address, GeocodingOptions options) {
                 Address = address;
                 Options = options;
             }
@@ -23,7 +22,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             public GeocodingOptions Options { get; }
         }
 
-        public class Handler : IRequestHandler<Command, Candidate> {
+        public class Handler : IComputationHandler<Computation, Candidate> {
             private readonly ILookupCache _driveCache;
             private readonly ILogger _log;
 
@@ -32,11 +31,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _log = log?.ForContext<UspsDeliveryPointLocation>();
             }
 
-            public Task<Candidate> Handle(Command request, CancellationToken cancellationToken) {
-                _log.Verbose("Testing for delivery points");
-
+            public Task<Candidate> Handle(Computation request, CancellationToken cancellationToken) {
                 if (!request.Address.Zip5.HasValue) {
-                    _log.Debug("No delivery point for {address} because of no zip5", request.Address);
+                    _log.Debug("no candidate", request.Address);
 
                     return Task.FromResult((Candidate)null);
                 }
@@ -44,7 +41,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _driveCache.UspsDeliveryPoints.TryGetValue(request.Address.Zip5.Value.ToString(), out var items);
 
                 if (items == null || !items.Any()) {
-                    _log.Debug("No delivery point for {zip} in cache", request.Address.Zip5.Value);
+                    _log.ForContext("zip", request.Address.Zip5.Value)
+                        .Debug("cache miss");
 
                     return Task.FromResult((Candidate)null);
                 }
@@ -61,7 +59,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     Location = new Point(deliveryPoint.X, deliveryPoint.Y)
                 };
 
-                _log.Information("Found delivery point for {address}", request.Address);
+                _log.ForContext("delivery point", deliveryPoint.MatchAddress)
+                    .Information("match");
 
                 return Task.FromResult(result);
             }

@@ -25,7 +25,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 if (response.PrefixDirection != Direction.None ||
                     response.StreetType != StreetType.Avenue || !IsOrdinal(response.StreetName)) {
-                    _log.Debug("not a candidate");
+                    _log.Debug("no candidate");
 
                     return response;
                 }

@@ -1,27 +1,32 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Comparers;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
-using MediatR;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class AddressParsing {
-        public class Command : IRequest<CleansedAddress> {
-            public Command(string street) {
+        public class Computation : IComputation<CleansedAddress> {
+            public Computation(string street) {
                 Street = street;
             }
 
             public string Street { get; set; }
         }
 
-        public class Handler : RequestHandler<Command, CleansedAddress> {
+        public class Handler : IComputationHandler<Computation, CleansedAddress> {
             private readonly IAbbreviations _abbreviations;
             private readonly ILogger _log;
             private readonly IRegexCache _regexCache;
+            private string Street { get; set; }
+            private string OriginalStreet { get; set; }
+            private string StandardStreet { get; set; }
 
             public Handler(IRegexCache regexCache, IAbbreviations abbreviations, ILogger log) {
                 _regexCache = regexCache;
@@ -29,13 +34,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _log = log?.ForContext<AddressParsing>();
             }
 
-            private string Street { get; set; }
-            private string OriginalStreet { get; set; }
-            private string StandardStreet { get; set; }
-
-            protected override CleansedAddress Handle(Command request) {
-                _log.Debug("Parsing {street}", request.Street);
-
+            public Task<CleansedAddress> Handle(Computation request, CancellationToken cancellationToken) {
                 var street = request.Street.Replace(".", "").Replace(",", "").Replace("_", " ");
                 Street = street;
                 OriginalStreet = Street;
@@ -48,7 +47,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 ParsePoBox(Street, address);
 
                 if (address.IsPoBox) {
-                    return address;
+                    return Task.FromResult(address);
                 }
 
                 ParseNumbers(Street, address);
@@ -58,9 +57,11 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 StandardStreet = address.StandardizedAddress;
 
-                _log.Information("Replaced {original} with {standard}", OriginalStreet, StandardStreet);
+                _log.ForContext("original", OriginalStreet)
+                    .ForContext("standardized", StandardStreet)
+                    .Information("completed");
 
-                return address;
+                return Task.FromResult(address);
             }
 
             public static bool TryParseDirection(string part, out Direction direction) {

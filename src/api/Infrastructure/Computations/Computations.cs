@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace api.mapserv.utah.gov.Infrastructure
 {
     public interface IComputation<TResult> {}
+
     public interface IComputationHandler<TComputation, TResult> where TComputation : IComputation<TResult> {
         Task<TResult> Handle(TComputation computation, CancellationToken cancellationToken);
     }
@@ -17,12 +18,12 @@ namespace api.mapserv.utah.gov.Infrastructure
         protected abstract TResponse Handle(TRequest request);
     }
 
-    public interface IComputer {
+    public interface IComputeMediator {
         Task<TResult> Handle<TResult>(IComputation<TResult> command, CancellationToken cancellationToken);
     }
 
-    public class Computer : IComputer {
-        public Computer(Func<Type, object> resolver) {
+    public class ComputeMediator : IComputeMediator {
+        public ComputeMediator(Func<Type, object> resolver) {
             Resolver = resolver;
         }
 

@@ -16,13 +16,13 @@ using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class GeocodeAddressQuery {
-        public class Command : IRequest<ObjectResult> {
+        public class Query : IRequest<ObjectResult> {
             internal readonly string Street;
             internal readonly string Zone;
             internal readonly GeocodingOptions Options;
             internal readonly bool FilterCandidates;
 
-            public Command(string street, string zone, GeocodingOptions options, bool filterCandidates) {
+            public Query(string street, string zone, GeocodingOptions options, bool filterCandidates) {
                 Street = street;
                 Zone = zone;
                 Options = options;
@@ -30,17 +30,15 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             }
         }
 
-        public class Handler : IRequestHandler<Command, ObjectResult> {
+        public class Handler : IRequestHandler<Query, ObjectResult> {
             private readonly ILogger _log;
-            private readonly IMediator _mediator;
-            private readonly IComputer _computer;
+            private readonly IComputeMediator _computeMediator;
 
-            public Handler(IMediator mediator, IComputer computer, ILogger log) {
-                _mediator = mediator;
+            public Handler(IComputeMediator computeMediator, ILogger log) {
+                _computeMediator = computeMediator;
                 _log = log?.ForContext<GeocodeAddressQuery>();
-                _computer = computer;
             }
-            public async Task<ObjectResult> Handle(Command request, CancellationToken cancellationToken) {
+            public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
                 #region validation
 
                 var street = request.Street?.Trim();
@@ -66,15 +64,15 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 #endregion
 
-                var parseAddressCommand = new AddressParsing.Command(street);
-                var parsedStreet = await _mediator.Send(parseAddressCommand);
+                var parseAddressComputation = new AddressParsing.Computation(street);
+                var parsedStreet = await _computeMediator.Handle(parseAddressComputation, cancellationToken);
 
-                var parseZoneCommand = new ZoneParsing.Computation(zone, new AddressWithGrids(parsedStreet));
-                var parsedAddress = await _computer.Handle(parseZoneCommand, cancellationToken);
+                var parseZoneComputation = new ZoneParsing.Computation(zone, new AddressWithGrids(parsedStreet));
+                var parsedAddress = await _computeMediator.Handle(parseZoneComputation, cancellationToken);
 
                 if (request.Options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue) {
-                    var poboxCommand = new PoBoxLocation.Command(parsedAddress, request.Options);
-                    var result = await _mediator.Send(poboxCommand);
+                    var poboxComputation = new PoBoxLocation.Computation(parsedAddress, request.Options);
+                    var result = await _computeMediator.Handle(poboxComputation, cancellationToken);
 
                     if (result != null) {
                         var model = result.ToResponseObject(street, zone);
@@ -95,8 +93,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     }
                 }
 
-                var deliveryPointCommand = new UspsDeliveryPointLocation.Command(parsedAddress, request.Options);
-                var uspsPoint = await _mediator.Send(deliveryPointCommand);
+                var deliveryPointComputation = new UspsDeliveryPointLocation.Computation(parsedAddress, request.Options);
+                var uspsPoint = await _computeMediator.Handle(deliveryPointComputation, cancellationToken);
 
                 if (uspsPoint != null) {
                     var model = uspsPoint.ToResponseObject(street, zone);
@@ -119,11 +117,11 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var topCandidates = new TopAddressCandidates(request.Options.Suggest,
                                                              new CandidateComparer(parsedAddress.StandardizedAddress
                                                                                                 .ToUpperInvariant()));
-                var getLocatorsForAddressCommand = new LocatorsForGeocode.Command(parsedAddress, request.Options);
-                var locators = await _mediator.Send(getLocatorsForAddressCommand);
+                var createGeocodePlanComputation = new GeocodePlan.Computation(parsedAddress, request.Options);
+                var plan = await _computeMediator.Handle(createGeocodePlanComputation, cancellationToken);
 
-                if (locators == null || !locators.Any()) {
-                    _log.Debug("No locators found for address {parsedAddress}", parsedAddress);
+                if (plan == null || !plan.Any()) {
+                    _log.Debug("no plan for {parsedAddress}", parsedAddress);
 
                     return new NotFoundObjectResult(new ApiResponseContainer {
                         Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
@@ -131,8 +129,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     });
                 }
 
-                var tasks = await Task.WhenAll(locators.Select(locator => _mediator.Send(new Geocode.Command(locator)))
-                                                       .ToArray());
+                var tasks = await Task.WhenAll(
+                    plan.Select(locator => _computeMediator.Handle(new Geocode.Computation(locator), cancellationToken))
+                        .ToArray());
                 var candidates = tasks.SelectMany(x => x);
 
                 foreach (var candidate in candidates) {
@@ -141,9 +140,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 var highestScores = topCandidates.Get();
 
-                var chooseBestAddressCandidateCommand = new FilterCandidates.Computation(highestScores, request.Options, street,
+                var chooseBestAddressCandidateComputation = new FilterCandidates.Computation(highestScores, request.Options, street,
                                                                                      zone, parsedAddress);
-                var winner = await _computer.Handle(chooseBestAddressCandidateCommand, cancellationToken);
+                var winner = await _computeMediator.Handle(chooseBestAddressCandidateComputation, cancellationToken);
 
                 if (winner == null || winner.Score < 0) {
                     _log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street,

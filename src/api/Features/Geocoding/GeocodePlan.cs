@@ -1,35 +1,35 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Configuration;
 using api.mapserv.utah.gov.Models.Constants;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using MediatR;
 using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
-    public class LocatorsForGeocode {
-        public class Command : IRequest<IReadOnlyCollection<LocatorProperties>> {
+    public class GeocodePlan {
+        public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {
             internal readonly AddressWithGrids Address;
             internal readonly GeocodingOptions Options;
 
-            public Command(AddressWithGrids address, GeocodingOptions options) {
+            public Computation(AddressWithGrids address, GeocodingOptions options) {
                 Address = address;
                 Options = options;
             }
         }
 
-        public class Handler : RequestHandler<Command, IReadOnlyCollection<LocatorProperties>> {
+        public class Handler : IComputationHandler<Computation, IReadOnlyCollection<LocatorProperties>> {
             private readonly List<LocatorConfiguration> _locators;
             private readonly ILogger _log;
 
             public Handler(IOptions<List<LocatorConfiguration>> options, ILogger log) {
-                _log = log?.ForContext<LocatorsForGeocode>();
                 _locators = options.Value;
+                _log = log?.ForContext<GeocodePlan>();
             }
 
             private static IReadOnlyCollection<GeocodeInput> BuildAddressPermutations(
@@ -51,8 +51,6 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 AddressWithGrids address, IReadOnlyCollection<GeocodeInput> permutations, LocatorType locatorType) {
                 var locators = new List<LocatorProperties>();
 
-                _log.Verbose("Finding locators for {address}", address);
-
                 if (locatorType == LocatorType.Default || locatorType == LocatorType.All) {
                     locators.AddRange(
                          LocatorProperties(permutations, address.IsReversal(), address.PossibleReversal(), LocatorType.AddressPoints)
@@ -69,7 +67,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     LocatorProperties(permutations, address.IsReversal(), address.PossibleReversal(), locatorType)
                 );
 
-                _log.Debug("Using {locators} for {address}", locators, address);
+                _log.ForContext("address", address.StandardizedAddress)
+                    .ForContext("urls", string.Join(",", locators.Select(x => x.Url)))
+                    .Debug("geocode plan created");
 
                 return locators;
             }
@@ -92,10 +92,10 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 return locatorsForAddress;
             }
 
-            protected override IReadOnlyCollection<LocatorProperties> Handle(Command request) {
+            public Task<IReadOnlyCollection<LocatorProperties>> Handle(Computation request, CancellationToken cancellation) {
                 var permutations = BuildAddressPermutations(request.Address, request.Options.SpatialReference);
 
-                return BuildLocatorLookup(request.Address, permutations, request.Options.Locators);
+                return Task.FromResult(BuildLocatorLookup(request.Address, permutations, request.Options.Locators));
             }
         }
     }
