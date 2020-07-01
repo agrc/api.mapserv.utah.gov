@@ -1,25 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
-using MediatR;
 using Newtonsoft.Json.Linq;
 using Point = GeoJSON.Net.Geometry.Point;
 
 namespace api.mapserv.utah.gov.Features.Converting {
     public class GeoJsonFeature {
-        public class Command : IRequest<ApiResponseContainer<Feature>> {
+        public class Computation : IComputation<ApiResponseContainer<Feature>> {
             internal readonly ApiResponseContainer<GeocodeAddressApiResponse> Container;
 
-            public Command(ApiResponseContainer<GeocodeAddressApiResponse> container) {
+            public Computation(ApiResponseContainer<GeocodeAddressApiResponse> container) {
                 Container = container;
             }
         }
 
-        public class Handler : RequestHandler<Command, ApiResponseContainer<Feature>> {
-            protected override ApiResponseContainer<Feature> Handle(Command request) {
+        public class Handler : IComputationHandler<Computation, ApiResponseContainer<Feature>> {
+            public Task<ApiResponseContainer<Feature>> Handle(Computation request, CancellationToken cancellationToken) {
                 IGeometryObject geometry = null;
                 var attributes = new Dictionary<string, object>();
                 var message = request.Container.Message;
@@ -34,10 +36,10 @@ namespace api.mapserv.utah.gov.Features.Converting {
                 }
 
                 if (geometry == null && attributes.Count < 1) {
-                    return new ApiResponseContainer<Feature> {
+                    return Task.FromResult(new ApiResponseContainer<Feature> {
                         Status = status,
                         Message = message
-                    };
+                    });
                 }
 
                 var feature =
@@ -50,7 +52,7 @@ namespace api.mapserv.utah.gov.Features.Converting {
                     Message = message
                 };
 
-                return responseContainer;
+                return Task.FromResult(responseContainer);
             }
         }
     }

@@ -2,19 +2,17 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Comparers;
 using api.mapserv.utah.gov.Conventions;
 using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Features.GeometryService;
 using api.mapserv.utah.gov.Filters;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Models.ResponseObjects;
-using api.mapserv.utah.gov.Services;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -34,9 +32,11 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
     public class ApiReverseController : ControllerBase {
         private readonly ILogger _log;
         private readonly IMediator _mediator;
+        private readonly IComputeMediator _computeMediator;
 
-        public ApiReverseController(IMediator mediator, ILogger log) {
+        public ApiReverseController(IMediator mediator, IComputeMediator computeMediator, ILogger log) {
             _mediator = mediator;
+            _computeMediator = computeMediator;
             _log = log?.ForContext<ApiReverseController>();
         }
 
@@ -59,10 +59,10 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
             if (options.SpatialReference != 26912) {
                 var reprojectCommand =
-                    new Reproject.Command(new PointReprojectOptions(options.SpatialReference, 26912, new[] {x, y}));
-                var pointReprojectResponse = await _mediator.Send(reprojectCommand);
+                    new Reproject.Computation(new PointReprojectOptions(options.SpatialReference, 26912, new[] {x, y}));
+                var pointReprojectResponse = await _computeMediator.Handle(reprojectCommand, default);
 
-                if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any()) {
+                if (pointReprojectResponse is null || !pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any()) {
                     _log.Fatal("Could not reproject point for {x},{y} {wkid}", x, y, options);
 
                     return new ObjectResult(new ApiResponseContainer {
@@ -81,8 +81,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
             }
 
-            var locatorLookup = new LocatorsForReverseLookup.Command(x, y, options.Distance, options.SpatialReference);
-            var locators = await _mediator.Send(locatorLookup);
+            var locatorLookup = new LocatorsForReverseLookup.Computation(x, y, options.Distance, options.SpatialReference);
+            var locators = await _computeMediator.Handle(locatorLookup, default);
 
             if (locators == null || !locators.Any()) {
                 _log.Debug("No locators found for address reversal");

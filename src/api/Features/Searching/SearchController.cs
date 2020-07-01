@@ -5,6 +5,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Filters;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using MediatR;
@@ -27,9 +28,11 @@ namespace api.mapserv.utah.gov.Features.Searching {
     public class SearchController : ControllerBase {
         private readonly ILogger _log;
         private readonly IMediator _mediator;
+        private readonly IComputeMediator _computeMediator;
 
-        public SearchController(IMediator mediator, ILogger log) {
+        public SearchController(IMediator mediator, IComputeMediator computeMediator, ILogger log) {
             _mediator = mediator;
+            _computeMediator = computeMediator;
             _log = log?.ForContext<SearchController>();
         }
 
@@ -59,13 +62,13 @@ namespace api.mapserv.utah.gov.Features.Searching {
 
             if (string.IsNullOrEmpty(tableName)) {
                 errors = "tableName is a required field. Input was empty. ";
-            } else if (await _mediator.Send(new ValidateSql.Command(tableName))) {
+            } else if (await _computeMediator.Handle(new ValidateSql.Computation(tableName), default)) {
                 errors += "tableName contains unsafe characters. Don't be a jerk. ";
             }
 
             if (string.IsNullOrEmpty(returnValues)) {
                 errors += "returnValues is a required field. Input was empty. ";
-            } else if (await _mediator.Send(new ValidateSql.Command(returnValues))) {
+            } else if (await _computeMediator.Handle(new ValidateSql.Computation(returnValues), default)) {
                 errors += "returnValues contains unsafe characters. Don't be a jerk. ";
             }
 
@@ -79,7 +82,7 @@ namespace api.mapserv.utah.gov.Features.Searching {
             }
 
             if (!string.IsNullOrEmpty(options.Predicate) &&
-                await _mediator.Send(new ValidateSql.Command(options.Predicate))) {
+                await _computeMediator.Handle(new ValidateSql.Computation(options.Predicate), default)) {
                 errors += "Predicate contains unsafe characters. Don't be a jerk. ";
             }
 
@@ -99,7 +102,7 @@ namespace api.mapserv.utah.gov.Features.Searching {
             IReadOnlyCollection<SearchApiResponse> result = Array.Empty<SearchApiResponse>();
 
             try {
-                result = await _mediator.Send(new SqlQuery.Command(tableName, returnValues, options.Predicate, options.AttributeStyle, options.Geometry));
+                result = await _mediator.Send(new SqlQuery.Command(tableName, returnValues, options.Predicate, options.AttributeStyle, options.Geometry), default);
             } catch (Exception ex) {
                 var error = ex.Message.ToUpperInvariant();
                 var message = string.Empty;

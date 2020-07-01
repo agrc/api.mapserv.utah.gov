@@ -84,10 +84,10 @@ namespace api.tests.Features.Geocoding {
                 var logger = new Mock<ILogger>();
                 logger.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
 
-                Handler = new LocatorsForGeocode.Handler(options.Object, logger.Object);
+                Handler = new GeocodePlan.Handler(options.Object, logger.Object);
             }
 
-            internal IRequestHandler<LocatorsForGeocode.Command, IReadOnlyCollection<LocatorProperties>> Handler;
+            internal IRequestHandler<GeocodePlan.Command, IReadOnlyCollection<LocatorProperties>> Handler;
 
             [Fact]
             public async Task Should_create_extra_for_address_reversal() {
@@ -102,7 +102,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new LocatorsForGeocode.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Command(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.Count.ShouldBe(2);
@@ -129,7 +129,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new LocatorsForGeocode.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Command(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.ShouldHaveSingleItem();
@@ -152,7 +152,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new LocatorsForGeocode.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Command(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.Count.ShouldBe(2);
@@ -162,7 +162,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                request = new LocatorsForGeocode.Command(address, geocodeOptions);
+                request = new GeocodePlan.Command(address, geocodeOptions);
                 result = await Handler.Handle(request, new CancellationToken());
 
                 result.Count.ShouldBe(2);
@@ -181,7 +181,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new LocatorsForGeocode.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Command(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.ShouldHaveSingleItem();
@@ -204,7 +204,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new LocatorsForGeocode.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Command(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.ShouldBeEmpty();

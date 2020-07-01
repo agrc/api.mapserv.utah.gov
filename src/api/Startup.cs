@@ -17,16 +17,14 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using WebApiContrib.Core.Formatter.Jsonp;
-using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using CorrelationId.DependencyInjection;
 using CorrelationId;
 using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
 using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Models;
+using api.mapserv.utah.gov.Features.GeometryService;
 
 namespace api.mapserv.utah.gov {
     public class Startup {
@@ -113,9 +111,13 @@ namespace api.mapserv.utah.gov {
                     .AsClosedTypesOf(typeof(IComputationHandler<,>))
                     .AsImplementedInterfaces();
 
-            builder.RegisterDecorator<DoubleAvenuesException.Decorator, IComputationHandler<ZoneParsing.Computation, AddressWithGrids>>();
+            builder.RegisterDecorator<DoubleAvenuesException.Decorator,
+                                      IComputationHandler<ZoneParsing.Computation, AddressWithGrids>>();
 
-            builder.Register(c => new Computer(c.Resolve<IComponentContext>().Resolve))
+
+            builder.RegisterGenericDecorator(typeof(Reproject.Decorator<,>), typeof(IComputationHandler<,>));
+
+            builder.Register(c => new ComputeMediator(c.Resolve<IComponentContext>().Resolve))
                    .AsImplementedInterfaces()
                    .SingleInstance();
 

@@ -6,7 +6,6 @@ using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Linkables;
-using MediatR;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
@@ -23,17 +22,17 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
         public class Handler : IComputationHandler<Computation, AddressWithGrids> {
             private readonly ILogger _log;
-            private readonly IMediator _mediator;
+            private readonly IComputeMediator _mediator;
             private readonly IRegexCache _regex;
 
-            public Handler(IRegexCache regex, IMediator mediator, ILogger log) {
+            public Handler(IRegexCache regex, IComputeMediator mediator, ILogger log) {
                 _regex = regex;
                 _mediator = mediator;
                 _log = log?.ForContext<ZoneParsing>();
             }
 
             public async Task<AddressWithGrids> Handle(Computation request, CancellationToken token) {
-                _log.Debug("Parsing {zone}", request.InputZone);
+                _log.Debug("parsing {zone}", request.InputZone);
 
                 if (string.IsNullOrEmpty(request.InputZone)) {
                     request.AddressModel.AddressGrids = Array.Empty<GridLinkable>();
@@ -47,21 +46,22 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 if (zipPlusFour.Success) {
                     if (zipPlusFour.Groups[1].Success) {
                         var zip5 = zipPlusFour.Groups[1].Value;
-                        _log.Debug("Zone has a zip code of {zip}", zip5);
+                        _log.ForContext("zone", zip5)
+                            .Debug("zone match");
 
                         request.AddressModel.Zip5 = int.Parse(zip5);
 
-                        var getAddressSystemFromZipCodeCommand =
-                            new AddressSystemFromZipCode.Command(request.AddressModel.Zip5);
+                        var getAddressSystemFromZipCodeComputation =
+                            new AddressSystemFromZipCode.Computation(request.AddressModel.Zip5);
 
                         request.AddressModel.AddressGrids =
-                            await _mediator.Send(getAddressSystemFromZipCodeCommand, token);
+                            await _mediator.Handle(getAddressSystemFromZipCodeComputation, token);
                     }
 
                     if (zipPlusFour.Groups[2].Success) {
                         var zip4 = zipPlusFour.Groups[2].Value;
 
-                        _log.Debug("Zone has a zip + 4 {zip}", zip4);
+                        _log.Debug("zone has a zip + 4 {zip}", zip4);
 
                         request.AddressModel.Zip4 = int.Parse(zip4);
                     }
@@ -72,7 +72,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var cityName = _regex.Get("cityName").Match(request.InputZone);
 
                 if (cityName.Success) {
-                    _log.Debug("Zone is a place {place}", cityName.Value);
+                    _log.ForContext("zone", cityName.Value)
+                        .Debug("place match");
 
                     var cityKey = cityName.Value.ToLower();
                     cityKey = cityKey.Replace(".", "");
@@ -80,14 +81,15 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                     cityKey = _regex.Get("cityTownCruft").Replace(cityKey, "").Trim();
 
-                    var getAddressSystemFromCityCommand = new AddressSystemFromPlace.Command(cityKey);
-                    request.AddressModel.AddressGrids = await _mediator.Send(getAddressSystemFromCityCommand, token);
+                    var getAddressSystemFromCityComputation = new AddressSystemFromPlace.Computation(cityKey);
+                    request.AddressModel.AddressGrids = await _mediator.Handle(getAddressSystemFromCityComputation, token);
 
                     return request.AddressModel;
                 }
 
                 if (request.AddressModel.AddressGrids == null) {
-                    _log.Warning("No address grid found for {zone}", request.InputZone);
+                    _log.ForContext("zone", request.InputZone)
+                        .Warning("no address grid");
 
                     request.AddressModel.AddressGrids = Array.Empty<GridLinkable>();
                 }

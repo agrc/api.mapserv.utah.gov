@@ -1,21 +1,23 @@
 using System.Text.RegularExpressions;
-using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
+using api.mapserv.utah.gov.Infrastructure;
 
 namespace api.mapserv.utah.gov.Features.Searching {
     public class ValidateSql {
-        public class Command : IRequest<bool> {
-            public Command(string sql) {
+        public class Computation : IComputation<bool> {
+            public Computation(string sql) {
                 Sql = sql;
             }
 
             internal string Sql { get; }
         }
 
-        public class Handler : RequestHandler<Command, bool> {
-            protected override bool Handle(Command request) {
+        public class Handler : IComputationHandler<Computation, bool> {
+            public Task<bool> Handle(Computation request, CancellationToken cancellationToken) {
                 var badChars = new Regex(@";|--|/\*|\*/", RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
-                return badChars.IsMatch(request.Sql);
+                return Task.FromResult(badChars.IsMatch(request.Sql));
             }
         }
     }
