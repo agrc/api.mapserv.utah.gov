@@ -5,9 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Linkables;
-using MediatR;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -17,11 +17,11 @@ namespace api.tests.Features.Geocoding {
     public class ZoneParsingTests {
         public ZoneParsingTests() {
             var regex = new RegexCache(new Abbreviations());
-            var mediator = new Mock<IMediator>();
+            var mediator = new Mock<IComputeMediator>();
 
-            mediator.Setup(x => x.Send(It.IsAny<AddressSystemFromPlace.Command>(),
+            mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(),
                                        It.IsAny<CancellationToken>()))
-                    .Returns((AddressSystemFromPlace.Command g, CancellationToken t) => {
+                    .Returns((AddressSystemFromPlace.Computation g, CancellationToken t) => {
                         if (g.CityKey == "alta") {
                             return Task.FromResult(new[] {new PlaceGridLink("alta", "grid", 1)} as
                                                        IReadOnlyCollection<GridLinkable>);
@@ -43,7 +43,7 @@ namespace api.tests.Features.Geocoding {
         [InlineData("12345-6789")]
         public async Task Should_parse_zip_parts(string input) {
             var address = new AddressWithGrids(new CleansedAddress());
-            var request = new ZoneParsing.Command(input, address);
+            var request = new ZoneParsing.Computation(input, address);
 
             var result = await _handler.Handle(request, new CancellationToken());
 
@@ -57,7 +57,7 @@ namespace api.tests.Features.Geocoding {
         [InlineData("Alta ")]
         public async Task Should_find_grid_from_place(string input) {
             var address = new AddressWithGrids(new CleansedAddress());
-            var request = new ZoneParsing.Command(input, address);
+            var request = new ZoneParsing.Computation(input, address);
 
             var result = await _handler.Handle(request, new CancellationToken());
 
@@ -68,7 +68,7 @@ namespace api.tests.Features.Geocoding {
         [Fact]
         public async Task Should_return_empty_grid_if_zone_not_found() {
             var address = new AddressWithGrids(new CleansedAddress());
-            var request = new ZoneParsing.Command("123eastbumble", address);
+            var request = new ZoneParsing.Computation("123eastbumble", address);
 
             var result = await _handler.Handle(request, new CancellationToken());
 

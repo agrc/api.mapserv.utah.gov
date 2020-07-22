@@ -2,19 +2,19 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Converting;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using EsriJson.Net;
-using MediatR;
 using Newtonsoft.Json;
 using Shouldly;
 using Xunit;
 
 namespace api.tests.Features.Converting {
     public class EsriJsonTests {
-        private readonly IRequestHandler<EsriGraphic.Command, ApiResponseContainer<Graphic>> _handler =
+        private readonly IComputationHandler<EsriGraphic.Computation, ApiResponseContainer<Graphic>> _handler =
             new EsriGraphic.Handler();
 
         [Fact]
@@ -35,7 +35,7 @@ namespace api.tests.Features.Converting {
                 Status = 200
             };
 
-            var request = new EsriGraphic.Command(responseContainer);
+            var request = new EsriGraphic.Computation(responseContainer);
             var result = await _handler.Handle(request, new CancellationToken());
 
             var point = new EsriJson.Net.Geometry.Point(1, 1) {
@@ -67,7 +67,7 @@ namespace api.tests.Features.Converting {
                 Status = 404
             };
 
-            var request = new EsriGraphic.Command(responseContainer);
+            var request = new EsriGraphic.Computation(responseContainer);
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.Result.ShouldBeNull();

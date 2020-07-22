@@ -53,7 +53,7 @@ namespace api.tests.Features.Geocoding {
                 SpatialReference = 26912
             };
 
-            var request = new PoBoxLocation.Command(address, geocodeOptions);
+            var request = new PoBoxLocation.Computation(address, geocodeOptions);
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.Score.ShouldBe(100);
@@ -79,7 +79,7 @@ namespace api.tests.Features.Geocoding {
                 SpatialReference = 26912
             };
 
-            var request = new PoBoxLocation.Command(address, geocodeOptions);
+            var request = new PoBoxLocation.Computation(address, geocodeOptions);
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.Score.ShouldBe(100);
@@ -99,7 +99,7 @@ namespace api.tests.Features.Geocoding {
                 PoBox = true
             };
 
-            var request = new PoBoxLocation.Command(address, geocodeOptions);
+            var request = new PoBoxLocation.Computation(address, geocodeOptions);
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.ShouldBeNull();
@@ -115,7 +115,7 @@ namespace api.tests.Features.Geocoding {
                 PoBox = true
             };
 
-            var request = new PoBoxLocation.Command(address, geocodeOptions);
+            var request = new PoBoxLocation.Computation(address, geocodeOptions);
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.ShouldBeNull();

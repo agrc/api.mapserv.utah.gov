@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models.Linkables;
-using MediatR;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -14,7 +14,7 @@ using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class AddressSystemFromZipTests {
-        internal static IRequestHandler<AddressSystemFromZipCode.Command, IReadOnlyCollection<GridLinkable>> Handler;
+        internal static IComputationHandler<AddressSystemFromZipCode.Computation, IReadOnlyCollection<GridLinkable>> Handler;
 
         private readonly Dictionary<string, List<GridLinkable>> _links = new Dictionary<string, List<GridLinkable>>(1);
 
@@ -32,7 +32,7 @@ namespace api.tests.Features.Geocoding {
 
         [Fact]
         public async Task Should_return_grid_from_zip() {
-            var request = new AddressSystemFromZipCode.Command(1);
+            var request = new AddressSystemFromZipCode.Computation(1);
             var result = await Handler.Handle(request, CancellationToken.None);
 
             result.Count.ShouldBe(1);
@@ -41,7 +41,7 @@ namespace api.tests.Features.Geocoding {
 
         [Fact]
         public async Task Should_return_empty_when_zip_not_found() {
-            var request = new AddressSystemFromZipCode.Command(0);
+            var request = new AddressSystemFromZipCode.Computation(0);
             var result = await Handler.Handle(request, CancellationToken.None);
 
             result.ShouldBeEmpty();
@@ -49,7 +49,7 @@ namespace api.tests.Features.Geocoding {
 
         [Fact]
         public async Task Should_return_empty_when_zip_is_null() {
-            var request = new AddressSystemFromZipCode.Command(null);
+            var request = new AddressSystemFromZipCode.Computation(null);
             var result = await Handler.Handle(request, CancellationToken.None);
 
             result.ShouldBeEmpty();

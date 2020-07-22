@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Converting;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
-using MediatR;
 using Newtonsoft.Json;
 using Shouldly;
 using Xunit;
@@ -15,7 +15,7 @@ using Point = api.mapserv.utah.gov.Models.Point;
 
 namespace api.tests.Features.Converting {
     public class GeoJsonTests {
-        private readonly IRequestHandler<GeoJsonFeature.Command, ApiResponseContainer<Feature>> _handler =
+        private readonly IComputationHandler<GeoJsonFeature.Computation, ApiResponseContainer<Feature>> _handler =
             new GeoJsonFeature.Handler();
 
         [Fact]
@@ -36,7 +36,7 @@ namespace api.tests.Features.Converting {
                 Status = 200
             };
 
-            var request = new GeoJsonFeature.Command(responseContainer);
+            var request = new GeoJsonFeature.Computation(responseContainer);
             var result = await _handler.Handle(request, new CancellationToken());
 
             var position = new Position(1, 1);
@@ -64,7 +64,7 @@ namespace api.tests.Features.Converting {
                 Status = 404
             };
 
-            var request = new GeoJsonFeature.Command(responseContainer);
+            var request = new GeoJsonFeature.Computation(responseContainer);
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.Result.ShouldBeNull();

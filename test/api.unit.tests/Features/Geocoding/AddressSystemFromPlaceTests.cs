@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models.Linkables;
-using MediatR;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -24,14 +24,14 @@ namespace api.tests.Features.Geocoding {
             Handler = new AddressSystemFromPlace.Handler(mockCache.Object, mock.Object);
         }
 
-        internal static IRequestHandler<AddressSystemFromPlace.Command, IReadOnlyCollection<GridLinkable>> Handler;
+        internal static IComputationHandler<AddressSystemFromPlace.Computation, IReadOnlyCollection<GridLinkable>> Handler;
 
         private readonly Dictionary<string, List<GridLinkable>> _links = new Dictionary<string, List<GridLinkable>>(1);
 
         [Fact]
         public async Task Should_return_empty_when_zip_is_null() {
             var place = string.Empty;
-            var request = new AddressSystemFromPlace.Command(place);
+            var request = new AddressSystemFromPlace.Computation(place);
             var result = await Handler.Handle(request, CancellationToken.None);
 
             result.ShouldBeEmpty();
@@ -39,7 +39,7 @@ namespace api.tests.Features.Geocoding {
 
         [Fact]
         public async Task Should_return_empty_when_zip_not_found() {
-            var request = new AddressSystemFromPlace.Command("other place");
+            var request = new AddressSystemFromPlace.Computation("other place");
             var result = await Handler.Handle(request, CancellationToken.None);
 
             result.ShouldBeEmpty();
@@ -47,7 +47,7 @@ namespace api.tests.Features.Geocoding {
 
         [Fact]
         public async Task Should_return_grid_from_place() {
-            var request = new AddressSystemFromPlace.Command("place");
+            var request = new AddressSystemFromPlace.Computation("place");
             var result = await Handler.Handle(request, CancellationToken.None);
 
             result.Count.ShouldBe(1);
