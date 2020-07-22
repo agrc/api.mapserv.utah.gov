@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
-using MediatR;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -14,16 +14,16 @@ using Xunit;
 namespace api.tests.Features.Geocoding {
     public class AddressParsingTests {
         public AddressParsingTests() {
-            var abbrs = new Abbreviations();
-            var regex = new RegexCache(abbrs);
+            var abbreviations = new Abbreviations();
+            var regex = new RegexCache(abbreviations);
 
             var mock = new Mock<ILogger>();
             mock.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
 
-            _handler = new AddressParsing.Handler(regex, abbrs, mock.Object);
+            _handler = new AddressParsing.Handler(regex, abbreviations, mock.Object);
         }
 
-        private readonly IRequestHandler<AddressParsing.Command, CleansedAddress> _handler;
+        private readonly IComputationHandler<AddressParsing.Computation, CleansedAddress> _handler;
 
         public static IEnumerable<object[]> GetPoBoxes() {
             yield return new object[] {
@@ -888,7 +888,7 @@ namespace api.tests.Features.Geocoding {
         [Theory]
         [MemberData(nameof(GetPoBoxes))]
         public async Task Should_parse_input_with_spaces(CleansedAddress input, string standardAddress, bool reversal) {
-            var request = new AddressParsing.Command(input.InputAddress);
+            var request = new AddressParsing.Computation(input.InputAddress);
             var result = await _handler.Handle(request, CancellationToken.None);
 
             result.PoBox.ShouldBe(input.PoBox);
@@ -917,7 +917,7 @@ namespace api.tests.Features.Geocoding {
         [MemberData(nameof(CommonMisspelling))]
         [MemberData(nameof(GithubIssues))]
         public async Task Should_parse_address_parts(CleansedAddress input, string standardAddress) {
-            var request = new AddressParsing.Command(input.InputAddress);
+            var request = new AddressParsing.Computation(input.InputAddress);
             var result = await _handler.Handle(request, CancellationToken.None);
 
             result.PoBox.ShouldBe(0);
@@ -935,7 +935,7 @@ namespace api.tests.Features.Geocoding {
         public async Task Should_parse_address_parts_with_insights(CleansedAddress input, bool reversal,
                                                                    bool possibleReversal, bool hasPrefix,
                                                                    bool isNumeric) {
-            var request = new AddressParsing.Command(input.InputAddress);
+            var request = new AddressParsing.Computation(input.InputAddress);
             var result = await _handler.Handle(request, CancellationToken.None);
 
             result.HouseNumber.ShouldBe(input.HouseNumber);
@@ -956,7 +956,7 @@ namespace api.tests.Features.Geocoding {
         [Theory]
         [MemberData(nameof(ReversalAddress))]
         public async Task Should_create_reversal_address(string address, string reversalAddress) {
-            var request = new AddressParsing.Command(address);
+            var request = new AddressParsing.Computation(address);
             var result = await _handler.Handle(request, CancellationToken.None);
 
             result.ReversalAddress.ToLowerInvariant().ShouldBe(reversalAddress);
@@ -964,7 +964,7 @@ namespace api.tests.Features.Geocoding {
 
         [Fact]
         public async Task Should_not_flag_house_address_as_pobox() {
-            var request = new AddressParsing.Command("123 west house st");
+            var request = new AddressParsing.Computation("123 west house st");
             var result = await _handler.Handle(request, CancellationToken.None);
 
             result.IsPoBox.ShouldBeFalse();

@@ -36,7 +36,7 @@ namespace api.tests.Features.GeometryService {
 
         [Fact]
         public async Task Should_prefer_request_url() {
-            var command = new Reproject.Command(new PointReprojectOptions(0, 0, new[] { 0.0, 1.1 })) {
+            var command = new Reproject.Computation(new PointReprojectOptions(0, 0, new[] { 0.0, 1.1 })) {
                 ReprojectUrl = "http://useme"
             };
 
@@ -60,7 +60,7 @@ namespace api.tests.Features.GeometryService {
 
         [Fact]
         public async Task Should_fall_back_to_options() {
-            var command = new Reproject.Command(new PointReprojectOptions(0, 0, new[] { 0.0, 1.1 }));
+            var command = new Reproject.Computation(new PointReprojectOptions(0, 0, new[] { 0.0, 1.1 }));
 
             var options = new Mock<IOptions<GeometryServiceConfiguration>>();
             options.Setup(x => x.Value).Returns(new GeometryServiceConfiguration {
@@ -82,7 +82,7 @@ namespace api.tests.Features.GeometryService {
 
         [Fact]
         public async Task Should_format_query_string() {
-            var command = new Reproject.Command(new PointReprojectOptions(0, 1, new[] { 1.1, 2.2 }));
+            var command = new Reproject.Computation(new PointReprojectOptions(0, 1, new[] { 1.1, 2.2 }));
 
             var options = new Mock<IOptions<GeometryServiceConfiguration>>();
             options.Setup(x => x.Value).Returns(new GeometryServiceConfiguration {

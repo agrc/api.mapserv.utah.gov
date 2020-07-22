@@ -3,12 +3,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.Linkables;
 using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Models.ResponseObjects;
-using MediatR;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -23,7 +23,7 @@ namespace api.tests.Features.Geocoding {
             Handler = new FilterCandidates.Handler(logger.Object);
         }
 
-        internal static IRequestHandler<FilterCandidates.Command, GeocodeAddressApiResponse> Handler;
+        internal static IComputationHandler<FilterCandidates.Computation, GeocodeAddressApiResponse> Handler;
 
         public class AcceptScoreTests {
             [Fact]
@@ -52,7 +52,7 @@ namespace api.tests.Features.Geocoding {
                     AddressGrids = new[] {new ZipGridLink(0, "grid", 0)}
                 };
 
-                var request = new FilterCandidates.Command(candidates, options, "street", "zone", address);
+                var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await Handler.Handle(request, CancellationToken.None);
 
                 result.Candidates.ShouldBeEmpty();
@@ -91,7 +91,7 @@ namespace api.tests.Features.Geocoding {
                     AddressGrids = new[] {new ZipGridLink(0, "grid", 0)}
                 };
 
-                var request = new FilterCandidates.Command(candidates, options, "street", "zone", address);
+                var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await Handler.Handle(request, CancellationToken.None);
 
                 result.Candidates.ShouldHaveSingleItem();
@@ -124,7 +124,7 @@ namespace api.tests.Features.Geocoding {
                     AddressGrids = new[] {new ZipGridLink(0, "grid", 0)}
                 };
 
-                var request = new FilterCandidates.Command(candidates, options, "street", "zone", address);
+                var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await Handler.Handle(request, CancellationToken.None);
 
                 result.ShouldBeNull();
@@ -158,7 +158,7 @@ namespace api.tests.Features.Geocoding {
                     AddressGrids = new[] {new ZipGridLink(0, "grid", 0)}
                 };
 
-                var request = new FilterCandidates.Command(candidates, options, "street", "zone", address);
+                var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await Handler.Handle(request, CancellationToken.None);
 
                 result.Candidates.ShouldBeEmpty();
@@ -169,7 +169,7 @@ namespace api.tests.Features.Geocoding {
         public class NoCandidateTests {
             [Fact]
             public async Task Should_return_default_empty_response_when_no_candidates() {
-                var request = new FilterCandidates.Command(Array.Empty<Candidate>(), null, "street", "zone", null);
+                var request = new FilterCandidates.Computation(Array.Empty<Candidate>(), null, "street", "zone", null);
                 var result = await Handler.Handle(request, CancellationToken.None);
 
                 result.InputAddress.ShouldBe($"street, zone");
@@ -178,7 +178,7 @@ namespace api.tests.Features.Geocoding {
 
             [Fact]
             public async Task Should_return_default_empty_response_when_null_candidates() {
-                var request = new FilterCandidates.Command(null, null, "street", "zone", null);
+                var request = new FilterCandidates.Computation(null, null, "street", "zone", null);
                 var result = await Handler.Handle(request, CancellationToken.None);
 
                 result.InputAddress.ShouldBe($"street, zone");

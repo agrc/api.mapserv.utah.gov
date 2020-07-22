@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Geocoding;
+using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Configuration;
 using api.mapserv.utah.gov.Models.Constants;
 using api.mapserv.utah.gov.Models.Linkables;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using MediatR;
 using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
@@ -24,11 +24,11 @@ namespace api.tests.Features.Geocoding {
                 handler = new LocatorsForReverseLookup.Handler(options.Object);
             }
 
-            internal IRequestHandler<LocatorsForReverseLookup.Command, IReadOnlyCollection<LocatorProperties>> handler;
+            internal IComputationHandler<LocatorsForReverseLookup.Computation, IReadOnlyCollection<LocatorProperties>> handler;
 
             [Fact]
             public async Task Should_return_centerline_geocoder_only() {
-                var request = new LocatorsForReverseLookup.Command(1, 2, 3, 4);
+                var request = new LocatorsForReverseLookup.Computation(1, 2, 3, 4);
                 var options = new Mock<IOptions<List<ReverseLocatorConfiguration>>>();
                 options.Setup(x => x.Value).Returns(new List<ReverseLocatorConfiguration> {
                     new ReverseLocatorConfiguration {
@@ -87,7 +87,7 @@ namespace api.tests.Features.Geocoding {
                 Handler = new GeocodePlan.Handler(options.Object, logger.Object);
             }
 
-            internal IRequestHandler<GeocodePlan.Command, IReadOnlyCollection<LocatorProperties>> Handler;
+            internal IComputationHandler<GeocodePlan.Computation, IReadOnlyCollection<LocatorProperties>> Handler;
 
             [Fact]
             public async Task Should_create_extra_for_address_reversal() {
@@ -102,7 +102,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new GeocodePlan.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Computation(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.Count.ShouldBe(2);
@@ -129,7 +129,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new GeocodePlan.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Computation(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.ShouldHaveSingleItem();
@@ -152,7 +152,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new GeocodePlan.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Computation(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.Count.ShouldBe(2);
@@ -162,7 +162,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                request = new GeocodePlan.Command(address, geocodeOptions);
+                request = new GeocodePlan.Computation(address, geocodeOptions);
                 result = await Handler.Handle(request, new CancellationToken());
 
                 result.Count.ShouldBe(2);
@@ -181,7 +181,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new GeocodePlan.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Computation(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.ShouldHaveSingleItem();
@@ -204,7 +204,7 @@ namespace api.tests.Features.Geocoding {
                     SpatialReference = 26912
                 };
 
-                var request = new GeocodePlan.Command(address, geocodeOptions);
+                var request = new GeocodePlan.Computation(address, geocodeOptions);
                 var result = await Handler.Handle(request, new CancellationToken());
 
                 result.ShouldBeEmpty();

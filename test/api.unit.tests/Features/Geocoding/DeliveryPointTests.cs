@@ -49,7 +49,7 @@ namespace api.tests.Features.Geocoding {
                 SpatialReference = 26912
             };
 
-            var request = new UspsDeliveryPointLocation.Command(address, geocodeOptions);
+            var request = new UspsDeliveryPointLocation.Computation(address, geocodeOptions);
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.Score.ShouldBe(100);
@@ -69,7 +69,7 @@ namespace api.tests.Features.Geocoding {
                 PoBox = true
             };
 
-            var request = new UspsDeliveryPointLocation.Command(address, geocodeOptions);
+            var request = new UspsDeliveryPointLocation.Computation(address, geocodeOptions);
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.ShouldBeNull();
@@ -85,7 +85,7 @@ namespace api.tests.Features.Geocoding {
                 PoBox = true
             };
 
-            var request = new UspsDeliveryPointLocation.Command(address, geocodeOptions);
+            var request = new UspsDeliveryPointLocation.Computation(address, geocodeOptions);
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.ShouldBeNull();
