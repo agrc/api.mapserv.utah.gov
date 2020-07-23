@@ -19,8 +19,7 @@ namespace api.tests.Features.Geocoding {
         private readonly ZoneParsing.Handler _computationHandler;
 
         public DoubleAveExceptionTests() {
-            var mockLogger = new Mock<ILogger>();
-            mockLogger.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+            var mockLogger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
             var mediator = new Mock<IComputeMediator>();
 

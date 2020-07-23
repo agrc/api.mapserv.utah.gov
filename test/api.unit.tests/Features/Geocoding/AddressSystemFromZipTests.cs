@@ -24,8 +24,7 @@ namespace api.tests.Features.Geocoding {
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.ZipCodesGrids).Returns(_links);
 
-            var mock = new Mock<ILogger>();
-            mock.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+            var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
             Handler = new AddressSystemFromZipCode.Handler(mockCache.Object, mock.Object);
         }

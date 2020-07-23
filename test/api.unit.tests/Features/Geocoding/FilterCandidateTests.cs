@@ -17,8 +17,7 @@ using Xunit;
 namespace api.tests.Features.Geocoding {
     public class FilterCandidateTests {
         static FilterCandidateTests() {
-            var logger = new Mock<ILogger>();
-            logger.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+            var logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
             Handler = new FilterCandidates.Handler(logger.Object);
         }

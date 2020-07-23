@@ -81,8 +81,7 @@ namespace api.tests.Features.Geocoding {
                     }
                 });
 
-                var logger = new Mock<ILogger>();
-                logger.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+                var logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
                 Handler = new GeocodePlan.Handler(options.Object, logger.Object);
             }
