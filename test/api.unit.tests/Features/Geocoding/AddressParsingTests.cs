@@ -17,8 +17,7 @@ namespace api.tests.Features.Geocoding {
             var abbreviations = new Abbreviations();
             var regex = new RegexCache(abbreviations);
 
-            var mock = new Mock<ILogger>();
-            mock.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+            var mock = new Mock<ILogger> { DefaultValue = DefaultValue.Mock };
 
             _handler = new AddressParsing.Handler(regex, abbreviations, mock.Object);
         }

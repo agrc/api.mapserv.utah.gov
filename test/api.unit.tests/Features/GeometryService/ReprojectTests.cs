@@ -28,8 +28,7 @@ namespace api.tests.Features.GeometryService {
         private readonly ILogger _log;
 
         public ReprojectTests() {
-            var logger = new Mock<ILogger>();
-            logger.Setup(x => x.ForContext<It.IsAnyType>()).Returns(new Mock<ILogger>().Object);
+            var logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
             _log = logger.Object;
         }
