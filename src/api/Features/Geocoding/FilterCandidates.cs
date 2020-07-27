@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
@@ -34,26 +36,27 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             internal string Street { get; set; }
             internal string Zone { get; set; }
             internal AddressWithGrids GeocodedAddress { get; set; }
-            internal bool FilterByScore { get; }
             internal IList<Candidate> Candidates { get; }
         }
 
-        public class Handler : ComputationHandler<Computation, GeocodeAddressApiResponse> {
+        public class Handler : IComputationHandler<Computation, GeocodeAddressApiResponse> {
             private readonly ILogger _log;
+            private readonly IFilterSuggestionFactory _filterStrategyFactory;
 
-            public Handler(ILogger log) {
+            public Handler(IFilterSuggestionFactory filterStrategyFactory, ILogger log) {
+                _filterStrategyFactory = filterStrategyFactory;
                 _log = log?.ForContext<FilterCandidates>();
             }
 
-            protected override GeocodeAddressApiResponse Handle(Computation request) {
+            public Task<GeocodeAddressApiResponse> Handle(Computation request, CancellationToken cancellation) {
                 if (request.Candidates == null || !request.Candidates.Any()) {
                     _log.Debug("No request.Candidates found for {address} with {options}", request.GeocodedAddress,
                                request.GeocodeOptions);
 
-                    return new GeocodeAddressApiResponse {
+                    return Task.FromResult(new GeocodeAddressApiResponse {
                         InputAddress = $"{request.Street}, {request.Zone}",
                         Score = -1
-                    };
+                    });
                 }
 
                 _log.Debug("Choosing result from grids {grids} with a score >= {score}",
@@ -89,7 +92,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 if (result.Location == null && request.GeocodeOptions.Suggest == 0) {
                     _log.Debug("The result had no location {result}", result);
 
-                    return null;
+                    return Task.FromResult((GeocodeAddressApiResponse)null);
                 }
 
                 var model = result.ToResponseObject(request.Street, request.Zone);
@@ -103,7 +106,12 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     model.StandardizedAddress = standard;
                 }
 
-                return model;
+                if (request.GeocodeOptions.Suggest > 0) {
+                    var strategy = _filterStrategyFactory.GetStrategy(request.GeocodeOptions.AcceptScore);
+                    model.Candidates = strategy.Filter(model.Candidates);
+                }
+
+                return Task.FromResult(model);
             }
         }
     }
