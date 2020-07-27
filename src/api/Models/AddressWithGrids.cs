@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using api.mapserv.utah.gov.Models.Linkables;
+using AGRC.api.Models.Linkables;
 
-namespace api.mapserv.utah.gov.Models
+namespace AGRC.api.Models
 {
   public class AddressWithGrids : CleansedAddress
   {

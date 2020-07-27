@@ -1,11 +1,11 @@
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Features.GeometryService;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.RequestOptions;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Features.GeometryService;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.ArcGis;
+using AGRC.api.Models.RequestOptions;
 using Moq;
 using Serilog;
 using Shouldly;

@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Conventions;
-using api.mapserv.utah.gov.Filters;
-using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Conventions;
+using AGRC.api.Filters;
+using AGRC.api.Models.RequestOptions;
+using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     /// <inheritdoc />
     /// <summary>
     ///     Geocoding API Methods

@@ -1,7 +1,7 @@
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models.ArcGis {
+namespace AGRC.api.Models.ArcGis {
     public class Candidate {
         private string _address;
 

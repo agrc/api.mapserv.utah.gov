@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Models;
+using AGRC.api.Models;
 
-namespace api.mapserv.utah.gov.Services {
+namespace AGRC.api.Services {
     public class PostmanApiKeyRepository : IApiKeyRepository {
         public Task<ApiKey> GetKey(string key) {
             if (key.ToLowerInvariant() == "postman") {

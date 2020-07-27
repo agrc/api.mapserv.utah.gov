@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models.ResponseContracts {
+namespace AGRC.api.Models.ResponseContracts {
     public class ApiResponseContract {
         [JsonProperty(PropertyName = "status")]
         public int Status { get; set; }

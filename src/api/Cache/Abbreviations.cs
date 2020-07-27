@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using api.mapserv.utah.gov.Models.Constants;
+using AGRC.api.Models.Constants;
 
-namespace api.mapserv.utah.gov.Cache {
+namespace AGRC.api.Cache {
     public class Abbreviations : IAbbreviations {
         public Dictionary<StreetType, string> StreetTypeAbbreviations => new Dictionary<StreetType, string> {
             {

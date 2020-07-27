@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.RequestOptions;
+using AGRC.api.Cache;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.ArcGis;
+using AGRC.api.Models.RequestOptions;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public class PoBoxLocation {
         public class Computation : IComputation<Candidate>, IHasGeocodingOptions {
             internal readonly AddressWithGrids Address;

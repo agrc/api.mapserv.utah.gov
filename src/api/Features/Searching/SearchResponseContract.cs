@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace api.mapserv.utah.gov.Features.Searching {
+namespace AGRC.api.Features.Searching {
     public class SearchResponseContract {
         [JsonProperty(PropertyName = "geometry")]
         public JObject Geometry { get; set; }

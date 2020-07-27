@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.Linkables;
+using AGRC.api.Cache;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models.Linkables;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public class AddressSystemFromZipCode {
         public class Computation : IComputation<IReadOnlyCollection<GridLinkable>> {
             internal readonly string Zip;

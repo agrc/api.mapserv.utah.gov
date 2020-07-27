@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using api.mapserv.utah.gov.Models.ArcGis;
+using AGRC.api.Models.ArcGis;
 using Autofac;
 using Microsoft.AspNetCore.Http;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public interface IFilterSuggestionFactory {
         IFilterSuggestionStrategy GetStrategy(int acceptScore);
     }

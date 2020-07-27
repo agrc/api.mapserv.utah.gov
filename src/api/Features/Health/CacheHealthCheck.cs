@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using StackExchange.Redis;
 
-namespace api.mapserv.utah.gov.Features.Health {
+namespace AGRC.api.Features.Health {
     public class CacheHealthCheck : IHealthCheck {
         public string Name => nameof(CacheHealthCheck);
 

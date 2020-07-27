@@ -1,11 +1,11 @@
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Models;
+using AGRC.api.Models;
 using MediatR.Pipeline;
 using Newtonsoft.Json;
 using SqlQuery;
 
-namespace api.mapserv.utah.gov.Features.Searching {
+namespace AGRC.api.Features.Searching {
     public class SqlPreProcessor : IRequestPreProcessor<Command> {
         public Task Process(Command request, CancellationToken cancellationToken) {
             var hasWhere = false;

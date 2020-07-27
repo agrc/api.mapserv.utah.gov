@@ -1,8 +1,8 @@
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.mapserv.utah.gov.Conventions {
+namespace AGRC.api.Conventions {
     public static class ApiConventions {
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponseContract))]

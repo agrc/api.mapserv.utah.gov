@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using api.mapserv.utah.gov.Models.Constants;
+using AGRC.api.Models.Constants;
 
-namespace api.mapserv.utah.gov.Cache {
+namespace AGRC.api.Cache {
     public interface IAbbreviations {
         Dictionary<StreetType, string> StreetTypeAbbreviations { get; }
         List<Tuple<string, string, bool>> UnitAbbreviations { get; }

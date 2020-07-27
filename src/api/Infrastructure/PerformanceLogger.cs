@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Infrastructure {
+namespace AGRC.api.Infrastructure {
     public class PerformanceLogger<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> {
         private readonly Stopwatch _timer;
         private readonly ILogger _log;

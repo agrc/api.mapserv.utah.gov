@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using api.mapserv.utah.gov.Comparers;
-using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Services;
+using AGRC.api.Comparers;
+using AGRC.api.Models.ArcGis;
+using AGRC.api.Services;
 using Shouldly;
 using Xunit;
 

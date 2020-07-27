@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace api.mapserv.utah.gov.Services {
+namespace AGRC.api.Services {
     /// <summary>
     ///     List that keeps a sorted amount of N items
     /// </summary>

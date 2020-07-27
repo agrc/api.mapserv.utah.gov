@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace api.mapserv.utah.gov.Models.RequestOptions {
+namespace AGRC.api.Models.RequestOptions {
     public class ProjectableOptions : OptionBase {
         /// <summary>
         ///     The spatial reference for the output and input geometries.

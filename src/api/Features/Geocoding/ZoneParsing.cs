@@ -2,13 +2,13 @@ using System;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.Linkables;
+using AGRC.api.Cache;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.Linkables;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public class ZoneParsing {
         public class Computation : IComputation<AddressWithGrids> {
             public Computation(string inputZone, AddressWithGrids addressModel) {

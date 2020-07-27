@@ -3,13 +3,13 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Formatters;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ArcGis;
+using AGRC.api.Formatters;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.ArcGis;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public class ReverseGeocode {
         public class Computation : IComputation<ReverseGeocodeRestResponse> {
             internal readonly LocatorProperties Locator;

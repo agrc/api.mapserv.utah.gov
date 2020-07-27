@@ -3,12 +3,12 @@ using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Models.Configuration;
-using api.mapserv.utah.gov.Models.Constants;
+using AGRC.api.Models.Configuration;
+using AGRC.api.Models.Constants;
 using Dapper;
 using MediatR;
 using Microsoft.Extensions.Options;
-using api.mapserv.utah.gov.Features.Searching;
+using AGRC.api.Features.Searching;
 
 namespace SqlQuery {
     public class Command : IRequest<IReadOnlyCollection<SearchResponseContract>> {

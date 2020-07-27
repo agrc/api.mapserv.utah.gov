@@ -1,4 +1,4 @@
-namespace api.mapserv.utah.gov.Models.Configuration {
+namespace AGRC.api.Models.Configuration {
     public abstract class GisServerConfigurationBase {
         public virtual string Protocol { get; set; } = "http";
         public virtual string Host { get; set; } = "localhost";

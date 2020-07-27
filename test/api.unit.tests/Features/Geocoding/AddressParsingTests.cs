@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.Constants;
+using AGRC.api.Cache;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.Constants;
 using Moq;
 using Serilog;
 using Shouldly;

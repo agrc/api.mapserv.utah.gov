@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.Linkables;
+using AGRC.api.Models;
+using AGRC.api.Models.Linkables;
 
-namespace api.mapserv.utah.gov.Cache {
+namespace AGRC.api.Cache {
     public interface ICacheRepository {
         Task<IEnumerable<PlaceGridLink>> GetPlaceNames();
         Task<IEnumerable<ZipGridLink>> GetZipCodes();

@@ -1,6 +1,6 @@
 using System;
 
-namespace api.mapserv.utah.gov.Exceptions {
+namespace AGRC.api.Exceptions {
     public class GeocodingException : Exception {
         public GeocodingException(string message, Exception innerException)
             : base(message, innerException) {

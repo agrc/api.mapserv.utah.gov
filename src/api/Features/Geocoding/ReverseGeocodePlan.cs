@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.Configuration;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public class ReverseGeocodePlan {
         public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {
             internal double _x;

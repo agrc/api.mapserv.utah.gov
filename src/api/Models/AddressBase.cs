@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
-using api.mapserv.utah.gov.Models.Constants;
+using AGRC.api.Models.Constants;
 
-namespace api.mapserv.utah.gov.Models {
+namespace AGRC.api.Models {
     public abstract class AddressBase {
         protected AddressBase() {
 

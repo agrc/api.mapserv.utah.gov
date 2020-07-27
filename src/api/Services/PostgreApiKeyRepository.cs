@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.Configuration;
-using api.mapserv.utah.gov.Models.Linkables;
+using AGRC.api.Cache;
+using AGRC.api.Models;
+using AGRC.api.Models.Configuration;
+using AGRC.api.Models.Linkables;
 using Dapper;
 using Microsoft.Extensions.Options;
 using Npgsql;
 
-namespace api.mapserv.utah.gov.Services {
+namespace AGRC.api.Services {
     public class PostgreApiKeyRepository : IApiKeyRepository, ICacheRepository {
         private const string ApiKeyByKey = @"SELECT key,
                    account_id,

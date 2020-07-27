@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Reflection;
-using api.mapserv.utah.gov.Extensions;
-using api.mapserv.utah.gov.Features.Health;
-using api.mapserv.utah.gov.Infrastructure;
+using AGRC.api.Extensions;
+using AGRC.api.Features.Health;
+using AGRC.api.Infrastructure;
 using Autofac;
 using MediatR;
 using MediatR.Pipeline;
@@ -22,11 +22,11 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using CorrelationId.DependencyInjection;
 using CorrelationId;
 using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Features.GeometryService;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Models;
+using AGRC.api.Features.GeometryService;
 
-namespace api.mapserv.utah.gov {
+namespace AGRC.api {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;

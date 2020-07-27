@@ -1,7 +1,7 @@
 using System.ComponentModel;
-using api.mapserv.utah.gov.Models.Constants;
+using AGRC.api.Models.Constants;
 
-namespace api.mapserv.utah.gov.Models.RequestOptions {
+namespace AGRC.api.Models.RequestOptions {
     /// <summary>
     ///     The options available for geocoding
     /// </summary>

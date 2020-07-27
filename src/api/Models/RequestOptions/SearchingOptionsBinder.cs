@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Models.Constants;
+using AGRC.api.Models.Constants;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace api.mapserv.utah.gov.Models.RequestOptions {
+namespace AGRC.api.Models.RequestOptions {
     public class SearchingOptionsBinder : IModelBinder {
         private const string versionKey = "version";
         private AttributeStyle attributeStyle = AttributeStyle.Lower;

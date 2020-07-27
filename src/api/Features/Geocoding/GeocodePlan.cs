@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.Configuration;
-using api.mapserv.utah.gov.Models.Constants;
-using api.mapserv.utah.gov.Models.RequestOptions;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.Configuration;
+using AGRC.api.Models.Constants;
+using AGRC.api.Models.RequestOptions;
 using Microsoft.Extensions.Options;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public class GeocodePlan {
         public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {
             internal readonly AddressWithGrids Address;

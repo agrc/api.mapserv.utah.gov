@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models {
+namespace AGRC.api.Models {
     /// <summary>
     ///     Point model for points
     /// </summary>

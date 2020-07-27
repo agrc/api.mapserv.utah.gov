@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models.ResponseContracts;
 using EsriJson.Net;
 using Newtonsoft.Json.Linq;
 
-namespace api.mapserv.utah.gov.Features.Converting {
+namespace AGRC.api.Features.Converting {
     public class EsriGraphic {
         public class Computation : IComputation<ApiResponseContract<Graphic>> {
             internal readonly ApiResponseContract<SingleGeocodeResponseContract> Container;

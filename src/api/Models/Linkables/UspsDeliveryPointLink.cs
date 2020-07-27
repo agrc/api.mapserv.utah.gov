@@ -1,6 +1,6 @@
 using System;
 
-namespace api.mapserv.utah.gov.Models.Linkables {
+namespace AGRC.api.Models.Linkables {
     public class UspsDeliveryPointLink : ZipGridLink {
         public string MatchAddress { get; set; }
         public double X { get; set; }

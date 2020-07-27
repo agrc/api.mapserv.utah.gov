@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace api.mapserv.utah.gov.Infrastructure
+namespace AGRC.api.Infrastructure
 {
     public interface IComputation<TResult> {}
 

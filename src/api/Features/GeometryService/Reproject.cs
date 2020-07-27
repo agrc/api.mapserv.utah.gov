@@ -4,17 +4,17 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Formatters;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.Configuration;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Formatters;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.ArcGis;
+using AGRC.api.Models.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.GeometryService {
+namespace AGRC.api.Features.GeometryService {
     public class Reproject {
         public class Computation : IComputation<ReprojectResponse<Point>> {
             public Computation(PointReprojectOptions options) {

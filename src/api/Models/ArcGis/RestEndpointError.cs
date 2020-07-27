@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace api.mapserv.utah.gov.Models.ArcGis
+namespace AGRC.api.Models.ArcGis
 {
     public class RestEndpointError {
         public int Code { get; set; }

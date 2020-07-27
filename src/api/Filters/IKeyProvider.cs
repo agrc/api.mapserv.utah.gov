@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace api.mapserv.utah.gov.Filters {
+namespace AGRC.api.Filters {
     public interface IKeyProvider {
         string Get(HttpRequest request);
     }

@@ -4,15 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Filters;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Filters;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models.RequestOptions;
+using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Searching {
+namespace AGRC.api.Features.Searching {
     /// <inheritdoc />
     /// <summary>
     ///     Searching API Methods

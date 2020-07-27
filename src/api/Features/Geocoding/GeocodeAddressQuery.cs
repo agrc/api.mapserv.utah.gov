@@ -2,18 +2,18 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Comparers;
-using api.mapserv.utah.gov.Extensions;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Services;
+using AGRC.api.Comparers;
+using AGRC.api.Extensions;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.RequestOptions;
+using AGRC.api.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Models.ResponseContracts;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public class GeocodeAddressQuery {
         public class Query : IRequest<ObjectResult> {
             internal readonly string Street;

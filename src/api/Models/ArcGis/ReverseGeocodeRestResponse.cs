@@ -1,4 +1,4 @@
-namespace api.mapserv.utah.gov.Models.ArcGis {
+namespace AGRC.api.Models.ArcGis {
     public class ReverseGeocodeRestResponse : RestErrorable {
         public ReverseMatchAddress Address { get; set; }
 

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Features.Converting;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Filters;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Features.Converting;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Filters;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models.ResponseContracts;
 using EsriJson.Net;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;

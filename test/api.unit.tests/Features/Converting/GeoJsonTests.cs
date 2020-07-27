@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Features.Converting;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Features.Converting;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models.ArcGis;
+using AGRC.api.Models.ResponseContracts;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using Newtonsoft.Json;
 using Shouldly;
 using Xunit;
-using Point = api.mapserv.utah.gov.Models.Point;
+using Point = AGRC.api.Models.Point;
 
 namespace api.tests.Features.Converting {
     public class GeoJsonTests {

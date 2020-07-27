@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Models.Constants;
+using AGRC.api.Models.Constants;
 using MediatR;
 
-namespace api.mapserv.utah.gov.Features.Searching {
+namespace AGRC.api.Features.Searching {
     public class KeyFormatting {
         public class Pipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
             where TRequest : SqlQuery.Command

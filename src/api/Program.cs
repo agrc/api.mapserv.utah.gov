@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Cache;
+using AGRC.api.Cache;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Sinks.GoogleCloudLogging;
 
-namespace api.mapserv.utah.gov {
+namespace AGRC.api {
     public static class Program {
 
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()

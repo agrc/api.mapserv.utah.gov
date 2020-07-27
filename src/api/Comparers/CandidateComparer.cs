@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using api.mapserv.utah.gov.Models.ArcGis;
+using AGRC.api.Models.ArcGis;
 using Fastenshtein;
 
-namespace api.mapserv.utah.gov.Comparers {
+namespace AGRC.api.Comparers {
     /// <inheritdoc />
     /// <summary>
     ///     Compares address candidates by their geocode score

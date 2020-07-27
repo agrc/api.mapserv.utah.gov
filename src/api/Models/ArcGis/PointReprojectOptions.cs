@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models.ArcGis {
+namespace AGRC.api.Models.ArcGis {
     public class PointReprojectOptions {
         public PointReprojectOptions(int currentSpatialReference, int reprojectToSpatialReference,
                                      IReadOnlyCollection<double> coordinates) {

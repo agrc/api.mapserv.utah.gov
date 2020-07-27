@@ -1,4 +1,4 @@
-namespace api.mapserv.utah.gov.Models.Linkables
+namespace AGRC.api.Models.Linkables
 {
   public abstract class GridLinkable : IWeighable
   {

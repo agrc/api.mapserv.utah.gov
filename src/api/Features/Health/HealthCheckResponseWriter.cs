@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Features.Health {
+namespace AGRC.api.Features.Health {
     internal static class HealthCheckResponseWriter {
         public static Task WriteDetailsJson(HttpContext httpContext, HealthReport result) {
             httpContext.Response.ContentType = "application/json";

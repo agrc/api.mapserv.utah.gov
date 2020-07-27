@@ -3,18 +3,18 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Extensions;
-using api.mapserv.utah.gov.Features.GeometryService;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Extensions;
+using AGRC.api.Features.GeometryService;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models;
+using AGRC.api.Models.ArcGis;
+using AGRC.api.Models.RequestOptions;
+using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public class ReverseGeocodeQuery {
         public class Query : IRequest<ObjectResult> {
             internal readonly ReverseGeocodingOptions Options;

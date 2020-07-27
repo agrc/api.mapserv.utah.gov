@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace api.mapserv.utah.gov.Models.RequestOptions {
+namespace AGRC.api.Models.RequestOptions {
     public class ReverseGeocodingOptions : ProjectableOptions {
         /// <summary>
         ///     The distance in meters from the input location to look for an address.

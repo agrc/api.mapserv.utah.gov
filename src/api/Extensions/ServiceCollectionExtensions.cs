@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using api.mapserv.utah.gov.Cache;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Features.Searching;
-using api.mapserv.utah.gov.Filters;
-using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.Configuration;
-using api.mapserv.utah.gov.Services;
+using AGRC.api.Cache;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Features.Searching;
+using AGRC.api.Filters;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models.Configuration;
+using AGRC.api.Services;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +17,7 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
 
-namespace api.mapserv.utah.gov.Extensions {
+namespace AGRC.api.Extensions {
     public static class ServiceCollectionExtensions {
         public static void UseOptions(this IServiceCollection services, IConfiguration config) {
             services.Configure<List<LocatorConfiguration>>(config.GetSection("webapi:locators"));

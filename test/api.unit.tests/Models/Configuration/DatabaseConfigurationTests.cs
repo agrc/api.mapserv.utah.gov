@@ -1,4 +1,4 @@
-using api.mapserv.utah.gov.Models.Configuration;
+using AGRC.api.Models.Configuration;
 using Shouldly;
 using Xunit;
 

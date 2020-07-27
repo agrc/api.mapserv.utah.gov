@@ -1,4 +1,4 @@
-using api.mapserv.utah.gov.Models.ArcGis;
+using AGRC.api.Models.ArcGis;
 using Newtonsoft.Json;
 using Shouldly;
 using Xunit;

@@ -1,5 +1,5 @@
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.Constants;
+using AGRC.api.Models;
+using AGRC.api.Models.Constants;
 using Shouldly;
 using Xunit;
 

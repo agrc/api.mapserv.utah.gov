@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace api.mapserv.utah.gov.Cache {
+namespace AGRC.api.Cache {
     public interface IRegexCache {
         Regex Get(string key);
     }

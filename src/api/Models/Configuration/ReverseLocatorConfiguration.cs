@@ -1,4 +1,4 @@
-namespace api.mapserv.utah.gov.Models.Configuration {
+namespace AGRC.api.Models.Configuration {
     public class ReverseLocatorConfiguration : GisServerConfigurationBase {
         public string DisplayName { get; set; }
         public string ServiceName { get; set; }

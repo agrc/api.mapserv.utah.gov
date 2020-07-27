@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.Linkables;
+using AGRC.api.Models;
+using AGRC.api.Models.Linkables;
 
-namespace api.mapserv.utah.gov.Cache {
+namespace AGRC.api.Cache {
     public class LookupCache : ILookupCache {
         public LookupCache(ICacheRepository repo) {
             Repo = repo;

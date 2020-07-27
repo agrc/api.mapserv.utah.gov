@@ -1,8 +1,8 @@
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ArcGis;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Models;
+using AGRC.api.Models.ArcGis;
 
-namespace api.mapserv.utah.gov.Extensions {
+namespace AGRC.api.Extensions {
     public static class ConversionExtensions {
         public static SingleGeocodeResponseContract ToResponseObject(this Candidate candidate, string street, string zone) =>
             new SingleGeocodeResponseContract {

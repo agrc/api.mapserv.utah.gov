@@ -1,9 +1,9 @@
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Infrastructure;
+using AGRC.api.Infrastructure;
 
-namespace api.mapserv.utah.gov.Features.Searching {
+namespace AGRC.api.Features.Searching {
     public class ValidateSql {
         public class Computation : IComputation<bool> {
             public Computation(string sql) {

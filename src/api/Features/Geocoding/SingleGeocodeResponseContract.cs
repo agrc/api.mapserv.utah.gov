@@ -1,8 +1,8 @@
 ﻿using System;
-using api.mapserv.utah.gov.Models;
+using AGRC.api.Models;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Features.Geocoding {
+namespace AGRC.api.Features.Geocoding {
     public class SingleGeocodeResponseContract : Suggestable {
         private double _scoreDifference;
 

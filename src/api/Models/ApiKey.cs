@@ -1,4 +1,4 @@
-namespace api.mapserv.utah.gov.Models {
+namespace AGRC.api.Models {
     public class ApiKey {
         public enum ApplicationStatus {
             Development,

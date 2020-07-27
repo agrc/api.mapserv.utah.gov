@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Models;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Models;
 using Shouldly;
 using Xunit;
 

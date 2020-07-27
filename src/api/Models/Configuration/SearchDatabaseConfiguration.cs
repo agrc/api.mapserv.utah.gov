@@ -1,4 +1,4 @@
-namespace api.mapserv.utah.gov.Models.Configuration {
+namespace AGRC.api.Models.Configuration {
     // TODO Duplicated in developer.mapserv.utah.gov
     public class SearchDatabaseConfiguration {
         public string Host { get; set; } = "sgid.agrc.utah.gov";

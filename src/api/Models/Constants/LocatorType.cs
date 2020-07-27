@@ -1,4 +1,4 @@
-namespace api.mapserv.utah.gov.Models.Constants {
+namespace AGRC.api.Models.Constants {
     public enum LocatorType {
         Default,
         All,

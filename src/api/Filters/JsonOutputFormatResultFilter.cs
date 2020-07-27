@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Features.Converting;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Infrastructure;
+using AGRC.api.Features.Converting;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Models.ResponseContracts;
 
-namespace api.mapserv.utah.gov.Filters {
+namespace AGRC.api.Filters {
     public class JsonOutputFormatResultFilter : IAsyncResultFilter {
         private readonly IComputeMediator _mediator;
 

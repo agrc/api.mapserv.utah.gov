@@ -5,13 +5,13 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Formatters;
-using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.Configuration;
+using AGRC.api.Formatters;
+using AGRC.api.Models.ArcGis;
+using AGRC.api.Models.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 
-namespace api.mapserv.utah.gov.Features.Health {
+namespace AGRC.api.Features.Health {
     public class GeometryServiceHealthCheck : IHealthCheck {
         private readonly string _url;
         private readonly HttpClient _client;

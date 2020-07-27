@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace api.mapserv.utah.gov.Cache {
+namespace AGRC.api.Cache {
     public class RegexCache : IRegexCache {
         private readonly IAbbreviations _abbreviations;
         private readonly Dictionary<string, Regex> _regexDictionary;

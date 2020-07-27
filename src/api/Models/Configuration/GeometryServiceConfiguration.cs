@@ -1,4 +1,4 @@
-namespace api.mapserv.utah.gov.Models.Configuration {
+namespace AGRC.api.Models.Configuration {
     public class GeometryServiceConfiguration : GisServerConfigurationBase {
         // http://localhost:6080/arcgis/rest/services/Geometry/GeometryServer/project?f=json&amp;{0}
         private const string Template = "{Host}/{ServiceLocation}/project{0}";

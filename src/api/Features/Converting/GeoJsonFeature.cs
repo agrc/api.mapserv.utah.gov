@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Features.Geocoding;
-using api.mapserv.utah.gov.Infrastructure;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Infrastructure;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using Newtonsoft.Json.Linq;
-using api.mapserv.utah.gov.Models.ResponseContracts;
+using AGRC.api.Models.ResponseContracts;
 
-namespace api.mapserv.utah.gov.Features.Converting {
+namespace AGRC.api.Features.Converting {
     public class GeoJsonFeature {
         public class Computation : IComputation<ApiResponseContract<Feature>> {
             internal readonly ApiResponseContract<SingleGeocodeResponseContract> Container;

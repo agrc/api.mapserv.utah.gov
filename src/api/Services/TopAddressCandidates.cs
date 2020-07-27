@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using api.mapserv.utah.gov.Models.ArcGis;
+using AGRC.api.Models.ArcGis;
 
-namespace api.mapserv.utah.gov.Services {
+namespace AGRC.api.Services {
     public class TopAddressCandidates : TopNList<Candidate> {
         public TopAddressCandidates(int size, IComparer<Candidate> comparer)
             : base(ChooseSize(size), comparer) {

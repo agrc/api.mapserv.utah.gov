@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR.Pipeline;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Infrastructure
+namespace AGRC.api.Infrastructure
 {
     public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest> {
         private readonly ILogger _log;

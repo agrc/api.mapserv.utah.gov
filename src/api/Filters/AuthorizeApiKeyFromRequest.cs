@@ -3,15 +3,15 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ResponseContracts;
-using api.mapserv.utah.gov.Services;
+using AGRC.api.Models;
+using AGRC.api.Models.ResponseContracts;
+using AGRC.api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 
-namespace api.mapserv.utah.gov.Filters {
+namespace AGRC.api.Filters {
     public class AuthorizeApiKeyFromRequest : IAsyncResourceFilter {
         private const int BadRequest = (int)HttpStatusCode.BadRequest;
         private readonly IBrowserKeyProvider _apiKeyProvider;

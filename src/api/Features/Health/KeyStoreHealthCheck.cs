@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using api.mapserv.utah.gov.Models.Configuration;
+using AGRC.api.Models.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Npgsql;
 
-namespace api.mapserv.utah.gov.Features.Health {
+namespace AGRC.api.Features.Health {
     public class KeyStoreHealthCheck : IHealthCheck {
         private readonly string _connectionString;
 

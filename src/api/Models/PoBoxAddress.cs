@@ -1,6 +1,6 @@
 using System;
 
-namespace api.mapserv.utah.gov.Models {
+namespace AGRC.api.Models {
     public class PoBoxAddress {
         public PoBoxAddress(int zip, decimal x, decimal y) {
             Zip = zip;
