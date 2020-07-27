@@ -69,7 +69,7 @@
       }
     },
     {
-      "name": "geocode sample",
+      "name": "geocode - single",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -83,6 +83,27 @@
         "action": "openExternally",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
         "uriFormat": "%s/api/v1/geocode/326%20east%20south%20temple%20st/slc?apikey=AGRC-Explorer"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:1337"
+      }
+    },
+    {
+      "name": "geocode - reverse",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/api",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/api/v1/geocode/reverse/430178/4506818?distance=17&apiKey=AGRC-Explorer"
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
