@@ -1,11 +1,10 @@
-using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Converting;
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ApiResponses;
-using api.mapserv.utah.gov.Models.ResponseObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 
 namespace api.mapserv.utah.gov.Filters {
     public class JsonOutputFormatResultFilter : IAsyncResultFilter {
@@ -25,7 +24,7 @@ namespace api.mapserv.utah.gov.Filters {
 
             var response = context.Result as ObjectResult;
 
-            if (response.Value is ApiResponseContainer<GeocodeAddressApiResponse> container) {
+            if (response.Value is ApiResponseContract<SingleGeocodeResponseContract> container) {
                 switch (format.ToString().ToLowerInvariant()) {
                     case "geojson": {
                         var command = new GeoJsonFeature.Computation(container);

@@ -1,8 +1,9 @@
-using System;
+﻿using System;
+using api.mapserv.utah.gov.Models;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models.ResponseObjects {
-    public class ReverseGeocodeApiResponse {
+namespace api.mapserv.utah.gov.Features.Geocoding {
+    public class ReverseGeocodeResponseContract {
         [JsonProperty(PropertyName = "address", Order = 0)]
         public string Address { get; set; }
 

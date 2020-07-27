@@ -7,10 +7,9 @@ using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Features.GeometryService;
 using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Models.ResponseObjects;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -51,7 +50,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                             .ForContext("options", request.Options)
                             .Fatal("reproject failed: {@error}", pointReprojectResponse?.Error);
 
-                        return new ObjectResult(new ApiResponseContainer {
+                        return new ObjectResult(new ApiResponseContract {
                             Message = "We could not reproject your input location. " +
                                       "Please check your input coordinates and well known id value.",
                             Status = (int)HttpStatusCode.InternalServerError
@@ -74,7 +73,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 if (plan == null || !plan.Any()) {
                     _log.Fatal("no plan generated");
 
-                    return new NotFoundObjectResult(new ApiResponseContainer {
+                    return new NotFoundObjectResult(new ApiResponseContract {
                         Message = $"No address candidates found within {request.Options.Distance} meters of {x}, {y}.",
                         Status = (int)HttpStatusCode.NotFound
                     });
@@ -87,7 +86,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     var response = await _computeMediator.Handle(reverseGeocodeComputation, default);
 
                     if (response == null) {
-                        return new NotFoundObjectResult(new ApiResponseContainer {
+                        return new NotFoundObjectResult(new ApiResponseContract {
                             Message = $"No address candidates found within {request.Options.Distance} meters of {x}, {y}.",
                             Status = (int)HttpStatusCode.NotFound
                         });
@@ -95,14 +94,14 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                     var result = response.ToResponseObject(request.Location);
 
-                    return new OkObjectResult(new ApiResponseContainer<ReverseGeocodeApiResponse> {
+                    return new OkObjectResult(new ApiResponseContract<ReverseGeocodeResponseContract> {
                         Result = result,
                         Status = (int)HttpStatusCode.OK
                     });
                 } catch (Exception ex) {
                     _log.Fatal(ex, "error reverse geocoding {plan}", plan);
 
-                    return new ObjectResult(new ApiResponseContainer {
+                    return new ObjectResult(new ApiResponseContract {
                         Message = "There was a problem handling your request.",
                         Status = (int)HttpStatusCode.InternalServerError
                     }) {

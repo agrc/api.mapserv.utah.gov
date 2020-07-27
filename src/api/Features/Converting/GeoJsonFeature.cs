@@ -2,26 +2,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ApiResponses;
-using api.mapserv.utah.gov.Models.ResponseObjects;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using Newtonsoft.Json.Linq;
-using Point = GeoJSON.Net.Geometry.Point;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 
 namespace api.mapserv.utah.gov.Features.Converting {
     public class GeoJsonFeature {
-        public class Computation : IComputation<ApiResponseContainer<Feature>> {
-            internal readonly ApiResponseContainer<GeocodeAddressApiResponse> Container;
+        public class Computation : IComputation<ApiResponseContract<Feature>> {
+            internal readonly ApiResponseContract<SingleGeocodeResponseContract> Container;
 
-            public Computation(ApiResponseContainer<GeocodeAddressApiResponse> container) {
+            public Computation(ApiResponseContract<SingleGeocodeResponseContract> container) {
                 Container = container;
             }
         }
 
-        public class Handler : IComputationHandler<Computation, ApiResponseContainer<Feature>> {
-            public Task<ApiResponseContainer<Feature>> Handle(Computation request, CancellationToken cancellationToken) {
+        public class Handler : IComputationHandler<Computation, ApiResponseContract<Feature>> {
+            public Task<ApiResponseContract<Feature>> Handle(Computation request, CancellationToken cancellationToken) {
                 IGeometryObject geometry = null;
                 var attributes = new Dictionary<string, object>();
                 var message = request.Container.Message;
@@ -36,7 +35,7 @@ namespace api.mapserv.utah.gov.Features.Converting {
                 }
 
                 if (geometry == null && attributes.Count < 1) {
-                    return Task.FromResult(new ApiResponseContainer<Feature> {
+                    return Task.FromResult(new ApiResponseContract<Feature> {
                         Status = status,
                         Message = message
                     });
@@ -46,7 +45,7 @@ namespace api.mapserv.utah.gov.Features.Converting {
                     new Feature(geometry,
                                 attributes.Where(x => x.Value != null).ToDictionary(x => x.Key, y => y.Value));
 
-                var responseContainer = new ApiResponseContainer<Feature> {
+                var responseContainer = new ApiResponseContract<Feature> {
                     Result = feature,
                     Status = status,
                     Message = message

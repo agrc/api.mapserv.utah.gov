@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Searching;
-using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.Constants;
 using MediatR;
 using Shouldly;
@@ -11,12 +10,12 @@ using Xunit;
 
 namespace api.tests.Features.Searching {
     public class KeyFormattingTests {
-        private readonly KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>> _handler;
-        private readonly IReadOnlyCollection<SearchApiResponse> _data;
+        private readonly KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchResponseContract>> _handler;
+        private readonly IReadOnlyCollection<SearchResponseContract> _data;
 
         public KeyFormattingTests() {
-            _data = new List<SearchApiResponse>{
-                new SearchApiResponse {
+            _data = new List<SearchResponseContract>{
+                new SearchResponseContract {
                     Attributes = new Dictionary<string, object>() {
                         { "UPPER", 0 },
                         { "MixeD", 0 },
@@ -25,7 +24,7 @@ namespace api.tests.Features.Searching {
                 }
             };
 
-            _handler = new KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>();
+            _handler = new KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchResponseContract>>();
         }
 
         [Fact]

@@ -1,12 +1,10 @@
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using api.mapserv.utah.gov.Models.Constants;
 
 namespace api.mapserv.utah.gov.Models {
     public abstract class AddressBase {
         protected AddressBase() {
-            
+
         }
 
         protected AddressBase(string inputAddress, int? houseNumber, double milepost, int poBox,

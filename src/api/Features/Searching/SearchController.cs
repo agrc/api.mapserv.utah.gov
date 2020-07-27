@@ -6,8 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.RequestOptions;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -48,10 +48,10 @@ namespace api.mapserv.utah.gov.Features.Searching {
         /// <param name="returnValues">A comma separated string of attributes to return values for eg: NAME,FIPS. To include the geometry use the shape@ token or if you want the envelope use the shape@envelope token</param>
         /// <param name="options"></param>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(ApiResponseContainer<SearchApiResponse>))]
-        [ProducesResponseType(400, Type = typeof(ApiResponseContainer))]
-        [ProducesResponseType(404, Type = typeof(ApiResponseContainer))]
-        [ProducesResponseType(500, Type = typeof(ApiResponseContainer))]
+        [ProducesResponseType(200, Type = typeof(ApiResponseContract<SearchResponseContract>))]
+        [ProducesResponseType(400, Type = typeof(ApiResponseContract))]
+        [ProducesResponseType(404, Type = typeof(ApiResponseContract))]
+        [ProducesResponseType(500, Type = typeof(ApiResponseContract))]
         [Route("api/v{version:apiVersion}/search/{tableName}/{returnValues}")]
         public async Task<ObjectResult> Get(string tableName, string returnValues, SearchingOptions options) {
             _log.Debug("Searching {tableName} for {returnValues} with options: {options}", tableName, returnValues, options);
@@ -75,7 +75,7 @@ namespace api.mapserv.utah.gov.Features.Searching {
             if (options == null) {
                 errors += "Search options did not bind correctly. Sorry. ";
 
-                return BadRequest(new ApiResponseContainer<SearchApiResponse> {
+                return BadRequest(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = errors
                 });
@@ -87,7 +87,7 @@ namespace api.mapserv.utah.gov.Features.Searching {
             }
 
             if (errors.Length > 0) {
-                return BadRequest(new ApiResponseContainer<SearchApiResponse> {
+                return BadRequest(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = errors
                 });
@@ -99,7 +99,7 @@ namespace api.mapserv.utah.gov.Features.Searching {
             var isStraightSql = !returnValues.ToUpperInvariant().Contains("SHAPE@") &&
                                 string.IsNullOrEmpty(options.Geometry);
 
-            IReadOnlyCollection<SearchApiResponse> result = Array.Empty<SearchApiResponse>();
+            IReadOnlyCollection<SearchResponseContract> result = Array.Empty<SearchResponseContract>();
 
             try {
                 result = await _mediator.Send(new SqlQuery.Command(tableName, returnValues, options.Predicate, options.AttributeStyle, options.Geometry), default);
@@ -120,13 +120,13 @@ namespace api.mapserv.utah.gov.Features.Searching {
                     message = $"The table `{tableName}` probably does not exist. Check your spelling.";
                 }
 
-                return BadRequest(new ApiResponseContainer<SearchApiResponse> {
+                return BadRequest(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = message
                 });
             }
 
-            return Ok(new ApiResponseContainer<IReadOnlyCollection<SearchApiResponse>> {
+            return Ok(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract>> {
                 Result = result,
                 Status = (int)HttpStatusCode.OK
             });

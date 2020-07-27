@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Converting;
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.ResponseObjects;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using Newtonsoft.Json;
@@ -15,13 +15,13 @@ using Point = api.mapserv.utah.gov.Models.Point;
 
 namespace api.tests.Features.Converting {
     public class GeoJsonTests {
-        private readonly IComputationHandler<GeoJsonFeature.Computation, ApiResponseContainer<Feature>> _handler =
+        private readonly IComputationHandler<GeoJsonFeature.Computation, ApiResponseContract<Feature>> _handler =
             new GeoJsonFeature.Handler();
 
         [Fact]
         public async Task Should_convert_to_geojson_feature() {
-            var responseContainer = new ApiResponseContainer<GeocodeAddressApiResponse> {
-                Result = new GeocodeAddressApiResponse {
+            var responseContainer = new ApiResponseContract<SingleGeocodeResponseContract> {
+                Result = new SingleGeocodeResponseContract {
                     Candidates = new Candidate[0],
                     InputAddress = "Input Address",
                     Location = new Point {
@@ -58,7 +58,7 @@ namespace api.tests.Features.Converting {
 
         [Fact]
         public async Task Should_handle_address_not_found() {
-            var responseContainer = new ApiResponseContainer<GeocodeAddressApiResponse> {
+            var responseContainer = new ApiResponseContract<SingleGeocodeResponseContract> {
                 Result = null,
                 Message = "No address candidates found with a score of 70 or better.",
                 Status = 404

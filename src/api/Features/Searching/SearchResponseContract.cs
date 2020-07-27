@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace api.mapserv.utah.gov.Models.ApiResponses {
-    public class SearchApiResponse {
+namespace api.mapserv.utah.gov.Features.Searching {
+    public class SearchResponseContract {
         [JsonProperty(PropertyName = "geometry")]
         public JObject Geometry { get; set; }
 

@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ResponseObjects;
 using Shouldly;
 using Xunit;
 
-namespace api.tests.Models.ApiResponses {
-    public class ReverseGeocodeReponseTests {
+namespace api.tests.Features.Geocoding {
+    public class ReverseGeocodeResponseContractTests {
         public static IEnumerable<object[]> GetPoints() {
             yield return new object[] {
                 new Point(0, 0),
@@ -37,7 +37,7 @@ namespace api.tests.Models.ApiResponses {
         [Theory]
         [MemberData(nameof(GetPoints))]
         public void Should_calculate_distance(Point input, Point match, double? distance) {
-            var model = new ReverseGeocodeApiResponse {
+            var model = new ReverseGeocodeResponseContract {
                 InputPoint = input,
                 MatchPoint = match
             };

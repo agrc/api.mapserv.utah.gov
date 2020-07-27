@@ -2,25 +2,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ApiResponses;
-using api.mapserv.utah.gov.Models.ResponseObjects;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 using EsriJson.Net;
-using EsriJson.Net.Geometry;
 using Newtonsoft.Json.Linq;
 
 namespace api.mapserv.utah.gov.Features.Converting {
     public class EsriGraphic {
-        public class Computation : IComputation<ApiResponseContainer<Graphic>> {
-            internal readonly ApiResponseContainer<GeocodeAddressApiResponse> Container;
+        public class Computation : IComputation<ApiResponseContract<Graphic>> {
+            internal readonly ApiResponseContract<SingleGeocodeResponseContract> Container;
 
-            public Computation(ApiResponseContainer<GeocodeAddressApiResponse> container) {
+            public Computation(ApiResponseContract<SingleGeocodeResponseContract> container) {
                 Container = container;
             }
         }
 
-        public class Handler : IComputationHandler<Computation, ApiResponseContainer<Graphic>> {
-            public Task<ApiResponseContainer<Graphic>> Handle(Computation request, CancellationToken cancellationToken) {
+        public class Handler : IComputationHandler<Computation, ApiResponseContract<Graphic>> {
+            public Task<ApiResponseContract<Graphic>> Handle(Computation request, CancellationToken cancellationToken) {
                 EsriJsonObject geometry = null;
                 var attributes = new Dictionary<string, object>();
                 var message = request.Container.Message;
@@ -28,7 +27,7 @@ namespace api.mapserv.utah.gov.Features.Converting {
                 var result = request.Container.Result;
 
                 if (result?.Location != null) {
-                    geometry = new Point(result.Location.X, result.Location.Y) {
+                    geometry = new EsriJson.Net.Geometry.Point(result.Location.X, result.Location.Y) {
                         CRS = new Crs {
                             WellKnownId = result.Wkid
                         }
@@ -39,7 +38,7 @@ namespace api.mapserv.utah.gov.Features.Converting {
                 }
 
                 if (geometry == null && attributes.Count < 1) {
-                    return Task.FromResult(new ApiResponseContainer<Graphic> {
+                    return Task.FromResult(new ApiResponseContract<Graphic> {
                         Status = status,
                         Message = message
                     });
@@ -49,7 +48,7 @@ namespace api.mapserv.utah.gov.Features.Converting {
                     new Graphic(geometry,
                                 attributes.Where(x => x.Value != null).ToDictionary(x => x.Key, y => y.Value));
 
-                var responseContainer = new ApiResponseContainer<Graphic> {
+                var responseContainer = new ApiResponseContract<Graphic> {
                     Result = graphic,
                     Status = status,
                     Message = message

@@ -2,14 +2,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Converting;
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ApiResponses;
-using api.mapserv.utah.gov.Models.ResponseObjects;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 using EsriJson.Net;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -34,7 +33,7 @@ namespace api.tests.Filters {
             var actionContext = new ActionContext(httpContext, routeData, actionDescription);
             var filterMetadata = new IFilterMetadata[0];
 
-            var actionResult = new ObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse>());
+            var actionResult = new ObjectResult(new ApiResponseContract<SingleGeocodeResponseContract>());
             var controller = new TestController();
 
             var context = new ResultExecutingContext(actionContext, filterMetadata, actionResult, controller);
@@ -70,8 +69,8 @@ namespace api.tests.Filters {
             var result = contexts.ExecutingContext.Result as ObjectResult;
             var result2 = contexts.ExecutedContext.Result as ObjectResult;
 
-            result.Value.ShouldBeOfType<ApiResponseContainer<GeocodeAddressApiResponse>>();
-            result2.Value.ShouldBeOfType<ApiResponseContainer<GeocodeAddressApiResponse>>();
+            result.Value.ShouldBeOfType<ApiResponseContract<SingleGeocodeResponseContract>>();
+            result2.Value.ShouldBeOfType<ApiResponseContract<SingleGeocodeResponseContract>>();
         }
 
         [Fact]
@@ -80,7 +79,7 @@ namespace api.tests.Filters {
             httpContext.Request.QueryString = new QueryString("?format=esriJSON");
 
             var mediator = new Mock<IComputeMediator>();
-            var response = new ApiResponseContainer<Graphic> {
+            var response = new ApiResponseContract<Graphic> {
                 Result = new Graphic(new Point(2, 2), new Dictionary<string, object>())
             };
 
@@ -96,8 +95,8 @@ namespace api.tests.Filters {
             var result = contexts.ExecutingContext.Result as ObjectResult;
             var result2 = contexts.ExecutedContext.Result as ObjectResult;
 
-            result.Value.ShouldBeOfType<ApiResponseContainer<Graphic>>();
-            result2.Value.ShouldBeOfType<ApiResponseContainer<Graphic>>();
+            result.Value.ShouldBeOfType<ApiResponseContract<Graphic>>();
+            result2.Value.ShouldBeOfType<ApiResponseContract<Graphic>>();
         }
 
         [Fact]
@@ -106,7 +105,7 @@ namespace api.tests.Filters {
             httpContext.Request.QueryString = new QueryString("?format=GeoJSON");
 
             var mediator = new Mock<IComputeMediator>();
-            var response = new ApiResponseContainer<Feature> {
+            var response = new ApiResponseContract<Feature> {
                 Result = new Feature(new GeoJSON.Net.Geometry.Point(new Position(1, 1)))
             };
 
@@ -122,8 +121,8 @@ namespace api.tests.Filters {
             var result = contexts.ExecutingContext.Result as ObjectResult;
             var result2 = contexts.ExecutedContext.Result as ObjectResult;
 
-            result.Value.ShouldBeOfType<ApiResponseContainer<Feature>>();
-            result2.Value.ShouldBeOfType<ApiResponseContainer<Feature>>();
+            result.Value.ShouldBeOfType<ApiResponseContract<Feature>>();
+            result2.Value.ShouldBeOfType<ApiResponseContract<Feature>>();
         }
 
         [Fact]
@@ -142,8 +141,8 @@ namespace api.tests.Filters {
             var result = contexts.ExecutingContext.Result as ObjectResult;
             var result2 = contexts.ExecutedContext.Result as ObjectResult;
 
-            result.Value.ShouldBeOfType<ApiResponseContainer<GeocodeAddressApiResponse>>();
-            result2.Value.ShouldBeOfType<ApiResponseContainer<GeocodeAddressApiResponse>>();
+            result.Value.ShouldBeOfType<ApiResponseContract<SingleGeocodeResponseContract>>();
+            result2.Value.ShouldBeOfType<ApiResponseContract<SingleGeocodeResponseContract>>();
         }
     }
 }

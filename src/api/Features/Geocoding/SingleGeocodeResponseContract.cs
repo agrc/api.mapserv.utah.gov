@@ -1,8 +1,9 @@
-using System;
+﻿using System;
+using api.mapserv.utah.gov.Models;
 using Newtonsoft.Json;
 
-namespace api.mapserv.utah.gov.Models.ResponseObjects {
-    public class GeocodeAddressApiResponse : Suggestable {
+namespace api.mapserv.utah.gov.Features.Geocoding {
+    public class SingleGeocodeResponseContract : Suggestable {
         private double _scoreDifference;
 
         [JsonProperty(PropertyName = "location")]

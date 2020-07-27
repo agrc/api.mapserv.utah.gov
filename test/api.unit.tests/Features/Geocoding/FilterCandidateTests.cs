@@ -8,7 +8,6 @@ using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.Linkables;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Models.ResponseObjects;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -25,8 +24,8 @@ namespace api.tests.Features.Geocoding {
             V2Handler = new FilterCandidates.Handler(v2FilterStrategyFactory, logger.Object);
         }
 
-        internal static IComputationHandler<FilterCandidates.Computation, GeocodeAddressApiResponse> V1Handler;
-        internal static IComputationHandler<FilterCandidates.Computation, GeocodeAddressApiResponse> V2Handler;
+        internal static IComputationHandler<FilterCandidates.Computation, SingleGeocodeResponseContract> V1Handler;
+        internal static IComputationHandler<FilterCandidates.Computation, SingleGeocodeResponseContract> V2Handler;
 
         public class AcceptScoreTests {
             [Fact]

@@ -1,12 +1,12 @@
-using api.mapserv.utah.gov.Models.ResponseObjects;
+﻿using api.mapserv.utah.gov.Features.Geocoding;
 using Shouldly;
 using Xunit;
 
-namespace api.tests.Models.ApiResponses {
-    public class GeocodeReponseTests {
+namespace api.tests.Features.Geocoding {
+    public class SingleGeocodeResponseContractTests {
         [Fact]
         public void Should_route_score_difference() {
-            var model = new GeocodeAddressApiResponse {
+            var model = new SingleGeocodeResponseContract {
                 ScoreDifference = 1.1234
             };
 

@@ -3,13 +3,11 @@ using System.IO;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Cache;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Events;
 using Serilog.Sinks.GoogleCloudLogging;
 
 namespace api.mapserv.utah.gov {

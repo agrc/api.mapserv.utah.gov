@@ -7,7 +7,6 @@ using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Features.Searching;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Infrastructure;
-using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.Configuration;
 using api.mapserv.utah.gov.Services;
 using MediatR;
@@ -61,7 +60,8 @@ namespace api.mapserv.utah.gov.Extensions {
 
             services.AddScoped<IFilterSuggestionFactory, FilterSuggestionFactory>();
 
-            services.AddTransient<IPipelineBehavior<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>, KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>>();
+            services.AddTransient<IPipelineBehavior<SqlQuery.Command, IReadOnlyCollection<SearchResponseContract>>,
+                KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchResponseContract>>>();
 
             services.AddTransient<IRequestPreProcessor<SqlQuery.Command>, SqlPreProcessor>();
             services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RequestLogger<>));

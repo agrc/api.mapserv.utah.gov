@@ -8,12 +8,11 @@ using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ArcGis;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Models.ResponseObjects;
 using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class FilterCandidates {
-        public class Computation : IComputation<GeocodeAddressApiResponse> {
+        public class Computation : IComputation<SingleGeocodeResponseContract> {
             public Computation(IList<Candidate> candidates, GeocodingOptions geocodeOptions,
                            string street, string zone, AddressWithGrids geocodedAddress) {
                 GeocodeOptions = geocodeOptions;
@@ -39,7 +38,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             internal IList<Candidate> Candidates { get; }
         }
 
-        public class Handler : IComputationHandler<Computation, GeocodeAddressApiResponse> {
+        public class Handler : IComputationHandler<Computation, SingleGeocodeResponseContract> {
             private readonly ILogger _log;
             private readonly IFilterSuggestionFactory _filterStrategyFactory;
 
@@ -48,13 +47,13 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 _log = log?.ForContext<FilterCandidates>();
             }
 
-            public Task<GeocodeAddressApiResponse> Handle(Computation request, CancellationToken cancellation) {
+            public Task<SingleGeocodeResponseContract> Handle(Computation request, CancellationToken cancellation) {
                 if (request.Candidates == null || !request.Candidates.Any()) {
                     _log.ForContext("address", request.GeocodedAddress)
                         .ForContext("options", request.GeocodeOptions)
                         .Debug("no candidates found");
 
-                    return Task.FromResult(new GeocodeAddressApiResponse {
+                    return Task.FromResult(new SingleGeocodeResponseContract {
                         InputAddress = $"{request.Street}, {request.Zone}",
                         Score = -1
                     });
@@ -96,7 +95,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     _log.ForContext("candidate", result)
                         .Debug("missing location");
 
-                    return Task.FromResult((GeocodeAddressApiResponse)null);
+                    return Task.FromResult((SingleGeocodeResponseContract)null);
                 }
 
                 var model = result.ToResponseObject(request.Street, request.Zone);

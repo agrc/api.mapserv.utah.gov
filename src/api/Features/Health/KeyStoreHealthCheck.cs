@@ -7,7 +7,6 @@ using api.mapserv.utah.gov.Models.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Npgsql;
-using StackExchange.Redis;
 
 namespace api.mapserv.utah.gov.Features.Health {
     public class KeyStoreHealthCheck : IHealthCheck {

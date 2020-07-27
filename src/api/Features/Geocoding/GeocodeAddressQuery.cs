@@ -6,13 +6,12 @@ using api.mapserv.utah.gov.Comparers;
 using api.mapserv.utah.gov.Extensions;
 using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Models.ResponseObjects;
 using api.mapserv.utah.gov.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     public class GeocodeAddressQuery {
@@ -52,9 +51,10 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
 
                 if (errors.Length > 0) {
-                    _log.Debug("Bad geocode request", errors);
+                    _log.ForContext("errors", errors)
+                        .Debug("malformed request");
 
-                    return new BadRequestObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse> {
+                    return new BadRequestObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
                         Status = (int)HttpStatusCode.BadRequest,
                         Message = errors
                     });
@@ -82,9 +82,12 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                             model.StandardizedAddress = standard;
                         }
 
-                        _log.Debug("Result score: {score} from {locator}", model.Score, model.Locator);
+                        _log.ForContext("locator", model.Locator)
+                            .ForContext("score", model.Score)
+                            .ForContext("difference", model.ScoreDifference)
+                            .Debug("match found");
 
-                        return new OkObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse> {
+                        return new OkObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
                             Result = model,
                             Status = (int)HttpStatusCode.OK
                         });
@@ -104,9 +107,12 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                         model.StandardizedAddress = standard;
                     }
 
-                    _log.Debug("Result score: {score} from {locator}", model.Score, model.Locator);
+                    _log.ForContext("locator", model.Locator)
+                        .ForContext("score", model.Score)
+                        .ForContext("difference", model.ScoreDifference)
+                        .Debug("match found");
 
-                    return new OkObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse> {
+                    return new OkObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
                         Result = model,
                         Status = (int)HttpStatusCode.OK
                     });
@@ -122,7 +128,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     _log.ForContext("address", parsedAddress)
                         .Debug("no plan generated");
 
-                    return new NotFoundObjectResult(new ApiResponseContainer {
+                    return new NotFoundObjectResult(new ApiResponseContract {
                         Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
                         Status = (int)HttpStatusCode.NotFound
                     });
@@ -149,7 +155,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                         .ForContext("score", request.Options.AcceptScore)
                         .Warning("no matches found", street, zone, request.Options.AcceptScore);
 
-                    return new NotFoundObjectResult(new ApiResponseContainer {
+                    return new NotFoundObjectResult(new ApiResponseContract {
                         Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
                         Status = (int)HttpStatusCode.NotFound
                     });
@@ -169,7 +175,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     .ForContext("difference", winner.ScoreDifference)
                     .Debug("match found");
 
-                return new OkObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse> {
+                return new OkObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
                     Result = winner,
                     Status = (int)HttpStatusCode.OK
                 });

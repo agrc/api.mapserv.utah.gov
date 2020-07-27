@@ -4,7 +4,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ApiResponses;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 using api.mapserv.utah.gov.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +34,7 @@ namespace api.mapserv.utah.gov.Filters {
             if (string.IsNullOrWhiteSpace(key)) {
                 _log.Debug("API key missing from request");
 
-                var missingResponse = new ApiResponseContainer {
+                var missingResponse = new ApiResponseContract {
                     Status = BadRequest,
                     Message =
                         "Your API key is missing from your request. Add an `apikey={key}` to the request as a query string parameter."
@@ -47,7 +47,7 @@ namespace api.mapserv.utah.gov.Filters {
 
             var apiKey = await _repo.GetKey(key);
 
-            var badKeyResponse = new ApiResponseContainer {
+            var badKeyResponse = new ApiResponseContract {
                 Status = BadRequest,
                 Message = "Your API key does match the pattern created in the developer console. " +
                           $"Check the referrer header on the request with the pattern for the api key `{key}`"
@@ -67,7 +67,7 @@ namespace api.mapserv.utah.gov.Filters {
             if (apiKey.Deleted || apiKey.Enabled == ApiKey.KeyStatus.Disabled) {
                 _log.Information("Attempt to use deleted or disabled key {key}", apiKey);
 
-                context.Result = new BadRequestObjectResult(new ApiResponseContainer {
+                context.Result = new BadRequestObjectResult(new ApiResponseContract {
                     Status = BadRequest,
                     Message = $"{key} is no longer active. It has been disabled or deleted by it's owner."
                 });
@@ -96,7 +96,7 @@ namespace api.mapserv.utah.gov.Filters {
                 if (string.IsNullOrEmpty(referrer.ToString()) && !hasOrigin.Any()) {
                     _log.Information("API key usage without referrer header {key}", apiKey);
 
-                    context.Result = new BadRequestObjectResult(new ApiResponseContainer {
+                    context.Result = new BadRequestObjectResult(new ApiResponseContract {
                         Status = BadRequest,
                         Message =
                             "The http referrer header is missing. Turn off any security solutions that may remove this " +
@@ -134,7 +134,7 @@ namespace api.mapserv.utah.gov.Filters {
                     _log.Information("Invalid api key pattern match {ip} != {host} for {key}", ip, userHostAddress,
                                      apiKey);
 
-                    context.Result = new BadRequestObjectResult(new ApiResponseContainer {
+                    context.Result = new BadRequestObjectResult(new ApiResponseContract {
                         Status = BadRequest,
                         Message =
                             $"Your API key does match the pattern created in the developer console for key `{key}`. " +

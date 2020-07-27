@@ -1,11 +1,11 @@
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.ResponseObjects;
 
 namespace api.mapserv.utah.gov.Extensions {
     public static class ConversionExtensions {
-        public static GeocodeAddressApiResponse
-            ToResponseObject(this Candidate candidate, string street, string zone) => new GeocodeAddressApiResponse {
+        public static SingleGeocodeResponseContract ToResponseObject(this Candidate candidate, string street, string zone) =>
+            new SingleGeocodeResponseContract {
                 MatchAddress = candidate.Address,
                 Score = candidate.Score,
                 Locator = candidate.Locator,
@@ -15,8 +15,8 @@ namespace api.mapserv.utah.gov.Extensions {
                 ScoreDifference = candidate.ScoreDifference
             };
 
-        public static ReverseGeocodeApiResponse ToResponseObject(this ReverseGeocodeRestResponse response,
-                                                                 Point inputPoint) => new ReverseGeocodeApiResponse {
+        public static ReverseGeocodeResponseContract ToResponseObject(this ReverseGeocodeRestResponse response,
+                                                                 Point inputPoint) => new ReverseGeocodeResponseContract {
                                                                      InputPoint = inputPoint,
                                                                      Address = response.Address.Street,
                                                                      Grid = response.Address.City,

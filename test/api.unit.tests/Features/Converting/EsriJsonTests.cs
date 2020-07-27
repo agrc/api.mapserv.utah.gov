@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Features.Converting;
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Infrastructure;
 using api.mapserv.utah.gov.Models;
-using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.ArcGis;
-using api.mapserv.utah.gov.Models.ResponseObjects;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 using EsriJson.Net;
 using Newtonsoft.Json;
 using Shouldly;
@@ -14,13 +14,13 @@ using Xunit;
 
 namespace api.tests.Features.Converting {
     public class EsriJsonTests {
-        private readonly IComputationHandler<EsriGraphic.Computation, ApiResponseContainer<Graphic>> _handler =
+        private readonly IComputationHandler<EsriGraphic.Computation, ApiResponseContract<Graphic>> _handler =
             new EsriGraphic.Handler();
 
         [Fact]
         public async Task Should_convert_to_esri_graphic() {
-            var responseContainer = new ApiResponseContainer<GeocodeAddressApiResponse> {
-                Result = new GeocodeAddressApiResponse {
+            var responseContainer = new ApiResponseContract<SingleGeocodeResponseContract> {
+                Result = new SingleGeocodeResponseContract {
                     Candidates = new Candidate[0],
                     InputAddress = "Input Address",
                     Location = new Point {
@@ -61,7 +61,7 @@ namespace api.tests.Features.Converting {
 
         [Fact]
         public async Task Should_handle_address_not_found() {
-            var responseContainer = new ApiResponseContainer<GeocodeAddressApiResponse> {
+            var responseContainer = new ApiResponseContract<SingleGeocodeResponseContract> {
                 Result = null,
                 Message = "No address candidates found with a score of 70 or better.",
                 Status = 404

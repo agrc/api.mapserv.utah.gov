@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
 using api.mapserv.utah.gov.Conventions;
 using api.mapserv.utah.gov.Filters;
-using api.mapserv.utah.gov.Models.ApiResponses;
 using api.mapserv.utah.gov.Models.RequestOptions;
-using api.mapserv.utah.gov.Models.ResponseObjects;
+using api.mapserv.utah.gov.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,7 +40,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         [HttpGet]
         [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
         [Route("api/v{version:apiVersion}/geocode/reverse/{x:double}/{y:double}")]
-        public async Task<ActionResult<ApiResponseContainer<ReverseGeocodeApiResponse>>> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options) =>
+        public async Task<ActionResult<ApiResponseContract<ReverseGeocodeResponseContract>>> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options) =>
             await _mediator.Send(new ReverseGeocodeQuery.Query(x, y, options));
     }
 }
