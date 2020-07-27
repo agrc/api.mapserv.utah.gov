@@ -21,14 +21,14 @@ namespace api.tests.Features.Geocoding {
         public class LocatorsForReverseGeocodingTests {
             public LocatorsForReverseGeocodingTests() {
                 var options = new Mock<IOptions<List<ReverseLocatorConfiguration>>>();
-                handler = new LocatorsForReverseLookup.Handler(options.Object);
+                handler = new ReverseGeocodePlan.Handler(options.Object);
             }
 
-            internal IComputationHandler<LocatorsForReverseLookup.Computation, IReadOnlyCollection<LocatorProperties>> handler;
+            internal IComputationHandler<ReverseGeocodePlan.Computation, IReadOnlyCollection<LocatorProperties>> handler;
 
             [Fact]
             public async Task Should_return_centerline_geocoder_only() {
-                var request = new LocatorsForReverseLookup.Computation(1, 2, 3, 4);
+                var request = new ReverseGeocodePlan.Computation(1, 2, 3, 4);
                 var options = new Mock<IOptions<List<ReverseLocatorConfiguration>>>();
                 options.Setup(x => x.Value).Returns(new List<ReverseLocatorConfiguration> {
                     new ReverseLocatorConfiguration {
@@ -48,7 +48,7 @@ namespace api.tests.Features.Geocoding {
                     }
                 });
 
-                handler = new LocatorsForReverseLookup.Handler(options.Object);
+                handler = new ReverseGeocodePlan.Handler(options.Object);
 
                 var result = await handler.Handle(request, CancellationToken.None);
 

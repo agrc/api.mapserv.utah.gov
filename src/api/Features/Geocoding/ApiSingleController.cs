@@ -6,7 +6,6 @@ using api.mapserv.utah.gov.Models.RequestOptions;
 using api.mapserv.utah.gov.Models.ResponseObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
     /// <inheritdoc />
@@ -22,12 +21,10 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
     [Produces("application/json")]
     [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
     public class ApiSingleController : ControllerBase {
-        private readonly ILogger _log;
         private readonly IMediator _mediator;
 
-        public ApiSingleController(IMediator mediator, ILogger log) {
+        public ApiSingleController(IMediator mediator) {
             _mediator = mediator;
-            _log = log?.ForContext<ApiSingleController>();
         }
 
         /// <summary>

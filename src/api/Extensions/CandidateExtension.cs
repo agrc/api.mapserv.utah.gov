@@ -6,21 +6,21 @@ namespace api.mapserv.utah.gov.Extensions {
     public static class ConversionExtensions {
         public static GeocodeAddressApiResponse
             ToResponseObject(this Candidate candidate, string street, string zone) => new GeocodeAddressApiResponse {
-            MatchAddress = candidate.Address,
-            Score = candidate.Score,
-            Locator = candidate.Locator,
-            Location = candidate.Location,
-            AddressGrid = candidate.AddressGrid,
-            InputAddress = $"{street}, {zone}",
-            ScoreDifference = candidate.ScoreDifference
-        };
+                MatchAddress = candidate.Address,
+                Score = candidate.Score,
+                Locator = candidate.Locator,
+                Location = candidate.Location,
+                AddressGrid = candidate.AddressGrid,
+                InputAddress = $"{street}, {zone}",
+                ScoreDifference = candidate.ScoreDifference
+            };
 
         public static ReverseGeocodeApiResponse ToResponseObject(this ReverseGeocodeRestResponse response,
                                                                  Point inputPoint) => new ReverseGeocodeApiResponse {
-            InputPoint = inputPoint,
-            Address = response.Address.Street,
-            Grid = response.Address.City,
-            MatchPoint = response.Location
-        };
+                                                                     InputPoint = inputPoint,
+                                                                     Address = response.Address.Street,
+                                                                     Grid = response.Address.City,
+                                                                     MatchPoint = response.Location
+                                                                 };
     }
 }

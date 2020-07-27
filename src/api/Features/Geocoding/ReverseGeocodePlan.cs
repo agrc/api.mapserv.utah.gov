@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,12 +8,12 @@ using api.mapserv.utah.gov.Models.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace api.mapserv.utah.gov.Features.Geocoding {
-    public class LocatorsForReverseLookup {
+    public class ReverseGeocodePlan {
         public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {
-            public double _x;
-            public double _y;
-            public double _distance;
-            public int _spatialReference;
+            internal double _x;
+            internal double _y;
+            internal double _distance;
+            internal int _spatialReference;
 
             public Computation(double x, double y, double distance, int spatialReference) {
                 _x = x;

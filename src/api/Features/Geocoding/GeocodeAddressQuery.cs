@@ -119,7 +119,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var plan = await _computeMediator.Handle(createGeocodePlanComputation, cancellationToken);
 
                 if (plan == null || !plan.Any()) {
-                    _log.Debug("no plan for {parsedAddress}", parsedAddress);
+                    _log.ForContext("address", parsedAddress)
+                        .Debug("no plan generated");
 
                     return new NotFoundObjectResult(new ApiResponseContainer {
                         Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
