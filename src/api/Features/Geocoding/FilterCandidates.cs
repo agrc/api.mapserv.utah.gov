@@ -50,8 +50,9 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
             public Task<GeocodeAddressApiResponse> Handle(Computation request, CancellationToken cancellation) {
                 if (request.Candidates == null || !request.Candidates.Any()) {
-                    _log.Debug("No request.Candidates found for {address} with {options}", request.GeocodedAddress,
-                               request.GeocodeOptions);
+                    _log.ForContext("address", request.GeocodedAddress)
+                        .ForContext("options", request.GeocodeOptions)
+                        .Debug("no candidates found");
 
                     return Task.FromResult(new GeocodeAddressApiResponse {
                         InputAddress = $"{request.Street}, {request.Zone}",
@@ -59,16 +60,18 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                     });
                 }
 
-                _log.Debug("Choosing result from grids {grids} with a score >= {score}",
-                           request.GeocodedAddress.AddressGrids, request.GeocodeOptions.AcceptScore);
+                _log.ForContext("address grid", request.GeocodedAddress.AddressGrids)
+                    .ForContext("score", request.GeocodeOptions.AcceptScore)
+                    .Debug("filtering candidates");
 
                 // get best match from request.Candidates
-                var result = request.Candidates.FirstOrDefault(x => x.Score >= request.GeocodeOptions.AcceptScore &&
-                                                                    request.GeocodedAddress
-                                                                           .AddressGrids
-                                                                           .Select(y => y?.Grid?.ToUpper())
-                                                                           .Contains(x.AddressGrid?.ToUpper())) ??
-                             new Candidate();
+                var result = request.Candidates.FirstOrDefault(x =>
+                    x.Score >= request.GeocodeOptions.AcceptScore &&
+                    request.GeocodedAddress
+                            .AddressGrids
+                            .Select(y => y?.Grid?.ToUpper())
+                            .Contains(x.AddressGrid?.ToUpper())) ??
+                    new Candidate();
 
                 var candidates = request.Candidates.ToList();
 
@@ -90,7 +93,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
 
                 if (result.Location == null && request.GeocodeOptions.Suggest == 0) {
-                    _log.Debug("The result had no location {result}", result);
+                    _log.ForContext("candidate", result)
+                        .Debug("missing location");
 
                     return Task.FromResult((GeocodeAddressApiResponse)null);
                 }

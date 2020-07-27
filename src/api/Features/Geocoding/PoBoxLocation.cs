@@ -25,7 +25,6 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
         public class Handler : IComputationHandler<Computation, Candidate> {
             private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions;
             private readonly ILogger _log;
-
             private readonly IDictionary<int, PoBoxAddress> _poBoxes;
             private readonly IReadOnlyCollection<int> _zipExclusions;
 

@@ -144,9 +144,10 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 var winner = await _computeMediator.Handle(chooseBestAddressCandidateComputation, cancellationToken);
 
                 if (winner == null || winner.Score < 0) {
-                    _log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street,
-                                 zone,
-                                 request.Options.AcceptScore);
+                    _log.ForContext("street", street)
+                        .ForContext("zone", zone)
+                        .ForContext("score", request.Options.AcceptScore)
+                        .Warning("no matches found", street, zone, request.Options.AcceptScore);
 
                     return new NotFoundObjectResult(new ApiResponseContainer {
                         Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
@@ -155,14 +156,18 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
 
                 if (winner.Location == null) {
-                    _log.Warning("Could not find match for {Street}, {Zone} with a score of {Score} or better.", street,
-                                 zone,
-                                 request.Options.AcceptScore);
+                    _log.ForContext("street", street)
+                        .ForContext("zone", zone)
+                        .ForContext("score", request.Options.AcceptScore)
+                        .Warning("no matches found", street, zone, request.Options.AcceptScore);
                 }
 
                 winner.Wkid = request.Options.SpatialReference;
 
-                _log.Debug("Result score: {score} from {locator}", winner.Score, winner.Locator);
+                _log.ForContext("locator", winner.Locator)
+                    .ForContext("score", winner.Score)
+                    .ForContext("difference", winner.ScoreDifference)
+                    .Debug("match found");
 
                 return new OkObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse> {
                     Result = winner,

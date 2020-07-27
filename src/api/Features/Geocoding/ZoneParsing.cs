@@ -16,8 +16,8 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 AddressModel = addressModel;
             }
 
-            public string InputZone { get; set; }
-            public AddressWithGrids AddressModel { get; set; }
+            internal string InputZone { get; set; }
+            internal AddressWithGrids AddressModel { get; set; }
         }
 
         public class Handler : IComputationHandler<Computation, AddressWithGrids> {

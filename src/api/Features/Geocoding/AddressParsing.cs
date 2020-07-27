@@ -17,7 +17,7 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 Street = street;
             }
 
-            public string Street { get; set; }
+            internal string Street { get; set; }
         }
 
         public class Handler : IComputationHandler<Computation, CleansedAddress> {
@@ -245,100 +245,100 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 switch (matches.Count) {
                     case 1: {
-                        Street = Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
-                                               matches[0].Length);
-                        if (int.TryParse(matches[0].Value, out houseNumber)) {
-                            address.HouseNumber = houseNumber;
-                        }
+                            Street = Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
+                                                   matches[0].Length);
+                            if (int.TryParse(matches[0].Value, out houseNumber)) {
+                                address.HouseNumber = houseNumber;
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
                     case 2:
                     case 3: {
-                        if (address.IsHighway) {
-                            var parts = Street.Split(' ').ToList();
-                            var numberIndex = parts.IndexOf(matches[1].Value);
+                            if (address.IsHighway) {
+                                var parts = Street.Split(' ').ToList();
+                                var numberIndex = parts.IndexOf(matches[1].Value);
 
-                            var highwayIndex = numberIndex - 1;
+                                var highwayIndex = numberIndex - 1;
 
-                            if (highwayIndex > -1 && parts[highwayIndex].ToLower().Contains("highway")) {
-                                Street =
-                                    Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
-                                                  matches[0].Length);
-                                if (int.TryParse(matches[0].Value, out houseNumber)) {
-                                    address.HouseNumber = houseNumber;
-                                }
+                                if (highwayIndex > -1 && parts[highwayIndex].ToLower().Contains("highway")) {
+                                    Street =
+                                        Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
+                                                      matches[0].Length);
+                                    if (int.TryParse(matches[0].Value, out houseNumber)) {
+                                        address.HouseNumber = houseNumber;
+                                    }
 
-                                address.IsHighway = true;
-                                //not street number but highway.
-                                break;
-                            }
-                        }
-
-                        Street = Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
-                                               matches[0].Length);
-                        if (int.TryParse(matches[0].Value, out houseNumber)) {
-                            address.HouseNumber = houseNumber;
-                        }
-
-                        //if there are two check that the second is not at the very end and followed by a direction otherwise drop it
-                        if (matches.Count == 2) {
-                            //check for aprartment or unit thing
-                            var possibleUnitNumber = matches[1].Value;
-                            var length = possibleUnitNumber.Length;
-                            var index = Street.LastIndexOf(possibleUnitNumber, StringComparison.OrdinalIgnoreCase);
-
-                            if (Street.EndsWith(possibleUnitNumber, StringComparison.OrdinalIgnoreCase)) {
-                                Street = Street.Remove(index, length).Trim();
-
-                                break;
-                            }
-
-                            var segment = Street[index..].Trim();
-
-                            // also check for ordinal numbers like the aves.
-                            var ordinalStreetMatch = _regexCache.Get("ordinal").Matches(segment);
-                            if (ordinalStreetMatch.Count > 0) {
-                                segment = ordinalStreetMatch[0].Value;
-
-                                address.StreetName = segment;
-
-                                break;
-                            }
-
-                            // check that this is a direction - it's an acs address then
-                            if (segment.Contains(" ")) {
-                                var notTheNumber =
-                                    segment.Remove(
-                                                   segment.IndexOf(possibleUnitNumber,
-                                                                   StringComparison.OrdinalIgnoreCase),
-                                                   possibleUnitNumber.Length);
-
-                                if (_regexCache.Get("direction").IsMatch(notTheNumber)) {
-                                    Street = Street.Remove(index, length);
-                                    address.StreetName = matches[1].Value;
-
+                                    address.IsHighway = true;
+                                    //not street number but highway.
                                     break;
                                 }
                             }
 
-                            // otherwise shit can it
-                            Street = Street.Remove(index, segment.Length).Trim();
+                            Street = Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
+                                                   matches[0].Length);
+                            if (int.TryParse(matches[0].Value, out houseNumber)) {
+                                address.HouseNumber = houseNumber;
+                            }
+
+                            //if there are two check that the second is not at the very end and followed by a direction otherwise drop it
+                            if (matches.Count == 2) {
+                                //check for aprartment or unit thing
+                                var possibleUnitNumber = matches[1].Value;
+                                var length = possibleUnitNumber.Length;
+                                var index = Street.LastIndexOf(possibleUnitNumber, StringComparison.OrdinalIgnoreCase);
+
+                                if (Street.EndsWith(possibleUnitNumber, StringComparison.OrdinalIgnoreCase)) {
+                                    Street = Street.Remove(index, length).Trim();
+
+                                    break;
+                                }
+
+                                var segment = Street[index..].Trim();
+
+                                // also check for ordinal numbers like the aves.
+                                var ordinalStreetMatch = _regexCache.Get("ordinal").Matches(segment);
+                                if (ordinalStreetMatch.Count > 0) {
+                                    segment = ordinalStreetMatch[0].Value;
+
+                                    address.StreetName = segment;
+
+                                    break;
+                                }
+
+                                // check that this is a direction - it's an acs address then
+                                if (segment.Contains(" ")) {
+                                    var notTheNumber =
+                                        segment.Remove(
+                                                       segment.IndexOf(possibleUnitNumber,
+                                                                       StringComparison.OrdinalIgnoreCase),
+                                                       possibleUnitNumber.Length);
+
+                                    if (_regexCache.Get("direction").IsMatch(notTheNumber)) {
+                                        Street = Street.Remove(index, length);
+                                        address.StreetName = matches[1].Value;
+
+                                        break;
+                                    }
+                                }
+
+                                // otherwise shit can it
+                                Street = Street.Remove(index, segment.Length).Trim();
+
+                                break;
+                            }
+
+                            //if there are three then throw out the last one since it's probably a unit
+                            Street = Street.Remove(Street.IndexOf(matches[1].Value, StringComparison.OrdinalIgnoreCase),
+                                                   matches[1].Length);
+                            address.StreetName = matches[1].Value;
+
+                            Street = Street.Substring(0,
+                                                      Street.LastIndexOf(matches[2].Value,
+                                                                         StringComparison.OrdinalIgnoreCase));
 
                             break;
                         }
-
-                        //if there are three then throw out the last one since it's probably a unit
-                        Street = Street.Remove(Street.IndexOf(matches[1].Value, StringComparison.OrdinalIgnoreCase),
-                                               matches[1].Length);
-                        address.StreetName = matches[1].Value;
-
-                        Street = Street.Substring(0,
-                                                  Street.LastIndexOf(matches[2].Value,
-                                                                     StringComparison.OrdinalIgnoreCase));
-
-                        break;
-                    }
                 }
             }
 
@@ -347,27 +347,27 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 switch (matches.Count) {
                     case 1: {
-                        var type = ParseStreetType(matches[0].Value);
+                            var type = ParseStreetType(matches[0].Value);
 
-                        if (type == StreetType.Highway && address.IsHighway) {
+                            if (type == StreetType.Highway && address.IsHighway) {
+                                break;
+                            }
+
+                            address.StreetType = type;
+
+                            Street = Street.Remove(matches[0].Index, matches[0].Length);
+
                             break;
                         }
-
-                        address.StreetType = type;
-
-                        Street = Street.Remove(matches[0].Index, matches[0].Length);
-
-                        break;
-                    }
                     case 2: {
-                        //case where address has two street types in the name
-                        //5301 W Jacob Hill Cir 84081
-                        address.StreetType = ParseStreetType(matches[1].Value);
+                            //case where address has two street types in the name
+                            //5301 W Jacob Hill Cir 84081
+                            address.StreetType = ParseStreetType(matches[1].Value);
 
-                        Street = Street.Remove(matches[1].Index, matches[1].Length);
+                            Street = Street.Remove(matches[1].Index, matches[1].Length);
 
-                        break;
-                    }
+                            break;
+                        }
                 }
             }
 
@@ -413,86 +413,86 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 switch (matches.Count) {
                     case 1: {
-                        if (!IsOneCharacterStreetName(address, matches[0].Value)) {
-                            var findLocation = matches[0].Index;
+                            if (!IsOneCharacterStreetName(address, matches[0].Value)) {
+                                var findLocation = matches[0].Index;
 
-                            var averageWordCount = (street.Split(' ').Length - 1) / 2;
+                                var averageWordCount = (street.Split(' ').Length - 1) / 2;
 
-                            var wordLocation = GetWordIndex(findLocation, street);
-                            if (wordLocation <= averageWordCount) {
+                                var wordLocation = GetWordIndex(findLocation, street);
+                                if (wordLocation <= averageWordCount) {
+                                    address.PrefixDirection = TryParseDirection(matches[0].Value, out dir)
+                                        ? dir
+                                        : Direction.None;
+                                } else {
+                                    address.SuffixDirection = TryParseDirection(matches[0].Value, out dir)
+                                        ? dir
+                                        : Direction.None;
+                                }
+
+                                Street = street.Remove(matches[0].Index, matches[0].Length);
+                            }
+
+                            break;
+                        }
+                    case 2: {
+                            var words = StandardStreet.Split(' ').ToList();
+                            var indexOfMatch = words.IndexOf(matches[0].Value);
+
+                            // parse out prefix direction
+                            if (indexOfMatch - 1 >= 0 && !_regexCache.Get("direction").IsMatch(words[indexOfMatch - 1])) {
+                                //if not do as normal
+                                Street = street.Remove(matches[0].Index, matches[0].Length);
                                 address.PrefixDirection = TryParseDirection(matches[0].Value, out dir)
                                     ? dir
                                     : Direction.None;
-                            } else {
-                                address.SuffixDirection = TryParseDirection(matches[0].Value, out dir)
-                                    ? dir
-                                    : Direction.None;
+
+                                words = StandardStreet.Split(' ').ToList();
                             }
 
-                            Street = street.Remove(matches[0].Index, matches[0].Length);
+                            // check out whats up with the second direction
+                            indexOfMatch = words.IndexOf(matches[1].Value);
+                            if (indexOfMatch - 1 >= 0 && !_regexCache.Get("direction").IsMatch(words[indexOfMatch - 1])) {
+                                if (IsOneCharacterStreetName(address, matches[1].Value)) {
+                                    return;
+                                }
+
+                                // if there is no item after the index then do as normal
+                                if (indexOfMatch + 1 > words.Count - 1) {
+                                    Street = Street.Remove(Street.LastIndexOf(matches[1].Value, StringComparison.Ordinal),
+                                                           matches[1].Length);
+                                    address.SuffixDirection = TryParseDirection(matches[1].Value, out dir)
+                                        ? dir
+                                        : Direction.None;
+
+                                    return;
+                                }
+
+                                var afterType = words[indexOfMatch + 1];
+                                // if before street type then we might be in a street name scenario
+                                var directionBefore =
+                                    _abbreviations.StreetTypeAbbreviations.Values.Any(x => x.Split(',')
+                                                                                            .Contains(afterType
+                                                                                                          .ToLower())) ||
+                                    address.StreetType == StreetType.None;
+                                var streetWithoutCandidate = Street
+                                                             .Remove(Street.LastIndexOf(matches[1].Value, StringComparison.Ordinal),
+                                                                     matches[1].Length).Trim();
+
+                                var numeric = new Regex("[0-9]").IsMatch(streetWithoutCandidate) ||
+                                              string.IsNullOrEmpty(streetWithoutCandidate);
+
+                                // if direction before street type and street name isn't numeric then it should be a part of the street name
+                                if (numeric && directionBefore) {
+                                    Street = Street.Remove(Street.LastIndexOf(matches[1].Value, StringComparison.Ordinal),
+                                                           matches[1].Length);
+                                    address.SuffixDirection = TryParseDirection(matches[1].Value, out dir)
+                                        ? dir
+                                        : Direction.None;
+                                }
+                            }
+
+                            break;
                         }
-
-                        break;
-                    }
-                    case 2: {
-                        var words = StandardStreet.Split(' ').ToList();
-                        var indexOfMatch = words.IndexOf(matches[0].Value);
-
-                        // parse out prefix direction
-                        if (indexOfMatch - 1 >= 0 && !_regexCache.Get("direction").IsMatch(words[indexOfMatch - 1])) {
-                            //if not do as normal
-                            Street = street.Remove(matches[0].Index, matches[0].Length);
-                            address.PrefixDirection = TryParseDirection(matches[0].Value, out dir)
-                                ? dir
-                                : Direction.None;
-
-                            words = StandardStreet.Split(' ').ToList();
-                        }
-
-                        // check out whats up with the second direction
-                        indexOfMatch = words.IndexOf(matches[1].Value);
-                        if (indexOfMatch - 1 >= 0 && !_regexCache.Get("direction").IsMatch(words[indexOfMatch - 1])) {
-                            if (IsOneCharacterStreetName(address, matches[1].Value)) {
-                                return;
-                            }
-
-                            // if there is no item after the index then do as normal
-                            if (indexOfMatch + 1 > words.Count - 1) {
-                                Street = Street.Remove(Street.LastIndexOf(matches[1].Value, StringComparison.Ordinal),
-                                                       matches[1].Length);
-                                address.SuffixDirection = TryParseDirection(matches[1].Value, out dir)
-                                    ? dir
-                                    : Direction.None;
-
-                                return;
-                            }
-
-                            var afterType = words[indexOfMatch + 1];
-                            // if before street type then we might be in a street name scenario
-                            var directionBefore =
-                                _abbreviations.StreetTypeAbbreviations.Values.Any(x => x.Split(',')
-                                                                                        .Contains(afterType
-                                                                                                      .ToLower())) ||
-                                address.StreetType == StreetType.None;
-                            var streetWithoutCandidate = Street
-                                                         .Remove(Street.LastIndexOf(matches[1].Value, StringComparison.Ordinal),
-                                                                 matches[1].Length).Trim();
-
-                            var numeric = new Regex("[0-9]").IsMatch(streetWithoutCandidate) ||
-                                          string.IsNullOrEmpty(streetWithoutCandidate);
-
-                            // if direction before street type and street name isn't numeric then it should be a part of the street name
-                            if (numeric && directionBefore) {
-                                Street = Street.Remove(Street.LastIndexOf(matches[1].Value, StringComparison.Ordinal),
-                                                       matches[1].Length);
-                                address.SuffixDirection = TryParseDirection(matches[1].Value, out dir)
-                                    ? dir
-                                    : Direction.None;
-                            }
-                        }
-
-                        break;
-                    }
                 }
             }
         }
