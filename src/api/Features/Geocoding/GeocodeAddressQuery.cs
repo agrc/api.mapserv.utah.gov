@@ -20,13 +20,11 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
             internal readonly string Street;
             internal readonly string Zone;
             internal readonly GeocodingOptions Options;
-            internal readonly bool FilterCandidates;
 
-            public Query(string street, string zone, GeocodingOptions options, bool filterCandidates) {
+            public Query(string street, string zone, GeocodingOptions options) {
                 Street = street;
                 Zone = zone;
                 Options = options;
-                FilterCandidates = filterCandidates;
             }
         }
 
@@ -164,11 +162,6 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 winner.Wkid = request.Options.SpatialReference;
 
                 _log.Debug("Result score: {score} from {locator}", winner.Score, winner.Locator);
-
-                if (request.Options.Suggest > 0 && request.FilterCandidates) {
-                    winner.Candidates = winner.Candidates.Where(x => x.Score > request.Options.AcceptScore)
-                                                            .ToList();
-                }
 
                 return new OkObjectResult(new ApiResponseContainer<GeocodeAddressApiResponse> {
                     Result = winner,

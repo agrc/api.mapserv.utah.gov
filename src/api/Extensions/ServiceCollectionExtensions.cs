@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using api.mapserv.utah.gov.Cache;
+using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Features.Searching;
 using api.mapserv.utah.gov.Filters;
 using api.mapserv.utah.gov.Infrastructure;
@@ -47,6 +48,8 @@ namespace api.mapserv.utah.gov.Extensions {
                     .AddPolicyHandler(retryPolicy)
                     .AddPolicyHandler(timeoutPolicy);
 
+            services.AddHttpContextAccessor();
+
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
             services.AddSingleton<ILookupCache, LookupCache>();
@@ -55,6 +58,8 @@ namespace api.mapserv.utah.gov.Extensions {
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
+
+            services.AddScoped<IFilterSuggestionFactory, FilterSuggestionFactory>();
 
             services.AddTransient<IPipelineBehavior<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>, KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchApiResponse>>>();
 
