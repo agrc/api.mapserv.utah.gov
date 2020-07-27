@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using AGRC.api.Conventions;
 using AGRC.api.Filters;
-using AGRC.api.Models.RequestOptions;
 using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +40,7 @@ namespace AGRC.api.Features.Geocoding {
         [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
         [Route("api/v{version:apiVersion}/geocode/{street}/{zone}")]
         public async Task<ActionResult<ApiResponseContract<SingleGeocodeResponseContract>>> Geocode(
-            string street, string zone, [FromQuery] GeocodingOptions options) =>
-                await _mediator.Send(new GeocodeAddressQuery.Query(street, zone, options));
+            string street, string zone, [FromQuery] SingleGeocodeRequestOptionsContract options) =>
+                await _mediator.Send(new GeocodeQuery.Query(street, zone, options));
     }
 }

@@ -1,8 +1,9 @@
 using System;
 using System.Net;
+using AGRC.api.Models.Configuration;
 using AGRC.api.Models.Constants;
 
-namespace AGRC.api.Models.Configuration {
+namespace AGRC.api.Features.Geocoding {
     public class LocatorConfiguration : GisServerConfigurationBase {
         public string DisplayName { get; set; }
         public string ServiceName { get; set; }
@@ -21,7 +22,7 @@ namespace AGRC.api.Models.Configuration {
             return $"{host}{PathToLocator}";
         }
 
-        public LocatorProperties ToLocatorProperty(GeocodeInput address, Func<GeocodeInput, string> addressResolver) => ToLocatorPropertyBase(Template, address.Weight, ServiceName, WebUtility.UrlEncode(addressResolver(address)), address.Grid, address.WkId);
+        public LocatorProperties ToLocatorProperty(LocatorMetadata address, Func<LocatorMetadata, string> addressResolver) => ToLocatorPropertyBase(Template, address.Weight, ServiceName, WebUtility.UrlEncode(addressResolver(address)), address.Grid, address.WkId);
 
         private LocatorProperties ToLocatorPropertyBase(string template, int weight, params object[] args) {
             var url = Url();

@@ -1,9 +1,9 @@
-using AGRC.api.Models;
+using AGRC.api.Features.Geocoding;
 using AGRC.api.Models.Constants;
 using Shouldly;
 using Xunit;
 
-namespace api.tests.Models {
+namespace api.tests.Features.Geocoding {
     public class CleansedAddressTests {
         [Theory]
         [InlineData("123 south main st", false)]

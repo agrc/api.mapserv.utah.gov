@@ -1,6 +1,6 @@
-namespace AGRC.api.Models {
-    public class GeocodeInput {
-        public GeocodeInput(AddressWithGrids addressInfo, string grid, int weight, LocatorProperties locator,
+﻿namespace AGRC.api.Features.Geocoding {
+    public class LocatorMetadata {
+        public LocatorMetadata(AddressWithGrids addressInfo, string grid, int weight, LocatorProperties locator,
                             int wkId = 26912) {
             var street = addressInfo.StandardizedAddress;
 

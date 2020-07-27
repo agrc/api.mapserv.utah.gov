@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Searching;
 using AGRC.api.Models.Constants;
-using MediatR;
 using Shouldly;
 using Xunit;
 

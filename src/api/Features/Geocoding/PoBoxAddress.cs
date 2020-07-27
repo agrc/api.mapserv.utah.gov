@@ -1,6 +1,6 @@
 using System;
 
-namespace AGRC.api.Models {
+namespace AGRC.api.Features.Geocoding {
     public class PoBoxAddress {
         public PoBoxAddress(int zip, decimal x, decimal y) {
             Zip = zip;

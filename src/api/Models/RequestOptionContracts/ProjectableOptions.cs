@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace AGRC.api.Models.RequestOptions {
+namespace AGRC.api.Models.RequestOptionContracts {
     public class ProjectableOptions : OptionBase {
         /// <summary>
         ///     The spatial reference for the output and input geometries.

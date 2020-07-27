@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using AGRC.api.Models.Constants;
 
-namespace AGRC.api.Models {
+namespace AGRC.api.Features.Geocoding {
     public abstract class AddressBase {
         protected AddressBase() {
 

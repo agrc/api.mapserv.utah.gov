@@ -1,10 +1,11 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using AGRC.api.Models.Constants;
+using AGRC.api.Models.RequestOptionContracts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AGRC.api.Models.RequestOptions {
-    [ModelBinder(BinderType = typeof(SearchingOptionsBinder))]
-    public class SearchingOptions : ProjectableOptions {
+namespace AGRC.api.Features.Searching {
+    [ModelBinder(BinderType = typeof(SearchRequestOptionsContractBinder))]
+    public class SearchRequestOptionsContract : ProjectableOptions {
         private string _predicate = "";
         private double _buffer;
 

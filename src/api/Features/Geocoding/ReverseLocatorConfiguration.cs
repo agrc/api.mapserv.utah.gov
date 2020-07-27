@@ -1,4 +1,6 @@
-namespace AGRC.api.Models.Configuration {
+using AGRC.api.Models.Configuration;
+
+namespace AGRC.api.Features.Geocoding {
     public class ReverseLocatorConfiguration : GisServerConfigurationBase {
         public string DisplayName { get; set; }
         public string ServiceName { get; set; }

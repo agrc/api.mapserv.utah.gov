@@ -1,4 +1,4 @@
-using AGRC.api.Models.Configuration;
+using AGRC.api.Features.Geocoding;
 using Shouldly;
 using Xunit;
 

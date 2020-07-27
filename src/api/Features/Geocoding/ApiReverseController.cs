@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using AGRC.api.Conventions;
 using AGRC.api.Filters;
-using AGRC.api.Models.RequestOptions;
 using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +39,7 @@ namespace AGRC.api.Features.Geocoding {
         [HttpGet]
         [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
         [Route("api/v{version:apiVersion}/geocode/reverse/{x:double}/{y:double}")]
-        public async Task<ActionResult<ApiResponseContract<ReverseGeocodeResponseContract>>> Reverse(double x, double y, [FromQuery] ReverseGeocodingOptions options) =>
+        public async Task<ActionResult<ApiResponseContract<ReverseGeocodeResponseContract>>> Reverse(double x, double y, [FromQuery] ReverseGeocodeRequestOptionsContract options) =>
             await _mediator.Send(new ReverseGeocodeQuery.Query(x, y, options));
     }
 }

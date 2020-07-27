@@ -8,7 +8,6 @@ using AGRC.api.Features.GeometryService;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.RequestOptions;
 using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +16,10 @@ using Serilog;
 namespace AGRC.api.Features.Geocoding {
     public class ReverseGeocodeQuery {
         public class Query : IRequest<ObjectResult> {
-            internal readonly ReverseGeocodingOptions Options;
+            internal readonly ReverseGeocodeRequestOptionsContract Options;
             internal readonly Point Location;
 
-            public Query(double x, double y, ReverseGeocodingOptions options) {
+            public Query(double x, double y, ReverseGeocodeRequestOptionsContract options) {
                 Options = options;
                 Location = new Point(x, y);
             }

@@ -7,7 +7,6 @@ using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.Configuration;
 using AGRC.api.Models.Constants;
-using AGRC.api.Models.RequestOptions;
 using Microsoft.Extensions.Options;
 using Serilog;
 
@@ -15,9 +14,9 @@ namespace AGRC.api.Features.Geocoding {
     public class GeocodePlan {
         public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {
             internal readonly AddressWithGrids Address;
-            internal readonly GeocodingOptions Options;
+            internal readonly SingleGeocodeRequestOptionsContract Options;
 
-            public Computation(AddressWithGrids address, GeocodingOptions options) {
+            public Computation(AddressWithGrids address, SingleGeocodeRequestOptionsContract options) {
                 Address = address;
                 Options = options;
             }
@@ -32,23 +31,23 @@ namespace AGRC.api.Features.Geocoding {
                 _log = log?.ForContext<GeocodePlan>();
             }
 
-            private static IReadOnlyCollection<GeocodeInput> BuildAddressPermutations(
+            private static IReadOnlyCollection<LocatorMetadata> BuildAddressPermutations(
                 AddressWithGrids address, int spatialReference) {
-                var addressPermutations = new List<GeocodeInput>();
+                var addressPermutations = new List<LocatorMetadata>();
 
                 if (!address.AddressGrids.Any()) {
-                    return Array.Empty<GeocodeInput>();
+                    return Array.Empty<LocatorMetadata>();
                 }
 
                 foreach (var grid in address.AddressGrids) {
-                    addressPermutations.Add(new GeocodeInput(address, grid.Grid, grid.Weight, null, spatialReference));
+                    addressPermutations.Add(new LocatorMetadata(address, grid.Grid, grid.Weight, null, spatialReference));
                 }
 
                 return addressPermutations;
             }
 
             private IReadOnlyCollection<LocatorProperties> BuildLocatorLookup(
-                AddressWithGrids address, IReadOnlyCollection<GeocodeInput> permutations, LocatorType locatorType) {
+                AddressWithGrids address, IReadOnlyCollection<LocatorMetadata> permutations, LocatorType locatorType) {
                 var locators = new List<LocatorProperties>();
 
                 if (locatorType == LocatorType.Default || locatorType == LocatorType.All) {
@@ -74,7 +73,7 @@ namespace AGRC.api.Features.Geocoding {
                 return locators;
             }
 
-            private IReadOnlyCollection<LocatorProperties> LocatorProperties(IReadOnlyCollection<GeocodeInput> permutations,
+            private IReadOnlyCollection<LocatorProperties> LocatorProperties(IReadOnlyCollection<LocatorMetadata> permutations,
              bool reversal, bool likelyReversal, LocatorType locatorType) {
                 var locatorsForAddress = new List<LocatorProperties>();
                 var locators = _locators.Where(x => x.LocatorType == locatorType);

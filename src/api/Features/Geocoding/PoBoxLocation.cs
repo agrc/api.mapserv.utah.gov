@@ -6,7 +6,6 @@ using AGRC.api.Cache;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.RequestOptions;
 using Serilog;
 
 namespace AGRC.api.Features.Geocoding {
@@ -14,12 +13,12 @@ namespace AGRC.api.Features.Geocoding {
         public class Computation : IComputation<Candidate>, IHasGeocodingOptions {
             internal readonly AddressWithGrids Address;
 
-            public Computation(AddressWithGrids address, GeocodingOptions options) {
+            public Computation(AddressWithGrids address, SingleGeocodeRequestOptionsContract options) {
                 Address = address;
                 Options = options;
             }
 
-            public GeocodingOptions Options { get; }
+            public SingleGeocodeRequestOptionsContract Options { get; }
         }
 
         public class Handler : IComputationHandler<Computation, Candidate> {

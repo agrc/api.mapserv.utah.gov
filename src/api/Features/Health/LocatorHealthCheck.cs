@@ -6,9 +6,9 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
+using AGRC.api.Features.Geocoding;
 using AGRC.api.Formatters;
 using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 

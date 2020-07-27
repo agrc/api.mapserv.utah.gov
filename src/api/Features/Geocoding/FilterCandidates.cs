@@ -7,13 +7,13 @@ using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.RequestOptions;
+using AGRC.api.Models.RequestOptionContracts;
 using Serilog;
 
 namespace AGRC.api.Features.Geocoding {
     public class FilterCandidates {
         public class Computation : IComputation<SingleGeocodeResponseContract> {
-            public Computation(IList<Candidate> candidates, GeocodingOptions geocodeOptions,
+            public Computation(IList<Candidate> candidates, SingleGeocodeRequestOptionsContract geocodeOptions,
                            string street, string zone, AddressWithGrids geocodedAddress) {
                 GeocodeOptions = geocodeOptions;
                 Street = street;
@@ -31,7 +31,7 @@ namespace AGRC.api.Features.Geocoding {
                 Candidates = candidates;
             }
 
-            internal GeocodingOptions GeocodeOptions { get; set; }
+            internal SingleGeocodeRequestOptionsContract GeocodeOptions { get; set; }
             internal string Street { get; set; }
             internal string Zone { get; set; }
             internal AddressWithGrids GeocodedAddress { get; set; }

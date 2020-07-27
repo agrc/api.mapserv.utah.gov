@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using AGRC.api.Models.Constants;
 
-namespace AGRC.api.Models.RequestOptions {
+namespace AGRC.api.Models.RequestOptionContracts {
     public class OptionBase {
         public OptionBase() {
             Format = JsonFormat.None;

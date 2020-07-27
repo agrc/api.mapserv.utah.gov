@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +6,6 @@ using AGRC.api.Comparers;
 using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
-using AGRC.api.Models.RequestOptions;
 using AGRC.api.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +13,13 @@ using Serilog;
 using AGRC.api.Models.ResponseContracts;
 
 namespace AGRC.api.Features.Geocoding {
-    public class GeocodeAddressQuery {
+    public class GeocodeQuery {
         public class Query : IRequest<ObjectResult> {
             internal readonly string Street;
             internal readonly string Zone;
-            internal readonly GeocodingOptions Options;
+            internal readonly SingleGeocodeRequestOptionsContract Options;
 
-            public Query(string street, string zone, GeocodingOptions options) {
+            public Query(string street, string zone, SingleGeocodeRequestOptionsContract options) {
                 Street = street;
                 Zone = zone;
                 Options = options;
@@ -33,7 +32,7 @@ namespace AGRC.api.Features.Geocoding {
 
             public Handler(IComputeMediator computeMediator, ILogger log) {
                 _computeMediator = computeMediator;
-                _log = log?.ForContext<GeocodeAddressQuery>();
+                _log = log?.ForContext<GeocodeQuery>();
             }
             public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
                 #region validation

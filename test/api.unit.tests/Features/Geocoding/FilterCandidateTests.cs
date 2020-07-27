@@ -7,7 +7,7 @@ using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.Linkables;
-using AGRC.api.Models.RequestOptions;
+using AGRC.api.Models.RequestOptionContracts;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -45,7 +45,7 @@ namespace api.tests.Features.Geocoding {
                     }
                 };
 
-                var options = new GeocodingOptions {
+                var options = new SingleGeocodeRequestOptionsContract {
                     AcceptScore = 1,
                     Suggest = 1
                 };
@@ -79,7 +79,7 @@ namespace api.tests.Features.Geocoding {
                     }
                 };
 
-                var options = new GeocodingOptions {
+                var options = new SingleGeocodeRequestOptionsContract {
                     AcceptScore = 1,
                     Suggest = 1
                 };
@@ -118,7 +118,7 @@ namespace api.tests.Features.Geocoding {
                     }
                 };
 
-                var options = new GeocodingOptions {
+                var options = new SingleGeocodeRequestOptionsContract {
                     AcceptScore = 1,
                     Suggest = 3
                 };
@@ -159,7 +159,7 @@ namespace api.tests.Features.Geocoding {
                     }
                 };
 
-                var options = new GeocodingOptions {
+                var options = new SingleGeocodeRequestOptionsContract {
                     AcceptScore = 1,
                     Suggest = 1
                 };
@@ -193,7 +193,7 @@ namespace api.tests.Features.Geocoding {
                     }
                 };
 
-                var options = new GeocodingOptions {
+                var options = new SingleGeocodeRequestOptionsContract {
                     AcceptScore = 2
                 };
 
@@ -226,7 +226,7 @@ namespace api.tests.Features.Geocoding {
                     }
                 };
 
-                var options = new GeocodingOptions {
+                var options = new SingleGeocodeRequestOptionsContract {
                     AcceptScore = 1,
                     ScoreDifference = true
                 };

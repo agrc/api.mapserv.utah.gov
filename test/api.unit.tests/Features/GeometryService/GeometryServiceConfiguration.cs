@@ -1,8 +1,8 @@
-using AGRC.api.Models.Configuration;
+using AGRC.api.Features.GeometryService;
 using Shouldly;
 using Xunit;
 
-namespace api.tests.Models.Configuration {
+namespace api.tests.Features.GeometryService {
     public class GeometryServiceConfigurationTests {
         [Fact]
         public void Should_format_url_with_non_standard_port() {

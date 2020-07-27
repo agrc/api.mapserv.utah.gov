@@ -1,4 +1,4 @@
-namespace AGRC.api.Models {
+namespace AGRC.api.Features.Geocoding {
     public class LocatorProperties {
         public string Url { get; set; }
         public string Name { get; set; }

@@ -1,7 +1,8 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using AGRC.api.Models.RequestOptionContracts;
 
-namespace AGRC.api.Models.RequestOptions {
-    public class ReverseGeocodingOptions : ProjectableOptions {
+namespace AGRC.api.Features.Geocoding {
+    public class ReverseGeocodeRequestOptionsContract : ProjectableOptions {
         /// <summary>
         ///     The distance in meters from the input location to look for an address.
         ///     Default: 5

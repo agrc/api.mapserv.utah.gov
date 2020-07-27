@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using AGRC.api.Cache;
 using AGRC.api.Features.Geocoding;
+using AGRC.api.Features.GeometryService;
 using AGRC.api.Features.Searching;
 using AGRC.api.Filters;
 using AGRC.api.Infrastructure;

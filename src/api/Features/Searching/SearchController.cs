@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AGRC.api.Filters;
 using AGRC.api.Infrastructure;
-using AGRC.api.Models.RequestOptions;
+using AGRC.api.Models.RequestOptionContracts;
 using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -53,7 +53,7 @@ namespace AGRC.api.Features.Searching {
         [ProducesResponseType(404, Type = typeof(ApiResponseContract))]
         [ProducesResponseType(500, Type = typeof(ApiResponseContract))]
         [Route("api/v{version:apiVersion}/search/{tableName}/{returnValues}")]
-        public async Task<ObjectResult> Get(string tableName, string returnValues, SearchingOptions options) {
+        public async Task<ObjectResult> Get(string tableName, string returnValues, SearchRequestOptionsContract options) {
             _log.Debug("Searching {tableName} for {returnValues} with options: {options}", tableName, returnValues, options);
 
             #region validation

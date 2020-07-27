@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using AGRC.api.Models.Constants;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace AGRC.api.Models.RequestOptions {
-    public class SearchingOptionsBinder : IModelBinder {
+namespace AGRC.api.Features.Searching {
+    public class SearchRequestOptionsContractBinder : IModelBinder {
         private const string versionKey = "version";
         private AttributeStyle attributeStyle = AttributeStyle.Lower;
 
@@ -37,7 +37,7 @@ namespace AGRC.api.Models.RequestOptions {
                 Enum.TryParse(attribute, out AttributeStyle attributeStyle);
             }
 
-            var result = new SearchingOptions {
+            var result = new SearchRequestOptionsContract {
                 Predicate = predicate,
                 Geometry = pointJson,
                 Buffer = Convert.ToDouble(bufferAmount),

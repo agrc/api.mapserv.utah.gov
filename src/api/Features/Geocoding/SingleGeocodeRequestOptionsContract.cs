@@ -1,11 +1,12 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using AGRC.api.Models.Constants;
+using AGRC.api.Models.RequestOptionContracts;
 
-namespace AGRC.api.Models.RequestOptions {
+namespace AGRC.api.Features.Geocoding {
     /// <summary>
     ///     The options available for geocoding
     /// </summary>
-    public class GeocodingOptions : ProjectableOptions {
+    public class SingleGeocodeRequestOptionsContract : ProjectableOptions {
         /// <summary>
         ///     A score from 0 to 100 used to rank geocode candidates.
         ///     Default: 70

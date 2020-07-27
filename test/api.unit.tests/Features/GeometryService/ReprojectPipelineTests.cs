@@ -5,7 +5,6 @@ using AGRC.api.Features.GeometryService;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.RequestOptions;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -58,7 +57,7 @@ namespace api.tests.Features.GeometryService {
             var candidate = new Candidate();
 
             var geocodingOptionsMock = new Mock<IHasGeocodingOptions>();
-            geocodingOptionsMock.Setup(x => x.Options).Returns(new GeocodingOptions {
+            geocodingOptionsMock.Setup(x => x.Options).Returns(new SingleGeocodeRequestOptionsContract {
                 SpatialReference = 26912
             });
 
@@ -78,7 +77,7 @@ namespace api.tests.Features.GeometryService {
         [Fact]
         public async Task Should_return_original_if_projection_fails() {
             var geocodingOptionsMock = new Mock<IHasGeocodingOptions>();
-            geocodingOptionsMock.Setup(x => x.Options).Returns(new GeocodingOptions {
+            geocodingOptionsMock.Setup(x => x.Options).Returns(new SingleGeocodeRequestOptionsContract {
                 SpatialReference = 1
             });
 
@@ -107,7 +106,7 @@ namespace api.tests.Features.GeometryService {
         [Fact]
         public async Task Should_return_new_projected_cords() {
             var geocodingOptionsMock = new Mock<IHasGeocodingOptions>();
-            geocodingOptionsMock.Setup(x => x.Options).Returns(new GeocodingOptions {
+            geocodingOptionsMock.Setup(x => x.Options).Returns(new SingleGeocodeRequestOptionsContract {
                 SpatialReference = 1
             });
 

@@ -31,7 +31,7 @@ namespace SqlQuery {
     public class Handler : IRequestHandler<Command, IReadOnlyCollection<SearchResponseContract>> {
         private const string ShapeToken = "SHAPE@";
         private readonly string _connectionString;
-        public Handler(IOptions<SearchDatabaseConfiguration> dbOptions) {
+        public Handler(IOptions<SearchProviderConfiguration> dbOptions) {
             _connectionString = dbOptions.Value.ConnectionString;
         }
 

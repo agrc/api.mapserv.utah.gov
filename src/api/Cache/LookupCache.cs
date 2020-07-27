@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AGRC.api.Models;
+using AGRC.api.Features.Geocoding;
 using AGRC.api.Models.Linkables;
 
 namespace AGRC.api.Cache {

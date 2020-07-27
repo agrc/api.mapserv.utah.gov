@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using AGRC.api.Models.Linkables;
 
-namespace AGRC.api.Models
+namespace AGRC.api.Features.Geocoding
 {
   public class AddressWithGrids : CleansedAddress
   {

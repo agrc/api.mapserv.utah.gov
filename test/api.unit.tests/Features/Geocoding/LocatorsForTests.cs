@@ -9,7 +9,7 @@ using AGRC.api.Models;
 using AGRC.api.Models.Configuration;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.Linkables;
-using AGRC.api.Models.RequestOptions;
+using AGRC.api.Models.RequestOptionContracts;
 using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
@@ -96,7 +96,7 @@ namespace api.tests.Features.Geocoding {
                     AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
                 };
 
-                var geocodeOptions = new GeocodingOptions {
+                var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.RoadCenterlines,
                     SpatialReference = 26912
                 };
@@ -123,7 +123,7 @@ namespace api.tests.Features.Geocoding {
                     AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
                 };
 
-                var geocodeOptions = new GeocodingOptions {
+                var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.AddressPoints,
                     SpatialReference = 26912
                 };
@@ -146,7 +146,7 @@ namespace api.tests.Features.Geocoding {
                     AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
                 };
 
-                var geocodeOptions = new GeocodingOptions {
+                var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.All,
                     SpatialReference = 26912
                 };
@@ -156,7 +156,7 @@ namespace api.tests.Features.Geocoding {
 
                 result.Count.ShouldBe(2);
 
-                geocodeOptions = new GeocodingOptions {
+                geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.Default,
                     SpatialReference = 26912
                 };
@@ -175,7 +175,7 @@ namespace api.tests.Features.Geocoding {
                     AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
                 };
 
-                var geocodeOptions = new GeocodingOptions {
+                var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.RoadCenterlines,
                     SpatialReference = 26912
                 };
@@ -198,7 +198,7 @@ namespace api.tests.Features.Geocoding {
                     AddressGrids = Array.Empty<GridLinkable>()
                 };
 
-                var geocodeOptions = new GeocodingOptions {
+                var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.RoadCenterlines,
                     SpatialReference = 26912
                 };

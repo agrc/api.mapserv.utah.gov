@@ -4,10 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Cache;
 using AGRC.api.Features.Geocoding;
-using AGRC.api.Models;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.Linkables;
-using AGRC.api.Models.RequestOptions;
 using Moq;
 using Serilog;
 using Shouldly;
@@ -43,7 +41,7 @@ namespace api.tests.Features.Geocoding {
                 AddressGrids = new[] {new ZipGridLink(84114, "grid", 0)}
             };
 
-            var geocodeOptions = new GeocodingOptions {
+            var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                 PoBox = true,
                 SpatialReference = 26912
             };
@@ -64,7 +62,7 @@ namespace api.tests.Features.Geocoding {
                                                     StreetType.Alley, Direction.South, 0, new int?(), false, false);
             var address = new AddressWithGrids(parsedAddress);
 
-            var geocodeOptions = new GeocodingOptions {
+            var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                 PoBox = true
             };
 
@@ -80,7 +78,7 @@ namespace api.tests.Features.Geocoding {
                                                     StreetType.Alley, Direction.South, 0, -1, false, false);
             var address = new AddressWithGrids(parsedAddress);
 
-            var geocodeOptions = new GeocodingOptions {
+            var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                 PoBox = true
             };
 
