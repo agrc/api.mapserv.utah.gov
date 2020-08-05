@@ -5,6 +5,7 @@ using System.Net.Http;
 using AGRC.api.Cache;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Features.GeometryService;
+using AGRC.api.Features.Milepost;
 using AGRC.api.Features.Searching;
 using AGRC.api.Filters;
 using AGRC.api.Infrastructure;
@@ -48,6 +49,19 @@ namespace AGRC.api.Extensions {
                     .AddPolicyHandler(retryPolicy)
                     .AddPolicyHandler(timeoutPolicy);
 
+            services.AddHttpClient("udot", client => {
+                client.BaseAddress = new Uri("https://maps.udot.utah.gov/");
+                client.Timeout = new TimeSpan(0, 0, 15);
+            }).ConfigurePrimaryHttpMessageHandler(() => {
+                var handler = new HttpClientHandler();
+                if (handler.SupportsAutomaticDecompression) {
+                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                }
+
+                return handler;
+            }).AddPolicyHandler(retryPolicy)
+              .AddPolicyHandler(timeoutPolicy);
+
             services.AddHttpContextAccessor();
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
@@ -58,6 +72,7 @@ namespace AGRC.api.Extensions {
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
+            services.AddSingleton<IDistanceStrategy, PythagoreanDistance>();
 
             services.AddScoped<IFilterSuggestionFactory, FilterSuggestionFactory>();
 
