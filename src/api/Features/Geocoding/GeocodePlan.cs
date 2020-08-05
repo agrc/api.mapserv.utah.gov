@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Infrastructure;
-using AGRC.api.Models;
-using AGRC.api.Models.Configuration;
 using AGRC.api.Models.Constants;
 using Microsoft.Extensions.Options;
 using Serilog;

@@ -3,8 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Infrastructure;
-using AGRC.api.Models;
-using AGRC.api.Models.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace AGRC.api.Features.Geocoding {
