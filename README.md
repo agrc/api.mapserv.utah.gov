@@ -96,7 +96,7 @@ _It is worth noting that after the volume is created and the image is built, cha
 
 #### Import database _with container running_
 
-- `docker exec -i $(docker-compose ps -q db) psql -Upostgres -d webapi < data/pg/pgdatq.sql`
+- `docker exec -i $(docker-compose ps -q db) psql -Upostgres -d webapi < data/pg/pgdata.sql`
 
 #### View database tables _with container running_
 
@@ -126,10 +126,21 @@ In order to use the Docker Kubernetes locally, make sure to first change the `ku
 
 Both Docker and GKE configuration files expect containers to be published to gcr.io. Containers built locally with Docker can be tagged and [pushed to GCR](https://cloud.google.com/container-registry/docs/pushing-and-pulling) with `gcloud` and `docker`.
 
-1. `docker tag webapi/api gcr.io/agrc-204220/webapi/api`
-1. `docker push gcr.io/agrc-204220/webapi/api`
+1. `docker tag webapi/api gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api`
+1. `docker tag webapi/explorer gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api-explorer`
+1. `docker tag webapi/db gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/db`
+1. `docker tag webapi/developer gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/developer`
+
+1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api`
+1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api-explorer`
+1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/db`
+1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/developer`
 
 ### Creating config objects
+
+#### configure kubectl
+
+`gcloud container clusters get-credentials [cluster-name] --zone [cluster-zone]`
 
 `imagePullSecrets` are needed to pull containers from GCR. This authenticates the requests as the authorized service account.
 
@@ -145,7 +156,7 @@ kubectl create secret docker-registry gcr-json-key \
 
 app-config for mounting [appsettings.json](src/api/appsettings.json).
 
-- `kubectl create configmap app-config --from-file=appsettings.json=./.kube/appsettings.kube.json`
+- `kubectl create configmap app-config --from-file=appsettings.json=./.kube/appsettings.json`
 
 ### Starting all pods and services
 
