@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AGRC.api.Comparers;
 using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;
-using AGRC.api.Models;
 using AGRC.api.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -5,9 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;
-using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.RequestOptionContracts;
 using Serilog;
 
 namespace AGRC.api.Features.Geocoding {
