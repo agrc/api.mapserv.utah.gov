@@ -58,6 +58,7 @@ namespace AGRC.api.Features.Milepost {
                         new GeometryToMeasure.RequestLocation { Geometry = point }
                     },
                     OutSr = request.SpatialReference,
+                    InSr = request.SpatialReference,
                     Tolerance = request.Tolerance
                 };
 
