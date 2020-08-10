@@ -112,7 +112,12 @@ namespace AGRC.api.Features.Milepost {
                     }
 
                     foreach (var itemWithDominance in locationResponse.Concurrencies) {
-                        var location = computation.RouteMap[itemWithDominance.RouteId];
+                        if (!computation.RouteMap.TryGetValue(itemWithDominance.RouteId, out var location)) {
+                            _log.ForContext("dominance", itemWithDominance)
+                                .Warning("not present in geometryToMeasure");
+
+                            continue;
+                        }
 
                         var distance = _distance.Calculate(computation.Point, location.Geometry);
 
