@@ -165,7 +165,7 @@ namespace AGRC.api.Features.Milepost {
                     var routeId = location.RouteId;
 
                     // skip non zero padded non udot routes
-                    if (!routeId.StartsWith("00")) {
+                    if (!routeId.StartsWith("0")) {
                         continue;
                     }
 
