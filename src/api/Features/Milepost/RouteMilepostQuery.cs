@@ -19,7 +19,7 @@ namespace AGRC.api.Features.Milepost {
             internal readonly int SpatialReference;
 
             public Query(string route, string milepost, RouteMilepostRequestOptionsContract options) {
-                Route = options.FullRoute ? route : $"00{route}{options.Side}M";
+                Route = options.FullRoute ? route : $"{route.PadLeft(4, '0')}{options.Side}M";
                 Milepost = milepost;
                 SpatialReference = options.SpatialReference;
             }
