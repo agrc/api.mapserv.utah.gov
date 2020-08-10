@@ -10,12 +10,14 @@ namespace AGRC.api.Models.ArcGis {
             public RequestLocation[] Locations { get; set; }
             public double Tolerance { get; set; }
             public int OutSr { get; set; } = 26912;
+            public int InSr { get; set; } = 26912;
 
             public string QueryString {
                 get {
                     var query = new QueryString("?f=json");
                     query = query.Add("locations", LocationsAsQuery());
                     query = query.Add("outSR", OutSr.ToString());
+                    query = query.Add("inSR", InSr.ToString());
                     query = query.Add("tolerance", Tolerance.ToString());
 
                     return query.Value;
