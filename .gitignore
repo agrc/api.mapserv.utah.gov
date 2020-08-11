@@ -270,7 +270,7 @@ src/api/appsettings.production.json
 ut-dts-agrc-web-api-dv-log-writer.json
 
 # terraform
-.terra/
+.terraform
 
 # tailwind css
 src/explorer/src/styles/tailwind.css
