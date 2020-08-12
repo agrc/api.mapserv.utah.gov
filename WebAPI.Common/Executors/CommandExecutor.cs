@@ -1,4 +1,6 @@
-﻿using WebAPI.Common.Abstractions;
+﻿using NUnit.Framework.Internal;
+using System.Threading.Tasks;
+using WebAPI.Common.Abstractions;
 
 namespace WebAPI.Common.Executors
 {
@@ -27,6 +29,11 @@ namespace WebAPI.Common.Executors
             ExecuteCommand((Command) cmd);
 
             return cmd.Result;
+        }
+
+        public static async Task<TResult> ExecuteCommandAsync<TResult>(AsyncCommand<TResult> cmd)
+        {
+            return await cmd.Execute();
         }
     }
 }

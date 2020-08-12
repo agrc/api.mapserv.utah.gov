@@ -426,6 +426,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Commands\Log\" />
+    <Folder Include="Commands\Milepost\" />
     <Folder Include="Controllers\API\Version2\" />
     <Folder Include="Views\Canary\" />
   </ItemGroup>
