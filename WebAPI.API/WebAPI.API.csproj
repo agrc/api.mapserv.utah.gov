@@ -313,6 +313,7 @@
     <Compile Include="Commands\Address\ParseSingleLineInputCommand.cs" />
     <Compile Include="Commands\Address\ParseZoneCommand.cs" />
     <Compile Include="Commands\Drive\GetCachedDataFromDriveCommand.cs" />
+    <Compile Include="Commands\Geocode\DominantRouteResolverCommand.cs" />
     <Compile Include="Commands\Geocode\Flags\DoubleAvenuesExceptionCommand.cs" />
     <Compile Include="Commands\Geocode\GetAltNameLocatorsForAddressCommand.cs" />
     <Compile Include="Commands\Geocode\GetAltNameLocatorsForLocationCommand.cs" />
@@ -426,7 +427,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Commands\Log\" />
-    <Folder Include="Commands\Milepost\" />
     <Folder Include="Controllers\API\Version2\" />
     <Folder Include="Views\Canary\" />
   </ItemGroup>
