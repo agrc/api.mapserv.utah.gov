@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -64,8 +65,8 @@ namespace WebAPI.API
         /// </value>
         public static Dictionary<string, List<GridLinkable>> PlaceGridLookup { get; set; }
 
-        public static Dictionary<string,List<GridLinkable>> UspsDeliveryPoints { get; set; }
-        
+        public static Dictionary<string, List<GridLinkable>> UspsDeliveryPoints { get; set; }
+
         public static Dictionary<string, Regex> RegularExpressions { get; set; }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace WebAPI.API
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             LoggingConfig.Register("api");
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
