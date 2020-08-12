@@ -283,6 +283,9 @@
     <Compile Include="Logging\LoggingConfig.cs" />
     <Compile Include="Models\Changelog\LogEntry.cs" />
     <Compile Include="Models\Esri\Errors\Errorable.cs" />
+    <Compile Include="Models\Esri\RoadsAndHighways\GeometryType.cs" />
+    <Compile Include="Models\Esri\RoadsAndHighways\MeasureToGeometry.cs" />
+    <Compile Include="Models\Esri\RoadsAndHighways\SpatialReference.cs" />
     <Compile Include="Models\Raven\Admin\AdminContainer.cs" />
     <Compile Include="Models\Raven\Keys\ApiKey.cs" />
     <Compile Include="Models\Raven\Keys\MultipleGeocodeUsage.cs" />
