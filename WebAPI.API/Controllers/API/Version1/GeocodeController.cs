@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,9 +18,7 @@ using WebAPI.Common.Formatters;
 using WebAPI.Common.Models.Esri.RoadsAndHighways;
 using WebAPI.Domain;
 using WebAPI.Domain.ApiResponses;
-using WebAPI.Domain.ArcServerInput;
 using WebAPI.Domain.ArcServerResponse.Geolocator;
-using WebAPI.Domain.DataStructures;
 using WebAPI.Domain.EndpointArgs;
 using WebAPI.Domain.InputOptions;
 
@@ -29,7 +26,6 @@ namespace WebAPI.API.Controllers.API.Version1
 {
     public class GeocodeController : ApiController
     {
-        private static readonly string NotifyEmails = ConfigurationManager.AppSettings["notify_email"];
         private const int MaxAddresses = 100;
 
         [HttpGet]
@@ -433,7 +429,6 @@ namespace WebAPI.API.Controllers.API.Version1
 
             #endregion
 
-            var queryArgs = new ReverseMilepostArgs(x.Value, y.Value, options);
             var baseUrl = "https://maps.udot.utah.gov/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
 
             var point = new GeometryToMeasure.Point(x.Value, y.Value);
@@ -649,8 +644,7 @@ namespace WebAPI.API.Controllers.API.Version1
                 spatialReference = wkidJson["latestWkid"];
             }
 
-            int wkid;
-            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out wkid);
+            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out int wkid);
 
             var response = Get(address.Street, address.Zone, new GeocodeOptions
             {
