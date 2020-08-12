@@ -84,7 +84,6 @@
     <Compile Include="ArcServerResponse\Geolocator\GeocodeAddressResponse.cs" />
     <Compile Include="ArcServerResponse\Geolocator\GeocodeAvailabilityResponse.cs" />
     <Compile Include="ArcServerResponse\MapService\QueryResponse.cs" />
-    <Compile Include="ArcServerResponse\Soe\GeocodeMilepostResponse.cs" />
     <Compile Include="ArcServerResponse\Geolocator\Location.cs" />
     <Compile Include="ArcServerResponse\Geolocator\ReverseGeocodeResponse.cs" />
     <Compile Include="ArcServerResponse\Geolocator\StreetZipAddress.cs" />
