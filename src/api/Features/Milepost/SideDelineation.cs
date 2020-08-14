@@ -6,11 +6,11 @@ namespace AGRC.api.Features.Milepost {
         /// <summary>
         /// The Positive direction; Milepost values are increasing.
         /// </summary>
-        P,
+        Increasing,
 
         /// <summary>
         /// The Negative direction; Milepost values are decreasing.
         /// </summary>
-        N
+        Decreasing
     }
 }

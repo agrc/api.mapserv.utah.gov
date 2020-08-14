@@ -1,22 +1,34 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using AGRC.api.Models;
-using Newtonsoft.Json;
 
 namespace AGRC.api.Features.Geocoding {
     public class ReverseGeocodeResponseContract {
-        [JsonProperty(PropertyName = "address", Order = 0)]
+        /// <summary>
+        /// The street address extracted from the SGID.Transportation.Roads dataset
+        /// </summary>
+        /// <value></value>
         public string Address { get; set; }
 
-        [JsonProperty(PropertyName = "addressGrid", Order = 1)]
+        // The addressing grid in which the address was created
+        [JsonIgnore]
         public string Grid { get; set; }
 
-        [JsonProperty(PropertyName = "matchLocation", Order = 2)]
+        [JsonIgnore]
         public Point MatchPoint { get; set; }
 
-        [JsonProperty(PropertyName = "inputLocation", Order = 3)]
+        /// <summary>
+        /// The input location coordinates
+        /// </summary>
+        /// <value></value>
+        [JsonPropertyName("inputLocation")]
         public Point InputPoint { get; set; }
 
-        [JsonProperty(PropertyName = "pythagoreanDistance", Order = 4)]
+        /// <summary>
+        /// The distance between the input location and the match location
+        /// using pythagorean math
+        /// </summary>
+        [JsonPropertyName("pythagoreanDistance")]
         public double? Distance {
             get {
                 if (InputPoint == null || MatchPoint == null) {

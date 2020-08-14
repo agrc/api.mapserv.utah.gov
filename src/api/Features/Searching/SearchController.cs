@@ -11,15 +11,13 @@ using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AGRC.api.Features.Searching {
     /// <inheritdoc />
     /// <summary>
-    ///     Searching API Methods
+    ///     Searching Endpoints
     /// </summary>
-    /// <remarks>
-    ///     API methods for searching spatial data.
-    /// </remarks>
     [ApiController]
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
@@ -36,24 +34,25 @@ namespace AGRC.api.Features.Searching {
             _log = log?.ForContext<SearchController>();
         }
 
-        /// <summary>
-        ///     Finds the x, y location for an input address
-        /// </summary>
-        /// <remarks>Requires an API Key</remarks>
-        /// <response code="200">The address was geocoded successfully</response>
-        /// <response code="400">The input address was not well formed</response>
-        /// <response code="404">The input address was unable to be geocoded</response>
+        /// <summary>Search tables and attributes within the SGID</summary>
+        /// <remarks>_Requires an API Key_</remarks>
+        /// <response code="200">The query was successful</response>
+        /// <response code="400">The input query data was not well formed</response>
         /// <response code="500">Something went terribly wrong</response>
-        /// <param name="tableName">A fully qualified SGID table name eg: SGID10.Boundaries.Counties</param>
-        /// <param name="returnValues">A comma separated string of attributes to return values for eg: NAME,FIPS. To include the geometry use the shape@ token or if you want the envelope use the shape@envelope token</param>
+        /// <param name="tableName" example="SGID10.Boundaries.Counties">A fully qualified SGID table name</param>
+        /// <param name="returnValues" example="NAME,FIPS">A comma separated string of attributes to return values for. To include the geometry use the shape@ token or if you want the envelope use the shape@envelope token</param>
         /// <param name="options"></param>
-        [HttpGet]
         [ProducesResponseType(200, Type = typeof(ApiResponseContract<SearchResponseContract>))]
         [ProducesResponseType(400, Type = typeof(ApiResponseContract))]
         [ProducesResponseType(404, Type = typeof(ApiResponseContract))]
         [ProducesResponseType(500, Type = typeof(ApiResponseContract))]
+        [SwaggerOperation(
+            OperationId = "Search",
+            Tags = new[] { "Searching" }
+        )]
+        [HttpGet]
         [Route("api/v{version:apiVersion}/search/{tableName}/{returnValues}")]
-        public async Task<ObjectResult> Get(string tableName, string returnValues, SearchRequestOptionsContract options) {
+        public async Task<ObjectResult> Get(string tableName, string returnValues, [FromQuery]SearchRequestOptionsContract options) {
             _log.Debug("Searching {tableName} for {returnValues} with options: {options}", tableName, returnValues, options);
 
             #region validation
