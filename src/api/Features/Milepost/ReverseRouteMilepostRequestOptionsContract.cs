@@ -4,34 +4,39 @@ using AGRC.api.Models.RequestOptionContracts;
 namespace AGRC.api.Features.Milepost {
     public class ReverseRouteMilepostRequestOptionsContract : ProjectableOptions {
         /// <summary>
-        /// Gets or sets the tolerance.
+        /// The radius around the input location in meters.
         /// </summary>
-        /// <value>
-        /// The side.
-        /// </value>
+        /// <example>
+        /// 100
+        /// </example>
         [DefaultValue(100)]
         public double Buffer { get; set; } = 100;
 
 
         /// <summary>
-        /// Gets or sets the spatial reference well known id.
+        /// The spatial reference well known id.
         /// </summary>
-        /// <value>
-        ///     The wkid.
-        /// </value>
+        /// <example>
+        /// 4326
+        /// </example>
         [DefaultValue(26912)]
         public int WkId { get; set; }
 
         /// <summary>
-        /// Decides whether to include ramps
+        /// Include ramps in the results
         /// </summary>
+        /// <example>
+        /// true
+        /// </example>
         [DefaultValue(false)]
         public bool IncludeRampSystem { get; set; } = false;
 
         /// <summary>
-        ///     The count of candidates to return beside the highest match candidate.
-        ///     Default: 0
+        /// The number of candidates to return beside the highest match candidate.
         /// </summary>
+        /// <example>
+        /// 2
+        /// </example>
         [DefaultValue(0)]
         public int Suggest { get; set; } = 0;
     }

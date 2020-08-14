@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Formatters;
@@ -19,7 +20,20 @@ namespace AGRC.api.Features.Milepost {
             internal readonly int SpatialReference;
 
             public Query(string route, string milepost, RouteMilepostRequestOptionsContract options) {
-                Route = options.FullRoute ? route : $"{route.PadLeft(4, '0')}{options.Side}M";
+                if (!options.FullRoute) {
+                    var regex = new Regex(@"\d+");
+
+                    var matches = regex.Matches(Route);
+
+                    if (matches.Count == 0 || matches.Count > 1 || !matches[0].Success) {
+                        route = "";
+                    } else {
+                        var side = options.Side == SideDelineation.Increasing ? "P" : "N";
+                        route = $"{matches[0].Value.PadLeft(4, '0')}{side}M";
+                    }
+                }
+
+                Route = route;
                 Milepost = milepost;
                 SpatialReference = options.SpatialReference;
             }

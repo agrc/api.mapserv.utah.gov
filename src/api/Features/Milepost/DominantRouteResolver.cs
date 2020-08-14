@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Serilog;
 
 namespace AGRC.api.Features.Milepost {
-    public class DominateRouteResolver {
+    public class DominantRouteResolver {
         public class Computation : IComputation<ReverseRouteMilepostResponseContract> {
             internal readonly Concurrencies.RequestContract RequestContract;
             internal readonly Dictionary<string, GeometryToMeasure.ResponseLocation> RouteMap;
@@ -53,7 +53,7 @@ namespace AGRC.api.Features.Milepost {
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()
                 };
-                _log = log?.ForContext<DominateRouteResolver>();
+                _log = log?.ForContext<DominantRouteResolver>();
                 _distance = distance;
             }
 

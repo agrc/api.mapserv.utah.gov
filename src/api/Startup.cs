@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Reflection;
 using AGRC.api.Extensions;
 using AGRC.api.Features.Health;
@@ -23,8 +22,11 @@ using CorrelationId.DependencyInjection;
 using CorrelationId;
 using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
 using AGRC.api.Features.Geocoding;
-using AGRC.api.Models;
 using AGRC.api.Features.GeometryService;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using api.OpenApi;
+using System.IO;
 
 namespace AGRC.api {
     public class Startup {
@@ -54,6 +56,8 @@ namespace AGRC.api {
                 options.AddApiResponseFormatters();
                 // options.AddJsonpOutputFormatter();
             })
+            .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)))
             .AddNewtonsoftJson(options => {
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
@@ -77,14 +81,54 @@ namespace AGRC.api {
             services.AddSwaggerGen(c => {
                 c.EnableAnnotations();
                 c.DescribeAllParametersInCamelCase();
-                // c.DescribeAllEnumsAsStrings();
-                // c.DescribeStringEnumsInCamelCase();
+
+                c.DocumentFilter<TrimUrlOperationFilter>();
                 c.CustomOperationIds(apiDesc => {
                     return apiDesc.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null;
                 });
 
+                c.AddSecurityDefinition("apikey", new OpenApiSecurityScheme {
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Query,
+                    Name = "apiKey",
+                    Description = "A key gathered from developer.mapserv.utah.gov"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "apikey" },
+                            Type = SecuritySchemeType.ApiKey,
+                            In = ParameterLocation.Query,
+                            Name = "apiKey",
+                            Description = "A key acquired from developer.mapserv.utah.gov"
+                        },
+                        new string[] { }
+                    }
+                });
+
+                c.AddServer(new OpenApiServer {
+                    Url = "https://api.mapserv.utah.gov/api/v1",
+                    Description = "Base url for the version 1 API"
+                });
+
                 c.SwaggerDoc("v1", new OpenApiInfo {
                     Version = "v1",
+                    Title = "AGRC WebAPI : OpenAPI Documentation",
+                    Description = "OpenAPI Documentation",
+                    Contact = new OpenApiContact {
+                        Name = "AGRC",
+                        Email = "sgourley@utah.gov",
+                        Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
+                    },
+                    License = new OpenApiLicense {
+                        Name = "MIT",
+                        Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/master/LICENSE")
+                    },
+                });
+
+                c.SwaggerDoc("v2", new OpenApiInfo {
+                    Version = "v2",
                     Title = "AGRC WebAPI : OpenAPI Documentation",
                     Description = "OpenAPI Documentation",
                     Contact = new OpenApiContact {
@@ -126,7 +170,7 @@ namespace AGRC.api {
 
             builder
                 .RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly)
-                .AsClosedTypesOf(typeof(IRequestHandler <,>))
+                .AsClosedTypesOf(typeof(IRequestHandler<,>))
                 .AsImplementedInterfaces();
 
             builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
@@ -151,7 +195,6 @@ namespace AGRC.api {
             }
 
             app.UseSwagger(c => {
-                c.SerializeAsV2 = true;
                 c.RouteTemplate = "openapi/{documentName}/api.json";
             });
 
@@ -159,6 +202,7 @@ namespace AGRC.api {
                 c.DocumentTitle = "AGRC WebAPI OpenAPI Documentation";
                 c.RoutePrefix = "openapi";
                 c.SwaggerEndpoint("/openapi/v1/api.json", "v1");
+                c.SwaggerEndpoint("/openapi/v2/api.json", "v2");
                 c.SupportedSubmitMethods();
                 c.EnableDeepLinking();
                 c.DocExpansion(DocExpansion.List);

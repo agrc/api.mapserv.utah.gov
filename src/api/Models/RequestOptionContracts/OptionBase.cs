@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using AGRC.api.Models.Constants;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace AGRC.api.Models.RequestOptionContracts {
     public class OptionBase {
@@ -13,6 +15,7 @@ namespace AGRC.api.Models.RequestOptionContracts {
         ///     default json will be returned.
         /// </summary>
         [DefaultValue(JsonFormat.None)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public JsonFormat Format { get; set; }
     }
 }

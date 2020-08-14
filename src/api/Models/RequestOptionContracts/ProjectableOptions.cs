@@ -15,7 +15,6 @@ namespace AGRC.api.Models.RequestOptionContracts {
         ///         Coordinate System wkid reference
         ///     </a>
         ///     .
-        ///     Default: 26912
         /// </summary>
         [DefaultValue(26912)]
         public int SpatialReference { get; set; } = 26912;

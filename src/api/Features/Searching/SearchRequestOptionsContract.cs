@@ -10,24 +10,30 @@ namespace AGRC.api.Features.Searching {
         private double _buffer;
 
         /// <summary>
-        ///     The where clause to be evaluated
+        /// The where clause to be evaluated
         /// </summary>
+        /// <example>
+        /// name like '%ville'
+        /// </example>
         public string Predicate {
             get => _predicate;
             set => _predicate = value?.ToUpperInvariant();
         }
 
         /// <summary>
-        ///     The coordinate pair representing a point.
-        /// <example>
-        ///     points:[x,y]
-        /// </example>
+        /// The coordinate pair representing a point.
         /// </summary>
+        /// <example>
+        /// points:[x,y]
+        /// </example>
         public string Geometry { get; set; } = "";
 
         /// <summary>
-        ///     The buffer distance in meters. Any valid double less than or equal to 2000
+        /// The buffer distance in meters. Any valid double less than or equal to 2000
         /// </summary>
+        /// <example>
+        /// 500
+        /// </example>
         public double Buffer {
             get => _buffer;
             set {
@@ -49,7 +55,6 @@ namespace AGRC.api.Features.Searching {
         ///     AliasData: Use the field alias as stored in the data
         ///     AliasLower: lower case the field alias eg: alias
         ///     AliasUpper: upper case the field alias eg: ALIAS
-        ///     Default: Data
         /// </summary>
         [DefaultValue(AttributeStyle.Input)]
         public AttributeStyle AttributeStyle { get; set; } = AttributeStyle.Input;

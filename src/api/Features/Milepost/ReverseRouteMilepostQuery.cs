@@ -135,7 +135,7 @@ namespace AGRC.api.Features.Milepost {
                     var primaryRoutes = FilterPrimaryRoutes(location.Results, request.IncludeRamps);
 
                     var dominantRoutes = await _computeMediator.Handle(
-                        new DominateRouteResolver.Computation(primaryRoutes, point, request.SuggestionCount), cancellationToken);
+                        new DominantRouteResolver.Computation(primaryRoutes, point, request.SuggestionCount), cancellationToken);
 
                     return new OkObjectResult(new ApiResponseContract<ReverseRouteMilepostResponseContract> {
                         Result = dominantRoutes,

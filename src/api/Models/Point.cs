@@ -1,8 +1,6 @@
-using Newtonsoft.Json;
-
 namespace AGRC.api.Models {
     /// <summary>
-    ///     Point model for points
+    /// A coordinate pair collection representing a point
     /// </summary>
     public class Point {
         public Point() {
@@ -13,10 +11,16 @@ namespace AGRC.api.Models {
             Y = y;
         }
 
-        [JsonProperty(PropertyName = "x")]
+        /// <summary>
+        /// A geographic coordinate representing the longitude or easting
+        /// </summary>
+        /// <example>425961.8481116538</example>
         public double X { get; set; }
 
-        [JsonProperty(PropertyName = "y")]
+        /// <summary>
+        /// A geographic coordinate representing the latitude or northing
+        /// </summary>
+        /// <example>4514356.332043296</example>
         public double Y { get; set; }
 
         public string ToQuery() =>
