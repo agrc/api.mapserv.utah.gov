@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace AGRC.api.Models.RequestOptionContracts {
     public class ProjectableOptions : OptionBase {
@@ -14,6 +15,7 @@ namespace AGRC.api.Models.RequestOptionContracts {
         /// This coordinate system is the most accurate reflection of Utah. It is recommended to use this coordinate
         /// system if length and area calculations are important as other coordinate systems will skew the truth.
         /// </summary>
+        [JsonProperty(PropertyName = "spatialReference")]
         [DefaultValue(26912)]
         public int SpatialReference { get; set; } = 26912;
     }

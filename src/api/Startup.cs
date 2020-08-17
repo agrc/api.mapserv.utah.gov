@@ -57,8 +57,10 @@ namespace AGRC.api {
                 // options.AddJsonpOutputFormatter();
             })
             .AddJsonOptions(options =>
+                // open api is currently using system.text.json
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)))
             .AddNewtonsoftJson(options => {
+                // the rest of the api is using json.net
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
 
