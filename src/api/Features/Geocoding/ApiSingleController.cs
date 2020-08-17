@@ -29,7 +29,10 @@ namespace AGRC.api.Features.Geocoding {
         /// <response code="400">The input address was not well formed</response>
         /// <response code="404">The input address was unable to be geocoded</response>
         /// <response code="500">Something went terribly wrong</response>
-        /// <param name="street" example="326 east south temple st.">A Utah street address.  Intersections are separated by `and`</param>
+        /// <param name="street" example="326 east south temple st.">A Utah street address.
+        /// eg: `326 east south temple st`. A valid mailing address or structure does not need to exist at the input street to
+        /// find a match.If the house number exists in the range of the street, a coordinate will be extrapolated
+        /// from the road centerlines</param>
         /// <param name="zone" example="slc">A Utah municipality name or 5 digit zip code</param>
         /// <param name="options"></param>
         [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
