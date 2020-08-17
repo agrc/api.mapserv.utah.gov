@@ -18,7 +18,6 @@
         /// <summary>
         /// The result of the request. This is only populated when the status code is 200
         /// </summary>
-        /// <value></value>
         public T Result { get; set; }
     }
 }

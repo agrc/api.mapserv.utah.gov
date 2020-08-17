@@ -118,7 +118,7 @@ export default function StreetZone() {
         <Label>format</Label>
         <Description>
           There are three output formats for the resulting street and zone geocoding. The <strong className="text-indigo-900">default</strong> being empty.{' '}
-          <Code>esrijson</Code> will parse into an <Code>esri.Graphic</Code> for mapping purposes and <Code>geojson</Code> will format as a a{' '}
+          <Code>esrijson</Code> will parse into an <Code>esri.Graphic</Code> for mapping purposes and <Code>geojson</Code> will format as a{' '}
           <Link url="https://tools.ietf.org/html/rfc7946#section-3.2">feature</Link>. If this value is omitted, the default json will be returned.
         </Description>
         <Label>pobox</Label>
@@ -146,7 +146,7 @@ export default function StreetZone() {
         <Description>
           When suggest is set to the <strong className="text-indigo-900">default</strong> value of <Code>0</Code>, the difference in score between the top match
           and the next highest match is calculated and returned on the result object. This can help determine if there was a tie. If the value is 0, repeat the
-          request with suggest > 0 and investigate the results. A common scenario to cause a 0 is when and input address of 100 main street is input. The two
+          request with suggest {">"} 0 and investigate the results. A common scenario to cause a 0 is when and input address of 100 main street is input. The two
           highest score matches will be 100 south main and 100 north main. The system will arbitrarily choose one because they will have the same score.
         </Description>
         <Label>callback</Label>
