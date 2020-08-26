@@ -1,15 +1,99 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Sinks.GoogleCloudLogging;
 
 namespace developer.mapserv.utah.gov {
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args) => CreateWebHostBuilder(args).Build().Run();
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+           // .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+           .AddEnvironmentVariables()
+           .Build();
+        public static async Task<int> Main(string[] args) {
+            var config = new GoogleCloudLoggingSinkOptions {
+                UseJsonOutput = true,
+                LogName = "developer.mapserv.utah.gov",
+                UseSourceContextAsLogName = false,
+                ResourceType = "global",
+                ServiceName = "developer.mapserv.utah.gov",
+                ServiceVersion = "2.0.0-beta.1",
+                ProjectId = "ut-dts-agrc-web-api-prod"
+            };
 
-        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            if (environment == Environments.Development) {
+                var projectId = "ut-dts-agrc-web-api-dv";
+                var fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
+                var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+
+                config.GoogleCredentialJson = serviceAccount;
+                config.ProjectId = projectId;
+            }
+
+            var logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .WriteTo.GoogleCloudLogging(config)
+                .CreateLogger();
+
+             try {
+                logger.Information("Starting web host");
+
+                var host = CreateHostBuilder(args).Build();
+                logger.Information("Completed");
+
+                await host.RunAsync();
+
+                return 0;
+            } catch (Exception ex) {
+                logger.Fatal(ex, "Host terminated unexpectedly");
+
+                return 1;
+            } finally {
+                logger.Information("Shutting down");
+                Log.CloseAndFlush();
+            }
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(builder => {
-                builder.UseStartup <Startup>();
+                builder.UseStartup<Startup>();
+                builder.UseConfiguration(Configuration);
+                builder.ConfigureLogging(x => x.ClearProviders());
+            })
+            .UseSerilog((context, config) => {
+                var googleConfig = new GoogleCloudLoggingSinkOptions {
+                    UseJsonOutput = true,
+                    LogName = "developer.mapserv.utah.gov",
+                    UseSourceContextAsLogName = false,
+                    ResourceType = "global",
+                    ServiceName = "developer.mapserv.utah.gov",
+                    ServiceVersion = "2.0.0-beta.1",
+                    ProjectId = "ut-dts-agrc-web-api-prod"
+                };
+
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+                if (environment == Environments.Development) {
+                    var projectId = "ut-dts-agrc-web-api-dv";
+                    var fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
+                    var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+
+                    googleConfig.GoogleCredentialJson = serviceAccount;
+                    googleConfig.ProjectId = projectId;
+                }
+
+                config.ReadFrom.Configuration(context.Configuration);
+                config.WriteTo.GoogleCloudLogging(googleConfig);
             });
     }
 }
