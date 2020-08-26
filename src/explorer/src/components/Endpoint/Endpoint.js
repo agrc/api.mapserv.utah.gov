@@ -36,7 +36,7 @@ export default function Endpoint(props) {
   const [response, setResponse] = useState();
 
   return (
-    <article className="bg-white shadow ml-3 m-2 border-b border-gray-200 rounded-lg">
+    <article className="bg-white shadow m-3 border-b border-gray-200 rounded-lg">
       <header onClick={() => setCollapsed(!collapsed)} className="p-3 flex justify-between items-center w-full cursor-pointer">
         <div>
           <h3 className="text-2xl font-hairline tracking-tight">{props.name}</h3>
