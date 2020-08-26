@@ -16,6 +16,11 @@ This app runs as a docker container. To build the image `docker-compose build ex
 
 In the project directory, you can run:
 
+#### `npm run build:full-css`
+
+- creates `src/styles/tailwind.css`
+- do this before running `npm start` for the first time
+
 #### `npm start`
 
 - Runs the app in the development mode.
