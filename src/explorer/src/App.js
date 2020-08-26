@@ -46,24 +46,22 @@ export default function App() {
           <InlineTopNav>
             <CommonLinks></CommonLinks>
           </InlineTopNav>
-          <main className="flex h-screen">
+          <main className="flex flex-1">
             <div className="hidden md:block flex-none w-40 sticky top-0 self-start pt-6 ml-6">
               <ResponsiveSideNav></ResponsiveSideNav>
             </div>
-            <section className="flex-auto overflow-auto">
-              <main className="h-full min-h-screen max-w-screen-xl mx-auto md:px-4 lg:px-8">
-                <section className="bg-gray-300 bg-circuit--light border border-gray-400 mt-12 h-screen py-2">
-                  <div
-                    id="geocoding"
-                    className="m-3 bg-white border-l-2 border-indigo-300 md:rounded-l md:rounded-r border-r-8 border-t-2 border-b-2">
-                    <header className="p-3">
-                      <h3 className="text-3xl font-extrabold tracking-tight">Geocoding Endpoints</h3>
-                      <p className="text-sm text-gray-500 tracking-wider">Everything related to addresses</p>
-                    </header>
-                  </div>
-                  <StreetZoneEndpoint></StreetZoneEndpoint>
-                </section>
-              </main>
+            <section className="w-full">
+              <section className="bg-gray-300 bg-circuit--light border border-gray-400 py-2 h-full">
+                <div
+                  id="geocoding"
+                  className="m-3 bg-white border-l-2 border-indigo-300 md:rounded-l md:rounded-r border-r-8 border-t-2 border-b-2">
+                  <header className="p-3">
+                    <h3 className="text-3xl font-extrabold tracking-tight">Geocoding Endpoints</h3>
+                    <p className="text-sm text-gray-500 tracking-wider">Everything related to addresses</p>
+                  </header>
+                </div>
+                <StreetZoneEndpoint></StreetZoneEndpoint>
+              </section>
             </section>
           </main>
         </Route>
