@@ -1,9 +1,3 @@
-resource "google_compute_global_address" "ingress_ip" {
-  project     = var.project_id
-  name        = "${var.cluster_name}-ingress"
-  description = "Application ingress public IP address"
-}
-
 // GKE
 resource "google_container_cluster" "dev_cluster" {
   provider = google-beta

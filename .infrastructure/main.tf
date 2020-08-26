@@ -10,6 +10,13 @@ resource "google_project_service" "service" {
   disable_on_destroy = false
 }
 
+resource "google_compute_global_address" "ingress_ip" {
+  project     = local.project_id
+  name        = "${var.cluster_name}-ingress"
+  description = "Application ingress public IP address"
+}
+
+// costs money
 module "gke_cluster" {
   source            = "./modules/gke"
   project_id        = local.project_id
