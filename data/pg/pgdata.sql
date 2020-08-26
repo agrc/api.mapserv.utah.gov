@@ -375,7 +375,7 @@ ALTER TABLE ONLY public.zip_corrections ALTER COLUMN id SET DEFAULT nextval('pub
 --
 
 COPY public.accounts (id, email, first_name, last_name, admin, keys_used, keys_allowed, company, job_category, job_title, experience, contact_route, email_confirmed, email_confirmation_date, email_confirmation_tries, email_key, salt, password) FROM stdin;
-1	test@test.com	agrc	location matters	t	1	5	agrc	\N	\N	10	email	t	1980-01-01	1	\N	rq5vdoY5U2S5TxuXDbq8uQ==	eDf267fDK6wS71GOO8tehsuD0m8Tz0HNRMdfo8XyyKk=
+1	test@test.com	agrc	location matters	t	1	5	agrc	\N	\N	10	email	t	1980-01-01	1	\N	rq5vdoY5U2S5TxuXDbq8uQ==	5G8mnUzwpfiBXIMy4f64P1irPSh95NxlFBMvCwLkaqQ=
 \.
 
 
