@@ -19,6 +19,28 @@ MIT
 
 Any and all contributions are welcome! Please open an issue to discuss the feature or change before coding and submitting a pull request.
 
+### Conventional Commits
+
+Use conventional commits when checking in code.
+
+- fix
+- feature
+- docs
+- style
+- refactor
+- test
+- chore
+
+Use the following scopes depending on the areas of code you are modifying.
+
+- (api)
+- (open-api)
+- (developer)
+- (explorer)
+- (build)
+- (k8s)
+- (terraform)
+
 ## Development
 
 The web API is designed to run in Docker containers but Docker is not a requirement. These projects can be run entirely without Docker, but you will be in charge of maintaining the software dependencies. The current dependencies are ASP.NET Core, PostgreSQL, Redis, and ArcGIS Server. ASP.NET Core, PostgreSQL, and Redis all have community maintained containers but ArcGIS Server does not. Until ArcGIS Server has a maintained container, it is recommended to be installed in a VM or locally.
@@ -96,11 +118,11 @@ _It is worth noting that after the volume is created and the image is built, cha
 
 #### Import database _with container running_
 
-- `docker exec -i $(docker-compose ps -q db) psql -Upostgres -d webapi < data/pg/pgdata.sql`
+- `docker exec -i $(docker-compose ps -q db) psql -U postgres -d webapi < data/pg/pgdata.sql`
 
 #### View database tables _with container running_
 
-- `docker exec -it $(docker-compose ps -q db) psql -Upostgres -d webapi -c '\z'`
+- `docker exec -it $(docker-compose ps -q db) psql -U postgres -d webapi -c '\z'`
 
 ### Building images
 
