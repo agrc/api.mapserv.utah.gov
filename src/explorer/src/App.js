@@ -55,7 +55,7 @@ export default function App() {
                 <section className="bg-gray-300 bg-circuit--light border border-gray-400 mt-12 h-screen py-2">
                   <div
                     id="geocoding"
-                    className="ml-1 bg-white border-l-2 border-indigo-300 md:rounded-l md:rounded-r md:-mr-1 border-r-8 border-t-2 border-b-2">
+                    className="m-3 bg-white border-l-2 border-indigo-300 md:rounded-l md:rounded-r border-r-8 border-t-2 border-b-2">
                     <header className="p-3">
                       <h3 className="text-3xl font-extrabold tracking-tight">Geocoding Endpoints</h3>
                       <p className="text-sm text-gray-500 tracking-wider">Everything related to addresses</p>
