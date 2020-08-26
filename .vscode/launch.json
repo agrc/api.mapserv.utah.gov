@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "start api without browser",
+      "name": "api - no launch",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -21,7 +21,7 @@
       }
     },
     {
-      "name": "health",
+      "name": "api - health",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -45,7 +45,7 @@
       }
     },
     {
-      "name": "search sample",
+      "name": "api - search sample",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -69,7 +69,7 @@
       }
     },
     {
-      "name": "geocode - single",
+      "name": "api geocode - single",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -90,7 +90,7 @@
       }
     },
     {
-      "name": "geocode - reverse",
+      "name": "api geocode - reverse",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -134,7 +134,7 @@
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:1337"
+        "ASPNETCORE_URLS": "https://localhost:1338"
       },
       "sourceFileMap": {
         "/Views": "${workspaceFolder}/Views"
