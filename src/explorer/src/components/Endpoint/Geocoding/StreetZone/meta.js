@@ -1,61 +1,25 @@
-const initialState = {
-  street: '',
-  zone: '',
-  spatialReference: '26912',
-  acceptScore: '70',
-  pobox: false,
-  locators: 'all',
-  format: 'default',
-  suggest: '0',
-  scoreDifference: false,
-  callback: ''
-};
+import { object, string, number, boolean, addMethod, mixed } from 'yup';
 
-const defaultAttributes = {
-  street: {
-    placeholder: '123 south main street',
-    type: 'string',
-    required: true
-  },
-  zone: {
-    placeholder: 'SLC or 84111',
-    type: 'string',
-    required: true
-  },
-  sr: {
-    placeholder: 26912,
-    type: 'int',
-    required: false
-  },
-  acceptScore: {
-    placeholder: 70,
-    type: 'int',
-    required: false
-  },
-  pobox: {
-    type: 'boolean',
-    required: false
-  },
-  locators: {
-    placeholder: 'all',
-    type: 'string',
-    required: false
-  },
-  suggest: {
-    placeholder: 0,
-    type: 'int',
-    required: false
-  },
-  scoreDifference: {
-    placeholder: 0,
-    type: 'int',
-    required: false
-  },
-  callback: {
-    placeholder: 'callback',
-    type: 'string',
-    required: false
-  }
-};
+const schema = object().shape({
+  street: string().required().meta({ placeholder: '123 south main street'}),
+  zone: string().required().meta({ placeholder: 'SLC or 84111'}),
+  spatialReference: number().positive().integer().default(26912),
+  acceptScore: number().positive().integer().default(70),
+  pobox: boolean().default(false),
+  locators: string().oneOf(['all', 'addressPoints', 'roadCenterlines']).default('all'),
+  format: string().oneOf(['default', 'esrijson', 'geojson']).default('default'),
+  suggest: number().positive().integer().default(0),
+  scoreDifference: boolean().default(false),
+  callback: string().default('callback')
+});
 
-export { initialState, defaultAttributes };
+// add some custom convenience methods to help reduce code
+addMethod(mixed, 'isFieldRequired', function() {
+  // it's not very easy to figure out if a field is required in yup
+  return this.describe().tests.findIndex(({ name }) => name === 'required') >= 0;
+});
+addMethod(mixed, 'getPlaceholder', function() {
+  return (this.meta()) ? this.meta().placeholder : null;
+});
+
+export default schema;
