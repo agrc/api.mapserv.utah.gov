@@ -3,7 +3,6 @@ import produce from 'immer';
 import EndpointInput from '../../EndpointInput';
 import EndpointSelect from '../../EndpointSelect';
 import EndpointSwitch from '../../EndpointSwitch';
-import EndpointResponseFormat from '../../EndpointResponseFormat';
 import EndpointAdvancedToggle from '../../EndpointAdvancedToggle';
 import stringify, { hasRequiredParts } from '../../QueryString';
 import schema from './meta';
@@ -41,14 +40,10 @@ export default function StreetZone(props) {
         <EndpointInput name="spatialReference" schema={schema.fields.spatialReference.clone()} dispatch={dispatch} />
         <EndpointInput name="acceptScore" schema={schema.fields.acceptScore.clone()} dispatch={dispatch} />
         <EndpointSwitch name="pobox" schema={schema.fields.pobox.clone()} dispatch={dispatch} />
-        <EndpointSelect name="locators" schema={schema.fields.locators.clone()} dispatch={dispatch}>
-          <option value="all">all</option>
-          <option value="addressPoints">addressPoints</option>
-          <option value="roadCenterlines">roadCenterlines</option>
-        </EndpointSelect>
+        <EndpointSelect name="locators" schema={schema.fields.locators.clone()} dispatch={dispatch}></EndpointSelect>
         <EndpointInput name="suggest" schema={schema.fields.suggest.clone()} dispatch={dispatch} />
         <EndpointSwitch name="scoreDifference" schema={schema.fields.scoreDifference.clone()} dispatch={dispatch} />
-        <EndpointResponseFormat dispatch={dispatch} />
+        <EndpointSelect dispatch={dispatch} name="format" schema={schema.fields.format.clone()}></EndpointSelect>
         <EndpointInput name="callback" schema={schema.fields.callback.clone()} dispatch={dispatch} />
       </EndpointAdvancedToggle>
     </>

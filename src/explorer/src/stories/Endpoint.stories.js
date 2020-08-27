@@ -1,7 +1,6 @@
 import React from 'react';
 import Endpoint from '../components/Endpoint/Endpoint';
 import EndpointDemoDocToggle from '../components/Endpoint/EndpointDemoDocToggle';
-import EndpointResponseFormat from '../components/Endpoint/EndpointResponseFormat';
 import EndpointAdvancedToggle from '../components/Endpoint/EndpointAdvancedToggle';
 import EndpointInput from '../components/Endpoint/EndpointInput';
 import { TypeLabel, RequiredLabel } from '../components/Endpoint/EndpointLabel';
@@ -9,6 +8,7 @@ import EndpointSelect from '../components/Endpoint/EndpointSelect';
 import EndpointSwitch from '../components/Endpoint/EndpointSwitch';
 import EndpointUrl from '../components/Endpoint/EndpointUrl';
 import EndpointResponse from '../components/Endpoint/EndpointResponse';
+import * as yup from 'yup';
 
 export default {
   title: 'Endpoint Parts',
@@ -29,11 +29,12 @@ const sampleResponse = {
   },
   status: 200
 };
+const schema = yup.string().required().meta({ placeholder: 'placeholder text' });
+const selectSchema = yup.string().oneOf(['one', 'two', 'three']).default('two');
 
 export const DemoDocToggle = () => <EndpointDemoDocToggle active="docs" showApi={() => {}}></EndpointDemoDocToggle>;
-export const ResponseFormat = () => <EndpointResponseFormat></EndpointResponseFormat>;
 export const AdvancedToggle = () => <EndpointAdvancedToggle></EndpointAdvancedToggle>;
-export const Input = () => <EndpointInput type="int" placeholder="placeholder" required={true}></EndpointInput>;
+export const Input = () => <EndpointInput schema={schema}></EndpointInput>;
 export const Label = () => (
   <div className="w-1/6 bg-gray-100">
     <div className="flex md:flex-col pt-2 md:pt-0 align-center opacity-75">
@@ -46,11 +47,7 @@ export const Label = () => (
     </div>
   </div>
 );
-export const Select = () => (
-  <EndpointSelect type="int" required={false}>
-    <option>options</option>
-  </EndpointSelect>
-);
+export const Select = () => <EndpointSelect schema={selectSchema}></EndpointSelect>;
 export const Switch = () => <EndpointSwitch type="boolean" required={true}></EndpointSwitch>;
 export const Code = () => <EndpointResponse code={JSON.stringify(sampleResponse, null, 2)}></EndpointResponse>;
 export const Url = () => (
