@@ -6,9 +6,10 @@ import EndpointSwitch from '../../EndpointSwitch';
 import EndpointResponseFormat from '../../EndpointResponseFormat';
 import EndpointAdvancedToggle from '../../EndpointAdvancedToggle';
 import stringify, { hasRequiredParts } from '../../QueryString';
-import { initialState, defaultAttributes } from './meta';
+import schema from './meta';
 
 const url = 'https://api.mapserv.utah.gov/api/v1/geocode/:street/:zone';
+const initialState = schema.getDefault();
 
 const reducer = produce((draft, action) => {
   draft[action.type] = action.payload;
@@ -34,21 +35,21 @@ export default function StreetZone(props) {
 
   return (
     <>
-      <EndpointInput name="street" {...defaultAttributes.street} dispatch={dispatch} />
-      <EndpointInput name="zone" {...defaultAttributes.zone} dispatch={dispatch} />
+      <EndpointInput name="street" schema={schema.fields.street.clone()} dispatch={dispatch} />
+      <EndpointInput name="zone" schema={schema.fields.zone.clone()} dispatch={dispatch} />
       <EndpointAdvancedToggle>
-        <EndpointInput name="spatialReference" {...defaultAttributes.sr} dispatch={dispatch} />
-        <EndpointInput name="acceptScore" {...defaultAttributes.acceptScore} dispatch={dispatch} />
-        <EndpointSwitch name="pobox" {...defaultAttributes.pobox} dispatch={dispatch} />
-        <EndpointSelect name="locators" {...defaultAttributes.locators} dispatch={dispatch}>
+        <EndpointInput name="spatialReference" schema={schema.fields.spatialReference.clone()} dispatch={dispatch} />
+        <EndpointInput name="acceptScore" schema={schema.fields.acceptScore.clone()} dispatch={dispatch} />
+        <EndpointSwitch name="pobox" schema={schema.fields.pobox.clone()} dispatch={dispatch} />
+        <EndpointSelect name="locators" schema={schema.fields.locators.clone()} dispatch={dispatch}>
           <option value="all">all</option>
           <option value="addressPoints">addressPoints</option>
           <option value="roadCenterlines">roadCenterlines</option>
         </EndpointSelect>
-        <EndpointInput name="suggest" {...defaultAttributes.suggest} dispatch={dispatch} />
-        <EndpointSwitch name="scoreDifference" {...defaultAttributes.scoreDifference} dispatch={dispatch} />
+        <EndpointInput name="suggest" schema={schema.fields.suggest.clone()} dispatch={dispatch} />
+        <EndpointSwitch name="scoreDifference" schema={schema.fields.scoreDifference.clone()} dispatch={dispatch} />
         <EndpointResponseFormat dispatch={dispatch} />
-        <EndpointInput name="callback" {...defaultAttributes.callback} dispatch={dispatch} />
+        <EndpointInput name="callback" schema={schema.fields.callback.clone()} dispatch={dispatch} />
       </EndpointAdvancedToggle>
     </>
   );

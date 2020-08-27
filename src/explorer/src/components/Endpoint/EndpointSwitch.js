@@ -4,15 +4,15 @@ import React from 'react';
 import Toggle from 'react-toggle';
 import { TypeLabel, RequiredLabel } from './EndpointLabel';
 
-export default function Field(props) {
+export default function Field({ schema, name, dispatch }) {
   return (
     <div className="flex flex-wrap w-full pt-3 md:flex-no-wrap items-center">
-      <label className="self-center mx-2 md:ml-4 pb-2 md:pb-2 text-sm leading-5 font-medium text-gray-700 lg:w-1/4 md:w-1/2">{props.name}</label>
+      <label className="self-center mx-2 md:ml-4 pb-2 md:pb-2 text-sm leading-5 font-medium text-gray-700 lg:w-1/4 md:w-1/2">{name}</label>
       <span className="w-full">
         <Toggle
           onChange={event =>
-            props.dispatch({
-              type: props.name,
+            dispatch({
+              type: name,
               payload: event.target.checked
             })
           }
@@ -20,8 +20,8 @@ export default function Field(props) {
         />
       </span>
       <div className="flex md:flex-col pt-2 md:pt-0 align-center opacity-75">
-        <TypeLabel type={props.type} />
-        <RequiredLabel required={props.required} />
+        <TypeLabel type={schema.type} />
+        <RequiredLabel required={schema.isFieldRequired()} />
       </div>
     </div>
   );
