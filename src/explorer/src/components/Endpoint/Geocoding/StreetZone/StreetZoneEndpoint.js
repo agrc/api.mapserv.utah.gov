@@ -4,7 +4,7 @@ import StreetZoneApi from './StreetZoneApi';
 import StreetZoneDocs from './StreetZoneDocs';
 
 const meta = {
-  title: 'Finding a spatial coordinate on the ground for an address',
+  description: 'Finding a spatial coordinate on the ground for an address',
   name: 'Street and Zone'
 };
 
