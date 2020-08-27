@@ -1,17 +1,16 @@
 import React from 'react';
-import Header from '../components/Header';
 import Action from '../components/Action';
-import { SideNav, TopNav } from '../components/Navigation';
+import { ResponsiveSideNav, InlineTopNav } from '../components/Navigation';
 import Button from '../components/Button';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 export default {
   title: 'Website Parts'
 };
 
-export const Headers = () => <Header></Header>;
 export const CallToAction = () => <Action></Action>;
-export const SideNavigation = () => <SideNav></SideNav>;
-export const TopNavigation = () => <TopNav></TopNav>;
+export const SideNavigation = () => <Router><ResponsiveSideNav></ResponsiveSideNav></Router>;
+export const TopNavigation = () => <Router><InlineTopNav></InlineTopNav></Router>;
 export const Buttons = () => (
   <>
     <Button>normal</Button>
