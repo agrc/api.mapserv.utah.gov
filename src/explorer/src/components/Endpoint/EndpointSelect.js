@@ -1,7 +1,7 @@
 import React from 'react';
 import { TypeLabel, RequiredLabel } from './EndpointLabel';
 
-export default function EndpointSelect({ dispatch, name, schema, children }) {
+export default function EndpointSelect({ dispatch, name, schema }) {
   return (
     <div className="flex flex-wrap pt-3 md:justify-around md:flex-no-wrap">
       <label className="self-center mx-2 md:ml-4 pb-2 md:pb-2 text-sm leading-5 font-medium text-gray-700 lg:w-1/4 md:w-1/2">{name}</label>
@@ -14,9 +14,9 @@ export default function EndpointSelect({ dispatch, name, schema, children }) {
             })
           }
           required={schema.isFieldRequired()}
-          defaultValue={schema.getPlaceholder()}
+          defaultValue={schema.default()}
           className="bg-white focus:outline-none focus:border-indigo-200 border border-gray-300 md:border-r-0 rounded md:rounded-none md:rounded-l-lg mx-2 md:mx-0 py-2 px-4 block w-full appearance-none leading-normal">
-          {children}
+          {schema.describe().oneOf.map(value => <option key={value} value={value}>{value}</option>)}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
           <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
