@@ -46,7 +46,7 @@ export default function App() {
           <InlineTopNav>
             <CommonLinks></CommonLinks>
           </InlineTopNav>
-          <main className="flex flex-1">
+          <main className="flex">
             <div className="hidden md:block flex-none w-40 sticky top-0 self-start pt-6 ml-6">
               <ResponsiveSideNav></ResponsiveSideNav>
             </div>
