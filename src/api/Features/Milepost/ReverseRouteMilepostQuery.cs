@@ -104,7 +104,7 @@ namespace AGRC.api.Features.Milepost {
                         cancellationToken);
                 } catch (Exception ex) {
                     _log.ForContext("url", requestUri)
-                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync())
+                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync(cancellationToken))
                         .Fatal(ex, "error reading response");
 
                     return new ObjectResult(new ApiResponseContract {
@@ -134,6 +134,13 @@ namespace AGRC.api.Features.Milepost {
                     // concurrency
                     var primaryRoutes = FilterPrimaryRoutes(location.Results, request.IncludeRamps);
 
+                    if (primaryRoutes.Count < 1) {
+                        return new NotFoundObjectResult(new ApiResponseContract {
+                            Message = "No milepost was found within your buffer radius.",
+                            Status = (int)HttpStatusCode.NotFound
+                        });
+                    }
+
                     var dominantRoutes = await _computeMediator.Handle(
                         new DominantRouteResolver.Computation(primaryRoutes, point, request.SuggestionCount), cancellationToken);
 
@@ -143,18 +150,30 @@ namespace AGRC.api.Features.Milepost {
                     });
                 }
 
+                var routes = FilterPrimaryRoutes(location.Results, request.IncludeRamps);
+
+                if (routes.Count < 1) {
+                    return new NotFoundObjectResult(new ApiResponseContract {
+                        Message = "No milepost was found within your buffer radius.",
+                        Status = (int)HttpStatusCode.NotFound
+                    });
+                }
+
+                location = routes[0];
+
                 return new OkObjectResult(new ApiResponseContract<ReverseRouteMilepostResponseContract> {
                     Result = new ReverseRouteMilepostResponseContract {
                         Route = location.RouteId,
                         OffsetMeters = 0,
                         Milepost = location.Measure,
-                        Candidates = Array.Empty<ReverseRouteMilepostResponseContract>()
+                        Dominant = true,
+                        Candidates = null
                     },
                     Status = (int)HttpStatusCode.OK
                 });
             }
 
-            public IList<GeometryToMeasure.ResponseLocation> FilterPrimaryRoutes(
+            public static IList<GeometryToMeasure.ResponseLocation> FilterPrimaryRoutes(
                 GeometryToMeasure.ResponseLocation[] locations, bool includeRamps) {
                 var collectors = new Regex($"\\d[P|N][C{(includeRamps ? "" : "|R")}]", RegexOptions.IgnoreCase,
                     TimeSpan.FromSeconds(2));
