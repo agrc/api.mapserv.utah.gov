@@ -34,7 +34,7 @@ const selectSchema = yup.string().oneOf(['one', 'two', 'three']).default('two');
 
 export const DemoDocToggle = () => <EndpointDemoDocToggle active="docs" showApi={() => {}}></EndpointDemoDocToggle>;
 export const AdvancedToggle = () => <EndpointAdvancedToggle></EndpointAdvancedToggle>;
-export const Input = () => <EndpointInput schema={schema}></EndpointInput>;
+export const Input = () => <EndpointInput schema={schema} name="Input Name"></EndpointInput>;
 export const Label = () => (
   <div className="w-1/6 bg-gray-100">
     <div className="flex md:flex-col pt-2 md:pt-0 align-center opacity-75">
