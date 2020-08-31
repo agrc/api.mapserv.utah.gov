@@ -1,14 +1,21 @@
 import { object, string, number, boolean, addMethod, mixed } from 'yup';
 
 const schema = object().shape({
-  street: string().required().meta({ placeholder: '123 south main street'}),
-  zone: string().required().meta({ placeholder: 'SLC or 84111'}),
-  spatialReference: number().positive().integer().default(26912),
-  acceptScore: number().positive().integer().default(70),
+  street: string().matches(/^\d*\s\D/, {
+    message: 'Must be valid street address',
+    excludeEmptyString: true
+  }).required().meta({ placeholder: '123 south main street'}),
+  zone: string().matches(/(^84\d{3}$|^\D)/, {
+      message: 'Must be valid Utah zip code or city name',
+      excludeEmptyString: true
+    }).required().meta({ placeholder: 'SLC or 84111' }),
+  // https://enterprise.arcgis.com/en/sdk/latest/windows/IGeometryServer_FindSRByWKID.html
+  spatialReference: number().min(1000).max(209199).integer().default(26912),
+  acceptScore: number().min(0).max(100).integer().default(70),
   pobox: boolean().default(false),
   locators: string().oneOf(['all', 'addressPoints', 'roadCenterlines']).default('all'),
   format: string().oneOf(['default', 'esrijson', 'geojson']).default('default'),
-  suggest: number().positive().integer().default(0),
+  suggest: number().min(0).max(5).integer().default(0),
   scoreDifference: boolean().default(false),
   callback: string().default('callback')
 });
