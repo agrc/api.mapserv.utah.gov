@@ -283,7 +283,7 @@ namespace AGRC.api.Features.Geocoding {
 
                             //if there are two check that the second is not at the very end and followed by a direction otherwise drop it
                             if (matches.Count == 2) {
-                                //check for aprartment or unit thing
+                                //check for apartment or unit thing
                                 var possibleUnitNumber = matches[1].Value;
                                 var length = possibleUnitNumber.Length;
                                 var index = Street.LastIndexOf(possibleUnitNumber, StringComparison.OrdinalIgnoreCase);
