@@ -93,6 +93,12 @@ namespace AGRC.api.Features.Milepost {
                     return null;
                 }
 
+                if (!response.IsSuccessful) {
+                    _log.ForContext("request", requestUri)
+                        .ForContext("error", response.Error)
+                        .Error("invalid request");
+                }
+
                 var dominateRoutes = new SortedSet<DominantRouteDescriptor>(new DominantRouteDescriptorComparer());
 
                 foreach (var locationResponse in response.Locations) {
