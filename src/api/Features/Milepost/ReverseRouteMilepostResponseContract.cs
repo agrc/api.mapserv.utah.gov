@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace AGRC.api.Features.Milepost {
     public class ReverseRouteMilepostResponseContract {
@@ -15,7 +14,6 @@ namespace AGRC.api.Features.Milepost {
         /// <value>
         /// The name of the route with the leading zeros removed.
         /// </value>
-        [JsonProperty(PropertyName = "route")]
         public string Route {
             get {
                 if (string.IsNullOrEmpty(_routeName)) {
@@ -33,7 +31,6 @@ namespace AGRC.api.Features.Milepost {
         /// <value>
         ///     The distance away from the input point in meters. -1 for not found. Rounded to two decimal places
         /// </value>
-        [JsonProperty(PropertyName = "offsetMeters")]
         public double OffsetMeters {
             get => Math.Round(_distance, 2);
             set => _distance = value;
@@ -45,7 +42,6 @@ namespace AGRC.api.Features.Milepost {
         /// <value>
         ///     The closest milepost value rounded to three decimal places.
         /// </value>
-        [JsonProperty(PropertyName = "milepost")]
         public double Milepost {
             get => Math.Round(_milepost, 3);
             set => _milepost = value;
@@ -57,14 +53,11 @@ namespace AGRC.api.Features.Milepost {
         /// <value>
         /// The side of the road that the point was on.
         /// </value>
-        [JsonProperty(PropertyName = "side")]
         public string Side => _routeName.Contains('P', StringComparison.InvariantCultureIgnoreCase)
             ? "increasing" : "decreasing";
 
-        [JsonProperty(PropertyName = "dominant")]
         public bool? Dominant { get; set; }
 
-        [JsonProperty(PropertyName = "candidates")]
         public IEnumerable<ReverseRouteMilepostResponseContract> Candidates { get; set; }
 
         public bool ShouldSerializeCandidates() {

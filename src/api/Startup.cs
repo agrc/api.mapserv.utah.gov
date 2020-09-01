@@ -15,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using CorrelationId.DependencyInjection;
@@ -56,12 +55,11 @@ namespace AGRC.api {
                 options.AddApiResponseFormatters();
                 // options.AddJsonpOutputFormatter();
             })
-            .AddJsonOptions(options =>
+            .AddJsonOptions(options => {
                 // open api is currently using system.text.json
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)))
-            .AddNewtonsoftJson(options => {
-                // the rest of the api is using json.net
-                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             });
 
             services.AddApiVersioning(x => {

@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using AGRC.api.Models;
-using Newtonsoft.Json;
 
 namespace AGRC.api.Features.Geocoding {
     public class SingleGeocodeResponseContract : Suggestable {
-        private double _scoreDifference;
+        private double? _scoreDifference;
 
         /// <summary>
         /// The geographic coordinates for where the system thinks the input address exists.
         /// </summary>
-        [JsonProperty(PropertyName = "location")]
         public Point Location { get; set; }
 
         /// <summary>
@@ -18,7 +17,6 @@ namespace AGRC.api.Features.Geocoding {
         /// street name, omitting a street type when multiple streets with the same name exist, or omitting a street
         /// direction when the street exists in multiple quadrants will cause the result to lose points.
         /// </summary>
-        [JsonProperty(PropertyName = "score")]
         public double Score { get; set; }
 
         /// <summary>
@@ -28,26 +26,22 @@ namespace AGRC.api.Features.Geocoding {
         /// progress with the counties to map structures or places where mail is delivered. Road centerlines are a
         /// dataset with every road and the range of numbers that road segment contains.
         /// </summary>
-        [JsonProperty(PropertyName = "locator")]
         public string Locator { get; set; }
 
         /// <summary>
         /// The address the locator matched with.
         /// </summary>
-        [JsonProperty(PropertyName = "matchAddress")]
         public string MatchAddress { get; set; }
 
         /// <summary>
         /// The input address supplied by the caller
         /// </summary>
-        [JsonProperty(PropertyName = "inputAddress")]
         public string InputAddress { get; set; }
 
         /// <summary>
         /// The modified input address that was used by the system to help increase match scores.
         /// </summary>
         /// <value></value>
-        [JsonProperty(PropertyName = "standardizedAddress")]
         public string StandardizedAddress { get; set; }
 
         /// <summary>
@@ -58,7 +52,6 @@ namespace AGRC.api.Features.Geocoding {
         /// **Salt Lake City address grid system**. It is neither within the boundaries of Salt Lake City proper,
         /// nor is that the preferred mailing address placename.
         /// </summary>
-        [JsonProperty(PropertyName = "addressGrid")]
         public string AddressGrid { get; set; }
 
         /// <summary>
@@ -68,23 +61,12 @@ namespace AGRC.api.Features.Geocoding {
         /// will be 100 south main and 100 north main. The system will arbitrarily choose one because they will have
         /// the same score.
         /// </summary>
-        [JsonProperty(PropertyName = "scoreDifference")]
-        public double ScoreDifference {
+        public double? ScoreDifference {
             get => _scoreDifference;
-            set => _scoreDifference = Math.Round(value, 2);
+            set => _scoreDifference = value.HasValue ? Math.Round(value.Value, 2) : (double?)null;
         }
 
         [JsonIgnore]
         public int Wkid { get; set; }
-
-        public bool ShouldSerializeLocation() => Score > 0;
-
-        public bool ShouldSerializeScore() => Score > 0;
-
-        public bool ShouldSerializeMatchAddress() => Score > 0;
-
-        public bool ShouldSerializeLocator() => Score > 0;
-
-        public bool ShouldSerializeScoreDifference() => ScoreDifference > -1;
     }
 }

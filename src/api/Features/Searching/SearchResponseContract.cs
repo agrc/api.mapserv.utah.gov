@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace AGRC.api.Features.Searching {
     public class SearchResponseContract {
-        [JsonProperty(PropertyName = "geometry")]
-        public JObject Geometry { get; set; }
+        public JsonElement Geometry { get; set; }
 
-        [JsonProperty(PropertyName = "attributes")]
         public IDictionary<string, object> Attributes { get; set; }
     }
 }
