@@ -125,11 +125,16 @@ namespace AGRC.api.Features.Geocoding {
                 var match = _regexCache.Get("pobox").Match(street);
                 if (!match.Success) {
                     address.IsPoBox = false;
+
                     return;
                 }
 
                 var pobox = match.Groups[1].Value;
-                int.TryParse(pobox, out var poboxValue);
+                if (!int.TryParse(pobox, out var poboxValue)) {
+                    address.IsPoBox = false;
+
+                    return;
+                }
 
                 address.StreetName = "P.O. Box";
                 address.PoBox = poboxValue;
