@@ -237,7 +237,7 @@ namespace api.tests.Features.Geocoding {
                 var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await V1Handler.Handle(request, CancellationToken.None);
 
-                result.Candidates.ShouldBeEmpty();
+                result.Candidates.ShouldBeNull();
                 result.ScoreDifference.ShouldBe(9);
             }
         }
