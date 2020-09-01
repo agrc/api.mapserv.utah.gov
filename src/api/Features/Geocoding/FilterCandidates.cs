@@ -68,13 +68,13 @@ namespace AGRC.api.Features.Geocoding {
 
                 candidates.Remove(topCandidate);
 
-                if (request.GeocodeOptions.Suggest == 0) {
-                    candidates.Clear();
-                }
-
-                if (request.GeocodeOptions.ScoreDifference && candidates.Count >= 2) {
+                if (request.GeocodeOptions.ScoreDifference && candidates.Count >= 1) {
                     // calculate score with next item in array
                     topCandidate.ScoreDifference = topCandidate.Score - candidates.First().Score;
+                }
+
+                if (request.GeocodeOptions.Suggest == 0) {
+                    candidates.Clear();
                 }
 
                 if (topCandidate.Location == null && request.GeocodeOptions.Suggest == 0) {
