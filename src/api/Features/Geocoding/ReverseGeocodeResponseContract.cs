@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 using AGRC.api.Models;
-using Newtonsoft.Json;
 
 namespace AGRC.api.Features.Geocoding {
     public class ReverseGeocodeResponseContract {
@@ -9,16 +8,13 @@ namespace AGRC.api.Features.Geocoding {
         /// The street address extracted from the SGID.Transportation.Roads dataset
         /// </summary>
         /// <value></value>
-        [JsonProperty(PropertyName = "address", Order = 0)]
         public string Address { get; set; }
 
         // The addressing grid in which the address was created
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public string Grid { get; set; }
 
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public Point MatchPoint { get; set; }
 
         /// <summary>
@@ -26,7 +22,6 @@ namespace AGRC.api.Features.Geocoding {
         /// </summary>
         /// <value></value>
         [JsonPropertyName("inputLocation")]
-        [JsonProperty(PropertyName = "inputLocation", Order = 1)]
         public Point InputPoint { get; set; }
 
         /// <summary>
@@ -34,7 +29,6 @@ namespace AGRC.api.Features.Geocoding {
         /// using pythagorean math
         /// </summary>
         [JsonPropertyName("pythagoreanDistance")]
-        [JsonProperty(PropertyName = "pythagoreanDistance", Order = 2)]
         public double? Distance {
             get {
                 if (InputPoint == null || MatchPoint == null) {

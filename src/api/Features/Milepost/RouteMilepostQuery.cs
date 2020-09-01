@@ -106,7 +106,7 @@ namespace AGRC.api.Features.Milepost {
                     return ProcessResult(response);
                 } catch (Exception ex) {
                     _log.ForContext("url", requestUri)
-                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync())
+                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync(cancellationToken))
                         .Fatal(ex, "error reading response");
 
                     return new ObjectResult(false) {
@@ -117,7 +117,6 @@ namespace AGRC.api.Features.Milepost {
 
             private ObjectResult ProcessResult(MeasureToGeometry.ResponseContract response) {
                 if (response.Locations?.Length != 1) {
-                    // we have a problem
                     _log.ForContext("response", response)
                         .Warning("multiple locations found");
                 }

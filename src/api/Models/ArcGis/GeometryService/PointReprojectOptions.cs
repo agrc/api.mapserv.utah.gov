@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace AGRC.api.Models.ArcGis {
     public class PointReprojectOptions {
@@ -10,13 +10,13 @@ namespace AGRC.api.Models.ArcGis {
             Coordinates = coordinates;
         }
 
-        [JsonProperty(PropertyName = "inSR")]
+        [JsonPropertyName("inSR")]
         public int CurrentSpatialReference { get; private set; }
 
-        [JsonProperty(PropertyName = "outSR")]
+        [JsonPropertyName("outSR")]
         public int ReprojectToSpatialReference { get; private set; }
 
-        [JsonProperty(PropertyName = "geometries")]
+        [JsonPropertyName("geometries")]
         public IReadOnlyCollection<double> Coordinates { get; private set; }
     }
 }

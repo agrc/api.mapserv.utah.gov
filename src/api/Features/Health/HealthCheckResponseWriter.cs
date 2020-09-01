@@ -2,7 +2,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace AGRC.api.Features.Health {
     internal static class HealthCheckResponseWriter {
@@ -18,11 +19,11 @@ namespace AGRC.api.Features.Health {
                 })
             };
 
-            return httpContext.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            }));
+            return JsonSerializer.SerializeAsync(httpContext.Response.Body, response, new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = true
+            });
         }
     }
 }
