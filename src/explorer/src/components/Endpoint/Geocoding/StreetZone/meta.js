@@ -2,11 +2,11 @@ import { object, string, number, boolean, addMethod, mixed } from 'yup';
 
 const schema = object().shape({
   street: string().matches(/^\d*\s\D/, {
-    message: 'Must be valid street address',
+    message: 'this must be a valid street address',
     excludeEmptyString: true
   }).required().meta({ placeholder: '123 south main street'}),
   zone: string().matches(/(^84\d{3}$|^\D)/, {
-      message: 'Must be valid Utah zip code or city name',
+      message: 'this must be a valid Utah zip code or city name',
       excludeEmptyString: true
     }).required().meta({ placeholder: 'SLC or 84111' }),
   // https://enterprise.arcgis.com/en/sdk/latest/windows/IGeometryServer_FindSRByWKID.html
