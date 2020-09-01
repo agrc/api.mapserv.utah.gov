@@ -66,7 +66,7 @@ namespace AGRC.api.Features.Geocoding {
                     return reverseResponse;
                 } catch (Exception ex) {
                     _log.ForContext("url", request.Locator.Url)
-                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync())
+                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync(cancellationToken))
                         .Fatal(ex, "error reading response");
 
                     return null;

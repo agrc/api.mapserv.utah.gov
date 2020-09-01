@@ -77,7 +77,7 @@ namespace AGRC.api.Features.GeometryService {
                     result = await response.Content.ReadAsAsync<ReprojectResponse<Point>>(_mediaTypes, token);
                 } catch (Exception ex) {
                     _log.ForContext("url", request.ReprojectUrl)
-                        .ForContext("response", await response?.Content?.ReadAsStringAsync())
+                        .ForContext("response", await response?.Content?.ReadAsStringAsync(token))
                         .Fatal(ex, "error reading response");
 
                     return result;
