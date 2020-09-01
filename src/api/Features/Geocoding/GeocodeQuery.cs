@@ -117,8 +117,8 @@ namespace AGRC.api.Features.Geocoding {
                 }
 
                 var topCandidates = new TopAddressCandidates(request.Options.Suggest,
-                                                             new CandidateComparer(parsedAddress.StandardizedAddress
-                                                                                                .ToUpperInvariant()));
+                    new CandidateComparer(parsedAddress.StandardizedAddress.ToUpperInvariant()));
+
                 var createGeocodePlanComputation = new GeocodePlan.Computation(parsedAddress, request.Options);
                 var plan = await _computeMediator.Handle(createGeocodePlanComputation, cancellationToken);
 
@@ -143,8 +143,8 @@ namespace AGRC.api.Features.Geocoding {
 
                 var highestScores = topCandidates.Get();
 
-                var chooseBestAddressCandidateComputation = new FilterCandidates.Computation(highestScores, request.Options, street,
-                                                                                     zone, parsedAddress);
+                var chooseBestAddressCandidateComputation = new FilterCandidates.Computation(
+                    highestScores, request.Options, street, zone, parsedAddress);
                 var winner = await _computeMediator.Handle(chooseBestAddressCandidateComputation, cancellationToken);
 
                 if (winner == null || winner.Score < 0) {
