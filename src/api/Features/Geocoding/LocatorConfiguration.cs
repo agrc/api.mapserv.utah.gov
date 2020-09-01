@@ -9,7 +9,7 @@ namespace AGRC.api.Features.Geocoding {
         public string ServiceName { get; set; }
         public bool ReverseGeocodes { get; set; }
         public LocatorType LocatorType { get; set; }
-        public int Weight { get; set; } = 0;
+        public int Weight { get; set; }
         public string PathToLocator { get; set; } = "/arcgis/rest/services/Geolocators/";
 
         private const string Template = "{0}/GeocodeServer/findAddressCandidates?f=json" +
@@ -22,7 +22,8 @@ namespace AGRC.api.Features.Geocoding {
             return $"{host}{PathToLocator}";
         }
 
-        public LocatorProperties ToLocatorProperty(LocatorMetadata address, Func<LocatorMetadata, string> addressResolver) => ToLocatorPropertyBase(Template, address.Weight, ServiceName, WebUtility.UrlEncode(addressResolver(address)), address.Grid, address.WkId);
+        public LocatorProperties ToLocatorProperty(LocatorMetadata address, Func<LocatorMetadata, string> addressResolver) =>
+            ToLocatorPropertyBase(Template, address.Weight, ServiceName, WebUtility.UrlEncode(addressResolver(address)), address.Grid, address.WkId);
 
         private LocatorProperties ToLocatorPropertyBase(string template, int weight, params object[] args) {
             var url = Url();
@@ -30,7 +31,8 @@ namespace AGRC.api.Features.Geocoding {
 
             return new LocatorProperties {
                 Url = geocodeUrl,
-                Name = DisplayName
+                Name = DisplayName,
+                Weight = weight
             };
         }
     }
