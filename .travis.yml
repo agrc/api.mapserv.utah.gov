@@ -4,13 +4,13 @@ os: linux
 language: csharp
 env:
   - CLI_VERSION=5.0.100-preview.8.20417.9
+apt_packages:
+  - libcurl
+  - zlib
 jobs:
   include:
     - mono: none
       solution: api.mapserv.utah.gov.sln
-      apt_packages:
-        - libcurl
-        - zlib
       install:
         - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
         - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
