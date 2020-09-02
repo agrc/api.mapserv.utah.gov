@@ -4,9 +4,11 @@ os: linux
 language: csharp
 env:
   - CLI_VERSION=5.0.100-preview.8.20417.9
-apt_packages:
-  - liblttng-ust0
-  - zlib1g
+addons:
+  apt:
+    packages:
+      - liblttng-ust0
+      - zlib1g
 jobs:
   include:
     - mono: none
