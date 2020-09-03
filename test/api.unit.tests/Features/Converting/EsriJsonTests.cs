@@ -1,27 +1,25 @@
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Converting;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
-using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.ResponseContracts;
-using EsriJson.Net;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Shouldly;
 using Xunit;
 
 namespace api.tests.Features.Converting {
     public class EsriJsonTests {
-        private readonly IComputationHandler<EsriGraphic.Computation, ApiResponseContract<Graphic>> _handler =
+        private readonly IComputationHandler<EsriGraphic.Computation, ApiResponseContract<EsriGraphic.SerializableGraphic>> _handler =
             new EsriGraphic.Handler();
 
         [Fact]
         public async Task Should_convert_to_esri_graphic() {
             var responseContainer = new ApiResponseContract<SingleGeocodeResponseContract> {
                 Result = new SingleGeocodeResponseContract {
-                    Candidates = new Candidate[0],
+                    Candidates = null,
                     InputAddress = "Input Address",
                     Location = new Point {
                         X = 1,
@@ -30,7 +28,8 @@ namespace api.tests.Features.Converting {
                     Locator = "Centerlines",
                     MatchAddress = "Matched Address",
                     Score = 100,
-                    Wkid = 26912
+                    Wkid = 26912,
+                    ScoreDifference = null
                 },
                 Status = 200
             };
@@ -38,23 +37,14 @@ namespace api.tests.Features.Converting {
             var request = new EsriGraphic.Computation(responseContainer);
             var result = await _handler.Handle(request, new CancellationToken());
 
-            var point = new EsriJson.Net.Geometry.Point(1, 1) {
-                CRS = new Crs {
-                    WellKnownId = 26912
-                }
+            var options = new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
             };
 
-            var attributes = new Dictionary<string, object> {
-                {"location", new Point(1, 1)},
-                {"score", 100.0},
-                {"locator", "Centerlines"},
-                {"matchAddress", "Matched Address"},
-                {"inputAddress", "Input Address"},
-                {"scoreDifference", 0.0}
-            };
-
-            var graphic = JsonConvert.SerializeObject(new Graphic(point, attributes));
-            var resultJson = JsonConvert.SerializeObject(result.Result);
+            var graphic = "{\"attributes\":{\"location\":{\"x\":1,\"y\":1},\"score\":100,\"locator\":\"Centerlines\",\"matchAddress\":\"Matched Address\",\"inputAddress\":\"Input Address\",\"wkid\":26912},\"geometry\":{\"x\":1,\"y\":1,\"type\":\"point\",\"spatialReference\":{\"wkid\":26912}}}";
+            var resultJson = JsonSerializer.Serialize(result.Result, options);
 
             resultJson.ShouldBe(graphic);
         }
