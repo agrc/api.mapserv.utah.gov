@@ -21,7 +21,6 @@
     <PackageReference Include="CorrelationId" Version="3.0.0" />
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Fastenshtein" Version="1.0.0.5" />
-    <PackageReference Include="GeoJSON.Net" Version="1.2.19" />
     <PackageReference Include="MediatR" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
@@ -42,5 +41,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\libs\EsriJson\EsriJson.Net\EsriJson.Net.csproj" />
+    <ProjectReference Include="..\..\libs\GeoJSON.Net\src\GeoJSON.Net\GeoJSON.Net.csproj" />
   </ItemGroup>
+
 </Project>
