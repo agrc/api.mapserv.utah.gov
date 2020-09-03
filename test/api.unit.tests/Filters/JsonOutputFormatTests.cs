@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Routing;
 using Moq;
 using Shouldly;
 using Xunit;
+using static AGRC.api.Features.Converting.EsriGraphic;
 using Point = EsriJson.Net.Geometry.Point;
 
 namespace api.tests.Filters {
@@ -79,11 +80,11 @@ namespace api.tests.Filters {
             httpContext.Request.QueryString = new QueryString("?format=esriJSON");
 
             var mediator = new Mock<IComputeMediator>();
-            var response = new ApiResponseContract<Graphic> {
-                Result = new Graphic(new Point(2, 2), new Dictionary<string, object>())
+            var response = new ApiResponseContract<SerializableGraphic> {
+                Result = new SerializableGraphic(new Graphic(new Point(2, 2), new Dictionary<string, object>()))
             };
 
-            mediator.Setup(x => x.Handle(It.IsAny<EsriGraphic.Computation>(), It.IsAny<CancellationToken>()))
+            mediator.Setup(x => x.Handle(It.IsAny<Computation>(), It.IsAny<CancellationToken>()))
                     .Returns(Task.FromResult(response));
 
             var filter = new JsonOutputFormatResultFilter(mediator.Object);
@@ -95,8 +96,8 @@ namespace api.tests.Filters {
             var result = contexts.ExecutingContext.Result as ObjectResult;
             var result2 = contexts.ExecutedContext.Result as ObjectResult;
 
-            result.Value.ShouldBeOfType<ApiResponseContract<Graphic>>();
-            result2.Value.ShouldBeOfType<ApiResponseContract<Graphic>>();
+            result.Value.ShouldBeOfType<ApiResponseContract<SerializableGraphic>>();
+            result2.Value.ShouldBeOfType<ApiResponseContract<SerializableGraphic>>();
         }
 
         [Fact]
