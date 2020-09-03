@@ -1,17 +1,14 @@
-using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Converting;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
-using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.ResponseContracts;
 using GeoJSON.Net.Feature;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
 using Shouldly;
 using Xunit;
-using Point = AGRC.api.Models.Point;
 
 namespace api.tests.Features.Converting {
     public class GeoJsonTests {
@@ -22,16 +19,17 @@ namespace api.tests.Features.Converting {
         public async Task Should_convert_to_geojson_feature() {
             var responseContainer = new ApiResponseContract<SingleGeocodeResponseContract> {
                 Result = new SingleGeocodeResponseContract {
-                    Candidates = new Candidate[0],
+                    Candidates = null,
                     InputAddress = "Input Address",
-                    Location = new Point {
+                    Location = new AGRC.api.Models.Point {
                         X = 1,
                         Y = 1
                     },
                     Locator = "Centerlines",
                     MatchAddress = "Matched Address",
                     Score = 100,
-                    Wkid = 26912
+                    Wkid = 26912,
+                    ScoreDifference = null
                 },
                 Status = 200
             };
@@ -39,19 +37,16 @@ namespace api.tests.Features.Converting {
             var request = new GeoJsonFeature.Computation(responseContainer);
             var result = await _handler.Handle(request, new CancellationToken());
 
-            var position = new Position(1, 1);
-            var point = new GeoJSON.Net.Geometry.Point(position);
-            var properties = new Dictionary<string, object> {
-                {"location", new Point(1, 1)},
-                {"score", 100.0},
-                {"locator", "Centerlines"},
-                {"matchAddress", "Matched Address"},
-                {"inputAddress", "Input Address"},
-                {"scoreDifference", 0.0}
+            var options = new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
             };
 
-            var feature = JsonConvert.SerializeObject(new Feature(point, properties));
-            var resultJson = JsonConvert.SerializeObject(result.Result);
+            options.Converters.Add(new JsonStringEnumConverter());
+
+            var feature = "{\"type\":\"Feature\",\"geometry\":{\"coordinates\":[1,1],\"type\":\"Point\"},\"properties\":{\"location\":{\"x\":1,\"y\":1},\"score\":100,\"locator\":\"Centerlines\",\"matchAddress\":\"Matched Address\",\"inputAddress\":\"Input Address\"}}";
+            var resultJson = JsonSerializer.Serialize(result.Result, options);
 
             resultJson.ShouldBe(feature);
         }

@@ -6,8 +6,8 @@ using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
-using Newtonsoft.Json.Linq;
 using AGRC.api.Models.ResponseContracts;
+using System.Reflection;
 
 namespace AGRC.api.Features.Converting {
     public class GeoJsonFeature {
@@ -30,8 +30,10 @@ namespace AGRC.api.Features.Converting {
                 if (result?.Location != null) {
                     geometry = new Point(new Position(result.Location.Y, result.Location.X));
 
-                    attributes = JObject.FromObject(request.Container.Result)
-                                        .ToObject<Dictionary<string, object>>();
+                    attributes = request.Container.Result
+                        .GetType()
+                        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                        .ToDictionary(key => key.Name, value => value.GetValue(request.Container.Result, null));
                 }
 
                 if (geometry == null && attributes.Count < 1) {
@@ -41,9 +43,9 @@ namespace AGRC.api.Features.Converting {
                     });
                 }
 
-                var feature =
-                    new Feature(geometry,
-                                attributes.Where(x => x.Value != null).ToDictionary(x => x.Key, y => y.Value));
+                var feature = new Feature(geometry, attributes
+                    .Where(x => x.Value != null)
+                    .ToDictionary(x => x.Key, y => y.Value));
 
                 var responseContainer = new ApiResponseContract<Feature> {
                     Result = feature,
