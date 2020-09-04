@@ -21,14 +21,18 @@ export default function Endpoint(props) {
       return;
     }
 
-    const response = await fetch(url, {
-      method: 'GET',
-      mode: 'cors'
-    });
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      });
 
-    const result = await response.json();
+      const result = await response.json();
 
-    setResponse(JSON.stringify(result, null, 2));
+      setResponse({ success: true, code: JSON.stringify(result, null, 2) });
+    } catch (error) {
+      setResponse({ success: false, code: error.message });
+    }
   };
 
   const [collapsed, setCollapsed] = useState(defaultValue);
@@ -84,7 +88,7 @@ export default function Endpoint(props) {
           {api ? (
             <div className="flex flex-col justify-center w-full py-3">
               <EndpointUrl url={props.displayUrl}></EndpointUrl>
-              {response ? <EndpointResponse code={response}></EndpointResponse> : null}
+              {response ? <EndpointResponse {...response}></EndpointResponse> : null}
               <Button type="submit" disabled={!props.fetchUrl || props.fetchUrl.length < 1} className="justify-center w-1/2 self-center my-5 font-medium">
                 Send it
               </Button>
