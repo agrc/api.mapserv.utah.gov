@@ -8,7 +8,7 @@ export default function stringify(values, url, initial, apiKey) {
 
   // replace required parts
   requiredParts.forEach(part => {
-    url = url.replace(`:${part}`, values[part]);
+    url = url.replace(`:${part}`, encodeURIComponent(values[part]));
     delete values[part];
   });
 
