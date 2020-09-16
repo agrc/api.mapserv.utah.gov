@@ -8,6 +8,8 @@ using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using AGRC.api.Models.ResponseContracts;
 using System.Reflection;
+using System;
+using System.Text.Json.Serialization;
 
 namespace AGRC.api.Features.Converting {
     public class GeoJsonFeature {
@@ -33,6 +35,7 @@ namespace AGRC.api.Features.Converting {
                     attributes = request.Container.Result
                         .GetType()
                         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                        .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
                         .ToDictionary(key => key.Name, value => value.GetValue(request.Container.Result, null));
                 }
 

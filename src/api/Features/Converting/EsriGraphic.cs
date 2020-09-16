@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Geocoding;
@@ -36,6 +38,7 @@ namespace AGRC.api.Features.Converting {
                     attributes = request.Container.Result
                         .GetType()
                         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                        .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
                         .ToDictionary(key => key.Name, value => value.GetValue(request.Container.Result, null));
                 }
 
