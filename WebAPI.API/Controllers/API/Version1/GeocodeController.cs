@@ -502,6 +502,17 @@ namespace WebAPI.API.Controllers.API.Version1
                              .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>));
             }
 
+            if (!response.IsSuccessful)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                             new ResultContainer
+                                             {
+                                                 Status = (int)HttpStatusCode.BadRequest,
+                                                 Message = "Your request was invalid. Check that your coordinates and spatial reference match."
+                                             })
+                            .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>));
+            }
+
             if (response.Locations?.Length != 1)
             {
                 // this should not happen
@@ -525,6 +536,17 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 // concurrency
                 var primaryRoutes = FilterPrimaryRoutes(location.Results, options.IncludeRampSystems == 1);
+
+                if (primaryRoutes.Count < 1)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound,
+                                             new ResultContainer
+                                             {
+                                                 Message = "No milepost was found within your buffer radius.",
+                                                 Status = (int)HttpStatusCode.NotFound
+                                             })
+                         .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>));
+                }
 
                 var dominantRoutes = await CommandExecutor.ExecuteCommandAsync(
                     new DominantRouteResolverCommand(primaryRoutes, point, options.SuggestCount));

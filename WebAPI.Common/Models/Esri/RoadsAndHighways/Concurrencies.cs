@@ -1,4 +1,6 @@
-﻿namespace WebAPI.Common.Models.Esri.RoadsAndHighways
+﻿using WebAPI.Common.Models.Esri.Errors;
+
+namespace WebAPI.Common.Models.Esri.RoadsAndHighways
 {
     public class Concurrencies
     {
@@ -31,7 +33,7 @@
 
         public class RequestLocation : LocationBase { }
 
-        public class ResponseContract
+        public class ResponseContract : Errorable
         {
             public ResponseLocations[] Locations { get; set; }
         }

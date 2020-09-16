@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using WebAPI.Common.Models.Esri.Errors;
 
 namespace WebAPI.Common.Models.Esri.RoadsAndHighways
 {
@@ -35,7 +36,7 @@ namespace WebAPI.Common.Models.Esri.RoadsAndHighways
             }
         }
 
-        public class ResponseContract
+        public class ResponseContract : Errorable
         {
             public SpatialReference SpatialReference { get; set; }
             public ResponseLocation[] Locations { get; set; }

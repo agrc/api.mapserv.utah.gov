@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using WebAPI.Common.Models.Esri.Errors;
 
 namespace WebAPI.Common.Models.Esri.RoadsAndHighways
 {
@@ -75,7 +76,7 @@ namespace WebAPI.Common.Models.Esri.RoadsAndHighways
             esriLocatingCannotFindLocation,
         }
 
-        public class ResponseContract
+        public class ResponseContract : Errorable
         {
             public ResponseLocation[] Locations { get; set; }
         }
