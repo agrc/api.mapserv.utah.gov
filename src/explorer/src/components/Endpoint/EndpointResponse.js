@@ -11,7 +11,7 @@ export default function Code({ success, code }) {
   const classes = classNames({
     'border-indigo-300': success,
     'border-red-300': !success
-  }, 'max-w-3/4 break-all flex self-center mt-5 rounded border text-sm');
+  }, 'break-all flex self-center mt-5 rounded border text-sm');
 
   return (
     <SyntaxHighlighter

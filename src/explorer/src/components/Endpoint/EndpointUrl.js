@@ -4,7 +4,7 @@ import CopyText from '@gradeup/copy-text-to-cb';
 export default function Url(props) {
   return props.url ? (
     <div className="flex justify-center">
-      <span className="max-w-3/4 break-all flex self-center p-2 text-base leading-6 text-gray-700 rounded-l border border-r-0 border-indigo-300 bg-gray-200">
+      <span className="break-all flex self-center p-2 text-base leading-6 text-gray-700 rounded-l border border-r-0 border-indigo-300 bg-gray-200">
         {props.url}
       </span>
       <CopyText
