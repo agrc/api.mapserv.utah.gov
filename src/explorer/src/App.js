@@ -4,8 +4,11 @@ import { ResponsiveSideNav, FixedBottomNav, InlineTopNav, CommonLinks } from './
 import { Landing, SellIt, Whats, Goals } from './components/Home';
 import GettingStarted from './components/GettingStarted';
 import { StreetZoneEndpoint } from './components/Endpoint/Geocoding';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import PrivacyPolicy from './components/PrivacyPolicy';
+
+const DOCUMENTATION_PATH = 'documentation';
+const DEFAULT_API_VERSION = 'v2';
 
 export default function App() {
   return (
@@ -42,7 +45,10 @@ export default function App() {
           </InlineTopNav>
           <GettingStarted></GettingStarted>
         </Route>
-        <Route exact path="/documentation">
+        <Route exact path={`/${DOCUMENTATION_PATH}`}>
+          <Redirect to={`/${DOCUMENTATION_PATH}/${DEFAULT_API_VERSION}`} />
+        </Route>
+        <Route exact path={`/${DOCUMENTATION_PATH}/:apiVersion`}>
           <InlineTopNav>
             <CommonLinks></CommonLinks>
           </InlineTopNav>
