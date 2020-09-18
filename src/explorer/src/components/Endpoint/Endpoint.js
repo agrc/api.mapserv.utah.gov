@@ -3,6 +3,7 @@ import EndpointDemoDocToggle from './EndpointDemoDocToggle';
 import EndpointResponse from './EndpointResponse';
 import EndpointUrl from './EndpointUrl';
 import Button from '../Button';
+import { Tip } from '../Endpoint/Documentation/Elements';
 
 const getComponent = (key, children) => {
   return children.filter(comp => {
@@ -88,6 +89,10 @@ export default function Endpoint(props) {
           {api ? (
             <div className="flex flex-col justify-center w-full py-3">
               <EndpointUrl url={props.displayUrl}></EndpointUrl>
+              {props.invalidCharacter ?
+                <Tip className="mt-3">
+                  Just a heads up! We have automatically encoded "{props.invalidCharacter}" in your street value. You'll want to do this in your code.
+                </Tip> : null}
               {response ? <EndpointResponse {...response}></EndpointResponse> : null}
               <Button type="submit" disabled={!props.fetchUrl || props.fetchUrl.length < 1} className="justify-center w-1/2 self-center my-5 font-medium">
                 Send it

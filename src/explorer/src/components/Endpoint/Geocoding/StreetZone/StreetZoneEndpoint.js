@@ -11,10 +11,15 @@ const meta = {
 export default function StreetZone(props) {
   const [fetchUrl, setFetchUrl] = useState('');
   const [displayUrl, setDisplayUrl] = useState('');
+  const [invalidCharacter, setInvalidCharacter] = useState();
 
   return (
-    <Endpoint {...meta} displayUrl={displayUrl} fetchUrl={fetchUrl} collapsed={props.collapsed}>
-      <StreetZoneApi urls={{ setFetchUrl, setDisplayUrl }} key="api"></StreetZoneApi>
+    <Endpoint {...meta}
+      displayUrl={displayUrl}
+      fetchUrl={fetchUrl}
+      collapsed={props.collapsed}
+      invalidCharacter={invalidCharacter}>
+      <StreetZoneApi urls={{ setFetchUrl, setDisplayUrl, setInvalidCharacter }} key="api"></StreetZoneApi>
       <StreetZoneDocs key="docs"></StreetZoneDocs>
     </Endpoint>
   );

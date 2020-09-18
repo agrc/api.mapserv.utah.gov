@@ -9,6 +9,7 @@ import schema from './meta';
 
 const url = 'https://api.mapserv.utah.gov/api/v1/geocode/:street/:zone';
 const initialState = schema.getDefault();
+const charactersToWarnOn = ['#', '?', '&'];
 
 const reducer = produce((draft, action) => {
   draft[action.type] = action.payload;
@@ -18,7 +19,7 @@ const reducer = produce((draft, action) => {
 
 export default function StreetZone(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { setFetchUrl, setDisplayUrl } = props.urls;
+  const { setFetchUrl, setDisplayUrl, setInvalidCharacter } = props.urls;
 
   useEffect(() => {
     if (!hasRequiredParts(state, url, initialState)) {
@@ -28,9 +29,18 @@ export default function StreetZone(props) {
       return;
     }
 
+    let specialCharacter;
+    charactersToWarnOn.forEach(character => {
+      if (state.street.includes(character)) {
+        specialCharacter = character;
+      }
+    });
+
+    setInvalidCharacter(specialCharacter);
+
     setDisplayUrl(stringify(state, url, initialState, 'your-api-key'));
     setFetchUrl(stringify(state, url, initialState, process.env.REACT_APP_API_KEY));
-  }, [state, setFetchUrl, setDisplayUrl]);
+  }, [state, setFetchUrl, setDisplayUrl, setInvalidCharacter]);
 
   return (
     <>
