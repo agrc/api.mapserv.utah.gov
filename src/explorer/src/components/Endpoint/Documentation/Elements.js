@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 function Tip(props) {
   return (
-    <div>
+    <div className={props.className}>
       <div className="p-2 bg-gray-600 text-indigo-100 leading-none flex" role="alert">
         <span className="flex self-start md:self-center rounded-full bg-gray-900 uppercase px-2 py-1 text-xs font-bold mr-3">Tip</span>
         <span className="mr-2 text-left flex-auto font-md leading-5">{props.children}</span>
