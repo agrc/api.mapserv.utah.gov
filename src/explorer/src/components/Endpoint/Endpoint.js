@@ -91,7 +91,7 @@ export default function Endpoint(props) {
               <EndpointUrl url={props.displayUrl}></EndpointUrl>
               {props.invalidCharacter ?
                 <Tip className="mt-3">
-                  Just a heads up! We have automatically encoded "{props.invalidCharacter}" in your street value. You'll want to do this in your code.
+                  We have detected a reserved url character in your street input and have url encoded the `{props.invalidCharacter}`. Url encoding will need to be handled with your implementation or unexpected results will occur.
                 </Tip> : null}
               {response ? <EndpointResponse {...response}></EndpointResponse> : null}
               <Button type="submit" disabled={!props.fetchUrl || props.fetchUrl.length < 1} className="justify-center w-1/2 self-center my-5 font-medium">
