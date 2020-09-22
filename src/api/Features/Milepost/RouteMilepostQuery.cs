@@ -23,7 +23,7 @@ namespace AGRC.api.Features.Milepost {
                 if (!options.FullRoute) {
                     var regex = new Regex(@"\d+");
 
-                    var matches = regex.Matches(Route);
+                    var matches = regex.Matches(route);
 
                     if (matches.Count == 0 || matches.Count > 1 || !matches[0].Success) {
                         route = "";
@@ -90,6 +90,19 @@ namespace AGRC.api.Features.Milepost {
                     var response =
                         await httpResponse.Content.ReadAsAsync<MeasureToGeometry.ResponseContract>(_mediaTypes, cancellationToken);
 
+                    if (!response.IsSuccessful) {
+                        _log.ForContext("request", requestUri)
+                            .ForContext("error", response.Error)
+                            .Error("invalid request");
+
+                        return new ObjectResult(new ApiResponseContract {
+                            Status = (int)HttpStatusCode.BadRequest,
+                            Message = "Your request was invalid. Check that your inputs."
+                        }) {
+                            StatusCode = 400
+                        };
+                    }
+
                     return ProcessResult(response);
                 } catch (Exception ex) {
                     _log.ForContext("url", requestUri)
@@ -105,12 +118,16 @@ namespace AGRC.api.Features.Milepost {
             private ObjectResult ProcessResult(MeasureToGeometry.ResponseContract response) {
                 if (response.Locations?.Length != 1) {
                     // we have a problem
+                    _log.ForContext("response", response)
+                        .Warning("multiple locations found");
                 }
 
                 var location = response.Locations[0];
 
                 if (location.Status != MeasureToGeometry.Status.esriLocatingOK) {
                     // we have a problem
+                    _log.ForContext("response", response)
+                        .Warning("status is not ok");
 
                     // TODO: create messages from status
                     return new NotFoundObjectResult(new ApiResponseContract {
@@ -121,6 +138,8 @@ namespace AGRC.api.Features.Milepost {
 
                 if (location.GeometryType != GeometryType.esriGeometryPoint) {
                     // we have another problem
+                    _log.ForContext("response", response)
+                        .Warning("geometry type is not point");
                 }
 
                 return new OkObjectResult(new ApiResponseContract<RouteMilepostResponseContract> {

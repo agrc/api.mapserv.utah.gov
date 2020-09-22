@@ -26,7 +26,7 @@ namespace AGRC.api.Models.ArcGis {
             }
         }
 
-        public class ResponseContract {
+        public class ResponseContract : RestErrorable {
             public SpatialReference SpatialReference { get; set; }
             public ResponseLocation[] Locations { get; set; }
         }

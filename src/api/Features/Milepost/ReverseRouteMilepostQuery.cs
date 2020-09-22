@@ -104,7 +104,7 @@ namespace AGRC.api.Features.Milepost {
                         cancellationToken);
                 } catch (Exception ex) {
                     _log.ForContext("url", requestUri)
-                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync(cancellationToken))
+                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync())
                         .Fatal(ex, "error reading response");
 
                     return new ObjectResult(new ApiResponseContract {
@@ -112,6 +112,19 @@ namespace AGRC.api.Features.Milepost {
                         Message = "I'm sorry, we received an unexpected response from UDOT."
                     }) {
                         StatusCode = 500
+                    };
+                }
+
+                if (!response.IsSuccessful) {
+                    _log.ForContext("request", request)
+                        .ForContext("error", response.Error)
+                        .Warning("invalid request");
+
+                    return new ObjectResult(new ApiResponseContract {
+                        Status = (int)HttpStatusCode.BadRequest,
+                        Message = "Your request was invalid. Check that your coordinates and spatial reference match."
+                    }) {
+                        StatusCode = 400
                     };
                 }
 

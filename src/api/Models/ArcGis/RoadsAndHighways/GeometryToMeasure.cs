@@ -59,7 +59,7 @@ namespace AGRC.api.Models.ArcGis {
             esriLocatingCannotFindLocation,
         }
 
-        public class ResponseContract {
+        public class ResponseContract : RestErrorable {
             public ResponseLocation[] Locations { get; set; }
         }
 
