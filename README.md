@@ -140,13 +140,19 @@ Starting a container is like turning on the service. `docker-compose up` will st
 
 ## Kubernetes
 
-The containers created with Docker can be run in a Kubernetes cluster. The project contains configuration files for [Docker Kubernetes](.kube/kube-deployment.yml) and also [Google Kubernetes Engine](.kube/gke-deployment.yml).
+The containers created with Docker can be run in a Kubernetes cluster. The project contains configuration files for [Google Kubernetes Engine](.kube/gke-deployment.yml).
 
-In order to use the Docker Kubernetes locally, make sure to first change the `kubectl` context to `docker-for-desktop with` Docker. When using Google Kubernetes Engine, make sure to change the `kubectl` context to the GKE cluster with `gcloud`.
+### Infrastructure
+
+The kubernetes infrastructure is managed by terraform. To create the cluster and all networking apply the terraform state from within the `.infrastructure` folder by running `terraform apply`.
+
+When using Google Kubernetes Engine, make sure to change the `kubectl` context to the GKE cluster with `gcloud`.
+
+- `gcloud container clusters get-credentials [cluster-name] --zone [cluster-zone]`
 
 ### Publishing Containers
 
-Both Docker and GKE configuration files expect containers to be published to gcr.io. Containers built locally with Docker can be tagged and [pushed to GCR](https://cloud.google.com/container-registry/docs/pushing-and-pulling) with `gcloud` and `docker`.
+GKE configuration files expect containers to be published to gcr.io. Containers built locally with Docker can be tagged and [pushed to GCR](https://cloud.google.com/container-registry/docs/pushing-and-pulling) with `gcloud` and `docker`.
 
 1. `docker tag webapi/api gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api`
 1. `docker tag webapi/explorer gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api-explorer`
@@ -158,37 +164,17 @@ Both Docker and GKE configuration files expect containers to be published to gcr
 1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/db`
 1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/developer`
 
-### Creating config objects
-
-#### configure kubectl
-
-`gcloud container clusters get-credentials [cluster-name] --zone [cluster-zone]`
-
-`imagePullSecrets` are needed to pull containers from GCR. This authenticates the requests as the authorized service account.
-
-```bash
-kubectl create secret docker-registry gcr-json-key \
-  --docker-server=https://gcr.io \
-  --docker-username=_json_key \
-  --docker-email=required_but_unused@anywhere.com \
-  --docker-password="$(cat /path/to/service/account/key/image_puller_key.json)"
-```
+### Configure Kubernetes
 
 `configMaps` are required to override the default configurations for production use.
 
-app-config for mounting [appsettings.json](src/api/appsettings.json).
+app-config for mounting [appsettings.json](src/api/appsettings.json). From the root execute
 
 - `kubectl create configmap app-config --from-file=appsettings.json=./.kube/appsettings.json`
 
-### Starting all pods and services
+With the cluster created, the configmap available, now we can deploy the manifests to create our services.
 
-- `kubectl apply -f .kube/gke-deployment.yml`
-
-#### Accessing webapi/api external IP
-
-The loadbalancer takes a couple minutes to be assigned. Once it is assigned, the external IP can be found in the `EXTERNAL-IP` field of the `webapi-api` service.
-
-- `kubectl get services webapi-api`
+- `kubectl apply -f .kube`
 
 ## Swagger
 
