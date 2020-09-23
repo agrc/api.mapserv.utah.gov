@@ -144,15 +144,23 @@ The containers created with Docker can be run in a Kubernetes cluster. The proje
 
 ### Infrastructure
 
-The kubernetes infrastructure is managed by terraform. To create the cluster and all networking apply the terraform state from within the `.infrastructure` folder by running `terraform apply`.
+The kubernetes infrastructure is managed by terraform. To create the cluster and all of the associated networking, apply the terraform modules and resources from within the `.infrastructure`.
+
+- `terraform apply`.
 
 When using Google Kubernetes Engine, make sure to change the `kubectl` context to the GKE cluster with `gcloud`.
 
 - `gcloud container clusters get-credentials [cluster-name] --zone [cluster-zone]`
 
+To destroy the cost accruing infrastructure but allow the cluster to be created again reusing any static ips linked to DNS we have to target specific resources.
+
+- `terraform destroy -target=module.gke_cluster -target=google_compute_router_nat.nat`
+
+To destroy everything omit the `-target`'s.
+
 ### Publishing Containers
 
-GKE configuration files expect containers to be published to gcr.io. Containers built locally with Docker can be tagged and [pushed to GCR](https://cloud.google.com/container-registry/docs/pushing-and-pulling) with `gcloud` and `docker`.
+GKE configuration files expect containers to be published to gcr.io. Containers built locally with Docker can be tagged and [pushed to GCR](https://cloud.google.com/container-registry/docs/pushing-and-pulling) with `docker`.
 
 1. `docker tag webapi/api gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api`
 1. `docker tag webapi/explorer gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api-explorer`
@@ -166,13 +174,13 @@ GKE configuration files expect containers to be published to gcr.io. Containers 
 
 ### Configure Kubernetes
 
-`configMaps` are required to override the default configurations for production use.
+`configMaps` are required to override the default configurations for different uses.
 
-app-config for mounting [appsettings.json](src/api/appsettings.json). From the root execute
+The kubernetes manifests expect an `app-config` for mounting our custom dotnet [appsettings.json](src/api/appsettings.json). From the root execute
 
 - `kubectl create configmap app-config --from-file=appsettings.json=./.kube/appsettings.json`
 
-With the cluster created, the configmap available, now we can deploy the manifests to create our services.
+With the cluster created and the config map available, we can deploy the manifests to create our services.
 
 - `kubectl apply -f .kube`
 
