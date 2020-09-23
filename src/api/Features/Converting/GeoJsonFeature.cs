@@ -10,6 +10,7 @@ using AGRC.api.Models.ResponseContracts;
 using System.Reflection;
 using System;
 using System.Text.Json.Serialization;
+using GeoJSON.Net.CoordinateReferenceSystem;
 
 namespace AGRC.api.Features.Converting {
     public class GeoJsonFeature {
@@ -22,6 +23,8 @@ namespace AGRC.api.Features.Converting {
         }
 
         public class Handler : IComputationHandler<Computation, ApiResponseContract<Feature>> {
+            private static string ToCamelCase(string data) => char.ToLowerInvariant(data[0]) + data.Substring(1);
+
             public Task<ApiResponseContract<Feature>> Handle(Computation request, CancellationToken cancellationToken) {
                 IGeometryObject geometry = null;
                 var attributes = new Dictionary<string, object>();
@@ -35,8 +38,8 @@ namespace AGRC.api.Features.Converting {
                     attributes = request.Container.Result
                         .GetType()
                         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                        .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
-                        .ToDictionary(key => key.Name, value => value.GetValue(request.Container.Result, null));
+                        .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)) && prop.Name != "Location")
+                        .ToDictionary(key => ToCamelCase(key.Name), value => value.GetValue(request.Container.Result, null));
                 }
 
                 if (geometry == null && attributes.Count < 1) {
@@ -48,7 +51,9 @@ namespace AGRC.api.Features.Converting {
 
                 var feature = new Feature(geometry, attributes
                     .Where(x => x.Value != null)
-                    .ToDictionary(x => x.Key, y => y.Value));
+                    .ToDictionary(x => x.Key, y => y.Value)) {
+                    CRS = new NamedCRS(result.Wkid.ToString())
+                };
 
                 var responseContainer = new ApiResponseContract<Feature> {
                     Result = feature,
