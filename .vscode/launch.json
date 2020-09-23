@@ -69,6 +69,48 @@
       }
     },
     {
+      "name": "api geocode - milepost",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/api",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/api/v1/geocode/milepost/15/309.001?apiKey=AGRC-Explorer"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:1337"
+      }
+    },
+    {
+      "name": "api geocode - reverse milepost",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/api",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/api/v1/geocode/reversemilepost/423185/4514470.2?apiKey=AGRC-Explorer"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:1337"
+      }
+    },
+    {
       "name": "api geocode - single",
       "type": "coreclr",
       "request": "launch",
