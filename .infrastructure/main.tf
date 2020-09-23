@@ -29,3 +29,28 @@ module "gke_cluster" {
   pod_subnet        = var.pod_subnet.range_name
   service_subnet    = var.service_subnet.range_name
 }
+
+resource "google_compute_router" "router" {
+  name    = "${local.project_id}-nat-router"
+  project = local.project_id
+  region  = google_compute_subnetwork.agrc_subnet.region
+  network = google_compute_network.agrc_vpc.self_link
+
+  bgp {
+    asn = 65025
+  }
+}
+
+resource "google_compute_router_nat" "nat" {
+  name                               = "${local.project_id}-nat"
+  project                            = local.project_id
+  region                             = google_compute_router.router.region
+  router                             = google_compute_router.router.name
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+
+  log_config {
+    enable = true
+    filter = "ERRORS_ONLY"
+  }
+}
