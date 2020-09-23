@@ -21,6 +21,7 @@ namespace AGRC.api.Features.Converting {
         }
 
         public class Handler : IComputationHandler<Computation, ApiResponseContract<SerializableGraphic>> {
+            private static string ToCamelCase(string data) => char.ToLowerInvariant(data[0]) + data.Substring(1);
             public Task<ApiResponseContract<SerializableGraphic>> Handle(Computation request, CancellationToken cancellationToken) {
                 EsriJsonObject geometry = null;
                 var attributes = new Dictionary<string, object>();
@@ -38,8 +39,8 @@ namespace AGRC.api.Features.Converting {
                     attributes = request.Container.Result
                         .GetType()
                         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                        .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
-                        .ToDictionary(key => key.Name, value => value.GetValue(request.Container.Result, null));
+                        .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)) && prop.Name != "Location")
+                        .ToDictionary(key => ToCamelCase(key.Name), value => value.GetValue(request.Container.Result, null));
                 }
 
                 if (geometry == null && attributes.Count < 1) {
