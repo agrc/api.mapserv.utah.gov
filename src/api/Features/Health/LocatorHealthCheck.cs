@@ -35,8 +35,8 @@ namespace AGRC.api.Features.Health {
             foreach (var locator in _locatorMetadata) {
                 var stopWatch = Stopwatch.StartNew();
                 try {
-                    var message = await _client.GetAsync($"{locator.Url()}{locator.ServiceName}/GeocodeServer?f=json");
-                    var result = await message.Content.ReadAsAsync<LocatorServiceStatus>(_mediaTypes);
+                    var message = await _client.GetAsync($"{locator.Url()}{locator.ServiceName}/GeocodeServer?f=json", cancellationToken);
+                    var result = await message.Content.ReadAsAsync<LocatorServiceStatus>(_mediaTypes, cancellationToken);
 
                     if (!result.IsSuccessful) {
                         results.Add(locator.ServiceName, HealthCheckResult.Degraded("Unable to access geocode service", null, new Dictionary<string, object> {

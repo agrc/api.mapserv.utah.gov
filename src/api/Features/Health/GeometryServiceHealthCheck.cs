@@ -29,8 +29,8 @@ namespace AGRC.api.Features.Health {
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
             var stopWatch = Stopwatch.StartNew();
             try {
-                var message = await _client.GetAsync(_url);
-                var result = await message.Content.ReadAsAsync<GeometryServiceInformation>(_mediaTypes);
+                var message = await _client.GetAsync(_url, cancellationToken);
+                var result = await message.Content.ReadAsAsync<GeometryServiceInformation>(_mediaTypes, cancellationToken);
 
                 if (!result.IsSuccessful) {
                     return HealthCheckResult.Degraded("Unable to access geometry service", null, new Dictionary<string, object> {
