@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="moq" Version="4.14.5" />
     <PackageReference Include="Shouldly" Version="3.0.2" />
-    <PackageReference Include="System.Text.Json" Version="5.0.0-preview.8.20407.11" />
+    <PackageReference Include="System.Text.Json" Version="5.0.0-rc.1.*" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
