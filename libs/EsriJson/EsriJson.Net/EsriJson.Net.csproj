@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>@steveAGRC</Authors>
+    <Company>AGRC</Company>
+    <PackageLicenseUrl>MIT</PackageLicenseUrl>
+    <PackageTags>esri json jsapi formatter</PackageTags>
+    <Description>formats geometries into formats that can be easily digested by the esri javascript api</Description>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="5.0.0-rc.1.*" />
+  </ItemGroup>
+
+</Project>
