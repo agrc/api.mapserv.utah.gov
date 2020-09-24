@@ -21,7 +21,7 @@ namespace AGRC.api.Features.Converting {
         }
 
         public class Handler : IComputationHandler<Computation, ApiResponseContract<SerializableGraphic>> {
-            private static string ToCamelCase(string data) => char.ToLowerInvariant(data[0]) + data.Substring(1);
+            private static string ToCamelCase(string data) => char.ToLowerInvariant(data[0]) + data[1..];
             public Task<ApiResponseContract<SerializableGraphic>> Handle(Computation request, CancellationToken cancellationToken) {
                 EsriJsonObject geometry = null;
                 var attributes = new Dictionary<string, object>();
