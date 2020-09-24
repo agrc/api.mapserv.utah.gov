@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EsriJson.Net", "EsriJson.Net.csproj", "{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B9D16267-3B88-44DB-9ECD-A2F7B97FDCBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsriJson.Net.Tests", "..\EsriJson.Net.Tests\EsriJson.Net.Tests.csproj", "{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{90EB4E2E-BE29-4FE5-A2AA-6BCC4ACBA146}.Release|x86.ActiveCfg = Release|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Debug|x86.Build.0 = Debug|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Release|x86.ActiveCfg = Release|Any CPU
+		{BF8CFB33-C19B-4DA3-9FB8-16DA7E65071B}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CB171AD0-3D1D-4483-AFB1-CF7CE83B83E5}
+	EndGlobalSection
+EndGlobal
