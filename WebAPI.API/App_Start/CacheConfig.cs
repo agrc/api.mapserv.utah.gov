@@ -34,7 +34,7 @@ namespace WebAPI.API
             App.UnitAbbreviations = CacheUnitAbbreviations();
             App.SgidCategories = CommandExecutor.ExecuteCommand(new GetSgidCategoriesCommand()) ?? new List<string>();
 
-            var lookups = CommandExecutor.ExecuteCommand(new GetCachedDataFromDriveCommand());
+            var lookups = CommandExecutor.ExecuteCommand(new GetStaticDriveCommand());
             App.PlaceGridLookup = lookups.PlaceGrids;
             App.ZipCodeGridLookup = lookups.ZipCodesGrids;
             App.UspsDeliveryPoints = lookups.UspsDeliveryPoints;
