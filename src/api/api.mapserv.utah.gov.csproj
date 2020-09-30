@@ -27,6 +27,7 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="3.1.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" PrivateAssets="All" />
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="2.1.0" />
     <PackageReference Include="Npgsql" Version="4.1.4" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
@@ -41,7 +42,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\libs\EsriJson\EsriJson.Net\EsriJson.Net.csproj" />
-    <ProjectReference Include="..\..\libs\GeoJSON.Net\src\GeoJSON.Net\GeoJSON.Net.csproj" />
   </ItemGroup>
 
 </Project>

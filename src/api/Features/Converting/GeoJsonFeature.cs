@@ -4,13 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
-using GeoJSON.Net.Feature;
-using GeoJSON.Net.Geometry;
 using AGRC.api.Models.ResponseContracts;
 using System.Reflection;
 using System;
 using System.Text.Json.Serialization;
-using GeoJSON.Net.CoordinateReferenceSystem;
+using NetTopologySuite.Features;
+using NetTopologySuite.Geometries;
+using NetTopologySuite;
 
 namespace AGRC.api.Features.Converting {
     public class GeoJsonFeature {
@@ -26,14 +26,15 @@ namespace AGRC.api.Features.Converting {
             private static string ToCamelCase(string data) => char.ToLowerInvariant(data[0]) + data[1..];
 
             public Task<ApiResponseContract<Feature>> Handle(Computation request, CancellationToken cancellationToken) {
-                IGeometryObject geometry = null;
+                Geometry geometry = null;
                 var attributes = new Dictionary<string, object>();
                 var message = request.Container.Message;
                 var status = request.Container.Status;
                 var result = request.Container.Result;
 
                 if (result?.Location != null) {
-                    geometry = new Point(new Position(result.Location.Y, result.Location.X));
+
+                    geometry = new Point(new Coordinate(result.Location.X, result.Location.Y));
 
                     attributes = request.Container.Result
                         .GetType()
@@ -49,11 +50,13 @@ namespace AGRC.api.Features.Converting {
                     });
                 }
 
-                var feature = new Feature(geometry, attributes
+                var attributeTable = new AttributesTable(attributes
                     .Where(x => x.Value != null)
                     .ToDictionary(x => x.Key, y => y.Value)) {
-                    CRS = new NamedCRS(result.Wkid.ToString())
+                    { "srid", result.Wkid }
                 };
+
+                var feature = new Feature(geometry, attributeTable);
 
                 var responseContainer = new ApiResponseContract<Feature> {
                     Result = feature,
