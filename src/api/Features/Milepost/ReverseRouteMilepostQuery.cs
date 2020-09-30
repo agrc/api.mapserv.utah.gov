@@ -104,7 +104,7 @@ namespace AGRC.api.Features.Milepost {
                         cancellationToken);
                 } catch (Exception ex) {
                     _log.ForContext("url", requestUri)
-                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync(cancellationToken))
+                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync())
                         .Fatal(ex, "error reading response");
 
                     return new ObjectResult(new ApiResponseContract {
