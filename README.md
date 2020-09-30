@@ -184,6 +184,12 @@ With the cluster created and the config map available, we can deploy the manifes
 
 - `kubectl apply -f .kube`
 
+## Update Kubernetes Deployments
+
+When a new image is pushed to the container registry a rolling update can be initiated with kubectl.
+
+- `kubectl set image deployment/webapi-api webapi-api=gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api@sha256:...`
+
 ## Swagger
 
 - openapi/v1/api.json
