@@ -26,6 +26,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using api.OpenApi;
 using System.IO;
+using NetTopologySuite.IO.Converters;
 
 namespace AGRC.api {
     public class Startup {
@@ -60,6 +61,7 @@ namespace AGRC.api {
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                options.JsonSerializerOptions.Converters.Add(new GeoJsonConverterFactory());
             });
 
             services.AddApiVersioning(x => {
