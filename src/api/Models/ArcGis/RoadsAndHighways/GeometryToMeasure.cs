@@ -1,3 +1,5 @@
+using System;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Models.ArcGis {
@@ -64,10 +66,20 @@ namespace AGRC.api.Models.ArcGis {
         }
 
         public class ResponseLocation {
+            private double measure;
+
             public ResponseLocation[] Results { get; set; }
             public Status Status { get; set; }
             public string RouteId { get; set; }
-            public double Measure { get; set; }
+            public double Measure {
+                get => measure;
+                set {
+                    measure = Math.Round(value, 4);
+                    if (measure <= 0) {
+                        measure = 0.001D;
+                    }
+                }
+            }
             public Point Geometry { get; set; }
         }
     }
