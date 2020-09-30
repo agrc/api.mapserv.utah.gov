@@ -104,7 +104,7 @@ namespace AGRC.api.Features.Milepost {
                         cancellationToken);
                 } catch (Exception ex) {
                     _log.ForContext("url", requestUri)
-                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync())
+                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync(cancellationToken))
                         .Fatal(ex, "error reading response");
 
                     return new ObjectResult(new ApiResponseContract {
@@ -188,7 +188,7 @@ namespace AGRC.api.Features.Milepost {
 
             public static IList<GeometryToMeasure.ResponseLocation> FilterPrimaryRoutes(
                 GeometryToMeasure.ResponseLocation[] locations, bool includeRamps) {
-                var collectors = new Regex($"\\d[P|N][C{(includeRamps ? "" : "|R")}]", RegexOptions.IgnoreCase,
+                var udotRoutes = new Regex($"[P|N][M|C{(includeRamps ? "|R" : "")}]", RegexOptions.IgnoreCase,
                     TimeSpan.FromSeconds(2));
                 var filtered = new List<GeometryToMeasure.ResponseLocation>(locations.Length);
 
@@ -196,14 +196,11 @@ namespace AGRC.api.Features.Milepost {
                     var location = locations[i];
                     var routeId = location.RouteId;
 
-                    // skip non zero padded non udot routes
-                    if (!routeId.StartsWith("0")) {
-                        continue;
-                    }
-
-                    // skip collectors
-                    // conditionally skip ramps
-                    if (collectors.IsMatch(routeId)) {
+                    // only allow udot routes with positive or negative values
+                    // and then only allow mainline collectors and optionally ramps
+                    // this will filter out surface streets e.g., 12TVL23541500_600_N
+                    // but keep aid routes etc
+                    if (!udotRoutes.IsMatch(routeId.Substring(4, 2))) {
                         continue;
                     }
 
