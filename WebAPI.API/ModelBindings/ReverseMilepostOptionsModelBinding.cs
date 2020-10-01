@@ -22,7 +22,7 @@ namespace WebAPI.API.ModelBindings
             var jsonFormat = JsonFormat.None;
 
             int.TryParse(string.IsNullOrEmpty(suggestCount) ? "0" : suggestCount, out var count);
-            double.TryParse(string.IsNullOrEmpty(buffer) ? "100" : buffer, out var bufferDistance);
+            double.TryParse(string.IsNullOrEmpty(buffer) ? "0" : buffer, out var bufferDistance);
             int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out var wkid);
             bool.TryParse(string.IsNullOrEmpty(includeRamps) ? bool.FalseString : includeRamps, out var includeRampSystems);
 

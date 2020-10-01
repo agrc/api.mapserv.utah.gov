@@ -140,10 +140,6 @@ namespace WebAPI.Domain.ApiResponses
         [JsonProperty(PropertyName = "side")]
         public string Side => Increasing ? "increasing" : "decreasing";
 
-        [JsonProperty(PropertyName = "dominant")]
-        public bool? Dominant { get; set; }
-
-
         /// <summary>
         /// Gets or sets a value indicating whether [increasing].
         /// </summary>

@@ -74,11 +74,6 @@ namespace WebAPI.API.Commands.Geocode
                 return null;
             }
 
-            if (!response.IsSuccessful)
-            {
-                return null;
-            }
-
             var result = ProcessResult(response);
              
             if (result is null)

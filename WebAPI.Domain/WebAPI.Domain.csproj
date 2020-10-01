@@ -87,10 +87,14 @@
     <Compile Include="ArcServerResponse\Geolocator\Location.cs" />
     <Compile Include="ArcServerResponse\Geolocator\ReverseGeocodeResponse.cs" />
     <Compile Include="ArcServerResponse\Geolocator\StreetZipAddress.cs" />
+    <Compile Include="ArcServerResponse\Soe\ReverseMilepostResponse.cs" />
     <Compile Include="ArcServerResponse\SoeErrorable.cs" />
     <Compile Include="ArcServerResponse\Soe\SearchResponse.cs" />
+    <Compile Include="Comparers\ClosestMilepostComparer.cs" />
+    <Compile Include="DataStructures\TopAndEqualMilepostCandidates.cs" />
     <Compile Include="DataStructures\TopAndEqualsList.cs" />
     <Compile Include="Direction.cs" />
+    <Compile Include="ArcServerInput\ReverseMilepostArgs.cs" />
     <Compile Include="GeocodeOperationInput.cs" />
     <Compile Include="InputOptions\AgoGeocodeOptions.cs" />
     <Compile Include="InputOptions\AttributeStyle.cs" />
@@ -112,6 +116,7 @@
     <Compile Include="PoBoxAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultContainer.cs" />
+    <Compile Include="ReverseMilepostModels\ClosestMilepost.cs" />
     <Compile Include="SecondaryUnit.cs" />
     <Compile Include="SideDelineation.cs" />
     <Compile Include="StreetType.cs" />

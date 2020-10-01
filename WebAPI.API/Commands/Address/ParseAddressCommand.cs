@@ -184,7 +184,8 @@ namespace WebAPI.API.Commands.Address
             }
 
             var pobox = match.Groups[1].Value;
-            int.TryParse(pobox, out int poboxValue);
+            int poboxValue;
+            int.TryParse(pobox, out poboxValue);
 
             address.StreetName = "P.O. Box";
             address.PoBox = poboxValue;
@@ -478,8 +479,9 @@ namespace WebAPI.API.Commands.Address
         private static StreetType ParseStreetType(string match)
         {
             var abbr = match.ToLower();
+            StreetType streetType;
 
-            if (Enum.TryParse(abbr, true, out StreetType streetType))
+            if (Enum.TryParse(abbr, true, out streetType))
             {
                 return streetType;
             }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
@@ -15,10 +15,11 @@ using WebAPI.Common.Exceptions;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Extensions;
 using WebAPI.Common.Formatters;
-using WebAPI.Common.Models.Esri.RoadsAndHighways;
 using WebAPI.Domain;
 using WebAPI.Domain.ApiResponses;
+using WebAPI.Domain.ArcServerInput;
 using WebAPI.Domain.ArcServerResponse.Geolocator;
+using WebAPI.Domain.DataStructures;
 using WebAPI.Domain.EndpointArgs;
 using WebAPI.Domain.InputOptions;
 
@@ -26,6 +27,7 @@ namespace WebAPI.API.Controllers.API.Version1
 {
     public class GeocodeController : ApiController
     {
+        private static readonly string NotifyEmails = ConfigurationManager.AppSettings["notify_email"];
         private const int MaxAddresses = 100;
 
         [HttpGet]
@@ -58,10 +60,10 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                               new ResultContainer<GeocodeAddressResult>
-                                              {
-                                                  Status = (int)HttpStatusCode.BadRequest,
-                                                  Message = errors
-                                              });
+                                                  {
+                                                      Status = (int) HttpStatusCode.BadRequest,
+                                                      Message = errors
+                                                  });
             }
 
             #endregion
@@ -129,10 +131,10 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 return Request.CreateResponse(HttpStatusCode.NotFound,
                                                             new ResultContainer<GeocodeAddressResult>
-                                                            {
-                                                                Status = (int)HttpStatusCode.NotFound,
-                                                                Message = $"No address candidates found with a score of {options.AcceptScore} or better."
-                                                            })
+                                                                {
+                                                                    Status = (int) HttpStatusCode.NotFound,
+                                                                    Message = $"No address candidates found with a score of {options.AcceptScore} or better."
+                                                                })
                             .AddCache()
                             .AddTypeHeader(typeof(ResultContainer<GeocodeAddressResult>));
             }
@@ -149,10 +151,10 @@ namespace WebAPI.API.Controllers.API.Version1
 
             var response = Request.CreateResponse(HttpStatusCode.OK,
                                                                 new ResultContainer<GeocodeAddressResult>
-                                                                {
-                                                                    Status = (int)HttpStatusCode.OK,
-                                                                    Result = geocodeAddressResult
-                                                                })
+                                                                    {
+                                                                        Status = (int) HttpStatusCode.OK,
+                                                                        Result = geocodeAddressResult
+                                                                    })
                             .AddCache()
                             .AddTypeHeader(typeof(ResultContainer<GeocodeAddressResult>));
 
@@ -173,11 +175,11 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                                             new ResultContainer<MultipleGeocdeAddressResultContainer>
-                                                            {
-                                                                Status = (int)HttpStatusCode.BadRequest,
-                                                                Message =
+                                                                {
+                                                                    Status = (int) HttpStatusCode.BadRequest,
+                                                                    Message =
                                                                         "Could not deserialize json. Please validate json to make sure it is in correct format. Try http://jsonlint.com"
-                                                            })
+                                                                })
                             .AddCache()
                             .AddTypeHeader(typeof(ResultContainer<MultipleGeocdeAddressResultContainer>));
             }
@@ -186,11 +188,11 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                                             new ResultContainer<MultipleGeocdeAddressResultContainer>
-                                                            {
-                                                                Status = (int)HttpStatusCode.BadRequest,
-                                                                Message =
+                                                                {
+                                                                    Status = (int) HttpStatusCode.BadRequest,
+                                                                    Message =
                                                                         "No addresses to geocode. Please validate json to make sure it is in correct format. Try http://jsonlint.com"
-                                                            })
+                                                                })
                             .AddCache()
                             .AddTypeHeader(typeof(ResultContainer<MultipleGeocdeAddressResultContainer>));
             }
@@ -232,16 +234,16 @@ namespace WebAPI.API.Controllers.API.Version1
             }
 
             var result = new MultipleGeocdeAddressResultContainer
-            {
-                Addresses = batchAddressResults.Select(MultipleGeocodeAddressResult.MapResult).ToList()
-            };
+                {
+                    Addresses = batchAddressResults.Select(MultipleGeocodeAddressResult.MapResult).ToList()
+                };
 
             duplicateIds.ForEach(x => result.Addresses.Add(new MultipleGeocodeAddressResult
-            {
-                Id = x,
-                Score = -2,
-                ErrorMessage = "Duplicate Id; Skipping."
-            }));
+                {
+                    Id = x,
+                    Score = -2,
+                    ErrorMessage = "Duplicate Id; Skipping."
+                }));
 
             HttpResponseMessage response;
             try
@@ -250,26 +252,24 @@ namespace WebAPI.API.Controllers.API.Version1
                 response = Request.CreateResponse(HttpStatusCode.OK,
                                                   new ResultContainer
                                                       <MultipleGeocdeAddressResultContainer>
-                                                  {
-                                                      Status = (int)HttpStatusCode.OK,
-                                                      Message = notifications,
-                                                      Result = result
-                                                  })
+                                                      {
+                                                          Status = (int) HttpStatusCode.OK,
+                                                          Message = notifications,
+                                                          Result = result
+                                                      })
                                   .AddCache()
-                                  .AddTypeHeader(typeof(ResultContainer<MultipleGeocdeAddressResultContainer>));
+                                  .AddTypeHeader(typeof (ResultContainer<MultipleGeocdeAddressResultContainer>));
             }
             catch (InvalidOperationException ex)
             {
                 log.Fatal(ex, "geocode(multiple): invalid operation jsonp?");
 
-                response = new HttpResponseMessage(HttpStatusCode.BadGateway)
-                {
+                response = new HttpResponseMessage(HttpStatusCode.BadGateway) {
                     Content = new ObjectContent(typeof(ResultContainer), new ResultContainer
                     {
                         Message = "JSONP does not work with POST requests.",
                         Status = 400
-                    }, new JsonMediaTypeFormatter())
-                };
+                    }, new JsonMediaTypeFormatter())};
             }
 
             return response;
@@ -300,26 +300,26 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                               new ResultContainer<ReverseGeocodeResult>
-                                              {
-                                                  Status = (int)HttpStatusCode.BadRequest,
-                                                  Message = errors
-                                              });
+                                                  {
+                                                      Status = (int) HttpStatusCode.BadRequest,
+                                                      Message = errors
+                                                  });
             }
 
             #endregion
 
             var reverseGeocodeResponse =
-                CommandExecutor.ExecuteCommand(new ReverseGeocodeCommand(new Location { X = x.Value, Y = y.Value },
+                CommandExecutor.ExecuteCommand(new ReverseGeocodeCommand(new Location {X = x.Value, Y = y.Value},
                                                                          options.WkId, options.Distance));
 
             reverseLog.Warning("geocode(reverse): success {@result}", reverseGeocodeResponse);
 
             return Request.CreateResponse(HttpStatusCode.OK,
                                                         new ResultContainer<ReverseGeocodeResult>
-                                                        {
-                                                            Status = (int)HttpStatusCode.OK,
-                                                            Result = reverseGeocodeResponse
-                                                        })
+                                                            {
+                                                                Status = (int) HttpStatusCode.OK,
+                                                                Result = reverseGeocodeResponse
+                                                            })
                             .AddCache()
                             .AddTypeHeader(typeof(ResultContainer<ReverseGeocodeResult>));
         }
@@ -358,10 +358,10 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                               new ResultContainer<ReverseGeocodeResult>
-                                              {
-                                                  Status = (int)HttpStatusCode.BadRequest,
-                                                  Message = errors
-                                              });
+                                                  {
+                                                      Status = (int) HttpStatusCode.BadRequest,
+                                                      Message = errors
+                                                  });
             }
 
             #endregion
@@ -375,11 +375,11 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                               new ResultContainer<RouteMilepostResult>
-                                              {
-                                                  Status = (int)HttpStatusCode.NotFound,
-                                                  Message = $"route {route} and milepost {milepost} was not found."
-                                              })
-                              .AddTypeHeader(typeof(ResultContainer<RouteMilepostResult>))
+                                                  {
+                                                      Status = (int) HttpStatusCode.NotFound,
+                                                      Message = $"route {route} and milepost {milepost} was not found."
+                                                  })
+                              .AddTypeHeader(typeof (ResultContainer<RouteMilepostResult>))
                               .AddCache();
             }
 
@@ -387,11 +387,11 @@ namespace WebAPI.API.Controllers.API.Version1
 
             return Request.CreateResponse(HttpStatusCode.OK,
                                                         new ResultContainer<RouteMilepostResult>
-                                                        {
-                                                            Status = (int)HttpStatusCode.OK,
-                                                            Result = response
-                                                        })
-                                .AddTypeHeader(typeof(ResultContainer<RouteMilepostResult>))
+                                                            {
+                                                                Status = (int) HttpStatusCode.OK,
+                                                                Result = response
+                                                            })
+                                .AddTypeHeader(typeof (ResultContainer<RouteMilepostResult>))
                               .AddCache();
         }
 
@@ -421,34 +421,24 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                               new ResultContainer<ReverseGeocodeResult>
-                                              {
-                                                  Status = (int)HttpStatusCode.BadRequest,
-                                                  Message = errors
-                                              });
+                                                  {
+                                                      Status = (int) HttpStatusCode.BadRequest,
+                                                      Message = errors
+                                                  });
             }
 
             #endregion
 
-            var baseUrl = "https://maps.udot.utah.gov/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
+            var queryArgs = new ReverseMilepostArgs(x.Value, y.Value, options);
 
-            var point = new GeometryToMeasure.Point(x.Value, y.Value);
-            var requestContract = new GeometryToMeasure.RequestContract
-            {
-                Locations = new[] {
-                        new GeometryToMeasure.RequestLocation { Geometry = point }
-                    },
-                OutSr = options.WkId,
-                InSr = options.WkId,
-                Tolerance = options.Buffer
-            };
+            var requestUri = ConfigurationManager.AppSettings["reverse_milepost_url"]
+                .With(queryArgs.ToQueryString());
 
-            var requestUri = $"{baseUrl}geometryToMeasure{requestContract.QueryString}";
-
-            HttpResponseMessage httpResponse;
+            HttpResponseMessage request;
 
             try
             {
-                httpResponse = await App.HttpClient.GetAsync(requestUri);
+                request = await App.HttpClient.GetAsync(requestUri);
             }
             catch (AggregateException ex)
             {
@@ -456,16 +446,16 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
                                               new ResultContainer
-                                              {
-                                                  Status = (int)HttpStatusCode.InternalServerError,
-                                                  Message = "I'm sorry, it seems as though the request had issues."
-                                              })
+                                                  {
+                                                      Status = (int) HttpStatusCode.InternalServerError,
+                                                      Message = "I'm sorry, it seems as though the request had issues."
+                                                  })
                                .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>));
             }
 
             try
             {
-                httpResponse.EnsureSuccessStatusCode();
+                request.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {
@@ -473,135 +463,156 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
                                               new ResultContainer
-                                              {
-                                                  Status = (int)HttpStatusCode.InternalServerError,
-                                                  Message = "I'm sorry, we were unable to communicate with the UDOT service."
-                                              })
+                                                  {
+                                                      Status = (int) HttpStatusCode.InternalServerError,
+                                                      Message = "I'm sorry, we were unable to communicate with the SOE."
+                                                  })
                              .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>));
             }
 
-            GeometryToMeasure.ResponseContract response;
-
-            try
-            {
-                response = await httpResponse.Content.ReadAsAsync<GeometryToMeasure.ResponseContract>(new[]
+            var response = await request.Content.ReadAsAsync<TopAndEqualMilepostCandidates>(new[]
                 {
                     new TextPlainResponseFormatter()
                 });
-            }
-            catch (Exception ex)
-            {
-                specificLog.Fatal(ex, "geocode(reverse-milepost): error reading result");
 
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                                              new ResultContainer
-                                              {
-                                                  Status = (int)HttpStatusCode.InternalServerError,
-                                                  Message = "I'm sorry, we were unable to read the result."
-                                              })
-                             .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>));
-            }
 
-            if (!response.IsSuccessful)
+            if (response.TopResult == null)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest,
-                                             new ResultContainer
-                                             {
-                                                 Status = (int)HttpStatusCode.BadRequest,
-                                                 Message = "Your request was invalid. Check that your coordinates and spatial reference match."
-                                             })
-                            .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>));
+                specificLog.Warning("geocode(reverse-milepost): no milepost found");
+
+                return Request.CreateResponse(HttpStatusCode.NotFound, new ResultContainer
+                    {
+                        Status = (int) HttpStatusCode.NotFound,
+                        Message = "No milepost was found within your buffer radius."
+                    })
+                              .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>))
+                              .AddCache();
             }
 
-            if (response.Locations?.Length != 1)
-            {
-                // this should not happen
-                specificLog.Warning("geocode(reverse-milepost): multiple locations found");
-            }
-
-            var location = response.Locations[0];
-
-            if (location.Status != GeometryToMeasure.Status.esriLocatingOK)
-            {
-                if (location.Status != GeometryToMeasure.Status.esriLocatingMultipleLocation)
+            var transformed = new ReverseMilepostResult
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound,
-                                             new ResultContainer
-                                             {
-                                                 Message = "No milepost was found within your buffer radius.",
-                                                 Status = (int)HttpStatusCode.NotFound
-                                             })
-                         .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>));
-                }
+                    Route = response.TopResult.Route,
+                    OffsetMeters = response.TopResult.Distance,
+                    Milepost = response.TopResult.Milepost,
+                    Increasing = response.TopResult.Increasing,
+                    Candidates = response.EqualCandidates
+                                         .Concat(response.CandidatesNearby)
+                                         .Select(item => new ReverseMilepostResult
+                                         {
+                                             Route = item.Route,
+                                             OffsetMeters = item.Distance,
+                                             Milepost = item.Milepost,
+                                             Increasing = item.Increasing
+                                         })
+                                         .OrderBy(c => c.OffsetMeters)
+                                         .Take(options.SuggestCount)
+            };
 
-                // concurrency
-                var primaryRoutes = FilterPrimaryRoutes(location.Results, options.IncludeRampSystems == 1);
+            specificLog.Warning("geocode(reverse-milepost): success {@response}", transformed);
 
-                if (primaryRoutes.Count < 1)
+            return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<ReverseMilepostResult>
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound,
-                                             new ResultContainer
-                                             {
-                                                 Message = "No milepost was found within your buffer radius.",
-                                                 Status = (int)HttpStatusCode.NotFound
-                                             })
-                         .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>));
-                }
-
-                var dominantRoutes = await CommandExecutor.ExecuteCommandAsync(
-                    new DominantRouteResolverCommand(primaryRoutes, point, options.SuggestCount));
-
-                return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<ReverseMilepostResult>
-                {
-                    Status = (int)HttpStatusCode.OK,
-                    Result = dominantRoutes
+                    Status = (int) HttpStatusCode.OK,
+                    Result = transformed
                 })
                           .AddTypeHeader(typeof(ResultContainer<ReverseMilepostResult>))
                           .AddCache();
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<ReverseMilepostResult>
-            {
-                Result = new ReverseMilepostResult
-                {
-                    Route = location.RouteId,
-                    OffsetMeters = 0,
-                    Milepost = location.Measure,
-                    Candidates = Array.Empty<ReverseMilepostResult>()
-                },
-                Status = (int)HttpStatusCode.OK
-            });
         }
 
-        private IList<GeometryToMeasure.ResponseLocation> FilterPrimaryRoutes(
-            GeometryToMeasure.ResponseLocation[] locations, bool includeRamps)
+        [HttpGet]
+        public HttpResponseMessage ArcGisOnlineActivation(string callback)
         {
-            var collectors = new Regex($"\\d[P|N][C{(includeRamps ? "" : "|R")}]", RegexOptions.IgnoreCase,
-                TimeSpan.FromSeconds(2));
-            var filtered = new List<GeometryToMeasure.ResponseLocation>(locations.Length);
-
-            for (var i = 0; i < locations.Length; i++)
+            const string agsResponseContent = @"{""currentVersion"":10.31,""serviceDescription"":"""",""addressFields"":[{""name"":""Street"",""type"":""esriFieldTypeString"",""alias"":""Street or Intersection"",""required"":true,""length"":100},{""name"":""City"",""type"":""esriFieldTypeString"",""alias"":""City or Placename"",""required"":false,""length"":40}],""singleLineAddressField"":{""name"":""Single Line Input"",""type"":""esriFieldTypeString"",""alias"":""Full Address"",""required"":false,""length"":100},""candidateFields"":[{""name"":""Shape"",""type"":""esriFieldTypeGeometry"",""alias"":""Shape"",""required"":false},{""name"":""Score"",""type"":""esriFieldTypeDouble"",""alias"":""Score"",""required"":false},{""name"":""Match_addr"",""type"":""esriFieldTypeString"",""alias"":""Match_addr"",""required"":false,""length"":120},{""name"":""House"",""type"":""esriFieldTypeString"",""alias"":""House"",""required"":false,""length"":12},{""name"":""Side"",""type"":""esriFieldTypeString"",""alias"":""Side"",""required"":false,""length"":1},{""name"":""PreDir"",""type"":""esriFieldTypeString"",""alias"":""PreDir"",""required"":false,""length"":6},{""name"":""PreType"",""type"":""esriFieldTypeString"",""alias"":""PreType"",""required"":false,""length"":6},{""name"":""StreetName"",""type"":""esriFieldTypeString"",""alias"":""StreetName"",""required"":false,""length"":32},{""name"":""SufType"",""type"":""esriFieldTypeString"",""alias"":""SufType"",""required"":false,""length"":6},{""name"":""SufDir"",""type"":""esriFieldTypeString"",""alias"":""SufDir"",""required"":false,""length"":6},{""name"":""City"",""type"":""esriFieldTypeString"",""alias"":""City"",""required"":false,""length"":20},{""name"":""State"",""type"":""esriFieldTypeString"",""alias"":""State"",""required"":false,""length"":2},{""name"":""ZIP"",""type"":""esriFieldTypeString"",""alias"":""ZIP"",""required"":false,""length"":5},{""name"":""X"",""type"":""esriFieldTypeDouble"",""alias"":""X"",""required"":false},{""name"":""Y"",""type"":""esriFieldTypeDouble"",""alias"":""Y"",""required"":false},{""name"":""User_fld"",""type"":""esriFieldTypeString"",""alias"":""User_fld"",""required"":false,""length"":120},{""name"":""Addr_type"",""type"":""esriFieldTypeString"",""alias"":""Addr_type"",""required"":false,""length"":20}],""spatialReference"":{""wkid"":26912,""latestWkid"":26912},""locatorProperties"":{""MinimumCandidateScore"":""60"",""SideOffsetUnits"":""Meters"",""UICLSID"":""{AE5A3A0E-F756-11D2-9F4F-00C04F8ED1C4}"",""SpellingSensitivity"":""80"",""MinimumMatchScore"":""60"",""EndOffset"":""5"",""MatchIfScoresTie"":""true"",""SideOffset"":""15"",""SuggestedBatchSize"":1000,""MaxBatchSize"":1000,""LoadBalancerTimeOut"":60,""WriteXYCoordFields"":""true"",""WriteStandardizedAddressField"":""0"",""WriteReferenceIDField"":""false"",""WritePercentAlongField"":""false""},""capabilities"":""Geocode,ReverseGeocode""}";
+            var resp = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                var location = locations[i];
-                var routeId = location.RouteId;
+                Content = new StringContent(callback + "(" + agsResponseContent + ")", System.Text.Encoding.UTF8, "text/plain")
+            };
 
-                // skip non zero padded non udot routes
-                if (!routeId.StartsWith("0"))
-                {
-                    continue;
-                }
+            return resp;
+        }
 
-                // skip collectors
-                // conditionally skip ramps
-                if (collectors.IsMatch(routeId))
-                {
-                    continue;
-                }
+        [HttpGet]
+        public async Task<HttpResponseMessage> ArcGisOnline([FromUri] AgoGeocodeOptions options)
+        {
+            #region validation
 
-                filtered.Add(location);
+            var errors = "";
+            if (string.IsNullOrEmpty(options.Address))
+            {
+                errors = "Address is empty.";
             }
 
-            return filtered;
+            if (errors.Length > 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                               new ResultContainer<GeocodeAddressResult>
+                                               {
+                                                   Status = (int)HttpStatusCode.BadRequest,
+                                                   Message = errors
+                                               });
+            }
+
+            var singleLineAddress = options.Address.Trim();
+
+            #endregion
+
+            var address = CommandExecutor.ExecuteCommand(new ParseSingleLineInputCommand(options.Address));
+
+            if (string.IsNullOrEmpty(address.Zone))
+            {
+                errors += "Zip code or city name could not be extracted.";
+            }
+
+            if (errors.Length > 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                              new ResultContainer<GeocodeAddressResult>
+                                              {
+                                                  Status = (int)HttpStatusCode.BadRequest,
+                                                  Message = errors
+                                              });
+            }
+
+            var wkidJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(options.WkId);
+
+            var spatialReference = wkidJson["wkid"];
+            if (wkidJson.ContainsKey("latestWkid"))
+            {
+                spatialReference = wkidJson["latestWkid"];
+            }
+
+            int wkid;
+            int.TryParse(string.IsNullOrEmpty(spatialReference) ? "26912" : spatialReference, out wkid);
+
+            var response = Get(address.Street, address.Zone, new GeocodeOptions
+            {
+                SuggestCount = options.SuggestCount,
+                WkId = wkid
+            });
+
+            var container = await response.Content.ReadAsAsync<ResultContainer<GeocodeAddressResult>>();
+
+            if (container.Status == 404)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, new StringContent(@"{""candidates"":[]}"));
+            }
+
+            var esriItems = new List<Candidate>
+            {
+                new Candidate
+                {
+                    Address = container.Result.InputAddress,
+                    Location = new Location(container.Result.Location.X, container.Result.Location.Y),
+                    Score = container.Result.Score
+                }
+            };
+
+            esriItems.AddRange(container.Result.Candidates);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new
+            {
+                candidates = esriItems.OrderByDescending(x => x.Score)
+            });
         }
     }
 }
