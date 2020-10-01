@@ -1,19 +1,23 @@
-using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using WebAPI.Common.Abstractions;
+using WebAPI.Common.Commands.Spatial;
+using WebAPI.Common.Executors;
 using WebAPI.Common.Formatters;
-using WebAPI.Common.Models.Esri.RoadsAndHighways;
 using WebAPI.Domain.ApiResponses;
 using WebAPI.Domain.ArcServerResponse.Geolocator;
+using WebAPI.Domain.ArcServerResponse.Soe;
 using WebAPI.Domain.InputOptions;
 
 namespace WebAPI.API.Commands.Geocode
 {
-    public class MilepostCommand : AsyncCommand<RouteMilepostResult>
+    public class MilepostCommand : Command<RouteMilepostResult>
     {
-        private const string BaseUrl = "https://maps.udot.utah.gov/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
+        private static readonly string Url = ConfigurationManager.AppSettings["milepost_url"];
 
         public MilepostCommand(string route, double milepost, MilepostOptions options)
         {
@@ -31,89 +35,57 @@ namespace WebAPI.API.Commands.Geocode
             return $"MilepostCommand, Route: {Route}, Milepost: {Milepost}, Options: {Options}";
         }
 
-        public override async Task<RouteMilepostResult> Execute()
+        protected override void Execute()
         {
-            var requestContract = new MeasureToGeometry.RequestContract
-            {
-                Locations = new[] {
-                        new MeasureToGeometry.RequestLocation {
-                            Measure = Milepost.ToString(),
-                            RouteId = Route
-                        }
-                    },
-                OutSr = Options.WkId
-            };
+            var requestUri = string.Format(Url, Route, Milepost, Options.Side, Options.FullRoute);
 
-            var requestUri = $"{BaseUrl}measureToGeometry{requestContract.QueryString}";
+            var response = App.HttpClient.GetAsync(requestUri).ContinueWith(
+                httpResponse => ConvertResponseToObjectAsync(httpResponse.Result)).Unwrap().Result;
 
-            HttpResponseMessage httpResponse;
-
-            try
-            {
-                httpResponse = await App.HttpClient.GetAsync(requestUri);
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
-
-                return null;
-            }
-
-            MeasureToGeometry.ResponseContract response;
-            try
-            {
-                response = await httpResponse.Content.ReadAsAsync<MeasureToGeometry.ResponseContract>(new MediaTypeFormatter[]
+            var result = new RouteMilepostResult { 
+                Source = response.Geocoder,
+                MatchRoute = response.MatchAddress,
+                Location = new Location
                 {
-                    new TextPlainResponseFormatter()
-                });
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
-
-                return null;
-            }
-
-            var result = ProcessResult(response);
-             
-            if (result is null)
-            {
-                return null;
-            }
+                    X = response.UTM_X,
+                    Y = response.UTM_Y
+                }
+            };
 
             result.InputRouteMilePost = $"Route {Route} Milepost {Milepost}";
 
-            return result;
+            if (Options.WkId != 26912)
+            {
+                var reprojectPointCommand =
+                    new ReprojectPointsCommand(new ReprojectPointsCommand.PointProjectQueryArgs(26912, Options.WkId,
+                                                                                                new List<double>
+                                                                                                    {
+                                                                                                        result.Location.X,
+                                                                                                        result.Location.Y
+                                                                                                    }));
+
+                var pointReprojectResponse = CommandExecutor.ExecuteCommand(reprojectPointCommand);
+
+                if (!pointReprojectResponse.IsSuccessful || !pointReprojectResponse.Geometries.Any())
+                    return;
+
+                var points = pointReprojectResponse.Geometries.FirstOrDefault();
+
+                if (points != null)
+                {
+                    result.Location = new Location(points.X, points.Y);
+                }
+            }
+
+            Result = result;
         }
 
-        private RouteMilepostResult ProcessResult(MeasureToGeometry.ResponseContract response)
+        private static Task<GeocodeMilepostResponse> ConvertResponseToObjectAsync(HttpResponseMessage task)
         {
-            if (response.Locations?.Length != 1)
-            {
-                // we have a problem
-            }
-
-            var location = response.Locations[0];
-
-            if (location.Status != MeasureToGeometry.Status.esriLocatingOK)
-            {
-                // we have a problem
-
-                // TODO: create messages from status
-                return null;
-            }
-
-            if (location.GeometryType != GeometryType.esriGeometryPoint)
-            {
-                // we have another problem
-            }
-
-            return new RouteMilepostResult
-            {
-                Source = "UDOT Roads and Highways",
-                Location = new Location(location.Geometry.X, location.Geometry.Y),
-                MatchRoute = $"Route {location.RouteId}, Milepost {location.Geometry.M}"
-            };
+            return task.Content.ReadAsAsync<GeocodeMilepostResponse>(new MediaTypeFormatter[]
+                {
+                    new TextPlainResponseFormatter()
+                });
         }
     }
 }
