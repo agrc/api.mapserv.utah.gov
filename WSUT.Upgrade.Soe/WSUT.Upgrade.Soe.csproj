@@ -105,6 +105,7 @@
   <ItemGroup>
     <Compile Include="Commands\CreateRestImplementationCommand.cs" />
     <Compile Include="Commands\FindAllEndpointsCommand.cs" />
+    <Compile Include="Commands\FindRouteMilepostCommand.cs" />
     <Compile Include="Commands\GetEnvelopeCommand.cs" />
     <Compile Include="Commands\GetValueForFieldCommand.cs" />
     <Compile Include="Commands\GetValueFromRasterCommand.cs" />
@@ -114,10 +115,12 @@
     <Compile Include="Endpoints\FeatureGeometryRestEndpoint.cs" />
     <Compile Include="Endpoints\RasterValuesRestEndpoint.cs" />
     <Compile Include="Endpoints\RelatedFeatureAttributesRestEndpoint.cs" />
+    <Compile Include="Endpoints\RouteMilePostRestEndpoint.cs" />
     <Compile Include="Endpoints\VersionEndpoint.cs" />
     <Compile Include="Extensions\PropertySetExensions.cs" />
     <Compile Include="Models\Args\RasterArgs.cs" />
     <Compile Include="Models\FieldValueMap.cs" />
+    <Compile Include="Models\GeocodeResult.cs" />
     <Compile Include="Models\EnvelopeJson.cs" />
     <Compile Include="Models\Envelope.cs" />
     <Compile Include="Models\Args\EnvelopeArgs.cs" />
