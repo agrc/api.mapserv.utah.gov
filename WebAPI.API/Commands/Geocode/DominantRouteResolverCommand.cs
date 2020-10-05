@@ -31,8 +31,8 @@ namespace WebAPI.API.Commands.Geocode
 
                 RequestContract.Locations[i] = new Concurrencies.RequestLocation
                 {
-                    FromMeasure = item.Measure - .1,
-                    ToMeasure = item.Measure + .1,
+                    FromMeasure = item.Measure,
+                    ToMeasure = item.Measure,
                     RouteId = item.RouteId
                 };
             }
