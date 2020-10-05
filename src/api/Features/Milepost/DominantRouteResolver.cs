@@ -182,7 +182,11 @@ namespace AGRC.api.Features.Milepost {
                 var isDominant = y.Dominant.CompareTo(x.Dominant);
 
                 if (isDominant == 0) {
-                    return x.Distance.CompareTo(y.Distance);
+                    var distance = x.Distance.CompareTo(y.Distance);
+
+                    if (distance == 0) {
+                        return y.GetHashCode().CompareTo(x.GetHashCode());
+                    }
                 }
 
                 return isDominant;
