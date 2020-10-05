@@ -185,7 +185,7 @@ namespace AGRC.api.Features.Milepost {
                     var distance = x.Distance.CompareTo(y.Distance);
 
                     if (distance == 0) {
-                        return y.GetHashCode().CompareTo(x.GetHashCode());
+                        return y.Route.CompareTo(x.Route);
                     }
                 }
 
