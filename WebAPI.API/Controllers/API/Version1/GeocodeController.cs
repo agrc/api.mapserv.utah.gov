@@ -325,7 +325,7 @@ namespace WebAPI.API.Controllers.API.Version1
         }
 
         [HttpGet]
-        public HttpResponseMessage RouteMilePost(string route, string milepost, [FromUri] MilepostOptions options)
+        public async Task<HttpResponseMessage> RouteMilePost(string route, string milepost, [FromUri] MilepostOptions options)
         {
             var log = Log.ForContext<GeocodeController>();
             var specificLog = log.ForContext("request-id", $"{route},{milepost}");
@@ -341,7 +341,7 @@ namespace WebAPI.API.Controllers.API.Version1
             var standardRoute = route;
             if (!options.FullRoute)
             {
-                standardRoute = CommandExecutor.ExecuteCommand(new StandardizeRouteNameCommand(route));
+                standardRoute = CommandExecutor.ExecuteCommand(new StandardizeRouteNameCommand(route, options.Side));
             }
 
             if (string.IsNullOrEmpty(route) || string.IsNullOrEmpty(standardRoute))
@@ -366,12 +366,12 @@ namespace WebAPI.API.Controllers.API.Version1
 
             #endregion
 
-            var response =
-                CommandExecutor.ExecuteCommand(new MilepostCommand(standardRoute, milepostNumber, options));
+            var response = await
+                CommandExecutor.ExecuteCommandAsync(new MilepostCommand(standardRoute, milepostNumber, options));
 
-            if (string.IsNullOrEmpty(response.Source))
+            if (response is null)
             {
-                specificLog.Warning("geocode(milepost): invalid source");
+                specificLog.Warning("geocode(milepost): not found");
 
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                               new ResultContainer<RouteMilepostResult>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading.Tasks;
 using Serilog;
 using WebAPI.Common.Exceptions;
 
@@ -78,5 +79,11 @@ namespace WebAPI.Common.Abstractions
             Run();
             return Result;
         }
+    }
+
+    public abstract class AsyncCommand<T>
+    {
+        public string ErrorMessage { get; set; }
+        public abstract Task<T> Execute();
     }
 }
