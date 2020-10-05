@@ -103,7 +103,6 @@
     <Compile Include="Commands\PointInPolygonQueryCommand.cs" />
     <Compile Include="Commands\PointInRasterQueryCommand.cs" />
     <Compile Include="Commands\QueryCommandBase.cs" />
-    <Compile Include="Endpoints\ReverseMilepost.cs" />
     <Compile Include="Endpoints\SearchEndpoint.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -179,7 +178,7 @@
   <Import Project="$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.Server.SDK.targets" Condition="Exists('$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.Server.SDK.targets')" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_ConfigurationName="Any" />
+      <UserProperties BuildVersion_ConfigurationName="Any" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
