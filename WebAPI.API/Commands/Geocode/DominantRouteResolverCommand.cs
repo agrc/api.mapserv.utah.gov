@@ -172,7 +172,12 @@ namespace WebAPI.API.Commands.Geocode
 
             if (isDominant == 0)
             {
-                return x.Distance.CompareTo(y.Distance);
+                var distance = x.Distance.CompareTo(y.Distance);
+
+                if (distance == 0)
+                {
+                    return y.GetHashCode().CompareTo(x.GetHashCode());
+                }
             }
 
             return isDominant;
