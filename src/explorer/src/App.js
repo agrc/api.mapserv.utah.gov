@@ -6,6 +6,9 @@ import GettingStarted from './components/GettingStarted';
 import { StreetZoneEndpoint } from './components/Endpoint/Geocoding';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import ReverseEndpoint from './components/Endpoint/Geocoding/Reverse/ReverseEndpoint';
+import SearchEndpoint from './components/Endpoint/Searching/Search/SearchEndpoint';
+import EndpointCategory from './components/Endpoint/EndpointCategory';
 
 const DOCUMENTATION_PATH = 'documentation';
 const DEFAULT_API_VERSION = 'v2';
@@ -48,7 +51,7 @@ export default function App() {
         <Route exact path={`/${DOCUMENTATION_PATH}`}>
           <Redirect to={`/${DOCUMENTATION_PATH}/${DEFAULT_API_VERSION}`} />
         </Route>
-        <Route exact path={`/${DOCUMENTATION_PATH}/:apiVersion`}>
+        <Route exact path={`/${DOCUMENTATION_PATH}/:apiVersion/:endpointCategory?/:endpoint?/:display?`}>
           <InlineTopNav>
             <CommonLinks></CommonLinks>
           </InlineTopNav>
@@ -58,15 +61,13 @@ export default function App() {
             </div>
             <section className="w-full">
               <section className="bg-gray-300 bg-circuit--light border border-gray-400 py-2 h-full">
-                <div
-                  id="geocoding"
-                  className="m-3 bg-white border-l-2 border-indigo-300 md:rounded-l md:rounded-r border-r-8 border-t-2 border-b-2">
-                  <header className="p-3">
-                    <h3 className="text-3xl font-extrabold tracking-tight">Geocoding Endpoints</h3>
-                    <p className="text-sm text-gray-500 tracking-wider">Everything related to addresses</p>
-                  </header>
-                </div>
-                <StreetZoneEndpoint></StreetZoneEndpoint>
+                <EndpointCategory id="geocoding"
+                  title="Geocoding Endpoints" subtitle="Everything related to addresses" />
+                <StreetZoneEndpoint />
+                <ReverseEndpoint />
+                <EndpointCategory id="searching"
+                  title="Searching Endpoints" subtitle="API methods for searching SGID data" />
+                <SearchEndpoint />
               </section>
             </section>
           </main>

@@ -4,6 +4,7 @@ import EndpointResponse from './EndpointResponse';
 import EndpointUrl from './EndpointUrl';
 import Button from '../Button';
 import { Tip } from '../Endpoint/Documentation/Elements';
+import { useParams } from 'react-router-dom';
 
 const getComponent = (key, children) => {
   return children.filter(comp => {
@@ -12,10 +13,7 @@ const getComponent = (key, children) => {
 };
 
 export default function Endpoint(props) {
-  let defaultValue = true;
-  if (props.collapsed !== undefined) {
-    defaultValue = props.collapsed;
-  }
+  const { endpoint, display } = useParams();
 
   const fetchApi = async url => {
     if (!url) {
@@ -36,8 +34,8 @@ export default function Endpoint(props) {
     }
   };
 
-  const [collapsed, setCollapsed] = useState(defaultValue);
-  const [api, setApi] = useState(true);
+  const [collapsed, setCollapsed] = useState(endpoint !== props.id);
+  const [api, setApi] = useState((display) ? display === 'api' : true);
   const [response, setResponse] = useState();
 
   return (
