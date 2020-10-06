@@ -1,7 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 export function ResponsiveSideNav() {
+  const { apiVersion } = useParams();
+
   return (
     <nav>
       <div className="mb-8">
@@ -30,14 +32,14 @@ export function ResponsiveSideNav() {
               exact
               to="/documentation"
               activeClassName="text-indigo-600 font-bold"
-              className="relative px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block hover:translate-x-2px hover:text-gray-900 text-gray-600 font-medium">
+              className="px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block hover:translate-x-2px hover:text-gray-900 text-gray-600 font-medium">
               Documentation
             </NavLink>
           </li>
           <li className="mb-1">
             <NavLink
               to="/getting-started"
-              className="relative px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block hover:translate-x-2px hover:text-gray-900 text-gray-600 font-medium">
+              className="px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block hover:translate-x-2px hover:text-gray-900 text-gray-600 font-medium">
               Getting Started Guide
             </NavLink>
           </li>
@@ -79,9 +81,8 @@ export function ResponsiveSideNav() {
               isActive={(match) => {
                 return !match;
               }}
-              activeClassName="hidden"
               className="px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block hover:translate-x-2px hover:text-gray-900 text-gray-600 font-medium"
-              to="/documentation#geocoding">
+              to={`/documentation/${apiVersion}/geocoding`}>
               <span className="relative">Geocoding</span>
             </NavLink>
           </li>
@@ -90,9 +91,8 @@ export function ResponsiveSideNav() {
               isActive={(match) => {
                 return !match;
               }}
-              activeClassName="hidden"
               className="px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block hover:translate-x-2px hover:text-gray-900 text-gray-600 font-medium"
-              to="/documentation#searching">
+              to={`/documentation/${apiVersion}/searching`}>
               <span className="relative">Searching</span>
             </NavLink>
           </li>
