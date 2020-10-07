@@ -8,7 +8,7 @@ const meta = {
   name: 'Street and Zone'
 };
 
-export default function StreetZone(props) {
+export default function StreetZone({ category }) {
   const [fetchUrl, setFetchUrl] = useState('');
   const [displayUrl, setDisplayUrl] = useState('');
   const [invalidCharacter, setInvalidCharacter] = useState();
@@ -18,6 +18,7 @@ export default function StreetZone(props) {
       displayUrl={displayUrl}
       fetchUrl={fetchUrl}
       id="streetzone"
+      category={category}
       invalidCharacter={invalidCharacter}>
       <StreetZoneApi urls={{ setFetchUrl, setDisplayUrl, setInvalidCharacter }} key="api"></StreetZoneApi>
       <StreetZoneDocs key="docs"></StreetZoneDocs>

@@ -9,7 +9,7 @@ const meta = {
   name: 'Search'
 };
 
-const SearchEndpoint = ({ collapsed }) => {
+const SearchEndpoint = ({ category }) => {
   const [fetchUrl, setFetchUrl] = React.useState('');
   const [displayUrl, setDisplayUrl] = React.useState('');
   const [invalidCharacter, setInvalidCharacter] = React.useState();
@@ -19,6 +19,7 @@ const SearchEndpoint = ({ collapsed }) => {
       displayUrl={displayUrl}
       fetchUrl={fetchUrl}
       id="search"
+      category={category}
       invalidCharacter={invalidCharacter}>
       <SearchApi urls={{ setFetchUrl, setDisplayUrl, setInvalidCharacter }} key="api" />
       <SearchDocs key="docs" />

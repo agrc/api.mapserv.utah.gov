@@ -62,12 +62,14 @@ export default function App() {
             <section className="w-full">
               <section className="bg-gray-300 bg-circuit--light border border-gray-400 py-2 h-full">
                 <EndpointCategory id="geocoding"
-                  title="Geocoding Endpoints" subtitle="Everything related to addresses" />
-                <StreetZoneEndpoint />
-                <ReverseEndpoint />
+                  title="Geocoding Endpoints" subtitle="Everything related to addresses">
+                  <StreetZoneEndpoint />
+                  <ReverseEndpoint />
+                </EndpointCategory>
                 <EndpointCategory id="searching"
-                  title="Searching Endpoints" subtitle="API methods for searching SGID data" />
-                <SearchEndpoint />
+                  title="Searching Endpoints" subtitle="API methods for searching SGID data">
+                  <SearchEndpoint />
+                </EndpointCategory>
               </section>
             </section>
           </main>

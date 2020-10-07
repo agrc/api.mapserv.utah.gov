@@ -1,5 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
+import { EndpointContext } from '../Endpoint';
+import { useHistory, useParams } from 'react-router-dom';
 
 function Tip(props) {
   return (
@@ -39,7 +41,48 @@ function Link(props) {
 }
 
 function Label(props) {
-  return <label className="ml-2 block text-xl font-thin leading-10 font-medium text-gray-700">{props.children}</label>;
+  const endpointContext = React.useContext(EndpointContext);
+  const { apiVersion, endpointCategory, endpoint, display } = useParams();
+  const history = useHistory();
+  const node = React.useRef();
+
+  const anchorId = props.children.toString();
+  const url = `/documentation/${apiVersion}/${endpointContext.category}/${endpointContext.id}/${endpointContext.display}#${anchorId}`;
+
+  const onClick = () => {
+    history.replace(url);
+
+    node.current.scrollIntoView(true);
+  };
+
+  React.useEffect(() => {
+    if (endpointCategory === endpointContext.category && endpoint === endpointContext.id && display === endpointContext.display && history.location.hash === `#${anchorId}`) {
+      console.log('scrolled');
+
+      window.addEventListener('load', () => {
+        node.current.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  }, [anchorId, display, endpoint, endpointCategory, endpointContext, history.location.hash]);
+
+  return (
+    <label className="ml-2 block text-xl leading-10 font-medium text-gray-700 group" ref={node}>
+      {props.children}
+      <svg
+        id={anchorId}
+        aria-hidden={true}
+        onClick={onClick}
+        className="hidden group-hover:inline-block hover:cursor-pointer cursor-pointer"
+        width="1em"
+        height="1em"
+        viewBox="0 0 16 16"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.715 6.542L3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.001 1.001 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z" />
+        <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 0 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 0 0-4.243-4.243L6.586 4.672z" />
+      </svg>
+    </label>
+  );
 }
 
 function Description(props) {
