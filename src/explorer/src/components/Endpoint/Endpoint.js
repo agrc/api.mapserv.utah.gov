@@ -12,7 +12,7 @@ const getComponent = (key, children) => {
   });
 };
 
-export const API = 'api';
+export const API = 'demo';
 export const DOCS = 'docs';
 export const EndpointContext = React.createContext();
 
