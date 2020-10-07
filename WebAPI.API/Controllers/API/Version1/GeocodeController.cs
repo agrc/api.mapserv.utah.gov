@@ -560,6 +560,19 @@ namespace WebAPI.API.Controllers.API.Version1
                           .AddCache();
             }
 
+            var routes = FilterPrimaryRoutes(location.Results, options.IncludeRampSystems == 1);
+
+            if (routes.Count < 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, new ResultContainer<ReverseMilepostResult>
+                {
+                    Message = "No milepost was found within your buffer radius.",
+                    Status = (int)HttpStatusCode.NotFound
+                });
+            }
+
+            location = routes[0];
+
             return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<ReverseMilepostResult>
             {
                 Result = new ReverseMilepostResult
