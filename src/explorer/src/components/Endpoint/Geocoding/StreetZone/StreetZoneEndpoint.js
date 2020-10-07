@@ -20,7 +20,7 @@ export default function StreetZone({ category }) {
       id="street-and-zone"
       category={category}
       invalidCharacter={invalidCharacter}>
-      <StreetZoneApi urls={{ setFetchUrl, setDisplayUrl, setInvalidCharacter }} key="api"></StreetZoneApi>
+      <StreetZoneApi urls={{ setFetchUrl, setDisplayUrl, setInvalidCharacter }} key="demo"></StreetZoneApi>
       <StreetZoneDocs key="docs"></StreetZoneDocs>
     </Endpoint>
   );
