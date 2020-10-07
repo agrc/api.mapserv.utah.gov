@@ -31,7 +31,7 @@ namespace api.tests.Filters {
             var actionDescription = new ActionDescriptor();
 
             var actionContext = new ActionContext(httpContext, routeData, actionDescription);
-            var filterMetadata = new IFilterMetadata[0];
+            var filterMetadata = System.Array.Empty<IFilterMetadata>();
 
             var actionResult = new ObjectResult(new ApiResponseContract<SingleGeocodeResponseContract>());
             var controller = new TestController();
