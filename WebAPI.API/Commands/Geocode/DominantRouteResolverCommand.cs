@@ -178,6 +178,8 @@ namespace WebAPI.API.Commands.Geocode
                 {
                     return y.Route.CompareTo(x.Route);
                 }
+
+                return distance;
             }
 
             return isDominant;
