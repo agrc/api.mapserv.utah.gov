@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { API, DOCS } from './Endpoint';
 
 const base = [
   'text-center',
@@ -32,12 +33,12 @@ export default function Toggle(props) {
     <div className="bg-gray-200 shadow-inner border-b border-gray-300">
       <ul className="flex justify-center p-3">
         <li>
-          <button type="button" className={props.active === 'api' ? activeApi : normalApi} onClick={() => props.showApi(true)}>
+          <button type="button" className={props.active === API ? activeApi : normalApi} onClick={() => props.showApi(true)}>
             demo
           </button>
         </li>
         <li>
-          <button type="button" className={props.active === 'docs' ? activeDoc : normalDoc} onClick={() => props.showApi(false)}>
+          <button type="button" className={props.active === DOCS ? activeDoc : normalDoc} onClick={() => props.showApi(false)}>
             documentation
           </button>
         </li>

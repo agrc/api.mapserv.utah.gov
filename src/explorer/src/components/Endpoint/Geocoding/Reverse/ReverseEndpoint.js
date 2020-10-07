@@ -9,7 +9,7 @@ const meta = {
   name: 'Reverse Geocoding'
 };
 
-const ReverseEndpoint = ({ collapsed }) => {
+const ReverseEndpoint = ({ category }) => {
   const [fetchUrl, setFetchUrl] = React.useState('');
   const [displayUrl, setDisplayUrl] = React.useState('');
   const [invalidCharacter, setInvalidCharacter] = React.useState();
@@ -19,6 +19,7 @@ const ReverseEndpoint = ({ collapsed }) => {
       displayUrl={displayUrl}
       fetchUrl={fetchUrl}
       id="reverse"
+      category={category}
       invalidCharacter={invalidCharacter}>
       <ReverseApi urls={{ setFetchUrl, setDisplayUrl, setInvalidCharacter }} key="api" />
       <ReverseDocs key="docs" />
