@@ -45,7 +45,7 @@ namespace api.tests.Features.Converting {
 
             options.Converters.Add(new JsonStringEnumConverter());
 
-            var feature = "{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[1,1]},\"properties\":{\"location\":{\"x\":1,\"y\":1},\"score\":100,\"locator\":\"Centerlines\",\"matchAddress\":\"Matched Address\",\"inputAddress\":\"Input Address\"}}";
+            var feature = "{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[1,1]},\"properties\":{\"score\":100,\"locator\":\"Centerlines\",\"matchAddress\":\"Matched Address\",\"inputAddress\":\"Input Address\",\"srid\":26912}}";
             var resultJson = JsonSerializer.Serialize(result.Result, options);
 
             resultJson.ShouldBe(feature);
