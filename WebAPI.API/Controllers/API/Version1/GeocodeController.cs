@@ -580,6 +580,7 @@ namespace WebAPI.API.Controllers.API.Version1
                     Route = location.RouteId,
                     OffsetMeters = 0,
                     Milepost = location.Measure,
+                    Dominant = true,
                     Candidates = Array.Empty<ReverseMilepostResult>()
                 },
                 Status = (int)HttpStatusCode.OK
