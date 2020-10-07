@@ -100,7 +100,7 @@ namespace WebAPI.Domain.ApiResponses
                     return "";
                 }
 
-                return _routeName.TrimStart('0');
+                return _routeName.TrimStart('0').TrimEnd('M');
             }
             set => _routeName = value;
         }
