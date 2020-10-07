@@ -7,14 +7,13 @@ using AGRC.api.Filters;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using EsriJson.Net;
-using GeoJSON.Net.Feature;
-using GeoJSON.Net.Geometry;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using Moq;
+using NetTopologySuite.Features;
 using Shouldly;
 using Xunit;
 using static AGRC.api.Features.Converting.EsriGraphic;
@@ -107,7 +106,7 @@ namespace api.tests.Filters {
 
             var mediator = new Mock<IComputeMediator>();
             var response = new ApiResponseContract<Feature> {
-                Result = new Feature(new GeoJSON.Net.Geometry.Point(new Position(1, 1)))
+                Result = new Feature(new NetTopologySuite.Geometries.Point(1, 1), new AttributesTable())
             };
 
             mediator.Setup(x => x.Handle(It.IsAny<GeoJsonFeature.Computation>(), It.IsAny<CancellationToken>()))

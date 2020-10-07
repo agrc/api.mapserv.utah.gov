@@ -6,7 +6,8 @@ using AGRC.api.Features.Converting;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
-using GeoJSON.Net.Feature;
+using NetTopologySuite.Features;
+using NetTopologySuite.IO.Converters;
 using Shouldly;
 using Xunit;
 
@@ -44,6 +45,7 @@ namespace api.tests.Features.Converting {
             };
 
             options.Converters.Add(new JsonStringEnumConverter());
+            options.Converters.Add(new GeoJsonConverterFactory());
 
             var feature = "{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[1,1]},\"properties\":{\"score\":100,\"locator\":\"Centerlines\",\"matchAddress\":\"Matched Address\",\"inputAddress\":\"Input Address\",\"srid\":26912}}";
             var resultJson = JsonSerializer.Serialize(result.Result, options);
