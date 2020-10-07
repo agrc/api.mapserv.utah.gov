@@ -17,7 +17,7 @@ export default function StreetZone({ category }) {
     <Endpoint {...meta}
       displayUrl={displayUrl}
       fetchUrl={fetchUrl}
-      id="streetzone"
+      id="street-and-zone"
       category={category}
       invalidCharacter={invalidCharacter}>
       <StreetZoneApi urls={{ setFetchUrl, setDisplayUrl, setInvalidCharacter }} key="api"></StreetZoneApi>
