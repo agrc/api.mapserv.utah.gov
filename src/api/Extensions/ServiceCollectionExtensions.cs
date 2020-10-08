@@ -13,6 +13,7 @@ using AGRC.api.Models.Configuration;
 using AGRC.api.Services;
 using MediatR;
 using MediatR.Pipeline;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -78,6 +79,8 @@ namespace AGRC.api.Extensions {
 
             services.AddTransient<IPipelineBehavior<SqlQuery.Command, IReadOnlyCollection<SearchResponseContract>>,
                 KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchResponseContract>>>();
+            services.AddTransient<IPipelineBehavior<SearchQuery.Query, ObjectResult>,
+                SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>>();
 
             services.AddTransient<IRequestPreProcessor<SqlQuery.Command>, SqlPreProcessor>();
             services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RequestLogger<>));

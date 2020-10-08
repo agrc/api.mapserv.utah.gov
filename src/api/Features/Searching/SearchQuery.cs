@@ -34,45 +34,6 @@ namespace AGRC.api.Features.Searching {
             }
 
             public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
-                #region validation
-
-                var errors = "";
-
-                if (string.IsNullOrEmpty(request.TableName)) {
-                    errors = "tableName is a required field. Input was empty. ";
-                } else if (await _computeMediator.Handle(new ValidateSql.Computation(request.TableName), default)) {
-                    errors += "tableName contains unsafe characters. Don't be a jerk. ";
-                }
-
-                if (string.IsNullOrEmpty(request.ReturnValues)) {
-                    errors += "returnValues is a required field. Input was empty. ";
-                } else if (await _computeMediator.Handle(new ValidateSql.Computation(request.ReturnValues), default)) {
-                    errors += "returnValues contains unsafe characters. Don't be a jerk. ";
-                }
-
-                if (request.Options == null) {
-                    errors += "Search options did not bind correctly. Sorry. ";
-
-                    return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
-                        Status = (int)HttpStatusCode.BadRequest,
-                        Message = errors
-                    });
-                }
-
-                if (!string.IsNullOrEmpty(request.Options.Predicate) &&
-                    await _computeMediator.Handle(new ValidateSql.Computation(request.Options.Predicate), default)) {
-                    errors += "Predicate contains unsafe characters. Don't be a jerk. ";
-                }
-
-                if (errors.Length > 0) {
-                    return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
-                        Status = (int)HttpStatusCode.BadRequest,
-                        Message = errors
-                    });
-                }
-
-                #endregion
-
                 var tableName = request.TableName.ToUpperInvariant();
                 var isStraightSql = !request.ReturnValues.ToUpperInvariant().Contains("SHAPE@") &&
                                     string.IsNullOrEmpty(request.Options.Geometry);
@@ -114,6 +75,59 @@ namespace AGRC.api.Features.Searching {
                     Result = result,
                     Status = (int)HttpStatusCode.OK
                 });
+            }
+        }
+
+        public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : Query
+        where TResponse : ObjectResult {
+            private readonly ILogger _log;
+            private readonly IComputeMediator _computeMediator;
+
+            public ValidationBehavior(IComputeMediator computeMediator, ILogger log) {
+                _computeMediator = computeMediator;
+                _log = log?.ForContext<SearchQuery>();
+            }
+
+            public async Task<TResponse> Handle(
+                TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next) {
+
+                var errors = "";
+
+                if (string.IsNullOrEmpty(request.TableName)) {
+                    errors = "tableName is a required field. Input was empty. ";
+                } else if (await _computeMediator.Handle(new ValidateSql.Computation(request.TableName), default)) {
+                    errors += "tableName contains unsafe characters. Don't be a jerk. ";
+                }
+
+                if (string.IsNullOrEmpty(request.ReturnValues)) {
+                    errors += "returnValues is a required field. Input was empty. ";
+                } else if (await _computeMediator.Handle(new ValidateSql.Computation(request.ReturnValues), default)) {
+                    errors += "returnValues contains unsafe characters. Don't be a jerk. ";
+                }
+
+                if (request.Options == null) {
+                    errors += "Search options did not bind correctly. Sorry. ";
+
+                    return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
+                        Status = (int)HttpStatusCode.BadRequest,
+                        Message = errors
+                    }) as TResponse;
+                }
+
+                if (!string.IsNullOrEmpty(request.Options.Predicate) &&
+                    await _computeMediator.Handle(new ValidateSql.Computation(request.Options.Predicate), default)) {
+                    errors += "Predicate contains unsafe characters. Don't be a jerk. ";
+                }
+
+                if (errors.Length > 0) {
+                    return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
+                        Status = (int)HttpStatusCode.BadRequest,
+                        Message = errors
+                    }) as TResponse;
+                }
+
+                return await next();
             }
         }
     }
