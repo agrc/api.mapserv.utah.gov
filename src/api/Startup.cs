@@ -156,6 +156,7 @@ namespace AGRC.api {
         public void ConfigureContainer(ContainerBuilder builder) {
             // set up computations
             builder.RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly)
+                    .Where(x => !x.Name.Contains("Decorator"))
                     .AsClosedTypesOf(typeof(IComputationHandler<,>))
                     .AsImplementedInterfaces();
 
