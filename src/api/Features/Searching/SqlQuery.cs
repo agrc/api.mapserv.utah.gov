@@ -1,49 +1,46 @@
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using AGRC.api.Models.Configuration;
+using AGRC.api.Models;
 using AGRC.api.Models.Constants;
 using Dapper;
-using MediatR;
 using Microsoft.Extensions.Options;
 using AGRC.api.Features.Searching;
+using AGRC.api.Infrastructure;
+using Serilog;
 
 namespace SqlQuery {
-    public class Command : IRequest<IReadOnlyCollection<SearchResponseContract>> {
-        public Command(string tableName, string returnValues, string predicate, AttributeStyle style, string geometry = null) {
+    public class Computation : IComputation<IReadOnlyCollection<SearchResponseContract>> {
+        public Computation(string tableName, string sql, AttributeStyle style) {
             TableName = tableName;
-            ReturnValues = returnValues;
-            Predicate = predicate;
+            Sql = sql;
             Styling = style;
-            Geometry = geometry;
         }
 
         public string TableName { get; }
-        public string ReturnValues { get; }
-        public string Predicate { get; }
+        public string Sql { get; }
         public AttributeStyle Styling { get; }
-        public string Geometry { get; }
-        public string Query { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, IReadOnlyCollection<SearchResponseContract>> {
+    public class Handler : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> {
         private const string ShapeToken = "SHAPE@";
         private readonly string _connectionString;
         public Handler(IOptions<SearchProviderConfiguration> dbOptions) {
             _connectionString = dbOptions.Value.ConnectionString;
         }
 
-        public async Task<IReadOnlyCollection<SearchResponseContract>> Handle(Command request, CancellationToken cancellationToken) {
-            if (string.IsNullOrEmpty(request.TableName)) {
+        public async Task<IReadOnlyCollection<SearchResponseContract>> Handle(Computation computation, CancellationToken cancellationToken) {
+            if (string.IsNullOrEmpty(computation.TableName)) {
                 return null;
             }
 
             using var session = new SqlConnection(_connectionString);
             session.Open();
 
-            var queryResults = await session.QueryAsync(request.Query);
+            var queryResults = await session.QueryAsync(computation.Sql);
 
             return queryResults.Select(x => new SearchResponseContract {
                 Attributes = x
