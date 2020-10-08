@@ -187,6 +187,8 @@ namespace AGRC.api.Features.Milepost {
                     if (distance == 0) {
                         return y.Route.CompareTo(x.Route);
                     }
+
+                    return distance;
                 }
 
                 return isDominant;
