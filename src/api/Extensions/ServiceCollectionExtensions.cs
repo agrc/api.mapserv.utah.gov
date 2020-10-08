@@ -77,8 +77,6 @@ namespace AGRC.api.Extensions {
 
             services.AddScoped<IFilterSuggestionFactory, FilterSuggestionFactory>();
 
-            services.AddTransient<IPipelineBehavior<SqlQuery.Command, IReadOnlyCollection<SearchResponseContract>>,
-                KeyFormatting.Pipeline<SqlQuery.Command, IReadOnlyCollection<SearchResponseContract>>>();
             services.AddTransient<IPipelineBehavior<SearchQuery.Query, ObjectResult>,
                 SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>>();
 

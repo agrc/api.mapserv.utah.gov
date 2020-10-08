@@ -1,26 +1,33 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
 using MediatR;
+using Serilog;
 
 namespace AGRC.api.Features.Searching {
-    public class KeyFormatting {
-        public class Pipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-            where TRequest : SqlQuery.Command
-            where TResponse : IReadOnlyCollection<SearchResponseContract> {
+    public class AttributeTableKeyFormatting {
+        public class Decorator : IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>> {
 
-            public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next) {
-                var response = await next();
+            private readonly IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>> _decorated;
+            private readonly ILogger _log;
+
+            public Decorator(IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>> decorated, ILogger log) {
+                _log = log?.ForContext<AttributeTableKeyFormatting>();
+                _decorated = decorated;
+            }
+            public async Task<IReadOnlyCollection<SearchResponseContract>> Handle(SqlQuery.Computation computation, CancellationToken cancellationToken) {
+                var response = await _decorated.Handle(computation, cancellationToken);
 
                 if (!response.Any()) {
                     return response;
                 }
 
                 Func<string, string> formatterFunction = x => x;
-                switch (request.Styling) {
+                switch (computation.Styling) {
                     case AttributeStyle.Lower: {
                             formatterFunction = x => x.ToLowerInvariant();
                             break;

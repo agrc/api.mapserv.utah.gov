@@ -27,6 +27,8 @@ using System.Text.Json;
 using api.OpenApi;
 using System.IO;
 using NetTopologySuite.IO.Converters;
+using System.Collections.Generic;
+using AGRC.api.Features.Searching;
 
 namespace AGRC.api {
     public class Startup {
@@ -158,8 +160,10 @@ namespace AGRC.api {
                     .AsImplementedInterfaces();
 
             builder.RegisterDecorator<DoubleAvenuesException.Decorator,
-                                      IComputationHandler<ZoneParsing.Computation, AddressWithGrids>>();
+                IComputationHandler<ZoneParsing.Computation, AddressWithGrids>>();
 
+            builder.RegisterDecorator<AttributeTableKeyFormatting.Decorator,
+                IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
 
             builder.RegisterGenericDecorator(typeof(Reproject.Decorator<,>), typeof(IComputationHandler<,>));
 
