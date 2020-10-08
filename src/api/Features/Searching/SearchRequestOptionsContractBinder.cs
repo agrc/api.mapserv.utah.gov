@@ -34,7 +34,9 @@ namespace AGRC.api.Features.Searching {
                     attributeStyle = AttributeStyle.Input;
                 }
             } else {
-                Enum.TryParse(attribute, out AttributeStyle attributeStyle);
+                if (!Enum.TryParse(attribute, true, out attributeStyle)) {
+                    // warning?
+                }
             }
 
             var result = new SearchRequestOptionsContract {
