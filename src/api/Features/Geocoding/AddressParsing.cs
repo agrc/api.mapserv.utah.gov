@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AGRC.api.Cache;
 using AGRC.api.Comparers;
 using AGRC.api.Infrastructure;
-using AGRC.api.Models;
 using AGRC.api.Models.Constants;
 using Serilog;
 
