@@ -1,24 +1,23 @@
+﻿using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Models;
 using MediatR.Pipeline;
-using Newtonsoft.Json;
-using SqlQuery;
 
 namespace AGRC.api.Features.Searching {
-    public class SqlPreProcessor : IRequestPreProcessor<Command> {
-        public Task Process(Command request, CancellationToken cancellationToken) {
+    public class SqlBuilder : IRequestPreProcessor<SearchQuery.Query> {
+        public Task Process(SearchQuery.Query request, CancellationToken cancellationToken) {
             var hasWhere = false;
 
             var query = $"SELECT {request.ReturnValues} FROM {request.TableName}";
 
-            if (!string.IsNullOrEmpty(request.Predicate)) {
-                query += $" WHERE {request.Predicate}";
+            if (!string.IsNullOrEmpty(request.Options.Predicate)) {
+                query += $" WHERE {request.Options.Predicate}";
                 hasWhere = true;
             }
 
-            if (!string.IsNullOrEmpty(request.Geometry)) {
-                var geometry = request.Geometry.ToUpper().Trim();
+            if (!string.IsNullOrEmpty(request.Options.Geometry)) {
+                var geometry = request.Options.Geometry.ToUpper().Trim();
 
                 if (geometry[0] == 'P') {
                     // have a point (5) polyline (8) or polygon (7)
@@ -38,7 +37,7 @@ namespace AGRC.api.Features.Searching {
                             geometry = geometry.Replace(',', ' ');
                         } else if (geometry[colon + 1] == '{') {
                             // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
-                            var point = JsonConvert.DeserializeObject<Point>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
+                            var point = JsonSerializer.Deserialize<Point>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
                             geometry = $"{point.X} {point.Y}";
                         }
                     } else if (colon == 7) {
@@ -57,9 +56,9 @@ namespace AGRC.api.Features.Searching {
                 query += $"geometry::STPointFromText('POINT({geometry})', 26912).STIntersects(Shape) = 1";
             }
 
-            request.Query = query;
+            request.Sql = query;
 
-            return Task.FromResult(0);
+            return Task.FromResult(request);
         }
     }
 }
