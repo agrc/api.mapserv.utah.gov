@@ -74,6 +74,7 @@ namespace AGRC.api.Extensions {
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
             services.AddSingleton<IDistanceStrategy, PythagoreanDistance>();
+            services.AddSingleton<ITableMapping, TableMapping>();
 
             services.AddScoped<IFilterSuggestionFactory, FilterSuggestionFactory>();
 
