@@ -24,11 +24,10 @@
     <PackageReference Include="MediatR" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="3.1.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" PrivateAssets="All" />
     <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="2.1.0" />
-    <PackageReference Include="Npgsql" Version="4.1.4" />
+    <PackageReference Include="Npgsql" Version="5.0.0-preview1" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
