@@ -53,6 +53,10 @@ namespace AGRC.api.Features.Searching {
                     var message = string.Empty;
 
                     if (error.Contains("INVALID COLUMN NAME")) {
+                        _log.ForContext("request", request)
+                            .ForContext("fields", request.ReturnValues)
+                            .Error("invalid column", ex);
+
                         const string pattern = @"\'.*?\'";
                         var matches = new Regex(pattern).Matches(error);
 
@@ -60,8 +64,15 @@ namespace AGRC.api.Features.Searching {
 
                         message = $"`{tableName}` does not contain an attribute {string.Join(" or ", badColumns)}. Check your spelling.";
                     } else if (error.Contains("AN EXPRESSION OF NON-BOOLEAN TYPE SPECIFIED IN A CONTEXT WHERE A CONDITION IS EXPECTED")) {
+                        _log.ForContext("request", request)
+                            .ForContext("predicate", request.Options.Predicate)
+                            .Error("invalid predicate", ex);
+
                         message = $"`{request.Options.Predicate}` is not a valid MSSQL where clause.";
                     } else {
+                        _log.ForContext("request", request)
+                            .Error("could not complete query", ex);
+
                         message = $"The table `{tableName}` probably does not exist. Check your spelling.";
                     }
 
@@ -70,6 +81,9 @@ namespace AGRC.api.Features.Searching {
                         Message = message
                     });
                 }
+
+                _log.ForContext("request", request)
+                         .Debug("query succeeded");
 
                 return new OkObjectResult(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract>> {
                     Result = result,
@@ -109,6 +123,9 @@ namespace AGRC.api.Features.Searching {
                 if (request.Options == null) {
                     errors += "Search options did not bind correctly. Sorry. ";
 
+                    _log.ForContext("request", request)
+                        .Error("no search options");
+
                     return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
                         Status = (int)HttpStatusCode.BadRequest,
                         Message = errors
@@ -121,6 +138,9 @@ namespace AGRC.api.Features.Searching {
                 }
 
                 if (errors.Length > 0) {
+                    _log.ForContext("errors", errors)
+                        .Warning("search validation failed");
+
                     return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
                         Status = (int)HttpStatusCode.BadRequest,
                         Message = errors
