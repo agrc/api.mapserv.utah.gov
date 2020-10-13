@@ -52,9 +52,22 @@ namespace WebAPI.Common.Models.Esri.RoadsAndHighways
 
         public class ResponseLocation
         {
+            private string routeId;
+
             public Status Status { get; set; }
             public ResponseLocation[] Results { get; set; }
-            public string RouteId { get; set; }
+            public string RouteId {
+                get
+                {
+                    if (string.IsNullOrEmpty(routeId))
+                    {
+                        return "";
+                    }
+
+                    return routeId.TrimStart('0').TrimEnd('M');
+                }
+                set => routeId = value;
+            }
             public GeometryType GeometryType { get; set; }
             public MeasurePoint Geometry { get; set; }
         }
