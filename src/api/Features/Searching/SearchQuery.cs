@@ -17,7 +17,6 @@ namespace AGRC.api.Features.Searching {
             internal readonly string TableName;
             internal readonly string ReturnValues;
             internal readonly SearchRequestOptionsContract Options;
-            internal string Sql;
 
             public Query(string tableName, string returnValues, SearchRequestOptionsContract options) {
                 TableName = tableName;
@@ -42,8 +41,13 @@ namespace AGRC.api.Features.Searching {
                 IReadOnlyCollection<SearchResponseContract> result = Array.Empty<SearchResponseContract>();
 
                 try {
-                    var sqlComputation = new SqlQuery.Computation(tableName, request.Sql, request.Options.AttributeStyle);
-                    result = await _computeMediator.Handle(sqlComputation, cancellationToken);
+                    result = await _computeMediator.Handle(
+                        new SqlQuery.Computation(tableName,
+                            request.ReturnValues,
+                            request.Options.Predicate,
+                            request.Options.AttributeStyle,
+                            request.Options.Geometry),
+                        cancellationToken);
                 } catch (Exception ex) {
                     var error = ex.Message.ToUpperInvariant();
                     var message = string.Empty;

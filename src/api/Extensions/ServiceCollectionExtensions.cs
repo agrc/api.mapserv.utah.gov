@@ -80,7 +80,6 @@ namespace AGRC.api.Extensions {
             services.AddTransient<IPipelineBehavior<SearchQuery.Query, ObjectResult>,
                 SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>>();
 
-            services.AddTransient<IRequestPreProcessor<SearchQuery.Query>, SqlBuilder>();
             services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RequestLogger<>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceLogger<,>));
         }
