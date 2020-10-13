@@ -163,6 +163,9 @@ namespace AGRC.api {
             builder.RegisterDecorator<DoubleAvenuesException.Decorator,
                 IComputationHandler<ZoneParsing.Computation, AddressWithGrids>>();
 
+            builder.RegisterDecorator<SqlQuery.Decorator,
+                IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
+
             builder.RegisterDecorator<AttributeTableKeyFormatting.Decorator,
                 IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
 
