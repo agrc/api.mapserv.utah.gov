@@ -5,18 +5,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
-using MediatR;
-using Serilog;
 
 namespace AGRC.api.Features.Searching {
     public class AttributeTableKeyFormatting {
         public class Decorator : IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>> {
 
             private readonly IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>> _decorated;
-            private readonly ILogger _log;
 
-            public Decorator(IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>> decorated, ILogger log) {
-                _log = log?.ForContext<AttributeTableKeyFormatting>();
+            public Decorator(IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>> decorated) {
                 _decorated = decorated;
             }
             public async Task<IReadOnlyCollection<SearchResponseContract>> Handle(SqlQuery.Computation computation, CancellationToken cancellationToken) {
