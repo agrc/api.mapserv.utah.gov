@@ -1,16 +1,14 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using AGRC.api.Models;
 using AGRC.api.Models.Constants;
-using Dapper;
 using Microsoft.Extensions.Options;
 using AGRC.api.Infrastructure;
 using Serilog;
 using System;
 using Npgsql;
+using NetTopologySuite.Geometries;
 
 namespace AGRC.api.Features.Searching {
     public class SqlQuery {
@@ -54,7 +52,7 @@ namespace AGRC.api.Features.Searching {
                                 geometry = geometry.Replace(',', ' ');
                             } else if (geometry[colon + 1] == '{') {
                                 // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
-                                var point = JsonSerializer.Deserialize<Point>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
+                                var point = JsonSerializer.Deserialize<Models.Point>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
                                 geometry = $"{point.X} {point.Y}";
                             }
                         } else if (colon == 7) {
@@ -112,11 +110,27 @@ namespace AGRC.api.Features.Searching {
                     .ForContext("fields", computation.ReturnValues)
                     .Debug("quering database");
 
-                var queryResults = await session.QueryAsync(query);
+                using var cmd = new NpgsqlCommand(query, session);
+                using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
 
-                return queryResults.Select(x => new SearchResponseContract {
-                    Attributes = x
-                }).AsList();
+                var results = new List<SearchResponseContract>();
+
+                while (reader.HasRows && await reader.ReadAsync(cancellationToken)) {
+                    var attributes = new Dictionary<string, object>(reader.VisibleFieldCount);
+                    var response = new SearchResponseContract {
+                        Attributes = attributes
+                    };
+
+                    for (var i = 0; i < reader.VisibleFieldCount; i++)
+                    {
+                        var key = reader.GetName(i);
+                        attributes[key] = reader.GetValue(i);
+                    }
+
+                    results.Add(response);
+                }
+
+                return results;
             }
         }
 
