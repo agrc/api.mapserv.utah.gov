@@ -29,6 +29,7 @@ using System.IO;
 using NetTopologySuite.IO.Converters;
 using System.Collections.Generic;
 using AGRC.api.Features.Searching;
+using Npgsql;
 
 namespace AGRC.api {
     public class Startup {
@@ -151,6 +152,8 @@ namespace AGRC.api {
 
                 c.IncludeXmlComments(xmlPath);
             });
+
+            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
         }
 
         public void ConfigureContainer(ContainerBuilder builder) {
@@ -163,7 +166,10 @@ namespace AGRC.api {
             builder.RegisterDecorator<DoubleAvenuesException.Decorator,
                 IComputationHandler<ZoneParsing.Computation, AddressWithGrids>>();
 
-            builder.RegisterDecorator<SqlQuery.Decorator,
+            builder.RegisterDecorator<SqlQuery.ShapeFieldDecorator,
+                IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
+
+            builder.RegisterDecorator<SqlQuery.TableMappingDecorator,
                 IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
 
             builder.RegisterDecorator<AttributeTableKeyFormatting.Decorator,

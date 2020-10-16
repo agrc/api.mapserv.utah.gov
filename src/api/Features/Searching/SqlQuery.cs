@@ -124,6 +124,14 @@ namespace AGRC.api.Features.Searching {
                     for (var i = 0; i < reader.VisibleFieldCount; i++)
                     {
                         var key = reader.GetName(i);
+
+                        if (string.Equals(key, "st_envelope", StringComparison.InvariantCultureIgnoreCase) ||
+                            string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase)) {
+                            response.Geometry = reader.GetValue(i) as Geometry;
+                            // TODO: convert to esri geometry type
+                            continue;
+                        }
+
                         attributes[key] = reader.GetValue(i);
                     }
 
@@ -134,16 +142,16 @@ namespace AGRC.api.Features.Searching {
             }
         }
 
-        public class Decorator : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> {
+        public class TableMappingDecorator : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> {
             private readonly IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> _decorated;
             private readonly ITableMapping _mapping;
             private readonly ILogger _log;
 
-            public Decorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> decorated,
+            public TableMappingDecorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> decorated,
                 ITableMapping mapping, ILogger log) {
                 _mapping = mapping;
                 _decorated = decorated;
-                _log = log?.ForContext<Decorator>();
+                _log = log?.ForContext<TableMappingDecorator>();
             }
 
             public async Task<IReadOnlyCollection<SearchResponseContract>> Handle(Computation computation, CancellationToken cancellationToken) {
@@ -175,6 +183,56 @@ namespace AGRC.api.Features.Searching {
                 _log.ForContext("input_table", computation.TableName)
                     .ForContext("mapped_table", mutated.TableName)
                         .Warning("table name updated");
+
+                return await _decorated.Handle(mutated, cancellationToken);
+            }
+        }
+
+        public class ShapeFieldDecorator : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> {
+            private readonly IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> _decorated;
+            private readonly ILogger _log;
+            private const string shapeInput = "shape@";
+            private const string shape = "st_simplify(shape,10)";
+            private const string envelopeInput = "shape@envelope";
+            private const string envelope = "st_envelope(shape)";
+
+
+            public ShapeFieldDecorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> decorated,
+                ILogger log) {
+                _decorated = decorated;
+                _log = log?.ForContext<ShapeFieldDecorator>();
+            }
+
+            public async Task<IReadOnlyCollection<SearchResponseContract>> Handle(Computation computation, CancellationToken cancellationToken) {
+                if (!computation.ReturnValues.ToLowerInvariant().Contains(shapeInput)) {
+                    _log.ForContext("return_values", computation.ReturnValues)
+                        .Debug("no fields require modification");
+
+                    return await _decorated.Handle(computation, cancellationToken);
+                }
+
+                var fields = computation.ReturnValues.Split(',');
+
+                for (var i = 0; i < fields.Length; i++)
+                {
+                    var field = fields[i];
+
+                    if (string.Equals(field, shapeInput, StringComparison.InvariantCultureIgnoreCase)) {
+                        _log.Debug("updated shape field");
+                        fields[i] = shape;
+                    } else if (string.Equals(field, envelopeInput, StringComparison.InvariantCultureIgnoreCase)) {
+                        fields[i] = envelope;
+                        _log.Debug("updated envelope field");
+                    }
+                }
+
+                var mutated = new Computation(
+                    computation.TableName,
+                    string.Join(',', fields),
+                    computation.Predicate,
+                    computation.Styling,
+                    computation.Geometry
+                );
 
                 return await _decorated.Handle(mutated, cancellationToken);
             }
