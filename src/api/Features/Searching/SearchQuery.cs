@@ -48,7 +48,16 @@ namespace AGRC.api.Features.Searching {
                             request.Options.AttributeStyle,
                             request.Options.Geometry),
                         cancellationToken);
-                } catch (Exception ex) {
+                } catch(KeyNotFoundException ex){
+                    _log.ForContext("table", request.TableName)
+                        .Error("table not in SGID", ex);
+
+                    return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
+                        Status = (int)HttpStatusCode.BadRequest,
+                        Message = $"The table `{tableName}` does not exist in the SGID."
+                    });
+                }
+                catch (Exception ex) {
                     var error = ex.Message.ToUpperInvariant();
                     var message = string.Empty;
 
@@ -68,12 +77,18 @@ namespace AGRC.api.Features.Searching {
                             .ForContext("predicate", request.Options.Predicate)
                             .Error("invalid predicate", ex);
 
-                        message = $"`{request.Options.Predicate}` is not a valid MSSQL where clause.";
+                        message = $"`{request.Options.Predicate}` is not a valid T-SQL where clause.";
+                    } else if (error.Contains("COLUMN") && error.Contains("DOES NOT EXIST")) {
+                        _log.ForContext("request", request)
+                            .ForContext("predicate", request.Options.Predicate)
+                            .Error("invalid predicate", ex);
+
+                        message = $"`{request.Options.Predicate}` is not a valid T-SQL where clause.";
                     } else {
                         _log.ForContext("request", request)
                             .Error("could not complete query", ex);
 
-                        message = $"The table `{tableName}` probably does not exist. Check your spelling.";
+                        message = $"The table `{tableName}` might not exist. Check your spelling.";
                     }
 
                     return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
