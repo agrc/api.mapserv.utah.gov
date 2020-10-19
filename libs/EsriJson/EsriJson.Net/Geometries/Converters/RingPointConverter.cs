@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using EsriJson.Net.Geometry;
 
-namespace EsriJson.Net.Geometries.Converters {
+namespace EsriJson.Net.Geometry.Converters {
     public class RingPointConverter : JsonConverter<RingPoint> {
         public override void Write(Utf8JsonWriter writer, RingPoint value, JsonSerializerOptions options) {
             writer.WriteStartArray();

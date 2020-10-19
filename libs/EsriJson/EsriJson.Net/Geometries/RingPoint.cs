@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using EsriJson.Net.Geometries.Converters;
+using EsriJson.Net.Geometry.Converters;
 
 namespace EsriJson.Net.Geometry {
     [JsonConverter(typeof(RingPointConverter))]
