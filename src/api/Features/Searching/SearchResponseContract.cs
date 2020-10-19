@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using NetTopologySuite.Geometries;
+using static AGRC.api.Features.Converting.EsriGraphic;
 
 namespace AGRC.api.Features.Searching {
     public class SearchResponseContract {
-        public Geometry Geometry { get; set; }
+        public SerializableGraphic Geometry { get; set; }
 
         public IDictionary<string, object> Attributes { get; set; }
     }

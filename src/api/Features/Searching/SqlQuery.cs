@@ -84,9 +84,11 @@ namespace AGRC.api.Features.Searching {
         public class Handler : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> {
             private readonly string _connectionString;
             private readonly ILogger _log;
+            private readonly IComputeMediator _mediator;
 
-            public Handler(IOptions<SearchProviderConfiguration> dbOptions, ILogger log) {
+            public Handler(IOptions<SearchProviderConfiguration> dbOptions, IComputeMediator mediator, ILogger log) {
                 _connectionString = dbOptions.Value.ConnectionString;
+                _mediator = mediator;
                 _log = log?.ForContext<SqlQuery>();
             }
 
@@ -127,8 +129,10 @@ namespace AGRC.api.Features.Searching {
 
                         if (string.Equals(key, "st_envelope", StringComparison.InvariantCultureIgnoreCase) ||
                             string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase)) {
-                            response.Geometry = reader.GetValue(i) as Geometry;
-                            // TODO: convert to esri geometry type
+                            var ntsGeometry = reader.GetValue(i) as Geometry;
+                            var geometryMapping = new NtsToEsriMapper.Computation(ntsGeometry);
+
+                            response.Geometry = await _mediator.Handle(geometryMapping, cancellationToken);
                             continue;
                         }
 
