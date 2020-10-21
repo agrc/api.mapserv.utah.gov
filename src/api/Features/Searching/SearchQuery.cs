@@ -35,9 +35,6 @@ namespace AGRC.api.Features.Searching {
 
             public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
                 var tableName = request.TableName.ToUpperInvariant();
-                var isStraightSql = !request.ReturnValues.ToUpperInvariant().Contains("SHAPE@") &&
-                                    string.IsNullOrEmpty(request.Options.Geometry);
-
                 IReadOnlyCollection<SearchResponseContract> result = Array.Empty<SearchResponseContract>();
 
                 try {
