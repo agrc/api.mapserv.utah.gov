@@ -25,17 +25,30 @@ namespace AGRC.api.Features.Searching {
             var attribute = attributeValue.ToString();
 
             if (string.IsNullOrEmpty(attribute)) {
-                var routeValues = bindingContext.ActionContext.RouteData.Values;
+                attributeStyle = AttributeStyle.Lower;
 
-                routeValues.TryGetValue(versionKey, out var versionValue);
-                var version = Convert.ToInt16(versionValue);
+                var version = GetVersion(bindingContext);
 
                 if (version == 2) {
                     attributeStyle = AttributeStyle.Input;
                 }
             } else {
                 if (!Enum.TryParse(attribute, true, out attributeStyle)) {
-                    // warning?
+                    var version = GetVersion(bindingContext);
+                    if (version == 1) {
+                        // reset to default as try parse modifies value
+                        attributeStyle = AttributeStyle.Lower;
+                    } else if (version == 2) {
+                        attributeStyle = AttributeStyle.Input;
+                    }
+                }
+            }
+
+            var wkid = 26912;
+            if (!string.IsNullOrEmpty(spatialReference)) {
+                if (!int.TryParse(spatialReference, out wkid)) {
+                    // reset to default
+                    wkid = 26912;
                 }
             }
 
@@ -43,12 +56,21 @@ namespace AGRC.api.Features.Searching {
                 Predicate = predicate,
                 Geometry = pointJson,
                 Buffer = Convert.ToDouble(bufferAmount),
-                AttributeStyle = attributeStyle
+                AttributeStyle = attributeStyle,
+                SpatialReference = wkid
             };
 
             bindingContext.Result = ModelBindingResult.Success(result);
 
             return Task.CompletedTask;
+        }
+
+        private static int GetVersion(ModelBindingContext bindingContext) {
+            var routeValues = bindingContext.ActionContext.RouteData.Values;
+
+            routeValues.TryGetValue(versionKey, out var versionValue);
+
+            return Convert.ToInt16(versionValue);
         }
     }
 }
