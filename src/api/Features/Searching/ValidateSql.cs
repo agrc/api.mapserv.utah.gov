@@ -10,7 +10,7 @@ namespace AGRC.api.Features.Searching {
                 Sql = sql;
             }
 
-            internal string Sql { get; }
+            internal readonly string Sql;
         }
 
         public class Handler : IComputationHandler<Computation, bool> {
