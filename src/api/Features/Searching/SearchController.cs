@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AGRC.api.Filters;
-using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AGRC.api.Features.Searching {
@@ -23,14 +16,10 @@ namespace AGRC.api.Features.Searching {
     [Produces("application/json")]
     [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
     public class SearchController : ControllerBase {
-        private readonly ILogger _log;
         private readonly IMediator _mediator;
-        private readonly IComputeMediator _computeMediator;
 
-        public SearchController(IMediator mediator, IComputeMediator computeMediator, ILogger log) {
+        public SearchController(IMediator mediator) {
             _mediator = mediator;
-            _computeMediator = computeMediator;
-            _log = log?.ForContext<SearchController>();
         }
 
         /// <summary>Search tables and attributes within the SGID</summary>
