@@ -9,6 +9,7 @@ using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 using Serilog;
 
 namespace AGRC.api.Features.Searching {
@@ -51,46 +52,47 @@ namespace AGRC.api.Features.Searching {
 
                     return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
                         Status = (int)HttpStatusCode.BadRequest,
-                        Message = $"The table `{tableName}` does not exist in the SGID."
+                        Message = $"The table `{tableName}` does not exist in the SGID. Please read https://gis.utah.gov/sgid-product-relaunch-update/#static-sgid-data-layers for more information."
                     });
                 }
-                catch (Exception ex) {
-                    var error = ex.Message.ToUpperInvariant();
-                    var message = string.Empty;
+                catch (PostgresException ex) {
+                    string message;
 
-                    if (error.Contains("INVALID COLUMN NAME")) {
+                    if (ex.SqlState == "42804") { // invalid predicate
                         _log.ForContext("request", request)
-                            .ForContext("fields", request.ReturnValues)
-                            .Error("invalid column", ex);
-
-                        const string pattern = @"\'.*?\'";
-                        var matches = new Regex(pattern).Matches(error);
-
-                        var badColumns = matches.Select(x => x.ToString());
-
-                        message = $"`{tableName}` does not contain an attribute {string.Join(" or ", badColumns)}. Check your spelling.";
-                    } else if (error.Contains("AN EXPRESSION OF NON-BOOLEAN TYPE SPECIFIED IN A CONTEXT WHERE A CONDITION IS EXPECTED")) {
-                        _log.ForContext("request", request)
-                            .ForContext("predicate", request.Options.Predicate)
-                            .Error("invalid predicate", ex);
-
+                                .ForContext("predicate", request.Options.Predicate)
+                                .Error("invalid predicate", ex);
                         message = $"`{request.Options.Predicate}` is not a valid T-SQL where clause.";
-                    } else if (error.Contains("COLUMN") && error.Contains("DOES NOT EXIST")) {
+                    } else if (ex.SqlState == "42703") { // invalid fields
                         _log.ForContext("request", request)
-                            .ForContext("predicate", request.Options.Predicate)
-                            .Error("invalid predicate", ex);
+                               .ForContext("fields", request.ReturnValues)
+                               .Error("invalid fields", ex);
+                        message = $"{ex.MessageText.Replace("\"", "`")} on `{tableName}`. {ex.Hint?.Replace("\"", "`") ?? "Check that the fields exist."}";
+                    } else if (ex.SqlState == "42P01") { // invalid table
+                        _log.ForContext("table", request.TableName)
+                           .Error("table not in Open SGID", ex);
 
-                        message = $"`{request.Options.Predicate}` is not a valid T-SQL where clause.";
+                        message = $"The table `{tableName}` does not exist in the Open SGID.";
                     } else {
-                        _log.ForContext("request", request)
-                            .Error("could not complete query", ex);
-
-                        message = $"The table `{tableName}` might not exist. Check your spelling.";
+                        _log.ForContext("message", ex.Message)
+                            .ForContext("request", request)
+                            .Error("unhandled search query", ex);
+                        message = ex.MessageText;
                     }
 
                     return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
                         Status = (int)HttpStatusCode.BadRequest,
                         Message = message
+                    });
+                }
+                catch (Exception ex) {
+                    _log.ForContext("message", ex.Message)
+                        .ForContext("request", request)
+                        .Error("unhandled search query exception", ex);
+
+                    return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
+                        Status = (int)HttpStatusCode.BadRequest,
+                        Message = $"The table `{tableName}` might not exist. Check your spelling."
                     });
                 }
 
