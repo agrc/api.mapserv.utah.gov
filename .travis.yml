@@ -5,7 +5,7 @@ jobs:
   include:
     - language: csharp
       env:
-        - CLI_VERSION=5.0.100-preview.8.20417.9
+        - CLI_VERSION=5.0.100-rc.2.20479.15
       addons:
         apt:
           packages:
