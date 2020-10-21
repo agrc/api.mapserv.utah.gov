@@ -1,6 +1,4 @@
 {
-  "dotnet-test-explorer.testProjectPath": "test/**/*.csproj",
-  "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml",
   "cSpell.words": [
     "agrc",
     "agrc’s",
@@ -55,5 +53,4 @@
   "coverage-gutters.highlightdark": "rgb(61, 153, 112, .05)",
   "coverage-gutters.noHighlightDark": "rgb(255, 65, 54, .05)",
   "coverage-gutters.partialHighlightDark": "rgb(255, 133, 27, .05)",
-  "coverage-gutters.xmlname": "coverage.xml"
 }
