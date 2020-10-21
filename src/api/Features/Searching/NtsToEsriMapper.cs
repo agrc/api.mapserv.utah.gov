@@ -52,9 +52,8 @@ namespace AGRC.api.Features.Searching {
 
                 for (var i = 0; i < polygon.Holes.Length; i++) {
                     var ring = polygon.Holes[i];
+                    ringPoints.Add(new EsriJson.Net.Geometry.RingPoint[ring.Count]);
                     for (var j = 0; j < ring.Count; j++) {
-                        ringPoints.Add(new EsriJson.Net.Geometry.RingPoint[ring.Count]);
-
                         var coordinate = ring.Coordinates[j];
                         ringPoints[i + 1][j] = new EsriJson.Net.Geometry.RingPoint(coordinate.X, coordinate.Y);
                     }
