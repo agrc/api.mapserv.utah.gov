@@ -39,8 +39,8 @@
       "args": [
         "test",
         "/p:CollectCoverage=true",
-        "/p:CoverletOutputFormat=opencover",
-        "/p:CoverletOutput=../../coverage.xml"
+        "/p:CoverletOutputFormat=lcov",
+        "/p:CoverletOutput=../../lcov.info"
       ],
       "options": {
         "cwd": "${workspaceFolder}/test/api.unit.tests"
