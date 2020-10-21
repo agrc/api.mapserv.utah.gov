@@ -56,6 +56,7 @@ namespace AGRC.api.Features.Searching {
         ///     AliasLower: lower case the field alias eg: alias
         ///     AliasUpper: upper case the field alias eg: ALIAS
         /// </summary>
+        // TODO: v1 this value is lower
         [DefaultValue(AttributeStyle.Input)]
         public AttributeStyle AttributeStyle { get; set; } = AttributeStyle.Input;
     }
