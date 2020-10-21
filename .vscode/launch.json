@@ -195,6 +195,27 @@
       }
     },
     {
+      "name": "api search - basic attribute",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/api/bin/Debug/net5.0/api.mapserv.utah.gov.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/api",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/api/v1/search/boundaries.county_boundaries/name?predicate=name ilike 'salt%'&apiKey=AGRC-Explorer"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:1337"
+      }
+    },
+    {
       "name": ".NET Core Attach",
       "type": "coreclr",
       "request": "attach",
