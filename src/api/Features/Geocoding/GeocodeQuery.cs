@@ -34,31 +34,8 @@ namespace AGRC.api.Features.Geocoding {
                 _log = log?.ForContext<GeocodeQuery>();
             }
             public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
-                #region validation
-
-                var street = request.Street?.Trim();
-                var zone = request.Zone?.Trim();
-
-                var errors = "";
-                if (string.IsNullOrEmpty(street)) {
-                    errors = "Street is empty.";
-                }
-
-                if (string.IsNullOrEmpty(zone)) {
-                    errors += "Zip code or city name is empty";
-                }
-
-                if (errors.Length > 0) {
-                    _log.ForContext("errors", errors)
-                        .Debug("malformed request");
-
-                    return new BadRequestObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
-                        Status = (int)HttpStatusCode.BadRequest,
-                        Message = errors
-                    });
-                }
-
-                #endregion
+                var street = request.Street.Trim();
+                var zone = request.Zone.Trim();
 
                 var parseAddressComputation = new AddressParsing.Computation(street);
                 var parsedStreet = await _computeMediator.Handle(parseAddressComputation, cancellationToken);
@@ -177,6 +154,41 @@ namespace AGRC.api.Features.Geocoding {
                     Result = winner,
                     Status = (int)HttpStatusCode.OK
                 });
+            }
+        }
+
+        public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : Query
+        where TResponse : ObjectResult {
+            private readonly ILogger _log;
+
+            public ValidationBehavior(ILogger log) {
+                _log = log?.ForContext<GeocodeQuery>();
+            }
+            public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next) {
+                var street = request.Street?.Trim();
+                var zone = request.Zone?.Trim();
+
+                var errors = "";
+                if (string.IsNullOrEmpty(street)) {
+                    errors = "Street is empty.";
+                }
+
+                if (string.IsNullOrEmpty(zone)) {
+                    errors += "Zip code or city name is empty";
+                }
+
+                if (errors.Length > 0) {
+                    _log.ForContext("errors", errors)
+                        .Debug("geocoding validation failed");
+
+                    return new BadRequestObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
+                        Status = (int)HttpStatusCode.BadRequest,
+                        Message = errors
+                    }) as TResponse;
+                }
+
+                return await next();
             }
         }
     }
