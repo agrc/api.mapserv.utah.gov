@@ -5,20 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.msbuild" Version="2.9.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Include="moq" Version="4.14.7" />
-    <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="2.1.0" />
-    <PackageReference Include="Shouldly" Version="3.0.2" />
-    <PackageReference Include="System.Text.Json" Version="5.0.0-rc.2.20475.5" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="coverlet.msbuild" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="moq" />
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="xunit" />
   </ItemGroup>
 
   <ItemGroup>
