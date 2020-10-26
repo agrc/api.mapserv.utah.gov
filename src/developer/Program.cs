@@ -25,7 +25,7 @@ namespace developer.mapserv.utah.gov {
                 ResourceType = "global",
                 ServiceName = "developer.mapserv.utah.gov",
                 ServiceVersion = "2.0.0-beta.1",
-                ProjectId = "ut-dts-agrc-web-api-prod"
+                ProjectId = "ut-dts-agrc-web-api-dv"
             };
 
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -78,7 +78,7 @@ namespace developer.mapserv.utah.gov {
                     ResourceType = "global",
                     ServiceName = "developer.mapserv.utah.gov",
                     ServiceVersion = "2.0.0-beta.1",
-                    ProjectId = "ut-dts-agrc-web-api-prod"
+                    ProjectId = "ut-dts-agrc-web-api-dv"
                 };
 
                 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
