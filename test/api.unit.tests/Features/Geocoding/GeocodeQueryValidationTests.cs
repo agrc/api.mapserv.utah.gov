@@ -14,7 +14,6 @@ namespace api.tests.Features.Geocoding {
     public class GeocodeQueryValidationTests {
         private readonly ILogger _logger;
         private readonly Mock<RequestHandlerDelegate<ObjectResult>> delegateMock;
-        private readonly IComputeMediator mediator;
         public GeocodeQueryValidationTests()
         {
             _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
