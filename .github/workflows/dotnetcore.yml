@@ -27,6 +27,16 @@ jobs:
       with:
         dotnet-version: 5.0.100-rc.2.20479.15
 
+    - name: Cache NuGet Packages
+      uses: actions/cache@v2
+      with:
+        # nuget cache files are stored in `~/.nuget/packages` on Linux/macOS
+        path: ~/.nuget/packages
+        key: ${{ runner.OS }}-nuget-${{ hashFiles('**/Packages.targets') }}
+        restore-keys: |
+          ${{ runner.OS }}-nuget-
+          ${{ runner.OS }}
+
     - name: Run Tests
       run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
 
