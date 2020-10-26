@@ -8,6 +8,6 @@ namespace AGRC.api.Models.Configuration {
         public string Password { get; set; } = "what password";
 
         public string ConnectionString =>
-            $"Host={Host};Port={Port};Username={Username};Password={Password};Database={Db}";
+            $"Host={Host};Port={Port};Username={Username};Password={Password};Database={Db};Enlist=false";
     }
 }

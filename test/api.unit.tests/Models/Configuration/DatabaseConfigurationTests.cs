@@ -14,7 +14,7 @@ namespace api.tests.Models.Configuration {
                 Password = "pw"
             };
 
-            model.ConnectionString.ShouldBe("Host=host;Port=port;Username=user;Password=pw;Database=db");
+            model.ConnectionString.ShouldBe("Host=host;Port=port;Username=user;Password=pw;Database=db;Enlist=false");
         }
     }
 }
