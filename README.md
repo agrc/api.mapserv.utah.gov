@@ -1,6 +1,7 @@
 # AGRC Web API
 
-[![Build Status](https://travis-ci.com/agrc/api.mapserv.utah.gov.svg?branch=development)](https://travis-ci.com/agrc/api.mapserv.utah.gov)
+![api](https://github.com/agrc/api.mapserv.utah.gov/workflows/Test%20API/badge.svg)
+![api explorer](https://github.com/agrc/api.mapserv.utah.gov/workflows/Test%20Explorer/badge.svg)
 [![codecov](https://codecov.io/gh/agrc/api.mapserv.utah.gov/branch/development/graph/badge.svg)](https://codecov.io/gh/agrc/api.mapserv.utah.gov)
 
 This is the source code for the active [AGRC Web API](https://api.mapserv.utah.gov). This API allows users to sign up, create API keys, and interact with SGID data. Users are able to geocode addresses, reverse geocode addresses, find mileposts, find mileposts by a location, and perform spatial queries against all SGID spatial data.
