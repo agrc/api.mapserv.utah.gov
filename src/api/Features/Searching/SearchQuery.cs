@@ -34,7 +34,7 @@ namespace AGRC.api.Features.Searching {
 
             public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
                 var tableName = request.TableName.ToUpperInvariant();
-                IReadOnlyCollection<SearchResponseContract> result = Array.Empty<SearchResponseContract>();
+                IReadOnlyCollection<SearchResponseContract> result;
 
                 try {
                     result = await _computeMediator.Handle(
