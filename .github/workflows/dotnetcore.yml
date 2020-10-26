@@ -1,13 +1,6 @@
 name: Test API
 
 on:
-  push:
-    branches:
-    - development
-    paths-ignore:
-    - '*.md'
-    - '.infrastructure/*'
-    - '.kube/*'
   pull_request:
     paths:
     - 'src/api/**'
