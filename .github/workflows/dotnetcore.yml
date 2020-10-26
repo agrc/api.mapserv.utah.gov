@@ -6,6 +6,8 @@ on:
     - development
     paths-ignore:
     - '*.md'
+    - '.infrastructure/*'
+    - '.kube/*'
   pull_request:
     paths:
     - 'src/api/**'
