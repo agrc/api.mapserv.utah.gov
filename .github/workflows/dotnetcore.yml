@@ -11,6 +11,8 @@ on:
     - '*'
     paths:
     - 'src/api/**'
+    - 'libs/**'
+    - '.github/workflows/dotnetcore.yml'
 
 jobs:
   build:

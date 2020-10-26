@@ -11,6 +11,7 @@ on:
     - '*'
     paths:
     - 'src/explorer/**'
+    - '.github/workflows/nodejs.yml'
 
 jobs:
   build:
