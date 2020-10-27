@@ -75,5 +75,5 @@ jobs:
           --project=${{ steps.variables.outputs.project_id }} \
           --substitutions \
           SHORT_SHA=${{ steps.variables.outputs.sha8 }},\
-          PROJECT_ID=${{ steps.variables.outputs.project_id }}
+          PROJECT_ID=${{ steps.variables.outputs.project_id }},\
           CLUSTER_NAME=${{ steps.variables.outputs.cluster_name }}
