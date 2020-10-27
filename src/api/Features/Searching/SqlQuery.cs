@@ -127,8 +127,7 @@ namespace AGRC.api.Features.Searching {
                     {
                         var key = reader.GetName(i);
 
-                        if (string.Equals(key, "st_envelope", StringComparison.InvariantCultureIgnoreCase) ||
-                            string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase)) {
+                        if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase)) {
                             var ntsGeometry = reader.GetValue(i) as Geometry;
                             var geometryMapping = new NtsToEsriMapper.Computation(ntsGeometry);
 
@@ -196,9 +195,9 @@ namespace AGRC.api.Features.Searching {
             private readonly IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> _decorated;
             private readonly ILogger _log;
             private const string shapeInput = "shape@";
-            private const string shape = "st_simplify(shape,10)";
+            private const string shape = "st_simplify(shape,10) as shape";
             private const string envelopeInput = "shape@envelope";
-            private const string envelope = "st_envelope(shape)";
+            private const string envelope = "st_envelope(shape) as shape";
 
 
             public ShapeFieldDecorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> decorated,
