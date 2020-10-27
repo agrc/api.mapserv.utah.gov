@@ -69,5 +69,5 @@ jobs:
         gcloud builds submit \
           --quiet \
           --config=./api.cloudbuild.yaml \
-          --project=${{ steps.variables.outputs.project_id }} \
-          --substitutions SHORT_SHA=${{ steps.variables.outputs.sha8 }},PROJECT_ID=${{ steps.variables.outputs.project_id }}
+          --project=ut-dts-agrc-web-api-dv \
+          --substitutions SHORT_SHA=${{ steps.variables.outputs.sha8 }}
