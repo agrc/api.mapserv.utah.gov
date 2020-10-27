@@ -49,7 +49,7 @@ namespace api.tests.Features.Searching {
             var _ = await decorator.Handle(computation, CancellationToken.None);
 
             _mutation.TableName.ShouldBe(computation.TableName);
-            _mutation.ReturnValues.ShouldBe("st_simplify(shape,10),field2");
+            _mutation.ReturnValues.ShouldBe("st_simplify(shape,10) as shape,field2");
             _mutation.Predicate.ShouldBe(computation.Predicate);
             _mutation.Styling.ShouldBe(computation.Styling);
         }
@@ -63,7 +63,7 @@ namespace api.tests.Features.Searching {
             var _ = await decorator.Handle(computation, CancellationToken.None);
 
             _mutation.TableName.ShouldBe(computation.TableName);
-            _mutation.ReturnValues.ShouldBe("st_envelope(shape),field2");
+            _mutation.ReturnValues.ShouldBe("st_envelope(shape) as shape,field2");
             _mutation.Predicate.ShouldBe(computation.Predicate);
             _mutation.Styling.ShouldBe(computation.Styling);
         }
