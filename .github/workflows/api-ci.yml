@@ -63,4 +63,5 @@ jobs:
         gcloud builds submit \
           --quiet \
           --config=./api.cloudbuild.yaml \
-          --project=$PROJECT_ID
+          --project=$PROJECT_ID \
+          --substitutions SHORT_SHA=$GITHUB_SHA PROJECT_ID=$PROJECT_ID
