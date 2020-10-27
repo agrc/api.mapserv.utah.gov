@@ -58,10 +58,15 @@ jobs:
         service_account_key: ${{ secrets.DEV_SA }}
         project_id: ${{ secrets.DEV_PROJECT_ID }}
 
+    - name: Get short SHA
+      run: |
+        echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+        echo "::set-output name=project_id::$PROJECT_ID"
+
     - name: Submit Cloud Build
       run: |-
         gcloud builds submit \
           --quiet \
           --config=./api.cloudbuild.yaml \
-          --project=$PROJECT_ID \
-          --substitutions SHORT_SHA=$GITHUB_SHA PROJECT_ID=$PROJECT_ID
+          --project=${{ steps.variables.outputs.project_id }} \
+          --substitutions SHORT_SHA=${{ steps.variables.outputs.sha8 }},PROJECT_ID=${{ steps.variables.outputs.project_id }}
