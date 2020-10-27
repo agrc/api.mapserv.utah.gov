@@ -60,16 +60,7 @@ jobs:
 
     - name: Submit Cloud Build
       run: |-
-        gcloud builds submit ./src/api/ \
+        gcloud builds submit \
           --quiet \
-          --tag "gcr.io/$PROJECT_ID/api.mapserv.utah.gov/api:$GITHUB_SHA" \
+          --config=./api.cloudbuild.yaml \
           --project=$PROJECT_ID
-
-    - name: Set gcloud Credentials
-      run: |-
-        gcloud container clusters get-credentials $CLUSTER_NAME --zone us-central1
-
-    - name: Update K8s Manifest
-      run: |-
-        kubectl set image deployment/webapi-api \
-          webapi-api=gcr.io/$CLUSTER_NAME/api.mapserv.utah.gov/api@$GITUB_SHA
