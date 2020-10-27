@@ -1,10 +1,10 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api:$SHORT_SHA', '.', '--file', './src/api/Dockerfile']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/api.mapserv.utah.gov/api:$SHORT_SHA', '.', '--file', './src/api/Dockerfile']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api:$SHORT_SHA']
+  args: ['push', 'gcr.io/$PROJECT_ID/api.mapserv.utah.gov/api:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['set', 'image', 'deployment/webapi-api', 'webapi-api=gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api:$SHORT_SHA']
+  args: ['set', 'image', 'deployment/webapi-api', 'webapi-api=gcr.io/$PROJECT_ID/api.mapserv.utah.gov/api:$SHORT_SHA']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=web-api-cluster'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=$CLUSTER_NAME'
