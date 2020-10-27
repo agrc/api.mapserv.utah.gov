@@ -7,4 +7,4 @@ steps:
   args: ['set', 'image', 'deployment/webapi-api', 'webapi-api=gcr.io/$PROJECT_ID/api.mapserv.utah.gov/api:$SHORT_SHA']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=$CLUSTER_NAME'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=$_CLUSTER_NAME'
