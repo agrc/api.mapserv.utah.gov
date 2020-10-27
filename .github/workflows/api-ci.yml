@@ -73,4 +73,4 @@ jobs:
           --quiet \
           --config=./api.cloudbuild.yaml \
           --project=${{ steps.variables.outputs.project_id }} \
-          --substitutions SHORT_SHA=${{ steps.variables.outputs.sha8 }},PROJECT_ID=${{ steps.variables.outputs.project_id }},_CLUSTER_NAME=${{ steps.variables.outputs.cluster_name }}
+          --substitutions SHORT_SHA=${{ steps.variables.outputs.sha8 }},_PROJECT_ID=${{ steps.variables.outputs.project_id }},_CLUSTER_NAME=${{ steps.variables.outputs.cluster_name }}
