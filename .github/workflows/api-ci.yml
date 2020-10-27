@@ -60,8 +60,9 @@ jobs:
 
     - name: Get short SHA
       run: |
+        PROJECT_ID='${{ secrets.DEV_PROJECT_ID }}'
         echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
-        echo "::set-output name=project_id::${{ secrets.DEV_PROJECT_ID }}"
+        echo "::set-output name=project_id::$PROJECT_ID"
 
     - name: Submit Cloud Build
       run: |-
