@@ -59,6 +59,7 @@ jobs:
         project_id: ${{ secrets.DEV_PROJECT_ID }}
 
     - name: Get short SHA
+      id: variables
       run: |
         PROJECT_ID='${{ secrets.DEV_PROJECT_ID }}'
         echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
