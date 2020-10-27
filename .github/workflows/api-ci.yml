@@ -60,9 +60,8 @@ jobs:
 
     - name: Submit Cloud Build
       run: |-
-        gcloud builds submit \
+        gcloud builds submit ./src/api/ \
           --quiet \
-          --config=src/api/Dockerfile
           --tag "gcr.io/$PROJECT_ID/api.mapserv.utah.gov/api:$GITHUB_SHA" \
           --project=$PROJECT_ID
 
