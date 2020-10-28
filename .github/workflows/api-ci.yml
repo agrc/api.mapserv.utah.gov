@@ -74,9 +74,9 @@ jobs:
     - name: Build Image
       run: |-
         docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }}" \
+          --tag gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }} \
           . \
-          --file ".src/api/Dockerfile"
+          --file ./src/api/Dockerfile
 
     # Push the Docker image to Google Container Registry
     - name: Publish Image
