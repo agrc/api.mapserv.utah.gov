@@ -6,3 +6,8 @@ resources:
 - certificates.yaml
 - api.yaml
 - ingress.yaml
+
+configMapGenerator:
+  - name: api-app-settings
+    files:
+    - config-files/appsettings.json
