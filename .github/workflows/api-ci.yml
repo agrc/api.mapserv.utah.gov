@@ -64,7 +64,7 @@ jobs:
         gcloud --quiet auth configure-docker
 
     - run: |-
-        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE
 
     - name: Set Variables
       id: variables
