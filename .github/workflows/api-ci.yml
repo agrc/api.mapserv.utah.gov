@@ -92,6 +92,7 @@ jobs:
       run: |-
         cd kustomize/base
         kustomize edit set image $PROJECT_ID/$IMAGE=$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }}
+        cat kustomize.yaml
         kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
