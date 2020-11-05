@@ -6,25 +6,18 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: web-api-cluster-ingress # Created in terraform
     networking.gke.io/managed-certificates: agrc-api-managed-cert
 spec:
+  backend:
+    serviceName: webapi-explorer
+    servicePort: http
   rules:
-    # - host: agrc-api.dev.utah.gov
-    - http:
+    - host: agrc-api.dev.utah.gov
+      http:
         paths:
-          - path: /*
+          - path: /
+            backend:
+              serviceName: webapi-explorer
+              servicePort: http
+          - path: /api/*
             backend:
               serviceName: webapi-api
               servicePort: http
-    # # - host: agrc-api.dev.utah.gov
-    # - http:
-    #     paths:
-    #       - path: /*
-    #         backend:
-    #           serviceName: webapi-explorer
-    #           servicePort: http
-  # - host: developer.mapserv.utah.gov
-  #   http:
-  #     paths:
-  #     - path: /*
-  #       backend:
-  #         serviceName: webapi-developer
-  #         servicePort: http
