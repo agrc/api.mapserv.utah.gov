@@ -77,10 +77,10 @@ jobs:
 
     - name: Build Image
       run: |-
+        cd ./src/explorer
         docker build \
           --tag gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }} \
-          . \
-          --file ./src/explorer/Dockerfile
+          .
 
     # Push the Docker image to Google Container Registry
     - name: Publish Image
