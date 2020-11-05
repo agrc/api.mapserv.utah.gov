@@ -7,6 +7,7 @@ on:
     paths:
     - 'src/api/**'
     - 'libs/**'
+    - '.github/workflows/api-cd.yml'
 
 jobs:
   build:
