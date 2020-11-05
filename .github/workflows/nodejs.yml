@@ -2,7 +2,7 @@ name: Test Explorer
 
 on:
   push:
-    branches:
+    branches-ignore:
     - development
     paths-ignore:
     - '*.md'
