@@ -6,6 +6,7 @@ resources:
 - certificates.yaml
 - api.yaml
 - ingress.yaml
+- explorer.yaml
 
 configMapGenerator:
   - name: api-app-settings
