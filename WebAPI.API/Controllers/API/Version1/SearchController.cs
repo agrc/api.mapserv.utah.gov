@@ -5,14 +5,17 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using GitHub;
+using NetTopologySuite.Geometries;
 using Newtonsoft.Json.Linq;
+using Npgsql;
 using Serilog;
 using WebAPI.API.Commands.Search;
-using WebAPI.API.Science;
+using WebAPI.API.Models;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Extensions;
 using WebAPI.Common.Formatters;
@@ -92,30 +95,104 @@ namespace WebAPI.API.Controllers.API.Version1
 
             var isStraightSql = !returnValues.ToUpperInvariant().Contains("SHAPE@") &&
                                 string.IsNullOrEmpty(options.Geometry);
+            var message = string.Empty;
+            var list = (List<SearchResult>)null;
+            var code = HttpStatusCode.BadRequest;
+            HttpResponseMessage response;
 
             if (isStraightSql)
             {
-               var (message, list) = StraightSqlQuery(featureClass, returnValues, options);
-               if (!string.IsNullOrEmpty(message))
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultContainer<List<SearchResult>>
-                    {
-                        Message = message,
-                        Status = (int)HttpStatusCode.BadRequest
-                    })
-                             .AddCache()
-                             .AddTypeHeader(typeof(ResultContainer<List<SearchResult>>));
-                }
+                (code, message, list) = await StraightSqlQuery(featureClass, returnValues, options);
 
-                return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<List<SearchResult>>
+                response = Request.CreateResponse(code, new ResultContainer<List<SearchResult>>
                 {
                     Result = list ?? new List<SearchResult>(),
-                    Status = (int)HttpStatusCode.OK
+                    Message = message,
+                    Status = (int)code
                 })
-                          .AddCache()
-                          .AddTypeHeader(typeof(ResultContainer<List<SearchResult>>));
+                             .AddTypeHeader(typeof(ResultContainer<List<SearchResult>>));
+
+                if (code == HttpStatusCode.OK)
+                {
+                    response.AddCache();
+                }
+
+                return response;
             }
 
+            (code, message, list) = await GeometryQuery(featureClass, returnValues, options);
+
+            response = Request.CreateResponse(code,
+                                              new ResultContainer<List<SearchResult>>
+                                              {
+                                                  Status = (int)code,
+                                                  Message = message,
+                                                  Result = list
+                                              })
+                 .AddTypeHeader(typeof(ResultContainer<List<SearchResult>>));
+
+            if (code == HttpStatusCode.OK)
+            {
+                response.AddCache();
+            }
+
+            return response;
+        }
+
+        private static JObject ParseGeometry(string geometry)
+        {
+            return string.IsNullOrEmpty(geometry) ? null : JObject.Parse(geometry);
+        }
+
+        private static async Task<(HttpStatusCode, string, List<SearchResult>)> StraightSqlQuery(string featureClass, string returnValues, SearchOptions options)
+        {
+            return await Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>)>("straight-sql-query", experiment =>
+            {
+                bool CompareResults((HttpStatusCode, string, List<SearchResult>) x,(HttpStatusCode, string, List<SearchResult>)y)
+                {
+                    if (x.Item1 != y.Item1)
+                    {
+                        return false;
+                    }
+
+                    if (x.Item2 != y.Item2)
+                    {
+                        return false;
+                    }
+
+                    if (x.Item3.Count() != y.Item3.Count())
+                    {
+                        return false;
+                    }
+
+                    if (string.Join(",", x.Item3.SelectMany(a => a.Attributes.Select(b => b.Value.ToString())).OrderBy(c => c)) != 
+                        string.Join(",", y.Item3.SelectMany(a => a.Attributes.Select(b => b.Value.ToString())).OrderBy(c => c)))
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }
+                experiment.Compare((x, y) => CompareResults(x, y));
+
+                experiment.Use(async () => await MsSqlQuery(featureClass, returnValues, options));
+                experiment.Try(async () => await OpenSgidQuery(featureClass, returnValues, options));
+            });
+        }
+
+        private static async Task<(HttpStatusCode, string, List<SearchResult>)> GeometryQuery(string featureClass, string returnValues, SearchOptions options)
+        {
+            return await Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>)>("geometry-sql-query", experiment =>
+            {
+                experiment.Compare((x, y) => x.Item3.Count() == y.Item3.Count());
+
+                experiment.Use(async () => await SoeGeometryQuery(featureClass, returnValues, options));
+                experiment.Try(async () => await OpenSgidQuery(featureClass, returnValues, options));
+            });
+        }
+
+        private static async Task<(HttpStatusCode, string, List<SearchResult>)> SoeGeometryQuery(string featureClass, string returnValues, SearchOptions options)
+        {
             var queryArgs = new SpatialQueryArgs(featureClass, returnValues, options);
 
             var requestUri = ConfigurationManager.AppSettings["search_url"]
@@ -129,14 +206,9 @@ namespace WebAPI.API.Controllers.API.Version1
             }
             catch (AggregateException ex)
             {
-                specificLog.Fatal(ex, "search(spatial): aggregate");
+                Log.Fatal(ex, "search(spatial): aggregate");
 
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                                              new ResultContainer<List<SearchResult>>
-                                              {
-                                                  Status = (int)HttpStatusCode.InternalServerError,
-                                                  Message = "I'm sorry, it seems as though the request had issues."
-                                              });
+                return (HttpStatusCode.InternalServerError, "I'm sorry, it seems as though the request had issues.", null);
             }
 
             try
@@ -145,14 +217,9 @@ namespace WebAPI.API.Controllers.API.Version1
             }
             catch (Exception ex)
             {
-                specificLog.Fatal(ex, "search(spatial): soe communication error");
+                Log.Fatal(ex, "search(spatial): soe communication error");
 
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                                              new ResultContainer<List<SearchResult>>
-                                              {
-                                                  Status = (int)HttpStatusCode.InternalServerError,
-                                                  Message = "I'm sorry, we were unable to communicate with the SOE."
-                                              });
+                return (HttpStatusCode.InternalServerError, "I'm sorry, we were unable to communicate with the SOE.", null);
             }
 
             var response = await request.Content.ReadAsAsync<SearchResponse>(new[]
@@ -169,30 +236,19 @@ namespace WebAPI.API.Controllers.API.Version1
                 {
                     message = "{0} does not exist. Check your spelling.".With(featureClass);
 
-                    specificLog.Error("search(spatial): {featureClass} {message} {@options}", featureClass, message, options);
+                    Log.Error("search(spatial): {featureClass} {message} {@options}", featureClass, message, options);
                 }
 
-                specificLog.Warning("search(spatial): {featureClass} {message} {@options}", featureClass, message, options);
+                Log.Warning("search(spatial): {featureClass} {message} {@options}", featureClass, message, options);
 
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultContainer<List<SearchResult>>
-                {
-                    Status = (int)HttpStatusCode.BadRequest,
-                    Message = message
-                })
-                              .AddTypeHeader(typeof(ResultContainer<List<SearchResult>>));
+                return (HttpStatusCode.BadRequest, message, null);
             }
 
             if (response.Results == null)
             {
-                specificLog.Warning("search(spatial): success count: 0");
+                Log.Warning("search(spatial): success count: 0");
 
-                return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<List<SearchResult>>
-                {
-                    Status = (int)HttpStatusCode.OK,
-                    Result = new List<SearchResult>()
-                })
-                              .AddCache()
-                              .AddTypeHeader(typeof(ResultContainer<List<SearchResult>>));
+                return (HttpStatusCode.OK, string.Empty, new List<SearchResult>());
             }
 
             var resultsWithGeometry = response.Results.Select(x => new SearchResult
@@ -208,39 +264,17 @@ namespace WebAPI.API.Controllers.API.Version1
                                                                                resultsWithGeometry));
             }
 
-            specificLog.Warning("search(spatial): success count: {count}", resultsWithGeometry.Count());
+            Log.Warning("search(spatial): success count: {count}", resultsWithGeometry.Count());
 
-            return Request.CreateResponse(HttpStatusCode.OK, new ResultContainer<List<SearchResult>>
-            {
-                Status = (int)HttpStatusCode.OK,
-                Result = resultsWithGeometry
-            })
-                          .AddCache()
-                          .AddTypeHeader(typeof(ResultContainer<List<SearchResult>>));
+            return (HttpStatusCode.OK, string.Empty, resultsWithGeometry);
         }
 
-        private static JObject ParseGeometry(string geometry)
-        {
-            return string.IsNullOrEmpty(geometry) ? null : JObject.Parse(geometry);
-        }
-
-        private static (string, List<SearchResult>) StraightSqlQuery(string featureClass, string returnValues, SearchOptions options)
-        {
-            Scientist.ResultPublisher = new ConsolePublisher();
-
-            return Scientist.Science<(string, List<SearchResult>)>("straight-sql-query", experiment =>
-            {
-                experiment.Use(() => MsSqlQuery(featureClass, returnValues, options));
-                experiment.Try(() => OpenSgidQuery(featureClass, returnValues, options));
-            });
-        }
-
-        private static (string, List<SearchResult>) MsSqlQuery(string featureClass, string returnValues, SearchOptions options)
+        private static async Task<(HttpStatusCode, string, List<SearchResult>)> MsSqlQuery(string featureClass, string returnValues, SearchOptions options)
         {
             //specificLog.Warning("search: non spatial query");
 
             var sqlQueryCommand = new SqlQueryCommand(featureClass, returnValues, options.Predicate);
-            var list = CommandExecutor.ExecuteCommand(sqlQueryCommand);
+            var list = await CommandExecutor.ExecuteCommandAsync(sqlQueryCommand);
 
             if (!string.IsNullOrEmpty(sqlQueryCommand.ErrorMessage))
             {
@@ -275,7 +309,7 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 //specificLog.Warning("search(non-spatial): {message}, {featurClass}, {returnValues}", message, featureClass, returnValues);
 
-                return (message, (List<SearchResult>)null);
+                return (HttpStatusCode.BadRequest, message, (List<SearchResult>)null);
             }
 
             if (list.Any())
@@ -289,12 +323,167 @@ namespace WebAPI.API.Controllers.API.Version1
 
             //specificLog.Warning("search(non-spatial): success");
 
-            return (string.Empty, list);
+            return (HttpStatusCode.OK, string.Empty, list);
         }
-        
-        private static (string, List<SearchResult>) OpenSgidQuery(string featureClass, string returnValues, SearchOptions options)
+
+        public static string BuildQuery(string tableName, string returnValues, string predicate, string geometry)
         {
-            return (string.Empty, (List<SearchResult>)null);
+            if (tableName.Contains("SGID"))
+            {
+                var indexOfDot = tableName.IndexOf('.') + 1;
+                var key = tableName.Substring(indexOfDot, tableName.Length - indexOfDot).ToLower();
+
+                if (!TableMapping.MsSqlToPostgres.ContainsKey(key))
+                {
+                    Log.ForContext("table", tableName)
+                        .Warning("table name not found in open sgid");
+                }
+                else
+                {
+                    tableName = TableMapping.MsSqlToPostgres[key];
+                }
+            }
+            var hasWhere = false;
+
+            const string shapeInput = "shape@";
+            const string shape = "st_simplify(shape,10) as shape";
+            const string envelopeInput = "shape@envelope";
+            const string envelope = "st_envelope(shape) as shape";
+
+            var fields = returnValues.Split(',');
+
+            for (var i = 0; i < fields.Length; i++)
+            {
+                var field = fields[i];
+
+                if (string.Equals(field, shapeInput, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Log.Debug("updated shape field");
+                    fields[i] = shape;
+                }
+                else if (string.Equals(field, envelopeInput, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    fields[i] = envelope;
+                    Log.Debug("updated envelope field");
+                }
+            }
+
+            returnValues = string.Join(",", fields);
+
+            var query = $"SELECT {returnValues} FROM {tableName}";
+
+            if (!string.IsNullOrEmpty(predicate))
+            {
+                query += $" WHERE {predicate}";
+                hasWhere = true;
+            }
+
+            if (!string.IsNullOrEmpty(geometry))
+            {
+                geometry = geometry.ToUpper().Replace(" ", "").Trim();
+
+                if (geometry[0] == 'P')
+                {
+                    // have a point (5) polyline (8) or polygon (7)
+                    var colon = geometry.IndexOf(':');
+                    if (colon < 5)
+                    {
+                        // error;
+                    }
+
+                    if (colon == 5)
+                    {
+                        // type == point
+                        if (geometry[colon + 1] == '[')
+                        {
+                            // legacy point:[x,y]
+                            var start = colon + 2;
+                            var distance = geometry.Length - start - 1;
+
+                            geometry = geometry.Substring(start, distance);
+                            geometry = geometry.Replace(',', ' ');
+                        }
+                        else if (geometry[colon + 1] == '{')
+                        {
+                            // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
+                            var point = JsonSerializer.Deserialize<Domain.ArcServerResponse.Geolocator.Location>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
+                            geometry = $"{point.X} {point.Y}";
+                        }
+                    }
+                    else if (colon == 7)
+                    {
+                        // type == polygon
+                    }
+                    else
+                    {
+                        // type == polyline
+                    }
+                }
+
+                if (hasWhere)
+                {
+                    query += " AND ";
+                }
+                else
+                {
+                    query += " WHERE ";
+                }
+
+                query += $"ST_Intersects(Shape, ST_PointFromText('POINT({geometry})', 26912))";
+            }
+
+            return query;
+        }
+
+        private static async Task<(HttpStatusCode, string, List<SearchResult>)> OpenSgidQuery(string featureClass, string returnValues, SearchOptions options)
+        {
+            using var session = new NpgsqlConnection("Host=opensgid.agrc.utah.gov;Port=5432;Username=agrc;Password=agrc;Database=opensgid;Enlist=false");
+
+            try
+            {
+                session.Open();
+            }
+            catch (Exception)
+            {
+                Log.ForContext("query", BuildQuery(featureClass, returnValues, options.Predicate, options.Geometry))
+                    .Fatal("could not connect to the database");
+            }
+
+            var query = BuildQuery(featureClass, returnValues, options.Predicate, options.Geometry);
+
+            using var cmd = new NpgsqlCommand(query, session);
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            var results = new List<SearchResult>();
+
+            while (reader.HasRows && await reader.ReadAsync())
+            {
+                var attributes = new Dictionary<string, object>(reader.VisibleFieldCount);
+                var response = new SearchResult
+                {
+                    Attributes = attributes
+                };
+
+                for (var i = 0; i < reader.VisibleFieldCount; i++)
+                {
+                    var key = reader.GetName(i);
+
+                    if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var ntsGeometry = reader.GetValue(i) as Geometry;
+                        //var geometryMapping = new NtsToEsriMapper.Computation(ntsGeometry);
+
+                        //response.Geometry = await _mediator.Handle(geometryMapping, cancellationToken);
+                        continue;
+                    }
+
+                    attributes[key] = reader.GetValue(i);
+                }
+
+                results.Add(response);
+            }
+
+            return (HttpStatusCode.OK, string.Empty, results);
         }
     }
 

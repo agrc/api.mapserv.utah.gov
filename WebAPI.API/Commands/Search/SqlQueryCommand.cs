@@ -2,13 +2,14 @@
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
 using WebAPI.Common.Abstractions;
 using WebAPI.Domain.ApiResponses;
 
 namespace WebAPI.API.Commands.Search
 {
-    public class SqlQueryCommand : Command<List<SearchResult>>
+    public class SqlQueryCommand : AsyncCommand<List<SearchResult>>
     {
         private const string ShapeToken = "SHAPE@";
         public static readonly string ConnectionString = ConfigurationManager.AppSettings["sgid_connection"];
@@ -26,14 +27,13 @@ namespace WebAPI.API.Commands.Search
 
         public string Predicate { get; set; }
 
-        protected override void Execute()
+        public override async Task<List<SearchResult>> Execute()
         {
             var catalog = "SGID10";
 
             if (string.IsNullOrEmpty(FeatureClass))
             {
-                Result = null;
-                return;
+                return null;
             }
 
             if (FeatureClass.Contains("SGID93"))
@@ -53,12 +53,12 @@ namespace WebAPI.API.Commands.Search
                 dynamic[] queryResults;
                 try
                 {
-                    queryResults = session.Query(whereClause).ToArray();
+                    queryResults = (await session.QueryAsync(whereClause)).ToArray();
                 }
                 catch (System.Exception ex)
                 {
                     ErrorMessage = ex.Message;
-                    return;
+                    return null;
                 }
 
                 var container = new List<SearchResult>();
@@ -80,7 +80,7 @@ namespace WebAPI.API.Commands.Search
                     container.Add(searchResult);
                 }
 
-                Result = container;
+                return container;
             }
         }
 

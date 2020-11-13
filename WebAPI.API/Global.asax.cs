@@ -8,7 +8,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using GitHub;
 using Ninject;
+using WebAPI.API.Science;
 using WebAPI.Common.Logging;
 using WebAPI.Domain;
 using WebAPI.Domain.Linkers;
@@ -103,6 +105,7 @@ namespace WebAPI.API
             HandlerConfig.RegisterHandlers(GlobalConfiguration.Configuration.MessageHandlers);
             CacheConfig.BuildCache();
             FormatterConfig.RegisterFormatters(GlobalConfiguration.Configuration.Formatters);
+            Scientist.ResultPublisher = new ConsolePublisher();
         }
     }
 }
