@@ -91,10 +91,14 @@ jobs:
         kustomize-version: "3.6.1"
 
     - name: Create Secret
-      uses: finnp/create-file-action@master
+      shell: bash
       env:
-        FILE_NAME: kustomize/base/secrets/ut-dts-agrc-web-api-dv-log-writer.json
-        FILE_DATA: ${{ secrets.DEV_LOG_WRITER }}
+        LOG_WRITER: ${{ secrets.DEV_LOG_WRITER }}
+      run: |-
+        mkdir -p kustomize/base/secrets
+        cd kustomize/base/secrets
+        touch ut-dts-agrc-web-api-dv-log-writer.json
+        echo "$LOG_WRITER" >> ut-dts-agrc-web-api-dv-log-writer.json
 
     - name: Deploy
       run: |-
