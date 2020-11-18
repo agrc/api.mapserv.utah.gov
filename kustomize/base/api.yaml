@@ -43,11 +43,6 @@ spec:
       containers:
         - name: webapi-api
           image: gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api
-          resources:
-            requests:
-              memory: "512Mi"
-            limits:
-              memory: "1536Mi"
           volumeMounts:
             - name: appsettings-config
               mountPath: /app/appsettings.json
