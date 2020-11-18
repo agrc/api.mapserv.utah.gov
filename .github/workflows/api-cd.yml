@@ -90,13 +90,15 @@ jobs:
       with:
         kustomize-version: "3.6.1"
 
-    - name: Deploy
-      shell: bash
+    - name: Create Secret
+      uses: finnp/create-file-action@v1
       env:
-        LOG_WRITER: ${{ secrets.DEV_LOG_WRITER }}
+        FILE_NAME: kustomize/base/secrets/ut-dts-agrc-web-api-dv-log-writer.json
+        FILE_DATA: ${{ secrets.DEV_LOG_WRITER }}
+
+    - name: Deploy
       run: |-
         cd kustomize/base
-        echo "$LOG_WRITER" > secrets/ut-dts-agrc-web-api-dv-log-writer.json
         kustomize edit set image gcr.io/$PROJECT_ID/$IMAGE=gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }}
         kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
