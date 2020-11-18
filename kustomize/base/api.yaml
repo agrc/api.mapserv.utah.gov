@@ -54,6 +54,7 @@ spec:
             - name: logging-service-account
               mountPath: /app/log-writer.json
               subPath: log-writer.json
+              readOnly: true
           env:
             - name: ASPNETCORE_URLS
               value: http://+:1337
