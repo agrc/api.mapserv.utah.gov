@@ -5,12 +5,12 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using GitHub;
 using NetTopologySuite.Geometries;
+using System.Text.Json;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using Serilog;
@@ -165,14 +165,17 @@ namespace WebAPI.API.Controllers.API.Version1
                         return false;
                     }
 
-                    if (string.Join(",", x.Item3.SelectMany(a => a.Attributes.Select(b => b.Value.ToString())).OrderBy(c => c)) != 
-                        string.Join(",", y.Item3.SelectMany(a => a.Attributes.Select(b => b.Value.ToString())).OrderBy(c => c)))
+                    var control = x.Item3.SelectMany(a => a.Attributes.Values);
+                    var test = y.Item3.SelectMany(a => a.Attributes.Values);
+
+                    if (control.Except(test).Any())
                     {
                         return false;
                     }
 
                     return true;
                 }
+
                 experiment.Compare((x, y) => CompareResults(x, y));
 
                 experiment.Use(async () => await MsSqlQuery(featureClass, returnValues, options));
@@ -184,7 +187,43 @@ namespace WebAPI.API.Controllers.API.Version1
         {
             return await Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>)>("geometry-sql-query", experiment =>
             {
-                experiment.Compare((x, y) => x.Item3.Count() == y.Item3.Count());
+                bool CompareResults((HttpStatusCode, string, List<SearchResult>) x, (HttpStatusCode, string, List<SearchResult>) y)
+                {
+                    if (x.Item1 != y.Item1)
+                    {
+                        return false;
+                    }
+
+                    if (x.Item2 != y.Item2)
+                    {
+                        return false;
+                    }
+
+                    if (x.Item3.Count() != y.Item3.Count())
+                    {
+                        return false;
+                    }
+
+                    var control = x.Item3.SelectMany(a => a.Attributes.Values);
+                    var test = y.Item3.SelectMany(a => a.Attributes.Values);
+
+                    if (control.Except(test).Any())
+                    {
+                        return false;
+                    }
+
+                    var soe = x.Item3.Select(a => a.Geometry.ToString(Newtonsoft.Json.Formatting.None));
+                    var nts = y.Item3.Select(a => a.Geometry.ToString(Newtonsoft.Json.Formatting.None));
+
+                    if (soe.Except(nts).Any())
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                experiment.Compare((x, y) => CompareResults(x, y));
 
                 experiment.Use(async () => await SoeGeometryQuery(featureClass, returnValues, options));
                 experiment.Try(async () => await OpenSgidQuery(featureClass, returnValues, options));
