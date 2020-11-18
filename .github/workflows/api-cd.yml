@@ -90,16 +90,6 @@ jobs:
       with:
         kustomize-version: "3.6.1"
 
-    - name: Create Secret
-      shell: bash
-      env:
-        LOG_WRITER: ${{ secrets.DEV_LOG_WRITER }}
-      run: |-
-        mkdir -p kustomize/base/secrets
-        cd kustomize/base/secrets
-        touch ut-dts-agrc-web-api-dv-log-writer.json
-        echo "$LOG_WRITER" >> ut-dts-agrc-web-api-dv-log-writer.json
-
     - name: Deploy
       run: |-
         cd kustomize/base

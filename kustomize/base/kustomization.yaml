@@ -12,8 +12,3 @@ configMapGenerator:
   - name: api-app-settings
     files:
     - config-files/appsettings.json
-
-secretGenerator:
-  - name: logging-service-account
-    files:
-      - secrets/ut-dts-agrc-web-api-dv-log-writer.json

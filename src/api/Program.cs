@@ -35,10 +35,10 @@ namespace AGRC.api {
 
             if (environment == Environments.Development) {
                 var projectId = "ut-dts-agrc-web-api-dv";
-                var fileName = "log-writer.json";
-                var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+                // var fileName = "log-writer.json";
+                // var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
 
-                config.GoogleCredentialJson = serviceAccount;
+                // config.GoogleCredentialJson = serviceAccount;
                 config.ProjectId = projectId;
             }
 
@@ -93,10 +93,10 @@ namespace AGRC.api {
 
                 if (environment == Environments.Development) {
                     var projectId = "ut-dts-agrc-web-api-dv";
-                    var fileName = "log-writer.json";
-                    var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+                    // var fileName = "log-writer.json";
+                    // var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
 
-                    googleConfig.GoogleCredentialJson = serviceAccount;
+                    // googleConfig.GoogleCredentialJson = serviceAccount;
                     googleConfig.ProjectId = projectId;
                 }
 
