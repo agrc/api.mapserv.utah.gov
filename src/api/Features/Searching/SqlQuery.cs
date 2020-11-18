@@ -32,7 +32,7 @@ namespace AGRC.api.Features.Searching {
                 }
 
                 if (!string.IsNullOrEmpty(Geometry)) {
-                    var geometry = Geometry.ToUpper().Trim();
+                    var geometry = Geometry.ToUpper().Trim().Replace(" ", "");
 
                     if (geometry[0] == 'P') {
                         // have a point (5) polyline (8) or polygon (7)
