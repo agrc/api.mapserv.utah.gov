@@ -14,5 +14,5 @@ RUN dotnet publish -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-RUN apt update && apt install -y libc-dev
+RUN apt update -y && apt install -y libc-dev
 ENTRYPOINT ["dotnet", "api.mapserv.utah.gov.dll"]
