@@ -10,6 +10,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using GitHub;
 using Ninject;
+using Npgsql;
 using WebAPI.API.Science;
 using WebAPI.Common.Logging;
 using WebAPI.Domain;
@@ -106,6 +107,7 @@ namespace WebAPI.API
             CacheConfig.BuildCache();
             FormatterConfig.RegisterFormatters(GlobalConfiguration.Configuration.Formatters);
             Scientist.ResultPublisher = new ConsolePublisher();
+            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
         }
     }
 }

@@ -471,9 +471,10 @@ namespace WebAPI.API.Controllers.API.Version1
                     if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var ntsGeometry = reader.GetValue(i) as Geometry;
-                        //var geometryMapping = new NtsToEsriMapper.Computation(ntsGeometry);
+                        var graphic = CommandExecutor.ExecuteCommand(new NtsGeometryTransformerCommand(ntsGeometry));
 
-                        //response.Geometry = await _mediator.Handle(geometryMapping, cancellationToken);
+                        response.Geometry = JObject.FromObject(graphic);
+
                         continue;
                     }
 
@@ -486,6 +487,4 @@ namespace WebAPI.API.Controllers.API.Version1
             return (HttpStatusCode.OK, string.Empty, results);
         }
     }
-
-
 }
