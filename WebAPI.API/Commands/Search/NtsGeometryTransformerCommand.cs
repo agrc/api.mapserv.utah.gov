@@ -1,12 +1,12 @@
 ﻿using EsriJson.Net;
 using NetTopologySuite.Geometries;
-using Soe.Common.Infastructure.Commands;
+using WebAPI.Common.Abstractions;
 using System;
 using System.Collections.Generic;
 
 namespace WebAPI.API.Commands.Search
 {
-    public class NtsGeometryTransformerCommand : Command<Graphic>
+    public class NtsGeometryTransformerCommand : Command<EsriJson.Net.Geometry.Polygon>
     {
         public Geometry Geometry { get; }
 
@@ -15,10 +15,7 @@ namespace WebAPI.API.Commands.Search
             Geometry = geometry;
         }
 
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
+        public override string ToString() => "NtsGeometryTransformerCommand";
 
         protected override void Execute()
         {
@@ -43,7 +40,7 @@ namespace WebAPI.API.Commands.Search
                 }
             };
 
-            Result = new Graphic(poly, new Dictionary<string, object>());
+            Result = poly;
         }
 
         private static List<EsriJson.Net.Geometry.RingPoint[]> ExtractRings(Polygon polygon)
