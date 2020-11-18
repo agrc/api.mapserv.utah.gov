@@ -43,6 +43,7 @@ spec:
       containers:
         - name: webapi-api
           image: gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api
+          imagePullPolicy: Always
           volumeMounts:
             - name: appsettings-config
               mountPath: /app/appsettings.json
