@@ -8,6 +8,7 @@ on:
     - 'src/api/**'
     - 'libs/**'
     - '.github/workflows/api-cd.yml'
+    - 'kustomize/base/api.yaml'
 
 jobs:
   build:
