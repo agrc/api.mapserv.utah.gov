@@ -93,7 +93,7 @@ namespace AGRC.api {
 
                 if (environment == Environments.Development) {
                     var projectId = "ut-dts-agrc-web-api-dv";
-                    var fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
+                    var fileName = "log-writer.json";
                     var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
 
                     googleConfig.GoogleCredentialJson = serviceAccount;
