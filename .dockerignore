@@ -8,3 +8,11 @@ docker-compose.yml
 docker-compose.*.yml
 */bin
 */obj
+data/
+.infrastructure/
+.github/
+kustomize/
+samples/
+src/developer/
+src/explorer/
+test/

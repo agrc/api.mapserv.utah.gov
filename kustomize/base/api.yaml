@@ -40,6 +40,9 @@ spec:
         - name: appsettings-config
           configMap:
             name: app-config
+        - name: logging-service-account
+          secret:
+              secretName: logging-service-account
       containers:
         - name: webapi-api
           image: gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api
@@ -48,6 +51,9 @@ spec:
             - name: appsettings-config
               mountPath: /app/appsettings.json
               subPath: appsettings.json
+            - name: logging-service-account
+              mountPath: /app/log-writer.json
+              subPath: log-writer.json
           env:
             - name: ASPNETCORE_URLS
               value: http://+:1337
