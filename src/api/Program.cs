@@ -35,11 +35,17 @@ namespace AGRC.api {
 
             if (environment == Environments.Development) {
                 var projectId = "ut-dts-agrc-web-api-dv";
-                // var fileName = "log-writer.json";
-                // var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+                var fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
 
-                // config.GoogleCredentialJson = serviceAccount;
                 config.ProjectId = projectId;
+
+                try {
+                    var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+
+                    config.GoogleCredentialJson = serviceAccount;
+                } catch (FileNotFoundException) {
+                    // use the GOOGLE_APPLICATION_CREDENTIALS
+                }
             }
 
             var logger = new LoggerConfiguration()
@@ -93,11 +99,16 @@ namespace AGRC.api {
 
                 if (environment == Environments.Development) {
                     var projectId = "ut-dts-agrc-web-api-dv";
-                    // var fileName = "log-writer.json";
-                    // var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
-
-                    // googleConfig.GoogleCredentialJson = serviceAccount;
+                    var fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
                     googleConfig.ProjectId = projectId;
+
+                    try {
+                        var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+
+                        googleConfig.GoogleCredentialJson = serviceAccount;
+                    } catch (FileNotFoundException) {
+                        // use the GOOGLE_APPLICATION_CREDENTIALS
+                    }
                 }
 
                 config.ReadFrom.Configuration(context.Configuration);
