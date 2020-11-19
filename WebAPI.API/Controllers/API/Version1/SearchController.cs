@@ -212,8 +212,8 @@ namespace WebAPI.API.Controllers.API.Version1
                         return false;
                     }
 
-                    var soe = x.Item3.Select(a => a.Geometry.ToString(Newtonsoft.Json.Formatting.None));
-                    var nts = y.Item3.Select(a => a.Geometry.ToString(Newtonsoft.Json.Formatting.None));
+                    var soe = x.Item3.Select(a => a.Geometry?.ToString(Newtonsoft.Json.Formatting.None));
+                    var nts = y.Item3.Select(a => a.Geometry?.ToString(Newtonsoft.Json.Formatting.None));
 
                     if (soe.Except(nts).Any())
                     {
@@ -365,7 +365,7 @@ namespace WebAPI.API.Controllers.API.Version1
             return (HttpStatusCode.OK, string.Empty, list);
         }
 
-        public static string BuildQuery(string tableName, string returnValues, string predicate, string geometry)
+        public static string BuildQuery(string tableName, string returnValues, SearchOptions options)
         {
             if (tableName.Contains("SGID"))
             {
@@ -411,20 +411,20 @@ namespace WebAPI.API.Controllers.API.Version1
 
             var query = $"SELECT {returnValues} FROM {tableName}";
 
-            if (!string.IsNullOrEmpty(predicate))
+            if (!string.IsNullOrEmpty(options.Predicate))
             {
-                query += $" WHERE {predicate}";
+                query += $" WHERE {options.Predicate}";
                 hasWhere = true;
             }
 
-            if (!string.IsNullOrEmpty(geometry))
+            if (!string.IsNullOrEmpty(options.Geometry))
             {
-                geometry = geometry.ToUpper().Replace(" ", "").Trim();
+                options.Geometry = options.Geometry.ToUpper().Replace(" ", "").Trim();
 
-                if (geometry[0] == 'P')
+                if (options.Geometry[0] == 'P')
                 {
                     // have a point (5) polyline (8) or polygon (7)
-                    var colon = geometry.IndexOf(':');
+                    var colon = options.Geometry.IndexOf(':');
                     if (colon < 5)
                     {
                         // error;
@@ -433,20 +433,20 @@ namespace WebAPI.API.Controllers.API.Version1
                     if (colon == 5)
                     {
                         // type == point
-                        if (geometry[colon + 1] == '[')
+                        if (options.Geometry[colon + 1] == '[')
                         {
                             // legacy point:[x,y]
                             var start = colon + 2;
-                            var distance = geometry.Length - start - 1;
+                            var distance = options.Geometry.Length - start - 1;
 
-                            geometry = geometry.Substring(start, distance);
-                            geometry = geometry.Replace(',', ' ');
+                            options.Geometry = options.Geometry.Substring(start, distance);
+                            options.Geometry = options.Geometry.Replace(',', ' ');
                         }
-                        else if (geometry[colon + 1] == '{')
+                        else if (options.Geometry[colon + 1] == '{')
                         {
                             // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
-                            var point = JsonSerializer.Deserialize<Domain.ArcServerResponse.Geolocator.Location>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
-                            geometry = $"{point.X} {point.Y}";
+                            var point = JsonSerializer.Deserialize<Domain.ArcServerResponse.Geolocator.Location>(options.Geometry.Substring(colon + 1, options.Geometry.Length - colon - 1));
+                            options.Geometry = $"{point.X} {point.Y}";
                         }
                     }
                     else if (colon == 7)
@@ -468,7 +468,22 @@ namespace WebAPI.API.Controllers.API.Version1
                     query += " WHERE ";
                 }
 
-                query += $"ST_Intersects(Shape, ST_PointFromText('POINT({geometry})', 26912))";
+                string pointSql;
+                if (options.WkId == 26912)
+                {
+                    pointSql = $"ST_PointFromText('POINT({options.Geometry})', 26912)";
+                   
+                } else
+                {
+                    pointSql = $"ST_Transform(ST_PointFromText('POINT({options.Geometry})', {options.WkId}), 26912)";
+                }
+
+                if (options.Buffer > 0)
+                {
+                    pointSql = $"ST_Buffer({pointSql}, {options.Buffer})";
+                }
+
+                query += $"ST_Intersects(Shape, {pointSql})";
             }
 
             return query;
@@ -484,11 +499,11 @@ namespace WebAPI.API.Controllers.API.Version1
             }
             catch (Exception)
             {
-                Log.ForContext("query", BuildQuery(featureClass, returnValues, options.Predicate, options.Geometry))
+                Log.ForContext("query", BuildQuery(featureClass, returnValues, options))
                     .Fatal("could not connect to the database");
             }
 
-            var query = BuildQuery(featureClass, returnValues, options.Predicate, options.Geometry);
+            var query = BuildQuery(featureClass, returnValues, options);
 
             using var cmd = new NpgsqlCommand(query, session);
             using var reader = await cmd.ExecuteReaderAsync();
@@ -510,7 +525,7 @@ namespace WebAPI.API.Controllers.API.Version1
                     if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var ntsGeometry = reader.GetValue(i) as Geometry;
-                        var graphic = CommandExecutor.ExecuteCommand(new NtsGeometryTransformerCommand(ntsGeometry));
+                        var graphic = CommandExecutor.ExecuteCommand(new NtsGeometryTransformerCommand(ntsGeometry, options.WkId));
 
                         response.Geometry = JObject.FromObject(graphic);
 
