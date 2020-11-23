@@ -24,5 +24,5 @@ using ESRI.ArcGIS.SOESupport;
     Date = "12/10/2012 5:56:42 PM",
     Description = "assembly info description",
     TargetProduct = "Server",
-    TargetVersion = "10.5",
+    TargetVersion = "10.8",
     Version = "1.0")]
