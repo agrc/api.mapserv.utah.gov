@@ -365,8 +365,14 @@ namespace WebAPI.API.Controllers.API.Version1
             return (HttpStatusCode.OK, string.Empty, list);
         }
 
-        public static string BuildQuery(string tableName, string returnValues, SearchOptions options)
+        public static string BuildQuery(string tableName, string returnValues, SearchOptions options2)
         {
+            var table = tableName;
+            var geometry = options2.Geometry;
+            var predicate = options2.Predicate;
+            var buffer = options2.Buffer;
+            var wkid = options2.WkId;
+
             if (tableName.Contains("SGID"))
             {
                 var indexOfDot = tableName.IndexOf('.') + 1;
@@ -379,7 +385,7 @@ namespace WebAPI.API.Controllers.API.Version1
                 }
                 else
                 {
-                    tableName = TableMapping.MsSqlToPostgres[key];
+                    table = TableMapping.MsSqlToPostgres[key];
                 }
             }
             var hasWhere = false;
@@ -409,22 +415,22 @@ namespace WebAPI.API.Controllers.API.Version1
 
             returnValues = string.Join(",", fields);
 
-            var query = $"SELECT {returnValues} FROM {tableName}";
+            var query = $"SELECT {returnValues} FROM {table}";
 
-            if (!string.IsNullOrEmpty(options.Predicate))
+            if (!string.IsNullOrEmpty(predicate))
             {
-                query += $" WHERE {options.Predicate}";
+                query += $" WHERE {predicate}";
                 hasWhere = true;
             }
 
-            if (!string.IsNullOrEmpty(options.Geometry))
+            if (!string.IsNullOrEmpty(geometry))
             {
-                options.Geometry = options.Geometry.ToUpper().Replace(" ", "").Trim();
+                geometry = geometry.ToUpper().Replace(" ", "").Trim();
 
-                if (options.Geometry[0] == 'P')
+                if (geometry[0] == 'P')
                 {
                     // have a point (5) polyline (8) or polygon (7)
-                    var colon = options.Geometry.IndexOf(':');
+                    var colon =geometry.IndexOf(':');
                     if (colon < 5)
                     {
                         // error;
@@ -433,20 +439,20 @@ namespace WebAPI.API.Controllers.API.Version1
                     if (colon == 5)
                     {
                         // type == point
-                        if (options.Geometry[colon + 1] == '[')
+                        if (geometry[colon + 1] == '[')
                         {
                             // legacy point:[x,y]
                             var start = colon + 2;
-                            var distance = options.Geometry.Length - start - 1;
+                            var distance = geometry.Length - start - 1;
 
-                            options.Geometry = options.Geometry.Substring(start, distance);
-                            options.Geometry = options.Geometry.Replace(',', ' ');
+                            geometry = geometry.Substring(start, distance);
+                            geometry = geometry.Replace(',', ' ');
                         }
-                        else if (options.Geometry[colon + 1] == '{')
+                        else if (geometry[colon + 1] == '{')
                         {
                             // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
-                            var point = JsonSerializer.Deserialize<Domain.ArcServerResponse.Geolocator.Location>(options.Geometry.Substring(colon + 1, options.Geometry.Length - colon - 1));
-                            options.Geometry = $"{point.X} {point.Y}";
+                            var point = JsonSerializer.Deserialize<Domain.ArcServerResponse.Geolocator.Location>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
+                            geometry = $"{point.X} {point.Y}";
                         }
                     }
                     else if (colon == 7)
@@ -469,18 +475,18 @@ namespace WebAPI.API.Controllers.API.Version1
                 }
 
                 string pointSql;
-                if (options.WkId == 26912)
+                if (wkid == 26912)
                 {
-                    pointSql = $"ST_PointFromText('POINT({options.Geometry})', 26912)";
+                    pointSql = $"ST_PointFromText('POINT({geometry})', 26912)";
                    
                 } else
                 {
-                    pointSql = $"ST_Transform(ST_PointFromText('POINT({options.Geometry})', {options.WkId}), 26912)";
+                    pointSql = $"ST_Transform(ST_PointFromText('POINT({geometry})', {wkid}), 26912)";
                 }
 
-                if (options.Buffer > 0)
+                if (buffer > 0)
                 {
-                    pointSql = $"ST_Buffer({pointSql}, {options.Buffer})";
+                    pointSql = $"ST_Buffer({pointSql}, {buffer})";
                 }
 
                 query += $"ST_Intersects(Shape, {pointSql})";
