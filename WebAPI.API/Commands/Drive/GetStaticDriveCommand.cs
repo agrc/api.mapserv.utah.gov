@@ -354,7 +354,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "ALTONAH", "ROOSEVELT", "0"},
                 new [] { "AM FORK", "AMERICAN FORK", "0"},
                 new [] { "AMALGA", "LOGAN", "0"},
-                new [] { "AMANGIRI", "BIG WATER", "0"}
+                new [] { "AMANGIRI", "BIG WATER", "0"},
                 new [] { "AMERICAN FK", "AMERICAN FORK", "2"},
                 new [] { "AMERICAN FK", "PROVO", "0"},
                 new [] { "AMERICAN FORK", "AMERICAN FORK", "3"},
@@ -386,7 +386,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "BEAVER MTN", "LOGAN", "0"},
                 new [] { "BEAVER", "BEAVER", "0"},
                 new [] { "BENJAMIN", "PROVO", "0"},
-                new [] { "BENNET", "ROOSEVELT", "0"}
+                new [] { "BENNET", "ROOSEVELT", "0"},
                 new [] { "BENNETT", "ROOSEVELT", "0"},
                 new [] { "BENSON", "LOGAN", "0"},
                 new [] { "BERYL JCT", "BERYL", "0"},
@@ -469,7 +469,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "CENTRAL", "CENTRAL", "0"},
                 new [] { "CHARLESTON", "HEBER CITY", "0"},
                 new [] { "CHESTER", "MANTI", "0"},
-                new [] { "CHURCH WELLS", "BIG WATER", "0"}
+                new [] { "CHURCH WELLS", "BIG WATER", "0"},
                 new [] { "CIRCLEVILLE", "CIRCLEVILLE", "0"},
                 new [] { "CISCO", "MOAB", "0"},
                 new [] { "CLARKSTON", "CLARKSTON", "1"},
@@ -488,7 +488,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "COLLINSTON", "BRIGHAM CITY", "0"},
                 new [] { "COLOMBIA", "EAST CARBON CITY", "0"},
                 new [] { "COLTON", "PROVO", "0"},
-                new [] { "COLUMBIA", "EAST CARBON CITY", "0"}
+                new [] { "COLUMBIA", "EAST CARBON CITY", "0"},
                 new [] { "COPPERTON", "SALT LAKE CITY", "0"},
                 new [] { "CORINNE", "BRIGHAM CITY", "0"},
                 new [] { "CORNISH", "LOGAN", "0"},
@@ -527,7 +527,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "DIAMOND MOUNTAIN", "VERNAL", "1"},
                 new [] { "DIAMOND MTN", "DIAMOND MTN", "0"},
                 new [] { "DIAMOND MTN", "VERNAL", "0"},
-                new [] { "DIAMOND VALLEY", "ST GEORGE", "0"}
+                new [] { "DIAMOND VALLEY", "ST GEORGE", "0"},
                 new [] { "DIVIDEND", "PROVO", "0"},
                 new [] { "DRAPER", "SALT LAKE CITY", "0"},
                 new [] { "DRY FORK", "VERNAL", "0"},
@@ -581,7 +581,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "FAIRFIELD", "PROVO", "0"},
                 new [] { "FAIRVIEW", "FAIRVIEW", "1"},
                 new [] { "FAIRVIEW", "MANTI", "0"},
-                new [] { "FARM CREEK", "ROOSEVELT", "0"}
+                new [] { "FARM CREEK", "ROOSEVELT", "0"},
                 new [] { "FARMINGTON", "FARMINGTON", "0"},
                 new [] { "FARR WEST", "OGDEN", "0"},
                 new [] { "FAUST", "TOOELE", "0"},
@@ -623,7 +623,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "GENOLA", "GENOLA", "1"},
                 new [] { "GENOLA", "PROVO", "0"},
                 new [] { "GLENDALE", "GLENDALE", "0"},
-                new [] { "GLENWILDE", "PARK CITY", "0"}
+                new [] { "GLENWILDE", "PARK CITY", "0"},
                 new [] { "GLENWOOD", "GLENWOOD", "0"},
                 new [] { "GOLD HILL", "TOOELE", "0"},
                 new [] { "GOSHEN", "GOSHEN", "1"},
@@ -673,7 +673,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "HILL AIR FORCE BASE", "HILL AIR FORCE BASE", "1"},
                 new [] { "HINCKLEY", "HINCKLEY", "0"},
                 new [] { "HITE", "MONTICELLO", "0"},
-                new [] { "HOBBLE CREEK", "PROVO", "0"}
+                new [] { "HOBBLE CREEK", "PROVO", "0"},
                 new [] { "HOLDEN", "HOLDEN", "0"},
                 new [] { "HOLLADAY", "SALT LAKE CITY", "0"},
                 new [] { "HONEYVILLE", "BRIGHAM CITY", "0"},
@@ -743,7 +743,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "LEETON", "ROOSEVELT", "0"},
                 new [] { "LEHI", "LEHI", "1"},
                 new [] { "LEHI", "PROVO", "0"},
-                new [] { "LELAND", "PROVO", "0"}
+                new [] { "LELAND", "PROVO", "0"},
                 new [] { "LEOTA", "ROOSEVELT", "0"},
                 new [] { "LEVAN", "LEVAN", "0"},
                 new [] { "LEWISTON", "LEWISTON", "1"},
@@ -784,7 +784,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "MARRIOTT-SLATERVILLE CITY", "OGDEN", "5"},
                 new [] { "MARRIOTT-SLATERVILLE", "OGDEN", "6"},
                 new [] { "MARRIOTT", "OGDEN", "1"},
-                new [] { "MARTIN", "PRICE", "0"}
+                new [] { "MARTIN", "PRICE", "0"},
                 new [] { "MARYSVALE", "MARYSVALE", "0"},
                 new [] { "MAYFIELD", "MANTI", "0"},
                 new [] { "MAYFIELD", "MAYFIELD", "1"},
@@ -802,7 +802,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "MILFORD", "MILFORD", "0"},
                 new [] { "MILLARD COUNTY", "FILLMORE", "0"},
                 new [] { "MILLCREEK", "SALT LAKE CITY", "0"},
-                new [] { "MILLER CREEK", "PRICE", "0"}
+                new [] { "MILLER CREEK", "PRICE", "0"},
                 new [] { "MILLS JCT", "TOOELE", "0"},
                 new [] { "MILLS JUNCTION", "TOOELE", "1"},
                 new [] { "MILLS", "NEPHI", "0"},
@@ -810,7 +810,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "MILLVILLE", "MILLVILLE", "1"},
                 new [] { "MILTON", "MORGAN", "0"},
                 new [] { "MINERSVILLE", "MINERSVILLE", "0"},
-                new [] { "MIRROR LAKE", "ROOSEVELT", "0"}
+                new [] { "MIRROR LAKE", "ROOSEVELT", "0"},
                 new [] { "MOAB", "MOAB", "0"},
                 new [] { "MOARK JCT", "SPANISH FORK", "0"},
                 new [] { "MODENA", "MODENA", "0"},
@@ -918,9 +918,9 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "PICKLEVILLE", "GARDEN CITY", "0"},
                 new [] { "PIGEON HOLLOW JCT", "MANTI", "1"},
                 new [] { "PIGEON HOLLOW JUNCTION", "MANTI", "0"},
-                new [] { "PINE CANYON", "TOOELE", "0"}
+                new [] { "PINE CANYON", "TOOELE", "0"},
                 new [] { "PINE VALLEY", "PINE VALLEY", "0"},
-                new [] { "PINON FOREST", "ROOSEVELT", "0"}
+                new [] { "PINON FOREST", "ROOSEVELT", "0"},
                 new [] { "PINTO", "PINTO", "0"},
                 new [] { "PINTURA", "TOQUERVILLE", "0"},
                 new [] { "PLAIN CITY", "OGDEN", "0"},
@@ -1004,7 +1004,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "SILVER REEF", "LEEDS", "0"},
                 new [] { "SILVER SUMMIT", "PARK CITY", "0"},
                 new [] { "SJ", "SALT LAKE CITY", "0"},
-                new [] { "SKULL VALLEY", "TOOELE", "0"}
+                new [] { "SKULL VALLEY", "TOOELE", "0"},
                 new [] { "SL CI", "SALT LAKE CITY", "0"},
                 new [] { "SLATERVILLE", "OGDEN", "0"},
                 new [] { "SLC", "SALT LAKE CITY", "0"},
@@ -1122,7 +1122,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "W WARREN", "OGDEN", "0"},
                 new [] { "W WOOD", "PRICE", "0"},
                 new [] { "WAHSATCH", "HENEFER", "0"},
-                new [] { "WAHWEAP", "BIG WATER", "0"}
+                new [] { "WAHWEAP", "BIG WATER", "0"},
                 new [] { "WALES", "MANTI", "0"},
                 new [] { "WALES", "WALES", "1"},
                 new [] { "WALLSBURG", "WALLSBURG", "0"},
@@ -1153,7 +1153,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "WEST WEBER", "OGDEN", "0"},
                 new [] { "WEST WOOD", "PRICE", "0"},
                 new [] { "WESTWATER", "MOAB", "0"},
-                new [] { "WESTWOOD", "PRICE", "0"}
+                new [] { "WESTWOOD", "PRICE", "0"},
                 new [] { "WHEELON", "BRIGHAM CITY", "0"},
                 new [] { "WHITE CITY", "SALT LAKE CITY", "0"},
                 new [] { "WHITE MESA", "BLANDING", "0"},
@@ -1163,7 +1163,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "WIDTSOE", "WIDTSOE", "0"},
                 new [] { "WILLARD", "BRIGHAM CITY", "0"},
                 new [] { "WILLARD", "WILLARD", "1"},
-                new [] { "WINCHESTER HILLS", "ST GEORGE", "0"}
+                new [] { "WINCHESTER HILLS", "ST GEORGE", "0"},
                 new [] { "WJ", "SALT LAKE CITY", "0"},
                 new [] { "WOLF CREEK RANCH", "HEBER CITY", "0"},
                 new [] { "WOLF CREEK", "OGDEN", "0"},
@@ -1173,12 +1173,12 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "WOODLAND HLS", "WOODLAND HILLS", "0"},
                 new [] { "WOODLAND", "WOODLAND", "0"},
                 new [] { "WOODROW", "DELTA", "0"},
-                new [] { "WOODRUFF", "WOODRUFF", "0"}
+                new [] { "WOODRUFF", "WOODRUFF", "0"},
                 new [] { "WOODS CROSS", "BOUNTIFUL", "0"},
                 new [] { "WOODSIDE", "GREEN RIVER", "0"},
                 new [] { "WVC", "SALT LAKE CITY", "0"},
                 new [] { "YOST", "BRIGHAM CITY", "0"},
-                new [] { "YOUNG WARD", "LOGAN", "0"}
+                new [] { "YOUNG WARD", "LOGAN", "0"},
                 new [] { "ZANE", "BERYL", "0"},
                 new [] { "ZION NATIONAL PARK", "KOLOB", "1"},
                 new [] { "ZION NATIONAL PARK", "NEW HARMONY", "1"},
