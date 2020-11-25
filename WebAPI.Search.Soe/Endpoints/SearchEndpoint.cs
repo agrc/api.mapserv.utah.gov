@@ -193,11 +193,10 @@ namespace WebAPI.Search.Soe.Endpoints
 
 // ReSharper disable PossibleNullReferenceException because of returning errors if null
             var workspace = sdeConnector.Connect();
-// ReSharper restore PossibleNullReferenceException
+            // ReSharper restore PossibleNullReferenceException
 
-            var featureWorkspace = workspace as IFeatureWorkspace;
 
-            if (featureWorkspace == null)
+            if (workspace is not IFeatureWorkspace featureWorkspace)
             {
                 errors.Add("Error connecting to SDE.");
                 return Json(errors);
