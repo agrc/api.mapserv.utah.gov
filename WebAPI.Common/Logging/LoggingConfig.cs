@@ -50,7 +50,7 @@ namespace WebAPI.Common.Logging
 #if DEBUG
             levelSwitch.MinimumLevel = LogEventLevel.Verbose;
 #else
-            levelSwitch.MinimumLevel = LogEventLevel.Warning;
+            levelSwitch.MinimumLevel = LogEventLevel.Information;
 #endif
 
             Log.Debug("Logging initialized");
