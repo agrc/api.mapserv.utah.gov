@@ -96,11 +96,11 @@ namespace WebAPI.API.Controllers.API.Version1
 
             var isStraightSql = !returnValues.ToUpperInvariant().Contains("SHAPE@") &&
                                 string.IsNullOrEmpty(options.Geometry);
-            var message = string.Empty;
-            var list = (List<SearchResult>)null;
-            var code = HttpStatusCode.BadRequest;
             HttpResponseMessage response;
 
+            string message;
+            List<SearchResult> list;
+            HttpStatusCode code;
             if (isStraightSql)
             {
                 (code, message, list) = await StraightSqlQuery(featureClass, returnValues, options);
