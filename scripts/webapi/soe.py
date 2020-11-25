@@ -10,7 +10,9 @@ from os.path import join
 class Soe(object):
     """uploads Soe's"""
     def __init__(self, host, name, configuration, secrets):
-        possible_soes = glob(join(dirname(__file__), '..', '..', '**', configuration, '{}.soe'.format(name)))
+        globs = join('..', '**', configuration, '{}.soe'.format(name))
+        print(globs)
+        possible_soes = glob(globs)
         file_name = ''
 
         if len(possible_soes) == 1:
