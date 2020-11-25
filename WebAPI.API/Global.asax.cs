@@ -11,7 +11,6 @@ using System.Web.Routing;
 using GitHub;
 using Ninject;
 using Npgsql;
-using WebAPI.API.Science;
 using WebAPI.Common.Logging;
 using WebAPI.Domain;
 using WebAPI.Domain.Linkers;
@@ -106,7 +105,7 @@ namespace WebAPI.API
             HandlerConfig.RegisterHandlers(GlobalConfiguration.Configuration.MessageHandlers);
             CacheConfig.BuildCache();
             FormatterConfig.RegisterFormatters(GlobalConfiguration.Configuration.Formatters);
-            Scientist.ResultPublisher = new ConsolePublisher();
+            GitHub.Scientist.ResultPublisher = new Scientist.Publishers.Serilog.SerilogResultPublisher();
             NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
         }
     }
