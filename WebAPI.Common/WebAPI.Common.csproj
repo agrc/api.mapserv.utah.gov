@@ -259,6 +259,7 @@
     <Compile Include="ActionResults\JsonResponse.cs" />
     <Compile Include="Authentication\Forms\FormsAuth.cs" />
     <Compile Include="Authentication\Forms\IFormsAuthentication.cs" />
+    <Compile Include="Commands\DecodeInputGeomertryCommand.cs" />
     <Compile Include="Commands\Spatial\ReprojectPointsCommand.cs" />
     <Compile Include="ControlSelectors\AreaHttpControllerSelector.cs" />
     <Compile Include="ControlSelectors\ControllerTypeSpecifications.cs" />
@@ -283,6 +284,7 @@
     <Compile Include="Logging\LoggingConfig.cs" />
     <Compile Include="Models\Changelog\LogEntry.cs" />
     <Compile Include="Models\Esri\Errors\Errorable.cs" />
+    <Compile Include="Models\Esri\ImageService\Identify.cs" />
     <Compile Include="Models\Esri\RoadsAndHighways\Concurrencies.cs" />
     <Compile Include="Models\Esri\RoadsAndHighways\GeometryToMeasure.cs" />
     <Compile Include="Models\Esri\RoadsAndHighways\GeometryType.cs" />
@@ -355,6 +357,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Log\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebAPI.Domain\WebAPI.Domain.csproj">
+      <Project>{dc6a50cb-059b-4418-bbdf-58c40198bebe}</Project>
+      <Name>WebAPI.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

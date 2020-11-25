@@ -24,6 +24,7 @@ using WebAPI.Domain.ApiResponses;
 using WebAPI.Domain.ArcServerInput;
 using WebAPI.Domain.ArcServerResponse.Soe;
 using WebAPI.Domain.InputOptions;
+using WebAPI.Common.Commands;
 
 namespace WebAPI.API.Controllers.API.Version1
 {
@@ -146,22 +147,28 @@ namespace WebAPI.API.Controllers.API.Version1
 
         private static async Task<(HttpStatusCode, string, List<SearchResult>)> StraightSqlQuery(string featureClass, string returnValues, SearchOptions options)
         {
-            return await Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>)>("straight-sql-query", experiment =>
+            return await GitHub.Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>)>("straight-sql-query", experiment =>
             {
                 bool CompareResults((HttpStatusCode, string, List<SearchResult>) x,(HttpStatusCode, string, List<SearchResult>)y)
                 {
                     if (x.Item1 != y.Item1)
                     {
+                        experiment.AddContext("httpStatus", "mismatch");
+
                         return false;
                     }
 
                     if (x.Item2 != y.Item2)
                     {
+                        experiment.AddContext("message", "mismatch");
+
                         return false;
                     }
 
                     if (x.Item3.Count() != y.Item3.Count())
                     {
+                        experiment.AddContext("attributeCount", "mismatch");
+
                         return false;
                     }
 
@@ -170,6 +177,8 @@ namespace WebAPI.API.Controllers.API.Version1
 
                     if (control.Except(test).Any())
                     {
+                        experiment.AddContext("attributeValues", "mismatch");
+
                         return false;
                     }
 
@@ -185,30 +194,38 @@ namespace WebAPI.API.Controllers.API.Version1
 
         private static async Task<(HttpStatusCode, string, List<SearchResult>)> GeometryQuery(string featureClass, string returnValues, SearchOptions options)
         {
-            return await Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>)>("geometry-sql-query", experiment =>
+            return await GitHub.Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>)>("geometry-sql-query", experiment =>
             {
                 bool CompareResults((HttpStatusCode, string, List<SearchResult>) x, (HttpStatusCode, string, List<SearchResult>) y)
                 {
                     if (x.Item1 != y.Item1)
                     {
+                        experiment.AddContext("httpStatus", "mismatch");
+
                         return false;
                     }
 
                     if (x.Item2 != y.Item2)
                     {
+                        experiment.AddContext("message", "mismatch");
+
                         return false;
                     }
 
                     if (x.Item3.Count() != y.Item3.Count())
                     {
+                        experiment.AddContext("attributeCount", "mismatch");
+
                         return false;
                     }
 
-                    var control = x.Item3.SelectMany(a => a.Attributes.Values);
-                    var test = y.Item3.SelectMany(a => a.Attributes.Values);
+                    var control = x.Item3.SelectMany(a => a?.Attributes.Values);
+                    var test = y.Item3.SelectMany(a => a?.Attributes.Values);
 
                     if (control.Except(test).Any())
                     {
+                        experiment.AddContext("attributeValues", "mismatch");
+
                         return false;
                     }
 
@@ -217,6 +234,8 @@ namespace WebAPI.API.Controllers.API.Version1
 
                     if (soe.Except(nts).Any())
                     {
+                        experiment.AddContext("geometry", "mismatch");
+
                         return false;
                     }
 
@@ -423,48 +442,10 @@ namespace WebAPI.API.Controllers.API.Version1
                 hasWhere = true;
             }
 
+            geometry = CommandExecutor.ExecuteCommand(new DecodeInputGeomertryCommand(geometry));
+
             if (!string.IsNullOrEmpty(geometry))
             {
-                geometry = geometry.ToUpper().Replace(" ", "").Trim();
-
-                if (geometry[0] == 'P')
-                {
-                    // have a point (5) polyline (8) or polygon (7)
-                    var colon =geometry.IndexOf(':');
-                    if (colon < 5)
-                    {
-                        // error;
-                    }
-
-                    if (colon == 5)
-                    {
-                        // type == point
-                        if (geometry[colon + 1] == '[')
-                        {
-                            // legacy point:[x,y]
-                            var start = colon + 2;
-                            var distance = geometry.Length - start - 1;
-
-                            geometry = geometry.Substring(start, distance);
-                            geometry = geometry.Replace(',', ' ');
-                        }
-                        else if (geometry[colon + 1] == '{')
-                        {
-                            // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
-                            var point = JsonSerializer.Deserialize<Domain.ArcServerResponse.Geolocator.Location>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
-                            geometry = $"{point.X} {point.Y}";
-                        }
-                    }
-                    else if (colon == 7)
-                    {
-                        // type == polygon
-                    }
-                    else
-                    {
-                        // type == polyline
-                    }
-                }
-
                 if (hasWhere)
                 {
                     query += " AND ";
@@ -497,6 +478,19 @@ namespace WebAPI.API.Controllers.API.Version1
 
         private static async Task<(HttpStatusCode, string, List<SearchResult>)> OpenSgidQuery(string featureClass, string returnValues, SearchOptions options)
         {
+            var results = new List<SearchResult>();
+
+            if (featureClass.ToLowerInvariant().Contains("raster."))
+            {
+                // raster query
+                var response = await
+                CommandExecutor.ExecuteCommandAsync(new RasterQueryCommand(returnValues, options.Geometry, options.WkId));
+
+                results.Add(response);
+
+                return (HttpStatusCode.OK, string.Empty, results);
+            }
+
             using var session = new NpgsqlConnection("Host=opensgid.agrc.utah.gov;Port=5432;Username=agrc;Password=agrc;Database=opensgid;Enlist=false");
 
             try
@@ -513,8 +507,6 @@ namespace WebAPI.API.Controllers.API.Version1
 
             using var cmd = new NpgsqlCommand(query, session);
             using var reader = await cmd.ExecuteReaderAsync();
-
-            var results = new List<SearchResult>();
 
             while (reader.HasRows && await reader.ReadAsync())
             {
