@@ -25,7 +25,7 @@
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    _predicate = value.ToUpperInvariant();
+                    _predicate = value;
                 }
             }
         }
