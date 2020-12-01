@@ -145,7 +145,7 @@ namespace WebAPI.API.Controllers.API.Version1
 
         private static async Task<(HttpStatusCode, string, List<SearchResult>)> StraightSqlQuery(string featureClass, string returnValues, SearchOptions options)
         {
-            return await GitHub.Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>)>("straight-sql-query", experiment =>
+            return await GitHub.Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>), object>("straight-sql-query", experiment =>
             {
                 bool CompareResults((HttpStatusCode, string, List<SearchResult>) x,(HttpStatusCode, string, List<SearchResult>)y)
                 {
@@ -170,8 +170,8 @@ namespace WebAPI.API.Controllers.API.Version1
                         return false;
                     }
 
-                    var control = x.Item3.SelectMany(a => a.Attributes.Values);
-                    var test = y.Item3.SelectMany(a => a.Attributes.Values);
+                    var control = x.Item3.SelectMany(a => a.Attributes.Values).Select(x => x.ToString());
+                    var test = y.Item3.SelectMany(a => a.Attributes.Values).Select(x => x.ToString());
 
                     if (control.Except(test).Any())
                     {
@@ -185,14 +185,27 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 experiment.Compare((x, y) => CompareResults(x, y));
 
+                experiment.AddContext("query", new
+                {
+                    featureClass,
+                    returnValues,
+                    options
+                });
+
                 experiment.Use(async () => await MsSqlQuery(featureClass, returnValues, options));
                 experiment.Try(async () => await OpenSgidQuery(featureClass, returnValues, options));
+
+                experiment.Clean(x => new
+                {
+                    status = x.Item1,
+                    errors = x.Item2
+                });
             });
         }
 
         private static async Task<(HttpStatusCode, string, List<SearchResult>)> GeometryQuery(string featureClass, string returnValues, SearchOptions options)
         {
-            return await GitHub.Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>)>("geometry-sql-query", experiment =>
+            return await GitHub.Scientist.ScienceAsync<(HttpStatusCode, string, List<SearchResult>), object>("geometry-sql-query", experiment =>
             {
                 bool CompareResults((HttpStatusCode, string, List<SearchResult>) x, (HttpStatusCode, string, List<SearchResult>) y)
                 {
@@ -217,8 +230,8 @@ namespace WebAPI.API.Controllers.API.Version1
                         return false;
                     }
 
-                    var control = x.Item3.SelectMany(a => a?.Attributes.Values);
-                    var test = y.Item3.SelectMany(a => a?.Attributes.Values);
+                    var control = x.Item3.SelectMany(a => a?.Attributes.Values).Select(x => x?.ToString());
+                    var test = y.Item3.SelectMany(a => a?.Attributes.Values).Select(x => x?.ToString());
 
                     if (control.Except(test).Any())
                     {
@@ -242,8 +255,21 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 experiment.Compare((x, y) => CompareResults(x, y));
 
+                experiment.AddContext("query", new
+                {
+                    featureClass,
+                    returnValues,
+                    options
+                });
+
                 experiment.Use(async () => await SoeGeometryQuery(featureClass, returnValues, options));
                 experiment.Try(async () => await OpenSgidQuery(featureClass, returnValues, options));
+
+                experiment.Clean(x => new
+                {
+                    status = x.Item1,
+                    errors = x.Item2
+                });
             });
         }
 
@@ -255,6 +281,7 @@ namespace WebAPI.API.Controllers.API.Version1
                 .With(queryArgs.ToQueryString());
 
             HttpResponseMessage request;
+            var result = new List<SearchResult>(0);
 
             try
             {
@@ -264,7 +291,7 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 Log.Fatal(ex, "search(spatial): aggregate");
 
-                return (HttpStatusCode.InternalServerError, "I'm sorry, it seems as though the request had issues.", null);
+                return (HttpStatusCode.InternalServerError, "I'm sorry, it seems as though the request had issues.", result);
             }
 
             try
@@ -275,7 +302,7 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 Log.Fatal(ex, "search(spatial): soe communication error");
 
-                return (HttpStatusCode.InternalServerError, "I'm sorry, we were unable to communicate with the SOE.", null);
+                return (HttpStatusCode.InternalServerError, "I'm sorry, we were unable to communicate with the SOE.", result);
             }
 
             var response = await request.Content.ReadAsAsync<SearchResponse>(new[]
@@ -297,14 +324,14 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 Log.Warning("search(spatial): {featureClass} {message} {@options}", featureClass, message, options);
 
-                return (HttpStatusCode.BadRequest, message, null);
+                return (HttpStatusCode.BadRequest, message, result);
             }
 
             if (response.Results == null)
             {
                 Log.Warning("search(spatial): success count: 0");
 
-                return (HttpStatusCode.OK, string.Empty, new List<SearchResult>());
+                return (HttpStatusCode.OK, string.Empty, result);
             }
 
             var resultsWithGeometry = response.Results.Select(x => new SearchResult
@@ -365,7 +392,7 @@ namespace WebAPI.API.Controllers.API.Version1
 
                 //specificLog.Warning("search(non-spatial): {message}, {featurClass}, {returnValues}", message, featureClass, returnValues);
 
-                return (HttpStatusCode.BadRequest, message, (List<SearchResult>)null);
+                return (HttpStatusCode.BadRequest, message, list);
             }
 
             if (list.Any())
