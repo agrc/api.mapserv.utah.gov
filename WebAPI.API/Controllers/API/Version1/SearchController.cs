@@ -382,13 +382,13 @@ namespace WebAPI.API.Controllers.API.Version1
             return (HttpStatusCode.OK, string.Empty, list);
         }
 
-        public static string BuildQuery(string tableName, string returnValues, SearchOptions options2)
+        public static string BuildQuery(string tableName, string returnValues, SearchOptions options)
         {
             var table = tableName;
-            var geometry = options2.Geometry;
-            var predicate = options2.Predicate;
-            var buffer = options2.Buffer;
-            var wkid = options2.WkId;
+            var geometry = options.Geometry;
+            var predicate = options.Predicate;
+            var buffer = options.Buffer;
+            var wkid = options.WkId;
 
             if (tableName.Contains("SGID"))
             {
@@ -448,7 +448,7 @@ namespace WebAPI.API.Controllers.API.Version1
                 throw new FormatException(command.ErrorMessage);
             }
 
-            if (!string.IsNullOrEmpty(geometry))
+            if (point is not null)
             {
                 if (hasWhere)
                 {
@@ -459,14 +459,19 @@ namespace WebAPI.API.Controllers.API.Version1
                     query += " WHERE ";
                 }
 
+                if (point.SpatialReference is not null)
+                {
+                    wkid = point.SpatialReference.Wkid;
+                }
+
                 string pointSql;
                 if (wkid == 26912)
                 {
-                    pointSql = $"ST_PointFromText('POINT({geometry})', 26912)";
+                    pointSql = $"ST_PointFromText('POINT({point.ToSql})', 26912)";
                    
                 } else
                 {
-                    pointSql = $"ST_Transform(ST_PointFromText('POINT({geometry})', {wkid}), 26912)";
+                    pointSql = $"ST_Transform(ST_PointFromText('POINT({point.ToSql})', {wkid}), 26912)";
                 }
 
                 if (buffer > 0)
