@@ -440,7 +440,13 @@ namespace WebAPI.API.Controllers.API.Version1
                 hasWhere = true;
             }
 
-            geometry = CommandExecutor.ExecuteCommand(new DecodeInputGeomertryCommand(geometry));
+            var command = new DecodeInputGeomertryCommand(geometry);
+            var point = CommandExecutor.ExecuteCommand(command);
+
+            if (!string.IsNullOrEmpty(command.ErrorMessage))
+            {
+                throw new FormatException(command.ErrorMessage);
+            }
 
             if (!string.IsNullOrEmpty(geometry))
             {
@@ -481,8 +487,13 @@ namespace WebAPI.API.Controllers.API.Version1
             if (featureClass.ToLowerInvariant().Contains("raster."))
             {
                 // raster query
-                var response = await
-                CommandExecutor.ExecuteCommandAsync(new RasterQueryCommand(returnValues, options.Geometry, options.WkId));
+                var command = new RasterQueryCommand(returnValues, options.Geometry, options.WkId);
+                var response = await CommandExecutor.ExecuteCommandAsync(command);
+
+                if (!string.IsNullOrEmpty(command.ErrorMessage))
+                {
+                    return (HttpStatusCode.BadRequest, command.ErrorMessage, results);
+                }
 
                 results.Add(response);
 
@@ -497,11 +508,18 @@ namespace WebAPI.API.Controllers.API.Version1
             }
             catch (Exception)
             {
-                Log.ForContext("query", BuildQuery(featureClass, returnValues, options))
-                    .Fatal("could not connect to the database");
+                Log.Fatal("could not connect to the database");
             }
 
-            var query = BuildQuery(featureClass, returnValues, options);
+            string query;
+            try
+            {
+                query = BuildQuery(featureClass, returnValues, options);
+            }
+            catch (FormatException ex)
+            {
+                return (HttpStatusCode.BadRequest, ex.Message, results);
+            }
 
             using var cmd = new NpgsqlCommand(query, session);
             using var reader = await cmd.ExecuteReaderAsync();

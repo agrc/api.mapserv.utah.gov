@@ -1,9 +1,34 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using WebAPI.Common.Abstractions;
 
 namespace WebAPI.Common.Commands
 {
-    public class DecodeInputGeomertryCommand : Command<string>
+    public class JsApiPoint
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public JsApiPointSpatialReference SpatialReference { get; set; }
+
+        public string ToSql => $"{X} {Y}";
+    }
+
+    public class JsApiPointSpatialReference
+    {
+        private int wkid;
+
+        public int Wkid { get { 
+                if (LatestWkid > 0)
+                {
+                    return LatestWkid;
+                }
+
+                return wkid;
+            } 
+            set => wkid = value; }
+        public int LatestWkid { get; set; }
+    }
+    public class DecodeInputGeomertryCommand : Command<JsApiPoint>
     {
         private readonly string Geometry;
         public DecodeInputGeomertryCommand(string geometry)
@@ -39,12 +64,27 @@ namespace WebAPI.Common.Commands
 
                         geometry = geometry.Substring(start, distance);
                         geometry = geometry.Replace(',', ' ');
+                        var coordinates = geometry.Split(' ');
+
+                        try
+                        {
+                            Result = new JsApiPoint
+                            {
+                                X = Convert.ToDouble(coordinates[0]),
+                                Y = Convert.ToDouble(coordinates[1])
+                            };
+                        }
+                        catch(FormatException)
+                        {
+                            ErrorMessage = "GEOMETRY COORDINATES APPEAR TO BE INVALID.";
+                        }
                     }
                     else if (geometry[colon + 1] == '{')
                     {
                         // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
-                        var point = JsonSerializer.Deserialize<Domain.ArcServerResponse.Geolocator.Location>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
-                        geometry = $"{point.X} {point.Y}";
+                        Result = JsonSerializer.Deserialize<JsApiPoint>(geometry.Substring(colon + 1, geometry.Length - colon - 1), new JsonSerializerOptions {
+                            PropertyNameCaseInsensitive = true
+                        });
                     }
                 }
                 else if (colon == 7)
@@ -56,8 +96,6 @@ namespace WebAPI.Common.Commands
                     // type == polyline
                 }
             }
-
-            Result = geometry;
         }
 
         public override string ToString()

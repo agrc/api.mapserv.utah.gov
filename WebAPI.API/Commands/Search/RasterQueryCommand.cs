@@ -38,19 +38,30 @@ namespace WebAPI.API.Commands.Search
             }
 
             var identify = new Identify.RequestContract { GeometryType = GeometryType.esriGeometryPoint };
-            var geometry = CommandExecutor.ExecuteCommand(new DecodeInputGeomertryCommand(Geometry));
+            var point = CommandExecutor.ExecuteCommand(new DecodeInputGeomertryCommand(Geometry));
+
+            if (point is null && !string.IsNullOrEmpty(Geometry))
+            {
+                ErrorMessage = "GEOMETRY COORDINATES APPEAR TO BE INVALID.";
+                return null;
+            }
+
+            if (point.SpatialReference is not null)
+            {
+                Wkid = point.SpatialReference.Wkid;
+            }
 
             HttpResponseMessage httpResponse;
 
             if (!LocalProjection.Contains(Wkid))
             {
                 var coordinates = Enumerable.Empty<double>();
-                if (string.IsNullOrEmpty(geometry))
+                if (point is null)
                 {
                     return null;
                 }
 
-                coordinates = geometry.Split(' ').Select(x => Convert.ToDouble(x));
+                coordinates = new[] { point.X, point.Y };
 
                 var projectResponse = CommandExecutor.ExecuteCommand(
                     new ReprojectPointsCommand(
@@ -64,7 +75,7 @@ namespace WebAPI.API.Commands.Search
                 identify.Geometry = string.Join("&", projectResponse.Geometries.Select(geo => $"{geo.X},{geo.Y}"));
             } else {
 
-                identify.Geometry = $"{geometry[0]}, {geometry[1]}";
+                identify.Geometry = $"{point.X},{point.Y}";
             }
 
             var requestUri = $"{BaseUrl}{identify}";
