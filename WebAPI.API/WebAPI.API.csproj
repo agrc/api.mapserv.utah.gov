@@ -15,7 +15,7 @@
     <RootNamespace>WebAPI.API</RootNamespace>
     <AssemblyName>WebAPI.API</AssemblyName>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <JSLintSkip>
@@ -599,7 +599,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50413</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://webapi</IISUrl>
+          <IISUrl>http://localhost:50413/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
