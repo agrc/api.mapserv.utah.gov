@@ -381,9 +381,10 @@ namespace WebAPI.API.Controllers.API.Version1
                                                                                                      " or ",
                                                                                                      badColumns));
                 }
-                else if (error.Contains("AN EXPRESSION OF NON-BOOLEAN TYPE SPECIFIED IN A CONTEXT WHERE A CONDITION IS EXPECTED"))
+                else if (error.Contains("AN EXPRESSION OF NON-BOOLEAN TYPE SPECIFIED IN A CONTEXT WHERE A CONDITION IS EXPECTED") || 
+                    error.Contains("UNCLOSED QUOTATION MARK"))
                 {
-                    message = "{0} is not a valid ArcObjects where clause.".With(options.Predicate);
+                    message = "{0} is not a valid where clause.".With(options.Predicate);
                 }
                 else
                 {
@@ -554,34 +555,51 @@ namespace WebAPI.API.Controllers.API.Version1
             }
 
             using var cmd = new NpgsqlCommand(query, session);
-            using var reader = await cmd.ExecuteReaderAsync();
-
-            while (reader.HasRows && await reader.ReadAsync())
+            try
             {
-                var attributes = new Dictionary<string, object>(reader.VisibleFieldCount);
-                var response = new SearchResult
-                {
-                    Attributes = attributes
-                };
+                using var reader = await cmd.ExecuteReaderAsync();
 
-                for (var i = 0; i < reader.VisibleFieldCount; i++)
+                while (reader.HasRows && await reader.ReadAsync())
                 {
-                    var key = reader.GetName(i);
-
-                    if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase))
+                    var attributes = new Dictionary<string, object>(reader.VisibleFieldCount);
+                    var response = new SearchResult
                     {
-                        var ntsGeometry = reader.GetValue(i) as Geometry;
-                        var graphic = CommandExecutor.ExecuteCommand(new NtsGeometryTransformerCommand(ntsGeometry, options.WkId));
+                        Attributes = attributes
+                    };
 
-                        response.Geometry = JObject.FromObject(graphic);
+                    for (var i = 0; i < reader.VisibleFieldCount; i++)
+                    {
+                        var key = reader.GetName(i);
 
-                        continue;
+                        if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            var ntsGeometry = reader.GetValue(i) as Geometry;
+                            var graphic = CommandExecutor.ExecuteCommand(new NtsGeometryTransformerCommand(ntsGeometry, options.WkId));
+
+                            response.Geometry = JObject.FromObject(graphic);
+
+                            continue;
+                        }
+
                     }
 
                     attributes[key] = reader.GetValue(i);
+                    results.Add(response);
+                }
+            }
+            catch (PostgresException ex)
+            {
+                var message = ex.MessageText;
+                if (ex.SqlState == "42601")
+                {
+                    message = "{0} is not a valid where clause.".With(options.Predicate);
                 }
 
-                results.Add(response);
+                return (HttpStatusCode.BadRequest, message, results);
+            }
+            catch (Exception)
+            {
+                return (HttpStatusCode.BadRequest, "{0} probably does not exist. Check your spelling.".With(featureClass), results);
             }
 
             return (HttpStatusCode.OK, string.Empty, results);
