@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebAPI.Domain
 {
@@ -27,5 +30,15 @@ namespace WebAPI.Domain
     {
         [JsonProperty(PropertyName = "result")]
         public T Result { get; set; }
+
+        public bool ShouldSerializeResult()
+        {
+            if (Result is null)
+            {
+                return false;
+            }
+
+            return string.IsNullOrEmpty(Message);
+        }
     }
 }

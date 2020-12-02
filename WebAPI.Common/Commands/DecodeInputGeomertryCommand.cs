@@ -74,9 +74,15 @@ namespace WebAPI.Common.Commands
                                 Y = Convert.ToDouble(coordinates[1])
                             };
                         }
-                        catch(FormatException)
+                        catch (FormatException)
                         {
                             ErrorMessage = "GEOMETRY COORDINATES APPEAR TO BE INVALID.";
+
+                            if (coordinates[0].ToLower() == "nan" ||
+                                coordinates[1].ToLower() == "nan")
+                            {
+                                ErrorMessage = "THE OPERATION WAS ATTEMPTED ON AN EMPTY GEOMETRY.";
+                            }
                         }
                     }
                     else if (geometry[colon + 1] == '{')

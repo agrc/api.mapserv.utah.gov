@@ -51,6 +51,8 @@ namespace WebAPI.API.Commands.Search
                     whereClause += string.Format(" WHERE {0}", Predicate);
 
                 dynamic[] queryResults;
+                var container = new List<SearchResult>();
+
                 try
                 {
                     queryResults = (await session.QueryAsync(whereClause)).ToArray();
@@ -58,10 +60,8 @@ namespace WebAPI.API.Commands.Search
                 catch (System.Exception ex)
                 {
                     ErrorMessage = ex.Message;
-                    return null;
+                    return container;
                 }
-
-                var container = new List<SearchResult>();
 
                 foreach (var row in queryResults)
                 {
