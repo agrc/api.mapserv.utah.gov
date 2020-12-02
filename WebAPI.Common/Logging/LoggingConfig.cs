@@ -19,7 +19,7 @@ namespace WebAPI.Common.Logging
                 UseSourceContextAsLogName = false,
                 ResourceType = "global",
                 ServiceName = "api.mapserv.utah.gov",
-                ServiceVersion = "1.12.5.4"
+                ServiceVersion = "1.12.5.5"
             };
 
 #if DEBUG
