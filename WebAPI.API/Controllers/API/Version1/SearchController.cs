@@ -581,9 +581,15 @@ namespace WebAPI.API.Controllers.API.Version1
                             continue;
                         }
 
+                        var value = reader.GetValue(i);
+                        attributes[key] = value;
+
+                        if (value is DBNull)
+                        {
+                            attributes[key] = null;
+                        }                        
                     }
 
-                    attributes[key] = reader.GetValue(i);
                     results.Add(response);
                 }
             }
