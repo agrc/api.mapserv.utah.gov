@@ -62,9 +62,8 @@ jobs:
         echo "::set-output name=image::$(echo ${IMAGE} | cut -c1-8)"
 
     - name: Setup GCP
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@master
       with:
-        version: '290.0.1'
         service_account_key: ${{ secrets.DEV_SA }}
         project_id: ${{ secrets.DEV_PROJECT_ID }}
 
