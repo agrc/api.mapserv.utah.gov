@@ -578,7 +578,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "ESKDALE", "DELTA", "0"},
                 new [] { "ETNA", "BRIGHAM CITY", "0"},
                 new [] { "EUREKA", "EUREKA", "0"},
-                new [] { "FAIRFIELD", "PROVO", "0"},
+                new [] { "FAIRFIELD", "FAIRFIELD", "1"},
                 new [] { "FAIRVIEW", "FAIRVIEW", "1"},
                 new [] { "FAIRVIEW", "MANTI", "0"},
                 new [] { "FARM CREEK", "ROOSEVELT", "0"},
