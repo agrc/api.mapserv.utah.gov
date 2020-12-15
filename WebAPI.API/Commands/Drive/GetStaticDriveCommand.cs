@@ -1031,7 +1031,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "SPIRIT LAKE", "SPIRIT LAKE", "0"},
                 new [] { "SPRING CITY", "MANTI", "0"},
                 new [] { "SPRING CITY", "SPRING CITY", "1"},
-                new [] { "SPRING GLEN", "HELPER", "0"},
+                new [] { "SPRING GLEN", "PRICE", "0"},
                 new [] { "SPRING LAKE", "PROVO", "0"},
                 new [] { "SPRINGDALE", "SPRINGDALE", "0"},
                 new [] { "SPRINGVILLE", "PROVO", "0"},
