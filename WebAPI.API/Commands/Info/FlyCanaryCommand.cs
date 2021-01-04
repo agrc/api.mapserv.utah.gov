@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using Dapper;
+using Npgsql;
 using Raven.Client.Document;
 using StackExchange.Redis;
 using WebAPI.Common.Abstractions;
@@ -20,7 +19,7 @@ namespace WebAPI.API.Commands.Info
         public FlyCanaryCommand()
         {
             Host = ConfigurationManager.AppSettings["gis_server_host"];
-            ConnectionString = ConfigurationManager.AppSettings["sgid_connection"];
+            ConnectionString = ConfigurationManager.AppSettings["open_sgid_connection"];
 
             var locators = new[]
             {
@@ -122,16 +121,14 @@ namespace WebAPI.API.Commands.Info
 
         private dynamic TestSql()
         {
-            const string catalog = "SGID10";
             var stopWatch = Stopwatch.StartNew();
 
             try
             {
-                using (var session = new SqlConnection(string.Format(ConnectionString, catalog)))
-                {
-                    session.Open();
-                    session.Query("SELECT 1");
-                }
+                using var session = new NpgsqlConnection(ConnectionString);
+
+                session.Open();
+                session.Query("SELECT 1;");
             }
             catch (Exception ex)
             {
