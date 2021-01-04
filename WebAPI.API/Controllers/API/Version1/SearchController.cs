@@ -29,6 +29,8 @@ namespace WebAPI.API.Controllers.API.Version1
 
     public class SearchController : ApiController
     {
+        public static readonly string ConnectionString = ConfigurationManager.AppSettings["open_sgid_connection"];
+
         [HttpGet]
         public async Task<HttpResponseMessage> Get(string featureClass, string returnValues,
                                                    [FromUri] SearchOptions options)
@@ -138,11 +140,6 @@ namespace WebAPI.API.Controllers.API.Version1
             return response;
         }
 
-        private static JObject ParseGeometry(string geometry)
-        {
-            return string.IsNullOrEmpty(geometry) ? null : JObject.Parse(geometry);
-        }
-
         private static async Task<(HttpStatusCode, string, List<SearchResult>)> StraightSqlQuery(string featureClass, string returnValues, SearchOptions options)
         {
             return await OpenSgidQuery(featureClass, returnValues, options);
@@ -151,143 +148,6 @@ namespace WebAPI.API.Controllers.API.Version1
         private static async Task<(HttpStatusCode, string, List<SearchResult>)> GeometryQuery(string featureClass, string returnValues, SearchOptions options)
         {
             return await OpenSgidQuery(featureClass, returnValues, options);
-        }
-
-        private static async Task<(HttpStatusCode, string, List<SearchResult>)> SoeGeometryQuery(string featureClass, string returnValues, SearchOptions options)
-        {
-            var queryArgs = new SpatialQueryArgs(featureClass, returnValues, options);
-
-            var requestUri = ConfigurationManager.AppSettings["search_url"]
-                .With(queryArgs.ToQueryString());
-
-            HttpResponseMessage request;
-            var result = new List<SearchResult>(0);
-
-            try
-            {
-                request = await App.HttpClient.GetAsync(requestUri);
-            }
-            catch (AggregateException ex)
-            {
-                Log.Fatal(ex, "search(spatial): aggregate");
-
-                return (HttpStatusCode.InternalServerError, "I'm sorry, it seems as though the request had issues.", result);
-            }
-
-            try
-            {
-                request.EnsureSuccessStatusCode();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "search(spatial): soe communication error");
-
-                return (HttpStatusCode.InternalServerError, "I'm sorry, we were unable to communicate with the SOE.", result);
-            }
-
-            var response = await request.Content.ReadAsAsync<SearchResponse>(new[]
-                {
-                    new TextPlainResponseFormatter()
-                });
-
-            if (!response.IsSuccessful)
-            {
-                var error = response.Error.Message.ToUpperInvariant();
-                var message = error;
-
-                if (error == "DBMS TABLE NOT FOUND")
-                {
-                    message = "{0} does not exist. Check your spelling.".With(featureClass);
-
-                    Log.Error("search(spatial): {featureClass} {message} {@options}", featureClass, message, options);
-                }
-
-                Log.Warning("search(spatial): {featureClass} {message} {@options}", featureClass, message, options);
-
-                return (HttpStatusCode.BadRequest, message, result);
-            }
-
-            if (response.Results == null)
-            {
-                Log.Warning("search(spatial): success count: 0");
-
-                return (HttpStatusCode.OK, string.Empty, result);
-            }
-
-            var resultsWithGeometry = response.Results.Select(x => new SearchResult
-            {
-                Attributes = x.Attributes,
-                Geometry = ParseGeometry(x.Geometry)
-            }).ToList();
-
-            if (options.AttributeStyle != AttributeStyle.Identical)
-            {
-                resultsWithGeometry =
-                    CommandExecutor.ExecuteCommand(new FormatAttributesCommand(options.AttributeStyle,
-                                                                               resultsWithGeometry));
-            }
-
-            Log.Warning("search(spatial): success count: {count}", resultsWithGeometry.Count());
-
-            return (HttpStatusCode.OK, string.Empty, resultsWithGeometry);
-        }
-
-        private static async Task<(HttpStatusCode, string, List<SearchResult>)> MsSqlQuery(string featureClass, string returnValues, SearchOptions options)
-        {
-            //specificLog.Warning("search: non spatial query");
-
-            var sqlQueryCommand = new SqlQueryCommand(featureClass, returnValues, options.Predicate);
-            var list = await CommandExecutor.ExecuteCommandAsync(sqlQueryCommand);
-
-            if (!string.IsNullOrEmpty(sqlQueryCommand.ErrorMessage))
-            {
-                string message;
-                var error = sqlQueryCommand.ErrorMessage.ToUpperInvariant();
-
-                if (error.Contains("INVALID COLUMN NAME"))
-                {
-                    const string pattern = @"\'.*?\'";
-                    var matches = new Regex(pattern).Matches(sqlQueryCommand.ErrorMessage);
-
-                    var badColumns = new Collection<string>();
-
-                    foreach (var match in matches)
-                    {
-                        badColumns.Add(match.ToString());
-                    }
-
-                    message = "{0} does not contain an attribute {1}. Check your spelling.".With(featureClass,
-                                                                                                 string.Join(
-                                                                                                     " or ",
-                                                                                                     badColumns));
-                }
-                else if (error.Contains("AN EXPRESSION OF NON-BOOLEAN TYPE SPECIFIED IN A CONTEXT WHERE A CONDITION IS EXPECTED") || 
-                    error.Contains("UNCLOSED QUOTATION MARK"))
-                {
-                    message = "{0} is not a valid where clause.".With(options.Predicate);
-                }
-                else
-                {
-                    message = "{0} probably does not exist. Check your spelling.".With(featureClass);
-                }
-
-                //specificLog.Warning("search(non-spatial): {message}, {featurClass}, {returnValues}", message, featureClass, returnValues);
-
-                return (HttpStatusCode.BadRequest, message, list);
-            }
-
-            if (list.Any())
-            {
-                if (options.AttributeStyle != AttributeStyle.Identical)
-                {
-                    list = CommandExecutor.ExecuteCommand(new FormatAttributesCommand(options.AttributeStyle,
-                                                                                   list));
-                }
-            }
-
-            //specificLog.Warning("search(non-spatial): success");
-
-            return (HttpStatusCode.OK, string.Empty, list);
         }
 
         public static string BuildQuery(string tableName, string returnValues, SearchOptions options)
@@ -413,7 +273,7 @@ namespace WebAPI.API.Controllers.API.Version1
                 return (HttpStatusCode.OK, string.Empty, results);
             }
 
-            using var session = new NpgsqlConnection("Host=opensgid.agrc.utah.gov;Port=5432;Username=agrc;Password=agrc;Database=opensgid;Enlist=false");
+            using var session = new NpgsqlConnection(ConnectionString);
 
             try
             {

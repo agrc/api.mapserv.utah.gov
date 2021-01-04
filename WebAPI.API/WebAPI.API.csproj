@@ -362,7 +362,6 @@
     <Compile Include="Commands\Search\IsSafeSqlCommand.cs" />
     <Compile Include="Commands\Search\NtsGeometryTransformerCommand.cs" />
     <Compile Include="Commands\Search\RasterQueryCommand.cs" />
-    <Compile Include="Commands\Search\SqlQueryCommand.cs" />
     <Compile Include="Controllers\API\Version1\SearchController.cs" />
     <Compile Include="Controllers\CanaryController.cs" />
     <Compile Include="Controllers\ChangeLogController.cs" />
@@ -542,10 +541,6 @@
       <Project>{7c0d45ed-681e-4dec-9910-bae1211e4889}</Project>
       <Name>GeoJSON.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Soe.Common\Soe.Common.csproj">
-      <Project>{4eac7d0f-43fa-4bc5-aa16-f31ec9312713}</Project>
-      <Name>Soe.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WebAPI.Common\WebAPI.Common.csproj">
       <Project>{645A8FAF-98C4-4174-8E5F-A3EEA0C282A6}</Project>
       <Name>WebAPI.Common</Name>
@@ -607,7 +602,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
