@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Extensions;
 using WebAPI.Domain.ApiResponses;
@@ -11,11 +12,17 @@ namespace WebAPI.API.Commands.Search {
     {
         private readonly AttributeStyle _style;
         private readonly IReadOnlyList<SearchResult> _results;
+        private readonly IReadOnlyList<string> _returnValues;
 
-        public FormatAttributesCommand(AttributeStyle style, IReadOnlyList<SearchResult> results)
+        public FormatAttributesCommand(AttributeStyle style, IReadOnlyList<SearchResult> results, IReadOnlyList<string> returnValues = null)
         {
             _style = style;
             _results = results;
+            _returnValues = returnValues;
+            if (_returnValues is null)
+            {
+                _returnValues = new List<string>();
+            }
         }
 
         /// <summary>
@@ -45,8 +52,16 @@ namespace WebAPI.API.Commands.Search {
                                 camelDictionary.Add(attribute.Key.ToCamelCase(), attribute.Value);
                                 continue;
                             }
-                            case AttributeStyle.Lower:
+                            case AttributeStyle.Identical:
                             {
+                                if (_returnValues.Any(x => attribute.Key.Equals(x, StringComparison.InvariantCultureIgnoreCase)))
+                                {
+                                    var key = _returnValues.First(x => x.Equals(attribute.Key, StringComparison.InvariantCultureIgnoreCase));
+
+                                    camelDictionary.Add(key, attribute.Value);
+                                    continue;
+                                }
+
                                 camelDictionary.Add(attribute.Key.ToLowerInvariant(), attribute.Value);
                                 continue;
                             }

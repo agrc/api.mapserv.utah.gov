@@ -348,6 +348,12 @@ namespace WebAPI.API.Controllers.API.Version1
                 return (HttpStatusCode.BadRequest, "{0} probably does not exist. Check your spelling.".With(featureClass), results);
             }
 
+            if (options.AttributeStyle != AttributeStyle.Lower)
+            {
+                var styleCommand = new FormatAttributesCommand(options.AttributeStyle, results, returnValues.Split(new[] { ',' }));
+                results = CommandExecutor.ExecuteCommand(styleCommand);
+            }
+
             return (HttpStatusCode.OK, string.Empty, results);
         }
     }
