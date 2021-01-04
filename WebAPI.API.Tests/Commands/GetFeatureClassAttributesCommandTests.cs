@@ -9,7 +9,7 @@ namespace WebAPI.API.Tests.Commands
         [Test]
         public void CanGetAttributesWithSchema()
         {
-            var command = new GetFeatureClassAttributesCommand("COUNTIES", "BOUNDARIES", "10");
+            var command = new GetFeatureClassAttributesCommand("COUNTIES", "BOUNDARIES");
 
             command.Run();
 
@@ -20,7 +20,7 @@ namespace WebAPI.API.Tests.Commands
         [Test]
         public void CanGetAttributesFromSgid10()
         {
-            var command = new GetFeatureClassAttributesCommand("COUNTIES", null, "10");
+            var command = new GetFeatureClassAttributesCommand("COUNTIES", null);
             
             command.Run();
 
