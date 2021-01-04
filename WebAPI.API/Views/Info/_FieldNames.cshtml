@@ -28,7 +28,7 @@
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-danger">
                                                                                  required</span>
                     <p class="help-block">
-                        Feature class name: Counties.
+                        Feature class name: county_boundaries.
                     </p>
                 </div>
             </div>
@@ -41,26 +41,7 @@
                     <span class="help-inline label label-info">string</span> <span class="help-inline label label-success">
                                                                                  optional</span>
                     <p class="help-block">
-                        Feature category: Boundaries. This should be provided if there are multiple table name sharing the same name in different categories. It is best practice to use this field.
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="sgidVersion">
-                    version
-                </label>
-                <div class="col-sm-8">
-                    @Html.DropDownList("sgidVersion", Model.SgidVersion, "Version", new
-                    {
-                        @class = "form-control"
-                    })
-                    <span class="help-inline label label-info">number</span> <span class="help-inline label label-success">
-                                                                                 optional</span>
-                    <p class="help-block">
-                        AGRC will normally run two or more versions of the SGID to cater to its users while
-                        upgrading versions of the SGID. These versions are often different in structure
-                        as AGRC makes improvements. If this parameter is omitted the most current version
-                        will be used.
+                        Feature category: boundaries. This should be provided if there are multiple table name sharing the same name in different categories. It is best practice to use this field.
                     </p>
                 </div>
             </div>
