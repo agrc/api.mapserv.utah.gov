@@ -88,9 +88,16 @@ namespace WebAPI.Common.Commands
                     else if (geometry[colon + 1] == '{')
                     {
                         // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
-                        Result = JsonSerializer.Deserialize<JsApiPoint>(geometry.Substring(colon + 1, geometry.Length - colon - 1), new JsonSerializerOptions {
-                            PropertyNameCaseInsensitive = true
-                        });
+                        try
+                        {
+                            Result = JsonSerializer.Deserialize<JsApiPoint>(geometry.Substring(colon + 1, geometry.Length - colon - 1), new JsonSerializerOptions
+                            {
+                                PropertyNameCaseInsensitive = true
+                            });
+                        } catch (JsonException)
+                        {
+                            return;
+                        }
                     }
                 }
                 else if (colon == 7)
