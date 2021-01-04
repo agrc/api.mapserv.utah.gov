@@ -1,30 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SqlClient;
 using Dapper;
+using Npgsql;
 using WebAPI.Common.Abstractions;
 
 namespace WebAPI.API.Commands.Sgid
 {
     public class GetSgidCategoriesCommand : Command<IEnumerable<string>>
     {
-        public static readonly string ConnectionString = string.Format(ConfigurationManager.AppSettings["sgid_connection"], "SGID10");
+        public static readonly string ConnectionString = ConfigurationManager.AppSettings["open_sgid_connection"];
 
-        private const string Sql = "SELECT Distinct(TABLE_SCHEMA) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA <> 'sde' ORDER BY TABLE_SCHEMA";
+        private const string Sql = "select distinct table_schema " +
+                                    "from information_schema.tables " +
+                                    "where table_schema not in ('information_schema', 'pg_catalog') " +
+                                    "order by table_schema;";
 
         protected override void Execute()
         {
-            using (var session = new SqlConnection(ConnectionString))
-            {
-                session.Open();
+            using var session = new NpgsqlConnection(ConnectionString);
+            
+            session.Open();
 
-                Result = session.Query<string>(Sql);
-            }
+            Result = session.Query<string>(Sql);
         }
 
         public override string ToString()
         {
-            return string.Format("SGIDCategoriesCommand, ConnectionString: {0}, Query: {1}", ConnectionString, Sql);
+            return string.Format("SGIDCategoriesCommand, Query: {0}", Sql);
         }
     }
 }

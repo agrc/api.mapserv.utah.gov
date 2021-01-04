@@ -13,14 +13,13 @@ namespace WebAPI.API.Controllers.API.Version1
     public class InfoController : ApiController
     {
         [HttpGet]
-        public HttpResponseMessage FeatureClassNames(string sgidCategory = null, string sgidVersion = null)
+        public HttpResponseMessage FeatureClassNames(string sgidCategory = null)
         {
             try
             {
                 var result = CommandExecutor.ExecuteCommand(new GetFeatureClassNamesCommand
                     {
-                        SgidCategory = sgidCategory,
-                        SgidVersion = sgidVersion
+                        SgidCategory = sgidCategory
                     });
 
                 var response = Request.CreateResponse(HttpStatusCode.OK,
@@ -44,19 +43,17 @@ namespace WebAPI.API.Controllers.API.Version1
         }
 
         [HttpGet]
-        public HttpResponseMessage FeatureClassAttributes(string featureClass, string category = null,
-                                                          string sgidVersion = null)
+        public HttpResponseMessage FeatureClassAttributes(string featureClass, string category = null)
         {
             try
             {
                 var result =
-                    CommandExecutor.ExecuteCommand(new GetFeatureClassAttributesCommand(featureClass, category,
-                                                                                        sgidVersion));
+                    CommandExecutor.ExecuteCommand(new GetFeatureClassAttributesCommand(featureClass, category));
                 var message = "";
 
                 if (!result.Any())
                 {
-                    message = "Please check your spelling or use /info/FeatureClassNames to find your layer.";
+                    message = "Please check your spelling, add a category, or use /info/FeatureClassNames to find your layer.";
                 }
 
                 var response = Request.CreateResponse(HttpStatusCode.OK,
