@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace WebAPI.API.Models
 {
@@ -27,7 +24,6 @@ namespace WebAPI.API.Models
             {"boundaries.navajochapters",  "boundaries.navajo_chapters" },
             {"boundaries.schooldistricts",  "boundaries.school_district_boundaries" },
             {"boundaries.usfsroadlessinventory",  "boundaries.usfs_roadless_inventory" },
-            {"boundaries.usfswildernessareas",  "boundaries.usfs_wilderness_areas" },
             {"boundaries.usstates",  "boundaries.us_states" },
             {"boundaries.utah",  "boundaries.state_boundary" },
             {"boundaries.utahconservationdistricts",  "boundaries.conservation_districts" },
@@ -124,8 +120,6 @@ namespace WebAPI.API.Models
             {"demographic.urbanareascensus2010",  "demographic.urban_areas_census_2010" },
             {"economy.enterprisezones",  "economy.enterprise_zones" },
             {"economy.salestaxareas",  "economy.sales_tax_zones" },
-            {"economy.taxareas2020",  "economy.tax_areas_2020" },
-            {"economy.taxentities2020",  "economy.tax_entities_2020" },
             {"economy.transitspecialtaxareas",  "economy.transit_special_tax_areas" },
             {"economy.utahentities_nontax",  "economy.entities_non_tax" },
             {"elevation.avalancherose_tricanyons",  "elevation.avalanche_rose_tri_canyons" },
@@ -344,7 +338,6 @@ namespace WebAPI.API.Models
             {"society.forestservicestations",  "society.forest_service_stations" },
             {"society.lawenforcement",  "society.law_enforcement" },
             {"society.lawenforcementboundaries",  "society.law_enforcement_boundaries" },
-            {"society.libraries",  "society.libraries" },
             {"society.liquorstores",  "society.liquor_stores" },
             {"society.postoffices",  "society.post_offices" },
             {"society.psapboundaries",  "society.public_safety_answering_point_boundaries" },
@@ -371,7 +364,6 @@ namespace WebAPI.API.Models
             {"transportation.roads_freewayexits",  "transportation.roads_freeway_exits" },
             {"transportation.udotmap_scenicbyways",  "transportation.udot_map_scenic_byways" },
             {"transportation.udotmileposts",  "transportation.udot_mileposts" },
-            {"transportation.udotroutes_lrs",  "transportation.udot_routes_lrs" },
             {"transportation.udottenthmilerefpoints",  "transportation.udot_tenth_mile_ref_points" },
             {"utilities.broadbandservice",  "utilities.broadband_service" },
             {"utilities.electricallines",  "utilities.electrical_lines" },
