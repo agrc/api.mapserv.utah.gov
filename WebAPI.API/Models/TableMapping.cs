@@ -125,7 +125,7 @@ namespace WebAPI.API.Models
             {"economy.enterprisezones",  "economy.enterprise_zones" },
             {"economy.salestaxareas",  "economy.sales_tax_zones" },
             {"economy.taxareas2019",  "economy.tax_areas_2019" },
-            {"economy.taxentities2019",  "economy.tax_entities_2019" },
+            {"economy.taxentities2020",  "economy.tax_entities_2020" },
             {"economy.transitspecialtaxareas",  "economy.transit_special_tax_areas" },
             {"economy.utahentities_nontax",  "economy.entities_non_tax" },
             {"elevation.avalancherose_tricanyons",  "elevation.avalanche_rose_tri_canyons" },
