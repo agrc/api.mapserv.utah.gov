@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using NUnit.Framework;
-using Raven.Abstractions.Extensions;
 using WebAPI.API.Comparers;
 using WebAPI.API.DataStructures;
 using WebAPI.Domain.ArcServerResponse.Geolocator;
@@ -213,7 +211,8 @@ namespace WebAPI.API.Tests.DataStructures
             const int addOneForWinnerWhichIsRemoved = 1;
 
             Assert.That(items.Count(), Is.EqualTo(suggestCount + addOneForWinnerWhichIsRemoved));
-            topCandidates.GetTopItems().ForEach(x => Assert.That(x.Score, Is.EqualTo(10)));
+            var topItems = topCandidates.GetTopItems().ToList();
+            topItems.ForEach(x => Assert.That(x.Score, Is.EqualTo(10)));
             Assert.That(topCandidates.GetTopItems().First().Address, Is.EqualTo("101 e 3rd ave"));
         }
     }
