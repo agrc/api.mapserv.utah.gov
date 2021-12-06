@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using Raven.Client;
-using Raven.Client.Embedded;
-using Raven.Client.Indexes;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Indexes;
 using WebAPI.Common.Indexes;
 
 namespace WebAPI.Common.Tests

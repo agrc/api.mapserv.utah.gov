@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Admin;
 using WebAPI.Common.Models.Raven.Users;
@@ -51,7 +51,7 @@ namespace WebAPI.Dashboard.Controllers
         {
             using (Session)
             {
-                if (Session != null && filterContext.Exception == null)
+                if (Session != null && filterContext.Exception == null && Session.Advanced.HasChanges)
                 {
                     Session.SaveChanges();
                 }

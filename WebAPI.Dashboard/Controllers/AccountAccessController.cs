@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Ninject;
-using Raven.Client;
+using Raven.Client.Documents;
 using WebAPI.Common.Authentication.Forms;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Extensions;

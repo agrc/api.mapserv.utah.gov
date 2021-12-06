@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Raven.Client;
+using Raven.Client.Documents;
 using Serilog;
 using StackExchange.Redis;
 using WebAPI.Common.Executors;
@@ -95,7 +95,7 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
         public ViewResult UserList()
         {
             var accounts = Session.Query<Account>()
-                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                .Customize(x => x.WaitForNonStaleResults())
                 .Take(1024)
                 .ToList()
                 .OrderByDescending(x => x.KeyQuota.KeysUsed);
@@ -113,7 +113,7 @@ namespace WebAPI.Dashboard.Areas.admin.Controllers
                 .SingleOrDefault(x => x.Email == email);
 
             var keys = Session.Query<ApiKey, IndexKeysForUser>()
-                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                .Customize(x => x.WaitForNonStaleResults())
                 .Where(x => x.AccountId == account.Id)
                 .ToList();
 

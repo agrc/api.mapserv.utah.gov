@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Raven.Client;
+using Raven.Client.Documents.Session;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Keys;
@@ -20,7 +20,7 @@ namespace WebAPI.Dashboard.Queries
         protected override void Execute()
         {
             Result = Session.Query<ApiKey, IndexKeysForUser>()
-                            .Customize(x => x.WaitForNonStaleResultsAsOfNow())
+                            .Customize(x => x.WaitForNonStaleResults())
                             .Count(x => x.ApiKeyStatus == ApiKey.KeyStatus.Active &&
                                         !x.Deleted &&
                                         x.AccountId == User.Id);

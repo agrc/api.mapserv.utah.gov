@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Raven.Client;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Models.Raven.Keys;
 using WebAPI.Dashboard.Areas.secure.Models.ViewModels;
@@ -15,6 +14,7 @@ using WebAPI.Dashboard.Queries;
 namespace WebAPI.Dashboard.Areas.secure.Controllers
 {
     using Common.Exceptions;
+    using Raven.Client.Documents;
 
     [Authorize]
     public class GenerateKeyController : RavenController

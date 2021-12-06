@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Raven.Client;
+using Raven.Client.Documents;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Extensions;
 using WebAPI.Common.Indexes;

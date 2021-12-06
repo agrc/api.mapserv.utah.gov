@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Ninject;
-using Raven.Client;
+using Raven.Client.Documents;
 using StackExchange.Redis;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Indexes;
@@ -33,7 +32,7 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
             }
 
             var keys = Session.Query<ApiKey, IndexKeysForUser>()
-                            .Customize(x => x.WaitForNonStaleResultsAsOfNow())
+                            .Customize(x => x.WaitForNonStaleResults())
                             .Where(x => x.ApiKeyStatus == ApiKey.KeyStatus.Active &&
                                         !x.Deleted &&
                                         x.AccountId == Account.Id);

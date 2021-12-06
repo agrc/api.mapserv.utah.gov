@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
-using Raven.Client;
-using Raven.Client.Indexes;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Indexes;
 using WebAPI.Common.Models.Raven.Keys;
 using WebAPI.Common.Models.Raven.Whitelist;
 

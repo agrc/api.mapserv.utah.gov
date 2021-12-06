@@ -2,7 +2,7 @@
 using System.Net.Http;
 using Moq;
 using NUnit.Framework;
-using Raven.Client;
+using Raven.Client.Documents;
 using WebAPI.API.Handlers.Delegating;
 using WebAPI.Common.Models.Raven.Keys;
 using WebAPI.Common.Models.Raven.Users;
