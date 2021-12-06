@@ -1,4 +1,4 @@
-﻿using Raven.Client;
+﻿using Raven.Client.Documents.Session;
 
 namespace WebAPI.Common.Abstractions
 {

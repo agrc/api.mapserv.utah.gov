@@ -3,8 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Ninject;
-using Raven.Client;
-using Raven.Client.Linq;
+using Raven.Client.Documents;
 using StackExchange.Redis;
 using WebAPI.Common.ActionResults;
 using WebAPI.Common.Executors;
@@ -35,7 +34,7 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
             var account = Account;
 
             var keys = Session.Query<ApiKey, IndexKeysForUser>()
-                               .Customize(x => x.WaitForNonStaleResultsAsOfNow())
+                               .Customize(x => x.WaitForNonStaleResults())
                                .Where(x => !x.Deleted && x.AccountId == Account.Id);
 
             var stats = CommandExecutor.ExecuteCommand(new GetBasicUsageStatsCommand(Redis.GetDatabase(), keys));
@@ -66,7 +65,7 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
             try
             {
                 apiKeyInfo = Session.Query<ApiKey, IndexApiKey>()
-                                    .Customize(x => x.WaitForNonStaleResultsAsOfNow())
+                                    .Customize(x => x.WaitForNonStaleResults())
                                     .Single(x => x.Key == key);
             } catch (ArgumentNullException ex)
             {

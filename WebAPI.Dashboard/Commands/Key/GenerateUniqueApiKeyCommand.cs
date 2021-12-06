@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Raven.Client;
+using Raven.Client.Documents.Session;
 using WebAPI.Common.Abstractions;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Indexes;

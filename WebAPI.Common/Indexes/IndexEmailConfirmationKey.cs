@@ -1,6 +1,5 @@
 ﻿using System.Linq;
-using Raven.Abstractions.Indexing;
-using Raven.Client.Indexes;
+using Raven.Client.Documents.Indexes;
 using WebAPI.Common.Models.Raven.Users;
 
 namespace WebAPI.Common.Indexes
@@ -15,7 +14,7 @@ namespace WebAPI.Common.Indexes
                               Confirmation_Key = key.Confirmation.Key
                           };
 
-            Index(rr => rr.Confirmation.Key, FieldIndexing.Analyzed);
+            Index(rr => rr.Confirmation.Key, FieldIndexing.Default);
         }
     }
 }

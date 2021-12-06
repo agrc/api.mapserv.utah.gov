@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Raven.Client.Indexes;
+using Raven.Client.Documents.Indexes;
 using WebAPI.Common.Models.Raven.Users;
 
 namespace WebAPI.Common.Indexes

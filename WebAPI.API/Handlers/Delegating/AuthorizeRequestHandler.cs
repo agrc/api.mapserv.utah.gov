@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Hosting;
 using Ninject;
-using Raven.Client;
+using Raven.Client.Documents;
 using WebAPI.Common.Indexes;
 using WebAPI.Common.Models.Raven.Keys;
 using WebAPI.Common.Models.Raven.Users;
@@ -71,7 +71,7 @@ namespace WebAPI.API.Handlers.Delegating
                     }, new MediaTypeHeaderValue("application/json"));
 
                 var key = s.Query<ApiKey, IndexApiKey>()
-                    .Customize(c => c.WaitForNonStaleResultsAsOfNow())
+                    .Customize(c => c.WaitForNonStaleResults())
                     .Include(x => x.AccountId)
                     .SingleOrDefault(x => x.Key == apikey);
 
