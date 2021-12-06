@@ -9,10 +9,6 @@ namespace WebAPI.API
     {
         public static void Register(HttpConfiguration config)
         {
-#if DEBUG
-            config.EnableSystemDiagnosticsTracing();
-#endif
-
             config.Services.Replace(typeof (IHttpControllerSelector),
                                     new RouteVersionedControllerSelector(
                                         GlobalConfiguration.Configuration));
