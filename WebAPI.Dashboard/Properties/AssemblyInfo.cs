@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("WebAPI.Dashboard")]
-[assembly: AssemblyDescription("Web API dashboard into AGRC Services")]
+[assembly: AssemblyDescription("Web API dashboard into UGRC Services")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Utah Automated Geographic Reference Center")]
+[assembly: AssemblyCompany("Utah Geospatial Resource Center")]
 [assembly: AssemblyProduct("WebAPI.API")]
-[assembly: AssemblyCopyright("Copyright © 2020")]
+[assembly: AssemblyCopyright("Copyright © 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

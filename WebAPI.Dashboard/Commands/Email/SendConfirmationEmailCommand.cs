@@ -19,11 +19,11 @@ namespace WebAPI.Dashboard.Commands.Email
         protected override void Execute()
         {
             var mailSender = new MailSender();
-            mailSender.Send("noreply@utah.gov", Account.Email, "AGRC Web API Email Confirmation",
-                            @"AGRC Web API
+            mailSender.Send("noreply@utah.gov", Account.Email, "UGRC Web API Email Confirmation",
+                            @"UGRC Web API
 -
 
-Thank you for applying for registration with the AGRC Web API. We have received your request and we will allow you to" +
+Thank you for applying for registration with the UGRC Web API. We have received your request and we will allow you to" +
                             string.Format(" generate API keys as soon as you [confirm your email address]({0}) ", Url) +
                             string.Format(@"by navigating to the following url: 
 

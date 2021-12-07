@@ -159,7 +159,7 @@ namespace WebAPI.Dashboard.Areas.secure.Controllers
                 return
                     new JsonNetResult(
                         new JsonResponse<string>(
-                            "You have reached the API key quota. Please delete or deactivate keys that aren't in use or contact AGRC to increase your quota.",
+                            "You have reached the API key quota. Please delete or deactivate keys that aren't in use or contact UGRC to increase your quota.",
                             HttpStatusCode.Forbidden));
             }
 
