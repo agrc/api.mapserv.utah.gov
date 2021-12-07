@@ -64,7 +64,7 @@ namespace WebAPI.Dashboard
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Load(typeof(RavenModule).Assembly);
-            kernel.Load(typeof (FormsAuthModule).Assembly);
+            kernel.Load(typeof(FormsAuthModule).Assembly);
         }        
     }
 }
