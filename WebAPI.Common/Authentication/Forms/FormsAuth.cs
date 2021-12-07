@@ -9,12 +9,6 @@ namespace WebAPI.Common.Authentication.Forms
     {
         public void SignIn(string id)
         {
-//            var ct = request.GetOwinContext();
-//            var authManager = ct.Authentication;
-//
-//            authManager.SignIn(id);
-//            authManager.SignOut("ApplicationCookie");
-
             FormsAuthentication.SetAuthCookie(id, true);
         }
 
