@@ -23,8 +23,7 @@ namespace WebAPI.Dashboard.Controllers
         {
             get
             {
-                return Session.Query<Account, IndexEmail>()
-                              .SingleOrDefault(x => x.Id == User.Identity.Name);
+                return Session.Load<Account>(User.Identity.Name);
             }
         }
 
