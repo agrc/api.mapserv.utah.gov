@@ -1,5 +1,5 @@
 ﻿@using WebAPI.Common.Extensions
 @model WebAPI.Common.Models.Raven.Users.Account
 
-| <i class="glyphicon glyphicon-user"></i>&nbsp;@Html.ActionLink(Model.Name.DefaultIfNullOrEmpty("Update profile"), "Index", "Profile") | <i class="glyphicon glyphicon-road"></i>
+| <i class="glyphicon glyphicon-user"></i>&nbsp;@Html.ActionLink(Model.Name.DefaultIfNullOrEmpty("Update profile"), "Index", "Profile", new { Area = "secure" }, null) | <i class="glyphicon glyphicon-road"></i>
 @Html.ActionLink("Log Out", "Logout")
