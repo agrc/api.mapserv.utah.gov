@@ -24,7 +24,7 @@ namespace WebAPI.Dashboard.Commands.Email
         protected override void Execute()
         {
             var mailSender = new MailSender();
-            mailSender.Send("noreply@utah.gov", App.NotifyList, "AGRC Web API New Key Notification",
+            mailSender.Send("noreply@utah.gov", App.NotifyList, "UGRC Web API New Key Notification",
                             @"# New API Key Generated
 
 Please make sure this key is *awesome*.

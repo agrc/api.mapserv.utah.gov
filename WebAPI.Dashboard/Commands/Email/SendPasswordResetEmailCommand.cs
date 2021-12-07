@@ -18,8 +18,8 @@ namespace WebAPI.Dashboard.Commands.Email
         protected override void Execute()
         {
             var mailSender = new MailSender();
-            mailSender.Send("noreply@utah.gov", Email, "AGRC Web API Password Reset",
-                            @"AGRC Web API
+            mailSender.Send("noreply@utah.gov", Email, "UGRC Web API Password Reset",
+                            @"UGRC Web API
 -
 
 We have receieved a request to reset your password. Please log in and update your password. " +
