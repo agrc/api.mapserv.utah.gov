@@ -18,7 +18,7 @@ namespace WebAPI.Dashboard.Ninject.Modules
     {
       var documentStore = new DocumentStore
       {
-        Urls = new[] { "http://127.0.0.1:3000" },
+        Urls = new[] { "http://127.0.0.1:3001" },
         Database = "WSUT"
       }.Initialize();
 
