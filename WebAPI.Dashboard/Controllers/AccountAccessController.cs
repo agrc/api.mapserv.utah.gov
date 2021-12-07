@@ -44,8 +44,6 @@ namespace WebAPI.Dashboard.Controllers
             }
 
             ValidateLoginCredentials storedCredentials;
-            using (Session)
-            {
                 storedCredentials = Session.Query<Account, IndexEmail>()
                                            .Where(x => x.Email == credentials.Email)
                                            .AsEnumerable()
@@ -53,7 +51,6 @@ namespace WebAPI.Dashboard.Controllers
                                                ValidateLoginCredentials(x.Password.HashedPassword, x.Password.Salt,
                                                                             x.Id))
                                            .SingleOrDefault();
-            }
 
             if (storedCredentials == null)
             {
