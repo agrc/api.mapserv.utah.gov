@@ -75,31 +75,12 @@ namespace WebAPI.API.Handlers.Delegating
                     .Include(x => x.AccountId)
                     .SingleOrDefault(x => x.Key == apikey);
 
-                if (key == null && apikey != "agrc-ago")
+                if (key == null)
                 {
                     return _invalidResponse;
                 }
 
                 var validateUser = true;
-
-                // TODO: some sort of agency ago whitelist container
-                if (apikey == "agrc-ago")
-                {
-                    // referrer: http://utah.maps.arcgis.com/home/webmap/viewer.html?useExisting=1
-
-                    key = new ApiKey(apikey)
-                    {
-                        RegexPattern = @"^http(?:s)?://(?:utah\.maps|www)\.arcgis\.com",
-                        Type = ApiKey.ApplicationType.Browser,
-                        AppStatus = ApiKey.ApplicationStatus.Production
-                    };
-
-#if DEBUG
-                    key.RegexPattern = ".*";
-#endif
-
-                    validateUser = false;
-                }
 
                 var isWhitelisted = s.Query<WhitelistContainer>()
                     .SingleOrDefault(x => x.Items.Any(y => y.Key == key.Key));

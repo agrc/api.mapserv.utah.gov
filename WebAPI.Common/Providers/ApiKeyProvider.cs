@@ -35,12 +35,6 @@ namespace WebAPI.Common.Providers
             {
             }
 
-            if (request.RequestUri.AbsolutePath.ToLower() == "/api/v1/geocode/ago/agrc-ago/geocodeserver" ||
-                request.RequestUri.AbsolutePath.ToLower() == "/api/v1/geocode/ago/agrc-ago/geocodeserver/findaddresscandidates")
-            {
-                return "agrc-ago";
-            }
-
             return null;
         }
     }
