@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using NetTopologySuite.Geometries;
@@ -16,11 +13,8 @@ using WebAPI.API.Commands.Search;
 using WebAPI.API.Models;
 using WebAPI.Common.Executors;
 using WebAPI.Common.Extensions;
-using WebAPI.Common.Formatters;
 using WebAPI.Domain;
 using WebAPI.Domain.ApiResponses;
-using WebAPI.Domain.ArcServerInput;
-using WebAPI.Domain.ArcServerResponse.Soe;
 using WebAPI.Domain.InputOptions;
 using WebAPI.Common.Commands;
 
@@ -279,8 +273,9 @@ namespace WebAPI.API.Controllers.API.Version1
             {
                 session.Open();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Warning(ex, "could not connect to the database");
                 Log.Fatal("could not connect to the database");
             }
 

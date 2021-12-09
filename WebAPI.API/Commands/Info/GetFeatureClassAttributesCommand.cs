@@ -46,8 +46,9 @@ namespace WebAPI.API.Commands.Info
                 {
                     session.Open();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Log.Warning(ex, "could not connect to the database");
                     Log.Fatal("could not connect to the database");
                 }
 
