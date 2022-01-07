@@ -94,7 +94,6 @@ namespace WebAPI.API
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             LoggingConfig.Register("api");
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
