@@ -17,7 +17,10 @@ namespace WebAPI.API
     {
         public static void BuildCache()
         {
-            var httpClientHandler = new HttpClientHandler();
+            var httpClientHandler = new HttpClientHandler {
+                SslProtocols = System.Security.Authentication.SslProtocols.None
+            };
+
             if (httpClientHandler.SupportsAutomaticDecompression)
             {
                 httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
