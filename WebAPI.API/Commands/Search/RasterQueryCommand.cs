@@ -15,7 +15,7 @@ namespace WebAPI.API.Commands.Search
 {
     public class RasterQueryCommand : AsyncCommand<SearchResult>
     {
-        private const string BaseUrl = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/identify";
+        private const string BaseUrl = "https://us-central1-ut-dts-agrc-web-api-prod.cloudfunctions.net/tls-downgrade";
         private readonly int[] LocalProjection = new[] { 3857, 10200 };
         public RasterQueryCommand(string returnValues, string geometry, int wkid)
         {
