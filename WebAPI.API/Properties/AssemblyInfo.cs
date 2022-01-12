@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Utah Geospatial Reference Center")]
 [assembly: AssemblyProduct("WebAPI.API")]
-[assembly: AssemblyCopyright("Copyright ©2019")]
+[assembly: AssemblyCopyright("Copyright ©2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
@@ -18,5 +18,5 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
 [assembly: Guid("95a58085-f497-4f79-b1e4-b2422579fb76")]
-[assembly: AssemblyVersion("1.13.3.0")]
-[assembly: AssemblyFileVersion("1.13.3.0")]
+[assembly: AssemblyVersion("1.13.4.0")]
+[assembly: AssemblyFileVersion("1.13.4.0")]
