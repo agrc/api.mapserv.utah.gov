@@ -18,7 +18,7 @@ from glob import iglob
 from os import makedirs
 from os.path import join, split
 from shutil import copyfile, rmtree
-from time import clock, sleep
+from time import perf_counter, sleep
 from pathlib import Path
 from xml.etree import ElementTree
 
@@ -214,8 +214,8 @@ class LocatorsPallet(Pallet):
             "'Alternate Name Table:Suffix Direction' AtlNamesAddrPnts:SuffixDir VISIBLE NONE"
         ]
 
-        start_seconds = clock()
-        process_seconds = clock()
+        start_seconds = perf_counter()
+        process_seconds = perf_counter()
         self.log.info('creating the %s locator', 'address point')
         try:
             output_location = join(self.output_location, 'AddressPoints_AddressSystem')
@@ -231,8 +231,8 @@ class LocatorsPallet(Pallet):
         except Exception as e:
             self.log.error(e)
 
-        self.log.info('finished %s', format_time(clock() - process_seconds))
-        process_seconds = clock()
+        self.log.info('finished %s', format_time(perf_counter() - process_seconds))
+        process_seconds = perf_counter()
 
         #: streets
         fields = [
@@ -276,11 +276,11 @@ class LocatorsPallet(Pallet):
         except Exception as e:
             self.log.error(e)
 
-        self.log.info('finished %s', format_time(clock() - process_seconds))
-        process_seconds = clock()
+        self.log.info('finished %s', format_time(perf_counter() - process_seconds))
+        process_seconds = perf_counter()
 
-        self.log.info('finished %s', format_time(clock() - process_seconds))
-        self.log.info('done %s', format_time(clock() - start_seconds))
+        self.log.info('finished %s', format_time(perf_counter() - process_seconds))
+        self.log.info('done %s', format_time(perf_counter() - start_seconds))
 
     def update_locator_properties(self, locator_path, options_to_append):
         with open(locator_path + '.loc', 'a') as f:
