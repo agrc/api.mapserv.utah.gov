@@ -23,8 +23,8 @@ from pathlib import Path
 from xml.etree import ElementTree
 
 import arcpy
-import locatorsupport.secrets as secrets
-from templates import us_single_house_addresses, us_dual_range_addresses
+from data.secrets import configuration
+from data.templates import us_single_house_addresses, us_dual_range_addresses
 from forklift.arcgis import LightSwitch
 from forklift.models import Crate, Pallet
 from forklift.seat import format_time
@@ -53,7 +53,7 @@ class LocatorsPallet(Pallet):
 
         self.copy_data = [join(self.staging_rack, 'locators')]
 
-        self.secrets = secrets.configuration[config]
+        self.secrets = configuration[config]
         self.configuration = config
         self.output_location = self.secrets['path_to_locators'].replace('\\', '/')
 
