@@ -433,6 +433,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "BRYCE CYN CNTY", "BRYCE CANYON COUNTY", "3"},
                 new [] { "BRYCE CYN COUNTY", "BRYCE CANYON COUNTY", "4"},
                 new [] { "BRYCE", "BRYCE CANYON CITY", "3"},
+                new [] { "BRYCE", "BRYCE CANYON COUNTY", "2"},
                 new [] { "BULLFROG", "BULLFROG", "0"},
                 new [] { "BURBANK", "DELTA", "0"},
                 new [] { "BURMESTER", "TOOELE", "0"},
