@@ -20,6 +20,7 @@
 //
 // #endregion
 
+using System.Configuration;
 using Ninject.Activation;
 using Ninject.Modules;
 using Raven.Client.Documents;
@@ -40,7 +41,7 @@ namespace WebAPI.API.Ninject.Modules
     {
       var documentStore = new DocumentStore
       {
-        Urls = new[] { "http://127.0.0.1:3001" },
+        Urls = new[] { ConfigurationManager.AppSettings["raven_db_url"] },
         Database = "WSUT"
       }.Initialize();
 

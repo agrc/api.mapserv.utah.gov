@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -482,32 +483,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="secrets.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </Content>
-    <Content Include="client_secret.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
-    <None Include="secrets.template.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="connections.config">
-      <TransformOnBuild>true</TransformOnBuild>
-    </Content>
-    <None Include="connections.template.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="connections.api.mapserv.utah.gov.config">
-      <DependentUpon>connections.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="connections.new production 10.3.1.config">
-      <DependentUpon>connections.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -526,20 +501,7 @@
     <Content Include="Views\Geocode\_Reverse.cshtml" />
     <Content Include="Views\Geocode\_MilePost.cshtml" />
     <Content Include="Views\Geocode\_ReverseMilePost.cshtml" />
-    <None Include="Properties\PublishProfiles\ITAS106SP.pubxml" />
-    <None Include="secrets.api.mapserv.utah.gov.config">
-      <DependentUpon>secrets.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="secrets.new production 10.3.1.config">
-      <DependentUpon>secrets.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
     <Content Include="Views\Shared\_SpatialReference.cshtml" />
-    <Content Include="sgid10.sde">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="ut-dts-agrc-web-api-dv-log-writer.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebAPI.Common\WebAPI.Common.csproj">
