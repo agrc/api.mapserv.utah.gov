@@ -60,8 +60,16 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EsriJson.Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8180d848976fd737, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\EsriJson.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
       <HintPath>..\packages\Fare.2.1.2\lib\net35\Fare.dll</HintPath>
+    </Reference>
+    <Reference Include="GeoJSON.Net, Version=0.0.0.2, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\GeoJSON.Net.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis, Version=1.55.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.55.0\lib\net45\Google.Apis.dll</HintPath>
@@ -481,6 +489,7 @@
     <Content Include="client_secret.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="secrets.template.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -533,14 +542,6 @@
     <None Include="ut-dts-agrc-web-api-dv-log-writer.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GitHub\EsriJson\EsriJson.Net\EsriJson.Net.csproj">
-      <Project>{90eb4e2e-be29-4fe5-a2aa-6bcc4acba146}</Project>
-      <Name>EsriJson.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GitHub\GeoJSON.Net\src\GeoJSON.Net\GeoJSON.Net.csproj">
-      <Project>{7c0d45ed-681e-4dec-9910-bae1211e4889}</Project>
-      <Name>GeoJSON.Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WebAPI.Common\WebAPI.Common.csproj">
       <Project>{645A8FAF-98C4-4174-8E5F-A3EEA0C282A6}</Project>
       <Name>WebAPI.Common</Name>
