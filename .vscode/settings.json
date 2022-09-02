@@ -1,5 +1,23 @@
 {
   "cSpell.words": [
-    "arcgis"
-  ]
+    "addresspoints",
+    "ADDRSYS",
+    "alternatename",
+    "arcgis",
+    "atlnamesaddrpnts",
+    "atlnamesroads",
+    "FROMADDR",
+    "geocoderoads",
+    "Geolocators",
+    "GLOBALID",
+    "levelname",
+    "Pnts",
+    "POSTDIR",
+    "POSTTYPE",
+    "PREDIR",
+    "roadgrinder",
+    "TOADDR",
+    "writeline"
+  ],
+  "python.formatting.provider": "yapf"
 }
