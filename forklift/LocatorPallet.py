@@ -9,22 +9,22 @@ Pre-requisites
     - The `secrets.py` file has been populated from the template file
     - The locators in `self.services` have been created
     - The locators are published to arcgis server
+    - The locators need to be published from the `shipTo` folder in the `secrets.py` file and that folder
+        needs to be registered as a data store in arcgis server
 
 Creating the locators
     - Make sure your `Dev` secrets are populated as that configuration will be used
-    - In arcgis pro python execute `LocatorsPallet.py`'''
+    - In arcgis pro python execute `LocatorsPallet.py`
+'''
 
 from glob import iglob
-from os import makedirs
-from os.path import join, split
+from os.path import split
 from shutil import copyfile, rmtree
 from time import perf_counter, sleep
 from pathlib import Path
-from xml.etree import ElementTree
 
 import arcpy
 from data.secrets import configuration
-from data.templates import us_single_house_addresses, us_dual_range_addresses
 from forklift.arcgis import LightSwitch
 from forklift.models import Crate, Pallet
 from forklift.seat import format_time
@@ -51,14 +51,14 @@ class LocatorsPallet(Pallet):
             'Roads_AddressSystem_STREET': ('Geolocators/Roads_AddressSystem_STREET', 'GeocodeServer')
         }
 
-        self.copy_data = [join(self.staging_rack, 'locators')]
+        self.copy_data = [str(Path(self.staging_rack) / 'locators')]
 
         self.secrets = configuration[config]
         self.configuration = config
         self.output_location = self.secrets['path_to_locators'].replace('\\', '/')
 
-        self.locators = join(self.staging_rack, 'locators.gdb')
-        self.sgid = join(self.garage, 'SGID.sde')
+        self.locators = str(Path(self.staging_rack) / 'locators.gdb')
+        self.sgid = str(Path(self.garage) / 'SGID.sde')
         self.road_grinder = self.secrets['path_to_roadgrinder']
 
         self.add_crate('AddressPoints', {'source_workspace': self.sgid, 'destination_workspace': self.locators})
@@ -71,19 +71,22 @@ class LocatorsPallet(Pallet):
 
         for locator in dirty_locators:
             #: copy current locator to a place to get rebuilt
-            rebuild_path = join(self.secrets['path_to_locators'], 'scratch_build')
+            rebuild_path = Path(self.secrets['path_to_locators']) / 'scratch_build'
 
             self.copy_locator_to(self.secrets['path_to_locators'], locator, rebuild_path)
-            locator_path = join(rebuild_path, locator)
+            locator_path = str(Path(rebuild_path) / f'{locator}.loc')
 
             #: rebuild locator
-            self.rebuild_locator(locator_path)
+            self.log.debug('rebuilding %s', locator_path)
+
+            #: rebuild in temp location
+            arcpy.geocoding.RebuildAddressLocator(locator_path)
 
             #: copy rebuilt locator back
-            self.copy_locator_to(rebuild_path, locator, self.secrets['path_to_locators'])
+            self.copy_locator_to(rebuild_path, locator, Path(self.secrets['path_to_locators']))
 
             #: forklift will not copy this to where it should be so do it
-            self.copy_locator_to(self.secrets['path_to_locators'], locator, join(self.staging_rack, 'locators'))
+            self.copy_locator_to(self.secrets['path_to_locators'], locator, Path(self.staging_rack) / 'locators')
 
             #: delete scratch_build
             try:
@@ -137,11 +140,12 @@ class LocatorsPallet(Pallet):
 
                 for attempt in range(3):
                     try:
-                        self.copy_locator_to(str(locators_path), locator, ship_to)
+                        self.copy_locator_to(str(locators_path), locator, Path(ship_to))
                         process_status[switch.server_label] = True
 
                         break
-                    except IOError:
+                    except IOError as e:
+                        print(e)
                         self.log.warning(f'could not copy {locator}, sleeping for {wait[attempt]}')
                         sleep(wait[attempt])
                         attempt += 1
@@ -159,7 +163,7 @@ class LocatorsPallet(Pallet):
 
     def _get_dirty_locators(self):
         lookup = {
-            'sgid.location.addresspoints': 'AddressPoints_AddressSystem',
+            'addresspoints': 'AddressPoints_AddressSystem',
             'atlnamesaddrpnts': 'AddressPoints_AddressSystem',
             'atlnamesroads': 'Roads_AddressSystem_STREET',
             'geocoderoads': 'Roads_AddressSystem_STREET',
@@ -167,67 +171,65 @@ class LocatorsPallet(Pallet):
 
         return set([lookup[crate.source_name.lower()] for crate in self.get_crates() if crate.was_updated()])
 
-    def rebuild_locator(self, locator):
-        self.log.debug('rebuilding %s', locator)
-
-        #: rebuild in temp location
-        arcpy.geocoding.RebuildAddressLocator(locator)
-
     def copy_locator_to(self, file_path, locator, to_folder):
-        location = join(file_path, locator)
+        location = Path(file_path) / locator
         self.log.debug('copying %s to %s', location, to_folder)
-        #: iterator glob for .lox .loc .loc.xml
-        for filename in iglob(location + '.lo*'):
+        #: iterator glob for .loc .loz
+        for filename in iglob(str(location) + '.lo*'):
             _, locator_with_extension = split(filename)
 
-            try:
-                makedirs(to_folder)
-            except FileExistsError:
-                pass
+            to_folder.mkdir(parents=True, exist_ok=True)
 
-            output = join(to_folder, locator_with_extension)
+            output = to_folder / locator_with_extension
 
             copyfile(filename, output)
 
     def create_locators(self):
         #: address points
-        fields = [
-            "'Primary Table:Point Address ID' AddressPoints:OBJECTID VISIBLE NONE;'Primary Table:Street ID' <None> VISIBLE NONE;",
-            "'*Primary Table:House Number' AddressPoints:AddNum VISIBLE NONE;'Primary Table:Side' <None> VISIBLE NONE;",
-            "'Primary Table:Full Street Name' <None> VISIBLE NONE;'Primary Table:Prefix Direction' AddressPoints:PrefixDir VISIBLE NONE;",
-            "'Primary Table:Prefix Type' <None> VISIBLE NONE;'*Primary Table:Street Name' AddressPoints:StreetName VISIBLE NONE;",
-            "'Primary Table:Suffix Type' AddressPoints:StreetType VISIBLE NONE;'Primary Table:Suffix Direction' AddressPoints:SuffixDir VISIBLE NONE;",
-            "'Primary Table:City or Place' AddressPoints:AddSystem VISIBLE NONE;'Primary Table:County' <None> VISIBLE NONE;",
-            "'Primary Table:State' <None> VISIBLE NONE;'Primary Table:State Abbreviation' <None> VISIBLE NONE;'Primary Table:ZIP Code' <None> VISIBLE NONE;",
-            "'Primary Table:ZIP4' <None> VISIBLE NONE;",
-            "'Primary Table:Country Code' <None> VISIBLE NONE;'Primary Table:3-Digit Language Code' <None> VISIBLE NONE;",
-            "'Primary Table:2-Digit Language Code' <None> VISIBLE NONE;'Primary Table:Admin Language Code' <None> VISIBLE NONE;",
-            "'Primary Table:Block ID' <None> VISIBLE NONE;'Primary Table:Street Rank' <None> VISIBLE NONE;'Primary Table:Display X' <None> VISIBLE NONE;",
-            "'Primary Table:Display Y' <None> VISIBLE NONE;'Primary Table:Min X value for extent' <None> VISIBLE NONE;",
-            "'Primary Table:Max X value for extent' <None> VISIBLE NONE;'Primary Table:Min Y value for extent' <None> VISIBLE NONE;",
-            "'Primary Table:Max Y value for extent' <None> VISIBLE NONE;'Primary Table:Additional Field' <None> VISIBLE NONE;",
-            "'*Primary Table:Altname JoinID' AddressPoints:UTAddPtID VISIBLE NONE;'Primary Table:City Altname JoinID' <None> VISIBLE NONE;",
-            "'*Alternate Name Table:JoinID' AtlNamesAddrPnts:UTAddPtID VISIBLE NONE;'Alternate Name Table:Full Street Name' <None> VISIBLE NONE;",
-            "'Alternate Name Table:Prefix Direction' AtlNamesAddrPnts:PrefixDir VISIBLE NONE;'Alternate Name Table:Prefix Type' <None> VISIBLE NONE;",
-            "'Alternate Name Table:Street Name' AtlNamesAddrPnts:StreetName VISIBLE NONE;",
-            "'Alternate Name Table:Suffix Type' AtlNamesAddrPnts:StreetType VISIBLE NONE;",
-            "'Alternate Name Table:Suffix Direction' AtlNamesAddrPnts:SuffixDir VISIBLE NONE"
+        primary_fields = [
+            "'PointAddress.FEATURE_ID AddressPoints.OBJECTID'",
+            "'PointAddress.ADDRESS_JOIN_ID AddressPoints.UTAddPtID'",
+            "'PointAddress.HOUSE_NUMBER AddressPoints.AddNum'",
+            "'PointAddress.BUILDING_NAME AddressPoints.LandmarkName'",
+            "'PointAddress.STREET_NAME_JOIN_ID AddressPoints.UTAddPtID'",
+            "'PointAddress.STREET_PREFIX_DIR AddressPoints.PrefixDir'",
+            "'PointAddress.STREET_NAME AddressPoints.StreetName'",
+            "'PointAddress.STREET_SUFFIX_TYPE AddressPoints.StreetType'",
+            "'PointAddress.STREET_SUFFIX_DIR AddressPoints.SuffixDir'",
+            "'PointAddress.FULL_STREET_NAME AddressPoints.FullAdd'",
+            "'PointAddress.SUB_ADDRESS_UNIT AddressPoints.UnitID'",
+            "'PointAddress.SUB_ADDRESS_UNIT_TYPE AddressPoints.UnitType'",
+            "'PointAddress.CITY AddressPoints.City'"
+        ];
+        alt_fields = [
+            "'AlternateHouseNumber.ADDRESS_JOIN_ID AtlNamesAddrPnts.UTAddPtID'",
+            "'AlternateHouseNumber.HOUSE_NUMBER AtlNamesAddrPnts.AddNum'",
+            "'AlternateStreetName.STREET_NAME_JOIN_ID AtlNamesAddrPnts.UTAddPtID'",
+            "'AlternateStreetName.STREET_PREFIX_DIR AtlNamesAddrPnts.PrefixDir'",
+            "'AlternateStreetName.STREET_NAME AtlNamesAddrPnts.StreetName'",
+            "'AlternateStreetName.STREET_SUFFIX_TYPE AtlNamesAddrPnts.StreetType'",
+            "'AlternateStreetName.STREET_SUFFIX_DIR AtlNamesAddrPnts.SuffixDir'"
         ]
 
         start_seconds = perf_counter()
         process_seconds = perf_counter()
         self.log.info('creating the %s locator', 'address point')
         try:
-            output_location = join(self.output_location, 'AddressPoints_AddressSystem')
-            arcpy.geocoding.CreateAddressLocator(
-                in_address_locator_style='US Address - Single House',
-                in_reference_data='{0}/{1};{0}/{2}'.format(self.locators, "AtlNamesAddrPnts 'Alternate Name Table'", "AddressPoints 'Primary Table'"),
-                in_field_map=''.join(fields),
-                out_address_locator=output_location,
-                config_keyword='',
-                enable_suggestions='DISABLED')
+            output_location = str(Path(self.output_location) / 'AddressPoints_AddressSystem')
+            arcpy.geocoding.CreateLocator(
+                country_code='USA',
+                primary_reference_data=f'{Path(self.locators) / "AddressPoints"} PointAddress',
+                field_mapping=';'.join(primary_fields),
+                out_locator=output_location,
+                language_code='ENG',
+                alternatename_tables=f'{Path(self.locators) / "AtlNamesAddrPnts"} AlternateHouseNumber;{Path(self.locators) / "AtlNamesAddrPnts"} AlternateStreetName',
+                alternate_field_mapping=';'.join(alt_fields)
+            )
 
-            self.update_locator_properties(output_location, us_single_house_addresses)
+            locator = arcpy.geocoding.Locator(output_location)
+            locator.endOffset = 0
+            locator.sideOffset = 0
+            self.update_locator_properties(locator, output_location)
         except Exception as e:
             self.log.error(e)
 
@@ -235,44 +237,47 @@ class LocatorsPallet(Pallet):
         process_seconds = perf_counter()
 
         #: streets
-        fields = [
-            "'Primary Table:Feature ID' GeocodeRoads:OBJECTID VISIBLE NONE;'*Primary Table:From Left' GeocodeRoads:FROMADDR_L VISIBLE NONE;",
-            "'*Primary Table:To Left' GeocodeRoads:TOADDR_L VISIBLE NONE;'*Primary Table:From Right' GeocodeRoads:FROMADDR_R VISIBLE NONE;",
-            "'*Primary Table:To Right' GeocodeRoads:TOADDR_R VISIBLE NONE;'Primary Table:Left Parity' <None> VISIBLE NONE;",
-            "'Primary Table:Right Parity' <None> VISIBLE NONE;'Primary Table:Full Street Name' <None> VISIBLE NONE;",
-            "'Primary Table:Prefix Direction' GeocodeRoads:PREDIR VISIBLE NONE;'Primary Table:Prefix Type' <None> VISIBLE NONE;",
-            "'*Primary Table:Street Name' GeocodeRoads:NAME VISIBLE NONE;'Primary Table:Suffix Type' GeocodeRoads:POSTTYPE VISIBLE NONE;",
-            "'Primary Table:Suffix Direction' GeocodeRoads:POSTDIR VISIBLE NONE;", "'Primary Table:Left City or Place' GeocodeRoads:ADDRSYS_L VISIBLE NONE;",
-            "'Primary Table:Right City or Place' GeocodeRoads:ADDRSYS_R VISIBLE NONE;'Primary Table:Left County' <None> VISIBLE NONE;",
-            "'Primary Table:Right County' <None> VISIBLE NONE;'Primary Table:Left State' <None> VISIBLE NONE;'Primary Table:Right State' <None> VISIBLE NONE;",
-            "'Primary Table:Left State Abbreviation' <None> VISIBLE NONE;'Primary Table:Right State Abbreviation' <None> VISIBLE NONE;",
-            "'Primary Table:Left ZIP Code' <None> VISIBLE NONE;'Primary Table:Right ZIP Code' <None> VISIBLE NONE;'Primary Table:Country Code' <None> VISIBLE NONE;",
-            "'Primary Table:3-Digit Language Code' <None> VISIBLE NONE;'Primary Table:2-Digit Language Code' <None> VISIBLE NONE;",
-            "'Primary Table:Admin Language Code' <None> VISIBLE NONE;'Primary Table:Left Block ID' <None> VISIBLE NONE;",
-            "'Primary Table:Right Block ID' <None> VISIBLE NONE;'Primary Table:Left Street ID' <None> VISIBLE NONE;",
-            "'Primary Table:Right Street ID' <None> VISIBLE NONE;'Primary Table:Street Rank' <None> VISIBLE NONE;",
-            "'Primary Table:Min X value for extent' <None> VISIBLE NONE;'Primary Table:Max X value for extent' <None> VISIBLE NONE;",
-            "'Primary Table:Min Y value for extent' <None> VISIBLE NONE;'Primary Table:Max Y value for extent' <None> VISIBLE NONE;",
-            "'Primary Table:Left Additional Field' <None> VISIBLE NONE;'Primary Table:Right Additional Field' <None> VISIBLE NONE;",
-            "'*Primary Table:Altname JoinID' GeocodeRoads:GLOBALID_SGID VISIBLE NONE;'Primary Table:City Altname JoinID' <None> VISIBLE NONE;",
-            "'*Alternate Name Table:JoinID' AtlNamesRoads:GLOBALID_SGID VISIBLE NONE;'Alternate Name Table:Full Street Name' <None> VISIBLE NONE;",
-            "'Alternate Name Table:Prefix Direction' AtlNamesRoads:PREDIR VISIBLE NONE;'Alternate Name Table:Prefix Type' <None> VISIBLE NONE;",
-            "'Alternate Name Table:Street Name' AtlNamesRoads:NAME VISIBLE NONE;'Alternate Name Table:Suffix Type' AtlNamesRoads:POSTTYPE VISIBLE NONE;",
-            "'Alternate Name Table:Suffix Direction' AtlNamesRoads:POSTDIR VISIBLE NONE"
+        primary_fields = [
+            "'StreetAddress.FEATURE_ID GeocodeRoads.OBJECTID'",
+            "'StreetAddress.STREET_NAME_JOIN_ID GeocodeRoads.GLOBALID_SGID'",
+            "'StreetAddress.HOUSE_NUMBER_FROM_LEFT GeocodeRoads.FROMADDR_L'",
+            "'StreetAddress.HOUSE_NUMBER_TO_LEFT GeocodeRoads.TOADDR_L'",
+            "'StreetAddress.HOUSE_NUMBER_FROM_RIGHT GeocodeRoads.FROMADDR_R'",
+            "'StreetAddress.HOUSE_NUMBER_TO_RIGHT GeocodeRoads.TOADDR_R'",
+            "'StreetAddress.STREET_PREFIX_DIR GeocodeRoads.PREDIR'",
+            "'StreetAddress.STREET_NAME GeocodeRoads.NAME'",
+            "'StreetAddress.STREET_SUFFIX_TYPE GeocodeRoads.POSTTYPE'",
+            "'StreetAddress.STREET_SUFFIX_DIR GeocodeRoads.POSTDIR'",
+            "'StreetAddress.CITY_LEFT GeocodeRoads.ADDRSYS_L'",
+            "'StreetAddress.CITY_RIGHT GeocodeRoads.ADDRSYS_R'"
+        ]
+
+        alt_fields = [
+            "'AlternateStreetName.STREET_NAME_JOIN_ID AtlNamesRoads.GLOBALID_SGID'",
+            "'AlternateStreetName.STREET_PREFIX_DIR AtlNamesRoads.PREDIR'",
+            "'AlternateStreetName.STREET_NAME AtlNamesRoads.NAME'",
+            "'AlternateStreetName.STREET_SUFFIX_TYPE AtlNamesRoads.POSTTYPE'",
+            "'AlternateStreetName.STREET_SUFFIX_DIR AtlNamesRoads.POSTDIR'"
         ]
 
         self.log.info('creating the %s locator', 'streets')
         try:
-            output_location = join(self.output_location, 'Roads_AddressSystem_STREET')
-            arcpy.geocoding.CreateAddressLocator(
-                in_address_locator_style='US Address - Dual Ranges',
-                in_reference_data='{0}/{1};{0}/{2}'.format(self.locators, "GeocodeRoads 'Primary Table'", "AtlNamesRoads 'Alternate Name Table'"),
-                in_field_map=''.join(fields),
-                out_address_locator=output_location,
-                config_keyword='',
-                enable_suggestions='DISABLED')
+            output_location = str(Path(self.output_location) / 'Roads_AddressSystem_STREET')
+            arcpy.geocoding.CreateLocator(
+                country_code='USA',
+                primary_reference_data=f'{Path(self.locators) / "GeocodeRoads"} StreetAddress',
+                field_mapping=';'.join(primary_fields),
+                out_locator=output_location,
+                language_code='ENG',
+                alternatename_tables=f'{Path(self.locators) / "AtlNamesRoads"} AlternateStreetName',
+                alternate_field_mapping=';'.join(alt_fields)
+            )
 
-            self.update_locator_properties(output_location, us_dual_range_addresses)
+            locator = arcpy.geocoding.Locator(output_location)
+            locator.endOffset = 5
+            locator.sideOffset = 15
+
+            self.update_locator_properties(locator, output_location)
         except Exception as e:
             self.log.error(e)
 
@@ -282,30 +287,25 @@ class LocatorsPallet(Pallet):
         self.log.info('finished %s', format_time(perf_counter() - process_seconds))
         self.log.info('done %s', format_time(perf_counter() - start_seconds))
 
-    def update_locator_properties(self, locator_path, options_to_append):
-        with open(locator_path + '.loc', 'a') as f:
-            f.write(options_to_append)
+    def update_locator_properties(self, locator, locator_path):
+        locator.intersectionConnectors = '"&","@","|","and","at"'
+        locator.maxCandidates = 10
+        locator.minCandidateScore = 60
+        locator.minMatchScore = 60
+        locator.numberOfThreads = 0
+        locator.updateLocator()
 
-        self.update_locator_xml(locator_path)
-
-    def update_locator_xml(self, locator_path):
-        locator_path += '.loc.xml'
-
-        tree = ElementTree.parse(locator_path)
-        root = tree.getroot()
-
-        for data_path in root.findall('./locator/ref_data/data_source/workspace_properties/path'):
-            data_path.text = self.locators
-
-        tree.write(locator_path)
+        output_fields = ['Shape', 'Status', 'Score', 'Match_addr', 'City', 'X', 'Y']
+        with Path(f'{locator_path}.loc').open('a') as file:
+            file.write(f'BatchOutputFields = {", ".join(output_fields)}\n')
 
 
 if __name__ == '__main__':
     '''
     Usage:
-        python LocatorsPallet.py --create                                          Creates locators
-        python LocatorsPallet.py --rebuild --locator=Roads [--configuration=Dev]   Rebuilds <locator> as Dev
-        python LocatorsPallet.py --ship --locator=Roads [--configuration=Dev]      Ships the <locator> as <configuration>
+        python LocatorPallet.py --create                                          Creates locators
+        python LocatorPallet.py --rebuild --locator=Roads [--configuration=Dev]   Rebuilds <locator> as Dev
+        python LocatorPallet.py --ship --locator=Roads [--configuration=Dev]      Ships the <locator> as <configuration>
     Arguments:
         locator         Roads or AddressPoints
         configuration   Dev Staging Production
@@ -322,7 +322,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     pallet = LocatorsPallet()
-    logging.basicConfig(format='%(levelname)s %(asctime)s %(lineno)s %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
+    logging.basicConfig(format='%(levelname)s %(asctime)s %(lineno)s %(message)s', datefmt='%H:%M:%S', level=logging.DEBUG)
     pallet.log = logging
 
     if args.create:
