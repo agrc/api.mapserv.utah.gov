@@ -17,8 +17,6 @@ Creating the locators
     - In arcgis pro python execute `LocatorsPallet.py`
 '''
 
-from glob import iglob
-from os.path import split
 from shutil import copyfile, rmtree
 from time import perf_counter, sleep
 from pathlib import Path
@@ -55,25 +53,26 @@ class LocatorsPallet(Pallet):
 
         self.secrets = configuration[config]
         self.configuration = config
-        self.output_location = self.secrets['path_to_locators'].replace('\\', '/')
+        self.output_location = Path(self.secrets['path_to_locators'].replace('\\', '/'))
 
-        self.locators = str(Path(self.staging_rack) / 'locators.gdb')
-        self.sgid = str(Path(self.garage) / 'SGID.sde')
+        self.locators = Path(self.staging_rack) / 'locators.gdb'
+        self.sgid = Path(self.garage) / 'SGID.sde'
         self.road_grinder = self.secrets['path_to_roadgrinder']
 
-        self.add_crate('AddressPoints', {'source_workspace': self.sgid, 'destination_workspace': self.locators})
-        self.add_crates(['AtlNamesAddrPnts', 'AtlNamesRoads', 'GeocodeRoads'], {'source_workspace': self.road_grinder, 'destination_workspace': self.locators})
+        self.add_crate('AddressPoints', {'source_workspace': str(self.sgid), 'destination_workspace': str(self.locators)})
+        self.add_crates(['AtlNamesAddrPnts', 'AtlNamesRoads', 'GeocodeRoads'], {'source_workspace': self.road_grinder, 'destination_workspace': str(self.locators)})
 
     def process(self):
         dirty_locators = self._get_dirty_locators()
 
         self.log.info('dirty locators: %s', ','.join(dirty_locators))
 
+        path_to_locators = Path(self.secrets['path_to_locators'])
         for locator in dirty_locators:
             #: copy current locator to a place to get rebuilt
-            rebuild_path = Path(self.secrets['path_to_locators']) / 'scratch_build'
+            rebuild_path = path_to_locators / 'scratch_build'
 
-            self.copy_locator_to(self.secrets['path_to_locators'], locator, rebuild_path)
+            self.copy_locator_to(path_to_locators, locator, rebuild_path)
             locator_path = str(Path(rebuild_path) / f'{locator}.loc')
 
             #: rebuild locator
@@ -83,10 +82,10 @@ class LocatorsPallet(Pallet):
             arcpy.geocoding.RebuildAddressLocator(locator_path)
 
             #: copy rebuilt locator back
-            self.copy_locator_to(rebuild_path, locator, Path(self.secrets['path_to_locators']))
+            self.copy_locator_to(rebuild_path, locator, path_to_locators)
 
             #: forklift will not copy this to where it should be so do it
-            self.copy_locator_to(self.secrets['path_to_locators'], locator, Path(self.staging_rack) / 'locators')
+            self.copy_locator_to(path_to_locators, locator, Path(self.staging_rack) / 'locators')
 
             #: delete scratch_build
             try:
@@ -140,7 +139,7 @@ class LocatorsPallet(Pallet):
 
                 for attempt in range(3):
                     try:
-                        self.copy_locator_to(str(locators_path), locator, Path(ship_to))
+                        self.copy_locator_to(locators_path, locator, Path(ship_to))
                         process_status[switch.server_label] = True
 
                         break
@@ -172,11 +171,9 @@ class LocatorsPallet(Pallet):
         return set([lookup[crate.source_name.lower()] for crate in self.get_crates() if crate.was_updated()])
 
     def copy_locator_to(self, file_path, locator, to_folder):
-        location = Path(file_path) / locator
-        self.log.debug('copying %s to %s', location, to_folder)
-        #: iterator glob for .loc .loz
-        for filename in iglob(str(location) + '.lo*'):
-            _, locator_with_extension = split(filename)
+        self.log.debug('copying %s to %s', file_path / locator, to_folder)
+        for filename in file_path.glob(f'{locator}.lo*'):
+            locator_with_extension = filename.name
 
             to_folder.mkdir(parents=True, exist_ok=True)
 
@@ -215,14 +212,14 @@ class LocatorsPallet(Pallet):
         process_seconds = perf_counter()
         self.log.info('creating the %s locator', 'address point')
         try:
-            output_location = str(Path(self.output_location) / 'AddressPoints_AddressSystem')
+            output_location = str(self.output_location / 'AddressPoints_AddressSystem')
             arcpy.geocoding.CreateLocator(
                 country_code='USA',
-                primary_reference_data=f'{Path(self.locators) / "AddressPoints"} PointAddress',
+                primary_reference_data=f'{self.locators / "AddressPoints"} PointAddress',
                 field_mapping=';'.join(primary_fields),
                 out_locator=output_location,
                 language_code='ENG',
-                alternatename_tables=f'{Path(self.locators) / "AtlNamesAddrPnts"} AlternateHouseNumber;{Path(self.locators) / "AtlNamesAddrPnts"} AlternateStreetName',
+                alternatename_tables=f'{self.locators / "AtlNamesAddrPnts"} AlternateHouseNumber;{self.locators / "AtlNamesAddrPnts"} AlternateStreetName',
                 alternate_field_mapping=';'.join(alt_fields)
             )
 
@@ -262,14 +259,14 @@ class LocatorsPallet(Pallet):
 
         self.log.info('creating the %s locator', 'streets')
         try:
-            output_location = str(Path(self.output_location) / 'Roads_AddressSystem_STREET')
+            output_location = str(self.output_location / 'Roads_AddressSystem_STREET')
             arcpy.geocoding.CreateLocator(
                 country_code='USA',
-                primary_reference_data=f'{Path(self.locators) / "GeocodeRoads"} StreetAddress',
+                primary_reference_data=f'{self.locators / "GeocodeRoads"} StreetAddress',
                 field_mapping=';'.join(primary_fields),
                 out_locator=output_location,
                 language_code='ENG',
-                alternatename_tables=f'{Path(self.locators) / "AtlNamesRoads"} AlternateStreetName',
+                alternatename_tables=f'{self.locators / "AtlNamesRoads"} AlternateStreetName',
                 alternate_field_mapping=';'.join(alt_fields)
             )
 
