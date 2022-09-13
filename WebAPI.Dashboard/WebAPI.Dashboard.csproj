@@ -330,23 +330,11 @@
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\osDetect.min.js" />
     <Content Include="Views\Shared\Patterns.cshtml" />
-    <Content Include="connections.config">
-      <TransformOnBuild>true</TransformOnBuild>
-    </Content>
     <Content Include="Areas\admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\admin\Views\Shared\ApiKey.cshtml" />
     <Content Include="Areas\admin\Views\Home\KeyStats.cshtml" />
     <Content Include="Areas\admin\Views\Home\UserStats.cshtml" />
     <Content Include="Areas\admin\Views\Shared\_Layout.cshtml" />
-    <None Include="connections.api.mapserv.utah.gov.config">
-      <DependentUpon>connections.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="connections.developer.mapserv.utah.gov.config">
-      <DependentUpon>connections.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="connections.template.config" />
     <None Include="packages.config" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
@@ -459,7 +447,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" Label="SlowCheetah" />
