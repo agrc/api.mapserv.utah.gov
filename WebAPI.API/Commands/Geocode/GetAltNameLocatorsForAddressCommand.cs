@@ -72,7 +72,7 @@ namespace WebAPI.API.Commands.Geocode
                     new LocatorDetails
                     {
                         Url = $"{Host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                              $"GeocodeServer/findAddressCandidates?f=json&Street={HttpUtility.UrlEncode(stuff.Address)}" +
+                              $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(stuff.Address)}" +
                               $"&City={stuff.Grid}&outSR={stuff.WkId}",
                         Name = "Centerlines.StatewideRoads",
                         Weight = stuff.Weight
@@ -87,7 +87,7 @@ namespace WebAPI.API.Commands.Geocode
                 new LocatorDetails
                 {
                     Url = $"{Host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                          $"GeocodeServer/findAddressCandidates?f=json&Street={HttpUtility.UrlEncode(stuff.Address)}" +
+                          $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(stuff.Address)}" +
                           $"&City={stuff.Grid}&outSR={stuff.WkId}",
                     Name = "Centerlines.StatewideRoads",
                     Weight = stuff.Weight
@@ -111,7 +111,7 @@ namespace WebAPI.API.Commands.Geocode
                     locators.Add(new LocatorDetails
                     {
                         Url = $"{Host}/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
-                              $"GeocodeServer/findAddressCandidates?f=json&Street={HttpUtility.UrlEncode(x.AddressInfo.ReversalAddress)}" +
+                              $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(x.AddressInfo.ReversalAddress)}" +
                               $"&City={x.Grid}&outSR={x.WkId}",
                         Name = "AddressPoints.AddressGrid",
                         Weight = x.Weight
@@ -121,7 +121,7 @@ namespace WebAPI.API.Commands.Geocode
                 locators.Add(new LocatorDetails
                 {
                     Url = $"{Host}/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
-                          $"GeocodeServer/findAddressCandidates?f=json&Street={HttpUtility.UrlEncode(x.Address)}" +
+                          $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(x.Address)}" +
                           $"&City={x.Grid}&outSR={x.WkId}",
                     Name = "AddressPoints.AddressGrid",
                     Weight = x.Weight
@@ -152,7 +152,7 @@ namespace WebAPI.API.Commands.Geocode
                 new LocatorDetails
                 {
                     Url = $"{Host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                          $"GeocodeServer/findAddressCandidates?f=json&Street={HttpUtility.UrlEncode(stuff.AddressInfo.ReversalAddress)}&City={stuff.Grid}&outSR={stuff.WkId}",
+                          $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(stuff.AddressInfo.ReversalAddress)}&City={stuff.Grid}&outSR={stuff.WkId}",
                     Name = "Centerlines.StatewideRoads"
                 }
             }));

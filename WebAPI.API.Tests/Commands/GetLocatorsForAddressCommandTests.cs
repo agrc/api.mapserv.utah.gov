@@ -69,17 +69,17 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(result.Select(x => x.Url), Is.EquivalentTo(new[]
                     {
                         "http://localhost/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=532+East+400+South&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=532+East+400+South&City=grid_1&outSR=26912",
                          "http://localhost/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=400+South+532+East&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=400+South+532+East&City=grid_1&outSR=26912",
                         "http://localhost/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=400+South+532+East&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=400+South+532+East&City=grid_1&outSR=26912",
                         "http://localhost/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=532+East+400+South&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=532+East+400+South&City=grid_1&outSR=26912",
                         "http://localhost/arcgis/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=532+East+400+South&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=532+East+400+South&City=grid_1&outSR=26912",
                         "http://localhost/arcgis/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=400+South+532+East&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=400+South+532+East&City=grid_1&outSR=26912"
                     }));
             }
 
@@ -125,34 +125,34 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(result.Select(x => x.Url), Is.EquivalentTo(new[]
                     {
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_1&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_1&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS1/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_1&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS2/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_1&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_2&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_2&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_2&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_2&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS1/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_2&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_2&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS2/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_2&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_2&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/AddressPoints_AddressSystem/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_1&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/AddressPoints_AddressSystem/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_2&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_2&outSR=26912"
                     }).IgnoreCase);
             }
 
@@ -190,21 +190,21 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(result.Select(x => x.Url), Is.EquivalentTo(new[]
                     {
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=995+East+5625+South&City=SALT LAKE CITY&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=995+East+5625+South&City=SALT LAKE CITY&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=995+East+5625+South&City=SALT LAKE CITY&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=995+East+5625+South&City=SALT LAKE CITY&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=5625+South+995+East&City=SALT LAKE CITY&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=5625+South+995+East&City=SALT LAKE CITY&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=5625+South+995+East&City=SALT LAKE CITY&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=5625+South+995+East&City=SALT LAKE CITY&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS1/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=5625+South+995+East&City=SALT LAKE CITY&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=5625+South+995+East&City=SALT LAKE CITY&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS2/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=5625+South+995+East&City=SALT LAKE CITY&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=5625+South+995+East&City=SALT LAKE CITY&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/AddressPoints_AddressSystem/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=995+East+5625+South&City=SALT LAKE CITY&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=995+East+5625+South&City=SALT LAKE CITY&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/AddressPoints_AddressSystem/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=5625+South+995+East&City=SALT LAKE CITY&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=5625+South+995+East&City=SALT LAKE CITY&outSR=26912"
                     }).IgnoreCase);
             }
         }
@@ -249,13 +249,13 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(result.Select(x => x.Url), Is.EquivalentTo(new[]
                     {
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=532+East+400+South&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=532+East+400+South&City=grid_1&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=532+East+400+South&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=532+East+400+South&City=grid_1&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=400+South+532+East&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=400+South+532+East&City=grid_1&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=400+South+532+East&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=400+South+532+East&City=grid_1&outSR=26912"
                     }).IgnoreCase);
             }
 
@@ -297,28 +297,28 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(result.Select(x => x.Url), Is.EquivalentTo(new[]
                     {
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_1&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_1&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS1/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_1&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS2/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_1&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_2&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_2&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_2&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_2&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS1/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_2&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_2&outSR=26912"
                         ,
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS2/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=326+east+south+temple&City=grid_2&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=326+east+south+temple&City=grid_2&outSR=26912"
                     }).IgnoreCase);
             }
 
@@ -358,17 +358,17 @@ namespace WebAPI.API.Tests.Commands
                 Assert.That(result.Select(x => x.Url), Is.EquivalentTo(new[]
                     {
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=995+East+5625+South&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=995+East+5625+South&City=grid_1&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=995+East+5625+South&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=995+East+5625+South&City=grid_1&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=5625+South+995+East&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=5625+South+995+East&City=grid_1&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=5625+South+995+East&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=5625+South+995+East&City=grid_1&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS1/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=5625+South+995+East&City=grid_1&outSR=26912",
+                        "GeocodeServer/findAddressCandidates?f=json&Address=5625+South+995+East&City=grid_1&outSR=26912",
                         "http://localhost/ArcGIS/rest/services/Geolocators/Roads_AddressSystem_ALIAS2/" +
-                        "GeocodeServer/findAddressCandidates?f=json&Street=5625+South+995+East&City=grid_1&outSR=26912"
+                        "GeocodeServer/findAddressCandidates?f=json&Address=5625+South+995+East&City=grid_1&outSR=26912"
                     }).IgnoreCase);
             }
         }
