@@ -18,7 +18,7 @@
   "homepage": "https://github.com/agrc/api.mapserv.utah.gov#readme",
   "devDependencies": {
     "grunt": "^1.5.3",
-    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-cssmin": "^4.0.0",
     "grunt-contrib-uglify": "^2.0.0"
   }
 }
