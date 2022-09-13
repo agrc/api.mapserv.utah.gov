@@ -30,7 +30,7 @@ namespace WebAPI.API.Commands.Info
 
       foreach (var locator in locators)
       {
-        Locators.Add($"http://{Host}/arcgis/rest/services/Geolocators/{locator}/GeocodeServer?f=json");
+        Locators.Add($"{Host}/arcgis/rest/services/Geolocators/{locator}/GeocodeServer?f=json");
       }
     }
 
