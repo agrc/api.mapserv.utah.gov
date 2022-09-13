@@ -146,7 +146,7 @@ namespace WebAPI.API.Commands.Info
       {
         var documentStore = new DocumentStore
         {
-          Urls = new[] { "http://127.0.0.1:3000" },
+          Urls = new[] { ConfigurationManager.AppSettings["raven_db_url"] },
           Database = "WSUT"
         }.Initialize();
 
