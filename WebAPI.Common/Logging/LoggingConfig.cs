@@ -14,7 +14,6 @@ namespace WebAPI.Common.Logging
         {
             var config = new GoogleCloudLoggingSinkOptions
             {
-                UseJsonOutput = true,
                 LogName = "api.mapserv.utah.gov",
                 UseSourceContextAsLogName = false,
                 ResourceType = "global",
