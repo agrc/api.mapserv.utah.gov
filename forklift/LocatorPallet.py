@@ -196,7 +196,7 @@ class LocatorsPallet(Pallet):
             "'PointAddress.FULL_STREET_NAME AddressPoints.FullAdd'",
             "'PointAddress.SUB_ADDRESS_UNIT AddressPoints.UnitID'",
             "'PointAddress.SUB_ADDRESS_UNIT_TYPE AddressPoints.UnitType'",
-            "'PointAddress.CITY AddressPoints.City'"
+            "'PointAddress.CITY AddressPoints.AddSystem'"
         ];
         alt_fields = [
             "'AlternateHouseNumber.ADDRESS_JOIN_ID AtlNamesAddrPnts.UTAddPtID'",
