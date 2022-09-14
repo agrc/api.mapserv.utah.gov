@@ -8,6 +8,15 @@ namespace WebAPI.Domain.ArcServerResponse.Geolocator
         public Location Location { get; set; }
 
         [JsonProperty(PropertyName = "address")]
-        public StreetZipAddress Address { get; set; }
+        public ReverseGeocodeAddress Address { get; set; }
+    }
+
+    public class ReverseGeocodeResultDTO
+    {
+        [JsonProperty(PropertyName = "location")]
+        public Location Location { get; set; }
+
+        [JsonProperty(PropertyName = "address")]
+        public ReverseGeocodeAddressDTO Address { get; set; }
     }
 }

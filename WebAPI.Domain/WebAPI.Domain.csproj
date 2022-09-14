@@ -86,7 +86,7 @@
     <Compile Include="ArcServerResponse\MapService\QueryResponse.cs" />
     <Compile Include="ArcServerResponse\Geolocator\Location.cs" />
     <Compile Include="ArcServerResponse\Geolocator\ReverseGeocodeResponse.cs" />
-    <Compile Include="ArcServerResponse\Geolocator\StreetZipAddress.cs" />
+    <Compile Include="ArcServerResponse\Geolocator\ReverseGeocodeAddress.cs" />
     <Compile Include="ArcServerResponse\SoeErrorable.cs" />
     <Compile Include="ArcServerResponse\Soe\SearchResponse.cs" />
     <Compile Include="DataStructures\TopAndEqualsList.cs" />

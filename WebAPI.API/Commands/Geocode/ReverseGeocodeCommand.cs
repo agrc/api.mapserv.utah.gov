@@ -65,11 +65,7 @@ namespace WebAPI.API.Commands.Geocode
                 App.HttpClient.GetAsync(requestUri).ContinueWith(
                     httpResponse => ConvertResponseToObjectAsync(httpResponse.Result)).Unwrap().Result;
 
-            var result = new ReverseGeocodeResult
-            {
-                InputLocation = response.Location,
-                Address = response.Address
-            };
+            var result = new ReverseGeocodeResult(response);
 
             Result = result;
         }

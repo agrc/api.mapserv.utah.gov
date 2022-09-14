@@ -9,6 +9,15 @@ namespace WebAPI.Domain.ApiResponses
         public Location InputLocation { get; set; }
 
         [JsonProperty(PropertyName = "address")]
-        public StreetZipAddress Address { get; set; }
+        public ReverseGeocodeAddressDTO Address { get; set; }
+
+        public ReverseGeocodeResult(ReverseGeocodeResponse response)
+        {
+            InputLocation = response.Location;
+            Address = new ReverseGeocodeAddressDTO
+            {
+                Street = response.Address.Address
+            };
+        }
     }
 }
