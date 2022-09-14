@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Linq;
-using System.Security.Policy;
 using System.Web;
 using WebAPI.Common.Abstractions;
 using WebAPI.Domain;
@@ -106,22 +105,11 @@ namespace WebAPI.API.Commands.Geocode
                     {
                         new LocatorDetails
                             {
-                                Url =
-                                    string.Format("http://{0}", Host) +
+                                Url = Host +
                                     string.Format("/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
                                                   "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
                                                   HttpUtility.UrlEncode(stuff.Address), stuff.Grid, stuff.WkId),
                                 Name = "Centerlines.StatewideRoads",
-                                Weight = stuff.Weight
-                            },
-                        new LocatorDetails
-                            {
-                                Url =
-                                    string.Format("http://{0}", Host) +
-                                    string.Format("/arcgis/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                                                  "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
-                                                  HttpUtility.UrlEncode(stuff.Address), stuff.Grid, stuff.WkId),
-                                Name = "Centerlines.AddressCoordinateAlias",
                                 Weight = stuff.Weight
                             }
                     }));
@@ -133,42 +121,11 @@ namespace WebAPI.API.Commands.Geocode
                 {
                     new LocatorDetails
                         {
-                            Url =
-                                string.Format("http://{0}", Host) +
+                            Url = Host +
                                 string.Format("/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
                                               "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
                                               HttpUtility.UrlEncode(stuff.Address), stuff.Grid, stuff.WkId),
                             Name = "Centerlines.StatewideRoads",
-                            Weight = stuff.Weight
-                        },
-                    new LocatorDetails
-                        {
-                            Url =
-                                string.Format("http://{0}", Host) +
-                                string.Format("/arcgis/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                                              "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
-                                              HttpUtility.UrlEncode(stuff.Address), stuff.Grid, stuff.WkId),
-                            Name = "Centerlines.AddressCoordinateAlias",
-                            Weight = stuff.Weight
-                        },
-                    new LocatorDetails
-                        {
-                            Url =
-                                string.Format("http://{0}", Host) +
-                                string.Format("/arcgis/rest/services/Geolocators/Roads_AddressSystem_ALIAS1/" +
-                                              "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
-                                              HttpUtility.UrlEncode(stuff.Address), stuff.Grid, stuff.WkId),
-                            Name = "Centerlines.PrimaryRoadAlias",
-                            Weight = stuff.Weight
-                        },
-                    new LocatorDetails
-                        {
-                            Url =
-                                string.Format("http://{0}", Host) +
-                                string.Format("/arcgis/rest/services/Geolocators/Roads_AddressSystem_ALIAS2/" +
-                                              "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
-                                              HttpUtility.UrlEncode(stuff.Address), stuff.Grid, stuff.WkId),
-                            Name = "Centerlines.SecondaryRoadAlias",
                             Weight = stuff.Weight
                         }
                 }));
@@ -189,7 +146,7 @@ namespace WebAPI.API.Commands.Geocode
                     {
                         locators.Add(new LocatorDetails
                             {
-                                Url = string.Format("http://{0}", Host) +
+                                Url = Host +
                                       "/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
                                       string.Format(
                                           "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
@@ -201,7 +158,7 @@ namespace WebAPI.API.Commands.Geocode
 
                     locators.Add(new LocatorDetails
                         {
-                            Url = string.Format("http://{0}", Host) +
+                            Url = Host +
                                   "/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
                                   string.Format(
                                       "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
@@ -231,19 +188,11 @@ namespace WebAPI.API.Commands.Geocode
                     {
                         new LocatorDetails
                             {
-                                Url = string.Format("http://{0}", Host) +
+                                Url = Host +
                                       string.Format("/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
                                                     "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
                                                     HttpUtility.UrlEncode(stuff.AddressInfo.ReversalAddress), stuff.Grid, stuff.WkId),
                                 Name = "Centerlines.StatewideRoads"
-                            },
-                        new LocatorDetails
-                            {
-                                Url = string.Format("http://{0}", Host) +
-                                      string.Format("/arcgis/rest/services/Geolocators/Roads_AddressSystem_ACSALIAS/" +
-                                                    "GeocodeServer/findAddressCandidates?f=json&Address={0}&City={1}&outSR={2}",
-                                                    HttpUtility.UrlEncode(stuff.AddressInfo.ReversalAddress), stuff.Grid, stuff.WkId),
-                                Name = "Centerlines.AddressCoordinateAlias"
                             }
                     }));
 
