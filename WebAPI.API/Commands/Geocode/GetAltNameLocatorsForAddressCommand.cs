@@ -67,30 +67,30 @@ namespace WebAPI.API.Commands.Geocode
 
             if (address.IsReversal())
             {
-                AddressPermutations.ForEach(stuff => locators.AddRange(new[]
+                AddressPermutations.ForEach(x => locators.AddRange(new[]
                 {
                     new LocatorDetails
                     {
                         Url = $"{Host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                              $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(stuff.Address)}" +
-                              $"&City={stuff.Grid}&outSR={stuff.WkId}",
+                              $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(x.Address)}" +
+                              $"&City={x.Grid}&matchOutOfRange=false&outFields=addr_type%2Caddnum&outSR={x.WkId}",
                         Name = "Centerlines.StatewideRoads",
-                        Weight = stuff.Weight
+                        Weight = x.Weight
                     }
                 }));
 
                 return locators;
             }
 
-            AddressPermutations.ForEach(stuff => locators.AddRange(new[]
+            AddressPermutations.ForEach(x => locators.AddRange(new[]
             {
                 new LocatorDetails
                 {
                     Url = $"{Host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                          $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(stuff.Address)}" +
-                          $"&City={stuff.Grid}&outSR={stuff.WkId}",
+                          $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(x.Address)}" +
+                          $"&City={x.Grid}&matchOutOfRange=false&outFields=addr_type%2Caddnum&outSR={x.WkId}",
                     Name = "Centerlines.StatewideRoads",
-                    Weight = stuff.Weight
+                    Weight = x.Weight
                 }
             }));
 
@@ -112,7 +112,7 @@ namespace WebAPI.API.Commands.Geocode
                     {
                         Url = $"{Host}/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
                               $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(x.AddressInfo.ReversalAddress)}" +
-                              $"&City={x.Grid}&outSR={x.WkId}",
+                              $"&City={x.Grid}&matchOutOfRange=false&outFields=addr_type%2Caddnum&outSR={x.WkId}",
                         Name = "AddressPoints.AddressGrid",
                         Weight = x.Weight
                     });
@@ -122,7 +122,7 @@ namespace WebAPI.API.Commands.Geocode
                 {
                     Url = $"{Host}/arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/" +
                           $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(x.Address)}" +
-                          $"&City={x.Grid}&outSR={x.WkId}",
+                          $"&City={x.Grid}&matchOutOfRange=false&outFields=addr_type%2Caddnum&outSR={x.WkId}",
                     Name = "AddressPoints.AddressGrid",
                     Weight = x.Weight
                 });
@@ -147,12 +147,13 @@ namespace WebAPI.API.Commands.Geocode
 
             var locators = new List<LocatorDetails>();
 
-            AddressPermutations.ForEach(stuff => locators.AddRange(new[]
+            AddressPermutations.ForEach(x => locators.AddRange(new[]
             {
                 new LocatorDetails
                 {
                     Url = $"{Host}/arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/" +
-                          $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(stuff.AddressInfo.ReversalAddress)}&City={stuff.Grid}&outSR={stuff.WkId}",
+                          $"GeocodeServer/findAddressCandidates?f=json&Address={HttpUtility.UrlEncode(x.AddressInfo.ReversalAddress)}" +
+                          $"&City={x.Grid}&matchOutOfRange=false&outFields=addr_type%2Caddnum&outSR={x.WkId}",
                     Name = "Centerlines.StatewideRoads"
                 }
             }));
