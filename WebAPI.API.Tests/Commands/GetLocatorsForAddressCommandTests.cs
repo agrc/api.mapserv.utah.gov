@@ -56,7 +56,7 @@ namespace WebAPI.API.Tests.Commands
                         "grid_1"
                     };
 
-                var result = CommandExecutor.ExecuteCommand(new GetLocatorsForAddressCommand(address, new GeocodeOptions
+                var result = CommandExecutor.ExecuteCommand(new GetAltNameLocatorsForAddressCommand(address, new GeocodeOptions
                     {
                         AcceptScore = 70,
                         JsonFormat = JsonFormat.None,
@@ -112,7 +112,7 @@ namespace WebAPI.API.Tests.Commands
                         "grid_1", "grid_2"
                     };
 
-                var result = CommandExecutor.ExecuteCommand(new GetLocatorsForAddressCommand(address, new GeocodeOptions
+                var result = CommandExecutor.ExecuteCommand(new GetAltNameLocatorsForAddressCommand(address, new GeocodeOptions
                     {
                         AcceptScore = 70,
                         JsonFormat = JsonFormat.None,
@@ -177,7 +177,7 @@ namespace WebAPI.API.Tests.Commands
                         new ZipGridLink(84111, "SALT LAKE CITY", 0)
                     };
 
-                var result = CommandExecutor.ExecuteCommand(new GetLocatorsForAddressCommand(address, new GeocodeOptions
+                var result = CommandExecutor.ExecuteCommand(new GetAltNameLocatorsForAddressCommand(address, new GeocodeOptions
                     {
                         AcceptScore = 70,
                         JsonFormat = JsonFormat.None,
@@ -236,7 +236,7 @@ namespace WebAPI.API.Tests.Commands
 
                 App.GridsWithAddressPoints = new string[] {};
 
-                var result = CommandExecutor.ExecuteCommand(new GetLocatorsForAddressCommand(address, new GeocodeOptions
+                var result = CommandExecutor.ExecuteCommand(new GetAltNameLocatorsForAddressCommand(address, new GeocodeOptions
                     {
                         AcceptScore = 70,
                         JsonFormat = JsonFormat.None,
@@ -284,7 +284,7 @@ namespace WebAPI.API.Tests.Commands
 
                 App.GridsWithAddressPoints = new string[] {};
 
-                var result = CommandExecutor.ExecuteCommand(new GetLocatorsForAddressCommand(address, new GeocodeOptions
+                var result = CommandExecutor.ExecuteCommand(new GetAltNameLocatorsForAddressCommand(address, new GeocodeOptions
                     {
                         AcceptScore = 70,
                         JsonFormat = JsonFormat.None,
@@ -345,7 +345,7 @@ namespace WebAPI.API.Tests.Commands
 
                 App.GridsWithAddressPoints = new string[] {};
 
-                var result = CommandExecutor.ExecuteCommand(new GetLocatorsForAddressCommand(address, new GeocodeOptions
+                var result = CommandExecutor.ExecuteCommand(new GetAltNameLocatorsForAddressCommand(address, new GeocodeOptions
                     {
                         AcceptScore = 70,
                         JsonFormat = JsonFormat.None,

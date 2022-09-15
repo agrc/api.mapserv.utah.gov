@@ -351,7 +351,6 @@
     <Compile Include="Commands\Geocode\Flags\DoubleAvenuesExceptionCommand.cs" />
     <Compile Include="Commands\Geocode\GetAltNameLocatorsForAddressCommand.cs" />
     <Compile Include="Commands\Geocode\GetAltNameLocatorsForLocationCommand.cs" />
-    <Compile Include="Commands\Geocode\GetLocatorsForAddressCommand.cs" />
     <Compile Include="Commands\Geocode\GetLocatorsForLocationCommand.cs" />
     <Compile Include="Commands\Geocode\PoBoxCommand.cs" />
     <Compile Include="Commands\Geocode\UspsDeliveryPointCommand.cs" />
@@ -564,7 +563,7 @@
           </servers>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.MonthAndDayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
