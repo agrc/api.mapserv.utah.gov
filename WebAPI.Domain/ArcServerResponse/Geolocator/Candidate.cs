@@ -16,11 +16,11 @@ namespace WebAPI.Domain.ArcServerResponse.Geolocator
                 _address = value;
 
                 if (string.IsNullOrEmpty(_address)) return;
-                
-                var parts = _address.Split(new[] {','});
-                
+
+                var parts = _address.Split(new[] { ',' });
+
                 if (parts.Length != 3) return;
-                
+
                 AddressGrid = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parts[1].Trim().ToLowerInvariant());
                 _address = string.Join(",", parts[0], parts[2]).Trim();
             }
@@ -40,6 +40,9 @@ namespace WebAPI.Domain.ArcServerResponse.Geolocator
         [JsonProperty(PropertyName = "addressGrid")]
         public string AddressGrid { get; set; }
 
+        [JsonProperty(PropertyName = "attributes")]
+        public OutFields Attributes { get; set; }
+
         [JsonIgnore]
         public int Weight { get; set; }
 
@@ -53,5 +56,14 @@ namespace WebAPI.Domain.ArcServerResponse.Geolocator
         {
             return false;
         }
+    }
+
+    public class OutFields
+    {
+        [JsonProperty(PropertyName = "addr_type")]
+        public string AddressType { get; set; }
+
+        [JsonProperty(PropertyName = "addnum")]
+        public string AddressNumber { get; set; }
     }
 }

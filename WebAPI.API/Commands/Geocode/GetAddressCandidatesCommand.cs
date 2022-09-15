@@ -68,6 +68,8 @@ namespace WebAPI.API.Commands.Geocode
                 if (result == null)
                     return result;
 
+                result = result.FindAll(x => !string.IsNullOrEmpty(x.Attributes.AddressNumber) || x.Attributes.AddressType == "StreetInt");
+
                 result.ForEach(x =>
                 {
                     x.Locator = LocatorDetails.Name;
