@@ -13,11 +13,14 @@ namespace WebAPI.Domain.ApiResponses
 
         public ReverseGeocodeResult(ReverseGeocodeResponse response)
         {
-            InputLocation = response.Location;
-            Address = new ReverseGeocodeAddressDTO
+            if (response.IsSuccessful)
             {
-                Street = response.Address.Address
-            };
+                InputLocation = response.Location;
+                Address = new ReverseGeocodeAddressDTO
+                {
+                    Street = response.Address.Address
+                };
+            }
         }
     }
 }

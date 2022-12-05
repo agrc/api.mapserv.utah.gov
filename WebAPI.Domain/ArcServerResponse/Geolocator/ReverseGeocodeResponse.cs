@@ -2,7 +2,7 @@
 
 namespace WebAPI.Domain.ArcServerResponse.Geolocator
 {
-    public class ReverseGeocodeResponse
+    public class ReverseGeocodeResponse : SoeErrorable
     {
         [JsonProperty(PropertyName = "location")]
         public Location Location { get; set; }
