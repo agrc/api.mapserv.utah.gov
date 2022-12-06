@@ -42,21 +42,14 @@ namespace WebAPI.Dashboard.Commands.Password
                 };
 
                 var plainText = enc.GetBytes(PlainTextPassword + Credentials.Salt);
-                using (var encryptor = cipher.CreateEncryptor())
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        using (var cs = new CryptoStream(ms, encryptor,
-                                                         CryptoStreamMode.
-                                                             Write))
-                        {
-                            cs.Write(plainText, 0, plainText.Length);
-                            cs.FlushFinalBlock();
+                using var encryptor = cipher.CreateEncryptor();
+                using var ms = new MemoryStream();
+                using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
+                
+                cs.Write(plainText, 0, plainText.Length);
+                cs.FlushFinalBlock();
 
-                            return Credentials.Password == enc.GetString(ms.ToArray());
-                        }
-                    }
-                }
+                return Credentials.Password == enc.GetString(ms.ToArray());
             });
         }
     }
