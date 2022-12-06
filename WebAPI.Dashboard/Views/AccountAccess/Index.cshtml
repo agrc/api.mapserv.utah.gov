@@ -23,90 +23,93 @@
             @class = "well form-horizontal"
         }))
         {
-            <fieldset>
-                <legend>Login</legend>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="Email">
-                        Email Address
-                    </label>
-                    <div class="col-sm-8">
-                        @Html.TextBox("Email", null, new
-                        {
-                            @class = "form-control",
-                            data_required = "",
-                            @id = "Email"
-                        })
-                        <span class="help-inline label label-danger">required</span>
-                    </div>
+        <fieldset>
+            <legend>Login</legend>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="Email">
+                    Email Address
+                </label>
+                <div class="col-sm-8">
+                    @Html.TextBox("Email", null, new
+                    {
+                        @class = "form-control",
+                        data_required = "",
+                        @id = "Email"
+                    })
+                    <span class="help-inline label label-danger">required</span>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="Password">
-                        Password
-                    </label>
-                    <div class="col-sm-8">
-                        @Html.Password("Password", null, new
-                        {
-                            @class = "form-control",
-                            data_required = "",
-                            @id = "Password"
-                        })
-                        <span class="help-inline label label-danger">required</span>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="Password">
+                    Password
+                </label>
+                <div class="col-sm-8">
+                    @Html.Password("Password", null, new
+                    {
+                        @class = "form-control",
+                        data_required = "",
+                        @id = "Password"
+                    })
+                    <span class="help-inline label label-danger">required</span>
                 </div>
-                <div class="form-group col-sm-offset-1">
-                    <div class="col-sm-8">
-                        <button class="btn btn-success">
-                            Log In
-                        </button>
-                    </div>
+            </div>
+            <input type="hidden" name="token" id="login-token" />
+            <div class="form-group col-sm-offset-1">
+                <div class="col-sm-8">
+                    <button class="btn btn-success">
+                        Log In
+                    </button>
                 </div>
-            </fieldset>
+            </div>
+        </fieldset>
         }
     </div>
     <div class="col-sm-6">
         @using (Html.BeginForm("Register", "AccountAccess", FormMethod.Post, new
         {
-            @class = "well form-horizontal"
+            @class = "well form-horizontal",
+            id = "registrationForm"
         }))
         {
-            <fieldset>
-                <legend>Register</legend>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="Email">
-                        Email Address
-                    </label>
-                    <div class="col-sm-8">
-                        @Html.TextBox("Email", null, new
-                        {
-                            @class = "form-control",
-                            data_required = "",
-                            @id = "Email"
-                        })
-                        <span class="help-inline label label-danger">required</span>
-                    </div>
+        <fieldset>
+            <legend>Register</legend>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="Email">
+                    Email Address
+                </label>
+                <div class="col-sm-8">
+                    @Html.TextBox("Email", null, new
+                    {
+                        @class = "form-control",
+                        data_required = "",
+                        @id = "Email"
+                    })
+                    <span class="help-inline label label-danger">required</span>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="Password">
-                        Password
-                    </label>
-                    <div class="col-sm-8">
-                        @Html.Password("Password", null, new
-                        {
-                            @class = "form-control",
-                            data_required = "",
-                            @id = "Password"
-                        })
-                        <span class="help-inline label label-danger">required</span>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="Password">
+                    Password
+                </label>
+                <div class="col-sm-8">
+                    @Html.Password("Password", null, new
+                    {
+                        @class = "form-control",
+                        data_required = "",
+                        @id = "Password"
+                    })
+                    <span class="help-inline label label-danger">required</span>
                 </div>
-                <div class="form-group col-sm-offset-1">
-                    <div class="col-sm-8">
-                        <button class="btn btn-success">
-                            Register
-                        </button>
-                    </div>
+            </div>
+            <input type="hidden" name="token" id="register-token" />
+            <div class="form-group col-sm-offset-1">
+                <div class="col-sm-8">
+                    <button class="btn btn-success">
+                        Register
+                    </button>
                 </div>
-            </fieldset>
+            </div>
+        </fieldset>
         }
     </div>
 </div>
@@ -115,3 +118,12 @@
         Register to create an account
     </h2>
 </div>
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6LcJbFgjAAAAAFFXxiZA8wQfNQ2S7_5Gqm0cILiA"></script>
+<script>
+    grecaptcha.enterprise.ready(function () {
+        grecaptcha.enterprise.execute('6LcJbFgjAAAAAFFXxiZA8wQfNQ2S7_5Gqm0cILiA', { action: 'login' }).then(function (token) {
+            document.getElementById('login-token').value = token;
+            document.getElementById('register-token').value = token;
+    });
+});
+</script>

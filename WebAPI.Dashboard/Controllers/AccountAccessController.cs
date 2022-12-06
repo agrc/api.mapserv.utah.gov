@@ -10,6 +10,7 @@ using WebAPI.Common.Models.Raven.Users;
 using WebAPI.Dashboard.Commands.Email;
 using WebAPI.Dashboard.Commands.Key;
 using WebAPI.Dashboard.Commands.Password;
+using WebAPI.Dashboard.Commands.ReCaptcha;
 using WebAPI.Dashboard.Models.ViewModels;
 using WebAPI.Dashboard.Models.ViewModels.Passwords;
 using WebAPI.Dashboard.Models.ViewModels.Users;
@@ -41,6 +42,16 @@ namespace WebAPI.Dashboard.Controllers
                 ErrorMessage = "Email address is not valid.";
 
                 return View("Index", new MainViewModel(account).WithAccountAccessBase(credentials));
+            }
+
+            var result =
+                CommandExecutor.ExecuteCommand(new ValidateAssessmentCommand(credentials.Token, "login"));
+
+            if (!result?.Valid ?? false)
+            {
+                ErrorMessage = "You act like a bot. Maybe don't do that.";
+
+                return View("Index", new MainViewModel(account));
             }
 
             ValidateLoginCredentials storedCredentials;
@@ -84,8 +95,7 @@ namespace WebAPI.Dashboard.Controllers
             FormsAuthentication.SignIn(storedCredentials.Id);
             App.ResetOutputCache();
 
-            ActionResult redirect;
-            if (RedirectToReturnUrl(returnUrl, out redirect))
+            if (RedirectToReturnUrl(returnUrl, out ActionResult redirect))
             {
                 return redirect;
             }
@@ -116,6 +126,16 @@ namespace WebAPI.Dashboard.Controllers
 
                 return View("Index", new MainViewModel(account)
                     .WithAccountAccessBase(registrationData));
+            }
+
+            var result =
+                CommandExecutor.ExecuteCommand(new ValidateAssessmentCommand(registrationData.Token, "register"));
+
+            if (!result?.Valid ?? false)
+            {
+                ErrorMessage = "You act like a bot. Maybe don't do that.";
+
+                return View("Index", new MainViewModel(account));
             }
 
             var task = CommandExecutor.ExecuteCommand(new HashPasswordCommand(registrationData.Password));
