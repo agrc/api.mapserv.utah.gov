@@ -162,7 +162,7 @@ class LocatorsPallet(Pallet):
 
     def _get_dirty_locators(self):
         lookup = {
-            'addresspoints': 'AddressPoints_AddressSystem',
+            'sgid.location.addresspoints': 'AddressPoints_AddressSystem',
             'atlnamesaddrpnts': 'AddressPoints_AddressSystem',
             'atlnamesroads': 'Roads_AddressSystem_STREET',
             'geocoderoads': 'Roads_AddressSystem_STREET',
