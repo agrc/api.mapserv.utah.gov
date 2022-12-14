@@ -1192,15 +1192,15 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "YOUNG WARD", "LOGAN", "0"},
                 new [] { "ZANE", "BERYL", "0"},
                 new [] { "ZION NATIONAL PARK", "KOLOB", "1"},
-                new [] { "ZION NATIONAL PARK", "NEW HARMONY", "1"},
-                new [] { "ZION NATIONAL PARK", "ROCKVILLE", "0"},
-                new [] { "ZION NATIONAL PARK", "SPRINGDALE", "1"},
-                new [] { "ZION NATIONAL PARK", "VIRGIN", "1"},
-                new [] { "ZION NTL PARK", "KOLOB", "0"},
+                new [] { "ZION NATIONAL PARK", "NEW HARMONY", "0"},
+                new [] { "ZION NATIONAL PARK", "ROCKVILLE", "2"},
+                new [] { "ZION NATIONAL PARK", "SPRINGDALE", "4"},
+                new [] { "ZION NATIONAL PARK", "VIRGIN", "3"},
+                new [] { "ZION NTL PARK", "KOLOB", "1"},
                 new [] { "ZION NTL PARK", "NEW HARMONY", "0"},
-                new [] { "ZION NTL PARK", "ROCKVILLE", "0"},
-                new [] { "ZION NTL PARK", "SPRINGDALE", "0"},
-                new [] { "ZION NTL PARK", "VIRGIN", "0"},
+                new [] { "ZION NTL PARK", "ROCKVILLE", "2"},
+                new [] { "ZION NTL PARK", "SPRINGDALE", "4"},
+                new [] { "ZION NTL PARK", "VIRGIN", "3"},
             };
 
             foreach (var row in values)
