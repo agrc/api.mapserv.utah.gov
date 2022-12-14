@@ -1108,6 +1108,8 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "UINTAH COUNTY", "VERNAL", "0"},
                 new [] { "UINTAH", "OGDEN", "0"},
                 new [] { "UNIVERSITY OF UTAH", "SALT LAKE CITY", "0"},
+                new [] { "UOFU", "SALT LAKE CITY", "0"},
+                new [] { "U OF U", "SALT LAKE CITY", "0"},
                 new [] { "UPALCO", "ROOSEVELT", "0"},
                 new [] { "UPTON", "COALVILLE", "0"},
                 new [] { "UTAH COUNTY", "PROVO", "0"},
