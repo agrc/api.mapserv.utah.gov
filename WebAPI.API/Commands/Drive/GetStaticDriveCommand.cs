@@ -537,7 +537,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "DUCHESNE", "DUCHESNE", "1"},
                 new [] { "DUCHESNE", "ROOSEVELT", "0"},
                 new [] { "DUCK CREEK VILLAGE", "DUCK CREEK VILLAGE", "2"},
-                new [] { "DUCK CREEK", "DUCK CREEK VILLAGE", "1"},                
+                new [] { "DUCK CREEK", "DUCK CREEK VILLAGE", "1"},
                 new [] { "DUCK CREEK VLG", "DUCK CREEK VILLAGE", "0"},
                 new [] { "DUGWAY", "DUGWAY", "1"},
                 new [] { "DUGWAY", "TOOELE", "0"},
