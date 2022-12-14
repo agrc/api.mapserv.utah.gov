@@ -783,7 +783,6 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "MAPLETON", "MAPLETON", "1"},
                 new [] { "MAPLETON", "PROVO", "0"},
                 new [] { "MARION", "KAMAS", "0"},
-                new [] { "MARRIOTT SLATERVILLE", "OGDEN", "7"},
                 new [] { "MARRIOTT-SLATERVILLE CITY", "OGDEN", "5"},
                 new [] { "MARRIOTT-SLATERVILLE", "OGDEN", "6"},
                 new [] { "MARRIOTT", "OGDEN", "1"},
