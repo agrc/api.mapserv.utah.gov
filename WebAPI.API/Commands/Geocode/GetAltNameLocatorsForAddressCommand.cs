@@ -16,7 +16,6 @@ namespace WebAPI.API.Commands.Geocode
     {
         public GetAltNameLocatorsForAddressCommand(GeocodeAddress address, GeocodeOptions options)
         {
-            Log = Log.ForContext<GetAltNameLocatorsForAddressCommand>();
             Host = ConfigurationManager.AppSettings["gis_server_host"];
             Address = address;
             Options = options;
@@ -24,8 +23,6 @@ namespace WebAPI.API.Commands.Geocode
             BuildAddressPermutations();
             BuildLocatorLookup();
         }
-
-        public ILogger Log { get; set; }
 
         public GeocodeAddress Address { get; set; }
 

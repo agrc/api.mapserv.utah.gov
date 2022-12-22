@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Serilog;
+using System.Collections.Generic;
 using WebAPI.Common.Abstractions;
 using WebAPI.Domain.Linkers;
 
@@ -27,7 +28,11 @@ namespace WebAPI.API.Commands.Address
 
             List<GridLinkable> gridLinkables;
             App.PlaceGridLookup.TryGetValue(_cityKey, out gridLinkables );
-            
+
+            if ((gridLinkables?.Count ?? 0) == 0)
+            {
+                Log.Warning("no address system grid found in address points {grid}", _cityKey);
+            }
             Result = gridLinkables??new List<GridLinkable>();
         }
     }

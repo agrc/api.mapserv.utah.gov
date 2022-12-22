@@ -65,6 +65,7 @@ namespace WebAPI.API.Commands.Address
                     new GetAddressSystemFromCityCommand(cityKey));
 
                 Result = CommandExecutor.ExecuteCommand(new DoubleAvenuesExceptionCommand(AddressModel, cityKey));
+
                 return;
             }
 
