@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -15,6 +16,7 @@ namespace WebAPI.API.Commands.Geocode
     {
         public GetAltNameLocatorsForAddressCommand(GeocodeAddress address, GeocodeOptions options)
         {
+            Log = Log.ForContext<GetAltNameLocatorsForAddressCommand>();
             Host = ConfigurationManager.AppSettings["gis_server_host"];
             Address = address;
             Options = options;
@@ -22,6 +24,8 @@ namespace WebAPI.API.Commands.Geocode
             BuildAddressPermutations();
             BuildLocatorLookup();
         }
+
+        public ILogger Log { get; set; }
 
         public GeocodeAddress Address { get; set; }
 
@@ -104,7 +108,11 @@ namespace WebAPI.API.Commands.Geocode
             AddressPermutations.ForEach(x =>
             {
                 if (!App.GridsWithAddressPoints.Contains(x.Grid))
+                {
+                    Log.Warning("no address system grid found in address points {grid}", x.Grid);
+
                     return;
+                }
 
                 if (x.AddressInfo.IsReversal() || x.AddressInfo.PossibleReversal())
                 {
