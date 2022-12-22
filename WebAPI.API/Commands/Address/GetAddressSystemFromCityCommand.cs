@@ -31,7 +31,7 @@ namespace WebAPI.API.Commands.Address
 
             if ((gridLinkables?.Count ?? 0) == 0)
             {
-                Log.Warning("no address system grid found in address points {grid}", _cityKey);
+                Log.Warning("(address-system) missing {grid}", _cityKey);
             }
             Result = gridLinkables??new List<GridLinkable>();
         }
