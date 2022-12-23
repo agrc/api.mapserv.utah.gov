@@ -1,5 +1,4 @@
-﻿using Serilog;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using WebAPI.Common.Abstractions;
 using WebAPI.Domain.Addresses;
@@ -43,8 +42,6 @@ namespace WebAPI.API.Commands.Geocode
         {
             if (Candidates == null || !Candidates.Any())
             {
-                Log.Warning("(temp) No candidates found for {street} {zone}", Street, Zone);
-
                 Result = new GeocodeAddressResult
                 {
                     InputAddress = $"{Street}, {Zone}",
@@ -54,15 +51,11 @@ namespace WebAPI.API.Commands.Geocode
                 return;
             }
 
-            Log.Warning("(temp) Candidates {@candidates}", Candidates);
-
             // get best match from candidates
             var result = Candidates.FirstOrDefault(x => x.Score >= GeocodeOptions.AcceptScore &&
                                                         GeocodedAddress
                                                             .AddressGrids.Select(y => y?.Grid?.ToUpper())
                                                             .Contains(x.AddressGrid?.ToUpper())) ?? new Candidate();
-
-            Log.Warning("(temp) Candidates.FirstOrDefault {@candidates}", result);
 
             // remove the result from the candidate list if it meets the accept score since it is the match address
             if (GeocodeOptions.SuggestCount > 0 && result.Score >= GeocodeOptions.AcceptScore)
@@ -86,7 +79,6 @@ namespace WebAPI.API.Commands.Geocode
 
             if (result.Location == null && GeocodeOptions.SuggestCount == 0)
             {
-                Log.Warning("(temp) location is null suggest is 0 {@result} with options {@GeocodeOptions}", result, GeocodeOptions);
                 Result = null;
                 return;
             }
