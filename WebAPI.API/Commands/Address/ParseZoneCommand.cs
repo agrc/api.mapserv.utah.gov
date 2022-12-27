@@ -60,6 +60,7 @@ namespace WebAPI.API.Commands.Address
                 cityKey = Regex.Replace(cityKey, @"\s+", " ");
 
                 cityKey = App.RegularExpressions["cityTownCruft"].Replace(cityKey, "").Trim();
+                cityKey = App.RegularExpressions["stripCitySuffix"].Replace(cityKey, "").Trim();
 
                 AddressModel.AddressGrids = CommandExecutor.ExecuteCommand(
                     new GetAddressSystemFromCityCommand(cityKey));
