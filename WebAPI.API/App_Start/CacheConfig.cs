@@ -271,6 +271,10 @@ namespace WebAPI.API
                 {
                     "cityTownCruft",
                     new Regex(@"(?:city|town)(?: of)", RegexOptions.Compiled | RegexOptions.IgnoreCase)
+                },
+                {
+                    "stripCitySuffix",
+                    new Regex(@"(?:cty|city)$", RegexOptions.Compiled | RegexOptions.IgnoreCase)
                 }
             };
 
