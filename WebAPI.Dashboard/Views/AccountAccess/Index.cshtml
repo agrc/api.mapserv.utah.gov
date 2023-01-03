@@ -123,7 +123,9 @@
     grecaptcha.enterprise.ready(function () {
         grecaptcha.enterprise.execute('6LcJbFgjAAAAAFFXxiZA8wQfNQ2S7_5Gqm0cILiA', { action: 'login' }).then(function (token) {
             document.getElementById('login-token').value = token;
+        });
+        grecaptcha.enterprise.execute('6LcJbFgjAAAAAFFXxiZA8wQfNQ2S7_5Gqm0cILiA', { action: 'register' }).then(function (token) {
             document.getElementById('register-token').value = token;
+        });
     });
-});
 </script>
