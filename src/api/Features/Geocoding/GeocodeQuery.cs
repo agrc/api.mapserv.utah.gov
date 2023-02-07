@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using AGRC.api.Comparers;
 using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;
+using AGRC.api.Models.ResponseContracts;
 using AGRC.api.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using AGRC.api.Models.ResponseContracts;
 
 namespace AGRC.api.Features.Geocoding {
     public class GeocodeQuery {
@@ -158,14 +158,14 @@ namespace AGRC.api.Features.Geocoding {
         }
 
         public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : Query
+        where TRequest : Query, IRequest<TResponse>
         where TResponse : ObjectResult {
             private readonly ILogger _log;
 
             public ValidationBehavior(ILogger log) {
                 _log = log?.ForContext<GeocodeQuery>();
             }
-            public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next) {
+            public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
                 var street = request.Street?.Trim();
                 var zone = request.Zone?.Trim();
 

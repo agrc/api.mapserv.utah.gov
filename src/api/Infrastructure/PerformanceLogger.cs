@@ -5,7 +5,7 @@ using MediatR;
 using Serilog;
 
 namespace AGRC.api.Infrastructure {
-    public class PerformanceLogger<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> {
+    public class PerformanceLogger<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse> {
         private readonly Stopwatch _timer;
         private readonly ILogger _log;
 
@@ -14,7 +14,7 @@ namespace AGRC.api.Infrastructure {
             _log = log?.ForContext<PerformanceLogger<TRequest, TResponse>>();
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next) {
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
             _timer.Start();
 
             var response = await next();

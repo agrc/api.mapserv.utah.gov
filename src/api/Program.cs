@@ -22,7 +22,6 @@ namespace AGRC.api {
 
         public static async Task<int> Main(string[] args) {
             var config = new GoogleCloudLoggingSinkOptions {
-                UseJsonOutput = true,
                 LogName = "api.mapserv.utah.gov",
                 UseSourceContextAsLogName = false,
                 ResourceType = "global",
@@ -86,7 +85,6 @@ namespace AGRC.api {
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .UseSerilog((context, config) => {
                 var googleConfig = new GoogleCloudLoggingSinkOptions {
-                    UseJsonOutput = true,
                     LogName = "api.mapserv.utah.gov",
                     UseSourceContextAsLogName = false,
                     ResourceType = "global",

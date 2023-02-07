@@ -9,8 +9,7 @@ using Serilog;
 using Serilog.Sinks.GoogleCloudLogging;
 
 namespace developer.mapserv.utah.gov {
-    public static class Program
-    {
+    public static class Program {
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
            .SetBasePath(Directory.GetCurrentDirectory())
            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -19,7 +18,6 @@ namespace developer.mapserv.utah.gov {
            .Build();
         public static async Task<int> Main(string[] args) {
             var config = new GoogleCloudLoggingSinkOptions {
-                UseJsonOutput = true,
                 LogName = "developer.mapserv.utah.gov",
                 UseSourceContextAsLogName = false,
                 ResourceType = "global",
@@ -44,7 +42,7 @@ namespace developer.mapserv.utah.gov {
                 .WriteTo.GoogleCloudLogging(config)
                 .CreateLogger();
 
-             try {
+            try {
                 logger.Information("Starting web host");
 
                 var host = CreateHostBuilder(args).Build();
@@ -72,7 +70,6 @@ namespace developer.mapserv.utah.gov {
             })
             .UseSerilog((context, config) => {
                 var googleConfig = new GoogleCloudLoggingSinkOptions {
-                    UseJsonOutput = true,
                     LogName = "developer.mapserv.utah.gov",
                     UseSourceContextAsLogName = false,
                     ResourceType = "global",

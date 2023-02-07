@@ -44,7 +44,7 @@ namespace AGRC.api.Features.Searching {
                             request.Options.AttributeStyle,
                             request.Options.Geometry),
                         cancellationToken);
-                } catch(KeyNotFoundException ex){
+                } catch (KeyNotFoundException ex) {
                     _log.ForContext("table", request.TableName)
                         .Error("table not in SGID", ex);
 
@@ -52,8 +52,7 @@ namespace AGRC.api.Features.Searching {
                         Status = (int)HttpStatusCode.BadRequest,
                         Message = $"The table `{tableName}` does not exist in the SGID. Please read https://gis.utah.gov/sgid-product-relaunch-update/#static-sgid-data-layers for more information."
                     });
-                }
-                catch (PostgresException ex) {
+                } catch (PostgresException ex) {
                     string message;
 
                     if (ex.SqlState == "42804") { // invalid predicate
@@ -82,8 +81,7 @@ namespace AGRC.api.Features.Searching {
                         Status = (int)HttpStatusCode.BadRequest,
                         Message = message
                     });
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     _log.ForContext("message", ex.Message)
                         .ForContext("request", request)
                         .Error("unhandled search query exception", ex);
@@ -105,7 +103,7 @@ namespace AGRC.api.Features.Searching {
         }
 
         public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : Query
+        where TRequest : Query, IRequest<TResponse>
         where TResponse : ObjectResult {
             private readonly ILogger _log;
             private readonly IComputeMediator _computeMediator;
@@ -116,7 +114,7 @@ namespace AGRC.api.Features.Searching {
             }
 
             public async Task<TResponse> Handle(
-                TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next) {
+                TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
 
                 var errors = "";
 
