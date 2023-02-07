@@ -4,103 +4,154 @@
     method: GET
     query_params:
       City: salt lake city
-      Street: 326 East south temple
+      Address: 326 East south temple
       f: json
       outSR: "26912"
   response:
     status: 200
-    body:
-      candidates:
-        - address: "326 E SOUTH TEMPLE ST, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 425671.3007940875
-            xmin: 425500.2782789863
-            ymax: 4513628.476574931
-            ymin: 4513408.159019794
-          location:
-            x: 425585.79079236346
-            "y": 4513518.3173113195
-          score: 98.24
-        - address: "326 E ST, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 426037.2557579616
-            xmin: 425866.26283557765
-            ymax: 4514466.232444218
-            ymin: 4514245.906555591
-          location:
-            x: 425951.76055283466
-            "y": 4514356.0690138135
-          score: 94.6
-        - address: "326 W SOUTH TEMPLE ST, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 424092.2083639529
-            xmin: 423921.13873334107
-            ymax: 4513661.295604397
-            ymin: 4513441.0138857765
-          location:
-            x: 424006.6748042875
-            "y": 4513551.1542591425
-          score: 91.7
-        - address: "SOUTH TEMPLE ST, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 420695.3778026159
-            xmin: 420524.20600246923
-            ymax: 4513696.495328483
-            ymin: 4513476.290689453
-          location:
-            x: 420609.7931577767
-            "y": 4513586.392523234
-          score: 91.21
-        - address: "W SOUTH TEMPLE ST, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 421225.35315773275
-            xmin: 421054.1972977293
-            ymax: 4513690.837544279
-            ymin: 4513470.620880191
-          location:
-            x: 421139.77648302756
-            "y": 4513580.72872647
-          score: 91.21
-        - address: "S TEMPLE DR, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 421450.52338581294
-            xmin: 421278.9186307386
-            ymax: 4492981.40179329
-            ymin: 4492761.180278661
-          location:
-            x: 421364.7222588535
-            "y": 4492871.290550874
-          score: 89.28
-        - address: "W TEMPLE LN, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 420837.30063911073
-            xmin: 420665.63611702865
-            ymax: 4491100.283726033
-            ymin: 4490880.076087328
-          location:
-            x: 420751.46962814126
-            "y": 4490990.179421681
-          score: 86.8
-        - address: "EAST PL, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 427106.823953265
-            xmin: 426935.8213195684
-            ymax: 4512560.49795862
-            ymin: 4512340.147861806
-          location:
-            x: 427021.3238921747
-            "y": 4512450.322424115
-          score: 84.59
-      spatialReference:
-        latestWkid: 26912
-        wkid: 26912
+    body: '{
+      "spatialReference": {
+      "wkid": 26912,
+      "latestWkid": 26912
+      },
+      "candidates": [
+      {
+      "address": "326 E SOUTH TEMPLE ST, SALT LAKE CITY",
+      "location": {
+      "x": 425585.79079236346,
+      "y": 4513518.3173113195
+      },
+      "score": 98.239999999999995,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 425500.27827898628,
+      "ymin": 4513408.1590197943,
+      "xmax": 425671.30079408752,
+      "ymax": 4513628.4765749313
+      }
+      },
+      {
+      "address": "326 E ST, SALT LAKE CITY",
+      "location": {
+      "x": 425951.76055283466,
+      "y": 4514356.0690138135
+      },
+      "score": 94.599999999999994,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 425866.26283557765,
+      "ymin": 4514245.9065555912,
+      "xmax": 426037.2557579616,
+      "ymax": 4514466.2324442184
+      }
+      },
+      {
+      "address": "326 W SOUTH TEMPLE ST, SALT LAKE CITY",
+      "location": {
+      "x": 424006.6748042875,
+      "y": 4513551.1542591425
+      },
+      "score": 91.700000000000003,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 423921.13873334107,
+      "ymin": 4513441.0138857765,
+      "xmax": 424092.20836395287,
+      "ymax": 4513661.2956043966
+      }
+      },
+      {
+      "address": "SOUTH TEMPLE ST, SALT LAKE CITY",
+      "location": {
+      "x": 420609.7931577767,
+      "y": 4513586.3925232338
+      },
+      "score": 91.209999999999994,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 420524.20600246923,
+      "ymin": 4513476.2906894526,
+      "xmax": 420695.37780261593,
+      "ymax": 4513696.4953284832
+      }
+      },
+      {
+      "address": "W SOUTH TEMPLE ST, SALT LAKE CITY",
+      "location": {
+      "x": 421139.77648302756,
+      "y": 4513580.7287264699
+      },
+      "score": 91.209999999999994,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 421054.19729772932,
+      "ymin": 4513470.6208801912,
+      "xmax": 421225.35315773275,
+      "ymax": 4513690.8375442792
+      }
+      },
+      {
+      "address": "S TEMPLE DR, SALT LAKE CITY",
+      "location": {
+      "x": 421364.72225885349,
+      "y": 4492871.2905508736
+      },
+      "score": 89.280000000000001,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 421278.91863073863,
+      "ymin": 4492761.1802786607,
+      "xmax": 421450.52338581294,
+      "ymax": 4492981.4017932899
+      }
+      },
+      {
+      "address": "W TEMPLE LN, SALT LAKE CITY",
+      "location": {
+      "x": 420751.46962814126,
+      "y": 4490990.179421681
+      },
+      "score": 86.799999999999997,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 420665.63611702865,
+      "ymin": 4490880.0760873277,
+      "xmax": 420837.30063911073,
+      "ymax": 4491100.2837260328
+      }
+      },
+      {
+      "address": "EAST PL, SALT LAKE CITY",
+      "location": {
+      "x": 427021.3238921747,
+      "y": 4512450.3224241147
+      },
+      "score": 84.590000000000003,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 426935.82131956838,
+      "ymin": 4512340.1478618057,
+      "xmax": 427106.82395326497,
+      "ymax": 4512560.4979586201
+      }
+      }
+      ]
+      }'
     headers:
       Content-Type: application/json

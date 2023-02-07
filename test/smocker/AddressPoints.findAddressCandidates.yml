@@ -4,37 +4,52 @@
     method: GET
     query_params:
       City: salt lake city
-      Street: 326 East south temple
+      Address: 326 East south temple
       f: json
       outSR: "26912"
   response:
     status: 200
-    body:
-      candidates:
-        - address: "326 E SOUTH TEMPLE ST, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 425694.18336042436
-            xmin: 425523.1611230888
-            ymax: 4513609.66837748
-            ymin: 4513389.350303596
-          location:
-            x: 425608.67349758215
-            "y": 4513499.5088544935
-          score: 98.24
-        - address: "326 S WEST TEMPLE ST, SALT LAKE CITY"
-          attributes: {}
-          extent:
-            xmax: 424584.8371446751
-            xmin: 424413.76421175775
-            ymax: 4512835.54002437
-            ymin: 4512615.247147942
-          location:
-            x: 424499.3019337271
-            "y": 4512725.393100206
-          score: 84.53
-      spatialReference:
-        latestWkid: 26912
-        wkid: 26912
+    body: '{
+      "spatialReference": {
+      "wkid": 26912,
+      "latestWkid": 26912
+      },
+      "candidates": [
+      {
+      "address": "326 E SOUTH TEMPLE ST, SALT LAKE CITY",
+      "location": {
+      "x": 425608.67349758215,
+      "y": 4513499.5088544935
+      },
+      "score": 98.239999999999995,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 425523.16112308879,
+      "ymin": 4513389.3503035959,
+      "xmax": 425694.18336042436,
+      "ymax": 4513609.6683774795
+      }
+      },
+      {
+      "address": "326 S WEST TEMPLE ST, SALT LAKE CITY",
+      "location": {
+      "x": 424499.30193372711,
+      "y": 4512725.3931002058
+      },
+      "score": 84.530000000000001,
+      "attributes": {
+
+      },
+      "extent": {
+      "xmin": 424413.76421175775,
+      "ymin": 4512615.247147942,
+      "xmax": 424584.83714467508,
+      "ymax": 4512835.54002437
+      }
+      }
+      ]
+      }'
     headers:
       Content-Type: application/json
