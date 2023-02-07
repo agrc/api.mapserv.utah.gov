@@ -1,5 +1,3 @@
-version: '3'
-
 services:
 
   api:
@@ -27,4 +25,4 @@ services:
     image: webapi/explorer
 
   cache:
-    image: redis:latest
+    image: redis:6.0-alpine
