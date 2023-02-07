@@ -20,10 +20,7 @@ using static AGRC.api.Features.Converting.EsriGraphic;
 using Point = EsriJson.Net.Geometry.Point;
 
 namespace api.tests.Filters {
-
-    internal class TestController : Controller {
-
-    }
+    internal class TestController : Controller { }
 
     public class JsonOutputFormatTests {
         private static Contexts CreateContext(DefaultHttpContext httpContext) {
@@ -51,7 +48,6 @@ namespace api.tests.Filters {
             public ResultExecutingContext ExecutingContext { get; }
             public ResultExecutedContext ExecutedContext { get; }
         }
-
 
         [Fact]
         public async Task Should_be_ok_if_format_is_unknown() {

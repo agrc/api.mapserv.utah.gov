@@ -15,7 +15,7 @@ namespace api.tests.Features.Geocoding {
         public PoBoxTests() {
             _poBoxes.Add(84114, new PoBoxAddress(84114, 1, 1));
             _exclusions.Add(841140001, new PoBoxAddressCorrection(84114, 841140001, 2, 2));
-            IReadOnlyCollection<int> zipExclusions = new[] {84114};
+            IReadOnlyCollection<int> zipExclusions = new[] { 84114 };
 
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.PoBoxes).Returns(_poBoxes);
@@ -42,7 +42,7 @@ namespace api.tests.Features.Geocoding {
             var parsedAddress = new CleansedAddress("inputAddress", 1, 0, pobox, Direction.North, "street",
                                                     StreetType.Alley, Direction.South, 0, zip, false, false);
             var address = new AddressWithGrids(parsedAddress) {
-                AddressGrids = new[] {new ZipGridLink(84114, "grid", 0)}
+                AddressGrids = new[] { new ZipGridLink(84114, "grid", 0) }
             };
 
             var geocodeOptions = new SingleGeocodeRequestOptionsContract {
@@ -68,7 +68,7 @@ namespace api.tests.Features.Geocoding {
             var parsedAddress = new CleansedAddress("inputAddress", 1, 0, pobox, Direction.North, "street",
                                                     StreetType.Alley, Direction.South, 0, zip, false, false);
             var address = new AddressWithGrids(parsedAddress) {
-                AddressGrids = new[] {new ZipGridLink(84114, "grid", 0)}
+                AddressGrids = new[] { new ZipGridLink(84114, "grid", 0) }
             };
 
             var geocodeOptions = new SingleGeocodeRequestOptionsContract {

@@ -8,7 +8,7 @@ namespace api.tests.Features.Searching {
         private const string table = "table";
         [Fact]
         public void Should_build_attribute_query() {
-            var returnFields = "field1,field2";
+            const string returnFields = "field1,field2";
             var predicate = string.Empty;
 
             var computation = new SqlQuery.Computation(table, returnFields, predicate, AttributeStyle.Lower);
@@ -19,8 +19,8 @@ namespace api.tests.Features.Searching {
 
         [Fact]
         public void Should_build_attribute_query_with_predicate() {
-            var returnFields = "field1,field2";
-            var predicate = "field1 = 'ok'";
+            const string returnFields = "field1,field2";
+            const string predicate = "field1 = 'ok'";
 
             var computation = new SqlQuery.Computation(table, returnFields, predicate, AttributeStyle.Lower);
             var query = computation.BuildQuery();
@@ -30,9 +30,9 @@ namespace api.tests.Features.Searching {
 
         [Fact]
         public void Should_add_legacy_geometry_to_where() {
-            var returnFields = "field1,field2";
+            const string returnFields = "field1,field2";
             var predicate = string.Empty;
-            var geometry = "point:[1,1]";
+            const string geometry = "point:[1,1]";
 
             var computation = new SqlQuery.Computation(table, returnFields, predicate, AttributeStyle.Lower, geometry);
             var query = computation.BuildQuery();
@@ -42,9 +42,9 @@ namespace api.tests.Features.Searching {
 
         [Fact]
         public void Should_add_esri_geometry_to_where() {
-            var returnFields = "field1,field2";
+            const string returnFields = "field1,field2";
             var predicate = string.Empty;
-            var geometry = "point:{\"x\" : 1, \"y\" : 1, \"spatialReference\" : { \"wkid\": 26912}}";
+            const string geometry = "point:{\"x\" : 1, \"y\" : 1, \"spatialReference\" : { \"wkid\": 26912}}";
 
             var computation = new SqlQuery.Computation(table, returnFields, predicate, AttributeStyle.Lower, geometry);
             var query = computation.BuildQuery();
@@ -54,9 +54,9 @@ namespace api.tests.Features.Searching {
 
         [Fact]
         public void Should_join_geometry_and_predicate_to_where() {
-            var returnFields = "field1,field2";
-            var predicate = "field1 like 'a%'";
-            var geometry = "point:[1,1]";
+            const string returnFields = "field1,field2";
+            const string predicate = "field1 like 'a%'";
+            const string geometry = "point:[1,1]";
 
             var computation = new SqlQuery.Computation(table, returnFields, predicate, AttributeStyle.Lower, geometry);
             var query = computation.BuildQuery();

@@ -23,9 +23,9 @@ namespace api.tests.Features.Geocoding {
             var mediator = new Mock<IComputeMediator>();
 
             mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(), It.IsAny<CancellationToken>()))
-                    .Returns((AddressSystemFromPlace.Computation g, CancellationToken t) => {
+                    .Returns((AddressSystemFromPlace.Computation g, CancellationToken _) => {
                         if (g?.CityKey == "slc") {
-                            return Task.FromResult(new[] {new PlaceGridLink("slc", "salt lake city", 1)} as
+                            return Task.FromResult(new[] { new PlaceGridLink("slc", "salt lake city", 1) } as
                                                        IReadOnlyCollection<GridLinkable>);
                         }
 
@@ -49,12 +49,12 @@ namespace api.tests.Features.Geocoding {
         [InlineData("7th", 11111, Direction.None)]
         [InlineData("7th", 0, Direction.None)]
         public async Task Should_add_west_to_midvale_avenue_if_not_supplied_for_zip(
-            string streetname, int zipcode, Direction direction) {
-            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetname,
-                                                                 StreetType.Avenue, Direction.None, 0, zipcode, false,
+            string streetName, int zipCode, Direction direction) {
+            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetName,
+                                                                 StreetType.Avenue, Direction.None, 0, zipCode, false,
                                                                  false));
 
-            var request = new ZoneParsing.Computation(zipcode.ToString(), address);
+            var request = new ZoneParsing.Computation(zipCode.ToString(), address);
             var result = await _decorator.Handle(request, new CancellationToken());
 
             result.PrefixDirection.ShouldBe(direction);
@@ -69,8 +69,8 @@ namespace api.tests.Features.Geocoding {
         [InlineData("7th", "not problem area", Direction.None)]
         [InlineData("7th", null, Direction.None)]
         public async Task Should_add_west_to_midvale_avenue_if_not_supplied_for_city(
-            string streetname, string city, Direction direction) {
-            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetname,
+            string streetName, string city, Direction direction) {
+            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetName,
                                                                  StreetType.Avenue, Direction.None, 0, null, false,
                                                                  false));
 
@@ -86,8 +86,8 @@ namespace api.tests.Features.Geocoding {
         [InlineData("seventh", " slc ", Direction.East)]
         [InlineData("7", "  slc", Direction.East)]
         public async Task Should_add_east_to_slc_avenue_if_not_supplied_for_city(
-            string streetname, string city, Direction direction) {
-            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetname,
+            string streetName, string city, Direction direction) {
+            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetName,
                                                                  StreetType.Avenue, Direction.None, 0, null, false,
                                                                  false));
 

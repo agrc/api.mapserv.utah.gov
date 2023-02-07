@@ -526,7 +526,6 @@ namespace api.tests.Features.Geocoding {
                 "1238 east 3rd avenue"
             };
 
-
             yield return new object[] {
                 new CleansedAddress {
                     InputAddress = "1573 24TH Street",

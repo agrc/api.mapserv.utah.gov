@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AGRC.api.Filters;
 using AGRC.api.Models;
@@ -17,8 +18,7 @@ namespace api.tests.Filters {
     public class AuthorizeApiKeyTests {
         private readonly ILogger _log;
 
-        public AuthorizeApiKeyTests()
-        {
+        public AuthorizeApiKeyTests() {
             var logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
             _log = logger.Object;
@@ -183,8 +183,8 @@ namespace api.tests.Filters {
         [Theory]
         [InlineData(@"^htt(p|ps)://www\.example\.com\/test\/.*", "http://bad.example.com/test/test/index.html", 400)]
         [InlineData(@"^htt(p|ps)://www\.example\.com\/test\/.*", "http://www.example.com/bad/test2/index.htm", 400)]
-        [InlineData(@"^htt(p|ps)://machine-name", "http://machine-name/index.html", null)]
         [InlineData(@"^htt(p|ps)://machine-name\/.*", "http://machine-name/beta/index.htm", null)]
+        [InlineData("^htt(p|ps)://machine-name", "http://machine-name/index.html", null)]
         public async Task Should_validate_dev_key(string pattern, string url, object responseCode) {
             var ipProvider = new Mock<IServerIpProvider>();
 
@@ -328,8 +328,8 @@ namespace api.tests.Filters {
             var actionDescription = new ActionDescriptor();
 
             var actionContext = new ActionContext(httpContext, routeData, actionDescription);
-            var filterMetadata = new IFilterMetadata[0];
-            var valueProvider = new IValueProviderFactory[0];
+            var filterMetadata = Array.Empty<IFilterMetadata>();
+            var valueProvider = Array.Empty<IValueProviderFactory>();
 
             var context = new ResourceExecutingContext(actionContext, filterMetadata, valueProvider);
             var resultContext = new ResourceExecutedContext(actionContext, filterMetadata);

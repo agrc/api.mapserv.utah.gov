@@ -16,10 +16,9 @@ namespace api.tests.Features.Geocoding {
     public class AddressSystemFromZipTests {
         internal static IComputationHandler<AddressSystemFromZipCode.Computation, IReadOnlyCollection<GridLinkable>> Handler;
 
-        private readonly Dictionary<string, List<GridLinkable>> _links = new Dictionary<string, List<GridLinkable>>(1);
+        private readonly Dictionary<string, List<GridLinkable>> _links = new(1);
 
-        public AddressSystemFromZipTests()
-        {
+        public AddressSystemFromZipTests() {
             _links.Add("1", new List<GridLinkable> { new ZipGridLink(1, "grid", 1) });
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.ZipCodesGrids).Returns(_links);

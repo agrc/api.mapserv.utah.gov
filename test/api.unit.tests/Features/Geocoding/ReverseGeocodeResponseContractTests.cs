@@ -10,9 +10,8 @@ namespace api.tests.Features.Geocoding {
             yield return new object[] {
                 new Point(0, 0),
                 new Point(0, 0),
-                0
+                0d
             };
-
 
             yield return new object[] {
                 new Point(1, 1),
@@ -25,7 +24,6 @@ namespace api.tests.Features.Geocoding {
                 new Point(-1, -1),
                 4.24
             };
-
 
             yield return new object[] {
                 null,

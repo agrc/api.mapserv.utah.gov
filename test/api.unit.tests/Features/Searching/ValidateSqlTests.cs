@@ -8,8 +8,7 @@ namespace api.tests.Features.Searching {
     public class ValidateSqlTests {
         private readonly ValidateSql.Handler handler;
 
-        public ValidateSqlTests()
-        {
+        public ValidateSqlTests() {
             handler = new ValidateSql.Handler();
         }
         [Fact]

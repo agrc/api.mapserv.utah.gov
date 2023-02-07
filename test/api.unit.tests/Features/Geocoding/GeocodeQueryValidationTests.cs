@@ -1,21 +1,19 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Geocoding;
-using Shouldly;
-using Xunit;
-using Serilog;
-using Moq;
-using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Serilog;
+using Shouldly;
+using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class GeocodeQueryValidationTests {
         private readonly ILogger _logger;
         private readonly Mock<RequestHandlerDelegate<ObjectResult>> delegateMock;
-        public GeocodeQueryValidationTests()
-        {
+        public GeocodeQueryValidationTests() {
             _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
 
             delegateMock = new Mock<RequestHandlerDelegate<ObjectResult>>();
@@ -27,7 +25,7 @@ namespace api.tests.Features.Geocoding {
             var query = new GeocodeQuery.Query(string.Empty, "zip or city", new SingleGeocodeRequestOptionsContract());
 
             var handler = new GeocodeQuery.ValidationBehavior<GeocodeQuery.Query, ObjectResult>(_logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Never);
             result.StatusCode.ShouldBe(400);
@@ -43,7 +41,7 @@ namespace api.tests.Features.Geocoding {
             var query = new GeocodeQuery.Query("123 my street", string.Empty, new SingleGeocodeRequestOptionsContract());
 
             var handler = new GeocodeQuery.ValidationBehavior<GeocodeQuery.Query, ObjectResult>(_logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Never);
             result.StatusCode.ShouldBe(400);
@@ -59,7 +57,7 @@ namespace api.tests.Features.Geocoding {
             var query = new GeocodeQuery.Query(string.Empty, "     ", null);
 
             var handler = new GeocodeQuery.ValidationBehavior<GeocodeQuery.Query, ObjectResult>(_logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Never);
             result.StatusCode.ShouldBe(400);
@@ -75,7 +73,7 @@ namespace api.tests.Features.Geocoding {
             var query = new GeocodeQuery.Query("street", "zone", new SingleGeocodeRequestOptionsContract());
 
             var handler = new GeocodeQuery.ValidationBehavior<GeocodeQuery.Query, ObjectResult>(_logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Once);
         }

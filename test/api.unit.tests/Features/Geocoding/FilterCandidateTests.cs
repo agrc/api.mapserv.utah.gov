@@ -248,7 +248,7 @@ namespace api.tests.Features.Geocoding {
                 var request = new FilterCandidates.Computation(Array.Empty<Candidate>(), null, "street", "zone", null);
                 var result = await V1Handler.Handle(request, CancellationToken.None);
 
-                result.InputAddress.ShouldBe($"street, zone");
+                result.InputAddress.ShouldBe("street, zone");
                 result.Score.ShouldBe(-1);
             }
 
@@ -257,7 +257,7 @@ namespace api.tests.Features.Geocoding {
                 var request = new FilterCandidates.Computation(null, null, "street", "zone", null);
                 var result = await V1Handler.Handle(request, CancellationToken.None);
 
-                result.InputAddress.ShouldBe($"street, zone");
+                result.InputAddress.ShouldBe("street, zone");
                 result.Score.ShouldBe(-1);
             }
         }

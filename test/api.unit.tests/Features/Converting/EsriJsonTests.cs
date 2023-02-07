@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Converting;
@@ -5,8 +7,6 @@ using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ResponseContracts;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Shouldly;
 using Xunit;
 
@@ -43,7 +43,7 @@ namespace api.tests.Features.Converting {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
             };
 
-            var graphic = "{\"attributes\":{\"score\":100,\"locator\":\"Centerlines\",\"matchAddress\":\"Matched Address\",\"inputAddress\":\"Input Address\"},\"geometry\":{\"x\":1,\"y\":1,\"type\":\"point\",\"spatialReference\":{\"wkid\":26912}}}";
+            const string graphic = "{\"attributes\":{\"score\":100,\"locator\":\"Centerlines\",\"matchAddress\":\"Matched Address\",\"inputAddress\":\"Input Address\"},\"geometry\":{\"x\":1,\"y\":1,\"type\":\"point\",\"spatialReference\":{\"wkid\":26912}}}";
             var resultJson = JsonSerializer.Serialize(result.Result, options);
 
             resultJson.ShouldBe(graphic);

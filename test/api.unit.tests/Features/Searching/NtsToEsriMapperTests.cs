@@ -11,7 +11,7 @@ namespace api.tests.Features.Searching {
         [Fact]
         public async Task Should_convert_polygon_to_graphic() {
             var geometry = new Polygon(
-                new LinearRing(new [] {
+                new LinearRing(new[] {
                     new Coordinate(0, 0),
                     new Coordinate(1, 0),
                     new Coordinate(1, 1),
@@ -44,13 +44,13 @@ namespace api.tests.Features.Searching {
         [Fact]
         public async Task Should_convert_polygon_with_holes_to_graphic() {
             var geometry = new Polygon(
-                new LinearRing(new [] {
+                new LinearRing(new[] {
                     new Coordinate(0, 0),
                     new Coordinate(1, 0),
                     new Coordinate(1, 1),
                     new Coordinate(0, 1),
                     new Coordinate(0, 0),
-                }), new [] {
+                }), new[] {
                     new LinearRing(new [] {
                         new Coordinate(.5,.5),
                         new Coordinate(.6, .6),
@@ -92,7 +92,7 @@ namespace api.tests.Features.Searching {
         [Fact]
         public async Task Should_convert_multipolygon_to_graphic() {
             var geometry = new MultiPolygon(
-                new [] {new Polygon(new LinearRing(new[] {
+                new[] {new Polygon(new LinearRing(new[] {
                     new Coordinate(0, 0),
                     new Coordinate(1, 0),
                     new Coordinate(1, 1),

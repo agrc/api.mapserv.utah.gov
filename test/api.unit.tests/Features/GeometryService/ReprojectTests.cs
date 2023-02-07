@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.GeometryService;
 using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
@@ -12,7 +11,6 @@ using Shouldly;
 using Xunit;
 
 namespace api.tests.Features.GeometryService {
-
     public class FakeHttpMessageHandler : HttpMessageHandler {
         public HttpRequestMessage RequestMessage { get; private set; }
 

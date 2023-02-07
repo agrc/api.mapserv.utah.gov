@@ -20,9 +20,9 @@ namespace api.tests.Features.Geocoding {
 
             mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(),
                                        It.IsAny<CancellationToken>()))
-                    .Returns((AddressSystemFromPlace.Computation g, CancellationToken t) => {
+                    .Returns((AddressSystemFromPlace.Computation g, CancellationToken _) => {
                         if (g.CityKey == "alta") {
-                            return Task.FromResult(new[] {new PlaceGridLink("alta", "grid", 1)} as
+                            return Task.FromResult(new[] { new PlaceGridLink("alta", "grid", 1) } as
                                                        IReadOnlyCollection<GridLinkable>);
                         }
 

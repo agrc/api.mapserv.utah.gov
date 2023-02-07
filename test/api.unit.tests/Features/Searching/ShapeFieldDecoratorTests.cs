@@ -32,9 +32,7 @@ namespace api.tests.Features.Searching {
             var handler = new Mock<IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
             handler.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(),
                                         It.IsAny<CancellationToken>()))
-                   .Callback<SqlQuery.Computation, CancellationToken>((comp, token) => {
-                       _mutation = comp;
-                   })
+                   .Callback<SqlQuery.Computation, CancellationToken>((comp, _) => _mutation = comp)
                    .ReturnsAsync(_data);
 
             _computationHandler = handler.Object;

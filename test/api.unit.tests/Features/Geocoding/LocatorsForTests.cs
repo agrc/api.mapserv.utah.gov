@@ -104,11 +104,11 @@ namespace api.tests.Features.Geocoding {
                 result.Count.ShouldBe(2);
 
                 result.Count(x => x.Url ==
-                                  "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Street=1+North+2+Alley+South&City=grid&outSR=26912")
+                                  "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Address=1+North+2+Alley+South&City=grid&outSR=26912")
                       .ShouldBe(1);
 
                 result.Count(x => x.Url ==
-                                  "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Street=2+South+Alley+1+North&City=grid&outSR=26912")
+                                  "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Address=2+South+Alley+1+North&City=grid&outSR=26912")
                       .ShouldBe(1);
             }
 
@@ -131,7 +131,7 @@ namespace api.tests.Features.Geocoding {
                 result.ShouldHaveSingleItem();
 
                 var locator = result.First();
-                locator.Url.ShouldBe("points://address:1/arcgis/rest/services/Geolocators/address_service/GeocodeServer/findAddressCandidates?f=json&Street=1+North+street+Alley+South&City=grid&outSR=26912");
+                locator.Url.ShouldBe("points://address:1/arcgis/rest/services/Geolocators/address_service/GeocodeServer/findAddressCandidates?f=json&Address=1+North+street+Alley+South&City=grid&outSR=26912");
                 locator.Name.ShouldBe("display.address");
             }
 
@@ -183,7 +183,7 @@ namespace api.tests.Features.Geocoding {
                 result.ShouldHaveSingleItem();
 
                 var locator = result.First();
-                locator.Url.ShouldBe("centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Street=1+North+street+Alley+South&City=grid&outSR=26912");
+                locator.Url.ShouldBe("centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Address=1+North+street+Alley+South&City=grid&outSR=26912");
                 locator.Name.ShouldBe("display.street");
             }
 

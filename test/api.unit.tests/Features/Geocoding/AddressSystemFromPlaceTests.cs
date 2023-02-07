@@ -14,7 +14,7 @@ using Xunit;
 namespace api.tests.Features.Geocoding {
     public class AddressSystemFromPlaceTests {
         public AddressSystemFromPlaceTests() {
-            _links.Add("place", new List<GridLinkable> {new PlaceGridLink("place", "grid", 1)});
+            _links.Add("place", new List<GridLinkable> { new PlaceGridLink("place", "grid", 1) });
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.PlaceGrids).Returns(_links);
 
@@ -25,7 +25,7 @@ namespace api.tests.Features.Geocoding {
 
         internal static IComputationHandler<AddressSystemFromPlace.Computation, IReadOnlyCollection<GridLinkable>> Handler;
 
-        private readonly Dictionary<string, List<GridLinkable>> _links = new Dictionary<string, List<GridLinkable>>(1);
+        private readonly Dictionary<string, List<GridLinkable>> _links = new(1);
 
         [Fact]
         public async Task Should_return_empty_when_zip_is_null() {

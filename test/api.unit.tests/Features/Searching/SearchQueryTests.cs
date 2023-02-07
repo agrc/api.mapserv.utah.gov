@@ -1,22 +1,21 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Searching;
+using AGRC.api.Infrastructure;
+using AGRC.api.Models.ResponseContracts;
+using Moq;
+using Npgsql;
+using Serilog;
 using Shouldly;
 using Xunit;
-using Serilog;
-using Moq;
-using AGRC.api.Infrastructure;
-using System.Collections.Generic;
-using AGRC.api.Models.ResponseContracts;
 using static AGRC.api.Features.Converting.EsriGraphic;
-using Npgsql;
-using System;
 
 namespace api.tests.Features.Searching {
     public class SearchQueryTests {
         private readonly ILogger _logger;
-        public SearchQueryTests()
-        {
+        public SearchQueryTests() {
             _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
         }
 
@@ -136,7 +135,7 @@ namespace api.tests.Features.Searching {
 
             var mediator = new Mock<IComputeMediator>();
             mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
-                    .ThrowsAsync(new PostgresException("unknown", "ERROR", "ERROR", "unkown"));
+                    .ThrowsAsync(new PostgresException("unknown", "ERROR", "ERROR", "unknown"));
 
             var handler = new SearchQuery.Handler(mediator.Object, _logger);
             var result = await handler.Handle(query, CancellationToken.None);

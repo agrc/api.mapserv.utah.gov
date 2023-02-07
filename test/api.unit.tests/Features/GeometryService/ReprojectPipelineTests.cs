@@ -17,7 +17,7 @@ namespace api.tests.Features.GeometryService {
 
         public ReprojectPipelineTests() {
             _mediator = new Mock<IComputeMediator>();
-            _log = new Mock<ILogger>{ DefaultValue = DefaultValue.Mock}.Object;
+            _log = new Mock<ILogger> { DefaultValue = DefaultValue.Mock }.Object;
         }
 
         [Fact]
@@ -65,7 +65,6 @@ namespace api.tests.Features.GeometryService {
             decoratedMock.Setup(x => x.Handle(It.IsAny<IComputation<Candidate>>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(candidate);
 
-
             var computationMock = geocodingOptionsMock.As<IComputation<Candidate>>();
             var handler = new Reproject.Decorator<IComputation<Candidate>, Candidate>(decoratedMock.Object, _mediator.Object, _log);
 
@@ -91,7 +90,7 @@ namespace api.tests.Features.GeometryService {
             decoratedMock.Setup(x => x.Handle(It.IsAny<IComputation<Candidate>>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(candidate);
 
-            _mediator.Setup(x => x.Handle(It.Is<Reproject.Computation>(x => true), It.IsAny<CancellationToken>()))
+            _mediator.Setup(x => x.Handle(It.Is<Reproject.Computation>(_ => true), It.IsAny<CancellationToken>()))
                      .ReturnsAsync(new ReprojectResponse<Point> {
                          Error = new RestEndpointError()
                      });
@@ -120,9 +119,9 @@ namespace api.tests.Features.GeometryService {
             decoratedMock.Setup(x => x.Handle(It.IsAny<IComputation<Candidate>>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(candidate);
 
-            _mediator.Setup(x => x.Handle(It.Is<Reproject.Computation>(x => true), It.IsAny<CancellationToken>()))
+            _mediator.Setup(x => x.Handle(It.Is<Reproject.Computation>(_ => true), It.IsAny<CancellationToken>()))
                      .ReturnsAsync(new ReprojectResponse<Point> {
-                         Geometries = new [] { new Point(3, 4) }
+                         Geometries = new[] { new Point(3, 4) }
                      });
 
             var handler = new Reproject.Decorator<IComputation<Candidate>, Candidate>(decoratedMock.Object, _mediator.Object, _log);

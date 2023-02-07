@@ -45,7 +45,7 @@ namespace api.tests.Services {
             });
 
             var items = topCandidates.Get();
-            var candidate = items.First();
+            var candidate = items[0];
 
             const int addOneForWinnerWhichIsRemoved = 1;
 

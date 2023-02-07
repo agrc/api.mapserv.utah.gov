@@ -15,7 +15,7 @@ namespace api.tests.Features.Geocoding {
     public class DeliveryPointTests {
         public DeliveryPointTests() {
             _deliveryPoints.Add("84114",
-                                new GridLinkable[] {new UspsDeliveryPointLink(84114, "grid", "place", 1, 1)}.ToList());
+                                new GridLinkable[] { new UspsDeliveryPointLink(84114, "grid", "place", 1, 1) }.ToList());
 
             var mockCache = new Mock<ILookupCache>();
             mockCache.Setup(x => x.UspsDeliveryPoints).Returns(_deliveryPoints);
@@ -38,7 +38,7 @@ namespace api.tests.Features.Geocoding {
             var parsedAddress = new CleansedAddress("inputAddress", 1, 0, pobox, Direction.North, "street",
                                                     StreetType.Alley, Direction.South, 0, zip, false, false);
             var address = new AddressWithGrids(parsedAddress) {
-                AddressGrids = new[] {new ZipGridLink(84114, "grid", 0)}
+                AddressGrids = new[] { new ZipGridLink(84114, "grid", 0) }
             };
 
             var geocodeOptions = new SingleGeocodeRequestOptionsContract {

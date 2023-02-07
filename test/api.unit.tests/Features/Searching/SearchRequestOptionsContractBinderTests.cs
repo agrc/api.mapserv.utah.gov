@@ -14,13 +14,11 @@ using Xunit;
 namespace api.tests.Features.Searching {
     public class SearchRequestOptionsContractBinderTests {
         private readonly SearchRequestOptionsContractBinder binder;
-        public SearchRequestOptionsContractBinderTests()
-        {
+        public SearchRequestOptionsContractBinderTests() {
             binder = new SearchRequestOptionsContractBinder();
         }
 
-        public static ModelBindingContext GenerateContextFor(string query, string version)
-        {
+        public static ModelBindingContext GenerateContextFor(string query, string version) {
             var contextMock = new Mock<ModelBindingContext>();
             var action = new Mock<HttpContext>();
 

@@ -1,23 +1,21 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Searching;
-using Shouldly;
-using Xunit;
-using Serilog;
-using Moq;
 using AGRC.api.Infrastructure;
-using System.Collections.Generic;
 using AGRC.api.Models.ResponseContracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Serilog;
+using Shouldly;
+using Xunit;
 
 namespace api.tests.Features.Searching {
     public class SearchQueryValidationTests {
         private readonly ILogger _logger;
         private readonly Mock<RequestHandlerDelegate<ObjectResult>> delegateMock;
         private readonly IComputeMediator mediator;
-        public SearchQueryValidationTests()
-        {
+        public SearchQueryValidationTests() {
             _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
 
             delegateMock = new Mock<RequestHandlerDelegate<ObjectResult>>();
@@ -35,7 +33,7 @@ namespace api.tests.Features.Searching {
             var query = new SearchQuery.Query(string.Empty, "return,values", new SearchRequestOptionsContract());
 
             var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(mediator, _logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Never);
             result.StatusCode.ShouldBe(400);
@@ -57,7 +55,7 @@ namespace api.tests.Features.Searching {
                     .ReturnsAsync(false);
 
             var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(_mediator.Object, _logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Never);
             result.StatusCode.ShouldBe(400);
@@ -73,7 +71,7 @@ namespace api.tests.Features.Searching {
             var query = new SearchQuery.Query("table", string.Empty, new SearchRequestOptionsContract());
 
             var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(mediator, _logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Never);
             result.StatusCode.ShouldBe(400);
@@ -95,7 +93,7 @@ namespace api.tests.Features.Searching {
                     .ReturnsAsync(false);
 
             var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(_mediator.Object, _logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Never);
             result.StatusCode.ShouldBe(400);
@@ -111,7 +109,7 @@ namespace api.tests.Features.Searching {
             var query = new SearchQuery.Query("table_not_found", "return,values", null);
 
             var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(mediator, _logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Never);
             result.StatusCode.ShouldBe(400);
@@ -135,7 +133,7 @@ namespace api.tests.Features.Searching {
                     .ReturnsAsync(true);
 
             var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(_mediator.Object, _logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Never);
             result.StatusCode.ShouldBe(400);
@@ -151,7 +149,7 @@ namespace api.tests.Features.Searching {
             var query = new SearchQuery.Query("table_not_found", "return,values", new SearchRequestOptionsContract());
 
             var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(mediator, _logger);
-            var result = await handler.Handle(query, CancellationToken.None, delegateMock.Object);
+            var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
 
             delegateMock.Verify(x => x(), Times.Once);
         }

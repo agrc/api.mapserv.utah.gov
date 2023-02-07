@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Models.ArcGis;
 using Moq;
-using Moq.Protected;
 using Newtonsoft.Json;
 using Serilog;
 using Xunit;
@@ -49,24 +48,24 @@ namespace AGRC.api.Features.Milepost {
                             RouteId = "2",
                             FromMeasure = -1,
                             ToMeasure = 1,
-                            Concurrencies = new Concurrencies.ConcurrencyLocations[0]
+                            Concurrencies = Array.Empty<Concurrencies.ConcurrencyLocations>()
                         },
                         new Concurrencies.ResponseLocations {
                             RouteId = "3",
                             FromMeasure = -1,
                             ToMeasure = 1,
-                            Concurrencies = new Concurrencies.ConcurrencyLocations[0]
+                            Concurrencies = Array.Empty<Concurrencies.ConcurrencyLocations>()
                         }
                     }
                 };
 
                 var computation = new DominantRouteResolver.Computation(locations, null, 0);
 
-                var httpHandler = new Mock<TestingHttpMessageHandler>{ CallBase = true };
+                var httpHandler = new Mock<TestingHttpMessageHandler> { CallBase = true };
 
                 httpHandler.Setup(x => x.Send(It.IsAny<HttpRequestMessage>())).Returns(new HttpResponseMessage {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = new StringContent(JsonConvert.SerializeObject(response))
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(JsonConvert.SerializeObject(response))
                 }).Verifiable();
 
                 var client = new HttpClient(httpHandler.Object) {
@@ -85,16 +84,12 @@ namespace AGRC.api.Features.Milepost {
             }
 
             [Fact]
-            public void Should_create_request_with_measures_for_every_location() {
-
-            }
+            public void Should_create_request_with_measures_for_every_location() { }
         }
 
         public class DominantRouteDescriptorComparerTests {
             [Fact]
-            public void Should_order_dominant_then_distance() {
-
-            }
+            public void Should_order_dominant_then_distance() { }
         }
 
         public class TestingHttpMessageHandler : HttpMessageHandler {
