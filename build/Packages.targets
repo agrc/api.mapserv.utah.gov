@@ -2,54 +2,54 @@
 
   <ItemGroup>
     <!-- database -->
-    <PackageReference Update="Npgsql" Version="5.0.0" />
-    <PackageReference Update="Dapper" Version="2.0.78" />
-    <PackageReference Update="Npgsql.NetTopologySuite" Version="5.0.0" />
-    <PackageReference Update="StackExchange.Redis" Version="2.2.3" />
+    <PackageReference Update="Npgsql" Version="7.0.1" />
+    <PackageReference Update="Dapper" Version="2.0.123" />
+    <PackageReference Update="Npgsql.NetTopologySuite" Version="7.0.1" />
+    <PackageReference Update="StackExchange.Redis" Version="2.6.90" />
 
     <!-- logging -->
-    <PackageReference Update="Serilog.AspNetCore" Version="3.4.0" />
-    <PackageReference Update="Serilog.Settings.Configuration" Version="3.1.0" />
-    <PackageReference Update="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Update="Serilog.Sinks.GoogleCloudLogging" Version="3.3.0" />
-    <PackageReference Update="CorrelationId" Version="3.0.0" />
+    <PackageReference Update="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageReference Update="Serilog.Settings.Configuration" Version="3.4.0" />
+    <PackageReference Update="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Update="Serilog.Sinks.GoogleCloudLogging" Version="5.0.0" />
+    <PackageReference Update="CorrelationId" Version="3.0.1" />
 
     <!-- json -->
-    <PackageReference Update="System.Text.Json" Version="5.0.0" />
-    <PackageReference Update="NetTopologySuite.IO.GeoJSON4STJ" Version="2.1.1" />
+    <PackageReference Update="System.Text.Json" Version="7.0.1" />
+    <PackageReference Update="NetTopologySuite.IO.GeoJSON4STJ" Version="3.0.0" />
     <PackageReference Update="WebApiContrib.Core.Formatter.Jsonp" Version="2.1.0" />
 
     <!-- mvc -->
-    <PackageReference Update="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0-preview.*" />
+    <PackageReference Update="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
 
     <!-- DI -->
-    <PackageReference Update="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-    <PackageReference Update="Autofac" Version="6.0.0" />
+    <PackageReference Update="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Update="Autofac" Version="6.5.0" />
 
     <!-- open api -->
-    <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
-    <PackageReference Update="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+    <PackageReference Update="Swashbuckle.AspNetCore" Version="6.5.0" />
 
     <!-- http -->
-    <PackageReference Update="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
-    <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="5.0.0" />
+    <PackageReference Update="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="7.0.2" />
 
     <!-- string -->
-    <PackageReference Update="Fastenshtein" Version="1.0.0.5" />
+    <PackageReference Update="Fastenshtein" Version="1.0.0.8" />
 
     <!-- design patterns -->
-    <PackageReference Update="MediatR" Version="9.0.0" />
+    <PackageReference Update="MediatR" Version="11.1.0" />
 
     <!-- testing -->
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Update="moq" Version="4.14.7" />
-    <PackageReference Update="Shouldly" Version="3.0.2" />
-    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.3">
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Update="moq" Version="4.18.4" />
+    <PackageReference Update="Shouldly" Version="4.1.0" />
+    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Update="xunit" Version="2.4.1" />
-    <PackageReference Update="coverlet.msbuild" Version="2.9.0">
+    <PackageReference Update="xunit" Version="2.4.2" />
+    <PackageReference Update="coverlet.msbuild" Version="3.2.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
