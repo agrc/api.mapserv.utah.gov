@@ -13,7 +13,7 @@ namespace AGRC.api.Features.Geocoding {
         public string PathToLocator { get; set; } = "/arcgis/rest/services/Geolocators/";
 
         private const string Template = "{0}/GeocodeServer/findAddressCandidates?f=json" +
-                                        "&Street={1}" +
+                                        "&Address={1}" +
                                         "&City={2}" +
                                         "&outSR={3}";
         public override string Url() {
