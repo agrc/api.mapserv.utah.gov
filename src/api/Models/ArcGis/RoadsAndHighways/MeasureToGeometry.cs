@@ -35,7 +35,7 @@ namespace AGRC.api.Models.ArcGis {
             public string Measure { get; set; }
             public string RouteId { get; set; }
 
-            public override string ToString() => $"{{\"routeId\":\"{ RouteId }\",\"measure\":\"{Measure}\"}}";
+            public override string ToString() => $"{{\"routeId\":\"{RouteId}\",\"measure\":\"{Measure}\"}}";
         }
 
         public class ResponseLocation {

@@ -40,7 +40,7 @@ namespace AGRC.api.Features.Milepost {
         [HttpGet]
         [Route("api/v{version:apiVersion}/geocode/reversemilepost/{x}/{y}")]
         public async Task<ActionResult<ApiResponseContract<RouteMilepostResponseContract>>> Geocode(
-            [FromRoute]Point location,
+            [FromRoute] Point location,
             [FromQuery] ReverseRouteMilepostRequestOptionsContract options) =>
                 await _mediator.Send(new ReverseRouteMilepostQuery.Query(location.X, location.Y, options));
     }

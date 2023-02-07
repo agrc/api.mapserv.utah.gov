@@ -147,7 +147,8 @@ namespace AGRC.api.Features.Milepost {
                         Location = new Models.Point(location.Geometry.X, location.Geometry.Y),
                         MatchRoute = $"Route {location.RouteId}, Milepost {location.Geometry.M}"
                     },
-                    Status = (int)HttpStatusCode.OK});
+                    Status = (int)HttpStatusCode.OK
+                });
             }
         }
     }

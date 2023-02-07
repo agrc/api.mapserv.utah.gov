@@ -132,8 +132,7 @@ namespace AGRC.api.Cache {
                 return number + "th";
             }
 
-            return (number % 10) switch
-            {
+            return (number % 10) switch {
                 1 => number + "st",
                 2 => number + "nd",
                 3 => number + "rd",

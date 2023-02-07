@@ -99,7 +99,7 @@ namespace AGRC.api.Features.Geocoding {
                 var createGeocodePlanComputation = new GeocodePlan.Computation(parsedAddress, request.Options);
                 var plan = await _computeMediator.Handle(createGeocodePlanComputation, cancellationToken);
 
-                if (plan == null || !plan.Any()) {
+                if (plan?.Any() != true) {
                     _log.ForContext("address", parsedAddress)
                         .Debug("no plan generated");
 
@@ -112,9 +112,8 @@ namespace AGRC.api.Features.Geocoding {
                 var tasks = await Task.WhenAll(
                     plan.Select(locator => _computeMediator.Handle(new Geocode.Computation(locator), cancellationToken))
                         .ToArray());
-                var candidates = tasks.SelectMany(x => x);
 
-                foreach (var candidate in candidates) {
+                foreach (var candidate in tasks.SelectMany(x => x)) {
                     topCandidates.Add(candidate);
                 }
 

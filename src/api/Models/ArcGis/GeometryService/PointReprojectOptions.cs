@@ -11,12 +11,12 @@ namespace AGRC.api.Models.ArcGis {
         }
 
         [JsonPropertyName("inSR")]
-        public int CurrentSpatialReference { get; private set; }
+        public int CurrentSpatialReference { get; }
 
         [JsonPropertyName("outSR")]
-        public int ReprojectToSpatialReference { get; private set; }
+        public int ReprojectToSpatialReference { get; }
 
         [JsonPropertyName("geometries")]
-        public IReadOnlyCollection<double> Coordinates { get; private set; }
+        public IReadOnlyCollection<double> Coordinates { get; }
     }
 }

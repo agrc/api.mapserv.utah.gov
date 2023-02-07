@@ -12,7 +12,6 @@ using Serilog.Sinks.GoogleCloudLogging;
 
 namespace AGRC.api {
     public static class Program {
-
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -33,15 +32,13 @@ namespace AGRC.api {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             if (environment == Environments.Development) {
-                var projectId = "ut-dts-agrc-web-api-dv";
-                var fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
+                const string projectId = "ut-dts-agrc-web-api-dv";
+                const string fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
 
                 config.ProjectId = projectId;
 
                 try {
-                    var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
-
-                    config.GoogleCredentialJson = serviceAccount;
+                    config.GoogleCredentialJson = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
                 } catch (FileNotFoundException) {
                     // use the GOOGLE_APPLICATION_CREDENTIALS
                 }
@@ -49,7 +46,7 @@ namespace AGRC.api {
 
             var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
-                .WriteTo.GoogleCloudLogging(config)
+                // .WriteTo.GoogleCloudLogging(config)
                 .CreateLogger();
 
             try {
@@ -96,21 +93,19 @@ namespace AGRC.api {
                 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
                 if (environment == Environments.Development) {
-                    var projectId = "ut-dts-agrc-web-api-dv";
-                    var fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
+                    const string projectId = "ut-dts-agrc-web-api-dv";
+                    const string fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
                     googleConfig.ProjectId = projectId;
 
                     try {
-                        var serviceAccount = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
-
-                        googleConfig.GoogleCredentialJson = serviceAccount;
+                        googleConfig.GoogleCredentialJson = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
                     } catch (FileNotFoundException) {
                         // use the GOOGLE_APPLICATION_CREDENTIALS
                     }
                 }
 
                 config.ReadFrom.Configuration(context.Configuration);
-                config.WriteTo.GoogleCloudLogging(googleConfig);
+                // config.WriteTo.GoogleCloudLogging(googleConfig);
             });
     }
 }

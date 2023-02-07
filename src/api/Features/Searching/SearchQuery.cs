@@ -115,7 +115,6 @@ namespace AGRC.api.Features.Searching {
 
             public async Task<TResponse> Handle(
                 TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
-
                 var errors = "";
 
                 if (string.IsNullOrEmpty(request.TableName)) {

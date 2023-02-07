@@ -2,9 +2,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AGRC.api.Infrastructure
-{
-    public interface IComputation<TResult> {}
+namespace AGRC.api.Infrastructure {
+    public interface IComputation<TResult> { }
 
     public interface IComputationHandler<TComputation, TResult> where TComputation : IComputation<TResult> {
         Task<TResult> Handle(TComputation computation, CancellationToken cancellationToken);

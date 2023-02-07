@@ -1,5 +1,4 @@
 using System;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Models.ArcGis {

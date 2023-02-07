@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 using MediatR.Pipeline;
 using Serilog;
 
-namespace AGRC.api.Infrastructure
-{
+namespace AGRC.api.Infrastructure {
     public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest> {
         private readonly ILogger _log;
 

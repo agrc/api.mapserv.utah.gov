@@ -55,13 +55,11 @@ namespace AGRC.api.Features.Geocoding {
                 }
 
                 try {
-
                     var geocodeResponse =
                         await httpResponse.Content.ReadAsAsync<LocatorResponse>(_mediaTypes, cancellationToken);
 
                     return ProcessResult(geocodeResponse, request.Locator);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     _log.ForContext("url", request.Locator.Url)
                         .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync(cancellationToken))
                         .Fatal(ex, "error reading response");
@@ -72,7 +70,7 @@ namespace AGRC.api.Features.Geocoding {
 
             private IReadOnlyCollection<Candidate> ProcessResult(LocatorResponse response,
                                                                         LocatorProperties locator) {
-                if (response.Error != null && response.Error.Code == 500) {
+                if (response.Error?.Code == 500) {
                     _log.Fatal("geocoder down {locator.Name}", locator.Name);
 
                     throw new GeocodingException($"{locator.Name} geocoder is not started. {response.Error}");
@@ -94,7 +92,7 @@ namespace AGRC.api.Features.Geocoding {
             }
 
             private static string ParseAddressGrid(string address) {
-                if (!address.Contains(",")) {
+                if (!address.Contains(',')) {
                     return null;
                 }
 

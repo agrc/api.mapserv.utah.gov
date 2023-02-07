@@ -210,9 +210,8 @@ namespace AGRC.api.Filters {
                 } catch {
                 }
 
-                if (request.Path.Value.ToLower() == "/api/v1/geocode/ago/agrc-ago/geocodeserver" ||
-                    request.Path.Value.ToLower() ==
-                    "/api/v1/geocode/ago/agrc-ago/geocodeserver/findaddresscandidates") {
+                if (string.Equals(request.Path.Value, "/api/v1/geocode/ago/agrc-ago/geocodeserver", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(request.Path.Value, "/api/v1/geocode/ago/agrc-ago/geocodeserver/findaddresscandidates", StringComparison.OrdinalIgnoreCase)) {
                     return "agrc-ago";
                 }
 

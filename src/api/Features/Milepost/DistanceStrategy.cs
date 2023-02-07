@@ -3,7 +3,7 @@ using AGRC.api.Models;
 
 namespace AGRC.api.Features.Milepost {
     public interface IDistanceStrategy {
-        double Calculate(Point from, Point to, int fractionalDigits=-1);
+        double Calculate(Point from, Point to, int fractionalDigits = -1);
     }
 
     public class PythagoreanDistance : IDistanceStrategy {

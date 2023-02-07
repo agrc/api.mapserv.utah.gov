@@ -39,7 +39,7 @@ namespace AGRC.api.Features.Geocoding {
 
                 _driveCache.UspsDeliveryPoints.TryGetValue(request.Address.Zip5.Value.ToString(), out var items);
 
-                if (items == null || !items.Any()) {
+                if (items?.Any() != true) {
                     _log.ForContext("zip", request.Address.Zip5.Value)
                         .Debug("cache miss");
 

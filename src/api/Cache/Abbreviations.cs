@@ -5,7 +5,7 @@ using AGRC.api.Models.Constants;
 
 namespace AGRC.api.Cache {
     public class Abbreviations : IAbbreviations {
-        public Dictionary<StreetType, string> StreetTypeAbbreviations => new Dictionary<StreetType, string> {
+        public Dictionary<StreetType, string> StreetTypeAbbreviations => new() {
             {
                 StreetType.Alley, "aly,alee"
             }, {
@@ -87,54 +87,54 @@ namespace AGRC.api.Cache {
             }
         };
 
-        public List<Tuple<string, string, bool>> UnitAbbreviations => new List<Tuple<string, string, bool>> {
-            new Tuple<string, string, bool>(SecondaryUnit.Apartment.ToString().ToLower(CultureInfo.InvariantCulture),
+        public List<Tuple<string, string, bool>> UnitAbbreviations => new() {
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Apartment).ToLower(CultureInfo.InvariantCulture),
                                             "apt", true),
-            new Tuple<string, string, bool>(SecondaryUnit.Basement.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Basement).ToLower(CultureInfo.InvariantCulture),
                                             "bsmt", false),
-            new Tuple<string, string, bool>(SecondaryUnit.Building.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Building).ToLower(CultureInfo.InvariantCulture),
                                             "bldg", true),
-            new Tuple<string, string, bool>(SecondaryUnit.Department.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Department).ToLower(CultureInfo.InvariantCulture),
                                             "dept", true),
-            new Tuple<string, string, bool>(SecondaryUnit.Floor.ToString().ToLower(CultureInfo.InvariantCulture), "fl",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Floor).ToLower(CultureInfo.InvariantCulture), "fl",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Front.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Front).ToLower(CultureInfo.InvariantCulture),
                                             "frnt", false),
-            new Tuple<string, string, bool>(SecondaryUnit.Hanger.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Hanger).ToLower(CultureInfo.InvariantCulture),
                                             "hngr", true),
-            new Tuple<string, string, bool>(SecondaryUnit.Key.ToString().ToLower(CultureInfo.InvariantCulture), "key",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Key).ToLower(CultureInfo.InvariantCulture), "key",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Lobby.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Lobby).ToLower(CultureInfo.InvariantCulture),
                                             "lbby", false),
-            new Tuple<string, string, bool>(SecondaryUnit.Lot.ToString().ToLower(CultureInfo.InvariantCulture), "lot",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Lot).ToLower(CultureInfo.InvariantCulture), "lot",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Lower.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Lower).ToLower(CultureInfo.InvariantCulture),
                                             "lowr", false),
-            new Tuple<string, string, bool>(SecondaryUnit.Office.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Office).ToLower(CultureInfo.InvariantCulture),
                                             "ofc", false),
-            new Tuple<string, string, bool>(SecondaryUnit.Penthouse.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Penthouse).ToLower(CultureInfo.InvariantCulture),
                                             "ph", false),
-            new Tuple<string, string, bool>(SecondaryUnit.Pier.ToString().ToLower(CultureInfo.InvariantCulture), "pier",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Pier).ToLower(CultureInfo.InvariantCulture), "pier",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Rear.ToString().ToLower(CultureInfo.InvariantCulture), "rear",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Rear).ToLower(CultureInfo.InvariantCulture), "rear",
                                             false),
-            new Tuple<string, string, bool>(SecondaryUnit.Room.ToString().ToLower(CultureInfo.InvariantCulture), "rm",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Room).ToLower(CultureInfo.InvariantCulture), "rm",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Side.ToString().ToLower(CultureInfo.InvariantCulture), "side",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Side).ToLower(CultureInfo.InvariantCulture), "side",
                                             false),
-            new Tuple<string, string, bool>(SecondaryUnit.Slip.ToString().ToLower(CultureInfo.InvariantCulture), "slip",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Slip).ToLower(CultureInfo.InvariantCulture), "slip",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Space.ToString().ToLower(CultureInfo.InvariantCulture), "spc",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Space).ToLower(CultureInfo.InvariantCulture), "spc",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Stop.ToString().ToLower(CultureInfo.InvariantCulture), "stop",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Stop).ToLower(CultureInfo.InvariantCulture), "stop",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Suite.ToString().ToLower(CultureInfo.InvariantCulture), "ste",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Suite).ToLower(CultureInfo.InvariantCulture), "ste",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Trailer.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Trailer).ToLower(CultureInfo.InvariantCulture),
                                             "trlr", true),
-            new Tuple<string, string, bool>(SecondaryUnit.Unit.ToString().ToLower(CultureInfo.InvariantCulture), "unit",
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Unit).ToLower(CultureInfo.InvariantCulture), "unit",
                                             true),
-            new Tuple<string, string, bool>(SecondaryUnit.Upper.ToString().ToLower(CultureInfo.InvariantCulture),
+            new Tuple<string, string, bool>(nameof(SecondaryUnit.Upper).ToLower(CultureInfo.InvariantCulture),
                                             "uppr", false)
         };
     }

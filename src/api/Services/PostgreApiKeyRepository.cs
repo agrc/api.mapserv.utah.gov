@@ -28,7 +28,7 @@ namespace AGRC.api.Services {
 
         private readonly string _connectionString;
 
-        private readonly Dictionary<string, decimal[]> _exclusions = new Dictionary<string, decimal[]> {
+        private readonly Dictionary<string, decimal[]> _exclusions = new() {
             {"bryce canyon", new[] {397995.510155659M, 4170226.5544169028M}},
             {"alta", new[] {446372M, 4493558M}},
             {"big water", new[] {440947.64679022622M, 4103827.0225703362M}},

@@ -3,9 +3,7 @@ using AGRC.api.Models.Constants;
 
 namespace AGRC.api.Features.Geocoding {
     public abstract class AddressBase {
-        protected AddressBase() {
-
-        }
+        protected AddressBase() { }
 
         protected AddressBase(string inputAddress, int? houseNumber, double milepost, int poBox,
                               Direction prefixDirection, string streetName, StreetType streetType,
@@ -56,7 +54,7 @@ namespace AGRC.api.Features.Geocoding {
                 address = address.Replace("None", "");
 
                 var regex = new Regex(@"[ ]{2,}", RegexOptions.None);
-                address = regex.Replace(address, @" ");
+                address = regex.Replace(address, " ");
 
                 return address.Trim();
             }
@@ -108,7 +106,7 @@ namespace AGRC.api.Features.Geocoding {
             return regex.IsMatch(InputAddress);
         }
 
-        public virtual bool IsMachable() {
+        public virtual bool IsMatchable() {
             if (IsIntersection()) {
                 return true;
             }

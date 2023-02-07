@@ -11,8 +11,7 @@ namespace AGRC.api.Features.Searching {
         public class Computation : IComputation<SerializableGraphic> {
             internal readonly Geometry Geometry;
 
-            public Computation(Geometry geometry)
-            {
+            public Computation(Geometry geometry) {
                 Geometry = geometry;
             }
         }

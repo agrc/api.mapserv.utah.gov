@@ -38,7 +38,7 @@ namespace AGRC.api.Extensions {
 
             var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(8); // Timeout for an individual try
 
-            services.AddHttpClient("default", client => { client.Timeout = new TimeSpan(0, 0, 15); })
+            services.AddHttpClient("default", client => client.Timeout = new TimeSpan(0, 0, 15))
                     .ConfigurePrimaryHttpMessageHandler(() => {
                         var handler = new HttpClientHandler();
                         if (handler.SupportsAutomaticDecompression) {

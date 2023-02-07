@@ -4,7 +4,7 @@ using AGRC.api.Models;
 namespace AGRC.api.Services {
     public class PostmanApiKeyRepository : IApiKeyRepository {
         public Task<ApiKey> GetKey(string key) {
-            if (key.ToLowerInvariant() == "postman") {
+            if (string.Equals(key, "postman", System.StringComparison.InvariantCultureIgnoreCase)) {
                 return Task.FromResult(new ApiKey(key) {
                     Enabled = ApiKey.KeyStatus.Active,
                     Configuration = ApiKey.ApplicationStatus.Production,
@@ -16,7 +16,7 @@ namespace AGRC.api.Services {
                 });
             }
 
-            if (key.ToLowerInvariant() == "postman-disabled") {
+            if (string.Equals(key, "postman-disabled", System.StringComparison.InvariantCultureIgnoreCase)) {
                 return Task.FromResult(new ApiKey(key) {
                     Enabled = ApiKey.KeyStatus.Disabled,
                     Configuration = ApiKey.ApplicationStatus.Production,
@@ -27,7 +27,7 @@ namespace AGRC.api.Services {
                 });
             }
 
-            if (key.ToLowerInvariant() == "postman-deleted") {
+            if (string.Equals(key, "postman-deleted", System.StringComparison.InvariantCultureIgnoreCase)) {
                 return Task.FromResult(new ApiKey(key) {
                     Enabled = ApiKey.KeyStatus.Active,
                     Configuration = ApiKey.ApplicationStatus.Production,
@@ -38,7 +38,7 @@ namespace AGRC.api.Services {
                 });
             }
 
-            if (key.ToLowerInvariant() == "postman-ip") {
+            if (string.Equals(key, "postman-ip", System.StringComparison.InvariantCultureIgnoreCase)) {
                 return Task.FromResult(new ApiKey(key) {
                     Enabled = ApiKey.KeyStatus.Active,
                     Configuration = ApiKey.ApplicationStatus.Production,

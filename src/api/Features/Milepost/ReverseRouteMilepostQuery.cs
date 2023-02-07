@@ -104,7 +104,7 @@ namespace AGRC.api.Features.Milepost {
                         cancellationToken);
                 } catch (Exception ex) {
                     _log.ForContext("url", requestUri)
-                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync())
+                        .ForContext("response", await httpResponse?.Content?.ReadAsStringAsync(cancellationToken))
                         .Fatal(ex, "error reading response");
 
                     return new ObjectResult(new ApiResponseContract {
@@ -200,7 +200,7 @@ namespace AGRC.api.Features.Milepost {
                     // and then only allow mainline collectors and optionally ramps
                     // this will filter out surface streets e.g., 12TVL23541500_600_N
                     // but keep aid routes etc
-                    if (!udotRoutes.IsMatch(routeId.Substring(4, 2))) {
+                    if (!udotRoutes.IsMatch(routeId.AsSpan(4, 2))) {
                         continue;
                     }
 

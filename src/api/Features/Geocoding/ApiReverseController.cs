@@ -35,7 +35,7 @@ namespace AGRC.api.Features.Geocoding {
         [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Default))]
         [SwaggerOperation(
             OperationId = "ReverseGeocode",
-            Tags = new [] { "Address Geocoding" })]
+            Tags = new[] { "Address Geocoding" })]
         [HttpGet]
         [Route("api/v{version:apiVersion}/geocode/reverse/{x}/{y}")]
         public async Task<ActionResult<ApiResponseContract<ReverseGeocodeResponseContract>>> Reverse(

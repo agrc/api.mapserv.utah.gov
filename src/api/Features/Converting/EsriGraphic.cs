@@ -66,13 +66,12 @@ namespace AGRC.api.Features.Converting {
         }
 
         public class SerializableGraphic {
-            public SerializableGraphic(Graphic graphic)
-            {
+            public SerializableGraphic(Graphic graphic) {
                 Attributes = graphic.Attributes;
                 Geometry = graphic.Geometry;
             }
 
-            public Dictionary<string, object> Attributes { get; private set; }
+            public Dictionary<string, object> Attributes { get; }
             public object Geometry { get; set; }
         }
     }

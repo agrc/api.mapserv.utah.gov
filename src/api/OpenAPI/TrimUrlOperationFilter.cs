@@ -8,7 +8,7 @@ namespace api.OpenApi {
             var paths = new OpenApiPaths();
             foreach (var item in swaggerDoc.Paths) {
                 var parameters = new List<OpenApiParameter>();
-                foreach(var parameter in item.Value.Operations[0].Parameters) {
+                foreach (var parameter in item.Value.Operations[0].Parameters) {
                     if (parameter.Name == "version") {
                         continue;
                     }

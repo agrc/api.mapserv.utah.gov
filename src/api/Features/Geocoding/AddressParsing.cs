@@ -108,7 +108,7 @@ namespace AGRC.api.Features.Geocoding {
             public static int GetWordIndex(int findLocation, string words) {
                 var index = 0;
                 if (words.Length >= findLocation) {
-                    index = words.Substring(0, findLocation).Split(' ').Length;
+                    index = words[..findLocation].Split(' ').Length;
                 }
 
                 return --index;
@@ -153,7 +153,7 @@ namespace AGRC.api.Features.Geocoding {
                 var matches = _regexCache.Get("unitType").Matches(street);
 
                 //probably a secondary address
-                if (street.Contains("#")) {
+                if (street.Contains('#')) {
                     var indexOfValue = "#";
 
                     //check to see if the # is preceded by a secondary address unit type
@@ -163,7 +163,7 @@ namespace AGRC.api.Features.Geocoding {
                     }
 
                     var index = street.LastIndexOf(indexOfValue, StringComparison.OrdinalIgnoreCase);
-                    street = street.Substring(0, index);
+                    street = street[..index];
 
                     Street = street;
                 }
@@ -186,7 +186,7 @@ namespace AGRC.api.Features.Geocoding {
                     }
 
                     var index = street.LastIndexOf(match, StringComparison.OrdinalIgnoreCase);
-                    street = street.Substring(0, index) + street.Substring(index + match.Length);
+                    street = string.Concat(street.AsSpan(0, index), street.AsSpan(index + match.Length));
 
                     Street = street;
 
@@ -202,7 +202,7 @@ namespace AGRC.api.Features.Geocoding {
                     street.EndsWith(moreMatches[^1].Value, StringComparison.OrdinalIgnoreCase)) {
                     var theMatch = moreMatches[^1];
                     var index = street.LastIndexOf(theMatch.Value, StringComparison.OrdinalIgnoreCase);
-                    street = street.Substring(0, index) + street.Substring(index + theMatch.Length);
+                    street = string.Concat(street.AsSpan(0, index), street.AsSpan(index + theMatch.Length));
 
                     Street = street;
                 }
@@ -218,9 +218,7 @@ namespace AGRC.api.Features.Geocoding {
 
                 while (match.Success) {
                     var value = match.Value;
-                    var firstCharacter = value.ToLowerInvariant()[0];
-
-                    switch (firstCharacter) {
+                    switch (value.ToLowerInvariant()[0]) {
                         case 'n':
                             Street = Replace(street, value, "north");
                             break;
@@ -265,7 +263,7 @@ namespace AGRC.api.Features.Geocoding {
 
                                 var highwayIndex = numberIndex - 1;
 
-                                if (highwayIndex > -1 && parts[highwayIndex].ToLower().Contains("highway")) {
+                                if (highwayIndex > -1 && parts[highwayIndex].Contains("highway", StringComparison.OrdinalIgnoreCase)) {
                                     Street =
                                         Street.Remove(Street.IndexOf(matches[0].Value, StringComparison.OrdinalIgnoreCase),
                                                       matches[0].Length);
@@ -311,7 +309,7 @@ namespace AGRC.api.Features.Geocoding {
                                 }
 
                                 // check that this is a direction - it's an acs address then
-                                if (segment.Contains(" ")) {
+                                if (segment.Contains(' ')) {
                                     var notTheNumber =
                                         segment.Remove(
                                                        segment.IndexOf(possibleUnitNumber,
@@ -337,9 +335,7 @@ namespace AGRC.api.Features.Geocoding {
                                                    matches[1].Length);
                             address.StreetName = matches[1].Value;
 
-                            Street = Street.Substring(0,
-                                                      Street.LastIndexOf(matches[2].Value,
-                                                                         StringComparison.OrdinalIgnoreCase));
+                            Street = Street[..Street.LastIndexOf(matches[2].Value, StringComparison.OrdinalIgnoreCase)];
 
                             break;
                         }
@@ -397,8 +393,7 @@ namespace AGRC.api.Features.Geocoding {
                     return streetType;
                 }
 
-                if (_abbreviations.StreetTypeAbbreviations != null &&
-                    _abbreviations.StreetTypeAbbreviations.Values.Any(x => x.Split(',').Contains(abbr))) {
+                if (_abbreviations.StreetTypeAbbreviations?.Values.Any(x => x.Split(',').Contains(abbr)) == true) {
                     return
                         _abbreviations.StreetTypeAbbreviations
                                       .Where(x => x.Value.Split(',')

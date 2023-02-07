@@ -88,8 +88,8 @@ namespace AGRC.api.Features.GeometryService {
 
         public class Decorator<TComputation, TResponse>
             : IComputationHandler<TComputation, TResponse>
-                where TResponse : Candidate where TComputation
-            : IComputation<TResponse> {
+                where TComputation
+            : IComputation<TResponse> where TResponse : Candidate {
             private readonly IComputationHandler<TComputation, TResponse> _decorated;
             private readonly IComputeMediator _computeMediator;
             private readonly ILogger _log;
@@ -128,7 +128,7 @@ namespace AGRC.api.Features.GeometryService {
 
                 var projected = await _computeMediator.Handle(new Computation(options), cancellationToken);
 
-                if (projected is null || !projected.IsSuccessful || !projected.Geometries.Any()) {
+                if (projected?.IsSuccessful != true || !projected.Geometries.Any()) {
                     _log.ForContext("candidate", string.Join(",", options.Coordinates))
                         .ForContext("inSR", options.CurrentSpatialReference)
                         .ForContext("outSR", options.ReprojectToSpatialReference)

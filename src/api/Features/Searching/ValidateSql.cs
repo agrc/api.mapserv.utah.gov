@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AGRC.api.Infrastructure;
 
 namespace AGRC.api.Features.Searching {
-    public class ValidateSql {
+    public partial class ValidateSql {
         public class Computation : IComputation<bool> {
             public Computation(string sql) {
                 Sql = sql;
@@ -13,12 +13,15 @@ namespace AGRC.api.Features.Searching {
             internal readonly string Sql;
         }
 
-        public class Handler : IComputationHandler<Computation, bool> {
+        public partial class Handler : IComputationHandler<Computation, bool> {
             public Task<bool> Handle(Computation request, CancellationToken cancellationToken) {
-                var badChars = new Regex(@";|--|/\*|\*/", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+                var badChars = BadChars();
 
                 return Task.FromResult(badChars.IsMatch(request.Sql));
             }
+
+            [GeneratedRegex(";|--|/\\*|\\*/", RegexOptions.IgnoreCase | RegexOptions.Multiline, "en-US")]
+            private static partial Regex BadChars();
         }
     }
 }

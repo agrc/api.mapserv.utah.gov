@@ -1,16 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
-using System.Reflection;
-using System;
-using System.Text.Json.Serialization;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
-using NetTopologySuite;
 
 namespace AGRC.api.Features.Converting {
     public class GeoJsonFeature {
@@ -33,7 +32,6 @@ namespace AGRC.api.Features.Converting {
                 var result = request.Container.Result;
 
                 if (result?.Location != null) {
-
                     geometry = new Point(new Coordinate(result.Location.X, result.Location.Y));
 
                     attributes = request.Container.Result

@@ -1,14 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
 using Microsoft.Extensions.Options;
-using AGRC.api.Infrastructure;
-using Serilog;
-using System;
-using Npgsql;
 using NetTopologySuite.Geometries;
+using Npgsql;
+using Serilog;
 
 namespace AGRC.api.Features.Searching {
     public class SqlQuery {
@@ -123,8 +123,7 @@ namespace AGRC.api.Features.Searching {
                         Attributes = attributes
                     };
 
-                    for (var i = 0; i < reader.VisibleFieldCount; i++)
-                    {
+                    for (var i = 0; i < reader.VisibleFieldCount; i++) {
                         var key = reader.GetName(i);
 
                         if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase)) {
@@ -216,8 +215,7 @@ namespace AGRC.api.Features.Searching {
 
                 var fields = computation.ReturnValues.Split(',');
 
-                for (var i = 0; i < fields.Length; i++)
-                {
+                for (var i = 0; i < fields.Length; i++) {
                     var field = fields[i];
 
                     if (string.Equals(field, shapeInput, StringComparison.InvariantCultureIgnoreCase)) {

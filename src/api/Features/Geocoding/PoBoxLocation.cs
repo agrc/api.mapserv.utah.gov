@@ -55,14 +55,14 @@ namespace AGRC.api.Features.Geocoding {
                 }
 
                 Candidate candidate;
-                var key = request.Address.Zip5.Value * 10000 + request.Address.PoBox;
+                var key = (request.Address.Zip5.Value * 10000) + request.Address.PoBox;
 
                 if (_zipExclusions.Any(x => x == request.Address.Zip5) &&
-                    _exclusions.ContainsKey(key)) {
+                    _exclusions.TryGetValue(key, out var value)) {
                     _log.ForContext("post office exclusion", key)
                         .Information("match");
 
-                    var exclusion = _exclusions[key];
+                    var exclusion = value;
                     candidate = new Candidate {
                         Address = request.Address.StandardizedAddress,
                         Locator = "Post Office Point Exclusions",
@@ -70,10 +70,9 @@ namespace AGRC.api.Features.Geocoding {
                         Location = new Point(exclusion.X, exclusion.Y),
                         AddressGrid = request.Address?.AddressGrids?.FirstOrDefault()?.Grid
                     };
-                } else if (_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
+                } else if (_poBoxes.TryGetValue(request.Address.Zip5.Value, out var result)) {
                     _log.Information("match");
 
-                    var result = _poBoxes[request.Address.Zip5.Value];
                     candidate = new Candidate {
                         Address = request.Address.StandardizedAddress,
                         Locator = "Post Office Point",

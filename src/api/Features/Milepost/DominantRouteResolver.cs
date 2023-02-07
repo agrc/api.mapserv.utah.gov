@@ -137,7 +137,7 @@ namespace AGRC.api.Features.Milepost {
                 }
 
                 var closest = dominateRoutes.First();
-                var result = new ReverseRouteMilepostResponseContract{
+                var result = new ReverseRouteMilepostResponseContract {
                     Route = closest.Route,
                     OffsetMeters = closest.Distance,
                     Milepost = closest.Milepost,
@@ -154,7 +154,7 @@ namespace AGRC.api.Features.Milepost {
                         suggestions = suggestions.GetRange(0, suggestCount);
                     }
 
-                    foreach(var suggestion in suggestions) {
+                    foreach (var suggestion in suggestions) {
                         candidates.Add(new ReverseRouteMilepostResponseContract {
                             Route = suggestion.Route,
                             OffsetMeters = suggestion.Distance,

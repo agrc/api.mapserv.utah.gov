@@ -42,8 +42,7 @@ namespace AGRC.api.Features.Geocoding {
                     var reprojectCommand = new Reproject.Computation(reprojectOptions);
                     var pointReprojectResponse = await _computeMediator.Handle(reprojectCommand, default);
 
-                    if (pointReprojectResponse is null ||
-                        !pointReprojectResponse.IsSuccessful ||
+                    if (pointReprojectResponse?.IsSuccessful != true ||
                         !pointReprojectResponse.Geometries.Any()) {
                         _log.ForContext("location", request.Location)
                             .ForContext("options", request.Options)
@@ -69,7 +68,7 @@ namespace AGRC.api.Features.Geocoding {
                 var createPlanComputation = new ReverseGeocodePlan.Computation(x, y, request.Options.Distance, request.Options.SpatialReference);
                 var plan = await _computeMediator.Handle(createPlanComputation, default);
 
-                if (plan == null || !plan.Any()) {
+                if (plan?.Any() != true) {
                     _log.Fatal("no plan generated");
 
                     return new NotFoundObjectResult(new ApiResponseContract {

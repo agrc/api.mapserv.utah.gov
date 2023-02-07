@@ -5,7 +5,7 @@ using AGRC.api.Models.ArcGis;
 namespace AGRC.api.Extensions {
     public static class ConversionExtensions {
         public static SingleGeocodeResponseContract ToResponseObject(this Candidate candidate, string street, string zone) =>
-            new SingleGeocodeResponseContract {
+            new() {
                 MatchAddress = candidate.Address,
                 Score = candidate.Score,
                 Locator = candidate.Locator,
@@ -16,7 +16,7 @@ namespace AGRC.api.Extensions {
             };
 
         public static ReverseGeocodeResponseContract ToResponseObject(this ReverseGeocodeRestResponse response,
-                                                                 Point inputPoint) => new ReverseGeocodeResponseContract {
+                                                                 Point inputPoint) => new() {
                                                                      InputPoint = inputPoint,
                                                                      Address = response.Address.Street,
                                                                      Grid = response.Address.City,

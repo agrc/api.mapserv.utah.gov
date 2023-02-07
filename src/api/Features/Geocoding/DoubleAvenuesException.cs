@@ -35,9 +35,9 @@ namespace AGRC.api.Features.Geocoding {
 
                 // it's in the problem area in midvale
                 const int midvale = 84047;
-                if (!string.IsNullOrEmpty(computation.InputZone) &&
-                    computation.InputZone.ToLowerInvariant().Contains("midvale") ||
-                    response.Zip5.HasValue && response.Zip5.Value == midvale) {
+                if ((!string.IsNullOrEmpty(computation.InputZone) &&
+                    computation.InputZone.Contains("midvale", System.StringComparison.InvariantCultureIgnoreCase)) ||
+                    (response.Zip5 == midvale)) {
                     _log.Information("midvale avenues match");
 
                     response.PrefixDirection = Direction.West;
@@ -59,14 +59,14 @@ namespace AGRC.api.Features.Geocoding {
                 return response;
             }
 
-            private bool IsOrdinal(string streetname) {
-                if (string.IsNullOrWhiteSpace(streetname)) {
+            private bool IsOrdinal(string streetName) {
+                if (string.IsNullOrWhiteSpace(streetName)) {
                     return false;
                 }
 
-                streetname = streetname.Replace(" ", string.Empty).Trim();
+                streetName = streetName.Replace(" ", string.Empty).Trim();
 
-                return _ordinal.IsMatch(streetname);
+                return _ordinal.IsMatch(streetName);
             }
         }
     }

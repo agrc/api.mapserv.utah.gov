@@ -8,6 +8,6 @@ namespace AGRC.api.Conventions {
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponseContract))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponseContract))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponseContract))]
-        public static void Default(){}
+        public static void Default() { }
     }
 }

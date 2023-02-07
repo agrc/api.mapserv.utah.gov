@@ -43,7 +43,7 @@ namespace AGRC.api.Features.Geocoding {
                 address = address.Replace("None", "");
 
                 var regex = new Regex(@"[ ]{2,}", RegexOptions.None);
-                address = regex.Replace(address, @" ");
+                address = regex.Replace(address, " ");
 
                 return address.Trim();
             }

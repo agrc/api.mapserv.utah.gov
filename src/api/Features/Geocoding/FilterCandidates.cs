@@ -17,12 +17,7 @@ namespace AGRC.api.Features.Geocoding {
                 Street = street;
                 Zone = zone;
                 GeocodedAddress = geocodedAddress;
-
-                if (candidates == null) {
-                    candidates = Array.Empty<Candidate>();
-                }
-
-                Candidates = candidates;
+                Candidates = candidates ?? Array.Empty<Candidate>();
             }
 
             internal SingleGeocodeRequestOptionsContract GeocodeOptions { get; set; }
@@ -60,7 +55,7 @@ namespace AGRC.api.Features.Geocoding {
                 var candidates = request.Candidates.ToList();
                 candidates.Sort(new CandidateComparer());
 
-                var topCandidate = candidates.FirstOrDefault(x => x.Score >= request.GeocodeOptions.AcceptScore &&
+                var topCandidate = candidates.Find(x => x.Score >= request.GeocodeOptions.AcceptScore &&
                     request.GeocodedAddress.AddressGrids
                         .Select(y => y?.Grid?.ToUpper())
                         .Contains(x.AddressGrid?.ToUpper())) ??
@@ -70,7 +65,7 @@ namespace AGRC.api.Features.Geocoding {
 
                 if (request.GeocodeOptions.ScoreDifference && candidates.Count >= 1) {
                     // calculate score with next item in array
-                    topCandidate.ScoreDifference = topCandidate.Score - candidates.First().Score;
+                    topCandidate.ScoreDifference = topCandidate.Score - candidates[0].Score;
                 }
 
                 if (request.GeocodeOptions.Suggest == 0) {

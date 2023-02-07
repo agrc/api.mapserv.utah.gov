@@ -1,9 +1,9 @@
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace AGRC.api.Features.Health {
     internal static class HealthCheckResponseWriter {

@@ -35,12 +35,13 @@ namespace AGRC.api.Cache {
             var dictionary = new Dictionary<string, List<GridLinkable>>();
 
             foreach (var item in gridLookup) {
-                if (dictionary.ContainsKey(item.Key)) {
-                    dictionary[item.Key].Add(item);
+                if (dictionary.TryGetValue(item.Key, out var value)) {
+                    value.Add(item);
+
                     continue;
                 }
 
-                dictionary.Add(item.Key, new List<GridLinkable> {item});
+                dictionary.Add(item.Key, new List<GridLinkable> { item });
             }
 
             return dictionary;

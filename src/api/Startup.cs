@@ -1,35 +1,35 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using AGRC.api.Extensions;
+using AGRC.api.Features.Geocoding;
+using AGRC.api.Features.GeometryService;
 using AGRC.api.Features.Health;
+using AGRC.api.Features.Searching;
 using AGRC.api.Infrastructure;
+using api.OpenApi;
 using Autofac;
+using CorrelationId;
+using CorrelationId.DependencyInjection;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using CorrelationId.DependencyInjection;
-using CorrelationId;
-using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Features.GeometryService;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using api.OpenApi;
-using System.IO;
 using NetTopologySuite.IO.Converters;
-using System.Collections.Generic;
-using AGRC.api.Features.Searching;
 using Npgsql;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace AGRC.api {
     public class Startup {
@@ -88,9 +88,7 @@ namespace AGRC.api {
                 c.DescribeAllParametersInCamelCase();
 
                 c.DocumentFilter<TrimUrlOperationFilter>();
-                c.CustomOperationIds(apiDesc => {
-                    return apiDesc.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null;
-                });
+                c.CustomOperationIds(apiDesc => apiDesc.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null);
 
                 c.AddSecurityDefinition("apikey", new OpenApiSecurityScheme {
                     Type = SecuritySchemeType.ApiKey,
@@ -108,7 +106,7 @@ namespace AGRC.api {
                             Name = "apiKey",
                             Description = "A key acquired from developer.mapserv.utah.gov"
                         },
-                        new string[] { }
+                        Array.Empty<string>()
                     }
                 });
 
@@ -119,10 +117,10 @@ namespace AGRC.api {
 
                 c.SwaggerDoc("v1", new OpenApiInfo {
                     Version = "v1",
-                    Title = "AGRC WebAPI : OpenAPI Documentation",
+                    Title = "UGRC WebAPI : OpenAPI Documentation",
                     Description = "OpenAPI Documentation",
                     Contact = new OpenApiContact {
-                        Name = "AGRC",
+                        Name = "UGRC",
                         Email = "sgourley@utah.gov",
                         Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
                     },
@@ -134,10 +132,10 @@ namespace AGRC.api {
 
                 c.SwaggerDoc("v2", new OpenApiInfo {
                     Version = "v2",
-                    Title = "AGRC WebAPI : OpenAPI Documentation",
+                    Title = "UGRC WebAPI : OpenAPI Documentation",
                     Description = "OpenAPI Documentation",
                     Contact = new OpenApiContact {
-                        Name = "AGRC",
+                        Name = "UGRC",
                         Email = "sgourley@utah.gov",
                         Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
                     },
@@ -210,12 +208,10 @@ namespace AGRC.api {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger(c => {
-                c.RouteTemplate = "openapi/{documentName}/api.json";
-            });
+            app.UseSwagger(c => c.RouteTemplate = "openapi/{documentName}/api.json");
 
             app.UseSwaggerUI(c => {
-                c.DocumentTitle = "AGRC WebAPI OpenAPI Documentation";
+                c.DocumentTitle = "UGRC WebAPI OpenAPI Documentation";
                 c.RoutePrefix = "openapi";
                 c.SwaggerEndpoint("/openapi/v1/api.json", "v1");
                 c.SwaggerEndpoint("/openapi/v2/api.json", "v2");
@@ -231,7 +227,7 @@ namespace AGRC.api {
                 });
                 endpoints.MapHealthChecks("/api/v1/health");
                 endpoints.MapHealthChecks("", new HealthCheckOptions() {
-                    Predicate = (check) => false
+                    Predicate = (_) => false
                 });
             });
         }
