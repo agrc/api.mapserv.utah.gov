@@ -35,6 +35,12 @@ services:
     ports:
       - '8080:80'
 
+  smocker:
+    image: thiht/smocker
+    ports:
+      - 6443:8080
+      - 8081:8081
+
 volumes:
   pgdata:
     external: true
