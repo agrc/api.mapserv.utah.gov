@@ -1,0 +1,47 @@
+- request:
+    path: >-
+      /arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/GeocodeServer/reverseGeocode
+    method: GET
+    query_params:
+      location: 425608,4513499
+      distance: 5
+      f: json
+      outSR: 26912
+  response:
+    status: 200
+    body: '{
+      "address": {
+      "Match_addr": "316-374 E SOUTH TEMPLE ST, SALT LAKE CITY",
+      "LongLabel": "316-374 E SOUTH TEMPLE ST, SALT LAKE CITY",
+      "ShortLabel": "316-374 E SOUTH TEMPLE ST",
+      "Addr_type": "StreetAddress",
+      "Type": "",
+      "PlaceName": "",
+      "AddNum": "338",
+      "Address": "338 E SOUTH TEMPLE ST",
+      "Block": "",
+      "Sector": "",
+      "Neighborhood": "",
+      "District": "",
+      "City": "SALT LAKE CITY",
+      "MetroArea": "",
+      "Subregion": "",
+      "Region": "",
+      "RegionAbbr": "",
+      "Territory": "",
+      "Postal": "",
+      "PostalExt": "",
+      "CntryName": "USA",
+      "CountryCode": ""
+      },
+      "location": {
+      "x": 425608.21229941602,
+      "y": 4513520.1300426228,
+      "spatialReference": {
+      "wkid": 26912,
+      "latestWkid": 26912
+      }
+      }
+      }'
+    headers:
+      Content-Type: application/json
