@@ -418,835 +418,884 @@ COPY public.delivery_points (id, address_system, place, zip, x, y) FROM stdin;
 --
 
 COPY public.place_names (id, place, address_system, weight) FROM stdin;
-1	acord lakes	acord lakes	0
-2	alpine	alpine	1
-3	alton	alton	3
-4	long valley jct	alton	2
-5	long valley junc	alton	0
-6	long valley junction	alton	1
-7	am fork	american fork	0
-8	american fk	american fork	2
-9	american fork	american fork	3
-10	angle	angle	0
-11	annabella	annabella	0
-12	antimony	antimony	0
-13	osiris	antimony	0
-14	apple valley	apple valley	0
-15	aurora	aurora	0
-16	axtell	axtell	1
-17	adamsville	beaver	0
-18	beaver	beaver	0
-19	beaver county	beaver	0
-20	greenville	beaver	0
-21	manderfield	beaver	0
-22	beryl	beryl	0
-23	beryl jct	beryl	0
-24	beryl junction	beryl	1
-25	hamlin valley	beryl	0
-26	zane	beryl	0
-27	bicknell	bicknell	0
-28	big water	big water	0
-29	birch creek	birch creek	0
-30	aneth	blanding	0
-31	blanding	blanding	0
-32	fry canyon	blanding	0
-33	halchita	blanding	0
-34	halls crossing	blanding	0
-35	mexican hat	blanding	0
-36	montezuma creek	blanding	0
-37	monument valley	blanding	0
-38	natural bridges	blanding	0
-39	natural bridges nm	blanding	0
-40	navajo mountain	blanding	1
-41	navajo mtn	blanding	0
-42	oljato	blanding	0
-43	tselakai dezza	blanding	0
-44	white mesa	blanding	0
-45	bluff	bluff	0
-46	boulder	boulder	0
-47	bountiful	bountiful	0
-48	w bountiful	bountiful	0
-49	west bountiful	bountiful	0
-50	w bountiful	bountiful	0
-51	woods cross	bountiful	0
-52	brian head	brian head	1
-53	brianhead	brian head	0
-54	bear river	brigham city	2
-55	bear river city	brigham city	1
-56	bear river cy	brigham city	0
-57	beaver dam	brigham city	0
-58	blue creek	brigham city	0
-59	bothwell	brigham city	0
-60	box elder county	brigham city	0
-61	brigham	brigham city	0
-62	brigham city	brigham city	1
-63	cedar creek	brigham city	0
-64	cedar springs	brigham city	0
-65	collinston	brigham city	0
-66	corinne	brigham city	0
-67	deweyville	brigham city	0
-68	elwood	brigham city	0
-69	etna	brigham city	0
-70	fielding	brigham city	0
-71	garland	brigham city	0
-72	grouse creek	brigham city	0
-73	honeyville	brigham city	0
-74	howell	brigham city	0
-75	kelton	brigham city	0
-76	lakeside	brigham city	0
-77	lucin	brigham city	0
-78	lynn	brigham city	0
-79	mantua	brigham city	0
-80	park valley	brigham city	0
-81	penrose	brigham city	0
-82	perry	brigham city	0
-83	plymouth	brigham city	0
-84	portage	brigham city	0
-85	promontory	brigham city	1
-86	promontory point	brigham city	0
-87	riverside	brigham city	0
-88	rosette	brigham city	0
-89	snowville	brigham city	0
-90	south willard	brigham city	0
-91	s willard	brigham city	0
-92	standrod	brigham city	0
-93	thatcher	brigham city	0
-94	tremonton	brigham city	0
-95	washakie	brigham city	0
-96	wheelon	brigham city	0
-97	willard	brigham city	0
-98	yost	brigham city	0
-99	brookside	brookside	0
-100	browns park	browns park	0
-101	taylor flat	browns park	0
-102	taylors flat	browns park	1
-103	bryce	bryce canyon city	3
-104	bryce canyon	bryce canyon city	2
-105	bryce canyon city	bryce canyon city	1
-106	bryce cyn city	bryce canyon city	0
-107	bryce canyon county	bryce canyon county	5
-108	bryce cyn cnty	bryce canyon county	3
-109	bryce cyn county	bryce canyon county	4
-110	garfield	bryce canyon county	0
-111	garfield co	bryce canyon county	1
-112	garfield county	bryce canyon county	2
-113	bullfrog	bullfrog	0
-114	caineville	caineville	0
-115	cannonville	cannonville	0
-116	castle dale	castle dale	1
-117	castledale	castle dale	0
-118	castle valley	castle valley	0
-119	cedar city	cedar city	0
-120	desert mound	cedar city	0
-121	enoch	cedar city	0
-122	hamiltons fort	cedar city	0
-123	iron county	cedar city	0
-124	iron springs	cedar city	0
-125	lund	cedar city	0
-126	cedar fort	cedar fort	0
-127	cedar valley	cedar fort	1
-128	centerfield	centerfield	0
-129	centerville	centerville	0
-130	central	central	0
-131	central valley	central valley	0
-132	circleville	circleville	0
+1	abraham	delta	0
+2	acord lakes	acord lakes	0
+3	adamsville	beaver	0
+4	adamsville	adamsville	1
+5	alpine	alpine	1
+6	alpine	provo	0
+7	alta	salt lake city	0
+8	altamont	roosevelt	0
+9	alton	alton	3
+10	altonah	roosevelt	0
+11	am fork	american fork	0
+12	amalga	logan	0
+13	amangiri	big water	0
+14	american fk	american fork	2
+15	american fk	provo	0
+16	american fork	american fork	3
+17	american fork	provo	1
+18	aneth	blanding	0
+19	angle	angle	0
+20	annabella	annabella	0
+21	antimony	antimony	0
+22	apple valley	apple valley	0
+23	aragonite	tooele	0
+24	arcadia	roosevelt	0
+25	arches	moab	0
+26	aurora	aurora	0
+27	austin	elsinore	0
+28	avalon	roosevelt	0
+29	avon	logan	0
+30	axtell	axtell	1
+31	axtell	manti	0
+32	bacchus	salt lake city	0
+33	ballard	roosevelt	0
+34	bauer	tooele	0
+35	bcc	salt lake city	1
+36	bear river	brigham city	2
+37	bear river city	brigham city	1
+38	bear river cy	brigham city	0
+39	beaver	beaver	0
+40	beaver county	beaver	0
+41	beaver dam	brigham city	0
+42	beaver mountain	logan	1
+43	beaver mtn	logan	0
+44	benjamin	provo	0
+45	bennet	roosevelt	0
+46	bennett	roosevelt	0
+47	benson	logan	0
+48	beryl	beryl	0
+49	beryl jct	beryl	0
+50	beryl junction	beryl	1
+51	bicknell	bicknell	0
+52	big cottonwood canyon	salt lake city	3
+53	big cottonwood canyon resorts	salt lake city	0
+54	big cottonwood cyn	salt lake city	2
+55	big water	big water	0
+56	bingham canyon	salt lake city	1
+57	bingham cyn	salt lake city	0
+58	birch creek	birch creek	0
+59	birdseye	provo	0
+60	black rock	fillmore	0
+61	blanding	blanding	0
+62	bloomington	st george	0
+63	bloomington hills	st george	0
+64	blue creek	brigham city	0
+65	bluebell	roosevelt	0
+66	bluff	bluff	0
+67	bluffdale	provo	0
+68	bluffdale	salt lake city	1
+69	bonanza	vernal	0
+70	boneta	roosevelt	0
+71	border	delta	0
+72	bothwell	brigham city	0
+73	bottle hollow	roosevelt	0
+74	boulder	boulder	0
+75	bountiful	bountiful	0
+76	box elder county	brigham city	0
+77	brian head	brian head	1
+78	brianhead	brian head	0
+79	bridgeland	roosevelt	0
+80	brigham	brigham city	0
+81	brigham city	brigham city	1
+82	brighton	salt lake city	0
+83	brookside	brookside	0
+84	browns park	browns park	0
+85	bryce	bryce canyon city	3
+86	bryce	bryce canyon county	2
+87	bryce canyon	bryce canyon city	2
+88	bryce canyon city	bryce canyon city	1
+89	bryce canyon county	bryce canyon county	5
+90	bryce cyn city	bryce canyon city	0
+91	bryce cyn cnty	bryce canyon county	3
+92	bryce cyn county	bryce canyon county	4
+93	bullfrog	bullfrog	0
+94	burbank	delta	0
+95	burmester	tooele	0
+96	burrville	richfield	0
+97	cache	logan	1
+98	cache county	logan	0
+99	cache jct	logan	1
+100	cache junction	logan	0
+101	caineville	caineville	0
+102	callao	nephi	0
+103	camp williams	provo	0
+104	camp williams	salt lake city	1
+105	cannonville	cannonville	0
+106	canyon meadows	heber city	0
+107	canyon rim	salt lake city	0
+108	carbon county	price	0
+109	carbonville	price	0
+110	castle dale	castle dale	1
+111	castle rock	henefer	0
+112	castle valley	castle valley	0
+113	castledale	castle dale	0
+114	cedar city	cedar city	0
+115	cedar	cedar city	0
+116	cedar creek	brigham city	0
+117	cedar fort	cedar fort	0
+118	cedar hills	provo	1
+119	cedar hls	provo	0
+120	cedar springs	brigham city	0
+121	cedar valley	cedar fort	1
+122	cedarview	roosevelt	0
+123	center creek	heber city	0
+124	centerfield	centerfield	0
+125	centerville	centerville	0
+126	central	central	0
+127	central valley	central valley	0
+128	charleston	heber city	0
+129	chester	manti	0
+130	church wells	big water	0
+131	circleville	circleville	0
+132	cisco	moab	0
 133	clarkston	clarkston	1
-134	clawson	clawson	0
-135	clay basin	clay basin	0
-136	clearfield	clearfield	0
-137	clinton	clearfield	0
-138	davis county	clearfield	0
-139	sunset	clearfield	0
-140	syracuse	clearfield	0
-141	west point	clearfield	0
-142	w point	clearfield	0
-143	cleveland	cleveland	0
+134	clarkston	logan	0
+135	clawson	clawson	0
+136	clay basin	clay basin	0
+137	clear creek	price	0
+138	clear lake	delta	0
+139	clearfield	clearfield	0
+140	cleveland	cleveland	0
+141	clinton	clearfield	0
+142	clive	tooele	0
+143	clover	rush valley	0
 144	coalville	coalville	0
-145	hoytsville	coalville	0
-146	upton	coalville	0
-147	dammeron	dammeron valley	0
-148	dammeron valley	dammeron valley	2
-149	dammeron vly	dammeron valley	1
-150	deer lodge	deer lodge	0
-151	abraham	delta	0
-152	border	delta	0
-153	burbank	delta	0
-154	clear lake	delta	0
-155	delta	delta	0
-156	deseret	delta	0
-157	eskdale	delta	0
-158	gandy	delta	0
-159	garrison	delta	0
-160	harding	delta	0
-161	leamington	delta	0
-162	oasis	delta	0
-163	sugarville	delta	0
-164	sutherland	delta	0
-165	topaz	delta	0
-166	woodrow	delta	0
-167	diamond mountain	diamond mountain	1
-168	diamond mtn	diamond mtn	0
-169	duchesne	duchesne	1
-170	duck creek village	duck creek village	1
-171	duck creek vlg	duck creek village	0
-172	dugway	dugway	1
-173	dutch john	dutch john	0
-174	eagle mountain	eagle mountain	3
-175	eagle mtn	eagle mountain	2
-176	colombia	east carbon city	0
-177	e carbon	east carbon city	2
-178	e carbon city	east carbon city	3
-179	e carbon sunnyside	east carbon city	0
-180	east carbon	east carbon city	2
-181	east carbon city	east carbon city	3
-182	east carbon sunnyside	east carbon city	0
-183	sunnyside	east carbon city	1
-184	elk ridge	elk ridge	1
-185	elmo	elmo	0
-186	austin	elsinore	0
-187	elsinore	elsinore	0
-188	emery	emery	0
-189	moore	emery	0
-190	enterprise	enterprise	1
-191	ephraim	ephraim	1
-192	escalante	escalante	0
-193	eureka	eureka	0
-194	mammoth	eureka	0
-195	silver city	eureka	0
-196	tintic	eureka	0
-197	fairview	fairview	1
-198	farmington	farmington	0
-199	fayette	fayette	1
-200	ferron	ferron	0
-201	molen	ferron	0
-202	fielding	fielding	1
-203	meadow	filllmore	0
-204	black rock	fillmore	0
-205	fillmore	fillmore	0
-206	flowell	fillmore	0
-207	greenwood	fillmore	0
-208	hatton	fillmore	0
-209	kanosh	fillmore	0
-210	millard county	fillmore	0
-211	scipio	fillmore	0
-212	fishlake	fishlake	0
-213	fremont jct	fishlake	1
-214	fremont junction	fishlake	0
-215	fountain green	fountain green	3
-216	fountain grn	fountain green	2
-217	fremont	fremont	0
-218	fruita	fruita	0
-219	garden	garden city	0
-220	garden city	garden city	0
-221	pickleville	garden city	0
-222	garland	garland	1
-223	genola	genola	1
-224	glendale	glendale	0
-225	glenwood	glenwood	0
-226	goshen	goshen	1
-227	delle	grantsville	0
-228	grantsville	grantsville	1
-229	crescent jct	green river	1
-230	crescent junction	green river	0
-231	emery county	green river	0
-232	green river	green river	0
-233	woodside	green river	0
-234	flaming gorge	greendale	0
-235	greendale	greendale	0
-236	greenwich	greenwich	0
-237	name	grid_name	0
-238	grover	grover	0
-239	gunlock	gunlock	0
-240	motoqua	gunlock	0
-241	gunnison	gunnison	1
-242	hanksville	hanksville	0
-243	hatch	hatch	0
-244	canyon meadows	heber city	0
-245	center creek	heber city	0
-246	charleston	heber city	0
-247	daniel	heber city	0
-248	deer canyon	heber city	0
-249	deer canyon preserve	heber city	0
-250	deer crest	heber city	0
-251	deer mountain	heber city	0
-252	deer mtn	heber city	0
-253	hailstone	heber city	0
-254	heber	heber city	0
-255	heber city	heber city	1
-256	hideout	heber city	0
-257	independence	heber city	1
-258	independence town	heber city	0
-259	jordanelle	heber city	0
-260	keetley	heber city	0
-261	timber lakes	heber city	0
-262	tuhaye	heber city	0
-263	victory ranch	heber city	0
-264	wasatch county	heber city	0
-265	wolf creek ranch	heber city	0
-266	helper	helper	1
-267	kenilworth	helper	0
-268	spring glen	helper	0
-269	castle rock	henefer	0
-270	echo	henefer	0
-271	emory	henefer	0
-272	henefer	henefer	0
-273	wahsatch	henefer	0
-274	henrieville	henrieville	0
-275	hildale	hildale	0
-276	hafb	hill air force base	0
-277	hill air force base	hill air force base	1
-278	hinckley	hinckley	0
-279	holden	holden	0
-280	huntington	huntington	0
-281	lawrence	huntington	0
-282	mohrland	huntington	0
-283	harrisburg	hurricane	0
-284	hurricane	hurricane	0
-285	hyde park	hyde park	1
-286	hyrum	hyrum	1
-287	ibapah	iibapah	0
-288	ivins	ivins	0
-289	joseph	joseph	0
-290	junction	junction	0
-291	francis	kamas	0
-292	kamas	kamas	0
-293	marion	kamas	0
-294	oakley	kamas	0
-295	peoa	kamas	0
-296	samak	kamas	0
-297	summit county	kamas	0
-298	kanab	kanab	0
-299	kane county	kanab	0
-300	kanarraville	kanarraville	0
-301	cove fort	kanosh	0
-302	kanosh	kanosh	1
-303	fruit heights	kaysville	0
-304	kaysville	kaysville	0
-305	kingston	kingston	0
-306	kolob	kolob	0
-307	zion national park	kolob	1
-308	zion ntl park	kolob	0
-309	koosharem	koosharem	0
-310	la sal	la sal	0
-311	la sal jct	la sal	1
-312	la sal junction	la sal	0
-313	old la sal	la sal	0
-314	summit point	la sal	0
-315	la verkin	la verkin	0
-316	laketown	laketown	0
-317	meadowville	laketown	0
-318	round valley	laketown	0
-319	e layton	layton	0
-320	east layton	layton	0
-321	layton	layton	0
-322	leamington	leamington	1
-323	leeds	leeds	0
-324	silver reef	leeds	0
-325	lehi	lehi	1
-326	levan	levan	0
-327	lewiston	lewiston	1
-328	lindon	lindon	1
-329	loa	loa	0
-330	amalga	logan	0
-331	avon	logan	0
-332	beaver mountain	logan	1
-333	beaver mtn	logan	0
-334	benson	logan	0
-335	cache	logan	1
-336	cache county	logan	0
-337	cache junction	logan	0
-338	cache jct	logan	1
-339	clarkston	logan	0
-340	college ward	logan	0
-341	cornish	logan	0
-342	cove	logan	0
-343	hyde park	logan	0
-344	hyrum	logan	0
-345	lewiston	logan	0
-346	logan	logan	0
-347	mendon	logan	0
-348	millville	logan	0
-349	n logan	logan	0
-350	newton	logan	0
-351	nibley	logan	0
-352	north logan	logan	1
-353	n logan	logan	1
-354	paradise	logan	0
-355	peter	logan	0
-356	petersboro	logan	0
-357	providence	logan	0
-358	richmond	logan	0
-359	river heights	logan	0
-360	smithfield	logan	0
-361	trenton	logan	0
-362	wellsville	logan	0
-363	lyman	lyman	0
-364	lynndyl	lynndyl	0
-365	mammoth creek	mammoth creek	1
-366	mammoth crk	mammoth creek	0
-367	manila	manila	0
-368	axtell	manti	0
-369	chester	manti	0
-370	ephraim	manti	0
-371	fairview	manti	0
-372	fountain green	manti	1
-373	fountain grn	manti	0
-374	freedom	manti	0
-375	indianola	manti	0
-376	manti	manti	0
-377	mayfield	manti	0
-378	milburn	manti	0
-379	moroni	manti	0
-380	mount pleasant	manti	1
-381	mt pleasant	manti	0
-382	oak creek	manti	0
-383	pigeon hollow jct	manti	1
-384	pigeon hollow junction	manti	0
-385	sanpete county	manti	0
-386	spring city	manti	0
-387	sterling	manti	0
-388	wales	manti	0
-389	mantua	mantua	1
-390	mapleton	mapleton	1
-391	marysvale	marysvale	0
-392	mayfield	mayfield	1
-393	meadow	meadow	1
-394	mendon	mendon	1
-395	interlaken	midway	0
-396	midway	midway	0
-397	milford	milford	0
-398	millville	millville	1
-399	minersville	minersville	0
-400	arches	moab	0
-401	cisco	moab	0
-402	grand county	moab	0
-403	moab	moab	0
-404	westwater	moab	0
-405	modena	modena	0
-406	mona	mona	0
-407	rocky ridge	mona	0
-408	monroe	monroe	0
-409	monroe mountain	monroe mountain	1
-410	monroe mtn	monroe mountain	0
-411	eastland	monticello	0
-412	hite	monticello	0
-413	monticello	monticello	0
-414	san juan county	monticello	0
-415	spanish valley	monticello	0
-416	ucolo	monticello	0
-417	croydon	morgan	0
-418	devils slide	morgan	0
-419	enterprise	morgan	0
-420	littleton	morgan	0
-421	milton	morgan	0
-422	morgan	morgan	0
-423	morgan county	morgan	0
-424	mountain green	morgan	1
-425	mtn green	morgan	0
-426	peterson	morgan	0
-427	porterville	morgan	0
-428	richville	morgan	0
-429	stoddard	morgan	0
-430	moroni	moroni	1
-431	mount pleasant	mount pleasant	3
-432	mt pleasant	mount pleasant	2
-433	myton	myton	1
-434	callao	nephi	0
-435	fayette	nephi	0
-436	gunnison	nephi	0
-437	jericho jct	nephi	0
-438	jericho junction	nephi	1
-439	juab county	nephi	0
-440	mills	nephi	0
-441	nephi	nephi	0
-442	trout creek	nephi	0
-443	new harmony	new harmony	0
-444	zion national park	new harmony	1
-445	zion ntl park	new harmony	0
-446	newcastle	newcastle	0
-447	newton	newton	1
-448	notom	notom	0
-449	north salt lake	nsl	1
-450	n salt lake	nsl	1
-451	nsl	nsl	0
-452	oak city	oak city	0
-453	eden	ogden	0
-454	farr west	ogden	0
-455	harrisville	ogden	0
-456	hooper	ogden	0
-457	huntsville	ogden	0
-458	kanesville	ogden	0
-459	liberty	ogden	0
-460	marriott	ogden	1
-461	marriott slaterville	ogden	7
-462	marriott-slaterville	ogden	6
-463	marriott-slaterville city	ogden	5
-464	mriott sltrvl	ogden	4
-465	ms city	ogden	3
-466	msc	ogden	2
-467	north ogden	ogden	0
-468	n ogden	ogden	0
-469	ogden	ogden	0
-470	plain city	ogden	0
-471	pleasant view	ogden	0
-472	riverdale	ogden	0
-473	roy	ogden	0
-474	slaterville	ogden	0
-475	snow basin	ogden	0
-476	south ogden	ogden	0
-477	south weber	ogden	0
-478	s ogden	ogden	0
-479	s weber	ogden	0
-480	taylor	ogden	0
-481	uintah	ogden	0
-482	warren	ogden	0
-483	washington terrace	ogden	0
-484	weber county	ogden	0
-485	west haven	ogden	0
-486	west waren	ogden	0
-487	west warren	ogden	0
-488	west weber	ogden	0
-489	w haven	ogden	0
-490	w waren	ogden	0
-491	w warren	ogden	0
-492	wolf creek	ogden	0
-493	old fishlake	old fishlake	0
-494	orangeville	orangeville	0
-495	mount carmel	orderville	0
-496	mount carmel jct	orderville	2
-497	mount carmel junction	orderville	0
-498	mt carmel	orderville	1
-499	mt carmel jct	orderville	1
-500	orderville	orderville	0
-501	orem	orem	1
-502	otter creek	otter creek	0
-503	panguitch	panguitch	0
-504	spry	panguitch	0
-505	panguitch lake	panguitch lake	0
-506	paragonah	paragonah	0
-507	deer valley	park city	0
-508	jeremy ranch	park city	0
-509	kimball jct	park city	0
-510	kimball junction	park city	1
-511	n snyderville basin	park city	0
-512	north snyderville basin	park city	1
-513	n snyderville basin	park city	1
-514	park city	park city	1
-515	pc	park city	0
-516	silver creek junction	park city	0
-517	silver creek jct	park city	1
-518	silver summit	park city	0
-519	snyderville	park city	0
-520	south snyderville basin	park city	0
-521	s snyderville basin	park city	0
-522	summit park	park city	0
-523	parowan	parowan	0
-524	payson	payson	1
-525	pine valley	pine valley	0
-526	pinto	pinto	0
-527	pleasant grove	pleasant grove	3
-528	pleasant grv	pleasant grove	2
-529	carbon county	price	0
-530	carbonville	price	0
-531	clear creek	price	0
-532	helper	price	0
-533	hiawatha	price	0
-534	kenilworth	price	1
-535	price	price	0
-536	scofield	price	0
-537	standardville	price	0
-538	sunnyside	price	0
-539	wattis	price	0
-540	wellington	price	0
-541	west wood	price	0
-542	w wood	price	0
-543	providence	providence	1
-544	alpine	provo	0
-545	american fk	provo	0
-546	american fork	provo	1
-547	benjamin	provo	0
-548	birdseye	provo	0
-549	bluffdale	provo	0
-550	camp williams	provo	0
-551	cedar hills	provo	1
-552	cedar hls	provo	0
-553	colton	provo	0
-554	dividend	provo	0
-555	draper	provo	0
-556	eagle mountain	provo	1
-557	eagle mtn	provo	0
-558	elberta	provo	0
-559	elk ridge	provo	0
-560	fairfield	provo	0
-561	genola	provo	0
-562	goshen	provo	0
-563	highland	provo	1
-564	lake shore	provo	0
-565	lakeview	provo	0
-566	lehi	provo	0
-567	lindon	provo	0
-568	mapleton	provo	0
-569	orem	provo	0
-570	palmyra	provo	0
-571	payson	provo	0
-572	pleasant grove	provo	1
-573	pleasant grv	provo	0
-574	provo	provo	0
-575	salem	provo	0
-576	santaquin	provo	0
-577	saratoga spgs	provo	0
-578	saratoga springs	provo	1
-579	spanish fork	provo	0
-580	spring lake	provo	0
-581	springville	provo	0
-582	sundance	provo	0
-583	thistle	provo	0
-584	tucker	provo	0
-585	utah county	provo	0
-586	vineyard	provo	0
-587	west mountain	provo	0
-588	w mountain	provo	0
-589	woodland hills	provo	1
-590	woodland hls	provo	0
-591	randolph	randolph	0
-592	sage creek jct	randolph	1
-593	sage creek junction	randolph	0
-594	redmond	redmond	0
-595	burrville	richfield	0
-596	richfield	richfield	0
-597	richmond	richmond	1
-598	rockville	rockville	1
-599	zion national park	rockville	0
-600	zion ntl park	rockville	0
-601	altamont	roosevelt	0
-602	altonah	roosevelt	0
-603	arcadia	roosevelt	0
-604	avalon	roosevelt	0
-605	ballard	roosevelt	0
-606	bennett	roosevelt	0
-607	bluebell	roosevelt	0
-608	boneta	roosevelt	0
-609	bottle hollow	roosevelt	0
-610	bridgeland	roosevelt	0
-611	cedarview	roosevelt	0
-612	deep creek	roosevelt	0
-613	duchesne	roosevelt	0
-614	duchesne county	roosevelt	0
-615	fort duchesne	roosevelt	0
-616	fruitland	roosevelt	0
-617	gusher	roosevelt	0
-618	hanna	roosevelt	0
-619	hayden	roosevelt	0
-620	independence	roosevelt	0
-621	ioka	roosevelt	0
-622	lapoint	roosevelt	0
-623	leeton	roosevelt	0
-624	leota	roosevelt	0
-625	monarch	roosevelt	0
-626	mosby mountain	roosevelt	1
-627	mosby mtn	roosevelt	0
-628	mountain home	roosevelt	1
-629	mt emmons	roosevelt	0
-630	mtn home	roosevelt	0
-631	myton	roosevelt	0
-632	neola	roosevelt	0
-633	ouray	roosevelt	0
-634	randlett	roosevelt	0
-635	roosevelt	roosevelt	0
-636	tabiona	roosevelt	0
-637	talmage	roosevelt	0
-638	tridell	roosevelt	0
-639	upalco	roosevelt	0
-640	whiterocks	roosevelt	0
-641	clover	rush valley	0
-642	rush valley	rush valley	1
-643	salem	salem	1
-644	salina	salina	0
-645	alta	salt lake city	0
-646	bacchus	salt lake city	0
-647	bcc	salt lake city	1
-648	big cottonwood canyon	salt lake city	3
-649	big cottonwood canyon resorts	salt lake city	0
-650	big cottonwood cyn	salt lake city	2
-651	bingham canyon	salt lake city	1
-652	bingham cyn	salt lake city	0
-653	bluffdale	salt lake city	1
-654	brighton	salt lake city	0
-655	camp williams	salt lake city	1
-656	canyon rim	salt lake city	0
-657	copperton	salt lake city	0
-658	cottonwd hts	salt lake city	0
-659	cottonwood heights	salt lake city	4
-660	cottonwood heights city	salt lake city	2
-661	cottonwood hgts	salt lake city	3
-662	cottonwood hts	salt lake city	1
-663	draper	salt lake city	0
-664	e millcreek	salt lake city	0
-665	east millcreek	salt lake city	0
-666	emigration canyon	salt lake city	2
-667	emigration cyn	salt lake city	1
-668	emigratn cyn	salt lake city	0
-669	fort douglas	salt lake city	0
-670	ft douglas	salt lake city	0
-671	granite	salt lake city	0
-672	herriman	salt lake city	0
-673	highland	salt lake city	0
-674	holladay	salt lake city	0
-675	kearns	salt lake city	0
-676	little cottonwood canyon	salt lake city	2
-677	little cottonwood cyn	salt lake city	1
-678	llc	salt lake city	0
-679	magna	salt lake city	0
-680	midvale	salt lake city	0
-681	millcreek	salt lake city	0
-682	mount olympus	salt lake city	1
-683	mt olympus	salt lake city	1
-684	murray	salt lake city	0
-685	riverton	salt lake city	0
-686	salt lake	salt lake city	1
-687	salt lake city	salt lake city	2
-688	salt lake cnty	salt lake city	0
-689	salt lake co	salt lake city	0
-690	salt lake county	salt lake city	0
-691	sandy	salt lake city	0
-692	sj	salt lake city	0
-693	sl ci	salt lake city	0
-694	slc	salt lake city	0
-695	slco	salt lake city	0
+145	college ward	logan	0
+146	collinston	brigham city	0
+147	colombia	east carbon	0
+148	colton	provo	0
+149	columbia	east carbon	0
+150	copperton	salt lake city	0
+151	corinne	brigham city	0
+152	cornish	logan	0
+153	cottonwd hts	salt lake city	0
+154	cottonwood heights	salt lake city	4
+155	cottonwood heights city	salt lake city	2
+156	cottonwood hgts	salt lake city	3
+157	cottonwood hts	salt lake city	1
+158	cove	logan	0
+159	cove fort	kanosh	0
+160	covered bridge	spanish fork	0
+161	crescent jct	green river	1
+162	crescent junction	green river	0
+163	croydon	morgan	0
+164	dammeron	dammeron valley	0
+165	dammeron valley	dammeron valley	2
+166	dammeron vly	dammeron valley	1
+167	daniel	heber city	0
+168	davis county	clearfield	0
+169	deep creek	roosevelt	0
+170	deer canyon	heber city	0
+171	deer canyon preserve	heber city	0
+172	deer crest	heber city	0
+173	deer lodge	deer lodge	0
+174	deer mountain	heber city	0
+175	deer mtn	heber city	0
+176	deer valley	park city	0
+177	delle	grantsville	0
+178	delle	tooele	0
+179	delta	delta	0
+180	deseret	delta	0
+181	desert mound	cedar city	0
+182	devils slide	morgan	0
+183	deweyville	brigham city	0
+184	diamond mountain	diamond mountain	1
+185	diamond mountain	vernal	1
+186	diamond mtn	diamond mtn	0
+187	diamond mtn	vernal	0
+188	diamond valley	st george	0
+189	dividend	provo	0
+190	draper	salt lake city	0
+191	dry fork	vernal	0
+192	duchesne	duchesne	1
+193	duchesne	roosevelt	0
+194	duchesne county	roosevelt	0
+195	duck creek	duck creek village	1
+196	duck creek village	duck creek village	2
+197	duck creek vlg	duck creek village	0
+198	dugway	dugway	1
+199	dugway	tooele	0
+200	dutch john	dutch john	0
+201	e carbon	east carbon	2
+202	e carbon city	east carbon	3
+203	e carbon sunnyside	east carbon	0
+204	e layton	layton	0
+205	e millcreek	salt lake city	0
+206	eagle mountain	eagle mountain	3
+207	eagle mountain	provo	1
+208	eagle mtn	eagle mountain	2
+209	eagle mtn	provo	0
+210	east carbon	east carbon	2
+211	east carbon city	east carbon	3
+212	east carbon sunnyside	east carbon	0
+213	east layton	layton	0
+214	east millcreek	salt lake city	0
+215	eastland	monticello	0
+216	echo	henefer	0
+217	eden	ogden	0
+218	elberta	provo	0
+219	elk meadows	elk meadows	1
+220	elk meadows	beaver	0
+221	elk meadow	elk meadows	1
+222	elk meadow	beaver	0
+223	elk ridge	elk ridge	1
+224	elk ridge	provo	0
+225	elmo	elmo	0
+226	elsinore	elsinore	0
+227	elwood	brigham city	0
+228	emery	emery	0
+229	emery county	green river	0
+230	emigration canyon	salt lake city	2
+231	emigration cyn	salt lake city	1
+232	emigratn cyn	salt lake city	0
+233	emory	henefer	0
+234	enoch	cedar city	0
+235	enterprise	enterprise	1
+236	enterprise	morgan	0
+237	ephraim	ephraim	1
+238	ephraim	manti	0
+239	erda	tooele	0
+240	escalante	escalante	0
+241	eskdale	delta	0
+242	etna	brigham city	0
+243	eureka	eureka	0
+244	fairfield	fairfield	1
+245	fairview	fairview	1
+246	fairview	manti	0
+247	farm creek	roosevelt	0
+248	farmington	farmington	0
+249	farr west	ogden	0
+250	faust	tooele	0
+251	fayette	fayette	1
+252	fayette	nephi	0
+253	ferron	ferron	0
+254	fielding	brigham city	0
+255	fielding	fielding	1
+256	fillmore	fillmore	0
+257	fish springs	snake valley	0
+258	fishlake	fishlake	0
+259	flaming gorge	greendale	0
+260	flowell	fillmore	0
+261	fort douglas	salt lake city	0
+262	fort duchesne	roosevelt	0
+263	fountain green	fountain green	3
+264	fountain green	manti	1
+265	fountain grn	fountain green	2
+266	fountain grn	manti	0
+267	francis	kamas	0
+268	freedom	manti	0
+269	fremont	fremont	0
+270	fremont jct	fishlake	1
+271	fremont junction	fishlake	0
+272	fruit heights	kaysville	0
+273	fruita	fruita	0
+274	fruitland	roosevelt	0
+275	fry canyon	blanding	0
+276	ft douglas	salt lake city	0
+277	gandy	delta	0
+278	garden	garden city	0
+279	garden city	garden city	0
+280	garfield	bryce canyon county	0
+281	garfield co	bryce canyon county	1
+282	garfield county	bryce canyon county	2
+283	garland	brigham city	0
+284	garland	garland	1
+285	garrison	delta	0
+286	genola	genola	1
+287	genola	provo	0
+288	glendale	glendale	0
+289	glenwilde	park city	0
+290	glenwood	glenwood	0
+291	gold hill	tooele	0
+292	goshen	goshen	1
+293	goshen	provo	0
+294	goshute	snake valley	0
+295	grand county	moab	0
+296	granite	salt lake city	0
+297	grantsville	grantsville	1
+298	grantsville	tooele	0
+299	green river	green river	0
+300	greendale	greendale	0
+301	greenville	greenville	1
+302	greenville	beaver	0
+303	greenwich	greenwich	0
+304	greenwood	fillmore	0
+305	grouse creek	brigham city	0
+306	grover	grover	0
+307	gunlock	gunlock	0
+308	gunnison	gunnison	1
+309	gunnison	nephi	0
+310	gusher	roosevelt	0
+311	hafb	hill air force base	0
+312	hailstone	heber city	0
+313	halchita	blanding	0
+314	halls crossing	blanding	0
+315	hamiltons fort	cedar city	0
+316	hamlin valley	beryl	1
+317	hamlin valley	minersville	0
+318	hanksville	hanksville	0
+319	hanna	roosevelt	0
+320	harding	delta	0
+321	harrisburg	hurricane	0
+322	harrisville	ogden	0
+323	hatch	hatch	0
+324	hatton	fillmore	0
+325	hayden	roosevelt	0
+326	heber	heber city	0
+327	heber city	heber city	1
+328	helper	helper	1
+329	helper	price	0
+330	henefer	henefer	0
+331	henrieville	henrieville	0
+332	herriman	salt lake city	0
+333	hiawatha	price	0
+334	hideout	heber city	0
+335	highland	provo	1
+336	highland	salt lake city	0
+337	hildale	hildale	0
+338	hill air force base	hill air force base	1
+339	hill afb	hill air force base	0
+340	hinckley	hinckley	0
+341	hite	monticello	0
+342	hobble creek	provo	0
+343	holden	holden	0
+344	holladay	salt lake city	0
+345	honeyville	brigham city	0
+346	hooper	ogden	0
+347	howell	brigham city	0
+348	hoytsville	coalville	0
+349	huntington	huntington	0
+350	huntsville	ogden	0
+351	hurricane	hurricane	0
+352	hyde park	hyde park	1
+353	hyde park	logan	0
+354	hyrum	hyrum	1
+355	hyrum	logan	0
+356	ibapah	iibapah	0
+357	independence	heber city	1
+358	independence	roosevelt	0
+359	independence town	heber city	0
+360	indianola	manti	0
+361	interlaken	midway	0
+362	ioka	roosevelt	0
+363	iosepa	tooele	0
+364	iron county	cedar city	0
+365	iron springs	cedar city	0
+366	ivins	ivins	0
+367	jensen	vernal	0
+368	jeremy ranch	park city	0
+369	jericho jct	nephi	0
+370	jericho junction	nephi	1
+371	jordanelle	heber city	0
+372	joseph	joseph	0
+373	juab county	nephi	0
+374	junction	junction	0
+375	kamas	kamas	0
+376	kanab	kanab	0
+377	kanarraville	kanarraville	0
+378	kane county	kanab	0
+379	kanesville	ogden	0
+380	kanosh	fillmore	0
+381	kanosh	kanosh	1
+382	kaysville	kaysville	0
+383	kearns	salt lake city	0
+384	keetley	heber city	0
+385	kelton	brigham city	0
+386	kenilworth	helper	0
+387	kenilworth	price	1
+388	kimball jct	park city	0
+389	kimball junction	park city	1
+390	kingston	kingston	0
+391	knolls	tooele	0
+392	kolob	kolob	0
+393	koosharem	koosharem	0
+394	la sal	la sal	0
+395	la sal jct	la sal	1
+396	la sal junction	la sal	0
+397	la verkin	la verkin	0
+398	lake point	tooele	0
+399	lake shore	provo	0
+400	lakeside	brigham city	0
+401	laketown	laketown	0
+402	lakeview	provo	0
+403	lapoint	roosevelt	0
+404	lawrence	huntington	0
+405	layton	layton	0
+406	leamington	delta	0
+407	leamington	leamington	1
+408	leeds	leeds	0
+409	leeton	roosevelt	0
+410	lehi	lehi	1
+411	lehi	provo	0
+412	leland	provo	0
+413	leota	roosevelt	0
+414	levan	levan	0
+415	lewiston	lewiston	1
+416	lewiston	logan	0
+417	liberty	ogden	0
+418	lincoln	tooele	0
+419	lindon	lindon	1
+420	lindon	provo	0
+421	little cottonwood canyon	salt lake city	2
+422	little cottonwood cyn	salt lake city	1
+423	littleton	morgan	0
+424	llc	salt lake city	0
+425	loa	loa	0
+426	logan	logan	0
+427	long valley jct	alton	2
+428	long valley junc	alton	0
+429	long valley junction	alton	1
+430	low	tooele	0
+431	lucin	brigham city	0
+432	lund	cedar city	0
+433	lyman	lyman	0
+434	lynn	brigham city	0
+435	lynndyl	lynndyl	0
+436	maeser	vernal	0
+437	magna	salt lake city	0
+438	mammoth	eureka	0
+439	mammoth creek	mammoth creek	1
+440	mammoth crk	mammoth creek	0
+441	manderfield	manderfield	1
+442	manderfield	beaver	0
+443	manila	manila	0
+444	manti	manti	0
+445	mantua	brigham city	0
+446	mantua	mantua	1
+447	mapleton	mapleton	1
+448	mapleton	provo	0
+449	marion	kamas	0
+450	marriott	ogden	1
+451	marriott-slaterville	ogden	6
+452	marriott-slaterville city	ogden	5
+453	martin	price	0
+454	marysvale	marysvale	0
+455	mayfield	manti	0
+456	mayfield	mayfield	1
+457	meadow	filllmore	0
+458	meadow	meadow	1
+459	meadowville	laketown	0
+460	mendon	logan	0
+461	mendon	mendon	1
+462	mercur	tooele	0
+463	mexican hat	blanding	0
+464	middleton	st george	0
+465	midvale	salt lake city	0
+466	midway	midway	0
+467	milburn	manti	0
+468	milford	milford	0
+469	millard county	fillmore	0
+470	millcreek	salt lake city	0
+471	miller creek	price	0
+472	mills	nephi	0
+473	mills jct	tooele	0
+474	mills junction	tooele	1
+475	millville	logan	0
+476	millville	millville	1
+477	milton	morgan	0
+478	minersville	minersville	0
+479	mirror lake	roosevelt	0
+480	moab	moab	0
+481	moark jct	spanish fork	0
+482	modena	modena	0
+483	mohrland	huntington	0
+484	molen	ferron	0
+485	mona	mona	0
+486	monarch	roosevelt	0
+487	monroe	monroe	0
+488	monroe mountain	monroe mountain	1
+489	monroe mtn	monroe mountain	0
+490	montezuma creek	blanding	0
+491	monticello	monticello	0
+492	monument valley	blanding	0
+493	moore	emery	0
+494	morgan	morgan	0
+495	morgan county	morgan	0
+496	moroni	manti	0
+497	moroni	moroni	1
+498	mosby mountain	roosevelt	1
+499	mosby mtn	roosevelt	0
+500	motoqua	gunlock	0
+501	mount carmel	orderville	0
+502	mount carmel jct	orderville	2
+503	mount carmel junction	orderville	0
+504	mount olympus	salt lake city	1
+505	mount pleasant	manti	1
+506	mount pleasant	mount pleasant	3
+507	mountain green	morgan	1
+508	mountain home	roosevelt	1
+509	mriott sltrvl	ogden	4
+510	ms	ogden	0
+511	ms city	ogden	3
+512	msc	ogden	2
+513	mt carmel	orderville	1
+514	mt carmel jct	orderville	1
+515	mt emmons	roosevelt	0
+516	mt olympus	salt lake city	1
+517	mt pleasant	manti	0
+518	mt pleasant	mount pleasant	2
+519	mtn green	morgan	0
+520	mtn home	roosevelt	0
+521	murray	salt lake city	0
+522	myton	myton	1
+523	myton	roosevelt	0
+524	n creek	beaver	0
+525	n logan	logan	0
+526	n ogden	ogden	0
+527	n salt lake	north salt lake	1
+528	n snyderville basin	park city	0
+529	north snyderville basin	park city	1
+530	naples	vernal	0
+531	natural bridges	blanding	0
+532	natural bridges nm	blanding	0
+533	navajo mountain	blanding	1
+534	navajo mtn	blanding	0
+535	neola	roosevelt	0
+536	nephi	nephi	0
+537	new harmony	new harmony	0
+538	newcastle	newcastle	0
+539	newton	logan	0
+540	newton	newton	1
+541	nibley	logan	0
+542	north creek	beaver	0
+543	north logan	logan	1
+544	north ogden	ogden	0
+545	north salt lake	north salt lake	1
+546	north snyderville basin	park city	1
+547	notom	notom	0
+548	nsl	north salt lake	0
+549	oak city	oak city	0
+550	oak	oak city	0
+551	oak creek	manti	0
+552	oakley	kamas	0
+553	oaks park res	vernal	0
+554	oaks park reservoir	vernal	1
+555	oasis	delta	0
+556	ogden	ogden	0
+557	old fishlake	old fishlake	0
+558	old la sal	la sal	0
+559	oljato	blanding	0
+560	ophir	tooele	0
+561	orangeville	orangeville	0
+562	orderville	orderville	0
+563	orem	orem	1
+564	orem	provo	0
+565	osiris	antimony	0
+566	otter creek	otter creek	0
+567	ouray	roosevelt	0
+568	palmyra	provo	0
+569	panguitch	panguitch	0
+570	panguitch lake	panguitch lake	0
+571	paradise	logan	0
+572	paragonah	paragonah	0
+573	park city	park city	1
+574	park city	park city	0
+575	park valley	brigham city	0
+576	parowan	parowan	0
+577	partoun	snake valley	0
+578	payson	payson	1
+579	payson	provo	0
+580	pc	park city	0
+581	penrose	brigham city	0
+582	peoa	kamas	0
+583	perry	brigham city	0
+584	peter	logan	0
+585	petersboro	logan	0
+586	peterson	morgan	0
+587	pickleville	garden city	0
+588	pigeon hollow jct	manti	1
+589	pigeon hollow junction	manti	0
+590	pine canyon	tooele	0
+591	pine valley	pine valley	0
+592	pinon forest	roosevelt	0
+593	pinto	pinto	0
+594	pintura	toquerville	0
+595	plain city	ogden	0
+596	plain	ogden	0
+597	pleasant grove	pleasant grove	3
+598	pleasant grove	provo	1
+599	pleasant grv	pleasant grove	2
+600	pleasant grv	provo	0
+601	pleasant view	ogden	0
+602	plymouth	brigham city	0
+603	ponderosa	ponderosa	1
+604	ponderosa	beaver	0
+605	portage	brigham city	0
+606	porterville	morgan	0
+607	price	price	0
+608	promontory	brigham city	1
+609	promontory point	brigham city	0
+610	providence	logan	0
+611	providence	providence	1
+612	provo	provo	0
+613	randlett	roosevelt	0
+614	randolph	randolph	0
+615	redmond	redmond	0
+616	richfield	richfield	0
+617	richmond	logan	0
+618	richmond	richmond	1
+619	richville	morgan	0
+620	river heights	logan	0
+621	riverdale	ogden	0
+622	riverside	brigham city	0
+623	riverton	salt lake city	0
+624	rockville	rockville	1
+625	rocky ridge	rocky ridge	1
+626	rocky ridge	mona	0
+627	roosevelt	roosevelt	0
+628	rosette	brigham city	0
+629	round valley	laketown	0
+630	rowley	tooele	0
+631	rowley jct	tooele	1
+632	rowley junction	tooele	0
+633	roy	ogden	0
+634	rush valley	rush valley	1
+635	rush valley	tooele	0
+636	s jordan	salt lake city	1
+637	s ogden	ogden	0
+638	s salt lake	salt lake city	2
+639	s snyderville basin	park city	0
+640	s weber	ogden	0
+641	s willard	brigham city	0
+642	sage creek jct	randolph	1
+643	sage creek junction	randolph	0
+644	saint george	st george	0
+645	salem	provo	0
+646	salem	salem	1
+647	salina	salina	0
+648	salt lake	salt lake city	1
+649	salt lake city	salt lake city	2
+650	salt lake cnty	salt lake city	0
+651	salt lake co	salt lake city	0
+652	salt lake county	salt lake city	0
+653	salt springs	tooele	0
+654	samak	kamas	0
+655	san juan county	monticello	0
+656	sandy	salt lake city	0
+657	sandy ranch	sandy ranch	0
+658	sanpete county	manti	0
+659	santa clara	santa clara	0
+660	santaquin	provo	0
+661	santaquin	santaquin	1
+662	saratoga	provo	0
+663	saratoga	saratoga springs	1
+664	saratoga spgs	provo	0
+665	saratoga spgs	saratoga springs	1
+666	saratoga springs	provo	0
+667	saratoga springs	saratoga springs	1
+668	scipio	fillmore	0
+669	scipio	scipio	1
+670	scofield	price	0
+671	scofield	scofield	1
+672	sevier	sevier	0
+673	sgu	st george	0
+674	shivwits	st george	0
+675	sigurd	sigurd	0
+676	silver city	eureka	0
+677	silver creek jct	park city	1
+678	silver creek junction	park city	0
+679	silver reef	leeds	0
+680	silver summit	park city	0
+681	sj	salt lake city	0
+682	skull valley	tooele	0
+683	sl ci	salt lake city	0
+684	slaterville	ogden	0
+685	slc	salt lake city	0
+686	slco	salt lake city	0
+687	smithfield	logan	0
+688	smithfield	smithfield	1
+689	snake valley	snake valley	0
+690	snow basin	ogden	0
+691	snowbasin	ogden	0
+692	snowbird	salt lake city	0
+693	snowville	brigham city	0
+694	snowville	snowville	1
+695	snyderville	park city	0
 696	so salt lake	salt lake city	1
-697	solitude	salt lake city	0
-698	south jordan	salt lake city	1
-699	south salt lake	salt lake city	2
-700	s jordan	salt lake city	1
-701	s salt lake	salt lake city	2
-702	ssl	salt lake city	0
-703	taylorsville	salt lake city	0
-704	university of utah	salt lake city	0
-705	west jordan	salt lake city	1
-706	west valley	salt lake city	0
-707	west valley city	salt lake city	1
-708	w jordan	salt lake city	1
-709	w valley	salt lake city	0
-710	w valley city	salt lake city	1
-711	white city	salt lake city	0
-712	wj	salt lake city	0
-713	wvc	salt lake city	0
-714	sandy ranch	sandy ranch	0
-715	santa clara	santa clara	0
-716	santaquin	santaquin	1
-717	saratoga spgs	saratoga springs	2
-718	saratoga springs	saratoga springs	3
-719	scipio	scipio	1
-720	scofield	scofield	1
-721	sevier	sevier	0
-722	sigurd	sigurd	0
-723	smithfield	smithfield	1
-724	fish springs	snake valley	0
-725	goshute	snake valley	0
-726	partoun	snake valley	0
-727	snake valley	snake valley	0
-728	trout creek	snake valley	1
-729	snowville	snowville	1
-730	soldier summit	soldier summit	0
-731	covered bridge	spanish fork	0
-732	moark jct	spanish fork	0
-733	spanish fork	spanish fork	1
-734	spirit lake	spirit lake	0
-735	spring city	spring city	1
-736	springdale	springdale	0
-737	zion national park	springdale	1
-738	zion ntl park	springdale	0
-739	springville	springville	1
-740	bloomington	st george	0
-741	bloomington hills	st george	0
-742	middleton	st george	0
-743	saint george	st george	0
-744	sgu	st george	0
-745	shivwits	st george	0
-746	st george	st george	1
-747	st. george	st george	0
-748	stg	st george	0
-749	sterling	sterling	1
-750	stockton	stockton	0
-751	strawberry	strawberry	0
-752	summit	summit	0
+697	soldier summit	soldier summit	0
+698	solitude	salt lake city	0
+699	south jordan	salt lake city	1
+700	south ogden	ogden	0
+701	south salt lake	salt lake city	2
+702	south snyderville basin	park city	0
+703	south weber	ogden	0
+704	south willard	brigham city	0
+705	spanish fork	provo	0
+706	spanish fork	spanish fork	1
+707	spanish valley	monticello	0
+708	spirit lake	spirit lake	0
+709	spring city	manti	0
+710	spring city	spring city	1
+711	spring	manti	0
+712	spring	spring city	1
+713	spring glen	price	0
+714	spring lake	provo	0
+715	springdale	springdale	0
+716	springville	provo	0
+717	springville	springville	1
+718	spry	panguitch	0
+719	ssl	salt lake city	0
+720	st george	st george	1
+721	st. george	st george	0
+722	standardville	price	0
+723	standrod	brigham city	0
+724	stansbury park	tooele	0
+725	sterling	manti	0
+726	sterling	sterling	1
+727	stg	st george	0
+728	stockton	stockton	0
+729	stockton	tooele	0
+730	stoddard	morgan	0
+731	strawberry	strawberry	0
+732	sugarville	delta	0
+733	sulphurdale	sulphurdale	1
+734	sulphurdale	beaver	0
+735	sulpherdale	sulphurdale	1
+736	sulpherdale	beaver	0
+737	summit	summit	0
+738	summit county	kamas	0
+739	summit park	park city	0
+740	summit point	la sal	0
+741	sundance	provo	0
+742	sunnyside	east carbon	1
+743	sunnyside	price	0
+744	sunset	clearfield	0
+745	sutherland	delta	0
+746	syracuse	clearfield	0
+747	tabiona	roosevelt	0
+748	talmage	roosevelt	0
+749	taylor	ogden	0
+750	taylor flat	browns park	0
+751	taylors flat	browns park	1
+752	taylorsville	salt lake city	0
 753	teasdale	teasdale	0
-754	thompson	thompson springs	1
-755	thompson springs	thompson springs	0
-756	ticaboo	ticaboo	0
-757	aragonite	tooele	0
-758	bauer	tooele	0
-759	burmester	tooele	0
-760	clive	tooele	0
-761	delle	tooele	0
-762	dugway	tooele	0
-763	erda	tooele	0
-764	faust	tooele	0
-765	gold hill	tooele	0
-766	grantsville	tooele	0
-767	iosepa	tooele	0
-768	knolls	tooele	0
-769	lake point	tooele	0
-770	lincoln	tooele	0
-771	low	tooele	0
-772	mercur	tooele	0
-773	mills jct	tooele	0
-774	mills junction	tooele	1
-775	ophir	tooele	0
-776	rowley	tooele	0
-777	rowley jct	tooele	1
-778	rowley junction	tooele	0
-779	rush valley	tooele	0
-780	salt springs	tooele	0
-781	stansbury park	tooele	0
-782	stockton	tooele	0
-783	terra	tooele	0
-784	tooele	tooele	0
-785	tooele army depot	tooele	0
-786	tooele county	tooele	0
-787	tooele county	tooele	0
-788	vernon	tooele	0
-789	wendover	tooele	0
-790	pintura	toquerville	0
-791	toquerville	toquerville	0
-792	torrey	torrey	0
-793	tremonton	tremonton	1
-794	trenton	trenton	1
-795	tropic	tropic	0
-796	venice	venice	0
-797	bonanza	vernal	0
-798	diamond mountain	vernal	1
-799	diamond mtn	vernal	0
-800	dry fork	vernal	0
-801	jensen	vernal	0
-802	maeser	vernal	0
-803	naples	vernal	0
-804	oaks park res	vernal	0
-805	oaks park reservoir	vernal	1
-806	uintah county	vernal	0
-807	vernal	vernal	0
-808	vernon	vernon	1
-809	veyo	veyo	0
-810	vineyard	vineyard	1
-811	virgin	virgin	0
-812	zion national park	virgin	1
-813	zion ntl park	virgin	0
-814	wales	wales	1
-815	wallsburg	wallsburg	0
-816	wanship	wanship	0
-817	washington	washington	1
-818	washington city	washington	0
-819	wellington	wellington	1
-820	wellsville	wellsville	1
-821	wendover	wendover	1
-822	widtsoe	widtsoe	0
-823	widtsoe jct	widtsoe	1
-824	widtsoe junction	widtsoe	0
-825	willard	willard	1
-826	woodland	woodland	0
-827	woodland hills	woodland hills	1
-828	woodland hls	woodland hills	0
-829	woodruff	woodruff	0
+754	terra	tooele	0
+755	thatcher	brigham city	0
+756	thistle	provo	0
+757	thompson	thompson springs	1
+758	thompson springs	thompson springs	0
+759	ticaboo	ticaboo	0
+760	timber lakes	heber city	0
+761	tintic	eureka	0
+762	tooele	tooele	0
+763	tooele army depot	tooele	0
+764	tooele county	tooele	0
+765	topaz	delta	0
+766	toquerville	toquerville	0
+767	torrey	torrey	0
+768	tremonton	brigham city	0
+769	tremonton	tremonton	1
+770	trenton	logan	0
+771	trenton	trenton	1
+772	tridell	roosevelt	0
+773	tropic	tropic	0
+774	trout creek	nephi	0
+775	trout creek	snake valley	1
+776	tselakai dezza	blanding	0
+777	tucker	provo	0
+778	tuhaye	heber city	0
+779	ucolo	monticello	0
+780	uintah	ogden	0
+781	uintah county	vernal	0
+782	university of utah	salt lake city	0
+783	uofu	salt lake city	0
+784	u of u	salt lake city	0
+785	upalco	roosevelt	0
+786	upton	coalville	0
+787	utah county	provo	0
+788	venice	venice	0
+789	vernal	vernal	0
+790	vernon	tooele	0
+791	vernon	vernon	1
+792	veyo	veyo	0
+793	victory ranch	heber city	0
+794	vineyard	provo	0
+795	vineyard	vineyard	1
+796	virgin	virgin	0
+797	w bountiful	bountiful	0
+798	w haven	ogden	0
+799	w jordan	salt lake city	1
+800	w mountain	provo	0
+801	w point	clearfield	0
+802	w valley	salt lake city	0
+803	w valley city	salt lake city	1
+804	w waren	ogden	0
+805	w warren	ogden	0
+806	w wood	price	0
+807	wahsatch	henefer	0
+808	wahweap	big water	0
+809	wales	manti	0
+810	wales	wales	1
+811	wallsburg	wallsburg	0
+812	wanship	wanship	0
+813	warren	ogden	0
+814	wasatch county	heber city	0
+815	washakie	brigham city	0
+816	washington	washington	1
+817	washington city	washington	0
+818	washington terrace	ogden	0
+819	wattis	price	0
+820	weber county	ogden	0
+821	wellington	price	0
+822	wellington	wellington	1
+823	wellsville	logan	0
+824	wellsville	wellsville	1
+825	wendover	tooele	0
+826	wendover	wendover	1
+827	west bountiful	bountiful	0
+828	west haven	ogden	0
+829	west jordan	salt lake city	1
+830	west mountain	provo	0
+831	west point	clearfield	0
+832	west valley	salt lake city	0
+833	west valley city	salt lake city	1
+834	west waren	ogden	0
+835	west warren	ogden	0
+836	west weber	ogden	0
+837	west wood	price	0
+838	westwater	moab	0
+839	westwood	price	0
+840	wheelon	brigham city	0
+841	white city	salt lake city	0
+842	white	salt lake city	0
+843	white mesa	blanding	0
+844	whiterocks	roosevelt	0
+845	widtsoe	widtsoe	0
+846	widtsoe jct	widtsoe	1
+847	widtsoe junction	widtsoe	0
+848	willard	brigham city	0
+849	willard	willard	1
+850	winchester hills	st george	0
+851	wj	salt lake city	0
+852	wolf creek	ogden	0
+853	wolf creek ranch	heber city	0
+854	woodland	kamas	0
+855	woodland	woodland	1
+856	woodland hills	provo	1
+857	woodland hills	woodland hills	1
+858	woodland hls	provo	0
+859	woodland hls	woodland hills	0
+860	woodrow	delta	0
+861	woodruff	woodruff	0
+862	woods cross	bountiful	0
+863	wood cross	bountiful	0
+864	woodside	green river	0
+865	wvc	salt lake city	0
+866	yost	brigham city	0
+867	young ward	logan	0
+868	zane	beryl	0
+869	zion national park	kolob	2
+870	zion national park	new harmony	1
+871	zion national park	rockville	3
+872	zion national park	springdale	5
+873	zion national park	virgin	4
+874	zion ntl park	kolob	2
+875	zion ntl park	new harmony	1
+876	zion ntl park	rockville	3
+877	zion ntl park	springdale	5
+878	zion ntl park	virgin	4
 \.
 
 
@@ -1628,7 +1677,7 @@ COPY public.zip_codes (id, zip, address_system, weight) FROM stdin;
 77	84052	myton	1
 78	84052	roosevelt	0
 79	84053	roosevelt	0
-80	84054	nsl	0
+80	84054	north salt lake	0
 81	84055	kamas	0
 82	84056	clearfield	0
 83	84056	hill air force base	1
@@ -1636,403 +1685,413 @@ COPY public.zip_codes (id, zip, address_system, weight) FROM stdin;
 85	84057	vineyard	0
 86	84058	orem	1
 87	84058	vineyard	0
-88	84060	heber city	0
-89	84060	park city	1
-90	84061	kamas	0
-91	84062	pleasant grove	1
-92	84062	provo	0
-93	84063	roosevelt	0
-94	84064	randolph	0
-95	84065	salt lake city	0
-96	84066	roosevelt	0
-97	84067	ogden	0
-98	84068	park city	0
-99	84069	rush valley	1
-100	84069	tooele	0
-101	84070	salt lake city	0
-102	84071	stockton	1
-103	84071	tooele	0
-104	84072	roosevelt	0
-105	84073	roosevelt	0
-106	84074	tooele	0
-107	84075	clearfield	0
-108	84076	roosevelt	0
-109	84078	vernal	0
-110	84079	vernal	0
-111	84080	tooele	0
-112	84080	vernon	1
-113	84081	salt lake city	0
-114	84082	wallsburg	0
-115	84083	snake valley	0
-116	84083	wendover	1
-117	84084	salt lake city	0
-118	84085	roosevelt	0
-119	84086	woodruff	0
-120	84087	bountiful	0
-121	84088	salt lake city	0
-122	84089	clearfield	0
-123	84090	sandy	0
-124	84091	sandy	0
-125	84092	salt lake city	0
-126	84093	salt lake city	0
-127	84094	salt lake city	0
-128	84095	salt lake city	0
-129	84096	salt lake city	0
-130	84097	orem	0
-131	84098	park city	0
-132	84101	salt lake city	0
-133	84102	salt lake city	0
-134	84103	salt lake city	0
-135	84104	salt lake city	0
-136	84105	salt lake city	0
-137	84106	salt lake city	0
-138	84107	salt lake city	0
-139	84108	salt lake city	0
-140	84109	salt lake city	0
-141	84110	salt lake city	0
-142	84111	salt lake city	0
-143	84112	salt lake city	0
-144	84113	salt lake city	0
-145	84114	salt lake city	0
-146	84115	salt lake city	0
-147	84116	salt lake city	0
-148	84117	salt lake city	0
-149	84118	salt lake city	0
-150	84119	salt lake city	0
-151	84120	salt lake city	0
-152	84121	salt lake city	0
-153	84122	salt lake city	0
-154	84122	salt lake city	0
-155	84123	salt lake city	0
-156	84124	salt lake city	0
-157	84125	salt lake city	0
-158	84126	salt lake city	0
-159	84128	salt lake city	0
-160	84129	salt lake city	0
-161	84130	salt lake city	0
-162	84132	salt lake city	0
-163	84134	salt lake city	0
-164	84136	salt lake city	0
-165	84138	salt lake city	0
-166	84139	salt lake city	0
-167	84141	salt lake city	0
-168	84143	salt lake city	0
-169	84145	salt lake city	0
-170	84147	salt lake city	0
-171	84148	salt lake city	0
-172	84150	salt lake city	0
-173	84150	salt lake city	0
-174	84151	salt lake city	0
-175	84152	salt lake city	0
-176	84157	salt lake city	0
-177	84158	salt lake city	0
-178	84165	salt lake city	0
-179	84170	salt lake city	0
-180	84171	salt lake city	0
-181	84184	salt lake city	0
-182	84189	salt lake city	0
-183	84190	salt lake city	0
-184	84199	salt lake city	0
-185	84201	ogden	0
-186	84244	ogden	0
-187	84301	brigham city	0
-188	84302	brigham city	0
-189	84304	logan	0
-190	84305	clarkston	1
-191	84305	logan	0
-192	84306	brigham city	0
-193	84306	logan	1
-194	84307	brigham city	0
-195	84308	lewiston	1
-196	84308	logan	0
-197	84309	brigham city	0
-198	84310	ogden	0
-199	84311	brigham city	0
-200	84311	fielding	1
-201	84312	brigham city	0
-202	84312	garland	1
-203	84313	brigham city	0
-204	84314	brigham city	0
-205	84315	ogden	0
-206	84316	brigham city	0
-207	84317	ogden	0
-208	84318	hyde park	1
-209	84318	logan	0
-210	84319	hyrum	1
-211	84319	logan	0
-212	84320	lewiston	1
-213	84320	logan	0
-214	84321	logan	0
-215	84322	logan	0
-216	84323	logan	0
-217	84324	brigham city	0
-218	84324	mantua	1
-219	84325	logan	0
-220	84325	mendon	1
-221	84326	millville	0
-222	84327	logan	0
-223	84327	newton	1
-224	84328	logan	0
-225	84329	brigham city	0
-226	84330	brigham city	0
-227	84331	brigham city	0
-228	84332	providence	0
-229	84333	logan	0
-230	84333	richmond	1
-231	84334	brigham city	0
-232	84335	logan	0
-233	84335	smithfield	1
-234	84336	brigham city	0
-235	84336	snowville	1
-236	84337	brigham city	0
-237	84337	tremonton	1
-238	84338	trenton	0
-239	84339	logan	0
-240	84339	wellsville	1
-241	84340	brigham city	0
-242	84340	willard	1
-243	84341	logan	0
-244	84401	ogden	0
-245	84402	ogden	0
-246	84403	ogden	0
-247	84404	ogden	0
-248	84405	ogden	0
-249	84407	ogden	0
-250	84408	ogden	0
-251	84409	ogden	0
-252	84412	ogden	0
-253	84414	ogden	0
-254	84415	ogden	0
-255	84501	elmo	1
-256	84501	price	0
-257	84501	price	2
-258	84510	blanding	0
-259	84511	blanding	0
-260	84512	bluff	0
-261	84513	castle dale	0
-262	84515	moab	0
-263	84516	clawson	0
-264	84518	cleveland	0
-265	84520	east carbon city	1
-266	84520	price	0
-267	84521	cleveland	0
-268	84521	elmo	1
-269	84522	emery	0
-270	84523	ferron	0
-271	84525	green river	0
-272	84526	helper	2
-273	84526	price	0
-274	84526	scofield	1
-275	84528	huntington	0
-276	84529	price	0
-277	84530	la sal	0
-278	84531	blanding	0
-279	84532	castle valley	1
-280	84532	moab	2
-281	84532	monticello	0
-282	84533	bullfrog	1
-283	84533	sandy ranch	0
-284	84533	ticaboo	2
-285	84534	blanding	0
-286	84535	monticello	0
-287	84536	blanding	0
-288	84537	orangeville	0
-289	84539	price	0
-290	84540	green river	0
-291	84540	moab	0
-292	84540	thompson springs	1
-293	84542	price	0
-294	84542	wellington	1
-295	84601	provo	0
-296	84602	provo	0
-297	84603	provo	0
-298	84604	heber city	0
-299	84604	lindon	1
-300	84604	provo	2
-301	84605	provo	0
-302	84606	provo	0
-303	84620	aurora	0
-304	84621	axtel	1
-305	84621	manti	0
-306	84622	centerfield	1
-307	84622	manti	0
-308	84623	manti	0
-309	84624	delta	3
-310	84624	fillmore	0
-311	84624	hinckley	2
-312	84624	lynndyl	1
-313	84626	provo	0
-314	84627	ephraim	1
-315	84627	manti	0
-316	84628	eureka	0
-317	84629	fairview	2
-318	84629	manti	1
-319	84629	provo	0
-320	84630	fayette	1
-321	84630	manti	0
-322	84631	fillmore	0
-323	84632	fountain green	1
-324	84632	manti	0
-325	84633	goshen	1
-326	84633	provo	0
-327	84634	gunnison	1
-328	84634	manti	0
-329	84635	delta	0
-330	84635	hinckley	1
-331	84636	fillmore	0
-332	84636	holden	1
-333	84637	fillmore	0
-334	84637	kanosh	1
-335	84638	delta	0
-336	84638	leamington	1
-337	84639	levan	0
-338	84640	delta	0
-339	84640	lynndyl	1
-340	84642	manti	0
-341	84643	manti	0
-342	84643	mayfield	1
-343	84644	fillmore	0
-344	84644	meadow	1
-345	84645	mona	0
-346	84646	manti	0
-347	84646	moroni	1
-348	84647	manti	0
-349	84647	mount pleasant	1
-350	84648	nephi	0
-351	84649	delta	0
-352	84649	oak city	1
-353	84651	elk ridge	1
-354	84651	payson	2
-355	84651	provo	0
-356	84652	redmond	0
-357	84653	provo	0
-358	84653	salem	2
-359	84653	woodland hills	1
-360	84654	acord lakes	0
-361	84654	fishlake	1
-362	84654	salina	2
-363	84655	genola	1
-364	84655	provo	0
-365	84655	santaquin	2
-366	84656	scipio	0
-367	84657	sigurd	0
-368	84660	provo	0
-369	84660	spanish fork	1
-370	84662	manti	0
-371	84662	spring city	1
-372	84663	provo	0
-373	84663	springville	1
-374	84664	mapleton	2
-375	84664	provo	0
-376	84664	springville	1
-377	84665	manti	0
-378	84665	sterling	1
-379	84667	manti	0
-380	84667	wales	1
-381	84701	richfield	1
-382	84701	venice	0
-383	84710	alton	0
-384	84711	annabella	0
-385	84712	angle	1
-386	84712	antimony	2
-387	84712	otter creek	0
-388	84713	beaver	0
-389	84714	beryl	0
-390	84715	bicknell	0
-391	84716	boulder	1
-392	84716	sandy ranch	0
-393	84718	cannonville	0
-394	84719	brian head	0
-395	84720	cedar city	0
-396	84721	cedar city	0
-397	84722	central	0
-398	84723	circleville	0
-399	84724	elsinore	0
-400	84725	enterprise	0
-401	84726	escalante	0
-402	84728	delta	1
-403	84728	fillmore	0
-404	84729	glendale	0
-405	84730	glenwood	0
-406	84731	beaver	0
-407	84732	greenwich	0
-408	84733	gunlock	0
-409	84734	hanksville	0
-410	84735	hatch	1
-411	84735	mammoth creek	0
-412	84736	henrieville	0
-413	84737	apple valley	0
-414	84737	hurricane	1
-415	84738	ivins	1
-416	84739	joseph	0
-417	84740	junction	0
-418	84741	big water	2
-419	84741	bullfrog	0
-420	84741	cannonville	1
-421	84741	kanab	3
-422	84742	kanarraville	0
-423	84743	kingston	0
-424	84744	koosharem	0
-425	84745	hurricane	0
-426	84745	la verkin	1
-427	84746	leeds	0
-428	84747	fremont	2
-429	84747	loa	1
-430	84747	old fishlake	0
-431	84749	lyman	0
-432	84750	marysvale	0
-433	84751	milford	0
-434	84752	minersville	0
-435	84753	modena	0
-436	84754	central valley	1
-437	84754	monroe	2
-438	84754	monroe mountain	0
-439	84755	mount carmel	1
-440	84755	orderville	0
-441	84756	enterprise	0
-442	84756	newcastle	2
-443	84756	pinto	1
-444	84757	new harmony	1
-445	84757	toquerville	0
-446	84758	glendale	0
-447	84758	orderville	1
-448	84759	panguitch	2
-449	84759	panguitch lake	1
-450	84759	widtsoe	0
-451	84760	paragonah	0
-452	84761	parowan	0
-453	84762	duck creek village	0
-454	84763	rockville	0
-455	84764	bryce canyon city	1
-456	84764	bryce canyon county	0
-457	84765	santa clara	0
-458	84766	sevier	0
-459	84767	kolob	0
-460	84767	springdale	1
-461	84770	st george	0
-462	84771	st george	0
-463	84772	summit	0
-464	84773	grover	0
-465	84773	teasdale	1
-466	84774	toquerville	0
-467	84775	caineville	2
-468	84775	fruita	1
-469	84775	notom	0
-470	84775	torrey	3
-471	84776	tropic	0
-472	84779	virgin	0
-473	84780	st george	0
-474	84780	washington	1
-475	84781	pine valley	1
-476	84782	brookside	1
-477	84782	central	2
-478	84782	enterprise	3
-479	84782	veyo	0
-480	84783	dammeron valley	0
-481	84783	veyo	1
-482	84784	hildale	0
-483	84790	st george	0
-484	84791	st george	0
+88	84059	orem	1
+89	84059	vineyard	0
+90	84060	heber city	0
+91	84060	park city	1
+92	84061	kamas	0
+93	84062	pleasant grove	1
+94	84062	provo	0
+95	84063	roosevelt	0
+96	84064	randolph	0
+97	84065	salt lake city	0
+98	84066	roosevelt	0
+99	84067	ogden	0
+100	84068	park city	0
+101	84069	rush valley	1
+102	84069	tooele	0
+103	84070	salt lake city	0
+104	84071	stockton	1
+105	84071	tooele	0
+106	84072	roosevelt	0
+107	84073	roosevelt	0
+108	84074	tooele	0
+109	84075	clearfield	0
+110	84076	roosevelt	0
+111	84078	vernal	0
+112	84079	vernal	0
+113	84080	tooele	0
+114	84080	vernon	1
+115	84081	salt lake city	0
+116	84082	wallsburg	0
+117	84083	snake valley	0
+118	84083	wendover	1
+119	84084	salt lake city	0
+120	84085	roosevelt	0
+121	84086	woodruff	0
+122	84087	bountiful	0
+123	84088	salt lake city	0
+124	84089	clearfield	0
+125	84090	sandy	0
+126	84091	sandy	0
+127	84092	salt lake city	0
+128	84093	salt lake city	0
+129	84094	salt lake city	0
+130	84095	salt lake city	0
+131	84096	salt lake city	0
+132	84097	orem	0
+133	84098	park city	0
+134	84101	salt lake city	0
+135	84102	salt lake city	0
+136	84103	salt lake city	0
+137	84104	salt lake city	0
+138	84105	salt lake city	0
+139	84106	salt lake city	0
+140	84107	salt lake city	0
+141	84108	salt lake city	0
+142	84109	salt lake city	0
+143	84110	salt lake city	0
+144	84111	salt lake city	0
+145	84112	salt lake city	0
+146	84113	salt lake city	0
+147	84114	salt lake city	0
+148	84115	salt lake city	0
+149	84116	salt lake city	0
+150	84117	salt lake city	0
+151	84118	salt lake city	0
+152	84119	salt lake city	0
+153	84120	salt lake city	0
+154	84121	salt lake city	0
+155	84122	salt lake city	0
+156	84122	salt lake city	0
+157	84123	salt lake city	0
+158	84124	salt lake city	0
+159	84125	salt lake city	0
+160	84126	salt lake city	0
+161	84128	salt lake city	0
+162	84129	salt lake city	0
+163	84130	salt lake city	0
+164	84132	salt lake city	0
+165	84134	salt lake city	0
+166	84136	salt lake city	0
+167	84138	salt lake city	0
+168	84139	salt lake city	0
+169	84141	salt lake city	0
+170	84143	salt lake city	0
+171	84145	salt lake city	0
+172	84147	salt lake city	0
+173	84148	salt lake city	0
+174	84150	salt lake city	0
+175	84150	salt lake city	0
+176	84151	salt lake city	0
+177	84152	salt lake city	0
+178	84157	salt lake city	0
+179	84158	salt lake city	0
+180	84165	salt lake city	0
+181	84170	salt lake city	0
+182	84171	salt lake city	0
+183	84184	salt lake city	0
+184	84189	salt lake city	0
+185	84190	salt lake city	0
+186	84199	salt lake city	0
+187	84201	ogden	0
+188	84244	ogden	0
+189	84301	brigham city	0
+190	84302	brigham city	0
+191	84304	logan	0
+192	84305	clarkston	1
+193	84305	logan	0
+194	84306	brigham city	0
+195	84306	logan	1
+196	84307	brigham city	0
+197	84308	lewiston	1
+198	84308	logan	0
+199	84309	brigham city	0
+200	84310	ogden	0
+201	84311	brigham city	0
+202	84311	fielding	1
+203	84312	brigham city	0
+204	84312	garland	1
+205	84313	brigham city	0
+206	84314	brigham city	0
+207	84315	ogden	0
+208	84316	brigham city	0
+209	84317	ogden	0
+210	84318	hyde park	1
+211	84318	logan	0
+212	84319	hyrum	1
+213	84319	logan	0
+214	84320	lewiston	1
+215	84320	logan	0
+216	84321	logan	0
+217	84322	logan	0
+218	84323	logan	0
+219	84324	brigham city	0
+220	84324	mantua	1
+221	84325	logan	0
+222	84325	mendon	1
+223	84326	millville	0
+224	84327	logan	0
+225	84327	newton	1
+226	84328	logan	0
+227	84329	brigham city	0
+228	84330	brigham city	0
+229	84331	brigham city	0
+230	84332	providence	0
+231	84333	logan	0
+232	84333	richmond	1
+233	84334	brigham city	0
+234	84335	logan	0
+235	84335	smithfield	1
+236	84336	brigham city	0
+237	84336	snowville	1
+238	84337	brigham city	0
+239	84337	tremonton	1
+240	84338	trenton	0
+241	84339	logan	0
+242	84339	wellsville	1
+243	84340	brigham city	0
+244	84340	willard	1
+245	84341	logan	0
+246	84401	ogden	0
+247	84402	ogden	0
+248	84403	ogden	0
+249	84404	ogden	0
+250	84405	ogden	0
+251	84407	ogden	0
+252	84408	ogden	0
+253	84409	ogden	0
+254	84412	ogden	0
+255	84414	ogden	0
+256	84415	ogden	0
+257	84501	elmo	1
+258	84501	price	0
+259	84501	price	2
+260	84510	blanding	0
+261	84511	blanding	0
+262	84512	bluff	0
+263	84513	castle dale	0
+264	84515	moab	0
+265	84516	clawson	0
+266	84518	cleveland	0
+267	84520	east carbon	1
+268	84520	price	0
+269	84521	cleveland	0
+270	84521	elmo	1
+271	84522	emery	0
+272	84523	ferron	0
+273	84525	green river	0
+274	84526	helper	2
+275	84526	price	0
+276	84526	scofield	1
+277	84528	huntington	0
+278	84529	price	0
+279	84530	la sal	0
+280	84531	blanding	0
+281	84532	castle valley	1
+282	84532	moab	2
+283	84532	monticello	0
+284	84533	bullfrog	1
+285	84533	sandy ranch	0
+286	84533	ticaboo	2
+287	84534	blanding	0
+288	84535	monticello	0
+289	84536	blanding	0
+290	84537	orangeville	0
+291	84539	price	0
+292	84540	green river	0
+293	84540	moab	0
+294	84540	thompson springs	1
+295	84542	price	0
+296	84542	wellington	1
+297	84601	provo	0
+298	84602	provo	0
+299	84603	provo	0
+300	84604	heber city	0
+301	84604	lindon	1
+302	84604	provo	2
+303	84605	provo	0
+304	84606	provo	0
+305	84620	aurora	0
+306	84621	axtel	1
+307	84621	manti	0
+308	84622	centerfield	1
+309	84622	manti	0
+310	84623	manti	0
+311	84624	delta	3
+312	84624	fillmore	0
+313	84624	hinckley	2
+314	84624	lynndyl	1
+315	84626	provo	0
+316	84627	ephraim	1
+317	84627	manti	0
+318	84628	eureka	0
+319	84629	fairview	2
+320	84629	manti	1
+321	84629	provo	0
+322	84630	fayette	1
+323	84630	manti	0
+324	84631	fillmore	0
+325	84632	fountain green	1
+326	84632	manti	0
+327	84633	goshen	1
+328	84633	provo	0
+329	84634	gunnison	1
+330	84634	manti	0
+331	84635	delta	0
+332	84635	hinckley	1
+333	84636	fillmore	0
+334	84636	holden	1
+335	84637	fillmore	0
+336	84637	kanosh	1
+337	84638	delta	0
+338	84638	leamington	1
+339	84639	levan	0
+340	84640	delta	0
+341	84640	lynndyl	1
+342	84642	manti	0
+343	84643	manti	0
+344	84643	mayfield	1
+345	84644	fillmore	0
+346	84644	meadow	1
+347	84645	mona	0
+348	84645	rocky ridge	1
+349	84646	manti	0
+350	84646	moroni	1
+351	84647	manti	0
+352	84647	mount pleasant	1
+353	84648	nephi	0
+354	84649	delta	0
+355	84649	oak city	1
+356	84651	elk ridge	1
+357	84651	payson	2
+358	84651	provo	0
+359	84652	redmond	0
+360	84653	provo	0
+361	84653	salem	2
+362	84653	woodland hills	1
+363	84654	acord lakes	0
+364	84654	fishlake	1
+365	84654	salina	2
+366	84655	genola	1
+367	84655	provo	0
+368	84655	santaquin	2
+369	84656	scipio	0
+370	84657	sigurd	0
+371	84660	provo	0
+372	84660	spanish fork	1
+373	84662	manti	0
+374	84662	spring city	1
+375	84663	provo	0
+376	84663	springville	1
+377	84664	mapleton	2
+378	84664	provo	0
+379	84664	springville	1
+380	84665	manti	0
+381	84665	sterling	1
+382	84667	manti	0
+383	84667	wales	1
+384	84701	richfield	1
+385	84701	venice	0
+386	84710	alton	0
+387	84711	annabella	0
+388	84712	angle	1
+389	84712	antimony	2
+390	84712	otter creek	0
+391	84713	beaver	4
+392	84713	elk meadows	3
+393	84713	ponderosa	2
+394	84713	greenville	1
+395	84713	sulphurdale	0
+396	84714	beryl	0
+397	84715	bicknell	0
+398	84716	boulder	1
+399	84716	sandy ranch	0
+400	84718	cannonville	0
+401	84719	brian head	0
+402	84720	cedar city	0
+403	84721	cedar city	0
+404	84722	central	0
+405	84723	circleville	0
+406	84724	elsinore	0
+407	84725	enterprise	0
+408	84726	escalante	0
+409	84728	delta	1
+410	84728	fillmore	0
+411	84729	glendale	0
+412	84730	glenwood	0
+413	84731	beaver	0
+414	84731	greenville	2
+415	84731	adamsville	1
+416	84732	greenwich	0
+417	84733	gunlock	0
+418	84765	gunlock	1
+419	84734	hanksville	0
+420	84735	hatch	1
+421	84735	mammoth creek	0
+422	84736	henrieville	0
+423	84737	apple valley	0
+424	84737	hurricane	1
+425	84738	ivins	1
+426	84739	joseph	0
+427	84740	junction	0
+428	84741	big water	2
+429	84741	bullfrog	0
+430	84741	cannonville	1
+431	84741	kanab	3
+432	84742	kanarraville	0
+433	84743	kingston	0
+434	84744	koosharem	0
+435	84745	hurricane	0
+436	84745	la verkin	1
+437	84746	leeds	0
+438	84747	fremont	2
+439	84747	loa	1
+440	84747	old fishlake	0
+441	84749	lyman	0
+442	84750	marysvale	0
+443	84751	milford	0
+444	84752	minersville	0
+445	84753	modena	0
+446	84754	central valley	1
+447	84754	monroe	2
+448	84754	monroe mountain	0
+449	84755	mount carmel	1
+450	84755	orderville	0
+451	84756	enterprise	0
+452	84756	newcastle	2
+453	84756	pinto	1
+454	84757	new harmony	1
+455	84757	toquerville	0
+456	84758	glendale	0
+457	84758	orderville	1
+458	84759	panguitch	2
+459	84759	panguitch lake	1
+460	84759	widtsoe	0
+461	84760	paragonah	0
+462	84761	parowan	0
+463	84762	duck creek village	0
+464	84763	rockville	0
+465	84764	bryce canyon city	1
+466	84764	bryce canyon county	0
+467	84765	santa clara	0
+468	84766	sevier	0
+469	84767	kolob	0
+470	84767	springdale	1
+471	84770	st george	0
+472	84771	st george	0
+473	84772	summit	0
+474	84773	grover	0
+475	84773	teasdale	1
+476	84774	toquerville	0
+477	84775	caineville	2
+478	84775	fruita	1
+479	84775	notom	0
+480	84775	torrey	3
+481	84776	tropic	0
+482	84779	virgin	0
+483	84780	st george	0
+484	84780	washington	1
+485	84781	pine valley	1
+486	84782	brookside	1
+487	84782	central	2
+488	84782	enterprise	3
+489	84782	veyo	0
+490	84783	dammeron valley	0
+491	84783	veyo	1
+492	84784	hildale	0
+493	84790	st george	0
+494	84791	st george	0
 \.
 
 
