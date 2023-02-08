@@ -23,7 +23,8 @@
       },
       "score": 98.239999999999995,
       "attributes": {
-
+      "addr_type": "PointAddress",
+      "addnum": "326"
       },
       "extent": {
       "xmin": 425523.16112308879,
@@ -40,7 +41,8 @@
       },
       "score": 84.530000000000001,
       "attributes": {
-
+      "addr_type": "PointAddress",
+      "addnum": "326"
       },
       "extent": {
       "xmin": 424413.76421175775,

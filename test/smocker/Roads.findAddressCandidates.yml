@@ -23,7 +23,8 @@
       },
       "score": 98.239999999999995,
       "attributes": {
-
+      "addr_type": "StreetAddress",
+      "addnum": "326"
       },
       "extent": {
       "xmin": 425500.27827898628,
@@ -40,13 +41,32 @@
       },
       "score": 94.599999999999994,
       "attributes": {
-
+      "addr_type": "StreetAddress",
+      "addnum": "326"
       },
       "extent": {
       "xmin": 425866.26283557765,
       "ymin": 4514245.9065555912,
       "xmax": 426037.2557579616,
       "ymax": 4514466.2324442184
+      }
+      },
+      {
+      "address": "E SOUTH TEMPLE ST, SALT LAKE CITY",
+      "location": {
+      "x": 427647.04143523006,
+      "y": 4513507.2860293742
+      },
+      "score": 93.819999999999993,
+      "attributes": {
+      "addr_type": "StreetName",
+      "addnum": ""
+      },
+      "extent": {
+      "xmin": 427561.56001541228,
+      "ymin": 4513397.1043461291,
+      "xmax": 427732.52034289693,
+      "ymax": 4513617.4686849574
       }
       },
       {
@@ -57,7 +77,8 @@
       },
       "score": 91.700000000000003,
       "attributes": {
-
+      "addr_type": "StreetAddress",
+      "addnum": "326"
       },
       "extent": {
       "xmin": 423921.13873334107,
@@ -74,7 +95,8 @@
       },
       "score": 91.209999999999994,
       "attributes": {
-
+      "addr_type": "StreetName",
+      "addnum": ""
       },
       "extent": {
       "xmin": 420524.20600246923,
@@ -91,7 +113,8 @@
       },
       "score": 91.209999999999994,
       "attributes": {
-
+      "addr_type": "StreetName",
+      "addnum": ""
       },
       "extent": {
       "xmin": 421054.19729772932,
@@ -108,7 +131,8 @@
       },
       "score": 89.280000000000001,
       "attributes": {
-
+      "addr_type": "StreetName",
+      "addnum": ""
       },
       "extent": {
       "xmin": 421278.91863073863,
@@ -125,7 +149,8 @@
       },
       "score": 86.799999999999997,
       "attributes": {
-
+      "addr_type": "StreetName",
+      "addnum": ""
       },
       "extent": {
       "xmin": 420665.63611702865,
@@ -142,7 +167,8 @@
       },
       "score": 84.590000000000003,
       "attributes": {
-
+      "addr_type": "StreetName",
+      "addnum": ""
       },
       "extent": {
       "xmin": 426935.82131956838,

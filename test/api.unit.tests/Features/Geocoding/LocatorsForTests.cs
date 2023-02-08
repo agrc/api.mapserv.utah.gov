@@ -31,7 +31,7 @@ namespace api.tests.Features.Geocoding {
                     new ReverseLocatorConfiguration {
                         Host = "test",
                         Port = "1",
-                        Protocol = "proto",
+                        Protocol = "protocol",
                         ServiceName = "service",
                         DisplayName = "correct.answer",
                         ReverseGeocodes = true
@@ -40,7 +40,7 @@ namespace api.tests.Features.Geocoding {
                         Port = "1",
                         Protocol = "nope",
                         ServiceName = "none",
-                        DisplayName = "wrong.asnwer",
+                        DisplayName = "wrong.answer",
                         ReverseGeocodes = false
                     }
                 });
@@ -52,7 +52,7 @@ namespace api.tests.Features.Geocoding {
                 result.ShouldHaveSingleItem();
 
                 var locator = result.First();
-                locator.Url.ShouldBe("proto://test:1/arcgis/rest/services/Geolocators/service/GeocodeServer/reverseGeocode?f=json&location=1,2&distance=3&outSR=4");
+                locator.Url.ShouldBe("protocol://test:1/arcgis/rest/services/Geolocators/service/GeocodeServer/reverseGeocode?f=json&location=1,2&distance=3&outSR=4");
                 locator.Name.ShouldBe("correct.answer");
             }
         }
@@ -104,11 +104,11 @@ namespace api.tests.Features.Geocoding {
                 result.Count.ShouldBe(2);
 
                 result.Count(x => x.Url ==
-                                  "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Address=1+North+2+Alley+South&City=grid&outSR=26912")
+                                  "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&matchOutOfRange=false&outFields=addr_type,addnum&outSR=26912&Address=1+North+2+Alley+South&City=grid")
                       .ShouldBe(1);
 
                 result.Count(x => x.Url ==
-                                  "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Address=2+South+Alley+1+North&City=grid&outSR=26912")
+                                  "centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&matchOutOfRange=false&outFields=addr_type,addnum&outSR=26912&Address=2+South+Alley+1+North&City=grid")
                       .ShouldBe(1);
             }
 
@@ -131,7 +131,7 @@ namespace api.tests.Features.Geocoding {
                 result.ShouldHaveSingleItem();
 
                 var locator = result.First();
-                locator.Url.ShouldBe("points://address:1/arcgis/rest/services/Geolocators/address_service/GeocodeServer/findAddressCandidates?f=json&Address=1+North+street+Alley+South&City=grid&outSR=26912");
+                locator.Url.ShouldBe("points://address:1/arcgis/rest/services/Geolocators/address_service/GeocodeServer/findAddressCandidates?f=json&matchOutOfRange=false&outFields=addr_type,addnum&outSR=26912&Address=1+North+street+Alley+South&City=grid");
                 locator.Name.ShouldBe("display.address");
             }
 
@@ -183,7 +183,7 @@ namespace api.tests.Features.Geocoding {
                 result.ShouldHaveSingleItem();
 
                 var locator = result.First();
-                locator.Url.ShouldBe("centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&Address=1+North+street+Alley+South&City=grid&outSR=26912");
+                locator.Url.ShouldBe("centerlines://road:1/arcgis/rest/services/Geolocators/street_service/GeocodeServer/findAddressCandidates?f=json&matchOutOfRange=false&outFields=addr_type,addnum&outSR=26912&Address=1+North+street+Alley+South&City=grid");
                 locator.Name.ShouldBe("display.street");
             }
 
