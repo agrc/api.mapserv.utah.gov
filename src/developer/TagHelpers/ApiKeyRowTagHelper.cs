@@ -5,14 +5,11 @@ using developer.mapserv.utah.gov.Areas.Secure.Models.Database;
 using developer.mapserv.utah.gov.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace developer.mapserv.utah.gov.TagHelpers
-{
-    public class ApiKeyRowTagHelper : TagHelper
-    {
+namespace developer.mapserv.utah.gov.TagHelpers {
+    public class ApiKeyRowTagHelper : TagHelper {
         public ApiKeyDTO Key { get; set; }
 
-        public override void Process(TagHelperContext context, TagHelperOutput output)
-        {
+        public override void Process(TagHelperContext context, TagHelperOutput output) {
             output.TagName = "tr";
             output.TagMode = TagMode.StartTagAndEndTag;
 
@@ -28,30 +25,25 @@ namespace developer.mapserv.utah.gov.TagHelpers
             output.Content.SetHtmlContent(tableHtml);
         }
 
-        private static string KeyLabel(ApiKeyDTO key)
-        {
+        private static string KeyLabel(ApiKeyDTO key) {
             var badge = "";
-            if (key.Whitelisted)
-            {
-                badge = "<span style=\"margin-top: 5px;\" class=\"pull-right label label-info\">whitelisted</span>";
+            if (key.Elevated) {
+                badge = "<span style=\"margin-top: 5px;\" class=\"pull-right label label-info\">elevated</span>";
             }
 
-            if (key.Configuration == "Development")
-            {
+            if (key.Configuration == "Development") {
                 badge += "<span style=\"margin-top: 5px;\" class=\"pull-right label label-default\">dev</span>";
             }
 
             return badge;
         }
 
-        private static string BuildButton(ApiKeyDTO key)
-        {
+        private static string BuildButton(ApiKeyDTO key) {
             var buttonCssClass = "warning";
             var statusIconCssClass = "pause";
             var statusIconText = "Deactivate";
 
-            if (!key.Enabled)
-            {
+            if (!key.Enabled) {
                 buttonCssClass = "success";
                 statusIconCssClass = "play";
                 statusIconText = "Activate";

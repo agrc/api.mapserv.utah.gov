@@ -14,7 +14,7 @@ namespace AGRC.api.Services {
     public class PostgreApiKeyRepository : IApiKeyRepository, ICacheRepository {
         private const string ApiKeyByKey = @"SELECT key,
                    account_id,
-                   whitelisted,
+                   elevated,
                    enabled,
                    deleted,
                    configuration,

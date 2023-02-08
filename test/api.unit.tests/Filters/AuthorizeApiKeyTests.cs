@@ -77,7 +77,7 @@ namespace api.tests.Filters {
             var apiRepo = new Mock<IApiKeyRepository>();
             apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
                    .Returns(Task.FromResult(new ApiKey("Api-Key") {
-                       Whitelisted = false,
+                       Elevated = false,
                        Deleted = false,
                        Enabled = ApiKey.KeyStatus.Active,
                        Type = ApiKey.ApplicationType.Browser,
@@ -155,7 +155,7 @@ namespace api.tests.Filters {
             var apiRepo = new Mock<IApiKeyRepository>();
             apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
                    .Returns(Task.FromResult(new ApiKey("Api-Key") {
-                       Whitelisted = false,
+                       Elevated = false,
                        Deleted = false,
                        Enabled = ApiKey.KeyStatus.Active,
                        Type = ApiKey.ApplicationType.Browser,
@@ -195,7 +195,7 @@ namespace api.tests.Filters {
             var apiRepo = new Mock<IApiKeyRepository>();
             apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
                    .Returns(Task.FromResult(new ApiKey("Api-Key") {
-                       Whitelisted = false,
+                       Elevated = false,
                        Deleted = false,
                        Enabled = ApiKey.KeyStatus.Active,
                        Type = ApiKey.ApplicationType.Browser,
@@ -262,7 +262,7 @@ namespace api.tests.Filters {
             var apiRepo = new Mock<IApiKeyRepository>();
             apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
                    .Returns(Task.FromResult(new ApiKey("key") {
-                       Whitelisted = false,
+                       Elevated = false,
                        Deleted = deleted,
                        Enabled = status,
                        Type = ApiKey.ApplicationType.Browser,
@@ -300,7 +300,7 @@ namespace api.tests.Filters {
             var apiRepo = new Mock<IApiKeyRepository>();
             apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
                    .Returns(Task.FromResult(new ApiKey("key") {
-                       Whitelisted = false,
+                       Elevated = false,
                        Deleted = false,
                        Enabled = ApiKey.KeyStatus.Active,
                        Type = ApiKey.ApplicationType.Server,
@@ -375,7 +375,7 @@ namespace api.tests.Filters {
         }
 
         [Fact]
-        public async Task Should_pass_whitelisted_keys() {
+        public async Task Should_pass_elevated_keys() {
             var ipProvider = new Mock<IServerIpProvider>();
 
             var keyProvider = new Mock<IBrowserKeyProvider>();
@@ -385,7 +385,7 @@ namespace api.tests.Filters {
             var apiRepo = new Mock<IApiKeyRepository>();
             apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
                    .Returns(Task.FromResult(new ApiKey("key") {
-                       Whitelisted = true,
+                       Elevated = true,
                        Deleted = false,
                        Enabled = ApiKey.KeyStatus.Active,
                        Type = ApiKey.ApplicationType.Browser,

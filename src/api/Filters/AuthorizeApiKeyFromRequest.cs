@@ -75,7 +75,7 @@ namespace AGRC.api.Filters {
                 return;
             }
 
-            if (apiKey.Whitelisted) {
+            if (apiKey.Elevated) {
                 _log.Information("Unrestricted key use {key} from {ip} with {headers}", apiKey.Key,
                                  context.HttpContext.Request.Host, context.HttpContext.Request.Headers);
 

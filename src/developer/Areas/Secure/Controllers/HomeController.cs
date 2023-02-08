@@ -10,30 +10,25 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 
-namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
-{
+namespace developer.mapserv.utah.gov.Areas.Secure.Controllers {
     [Authorize]
     [Area("secure")]
     [Route("~/secure")]
-    public class HomeController : Controller
-    {
+    public class HomeController : Controller {
         public NpgsqlConnection Connection { get; }
 
-        public HomeController(NpgsqlConnection connection)
-        {
+        public HomeController(NpgsqlConnection connection) {
             Connection = connection;
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<ViewResult> Index()
-        {
+        public async Task<ViewResult> Index() {
             // TODO: Refactor
             var idString = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var id = -1;
 
-            if (!string.IsNullOrEmpty(idString))
-            {
+            if (!string.IsNullOrEmpty(idString)) {
                 id = Convert.ToInt32(idString);
             }
 
@@ -42,8 +37,7 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
                 FROM public.apikeys
 			    WHERE account_id = @id
                 AND deleted = @deleted",
-                new
-                {
+                new {
                     deleted = false,
                     id
                 });
@@ -53,27 +47,22 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
 
         [HttpGet]
         [Route("keymanagement")]
-        public async Task<ViewResult> KeyManagement()
-        {
+        public async Task<ViewResult> KeyManagement() {
             // TODO: Refactor
             var idString = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var id = -1;
 
-            if (!string.IsNullOrEmpty(idString))
-            {
+            if (!string.IsNullOrEmpty(idString)) {
                 id = Convert.ToInt32(idString);
             }
 
             var confirmed = await Connection.QueryFirstOrDefaultAsync<bool>("SELECT email_confirmed from public.accounts where id = @id",
-                                                                       new
-                                                                       {
+                                                                       new {
                                                                            id
                                                                        });
 
-            if (!confirmed)
-            {
-                var profileLink = Url.RouteUrl(new
-                {
+            if (!confirmed) {
+                var profileLink = Url.RouteUrl(new {
                     action = "index",
                     controller = "profile",
                     area = "secure"
@@ -85,17 +74,15 @@ namespace developer.mapserv.utah.gov.Areas.Secure.Controllers
             }
 
             var quota = await Connection.QueryFirstOrDefaultAsync<KeyQuotaDTO>("SELECT keys_used as keysused, keys_allowed as keysallowed FROM public.accounts WHERE id = @id",
-                                                                 new
-                                                                 {
+                                                                 new {
                                                                      id
                                                                  });
 
             var keys = await Connection.QueryAsync<ApiKeyDTO>(
-                @"SELECT id, key, notes, whitelisted, enabled, type, deleted, configuration, created_at_ticks AS createdatticks, pattern
+                @"SELECT id, key, notes, elevated, enabled, type, deleted, configuration, created_at_ticks AS createdatticks, pattern
 				FROM public.apikeys
 				WHERE account_id = @id",
-                                                                            new
-                                                                            {
+                                                                            new {
                                                                                 id
                                                                             });
 

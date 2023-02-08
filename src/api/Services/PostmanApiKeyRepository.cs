@@ -12,7 +12,7 @@ namespace AGRC.api.Services {
                     IsMachineName = false,
                     RegexPattern = "localhost",
                     Type = ApiKey.ApplicationType.Browser,
-                    Whitelisted = true
+                    Elevated = true
                 });
             }
 

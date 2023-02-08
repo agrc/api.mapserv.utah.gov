@@ -33,6 +33,6 @@ namespace AGRC.api.Models {
         public string RegexPattern { get; set; }
         public bool IsMachineName { get; set; }
         public bool Deleted { get; set; }
-        public bool Whitelisted { get; set; }
+        public bool Elevated { get; set; }
     }
 }

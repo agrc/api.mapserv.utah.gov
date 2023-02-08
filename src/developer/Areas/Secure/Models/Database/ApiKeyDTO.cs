@@ -1,11 +1,9 @@
 ﻿using System;
-namespace developer.mapserv.utah.gov.Areas.Secure.Models.Database
-{
-    public class ApiKeyDTO
-    {
+namespace developer.mapserv.utah.gov.Areas.Secure.Models.Database {
+    public class ApiKeyDTO {
         public int Id { get; set; }
         public string Key { get; set; }
-        public bool Whitelisted { get; set; }
+        public bool Elevated { get; set; }
         public bool Enabled { get; set; }
         public string Type { get; set; }
         public string Configuration { get; set; }

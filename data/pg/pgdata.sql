@@ -138,7 +138,7 @@ CREATE TABLE public.apikeys (
     id integer NOT NULL,
     account_id integer,
     key character varying(20),
-    whitelisted boolean DEFAULT false,
+    elevated boolean DEFAULT false,
     enabled boolean,
     deleted boolean,
     configuration character varying(20),
@@ -383,7 +383,7 @@ COPY public.accounts (id, email, first_name, last_name, admin, keys_used, keys_a
 -- Data for Name: apikeys; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.apikeys (id, account_id, key, whitelisted, enabled, deleted, configuration, created_at_ticks, pattern, regex_pattern, is_machine_name, notes, type) FROM stdin;
+COPY public.apikeys (id, account_id, key, elevated, enabled, deleted, configuration, created_at_ticks, pattern, regex_pattern, is_machine_name, notes, type) FROM stdin;
 1	1	AGRC-Explorer	t	t	f	Development	636657370427710489	*	asdf	f	key for the api explorer	 Browser
 \.
 
