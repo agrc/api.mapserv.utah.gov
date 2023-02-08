@@ -3,44 +3,44 @@ name: Web API CD
 on:
   push:
     branches:
-    - development
+      - development
     paths:
-    - 'src/api/**'
-    - 'libs/**'
-    - '.github/workflows/api-cd.yml'
-    - 'kustomize/base/api.yaml'
+      - "src/api/**"
+      - "libs/**"
+      - ".github/workflows/api-cd.yml"
+      - "kustomize/base/api.yaml"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.100
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.0.x"
 
-    - name: Cache NuGet Packages
-      uses: actions/cache@v2
-      with:
-        # nuget cache files are stored in `~/.nuget/packages` on Linux/macOS
-        path: ~/.nuget/packages
-        key: ${{ runner.OS }}-nuget-${{ hashFiles('**/Packages.targets') }}
-        restore-keys: |
-          ${{ runner.OS }}-nuget-
-          ${{ runner.OS }}
+      - name: Cache NuGet Packages
+        uses: actions/cache@v3
+        with:
+          # nuget cache files are stored in `~/.nuget/packages` on Linux/macOS
+          path: ~/.nuget/packages
+          key: ${{ runner.OS }}-nuget-${{ hashFiles('**/Packages.targets') }}
+          restore-keys: |
+            ${{ runner.OS }}-nuget-
+            ${{ runner.OS }}
 
-    - name: Run Tests
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
+      - name: Run Tests
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
 
-    - name: Report coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
+      - name: Report coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,46 +52,46 @@ jobs:
       DEPLOYMENT_NAME: ${{ secrets.DEV_DEPLOYMENT_NAME}}
       IMAGE: ${{ secrets.DEV_IMAGE }}
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - id: variables
-      run: |
-        echo "::set-output name=version::$(echo ${GITHUB_SHA} | cut -c1-8)"
-        echo "::set-output name=project_id::$(echo ${PROJECT_ID} | cut -c1-8)"
-        echo "::set-output name=image::$(echo ${IMAGE} | cut -c1-8)"
+      - id: variables
+        run: |
+          echo "::set-output name=version::$(echo ${GITHUB_SHA} | cut -c1-8)"
+          echo "::set-output name=project_id::$(echo ${PROJECT_ID} | cut -c1-8)"
+          echo "::set-output name=image::$(echo ${IMAGE} | cut -c1-8)"
 
-    - name: Setup GCP
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        service_account_key: ${{ secrets.DEV_SA }}
-        project_id: ${{ secrets.DEV_PROJECT_ID }}
+      - name: Setup GCP
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.DEV_SA }}
+          project_id: ${{ secrets.DEV_PROJECT_ID }}
 
-    - run: |-
-        gcloud --quiet auth configure-docker
-    - run: |-
-        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE
+      - run: |-
+          gcloud --quiet auth configure-docker
+      - run: |-
+          gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE
 
-    - name: Build Image
-      run: |-
-        docker build \
-          --tag gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }} \
-          . \
-          --file ./src/api/Dockerfile
+      - name: Build Image
+        run: |-
+          docker build \
+            --tag gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }} \
+            . \
+            --file ./src/api/Dockerfile
 
-    # Push the Docker image to Google Container Registry
-    - name: Publish Image
-      run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }}"
+      # Push the Docker image to Google Container Registry
+      - name: Publish Image
+        run: |-
+          docker push "gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }}"
 
-    - name: Setup Kustomize
-      uses: imranismail/setup-kustomize@v1
-      with:
-        kustomize-version: "3.6.1"
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: "3.6.1"
 
-    - name: Deploy
-      run: |-
-        cd kustomize/base
-        kustomize edit set image gcr.io/$PROJECT_ID/$IMAGE=gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }}
-        kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
+      - name: Deploy
+        run: |-
+          cd kustomize/base
+          kustomize edit set image gcr.io/$PROJECT_ID/$IMAGE=gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }}
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment/$DEPLOYMENT_NAME
