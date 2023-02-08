@@ -6,10 +6,11 @@ WORKDIR /project
 
 COPY . ./
 WORKDIR /project/src/api
-RUN dotnet build -c Release -o /app
+RUN dotnet restore
+RUN dotnet build --configuration Release --output /app
 
 FROM build AS publish
-RUN dotnet publish -c Release -o /app
+RUN dotnet publish --configuration Release --output /app
 
 FROM base AS final
 WORKDIR /app

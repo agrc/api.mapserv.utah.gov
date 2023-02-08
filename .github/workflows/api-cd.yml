@@ -1,4 +1,4 @@
-name: Web API CD
+name: Push Events (API)
 
 on:
   push:
@@ -8,22 +8,31 @@ on:
       - "src/api/**"
       - "libs/**"
       - ".github/workflows/api-cd.yml"
-      - "kustomize/base/api.yaml"
+
+permissions:
+  contents: write
+  id-token: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  test-unit:
+    name: Unit tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: ⬇️ Set up code
         uses: actions/checkout@v3
 
-      - name: Setup .NET Core
+      - name: 🟣️ Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "7.0.x"
 
-      - name: Cache NuGet Packages
+      - name: 💾 Cache NuGet Packages
         uses: actions/cache@v3
         with:
           # nuget cache files are stored in `~/.nuget/packages` on Linux/macOS
@@ -33,65 +42,179 @@ jobs:
             ${{ runner.OS }}-nuget-
             ${{ runner.OS }}
 
-      - name: Run Tests
+      - name: 🧪 Run tests
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
 
-      - name: Report coverage to Codecov
+      - name: 📝️ Report coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
 
-  deploy:
+  deploy-cloud-run-dev:
+    name: 🚀 Deploy to GCR (dev)
     runs-on: ubuntu-latest
-    needs: build
+    needs: [test-unit]
+    environment:
+      name: dev
+
+    steps:
+      - name: ⬇️ Set up code
+        uses: actions/checkout@v3
+
+      - name: 🗝️ Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        id: auth
+        with:
+          create_credentials_file: true
+          token_format: access_token
+          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+
+      - name: 🐳 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        id: builder
+
+      - name: 🗝️ Authenticate Docker to Google CLoud
+        uses: docker/login-action@v2
+        with:
+          registry: us-central1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - name: 🏷️ Extract tags from GitHub
+        uses: docker/metadata-action@v4
+        id: meta
+        with:
+          images: us-central1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/images/api
+          tags: |
+            type=ref,suffix=-{{sha}},event=branch
+            type=ref,prefix=pr-,suffix=-{{sha}},event=pr
+            type=semver,pattern={{version}}
+            type=raw,value=latest
+
+      - name: 📦 Build and push image
+        uses: docker/build-push-action@v4
+        with:
+          file: ./src/api/Dockerfile
+          context: .
+          builder: ${{ steps.builder.outputs.name }}
+          tags: ${{ steps.meta.outputs.tags }}
+          push: true
+          provenance: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: 🔍️ Set Image Name
+        run: |
+          IMAGE_ID=$(echo $DOCKER_METADATA_OUTPUT_TAGS | cut -d ' ' -f 1)
+          echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
+
+      - name: 🚀 Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v1
+        with:
+          service: api
+          image: ${{ env.IMAGE_ID }}
+          region: us-central1
+          flags: |
+            --service-account=cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
+            --max-instances=5
+            --concurrency=250
+            --cpu=1
+            --memory=512Mi
+            --timeout=5m
+          env_vars: >
+            ASPNETCORE_URLS=http://+:8080,
+            ASPNETCORE_ENVIRONMENT=Production
+
+      - name: 🔔 Publish deployment worknote
+        uses: agrc/service-now-worknote-action@v1
+        if: vars.SN_SYS_ID
+        with:
+          username: ${{ secrets.SN_USERNAME }}
+          password: ${{ secrets.SN_PASSWORD }}
+          instance-name: ${{ secrets.SN_INSTANCE }}
+          table-name: ${{ secrets.SN_TABLE }}
+          system-id: ${{ vars.SN_SYS_ID }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-k8s-dev:
+    name: 🚀 Deploy to GKE (dev)
+    runs-on: ubuntu-latest
+    if: 1 == 2
+    environment:
+      name: dev
     env:
       PROJECT_ID: ${{ secrets.DEV_PROJECT_ID }}
       GKE_CLUSTER: ${{ secrets.DEV_CLUSTER }}
       GKE_ZONE: us-central1
       DEPLOYMENT_NAME: ${{ secrets.DEV_DEPLOYMENT_NAME}}
       IMAGE: ${{ secrets.DEV_IMAGE }}
+
     steps:
-      - name: Checkout Code
+      - name: ⬇️ Set up code
         uses: actions/checkout@v3
 
-      - id: variables
-        run: |
-          echo "::set-output name=version::$(echo ${GITHUB_SHA} | cut -c1-8)"
-          echo "::set-output name=project_id::$(echo ${PROJECT_ID} | cut -c1-8)"
-          echo "::set-output name=image::$(echo ${IMAGE} | cut -c1-8)"
+      - name: 🗝️ Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          token_format: "access_token"
 
-      - name: Setup GCP
+      - name: 🐳 Set up Docker Buildx
+        id: builder
+        uses: docker/setup-buildx-action@v2
+
+      - name: ☁️ Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
-          service_account_key: ${{ secrets.DEV_SA }}
           project_id: ${{ secrets.DEV_PROJECT_ID }}
 
-      - run: |-
-          gcloud --quiet auth configure-docker
-      - run: |-
+      - name: 🔗️ Connect gcloud to k8s
+        run: |-
           gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE
 
-      - name: Build Image
-        run: |-
-          docker build \
-            --tag gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }} \
-            . \
-            --file ./src/api/Dockerfile
+      - name: 🗝️ Authenticate Docker to Google Cloud
+        uses: docker/login-action@v2
+        with:
+          registry: us-central1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
 
-      # Push the Docker image to Google Container Registry
-      - name: Publish Image
-        run: |-
-          docker push "gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }}"
+      - name: 🏷️ Extract tags from GitHub
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: us-central1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/images/api
+          tags: |
+            type=ref,suffix=-{{sha}},event=branch
+            type=ref,prefix=pr-,suffix=-{{sha}},event=pr
+            type=semver,pattern={{version}}
+            type=raw,value=latest
 
-      - name: Setup Kustomize
+      - name: 📦 Build and push image
+        id: image
+        uses: docker/build-push-action@v4
+        with:
+          file: ./src/api/Dockerfile
+          builder: ${{ steps.builder.outputs.name }}
+          tags: ${{ steps.meta.outputs.tags }}
+          context: .
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: 🕸️ Setup Kustomize
         uses: imranismail/setup-kustomize@v2
         with:
           kustomize-version: "3.6.1"
 
-      - name: Deploy
+      - name: 🚀️ Deploy
         run: |-
           cd kustomize/base
-          kustomize edit set image gcr.io/$PROJECT_ID/$IMAGE=gcr.io/$PROJECT_ID/$IMAGE:${{ steps.variables.outputs.version }}
+          kustomize edit set image ${{ steps.image.outputs.imageid }}
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment/$DEPLOYMENT_NAME
