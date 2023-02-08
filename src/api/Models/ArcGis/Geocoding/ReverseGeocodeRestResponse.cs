@@ -5,8 +5,9 @@ namespace AGRC.api.Models.ArcGis {
         public Point Location { get; set; }
 
         public class ReverseMatchAddress {
-            public string Street { get; set; }
+            public string Address { get; set; }
             public string City { get; set; }
+            public string Addr_type { get; set; }
         }
     }
 }

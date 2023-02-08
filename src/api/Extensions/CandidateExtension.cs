@@ -18,7 +18,7 @@ namespace AGRC.api.Extensions {
         public static ReverseGeocodeResponseContract ToResponseObject(this ReverseGeocodeRestResponse response,
                                                                  Point inputPoint) => new() {
                                                                      InputPoint = inputPoint,
-                                                                     Address = response.Address.Street,
+                                                                     Address = new(response.Address.Address, response.Address.City, response.Address.Addr_type),
                                                                      Grid = response.Address.City,
                                                                      MatchPoint = response.Location
                                                                  };

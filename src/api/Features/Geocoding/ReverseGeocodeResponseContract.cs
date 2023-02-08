@@ -5,10 +5,10 @@ using AGRC.api.Models;
 namespace AGRC.api.Features.Geocoding {
     public class ReverseGeocodeResponseContract {
         /// <summary>
-        /// The street address extracted from the SGID.Transportation.Roads dataset
+        /// The street address extracted from the Transportation.Roads dataset
         /// </summary>
         /// <value></value>
-        public string Address { get; set; }
+        public Address Address { get; set; }
 
         // The addressing grid in which the address was created
         [JsonIgnore]
@@ -42,4 +42,5 @@ namespace AGRC.api.Features.Geocoding {
             }
         }
     }
+    public record Address(string Street, string AddressSystem, string AddressType);
 }
