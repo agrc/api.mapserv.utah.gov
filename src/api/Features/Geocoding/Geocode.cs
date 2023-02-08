@@ -71,25 +71,28 @@ namespace AGRC.api.Features.Geocoding {
             private IReadOnlyCollection<Candidate> ProcessResult(LocatorResponse response,
                                                                         LocatorProperties locator) {
                 if (response.Error?.Code == 500) {
-                    _log.Fatal("geocoder down {locator.Name}", locator.Name);
+                    _log.Fatal("geocoder down {locator.Name}. message: {error.Message}", locator.Name, response.Error.Message);
 
                     throw new GeocodingException($"{locator.Name} geocoder is not started. {response.Error}");
                 }
 
-                var result = response.Candidates;
-
-                if (result == null) {
+                if (response.Candidates == null) {
                     return null;
                 }
 
-                foreach (var candidate in result) {
+                response.Candidates = FilterOutBadProLocatorMatches(response.Candidates);
+
+                foreach (var candidate in response.Candidates) {
                     candidate.Locator = locator.Name;
                     candidate.Weight = locator.Weight;
                     candidate.AddressGrid = ParseAddressGrid(candidate.Address);
                 }
 
-                return new ReadOnlyCollection<Candidate>(result);
+                return new ReadOnlyCollection<Candidate>(response.Candidates);
             }
+
+            private static List<Candidate> FilterOutBadProLocatorMatches(List<Candidate> candidates) =>
+                candidates.FindAll(x => !string.IsNullOrEmpty(x.Attributes.Addnum) || x.Attributes.Addr_type == "StreetInt");
 
             private static string ParseAddressGrid(string address) {
                 if (!address.Contains(',')) {

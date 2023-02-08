@@ -13,9 +13,11 @@ namespace AGRC.api.Features.Geocoding {
         public string PathToLocator { get; set; } = "/arcgis/rest/services/Geolocators/";
 
         private const string Template = "{0}/GeocodeServer/findAddressCandidates?f=json" +
+                                        "&matchOutOfRange=false" +
+                                        "&outFields=addr_type,addnum" +
+                                        "&outSR={3}" +
                                         "&Address={1}" +
-                                        "&City={2}" +
-                                        "&outSR={3}";
+                                        "&City={2}";
         public override string Url() {
             var host = base.GetHost();
 
