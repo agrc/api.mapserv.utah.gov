@@ -3,11 +3,11 @@ import EndpointDemoDocToggle from './EndpointDemoDocToggle';
 import EndpointResponse from './EndpointResponse';
 import EndpointUrl from './EndpointUrl';
 import Button from '../Button';
-import { Tip } from '../Endpoint/Documentation/Elements';
+import { Tip } from './Documentation/Elements';
 import { useParams } from 'react-router-dom';
 
 const getComponent = (key, children) => {
-  return children.filter(comp => {
+  return children.filter((comp) => {
     return comp.key === key;
   });
 };
@@ -17,7 +17,7 @@ export const DOCS = 'docs';
 export const EndpointContext = React.createContext();
 
 export default function Endpoint(props) {
-  const fetchApi = async url => {
+  const fetchApi = async (url) => {
     if (!url) {
       return;
     }
@@ -25,7 +25,7 @@ export default function Endpoint(props) {
     try {
       const response = await fetch(url, {
         method: 'GET',
-        mode: 'cors'
+        mode: 'cors',
       });
 
       const result = await response.json();
@@ -38,11 +38,11 @@ export default function Endpoint(props) {
 
   const { endpoint, display } = useParams();
   const [collapsed, setCollapsed] = useState(endpoint !== props.id);
-  const [api, setApi] = useState((display) ? display === API : true);
+  const [api, setApi] = useState(display ? display === API : true);
   const [response, setResponse] = useState();
 
   return (
-    <EndpointContext.Provider value={{ category: props.category, id: props.id, display: (api) ? API : DOCS }}>
+    <EndpointContext.Provider value={{ category: props.category, id: props.id, display: api ? API : DOCS }}>
       <article className="bg-white shadow m-3 border-b border-gray-200 rounded-lg">
         <header onClick={() => setCollapsed(!collapsed)} className="p-3 flex justify-between items-center w-full cursor-pointer">
           <div>
@@ -79,7 +79,7 @@ export default function Endpoint(props) {
         </header>
         {collapsed ? null : (
           <form
-            onSubmit={event => {
+            onSubmit={(event) => {
               event.preventDefault();
               fetchApi(props.fetchUrl);
             }}
@@ -91,10 +91,12 @@ export default function Endpoint(props) {
             {api ? (
               <div className="flex flex-col justify-center w-full py-3">
                 <EndpointUrl url={props.displayUrl}></EndpointUrl>
-                {props.invalidCharacter ?
+                {props.invalidCharacter ? (
                   <Tip className="mt-3">
-                    We have detected a reserved url character in your street input and have url encoded the `{props.invalidCharacter}`. Url encoding will need to be handled with your implementation or unexpected results will occur.
-                  </Tip> : null}
+                    We have detected a reserved url character in your street input and have url encoded the `{props.invalidCharacter}`. Url encoding will need
+                    to be handled with your implementation or unexpected results will occur.
+                  </Tip>
+                ) : null}
                 {response ? <EndpointResponse {...response}></EndpointResponse> : null}
                 <Button type="submit" disabled={!props.fetchUrl || props.fetchUrl.length < 1} className="justify-center w-1/2 self-center my-5 font-medium">
                   Send it
