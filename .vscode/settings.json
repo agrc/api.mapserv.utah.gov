@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "accesstoken",
     "addnum",
     "agrc",
     "agrc’s",
@@ -7,8 +8,10 @@
     "appsettings",
     "arcgis",
     "aspnetcore",
+    "astro",
     "Autofac",
     "centerlines",
+    "cloudrun",
     "codecov",
     "Concurrencies",
     "Errorable",
@@ -24,6 +27,7 @@
     "Geocodes",
     "Geolocators",
     "geospatial",
+    "gserviceaccount",
     "immer",
     "kube",
     "kubectl",
@@ -68,6 +72,7 @@
     "Weighable",
     "wkid",
     "wkids",
+    "worknote",
     "xunit"
   ],
   "editor.rulers": [
