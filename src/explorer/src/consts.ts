@@ -32,11 +32,11 @@ export const SIDEBAR = {
   en: {
     Information: [
       { text: "Documentation", link: "en/introduction" },
-      { text: "Getting Started Guide", link: "en/getting-started-guide" },
+      { text: "Getting Started Guide", link: "getting-started" },
       { text: "Sample Usage", link: "en/sample-usage" },
       { text: "Release Notes", link: "en/release-notes" },
       { text: "Report a Problem", link: "en/page-3" },
-      { text: "Privacy Policy", link: "en/privacy-policy" },
+      { text: "Privacy Policy", link: "privacy-policy" },
     ],
     Endpoints: [{ text: "Geocoding", link: "en/geocoding" }],
   },

@@ -1,0 +1,23 @@
+---
+import apiLogo from '../../images/logos/api.svg'
+import ugrcLogo from '../../images/logos/ugrc.svg'
+---
+<nav class="z-10 fixed bottom-0 w-full bg-wavy-200/95 overflow-x-auto text-wavy-700 font-semibold border-t border-wavy-700/75">
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between h-16">
+      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="sm:ml-4">
+          <div class="flex gap-8 relative items-center justify-center">
+            <div class="flex flex-row gap-2 mr-10">
+              <a href="https://gis.utah.gov" class="relative"><img src={ugrcLogo} class="h-9" /></a>
+              <a href="/" class="relative"><img src={apiLogo} class="h-9" /></a>
+            </div>
+            <a href="/en/documentation" class="relative whitespace-nowrap">Documentation</a>
+            <a href="/getting-started" class="whitespace-nowrap">Getting Started Guide</a>
+            <a href="/privacy-policy" class="whitespace-nowrap">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
