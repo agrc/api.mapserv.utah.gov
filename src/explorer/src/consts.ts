@@ -1,5 +1,5 @@
 export const SITE = {
-  title: "UGRC API Explorer",
+  title: "UGRC API Docs",
   description: "The description",
   defaultLanguage: "en-us",
 } as const;
@@ -18,8 +18,8 @@ export const KNOWN_LANGUAGES = {
   English: "en",
 } as const;
 export const KNOWN_LANGUAGE_CODES = Object.values(KNOWN_LANGUAGES);
-
-export const GITHUB_EDIT_URL = `https://github.com/agrc/api.mapserv.utahgov/tree/main/src/explorer`;
+const branch = "development";
+export const GITHUB_EDIT_URL = `https://github.com/agrc/api.mapserv.utah.gov/tree/${branch}/src/explorer`;
 
 // See "Algolia" section of the README for more information.
 export const ALGOLIA = {
@@ -31,11 +31,19 @@ export const ALGOLIA = {
 export const SIDEBAR = {
   en: {
     Information: [
-      { text: "Documentation", link: "en/introduction" },
       { text: "Getting Started Guide", link: "getting-started" },
-      { text: "Sample Usage", link: "en/sample-usage" },
-      { text: "Release Notes", link: "en/release-notes" },
-      { text: "Report a Problem", link: "en/page-3" },
+      {
+        text: "Sample Code",
+        link: "https://github.com/agrc/api.mapserv.utah.gov/tree/development/samples",
+      },
+      {
+        text: "Release Notes",
+        link: "https://github.com/agrc/api.mapserv.utah.gov/tags",
+      },
+      {
+        text: "Report a Problem",
+        link: "https://github.com/agrc/api.mapserv.utah.gov/issues/new",
+      },
       { text: "Privacy Policy", link: "privacy-policy" },
     ],
     Endpoints: [{ text: "Geocoding", link: "en/geocoding" }],

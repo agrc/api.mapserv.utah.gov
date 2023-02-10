@@ -1,25 +1,32 @@
 ---
-title: "Introduction"
-description: "Docs intro"
+title: ""
+description: "Help for wherever you are on your geospatial journey"
 ---
 
-**Welcome to Astro!**
+The UGRC API has 7 endpoints; 4 geocoding endpoints, 2 informational endpoints, and 1 searching endpoint.
 
-This is the `docs` starter template. It contains all of the features that you need to build a Markdown-powered documentation site, including:
+### Geocoding
 
-- ✅ **Full Markdown support**
-- ✅ **Responsive mobile-friendly design**
-- ✅ **Sidebar navigation**
-- ✅ **Search (powered by Algolia)**
-- ✅ **Multi-language i18n**
-- ✅ **Automatic table of contents**
-- ✅ **Automatic list of contributors**
-- ✅ (and, best of all) **dark mode**
+Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from an address. The UGRC API endpoints for geocoding allow you to
 
-## Getting Started
+- Get the coordinates of a street and zone
+- Get the coordinates of a route and milepost
+- Get the address of a coordinate
+- Get the route and milepost of a coordinate
+  {.list-disc}
 
-To get started with this theme, check out the `README.md` in your new project directory. It provides documentation on how to use and customize this template for your own project. Keep the README around so that you can always refer back to it as you build.
+### Searching
 
-Found a missing feature that you can't live without? Please suggest it on Discord [(#ideas-and-suggestions channel)](https://astro.build/chat) and even consider adding it yourself on GitHub! Astro is an open source project and contributions from developers like you are how we grow!
+Searching allows you to search through more than [1,000,000 rows of spatial SGID data](https://gis.utah.gov/sgid). With over 300 layers of real-world data that you can run queries against in the SGID, you will be able to extract actionable information for your data. The UGRC API endpoint for searching allows you to
 
-Good luck out there, Astronaut. 🧑‍🚀
+- Get the attributes of spatial data based on a T-SQL like query.
+- Get the attributes of spatial data based on a location (i.e., spatial intersection).
+
+To view the SGID tables that are accessible through the search endpoint, [connect to the OpenSGID](https://gis.utah.gov/sgid/open-sgid/). You can then browse everything that UGRC has to offer for the State of Utah.
+
+### Meta
+
+The informational endpoints allow you to inspect and learn about SGID data. If you do not wish to connect to the OpenSGID, you can learn about the same data through the API. THe UGRC API endpoints for information allow you to
+
+- Get a list of table names from our [data categories](https://gis.utah.gov/data/#data-categories).
+- Get a list of attribute names from a table.
