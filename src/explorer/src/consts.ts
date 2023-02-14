@@ -32,6 +32,7 @@ export const SIDEBAR = {
   en: {
     Information: [
       { text: "Getting Started Guide", link: "getting-started" },
+      { text: "Documentation", link: "en/documentation" },
       {
         text: "Sample Code",
         link: "https://github.com/agrc/api.mapserv.utah.gov/tree/development/samples",

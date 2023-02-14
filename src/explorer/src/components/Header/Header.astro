@@ -1,11 +1,11 @@
 ---
-import { getLanguageFromURL, KNOWN_LANGUAGE_CODES } from '../../languages';
-import { SITE } from '../../consts';
-import apiLogo from '../../images/logos/api.svg';
-import SkipToContent from './SkipToContent.astro';
-import SidebarToggle from './SidebarToggle';
-import LanguageSelect from './LanguageSelect';
-import Search from './Search';
+import { getLanguageFromURL, KNOWN_LANGUAGE_CODES } from "../../languages";
+import { SITE } from "../../consts";
+import apiLogo from "../../images/logos/api.svg";
+import SkipToContent from "./SkipToContent.astro";
+import SidebarToggle from "./SidebarToggle";
+import LanguageSelect from "./LanguageSelect";
+import Search from "./Search";
 
 type Props = {
   currentPage: string;
@@ -15,135 +15,39 @@ const { currentPage } = Astro.props;
 const lang = getLanguageFromURL(currentPage);
 ---
 
-<header>
+<header
+  class="z-10 h-24 w-full flex items-center justify-end overflow-hidden sticky md:static py-8 top-0 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-300 a:text-slate-300 dark:a:text-slate-800 a:hover:text-mustard-800 transition-all"
+>
   <SkipToContent />
-  <nav class="nav-wrapper" title="Top Navigation">
-    <div class="menu-toggle">
+  <nav
+    class="flex items-center justify-end gap-4 w-full max-w-7xl px-4"
+    title="Top Navigation"
+  >
+    <div class="md:hidden">
       <SidebarToggle client:idle />
     </div>
-    <div class="logo flex">
-      <a href="/">
-        <img src={apiLogo} class="h-16" />
-        <h1>{SITE.title ?? 'Documentation'}</h1>
+    <div class="flex flex-1 overflow-hidden shrink-0 gap-1 -z-10">
+      <a href="/" class="flex items-center gap-3 text-5xl font-extrabold">
+        <img src={apiLogo} class="w-10 md:w-20 dark:filter dark:invert" />
+        <h1>{SITE.title ?? "Documentation"}</h1>
       </a>
     </div>
-    <div style="flex-grow: 1;"></div>
-    {KNOWN_LANGUAGE_CODES.length > 1 && <LanguageSelect lang={lang} client:idle />}
-    <div class="search-item">
+    <div style="grow"></div>
+    {
+      KNOWN_LANGUAGE_CODES.length > 1 && (
+        <LanguageSelect lang={lang} client:idle />
+      )
+    }
+    <div class="relative z-10 grow pr-3 flex max-w-[200px] md:max-w-[400px]">
       <Search client:idle />
     </div>
   </nav>
 </header>
 
 <style>
-  header {
-    z-index: 11;
-    height: var(--theme-navbar-height);
-    width: 100%;
-    background-color: var(--theme-navbar-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: sticky;
-    top: 0;
-  }
-
-  .logo {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-    width: 30px;
-    font-size: 2rem;
-    flex-shrink: 0;
-    font-weight: 600;
-    line-height: 1;
-    color: hsla(var(--color-base-white), 100%, 1);
-    gap: 0.25em;
-    z-index: -1;
-  }
-
-  .logo a {
-    display: flex;
-    padding: 0.5em 0.25em;
-    margin: -0.5em -0.25em;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-  .logo a {
-    transition: color 100ms ease-out;
-    color: var(--theme-text);
-  }
-
-  .logo a:hover,
-  .logo a:focus {
-    color: var(--theme-text-accent);
-  }
-
-  .logo h1 {
-    display: none;
-    font: inherit;
-    color: inherit;
-    margin: 0;
-  }
-
-  .nav-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1em;
-    width: 100%;
-    max-width: 82em;
-    padding: 0 1rem;
-  }
-
-  @media (min-width: 50em) {
-    header {
-      position: static;
-      padding: 2rem 0rem;
-    }
-
-    .logo {
-      width: auto;
-      margin: 0;
-      z-index: 0;
-    }
-
-    .logo h1 {
-      display: initial;
-    }
-
-    .menu-toggle {
-      display: none;
-    }
-  }
-
   /** Style Algolia */
   :root {
     --docsearch-primary-color: var(--theme-accent);
     --docsearch-logo-color: var(--theme-text);
-  }
-
-  .search-item {
-    display: none;
-    position: relative;
-    z-index: 10;
-    flex-grow: 1;
-    padding-right: 0.7rem;
-    display: flex;
-    max-width: 200px;
-  }
-
-  @media (min-width: 50em) {
-    .search-item {
-      max-width: 400px;
-    }
-  }
-</style>
-
-<style is:global>
-  .search-item > * {
-    flex-grow: 1;
   }
 </style>

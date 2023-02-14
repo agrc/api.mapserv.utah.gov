@@ -57,7 +57,6 @@ const githubEditUrl = `${GITHUB_EDIT_URL}/${currentFile}`;
 
       #grid-left {
         position: fixed;
-        background-color: var(--theme-bg);
         z-index: 10;
         display: none;
       }
@@ -120,7 +119,7 @@ const githubEditUrl = `${GITHUB_EDIT_URL}/${currentFile}`;
     </style>
   </head>
 
-  <body>
+  <body class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-300">
     <Header currentPage={currentPage} />
     <main class="layout">
       <aside id="grid-left" class="grid-sidebar" title="Site Navigation">
