@@ -47,6 +47,9 @@ export const SIDEBAR = {
       },
       { text: "Privacy Policy", link: "privacy-policy" },
     ],
-    Endpoints: [{ text: "Geocoding", link: "en/geocoding" }],
+    Endpoints: [
+      { text: "Geocoding", link: "en/geocoding" },
+      { text: "Searching", link: "en/searching" },
+    ],
   },
 };

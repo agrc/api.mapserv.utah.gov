@@ -1,4 +1,11 @@
 /** @type {import('tailwindcss').Config} */
+const round = (num) =>
+  num
+    .toFixed(7)
+    .replace(/(\.[0-9]+?)0+$/, "$1")
+    .replace(/\.0$/, "");
+const em = (px, base) => `${round(px / base)}em`;
+
 module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
@@ -32,6 +39,17 @@ module.exports = {
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
+            "blockquote p:first-of-type::before": { content: "none" },
+            "code::before": { content: "none" },
+            "code::after": { content: "none" },
+            code: {
+              color: "var(--tw-prose-code)",
+              backgroundColor: "var(--tw-prose-pre-bg)",
+              fontWeight: "600",
+              padding: "0.1rem 0.25rem",
+              borderRadius: "0.25rem",
+            },
+            "blockquote p:first-of-type::after": { content: "none" },
             "--tw-prose-body": theme("colors.slate[800]"),
             "--tw-prose-headings": theme("colors.slate[900]"),
             "--tw-prose-lead": theme("colors.slate[700]"),
@@ -43,8 +61,8 @@ module.exports = {
             "--tw-prose-quotes": theme("colors.slate[900]"),
             "--tw-prose-quote-borders": theme("colors.slate[300]"),
             "--tw-prose-captions": theme("colors.slate[700]"),
-            "--tw-prose-code": theme("colors.slate[900]"),
-            "--tw-prose-pre-code": theme("colors.slate[100]"),
+            "--tw-prose-code": theme("colors.slate[100]"),
+            "--tw-prose-pre-code": theme("colors.mustard[900]"),
             "--tw-prose-pre-bg": theme("colors.slate[900]"),
             "--tw-prose-th-borders": theme("colors.slate[300]"),
             "--tw-prose-td-borders": theme("colors.slate[200]"),
@@ -59,9 +77,9 @@ module.exports = {
             "--tw-prose-invert-quotes": theme("colors.slate[100]"),
             "--tw-prose-invert-quote-borders": theme("colors.slate[700]"),
             "--tw-prose-invert-captions": theme("colors.slate[400]"),
-            "--tw-prose-invert-code": theme("colors.white"),
+            "--tw-prose-invert-code": theme("colors.slate[800]"),
             "--tw-prose-invert-pre-code": theme("colors.slate[300]"),
-            "--tw-prose-invert-pre-bg": "rgb(0 0 0 / 50%)",
+            "--tw-prose-invert-pre-bg": theme("colors.slate[100]"),
             "--tw-prose-invert-th-borders": theme("colors.slate[600]"),
             "--tw-prose-invert-td-borders": theme("colors.slate[700]"),
           },
