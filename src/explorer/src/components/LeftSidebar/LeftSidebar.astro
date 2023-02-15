@@ -22,9 +22,9 @@ const sidebar = SIDEBAR[langCode];
     {
       Object.entries(sidebar).map(([header, children]) => (
         <li>
-          <div class="nav-group first:pt-8">
+          <div class="nav-group">
             <h2 class="uppercase font-bold">{header}</h2>
-            <ul>
+            <ul class="last:pb-8">
               {children.map((child, i) => {
                 let url = Astro.site?.pathname + child.link;
                 if (child.link.startsWith("http")) {
