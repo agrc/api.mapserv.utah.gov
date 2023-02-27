@@ -18,6 +18,7 @@
     "esrijson",
     "evenodd",
     "fastenshtein",
+    "Firestore",
     "fullhuman",
     "gcloud",
     "geocode",
