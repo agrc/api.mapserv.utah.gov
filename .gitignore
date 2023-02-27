@@ -278,3 +278,4 @@ src/explorer/src/styles/tailwind.css
 
 # OSX
 .DS_Store
+src/explorer/.astro
