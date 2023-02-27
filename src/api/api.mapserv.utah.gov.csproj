@@ -11,6 +11,7 @@
     <PackageReference Include="CorrelationId" />
     <PackageReference Include="Dapper" />
     <PackageReference Include="Fastenshtein" />
+    <PackageReference Include="Google.Cloud.Firestore" />
     <PackageReference Include="MediatR" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" />
