@@ -26,3 +26,11 @@ services:
 
   cache:
     image: redis:6.0-alpine
+
+  raven:
+    image: ravendb/ravendb:ubuntu-latest-lts
+    build:
+     context: .
+     dockerfile: data/ravendb/Dockerfile
+    ports:
+      - '3000:8080'
