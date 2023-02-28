@@ -1,0 +1,26 @@
+{
+  "name": "@ugrc/developer-self-service",
+  "version": "1.0.0",
+  "description": "The self service portal to manage your account and keys for the UGRC API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development run-p dev:*",
+    "dev:firebase": "firebase emulators:start --import .emulator-data --export-on-exit --only firestore",
+    "test": "vitest --silent --coverage --ui --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agrc/api.mapserv.utah.gov.git"
+  },
+  "author": "steve gourley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/agrc/api.mapserv.utah.gov/issues"
+  },
+  "homepage": "https://github.com/agrc/api.mapserv.utah.gov#readme",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "firebase-tools": "^11.24.0",
+    "npm-run-all": "^4.1.5"
+  }
+}
