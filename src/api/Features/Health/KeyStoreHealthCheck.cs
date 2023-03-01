@@ -3,41 +3,36 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using AGRC.api.Models.Configuration;
+using AGRC.api.Models;
+using Google.Cloud.Firestore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Options;
-using Npgsql;
 
 namespace AGRC.api.Features.Health {
     public class KeyStoreHealthCheck : IHealthCheck {
-        private readonly string _connectionString;
+        private readonly FirestoreDb _db;
 
-        public KeyStoreHealthCheck(IOptions<DatabaseConfiguration> dbOptions) {
-            _connectionString = dbOptions.Value.ConnectionString;
+        public KeyStoreHealthCheck(FirestoreDb singleton) {
+            _db = singleton;
         }
         public string Name => nameof(KeyStoreHealthCheck);
 
-        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
             var stopWatch = Stopwatch.StartNew();
             try {
-                using var conn = new NpgsqlConnection(_connectionString);
-                conn.Open();
+                var reference = _db.Collection("keys").Document("AGRC-Dev");
+                var snapshot = await reference.GetSnapshotAsync(cancellationToken);
 
-                using var cmd = new NpgsqlCommand {
-                    Connection = conn,
-                    CommandText = "SELECT 1"
-                };
-                cmd.ExecuteNonQuery();
+                var key = snapshot.ConvertTo<ApiKey>();
             } catch (Exception ex) {
-                return Task.FromResult(HealthCheckResult.Unhealthy("Unable to access key store", ex, new Dictionary<string, object> {
+                return HealthCheckResult.Unhealthy("Unable to access key store", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }
-                ));
+                );
             }
 
-            return Task.FromResult(HealthCheckResult.Healthy("key store ready", new Dictionary<string, object> {
+            return HealthCheckResult.Healthy("key store ready", new Dictionary<string, object> {
                 { "duration", stopWatch.ElapsedMilliseconds }
-            }));
+            });
         }
     }
 }
