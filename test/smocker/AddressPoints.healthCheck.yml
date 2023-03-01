@@ -1,0 +1,11 @@
+- request:
+    path: >-
+      /arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/GeocodeServer
+    method: GET
+    query_params:
+      f: json
+  response:
+    status: 200
+    body: '{"currentVersion":10.81}'
+    headers:
+      Content-Type: application/json
