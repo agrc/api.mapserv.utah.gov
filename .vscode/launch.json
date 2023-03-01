@@ -10,12 +10,13 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net6.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
       "internalConsoleOptions": "openOnSessionStart",
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       }
@@ -26,7 +27,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net6.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -37,6 +38,7 @@
         "uriFormat": "%s/api/v1/health/details"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       },
@@ -50,7 +52,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net6.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -61,6 +63,7 @@
         "uriFormat": "%s/api/v1/search/boundaries.muniCIPALITIES_CARTO/NaMe?apikey=agrc-explorer&attributeStyle=lower&geometry=point:[426553,%204511970]"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       },
@@ -74,7 +77,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -85,6 +88,7 @@
         "uriFormat": "%s/api/v1/geocode/milepost/15/309.001?apiKey=AGRC-Explorer"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       }
@@ -95,7 +99,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/netcoreapp3.1/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -106,6 +110,7 @@
         "uriFormat": "%s/api/v1/geocode/reversemilepost/423185/4514470.2?apiKey=AGRC-Explorer"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       }
@@ -116,7 +121,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net6.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -124,9 +129,10 @@
       "serverReadyAction": {
         "action": "openExternally",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
-        "uriFormat": "%s/api/v1/geocode/326%20east%20south%20temple%20st/slc?apikey=AGRC-Explorer"
+        "uriFormat": "%s/api/v1/geocode/326%20East%20south%20temple/salt%20lake%20city?apikey=AGRC-Explorer"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       }
@@ -137,7 +143,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net6.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -148,6 +154,7 @@
         "uriFormat": "%s/api/v1/geocode/reverse/430178/4506818?distance=17&apiKey=AGRC-Explorer"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       }
@@ -158,7 +165,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net6.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -169,6 +176,7 @@
         "uriFormat": "%s/api/v1/geocode/milepost/15/309.001?apiKey=AGRC-Explorer"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       }
@@ -179,7 +187,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net6.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -190,6 +198,7 @@
         "uriFormat": "%s/api/v1/geocode/reversemilepost/423185/4514470.2?apiKey=AGRC-Explorer"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       }
@@ -200,7 +209,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net6.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net7.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -211,6 +220,7 @@
         "uriFormat": "%s/api/v1/search/boundaries.county_boundaries/name?predicate=name ilike 'salt%'&apiKey=AGRC-Explorer"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:1337"
       }
@@ -227,7 +237,7 @@
       "request": "launch",
       "preLaunchTask": "build developer",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/developer/bin/Debug/net6.0/developer.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/developer/bin/Debug/net7.0/developer.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/developer",
       "stopAtEntry": false,
@@ -238,6 +248,7 @@
         "uriFormat": "%s/accountaccess"
       },
       "env": {
+        "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:1338"
       },
