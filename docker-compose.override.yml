@@ -9,7 +9,6 @@ services:
       - ASPNETCORE_URLS=http://+:1337
       - ASPNETCORE_ENVIRONMENT=Development
     links:
-      - db
       - cache
 
   developer:
@@ -18,8 +17,6 @@ services:
     environment:
       - ASPNETCORE_URLS=http://+:1338
       - ASPNETCORE_ENVIRONMENT=Development
-    links:
-      - db
 
   db:
     environment:
