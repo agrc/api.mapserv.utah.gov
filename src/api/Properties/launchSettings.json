@@ -20,7 +20,7 @@
         "WEBAPI_ARCGIS_HOST": "localhost",
         "WEBAPI_DATABASE_DB": "webapi",
         "WEBAPI_DATABASE_HOST": "localhost",
-        "WEBAPI_ARCGIS_PORT": "6080",
+        "WEBAPI_ARCGIS_PORT": "6443",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "WEBAPI_DATABASE_PORT": "5432",
         "WEBAPI_ARCGIS_PROTOCOL": "http"
@@ -33,7 +33,7 @@
         "WEBAPI_ARCGIS_HOST": "localhost",
         "WEBAPI_DATABASE_DB": "webapi",
         "WEBAPI_DATABASE_HOST": "localhost",
-        "WEBAPI_ARCGIS_PORT": "6080",
+        "WEBAPI_ARCGIS_PORT": "6443",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "WEBAPI_DATABASE_PORT": "5432",
         "WEBAPI_ARCGIS_PROTOCOL": "http"
