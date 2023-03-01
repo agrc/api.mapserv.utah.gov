@@ -11,6 +11,8 @@ using AGRC.api.Filters;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.Configuration;
 using AGRC.api.Services;
+using Google.Api.Gax;
+using Google.Cloud.Firestore;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Mvc;
@@ -65,11 +67,15 @@ namespace AGRC.api.Extensions {
 
             services.AddHttpContextAccessor();
 
+            services.AddSingleton<FirestoreDb>(new FirestoreDbBuilder {
+                EmulatorDetection = EmulatorDetection.EmulatorOnly
+            }.Build());
+
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
             services.AddSingleton<ILookupCache, LookupCache>();
-            services.AddSingleton<IApiKeyRepository, PostgreApiKeyRepository>();
-            services.AddSingleton<ICacheRepository, PostgreApiKeyRepository>();
+            services.AddSingleton<IApiKeyRepository, FirestoreApiKeyRepository>();
+            services.AddSingleton<ICacheRepository, FirestoreApiKeyRepository>();
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
