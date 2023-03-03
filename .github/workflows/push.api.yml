@@ -128,6 +128,8 @@ jobs:
             ASPNETCORE_URLS=http://+:8080,
             ASPNETCORE_ENVIRONMENT=Staging,
             GCLOUD_PROJECT=${{ secrets.PROJECT_ID }}
+          secrets: |
+            /secrets/dotnet/appsettings.Production.json=dotnet-appsettings:latest
 
       - name: 🔔 Publish deployment worknote
         uses: agrc/service-now-worknote-action@v1
