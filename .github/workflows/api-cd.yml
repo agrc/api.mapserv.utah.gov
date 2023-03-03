@@ -126,7 +126,7 @@ jobs:
             --timeout=5m
           env_vars: >
             ASPNETCORE_URLS=http://+:8080,
-            ASPNETCORE_ENVIRONMENT=Production
+            ASPNETCORE_ENVIRONMENT=Production,
             GCP_PROJECT=${{ secrets.PROJECT_ID }}
 
       - name: 🔔 Publish deployment worknote
