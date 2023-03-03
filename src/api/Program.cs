@@ -71,6 +71,15 @@ namespace AGRC.api {
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostingContext, config) => {
+                if (!hostingContext.HostingEnvironment.IsDevelopment()) {
+                    config.AddJsonFile(
+                        Path.Combine(Path.DirectorySeparatorChar.ToString(), "secrets", "dotnet", "appsettings.Production.json"),
+                        optional: false,
+                        reloadOnChange: true
+                    );
+                }
+            })
             .ConfigureWebHostDefaults(builder => {
                 builder.UseStartup<Startup>();
                 builder.UseConfiguration(Configuration);
