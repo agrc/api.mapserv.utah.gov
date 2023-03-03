@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace AGRC.api.Features.Health {
-    internal static class HealthCheckResponseWriter {
+    internal static class DetailedHealthCheckResponseWriter {
         public static Task WriteDetailsJson(HttpContext httpContext, HealthReport result) {
             httpContext.Response.ContentType = "application/json";
 
@@ -24,6 +25,13 @@ namespace AGRC.api.Features.Health {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = true
             });
+        }
+    }
+    internal static class StartupHealthCheckResponseWriter {
+        public static async Task WriteText(HttpContext httpContext, HealthReport _) {
+            httpContext.Response.ContentType = "text/plain";
+
+            await httpContext.Response.Body.WriteAsync(Encoding.ASCII.GetBytes("ok"));
         }
     }
 }

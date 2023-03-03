@@ -5,6 +5,7 @@ using System.Net.Http;
 using AGRC.api.Cache;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Features.GeometryService;
+using AGRC.api.Features.Health;
 using AGRC.api.Features.Milepost;
 using AGRC.api.Features.Searching;
 using AGRC.api.Filters;
@@ -15,9 +16,11 @@ using Google.Api.Gax;
 using Google.Cloud.Firestore;
 using MediatR;
 using MediatR.Pipeline;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
@@ -31,7 +34,7 @@ namespace AGRC.api.Extensions {
             services.Configure<DatabaseConfiguration>(config.GetSection("webapi:database"));
         }
 
-        public static void UseDi(this IServiceCollection services) {
+        public static void UseDi(this IServiceCollection services, IWebHostEnvironment env) {
             var retryPolicy = HttpPolicyExtensions
                 .HandleTransientHttpError()
                 .Or<TimeoutRejectedException>() // thrown by Polly's TimeoutPolicy if the inner call times out
@@ -67,8 +70,10 @@ namespace AGRC.api.Extensions {
 
             services.AddHttpContextAccessor();
 
+            // This throws in dev but not prod if the database is not running
             services.AddSingleton<FirestoreDb>(new FirestoreDbBuilder {
-                EmulatorDetection = EmulatorDetection.EmulatorOnly
+                ProjectId = env.IsDevelopment() ? "ut-dts-agrc-web-api-dev" : "ut-dts-agrc-web-api-prod",
+                EmulatorDetection = env.IsDevelopment() ? EmulatorDetection.EmulatorOnly : EmulatorDetection.None
             }.Build());
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
@@ -81,6 +86,9 @@ namespace AGRC.api.Extensions {
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
             services.AddSingleton<IDistanceStrategy, PythagoreanDistance>();
             services.AddSingleton<ITableMapping, TableMapping>();
+            services.AddSingleton<StartupHealthCheck>();
+
+            services.AddHostedService<StartupBackgroundService>();
 
             services.AddScoped<IFilterSuggestionFactory, FilterSuggestionFactory>();
 

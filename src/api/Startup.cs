@@ -33,11 +33,13 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace AGRC.api {
     public class Startup {
-        public Startup(IConfiguration configuration) {
+        public Startup(IConfiguration configuration, IWebHostEnvironment env) {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
@@ -75,13 +77,14 @@ namespace AGRC.api {
             });
 
             services.AddHealthChecks()
-                    .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded)
-                    .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy)
-                    .AddCheck<GeometryServiceHealthCheck>("GeometryService", failureStatus: HealthStatus.Degraded)
-                    .AddCheck<LocatorHealthCheck>("Geolocators");
+                    .AddCheck<StartupHealthCheck>("Startup", failureStatus: HealthStatus.Degraded, tags: new[] { "startup" })
+                    .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
+                    .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy, tags: new[] { "health" })
+                    .AddCheck<GeometryServiceHealthCheck>("GeometryService", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
+                    .AddCheck<LocatorHealthCheck>("Geolocators", tags: new[] { "health" });
 
             services.UseOptions(Configuration);
-            services.UseDi();
+            services.UseDi(Environment);
 
             services.AddSwaggerGen(c => {
                 c.EnableAnnotations();
@@ -223,11 +226,15 @@ namespace AGRC.api {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/api/v1/health/details", new HealthCheckOptions {
-                    ResponseWriter = HealthCheckResponseWriter.WriteDetailsJson
+                    Predicate = healthCheck => healthCheck.Tags.Contains("health"),
+                    ResponseWriter = DetailedHealthCheckResponseWriter.WriteDetailsJson
                 });
-                endpoints.MapHealthChecks("/api/v1/health");
+                endpoints.MapHealthChecks("/api/v1/health", new HealthCheckOptions {
+                    Predicate = healthCheck => healthCheck.Tags.Contains("health"),
+                });
                 endpoints.MapHealthChecks("", new HealthCheckOptions() {
-                    Predicate = (_) => false
+                    Predicate = healthCheck => healthCheck.Tags.Contains("startup"),
+                    ResponseWriter = StartupHealthCheckResponseWriter.WriteText
                 });
             });
         }
