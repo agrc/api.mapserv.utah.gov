@@ -31,7 +31,7 @@ namespace AGRC.api.Extensions {
             services.Configure<List<LocatorConfiguration>>(config.GetSection("webapi:locators"));
             services.Configure<List<ReverseLocatorConfiguration>>(config.GetSection("webapi:locators"));
             services.Configure<GeometryServiceConfiguration>(config.GetSection("webapi:arcgis"));
-            services.Configure<DatabaseConfiguration>(config.GetSection("webapi:database"));
+            services.Configure<DatabaseConfiguration>(config.GetSection("webapi:redis"));
         }
 
         public static void UseDi(this IServiceCollection services, IWebHostEnvironment env) {
