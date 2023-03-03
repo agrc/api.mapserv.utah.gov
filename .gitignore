@@ -267,7 +267,7 @@ coverage.xml
 
 # project secrets
 src/api/appsettings.production.json
-**/ut-dts-agrc-web-api-dv-log-writer.json
+**/ut-dts-agrc-web-api-dev-log-writer.json
 **/log-writer.json
 
 # terraform

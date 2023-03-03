@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
         - name: webapi-explorer
-          image: gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api-explorer
+          image: gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api-explorer
           resources:
             requests:
               memory: "32Mi"
