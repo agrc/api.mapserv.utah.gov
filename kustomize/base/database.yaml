@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/db
+          image: gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/db
           imagePullPolicy: Always
           env:
             - name: POSTGRES_DB

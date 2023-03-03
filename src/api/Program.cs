@@ -20,25 +20,25 @@ namespace AGRC.api {
             .Build();
 
         public static async Task<int> Main(string[] args) {
-            var config = new GoogleCloudLoggingSinkOptions {
+            var googleConfig = new GoogleCloudLoggingSinkOptions {
                 LogName = "api.mapserv.utah.gov",
                 UseSourceContextAsLogName = false,
                 ResourceType = "global",
                 ServiceName = "api.mapserv.utah.gov",
                 ServiceVersion = "1.12.2",
-                ProjectId = "ut-dts-agrc-web-api-dv"
+                ProjectId = "ut-dts-agrc-web-api-prod"
             };
 
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             if (environment == Environments.Development) {
-                const string projectId = "ut-dts-agrc-web-api-dv";
-                const string fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
+                const string projectId = "ut-dts-agrc-web-api-dev";
+                const string fileName = "ut-dts-agrc-web-api-dev-log-writer.json";
 
-                config.ProjectId = projectId;
+                googleConfig.ProjectId = projectId;
 
                 try {
-                    config.GoogleCredentialJson = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+                    googleConfig.GoogleCredentialJson = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));
                 } catch (FileNotFoundException) {
                     // use the GOOGLE_APPLICATION_CREDENTIALS
                 }
@@ -46,7 +46,7 @@ namespace AGRC.api {
 
             var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
-                // .WriteTo.GoogleCloudLogging(config)
+                .WriteTo.GoogleCloudLogging(googleConfig)
                 .CreateLogger();
 
             try {
@@ -84,14 +84,14 @@ namespace AGRC.api {
                     ResourceType = "global",
                     ServiceName = "api.mapserv.utah.gov",
                     ServiceVersion = "1.12.2",
-                    ProjectId = "ut-dts-agrc-web-api-dv"
+                    ProjectId = "ut-dts-agrc-web-api-prod"
                 };
 
                 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
                 if (environment == Environments.Development) {
-                    const string projectId = "ut-dts-agrc-web-api-dv";
-                    const string fileName = "ut-dts-agrc-web-api-dv-log-writer.json";
+                    const string projectId = "ut-dts-agrc-web-api-dev";
+                    const string fileName = "ut-dts-agrc-web-api-dev-log-writer.json";
                     googleConfig.ProjectId = projectId;
 
                     try {

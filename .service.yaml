@@ -85,7 +85,7 @@ spec:
           value: postgres
         - name: POSTGRES_PASSWORD
           value: what password
-        image: gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/db
+        image: gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/db
         imagePullPolicy: Always
         name: db
         volumeMounts:
@@ -120,7 +120,7 @@ spec:
           value: http://+:1337
         - name: ASPNETCORE_ENVIRONMENT
           value: Development
-        image: gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api
+        image: gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api
         livenessProbe:
           httpGet:
             path: /

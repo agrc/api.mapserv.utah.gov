@@ -42,7 +42,7 @@ spec:
             name: app-config
       containers:
         - name: webapi-api
-          image: gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api
+          image: gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api
           imagePullPolicy: Always
           volumeMounts:
             - name: appsettings-config

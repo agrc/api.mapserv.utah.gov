@@ -163,15 +163,15 @@ To destroy everything omit the `-target`'s.
 
 GKE configuration files expect containers to be published to gcr.io. Containers built locally with Docker can be tagged and [pushed to GCR](https://cloud.google.com/container-registry/docs/pushing-and-pulling) with `docker`.
 
-1. `docker tag webapi/api gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api`
-1. `docker tag webapi/explorer gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api-explorer`
-1. `docker tag webapi/db gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/db`
-1. `docker tag webapi/developer gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/developer`
+1. `docker tag webapi/api gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api`
+1. `docker tag webapi/explorer gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api-explorer`
+1. `docker tag webapi/db gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/db`
+1. `docker tag webapi/developer gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/developer`
 
-1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api`
-1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api-explorer`
-1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/db`
-1. `docker push gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/developer`
+1. `docker push gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api`
+1. `docker push gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api-explorer`
+1. `docker push gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/db`
+1. `docker push gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/developer`
 
 ### Configure Kubernetes
 
@@ -189,7 +189,7 @@ With the cluster created and the config map available, we can deploy the manifes
 
 When a new image is pushed to the container registry a rolling update can be initiated with kubectl.
 
-- `kubectl set image deployment/webapi-api webapi-api=gcr.io/ut-dts-agrc-web-api-dv/api.mapserv.utah.gov/api@sha256:...`
+- `kubectl set image deployment/webapi-api webapi-api=gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api@sha256:...`
 
 ## Swagger
 
