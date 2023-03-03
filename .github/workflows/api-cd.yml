@@ -127,6 +127,7 @@ jobs:
           env_vars: >
             ASPNETCORE_URLS=http://+:8080,
             ASPNETCORE_ENVIRONMENT=Production
+            GCP_PROJECT=${{ secrets.PROJECT_ID }}
 
       - name: 🔔 Publish deployment worknote
         uses: agrc/service-now-worknote-action@v1
