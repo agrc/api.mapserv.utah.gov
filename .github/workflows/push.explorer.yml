@@ -49,8 +49,8 @@ jobs:
       - name: 🪣 Cache firebase
         uses: actions/cache@v3
         with:
-          path: ./.firebase
-          key: ${{ runner.OS }}-firebase-${{ hashFiles('**/*.cache') }}
+          path: ~/.cache/firebase
+          key: ${{ runner.OS }}-firebase-${{ hashFiles('**/*.cache/firebase/**') }}
           restore-keys: |
             ${{ runner.OS }}-firebase-
             ${{ runner.OS }}-
