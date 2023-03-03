@@ -70,10 +70,15 @@ namespace AGRC.api.Extensions {
 
             services.AddHttpContextAccessor();
 
+            var emulator = env.EnvironmentName switch {
+                "Staging" or "Production" => EmulatorDetection.None,
+                _ => EmulatorDetection.EmulatorOnly,
+            };
+
             // This throws in dev but not prod if the database is not running
             services.AddSingleton<FirestoreDb>(new FirestoreDbBuilder {
-                ProjectId = env.IsDevelopment() ? "ut-dts-agrc-web-api-dev" : "ut-dts-agrc-web-api-prod",
-                EmulatorDetection = env.IsDevelopment() ? EmulatorDetection.EmulatorOnly : EmulatorDetection.None
+                ProjectId = Environment.GetEnvironmentVariable("GCLOUD_PROJECT") ?? "ut-dts-agrc-web-api-dev",
+                EmulatorDetection = emulator
             }.Build());
 
             services.AddSingleton<IAbbreviations, Abbreviations>();

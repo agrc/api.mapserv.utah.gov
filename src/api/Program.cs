@@ -1,7 +1,7 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using AGRC.api.Cache;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +31,7 @@ namespace AGRC.api {
 
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            if (environment == Environments.Development) {
+            if (new[] { Environments.Development, Environments.Staging }.Contains(environment)) {
                 const string projectId = "ut-dts-agrc-web-api-dev";
                 const string fileName = "ut-dts-agrc-web-api-dev-log-writer.json";
 
@@ -89,7 +89,7 @@ namespace AGRC.api {
 
                 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-                if (environment == Environments.Development) {
+                if (new[] { Environments.Development, Environments.Staging }.Contains(environment)) {
                     const string projectId = "ut-dts-agrc-web-api-dev";
                     const string fileName = "ut-dts-agrc-web-api-dev-log-writer.json";
                     googleConfig.ProjectId = projectId;
@@ -102,7 +102,7 @@ namespace AGRC.api {
                 }
 
                 config.ReadFrom.Configuration(context.Configuration);
-                // config.WriteTo.GoogleCloudLogging(googleConfig);
+                config.WriteTo.GoogleCloudLogging(googleConfig);
             });
     }
 }

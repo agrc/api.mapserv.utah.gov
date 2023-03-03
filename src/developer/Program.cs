@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +29,7 @@ namespace developer.mapserv.utah.gov {
 
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            if (environment == Environments.Development) {
+            if (new[] { Environments.Development, Environments.Staging }.Contains(environment)) {
                 const string projectId = "ut-dts-agrc-web-api-dev";
                 const string fileName = "ut-dts-agrc-web-api-dev-log-writer.json";
                 googleConfig.ProjectId = projectId;
