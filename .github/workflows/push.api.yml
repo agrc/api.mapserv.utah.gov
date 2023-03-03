@@ -7,7 +7,7 @@ on:
     paths:
       - "src/api/**"
       - "libs/**"
-      - ".github/workflows/api-cd.yml"
+      - ".github/workflows/push.api.yml"
 
 permissions:
   contents: write
@@ -27,7 +27,7 @@ jobs:
       - name: ⬇️ Set up code
         uses: actions/checkout@v3
 
-      - name: 🟣️ Setup .NET Core
+      - name: 🟣️ Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "7.0.x"
@@ -123,10 +123,10 @@ jobs:
             --concurrency=250
             --cpu=1
             --memory=512Mi
-            --timeout=5m
+            --timeout=1m
           env_vars: >
             ASPNETCORE_URLS=http://+:8080,
-            ASPNETCORE_ENVIRONMENT=Production,
+            ASPNETCORE_ENVIRONMENT=Staging,
             GCP_PROJECT=${{ secrets.PROJECT_ID }}
 
       - name: 🔔 Publish deployment worknote
