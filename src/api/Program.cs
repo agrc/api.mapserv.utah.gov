@@ -54,9 +54,6 @@ namespace AGRC.api {
 
                 var host = CreateHostBuilder(args).Build();
 
-                var lookupCache = host.Services.GetService(typeof(ILookupCache)) as ILookupCache;
-                await lookupCache.InitializeAsync();
-
                 logger.Information("Completed");
 
                 await host.RunAsync();
