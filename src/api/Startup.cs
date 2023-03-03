@@ -27,7 +27,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NetTopologySuite.IO.Converters;
-using Npgsql;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -153,8 +152,6 @@ namespace AGRC.api {
 
                 c.IncludeXmlComments(xmlPath);
             });
-
-            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
         }
 
         public void ConfigureContainer(ContainerBuilder builder) {
