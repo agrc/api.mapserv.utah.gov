@@ -57,6 +57,19 @@ namespace AGRC.api.Extensions {
                     .AddPolicyHandler(retryPolicy)
                     .AddPolicyHandler(timeoutPolicy);
 
+            services.AddHttpClient("health-check", client => client.Timeout = new TimeSpan(0, 0, 5))
+                    .ConfigurePrimaryHttpMessageHandler(() => {
+                        var handler = new HttpClientHandler {
+                            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                        };
+
+                        if (handler.SupportsAutomaticDecompression) {
+                            handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                        }
+
+                        return handler;
+                    });
+
             services.AddHttpClient("udot", client => {
                 client.BaseAddress = new Uri("https://maps.udot.utah.gov/");
                 client.Timeout = new TimeSpan(0, 0, 15);

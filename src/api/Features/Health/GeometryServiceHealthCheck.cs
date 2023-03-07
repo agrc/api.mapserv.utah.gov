@@ -19,7 +19,7 @@ namespace AGRC.api.Features.Health {
 
         public GeometryServiceHealthCheck(IOptions<GeometryServiceConfiguration> dbOptions, IHttpClientFactory factory) {
             _url = $"{dbOptions.Value.GetHost()}{dbOptions.Value.Path}?f=json";
-            _client = factory.CreateClient("default");
+            _client = factory.CreateClient("health-check");
             _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
             };

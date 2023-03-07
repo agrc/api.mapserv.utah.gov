@@ -21,7 +21,7 @@ namespace AGRC.api.Features.Health {
         private readonly List<LocatorConfiguration> _locatorMetadata;
 
         public LocatorHealthCheck(IOptions<List<LocatorConfiguration>> options, IHttpClientFactory factory) {
-            _client = factory.CreateClient("default");
+            _client = factory.CreateClient("health-check");
             _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
             };
