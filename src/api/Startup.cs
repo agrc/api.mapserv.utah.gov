@@ -80,6 +80,7 @@ namespace AGRC.api {
                     .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
                     .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy, tags: new[] { "health" })
                     .AddCheck<GeometryServiceHealthCheck>("GeometryService", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
+                    .AddCheck<UdotServiceHealthCheck>("RoadsAndHighwaysService", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
                     .AddCheck<LocatorHealthCheck>("Geolocators", tags: new[] { "health" });
 
             services.UseOptions(Configuration);
