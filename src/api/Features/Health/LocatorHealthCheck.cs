@@ -11,6 +11,7 @@ using AGRC.api.Formatters;
 using AGRC.api.Models.ArcGis;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace AGRC.api.Features.Health {
     public class LocatorHealthCheck : IHealthCheck {
@@ -19,14 +20,16 @@ namespace AGRC.api.Features.Health {
         private readonly HttpClient _client;
         private readonly MediaTypeFormatter[] _mediaTypes;
         private readonly List<LocatorConfiguration> _locatorMetadata;
+        private readonly ILogger _log;
 
-        public LocatorHealthCheck(IOptions<List<LocatorConfiguration>> options, IHttpClientFactory factory) {
+        public LocatorHealthCheck(IOptions<List<LocatorConfiguration>> options, IHttpClientFactory factory, ILogger log) {
             _client = factory.CreateClient("health-check");
             _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
             };
 
             _locatorMetadata = options.Value;
+            _log = log?.ForContext<LocatorHealthCheck>();
         }
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
@@ -39,6 +42,9 @@ namespace AGRC.api.Features.Health {
                     var result = await message.Content.ReadAsAsync<LocatorServiceStatus>(_mediaTypes, cancellationToken);
 
                     if (!result.IsSuccessful) {
+                        _log.ForContext("locator", locator)
+                            .Warning("unsuccessful health check {service}", locator.ServiceName);
+
                         results.Add(locator.ServiceName, HealthCheckResult.Degraded("Unable to access geocode service", null, new Dictionary<string, object> {
                             { "duration", stopWatch.ElapsedMilliseconds }
                         }));
@@ -49,6 +55,9 @@ namespace AGRC.api.Features.Health {
                     results.Add(locator.ServiceName, HealthCheckResult.Degraded("Unable to access geocode service", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }));
+
+                    _log.ForContext("locator", locator)
+                        .Warning("health check failed {service}", locator.ServiceName);
 
                     continue;
                 }
