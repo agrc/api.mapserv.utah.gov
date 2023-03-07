@@ -20,7 +20,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
@@ -30,7 +29,7 @@ namespace AGRC.api.Extensions {
         public static void UseOptions(this IServiceCollection services, IConfiguration config) {
             services.Configure<List<LocatorConfiguration>>(config.GetSection("webapi:locators"));
             services.Configure<List<ReverseLocatorConfiguration>>(config.GetSection("webapi:locators"));
-            services.Configure<GeometryServiceConfiguration>(config.GetSection("webapi:arcgis"));
+            services.Configure<GeometryServiceConfiguration>(config.GetSection("webapi:geometryService"));
             services.Configure<DatabaseConfiguration>(config.GetSection("webapi:redis"));
         }
 
