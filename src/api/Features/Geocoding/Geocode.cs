@@ -27,7 +27,7 @@ namespace AGRC.api.Features.Geocoding {
             private readonly MediaTypeFormatter[] _mediaTypes;
 
             public Handler(IHttpClientFactory clientFactory, ILogger log) {
-                _client = clientFactory.CreateClient("default");
+                _client = clientFactory.CreateClient("arcgis");
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()
                 };

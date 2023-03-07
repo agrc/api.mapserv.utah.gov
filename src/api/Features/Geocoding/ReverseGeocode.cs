@@ -25,7 +25,7 @@ namespace AGRC.api.Features.Geocoding {
 
             public Handler(IHttpClientFactory clientFactory, ILogger log) {
                 _log = log?.ForContext<ReverseGeocodeQuery>();
-                _client = clientFactory.CreateClient("default");
+                _client = clientFactory.CreateClient("arcgis");
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()
                 };

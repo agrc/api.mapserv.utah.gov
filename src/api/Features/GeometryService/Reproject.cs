@@ -33,7 +33,7 @@ namespace AGRC.api.Features.GeometryService {
             public Handler(IOptions<GeometryServiceConfiguration> geometryServiceConfiguration,
                            IHttpClientFactory clientFactory, ILogger log) {
                 _geometryServiceConfiguration = geometryServiceConfiguration;
-                _client = clientFactory.CreateClient("default");
+                _client = clientFactory.CreateClient("arcgis");
                 _mediaTypes = new MediaTypeFormatter[] {
                     new TextPlainResponseFormatter()
                 };

@@ -42,9 +42,12 @@ namespace AGRC.api.Extensions {
 
             var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(8); // Timeout for an individual try
 
-            services.AddHttpClient("default", client => client.Timeout = new TimeSpan(0, 0, 15))
+            services.AddHttpClient("arcgis", client => client.Timeout = new TimeSpan(0, 0, 15))
                     .ConfigurePrimaryHttpMessageHandler(() => {
-                        var handler = new HttpClientHandler();
+                        var handler = new HttpClientHandler {
+                            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                        };
+
                         if (handler.SupportsAutomaticDecompression) {
                             handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                         }
