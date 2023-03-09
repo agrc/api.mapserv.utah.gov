@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using AGRC.api.Models;
 using Google.Cloud.Firestore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -18,13 +17,21 @@ namespace AGRC.api.Features.Health {
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
             var stopWatch = Stopwatch.StartNew();
-            try {
-                var reference = _db.Collection("keys").Document("AGRC-Dev");
-                var snapshot = await reference.GetSnapshotAsync(cancellationToken);
+            var collections = new List<string>();
 
-                var key = snapshot.ConvertTo<ApiKey>();
+            try {
+                await foreach (var collection in _db.ListRootCollectionsAsync()) {
+                    collections.Add(collection.Id);
+                }
             } catch (Exception ex) {
                 return HealthCheckResult.Unhealthy("Unable to access key store", ex, new Dictionary<string, object> {
+                        { "duration", stopWatch.ElapsedMilliseconds }
+                    }
+                );
+            }
+
+            if (!collections.Contains("keys")) {
+                return HealthCheckResult.Unhealthy("Key store is missing required collections", null, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }
                 );
