@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -22,7 +23,7 @@ namespace api.tests.Features.Geocoding {
             var mockConnection = new Mock<IConnectionMultiplexer>();
             mockConnection.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(mockDb.Object);
 
-            var redisCache = new RedisCacheRepository(mockConnection.Object);
+            var redisCache = new RedisCacheRepository(new Lazy<IConnectionMultiplexer>(() => mockConnection.Object));
             var mockLogger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
             Handler = new AddressSystemFromPlace.Handler(redisCache, mockLogger.Object);
