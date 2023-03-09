@@ -20,9 +20,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
+using StackExchange.Redis;
 
 namespace AGRC.api.Extensions {
     public static class ServiceCollectionExtensions {
@@ -107,6 +109,11 @@ namespace AGRC.api.Extensions {
             services.AddSingleton<IDistanceStrategy, PythagoreanDistance>();
             services.AddSingleton<ITableMapping, TableMapping>();
             services.AddSingleton<StartupHealthCheck>();
+            services.AddSingleton((provider) => {
+                var options = provider.GetService<IOptions<DatabaseConfiguration>>();
+
+                return ConnectionMultiplexer.Connect(options.Value.Host);
+            });
 
             services.AddHostedService<StartupBackgroundService>();
 

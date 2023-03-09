@@ -3,38 +3,33 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using AGRC.api.Models.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace AGRC.api.Features.Health {
     public class CacheHealthCheck : IHealthCheck {
-        private readonly string _host;
+        private readonly IDatabase _db;
 
-        public CacheHealthCheck(IOptions<DatabaseConfiguration> redisOptions) {
-            _host = redisOptions.Value.Host;
+        public CacheHealthCheck(ConnectionMultiplexer redis) {
+            _db = redis.GetDatabase();
         }
         public string Name => nameof(CacheHealthCheck);
 
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
+        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext _, CancellationToken token = default) {
             var stopWatch = Stopwatch.StartNew();
             try {
-                using var redis = await ConnectionMultiplexer.ConnectAsync(_host);
-                var db = redis.GetDatabase();
-
-                db.StringIncrement("health");
-                db.StringGet("health");
+                _db.StringIncrement("health");
+                _db.StringGet("health");
             } catch (Exception ex) {
-                return HealthCheckResult.Degraded("Unable to access redis cache", ex, new Dictionary<string, object> {
+                return Task.FromResult(HealthCheckResult.Degraded("Unable to access redis cache", ex, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }
-                );
+                ));
             }
 
-            return HealthCheckResult.Healthy("cache ready", new Dictionary<string, object> {
+            return Task.FromResult(HealthCheckResult.Healthy("cache ready", new Dictionary<string, object> {
                 { "duration", stopWatch.ElapsedMilliseconds }
-            });
+            }));
         }
     }
 }
