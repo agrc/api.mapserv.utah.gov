@@ -10,8 +10,10 @@ var store = new DocumentStore() {
     Database = "wsut"
 }.Initialize();
 
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
 var client = new FirestoreDbBuilder {
-    ProjectId = "ut-dts-agrc-web-api-dev",
+    ProjectId = environment == "Development" ? "ut-dts-agrc-web-api-dev" : "ut-dts-agrc-web-api-prod",
     EmulatorDetection = EmulatorDetection.EmulatorOnly
 }.Build();
 
