@@ -10,22 +10,25 @@ using AGRC.api.Models.Linkables;
 using Moq;
 using Serilog;
 using Shouldly;
+using StackExchange.Redis;
 using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class AddressSystemFromZipTests {
         internal static IComputationHandler<AddressSystemFromZipCode.Computation, IReadOnlyCollection<GridLinkable>> Handler;
 
-        private readonly Dictionary<string, List<GridLinkable>> _links = new(1);
-
         public AddressSystemFromZipTests() {
-            _links.Add("1", new List<GridLinkable> { new ZipGridLink(1, "grid", 1) });
-            var mockCache = new Mock<ILookupCache>();
-            mockCache.Setup(x => x.ZipCodesGrids).Returns(_links);
+            var mockDb = new Mock<IDatabase>();
+            mockDb.Setup(x => x.StringGetAsync(It.Is<RedisKey>(p => p.Equals(new RedisKey("1"))), CommandFlags.None))
+                  .Returns(Task.FromResult(new RedisValue("grid,1")));
 
-            var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
+            var mockConnection = new Mock<IConnectionMultiplexer>();
+            mockConnection.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(mockDb.Object);
 
-            Handler = new AddressSystemFromZipCode.Handler(mockCache.Object, mock.Object);
+            var redisCache = new RedisCacheRepository(mockConnection.Object);
+            var mockLogger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
+
+            Handler = new AddressSystemFromZipCode.Handler(redisCache, mockLogger.Object);
         }
 
         [Fact]

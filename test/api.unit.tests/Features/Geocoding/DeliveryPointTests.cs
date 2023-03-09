@@ -17,7 +17,7 @@ namespace api.tests.Features.Geocoding {
             _deliveryPoints.Add("84114",
                                 new GridLinkable[] { new UspsDeliveryPointLink(84114, "grid", "place", 1, 1) }.ToList());
 
-            var mockCache = new Mock<ILookupCache>();
+            var mockCache = new Mock<IStaticCache>();
             mockCache.Setup(x => x.UspsDeliveryPoints).Returns(_deliveryPoints);
 
             var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
@@ -25,7 +25,7 @@ namespace api.tests.Features.Geocoding {
             _handler = new UspsDeliveryPointLocation.Handler(mockCache.Object, mock.Object);
         }
 
-        private readonly IDictionary<string, List<GridLinkable>> _deliveryPoints =
+        private readonly Dictionary<string, List<GridLinkable>> _deliveryPoints =
             new Dictionary<string, List<GridLinkable>>(1);
 
         private readonly UspsDeliveryPointLocation.Handler _handler;

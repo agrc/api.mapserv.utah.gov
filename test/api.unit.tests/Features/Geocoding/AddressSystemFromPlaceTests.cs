@@ -9,23 +9,26 @@ using AGRC.api.Models.Linkables;
 using Moq;
 using Serilog;
 using Shouldly;
+using StackExchange.Redis;
 using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class AddressSystemFromPlaceTests {
         public AddressSystemFromPlaceTests() {
-            _links.Add("place", new List<GridLinkable> { new PlaceGridLink("place", "grid", 1) });
-            var mockCache = new Mock<ILookupCache>();
-            mockCache.Setup(x => x.PlaceGrids).Returns(_links);
+            var mockDb = new Mock<IDatabase>();
+            mockDb.Setup(x => x.StringGetAsync(It.Is<RedisKey>(p => p.Equals(new RedisKey("place"))), CommandFlags.None))
+                  .Returns(Task.FromResult(new RedisValue("grid,0")));
 
-            var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
+            var mockConnection = new Mock<IConnectionMultiplexer>();
+            mockConnection.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(mockDb.Object);
 
-            Handler = new AddressSystemFromPlace.Handler(mockCache.Object, mock.Object);
+            var redisCache = new RedisCacheRepository(mockConnection.Object);
+            var mockLogger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
+
+            Handler = new AddressSystemFromPlace.Handler(redisCache, mockLogger.Object);
         }
 
         internal static IComputationHandler<AddressSystemFromPlace.Computation, IReadOnlyCollection<GridLinkable>> Handler;
-
-        private readonly Dictionary<string, List<GridLinkable>> _links = new(1);
 
         [Fact]
         public async Task Should_return_empty_when_zip_is_null() {

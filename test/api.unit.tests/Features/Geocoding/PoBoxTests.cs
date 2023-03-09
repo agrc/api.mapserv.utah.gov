@@ -17,7 +17,7 @@ namespace api.tests.Features.Geocoding {
             _exclusions.Add(841140001, new PoBoxAddressCorrection(84114, 841140001, 2, 2));
             IReadOnlyCollection<int> zipExclusions = new[] { 84114 };
 
-            var mockCache = new Mock<ILookupCache>();
+            var mockCache = new Mock<IStaticCache>();
             mockCache.Setup(x => x.PoBoxes).Returns(_poBoxes);
             mockCache.Setup(x => x.PoBoxExclusions).Returns(_exclusions);
             mockCache.Setup(x => x.PoBoxZipCodesWithExclusions).Returns(zipExclusions);
@@ -27,9 +27,9 @@ namespace api.tests.Features.Geocoding {
             _handler = new PoBoxLocation.Handler(mockCache.Object, mock.Object);
         }
 
-        private readonly IDictionary<int, PoBoxAddress> _poBoxes = new Dictionary<int, PoBoxAddress>(1);
+        private readonly Dictionary<int, PoBoxAddress> _poBoxes = new Dictionary<int, PoBoxAddress>(1);
 
-        private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions =
+        private readonly Dictionary<int, PoBoxAddressCorrection> _exclusions =
             new Dictionary<int, PoBoxAddressCorrection>(1);
 
         private readonly PoBoxLocation.Handler _handler;
