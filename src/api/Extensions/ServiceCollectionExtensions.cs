@@ -101,9 +101,9 @@ namespace AGRC.api.Extensions {
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
-            services.AddSingleton<IStaticCache, StaticCache>();
             services.AddSingleton<IApiKeyRepository, FirestoreApiKeyRepository>();
             services.AddSingleton<ICacheRepository, RedisCacheRepository>();
+            services.AddSingleton<IStaticCache, StaticCache>();
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();
@@ -113,7 +113,7 @@ namespace AGRC.api.Extensions {
             services.AddSingleton((provider) => {
                 var options = provider.GetService<IOptions<DatabaseConfiguration>>();
 
-                return ConnectionMultiplexer.Connect(options.Value.Host);
+                return new Lazy<IConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options.Value.ConnectionString));
             });
 
             services.Configure<HostOptions>(options =>

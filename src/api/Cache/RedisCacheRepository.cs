@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AGRC.api.Features.Geocoding;
 using AGRC.api.Models.Linkables;
 using Microsoft.Extensions.Caching.Memory;
 using StackExchange.Redis;
@@ -14,8 +13,8 @@ namespace AGRC.api.Cache {
         private readonly MemoryCache _zipCodeCache;
         private readonly MemoryCache _notFoundCache;
 
-        public RedisCacheRepository(IConnectionMultiplexer redis) {
-            _db = redis.GetDatabase();
+        public RedisCacheRepository(Lazy<IConnectionMultiplexer> redis) {
+            _db = redis.Value.GetDatabase();
             _placeNameCache = new MemoryCache(new MemoryCacheOptions {
                 SizeLimit = 1000,
             });

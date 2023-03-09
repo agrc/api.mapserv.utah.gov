@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Models.Linkables;
+using Google.Apis.Auth.OAuth2.Responses;
 using Google.Cloud.BigQuery.V2;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -15,13 +16,19 @@ namespace AGRC.api.Services {
         private readonly IDatabase _db;
         private readonly ILogger _log;
 
-        public CacheHostedService(ConnectionMultiplexer redis, ILogger log) {
-            _client = BigQueryClient.Create("ut-dts-agrc-web-api-dev");
-            _table = _client.GetTable("address_grid_mapping_cache", "address_system_mapping");
-            _db = redis.GetDatabase();
+        public CacheHostedService(Lazy<IConnectionMultiplexer> redis, ILogger log) {
             _log = log?.ForContext<CacheHostedService>();
+            _client = BigQueryClient.Create("ut-dts-agrc-web-api-dev");
+            try {
+                _table = _client.GetTable("address_grid_mapping_cache", "address_system_mapping");
+            } catch (TokenResponseException ex) {
+                _log.Warning(ex, "Unable to connect to BigQuery. Cache is unavailable.");
+            }
+            _db = redis.Value.GetDatabase();
         }
         public async Task StartAsync(CancellationToken token) {
+            await Task.Delay(5000, token);
+
             try {
                 var keys = await _db.KeyExistsAsync(new RedisKey[] { "places", "zips" });
                 if (keys != 2) {

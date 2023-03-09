@@ -10,8 +10,8 @@ namespace AGRC.api.Features.Health {
     public class CacheHealthCheck : IHealthCheck {
         private readonly IDatabase _db;
 
-        public CacheHealthCheck(ConnectionMultiplexer redis) {
-            _db = redis.GetDatabase();
+        public CacheHealthCheck(Lazy<IConnectionMultiplexer> redis) {
+            _db = redis.Value.GetDatabase();
         }
         public string Name => nameof(CacheHealthCheck);
 
