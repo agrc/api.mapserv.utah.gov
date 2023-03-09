@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Extensions.Http;
@@ -115,7 +116,11 @@ namespace AGRC.api.Extensions {
                 return ConnectionMultiplexer.Connect(options.Value.Host);
             });
 
+            services.Configure<HostOptions>(options =>
+                options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore);
+
             services.AddHostedService<StartupBackgroundService>();
+            services.AddHostedService<CacheHostedService>();
 
             services.AddScoped<IFilterSuggestionFactory, FilterSuggestionFactory>();
 
