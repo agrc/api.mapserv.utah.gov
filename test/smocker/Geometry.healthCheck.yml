@@ -1,5 +1,5 @@
 - request:
-    path: /arcgis/rest/services/Geometry/GeometryServer/
+    path: /arcgis/rest/services/Utilities/Geometry/GeometryServer/
     method: GET
     query_params:
       f: json

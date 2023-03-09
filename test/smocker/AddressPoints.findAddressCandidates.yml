@@ -3,7 +3,7 @@
       /arcgis/rest/services/Geolocators/AddressPoints_AddressSystem/GeocodeServer/findAddressCandidates
     method: GET
     query_params:
-      City: salt lake city
+      City: SALT LAKE CITY
       Address: 326 East south temple
       f: json
       outSR: "26912"
