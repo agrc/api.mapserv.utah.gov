@@ -10,34 +10,54 @@ using Serilog;
 using StackExchange.Redis;
 
 namespace AGRC.api.Services {
-    public class CacheHostedService : IHostedService {
+    public class CacheHostedService : BackgroundService {
         private readonly BigQueryClient _client;
-        private readonly BigQueryTable _table;
+        private BigQueryTable _table;
         private readonly IDatabase _db;
         private readonly ILogger _log;
 
         public CacheHostedService(Lazy<IConnectionMultiplexer> redis, ILogger log) {
             _log = log?.ForContext<CacheHostedService>();
-            _client = BigQueryClient.Create("ut-dts-agrc-web-api-dev");
+            _db = redis.Value.GetDatabase();
+            TryGetBqTable(out _table);
+        }
+
+        private bool TryGetBqTable(out BigQueryTable table) {
+            table = null;
+
             try {
-                _table = _client.GetTable("address_grid_mapping_cache", "address_system_mapping");
+                var client = BigQueryClient.Create("ut-dts-agrc-web-api-dev");
+                table = client.GetTable("address_grid_mapping_cache", "address_system_mapping");
             } catch (TokenResponseException ex) {
                 _log.Warning(ex, "Unable to connect to BigQuery. Cache is unavailable.");
+
+                return false;
             }
-            _db = redis.Value.GetDatabase();
+
+            return true;
         }
-        public async Task StartAsync(CancellationToken token) {
+
+        protected override async Task ExecuteAsync(CancellationToken token) {
             await Task.Delay(5000, token);
 
-            try {
-                var keys = await _db.KeyExistsAsync(new RedisKey[] { "places", "zips" });
-                if (keys != 2) {
-                    _log.Warning("Cache is missing keys. Rebuilding cache from BigQuery.");
-
-                    await HydrateCacheFromBigQueryAsync(_db, token);
+            while (_table is null) {
+                if (!TryGetBqTable(out _table)) {
+                    await Task.Delay(5000, token);
+                    continue;
                 }
-            } catch (Exception) {
-                // TODO! log error
+
+                try {
+                    var keys = await _db.KeyExistsAsync(new RedisKey[] { "places", "zips" });
+                    if (keys != 2) {
+                        _log.Warning("Cache is missing keys. Rebuilding cache from BigQuery.");
+
+                        await HydrateCacheFromBigQueryAsync(_db, token);
+                    }
+
+                    break;
+                } catch (Exception) {
+                    // TODO! log error
+                }
             }
         }
 
@@ -97,7 +117,5 @@ namespace AGRC.api.Services {
             await db.StringSetAsync("places", places.Count);
             await db.StringSetAsync("zips", zips.Count);
         }
-
-        public Task StopAsync(CancellationToken stoppingToken) => Task.CompletedTask;
     }
 }
