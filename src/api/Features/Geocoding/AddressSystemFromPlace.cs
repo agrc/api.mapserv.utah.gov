@@ -13,33 +13,31 @@ namespace AGRC.api.Features.Geocoding {
             public readonly string CityKey;
 
             public Computation(string cityKey) {
-                CityKey = cityKey;
+                CityKey = cityKey.ToLowerInvariant();
             }
         }
 
         public class Handler : IComputationHandler<Computation, IReadOnlyCollection<GridLinkable>> {
             private readonly ILogger _log;
-            private readonly IDictionary<string, List<GridLinkable>> _placeGrids;
+            private readonly ICacheRepository _memoryCache;
 
-            public Handler(ILookupCache driveCache, ILogger log) {
+            public Handler(ICacheRepository cache, ILogger log) {
                 _log = log?.ForContext<AddressSystemFromPlace>();
-                _placeGrids = driveCache.PlaceGrids;
+                _memoryCache = cache;
             }
 
-            public Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
+            public async Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
                 _log.Debug("Getting address system from {city}", request.CityKey);
 
                 if (string.IsNullOrEmpty(request.CityKey)) {
-                    return Task.FromResult<IReadOnlyCollection<GridLinkable>>(Array.Empty<GridLinkable>());
+                    return Array.Empty<GridLinkable>();
                 }
 
-                _placeGrids.TryGetValue(request.CityKey, out var gridLinkables);
-
-                var result = gridLinkables ?? new List<GridLinkable>();
+                var result = await _memoryCache.FindGridsForPlaceAsync(request.CityKey);
 
                 _log.Debug("Found {systems}", result);
 
-                return Task.FromResult<IReadOnlyCollection<GridLinkable>>(result);
+                return result;
             }
         }
     }

@@ -94,7 +94,7 @@ namespace AGRC.api.Extensions {
             };
 
             // This throws in dev but not prod if the database is not running
-            services.AddSingleton<FirestoreDb>(new FirestoreDbBuilder {
+            services.AddSingleton(new FirestoreDbBuilder {
                 ProjectId = Environment.GetEnvironmentVariable("GCLOUD_PROJECT") ?? "ut-dts-agrc-web-api-dev",
                 EmulatorDetection = emulator
             }.Build());
@@ -103,7 +103,7 @@ namespace AGRC.api.Extensions {
             services.AddSingleton<IRegexCache, RegexCache>();
             services.AddSingleton<ILookupCache, LookupCache>();
             services.AddSingleton<IApiKeyRepository, FirestoreApiKeyRepository>();
-            services.AddSingleton<ICacheRepository, FirestoreApiKeyRepository>();
+            services.AddSingleton<ICacheRepository, RedisCacheRepository>();
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();
             services.AddSingleton<IServerIpProvider, AuthorizeApiKeyFromRequest.ServerIpProvider>();
             services.AddSingleton<AuthorizeApiKeyFromRequest>();

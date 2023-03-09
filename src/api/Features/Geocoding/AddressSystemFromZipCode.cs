@@ -21,27 +21,25 @@ namespace AGRC.api.Features.Geocoding {
 
         public class Handler : IComputationHandler<Computation, IReadOnlyCollection<GridLinkable>> {
             private readonly ILogger _log;
-            private readonly IDictionary<string, List<GridLinkable>> _zipCache;
+            private readonly ICacheRepository _memoryCache;
 
-            public Handler(ILookupCache driveCache, ILogger log) {
+            public Handler(ICacheRepository cache, ILogger log) {
                 _log = log?.ForContext<AddressSystemFromZipCode>();
-                _zipCache = driveCache.ZipCodesGrids;
+                _memoryCache = cache;
             }
 
-            public Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
+            public async Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
                 _log.Debug("Getting address system from {city}", request.Zip);
 
                 if (string.IsNullOrEmpty(request.Zip)) {
-                    return Task.FromResult<IReadOnlyCollection<GridLinkable>>(Array.Empty<GridLinkable>());
+                    return Array.Empty<GridLinkable>();
                 }
 
-                _zipCache.TryGetValue(request.Zip, out var gridLinkables);
-
-                var result = gridLinkables ?? new List<GridLinkable>();
+                var result = await _memoryCache.FindGridsForZipCodeAsync(request.Zip);
 
                 _log.Debug("Found {systems}", result);
 
-                return Task.FromResult<IReadOnlyCollection<GridLinkable>>(result);
+                return result;
             }
         }
     }
