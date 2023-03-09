@@ -12,7 +12,7 @@ namespace AGRC.api.Features.Health {
         }
 
         public Task<HealthCheckResult> CheckHealthAsync(
-            HealthCheckContext context, CancellationToken cancellationToken = default) {
+            HealthCheckContext _, CancellationToken cancellationToken = default) {
             if (StartupCompleted) {
                 return Task.FromResult(HealthCheckResult.Healthy("ok"));
             }

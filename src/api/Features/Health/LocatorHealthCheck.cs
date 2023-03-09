@@ -32,7 +32,7 @@ namespace AGRC.api.Features.Health {
             _log = log?.ForContext<LocatorHealthCheck>();
         }
 
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext _, CancellationToken cancellationToken = default) {
             var results = new Dictionary<string, HealthCheckResult>(_locatorMetadata.Count);
 
             foreach (var locator in _locatorMetadata) {
