@@ -101,7 +101,7 @@ namespace AGRC.api.Extensions {
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
-            services.AddSingleton<ILookupCache, LookupCache>();
+            services.AddSingleton<IStaticCache, StaticCache>();
             services.AddSingleton<IApiKeyRepository, FirestoreApiKeyRepository>();
             services.AddSingleton<ICacheRepository, RedisCacheRepository>();
             services.AddSingleton<IBrowserKeyProvider, AuthorizeApiKeyFromRequest.BrowserKeyProvider>();

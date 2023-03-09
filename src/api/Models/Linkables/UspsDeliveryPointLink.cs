@@ -6,11 +6,11 @@ namespace AGRC.api.Models.Linkables {
         public double X { get; set; }
         public double Y { get; set; }
 
-        public UspsDeliveryPointLink(int zip, string grid, string place, decimal x, decimal y) :
+        public UspsDeliveryPointLink(int zip, string grid, string place, double x, double y) :
             base(zip, grid, 0) {
             MatchAddress = place;
-            X = Convert.ToDouble(x);
-            Y = Convert.ToDouble(y);
+            X = x;
+            Y = y;
         }
     }
 }

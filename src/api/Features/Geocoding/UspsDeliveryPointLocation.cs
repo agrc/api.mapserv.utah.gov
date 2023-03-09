@@ -22,11 +22,11 @@ namespace AGRC.api.Features.Geocoding {
         }
 
         public class Handler : IComputationHandler<Computation, Candidate> {
-            private readonly ILookupCache _driveCache;
+            private readonly IStaticCache _staticCache;
             private readonly ILogger _log;
 
-            public Handler(ILookupCache driveCache, ILogger log) {
-                _driveCache = driveCache;
+            public Handler(IStaticCache staticCache, ILogger log) {
+                _staticCache = staticCache;
                 _log = log?.ForContext<UspsDeliveryPointLocation>();
             }
 
@@ -37,7 +37,7 @@ namespace AGRC.api.Features.Geocoding {
                     return Task.FromResult((Candidate)null);
                 }
 
-                _driveCache.UspsDeliveryPoints.TryGetValue(request.Address.Zip5.Value.ToString(), out var items);
+                _staticCache.UspsDeliveryPoints.TryGetValue(request.Address.Zip5.Value.ToString(), out var items);
 
                 if (items?.Any() != true) {
                     _log.ForContext("zip", request.Address.Zip5.Value)

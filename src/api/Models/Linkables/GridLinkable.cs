@@ -8,5 +8,7 @@ namespace AGRC.api.Models.Linkables {
         public abstract string Key { get; }
         public string Grid { get; set; }
         public int Weight { get; set; }
+
+        public override string ToString() => $"{Grid},{Weight}";
     }
 }

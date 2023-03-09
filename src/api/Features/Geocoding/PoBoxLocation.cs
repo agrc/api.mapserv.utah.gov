@@ -27,10 +27,10 @@ namespace AGRC.api.Features.Geocoding {
             private readonly IDictionary<int, PoBoxAddress> _poBoxes;
             private readonly IReadOnlyCollection<int> _zipExclusions;
 
-            public Handler(ILookupCache driveCache, ILogger log) {
-                _poBoxes = driveCache.PoBoxes;
-                _exclusions = driveCache.PoBoxExclusions;
-                _zipExclusions = driveCache.PoBoxZipCodesWithExclusions;
+            public Handler(IStaticCache cache, ILogger log) {
+                _poBoxes = cache.PoBoxes;
+                _exclusions = cache.PoBoxExclusions;
+                _zipExclusions = cache.PoBoxZipCodesWithExclusions;
                 _log = log?.ForContext<PoBoxLocation>();
             }
 
