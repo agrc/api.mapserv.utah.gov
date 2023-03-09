@@ -25,9 +25,7 @@ namespace api.tests.Features.Geocoding {
             _handler = new UspsDeliveryPointLocation.Handler(mockCache.Object, mock.Object);
         }
 
-        private readonly Dictionary<string, List<GridLinkable>> _deliveryPoints =
-            new Dictionary<string, List<GridLinkable>>(1);
-
+        private readonly Dictionary<string, List<GridLinkable>> _deliveryPoints = new(1);
         private readonly UspsDeliveryPointLocation.Handler _handler;
 
         [Fact]
