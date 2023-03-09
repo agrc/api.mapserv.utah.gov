@@ -14,7 +14,7 @@ namespace AGRC.api.Cache {
         private readonly MemoryCache _zipCodeCache;
         private readonly MemoryCache _notFoundCache;
 
-        public RedisCacheRepository(ConnectionMultiplexer redis) {
+        public RedisCacheRepository(IConnectionMultiplexer redis) {
             _db = redis.GetDatabase();
             _placeNameCache = new MemoryCache(new MemoryCacheOptions {
                 SizeLimit = 1000,
