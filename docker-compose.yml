@@ -12,12 +12,6 @@ services:
       dockerfile: Dockerfile
     image: webapi/developer
 
-  db:
-    build:
-      context: .
-      dockerfile: data/pg/Dockerfile
-    image: webapi/db
-
   explorer:
     build:
       context: ./src/explorer

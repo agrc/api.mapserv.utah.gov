@@ -18,16 +18,6 @@ services:
       - ASPNETCORE_URLS=http://+:1338
       - ASPNETCORE_ENVIRONMENT=Development
 
-  db:
-    environment:
-      - POSTGRES_PASSWORD=what password
-      - POSTGRES_DB=webapi
-      - POSTGRES_USER=postgres
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
-
   explorer:
     ports:
       - '8080:80'
@@ -37,7 +27,3 @@ services:
     ports:
       - 6443:8080
       - 8081:8081
-
-volumes:
-  pgdata:
-    external: true
