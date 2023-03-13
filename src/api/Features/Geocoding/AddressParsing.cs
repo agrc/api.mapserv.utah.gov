@@ -58,7 +58,7 @@ namespace AGRC.api.Features.Geocoding {
 
                 _log.ForContext("original", OriginalStreet)
                     .ForContext("standardized", StandardStreet)
-                    .Information("completed");
+                    .Information("address parsing complete");
 
                 return Task.FromResult(address);
             }

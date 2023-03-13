@@ -24,7 +24,7 @@ namespace AGRC.api.Infrastructure {
             if (_timer.ElapsedMilliseconds > 500) {
                 var name = typeof(TRequest).Name;
 
-                _log.Warning("Long Running Request: {Name} ({ElapsedMilliseconds} ms) {@Request}", name, _timer.ElapsedMilliseconds, request);
+                _log.Warning("long running request: {Name} ({ElapsedMilliseconds} ms) {@Request}", name, _timer.ElapsedMilliseconds, request);
             }
 
             return response;

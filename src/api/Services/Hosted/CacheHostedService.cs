@@ -19,9 +19,7 @@ namespace AGRC.api.Services {
         public CacheHostedService(Lazy<IConnectionMultiplexer> redis, ILogger log) {
             _log = log?.ForContext<CacheHostedService>();
             _db = redis.Value.GetDatabase();
-            _log.Debug("CacheHostedService constructor");
-            var success = TryGetBqTable(out _table);
-            _log.Debug("CacheHostedService client creation: {success}", success);
+            TryGetBqTable(out _table);
         }
 
         private bool TryGetBqTable(out BigQueryTable table) {
@@ -33,11 +31,11 @@ namespace AGRC.api.Services {
                 _client = BigQueryClient.Create("ut-dts-agrc-web-api-dev");
                 table = _client.GetTable("address_grid_mapping_cache", "address_system_mapping");
             } catch (TokenResponseException ex) {
-                _log.Debug("Unable to connect to BigQuery. Cache is unavailable. " + ex.Message);
+                _log.Debug("unable to connect to BigQuery. Cache is unavailable. " + ex.Message);
 
                 return false;
             } catch (Exception ex) {
-                _log.Warning(ex, "Unable to connect to BigQuery. Cache is unavailable.");
+                _log.Warning(ex, "unable to connect to BigQuery. Cache is unavailable.");
 
                 return false;
             }
@@ -46,14 +44,13 @@ namespace AGRC.api.Services {
         }
 
         protected override async Task ExecuteAsync(CancellationToken token) {
-            _log.Debug("delaying cache by 5 seconds");
             await Task.Delay(5000, token);
 
-            _log.Debug("starting loop {table}", _table);
+            _log.Debug("checking redis cache for keys");
 
             while (_table is null) {
                 if (!TryGetBqTable(out _table)) {
-                    Console.WriteLine("polling to create client big query client");
+                    _log.Debug("polling to create client bigquery client");
 
                     await Task.Delay(5000, token);
                     break;
@@ -61,15 +58,14 @@ namespace AGRC.api.Services {
             }
 
             try {
-                _log.Debug("CacheHostedService checking for keys");
                 var keys = await _db.KeyExistsAsync(new RedisKey[] { "places", "zips" });
 
                 if (keys != 2) {
-                    _log.Warning("Cache is missing keys. Rebuilding cache from BigQuery.");
+                    _log.Warning("redis cache is missing keys. rebuilding cache from bigquery.");
 
                     await HydrateCacheFromBigQueryAsync(_db, token);
                 } else {
-                    _log.Debug("Cache is ready.");
+                    _log.Debug("redis cache is ready.");
                 }
             } catch (Exception) {
                 // TODO! log error

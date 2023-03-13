@@ -38,7 +38,7 @@ var logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
 
-logger.Information("Starting web host");
+logger.Information("starting web host");
 
 try {
     var builder = WebApplication.CreateBuilder(args);
@@ -272,11 +272,11 @@ try {
         ResponseWriter = StartupHealthCheckResponseWriter.WriteText
     });
 
-    logger.Information("Completed");
+    logger.Information("program configuration completed");
     app.Run();
 } catch (Exception ex) {
-    logger.Fatal(ex, "Host terminated unexpectedly");
+    logger.Fatal(ex, "host terminated unexpectedly");
 } finally {
-    logger.Information("Shutting down");
+    logger.Information("shutting down");
     Log.CloseAndFlush();
 }

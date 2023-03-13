@@ -29,7 +29,7 @@ namespace AGRC.api.Features.Geocoding {
             }
 
             public async Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
-                _log.Debug("Getting address system from {city}", request.Zip);
+                _log.Debug("getting address system from {city}", request.Zip);
 
                 if (string.IsNullOrEmpty(request.Zip)) {
                     return Array.Empty<GridLinkable>();

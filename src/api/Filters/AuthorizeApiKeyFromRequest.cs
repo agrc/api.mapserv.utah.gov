@@ -55,7 +55,8 @@ namespace AGRC.api.Filters {
 
             // key hasn't been created
             if (apiKey == null) {
-                _log.Information("Unknown API key usage attempt for {key}", context.HttpContext.Request.Query);
+                _log.ForContext("query", context.HttpContext.Request.Query)
+                    .Information("unknown api key usage attempt for {key}", apiKey);
 
                 context.Result = new BadRequestObjectResult(badKeyResponse);
 
@@ -65,7 +66,7 @@ namespace AGRC.api.Filters {
             // TODO make sure user has confirmed email address
 
             if (apiKey.Deleted || apiKey.Enabled == ApiKey.KeyStatus.Disabled) {
-                _log.Information("Attempt to use deleted or disabled key {key}", apiKey);
+                _log.Information("attempt to use deleted or disabled key {key}", apiKey);
 
                 context.Result = new BadRequestObjectResult(new ApiResponseContract {
                     Status = BadRequest,
@@ -76,7 +77,7 @@ namespace AGRC.api.Filters {
             }
 
             if (apiKey.Elevated) {
-                _log.Information("Unrestricted key use {key} from {ip} with {headers}", apiKey.Key,
+                _log.Information("unrestricted key use {key} from {ip} with {headers}", apiKey.Key,
                                  context.HttpContext.Request.Host, context.HttpContext.Request.Headers);
 
                 await next();
@@ -94,7 +95,7 @@ namespace AGRC.api.Filters {
                 var hasOrigin = context.HttpContext.Request.Headers.Where(x => x.Key == "Origin").ToList();
 
                 if (string.IsNullOrEmpty(referrer.ToString()) && !hasOrigin.Any()) {
-                    _log.Information("API key usage without referrer header {key}", apiKey);
+                    _log.Information("api key usage without referrer header {key}", apiKey);
 
                     context.Result = new BadRequestObjectResult(new ApiResponseContract {
                         Status = BadRequest,
@@ -131,7 +132,7 @@ namespace AGRC.api.Filters {
                 var userHostAddress = _serverIpProvider.Get(context.HttpContext.Request);
 
                 if (ip != userHostAddress) {
-                    _log.Information("Invalid api key pattern match {ip} != {host} for {key}", ip, userHostAddress,
+                    _log.Information("invalid api key pattern match {ip} != {host} for {key}", ip, userHostAddress,
                                      apiKey);
 
                     context.Result = new BadRequestObjectResult(new ApiResponseContract {

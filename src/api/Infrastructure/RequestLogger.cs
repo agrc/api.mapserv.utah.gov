@@ -14,7 +14,7 @@ namespace AGRC.api.Infrastructure {
         public Task Process(TRequest request, CancellationToken cancellationToken) {
             var name = typeof(TRequest).FullName;
 
-            _log.Information("processing: {Name} {@Request}", name, request);
+            _log.Information("processing: {name} {@request}", name, request);
 
             return Task.CompletedTask;
         }

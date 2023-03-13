@@ -27,7 +27,7 @@ namespace AGRC.api.Features.Geocoding {
             }
 
             public async Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
-                _log.Debug("Getting address system from {city}", request.CityKey);
+                _log.Debug("getting address system from {city}", request.CityKey);
 
                 if (string.IsNullOrEmpty(request.CityKey)) {
                     return Array.Empty<GridLinkable>();
@@ -35,7 +35,7 @@ namespace AGRC.api.Features.Geocoding {
 
                 var result = await _memoryCache.FindGridsForPlaceAsync(request.CityKey);
 
-                _log.Debug("Found {systems}", result);
+                _log.Debug("found {systems}", result);
 
                 return result;
             }
