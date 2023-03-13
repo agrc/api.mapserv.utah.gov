@@ -11,7 +11,7 @@ using StackExchange.Redis;
 
 namespace AGRC.api.Services {
     public class CacheHostedService : BackgroundService {
-        private readonly BigQueryClient _client;
+        private BigQueryClient _client;
         private BigQueryTable _table;
         private readonly IDatabase _db;
         private readonly ILogger _log;
@@ -26,8 +26,8 @@ namespace AGRC.api.Services {
             table = null;
 
             try {
-                var client = BigQueryClient.Create("ut-dts-agrc-web-api-dev");
-                table = client.GetTable("address_grid_mapping_cache", "address_system_mapping");
+                _client = BigQueryClient.Create("ut-dts-agrc-web-api-dev");
+                table = _client.GetTable("address_grid_mapping_cache", "address_system_mapping");
             } catch (TokenResponseException ex) {
                 _log.Warning(ex, "Unable to connect to BigQuery. Cache is unavailable.");
 
