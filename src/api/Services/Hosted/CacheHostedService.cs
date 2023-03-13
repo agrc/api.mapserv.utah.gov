@@ -19,9 +19,9 @@ namespace AGRC.api.Services {
         public CacheHostedService(Lazy<IConnectionMultiplexer> redis, ILogger log) {
             _log = log?.ForContext<CacheHostedService>();
             _db = redis.Value.GetDatabase();
-            Console.WriteLine("CacheHostedService constructor");
+            _log.Debug("CacheHostedService constructor");
             var success = TryGetBqTable(out _table);
-            Console.WriteLine("CacheHostedService client creation: " + success);
+            _log.Information("CacheHostedService client creation: {success}", success);
         }
 
         private bool TryGetBqTable(out BigQueryTable table) {
@@ -48,6 +48,8 @@ namespace AGRC.api.Services {
         }
 
         protected override async Task ExecuteAsync(CancellationToken token) {
+            _log.Information("CacheHostedService ExecuteAsync");
+            Console.WriteLine("CacheHostedService ExecuteAsync");
             await Task.Delay(5000, token);
 
             while (_table is null) {
@@ -59,15 +61,20 @@ namespace AGRC.api.Services {
                 }
 
                 try {
+                    _log.Information("CacheHostedService checking for keys");
+                    Console.WriteLine("CacheHostedService checking for keys");
                     var keys = await _db.KeyExistsAsync(new RedisKey[] { "places", "zips" });
                     if (keys != 2) {
                         Console.WriteLine("Cache is missing keys. Rebuilding cache from BigQuery.");
                         _log.Warning("Cache is missing keys. Rebuilding cache from BigQuery.");
 
                         await HydrateCacheFromBigQueryAsync(_db, token);
-                    }
+                    } else {
+                        Console.WriteLine("Cache is ready.");
+                        _log.Information("Cache is ready.");
 
-                    break;
+                        break;
+                    }
                 } catch (Exception) {
                     // TODO! log error
                 }
