@@ -221,10 +221,9 @@ try {
         builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
         builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
 
-        builder.Register<ServiceFactory>(ctx => {
-            var c = ctx.Resolve<IComponentContext>();
-            return t => c.Resolve(t);
-        });
+        var services = new ServiceCollection();
+
+        builder.Populate(services);
     });
 
     var app = builder.Build();
