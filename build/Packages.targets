@@ -5,9 +5,9 @@
     <PackageReference Update="Dapper" Version="2.0.123" />
     <PackageReference Update="Google.Cloud.BigQuery.V2" Version="3.2.0" />
     <PackageReference Update="Google.Cloud.Firestore" Version="3.1.0" />
-    <PackageReference Update="Npgsql.NetTopologySuite" Version="7.0.1" />
+    <PackageReference Update="Npgsql.NetTopologySuite" Version="7.0.2" />
     <PackageReference Update="Npgsql" Version="7.0.1" />
-    <PackageReference Update="StackExchange.Redis" Version="2.6.90" />
+    <PackageReference Update="StackExchange.Redis" Version="2.6.96" />
 
     <!-- logging -->
     <PackageReference Update="Serilog.AspNetCore" Version="6.1.0" />
@@ -17,7 +17,7 @@
     <PackageReference Update="CorrelationId" Version="3.0.1" />
 
     <!-- json -->
-    <PackageReference Update="System.Text.Json" Version="7.0.1" />
+    <PackageReference Update="System.Text.Json" Version="7.0.2" />
     <PackageReference Update="NetTopologySuite.IO.GeoJSON4STJ" Version="3.0.0" />
     <PackageReference Update="WebApiContrib.Core.Formatter.Jsonp" Version="2.1.0" />
 
@@ -26,7 +26,7 @@
 
     <!-- DI -->
     <PackageReference Update="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Update="Autofac" Version="6.5.0" />
+    <PackageReference Update="Autofac" Version="7.0.0" />
 
     <!-- open api -->
     <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
@@ -34,13 +34,13 @@
 
     <!-- http -->
     <PackageReference Update="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
-    <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="7.0.2" />
+    <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="7.0.3" />
 
     <!-- string -->
     <PackageReference Update="Fastenshtein" Version="1.0.0.8" />
 
     <!-- design patterns -->
-    <PackageReference Update="MediatR" Version="11.1.0" />
+    <PackageReference Update="MediatR" Version="12.0.1" />
 
     <!-- testing -->
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.4.1" />
