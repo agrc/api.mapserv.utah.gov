@@ -49,6 +49,14 @@ try {
         .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
         .AddEnvironmentVariables();
 
+    if (!builder.Environment.IsDevelopment()) {
+        builder.Configuration.AddJsonFile(
+            Path.Combine(Path.DirectorySeparatorChar.ToString(), "secrets", "dotnet", "appsettings.Production.json"),
+            optional: false,
+            reloadOnChange: true
+        );
+    }
+
     builder.Logging.ClearProviders();
     builder.Host
         .UseServiceProviderFactory(new AutofacServiceProviderFactory())
