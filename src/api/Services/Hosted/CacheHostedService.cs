@@ -32,6 +32,10 @@ namespace AGRC.api.Services {
                 _log.Warning(ex, "Unable to connect to BigQuery. Cache is unavailable.");
 
                 return false;
+            } catch (Exception ex) {
+                _log.Warning(ex, "Unable to connect to BigQuery. Cache is unavailable.");
+
+                return false;
             }
 
             return true;
