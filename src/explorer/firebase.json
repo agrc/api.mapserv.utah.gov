@@ -69,7 +69,7 @@
     ],
     "rewrites": [
       {
-        "source": "/api/**",
+        "source": "/api",
         "run": {
           "serviceId": "api",
           "region": "us-central1"
