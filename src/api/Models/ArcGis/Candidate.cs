@@ -35,7 +35,7 @@ namespace AGRC.api.Models.ArcGis {
 
         public string Locator { get; set; }
 
-        public string AddressGrid { get => addressGrid; set => addressGrid = value?.ToLowerInvariant(); }
+        public string AddressGrid { get => addressGrid; set => addressGrid = value?.ToUpperInvariant(); }
 
         [JsonIgnore]
         public int Weight { get; set; }
