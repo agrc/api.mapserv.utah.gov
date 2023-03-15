@@ -63,9 +63,7 @@ try {
         .UseSerilog((context, provider) => {
             provider.ReadFrom.Configuration(context.Configuration);
 
-            if (context.HostingEnvironment.IsDevelopment()) {
-                provider.WriteTo.Console();
-            } else {
+            if (!context.HostingEnvironment.IsDevelopment()) {
                 provider.WriteTo.GoogleCloudLogging(new GoogleCloudLoggingSinkOptions(
                     context.Configuration["GoogleCloudLogging:projectId"],
                     "global",
