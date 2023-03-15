@@ -34,7 +34,7 @@ namespace api.tests.Models.ArcGis {
                 Address = address
             };
 
-            candidate.AddressGrid.ShouldBe("grid");
+            candidate.AddressGrid.ShouldBe("GRID");
             candidate.Address.ShouldBe("123 main street, utah");
         }
     }

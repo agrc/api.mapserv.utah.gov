@@ -57,7 +57,7 @@ namespace api.tests.Features.Geocoding {
             result.Locator.ShouldBe("Post Office Point Exclusions");
             result.Location.X.ShouldBe(2);
             result.Location.Y.ShouldBe(2);
-            result.AddressGrid.ShouldBe("grid");
+            result.AddressGrid.ShouldBe("GRID");
         }
 
         [Fact]
@@ -83,7 +83,7 @@ namespace api.tests.Features.Geocoding {
             result.Locator.ShouldBe("Post Office Point");
             result.Location.X.ShouldBe(1);
             result.Location.Y.ShouldBe(1);
-            result.AddressGrid.ShouldBe("grid");
+            result.AddressGrid.ShouldBe("GRID");
         }
 
         [Fact]

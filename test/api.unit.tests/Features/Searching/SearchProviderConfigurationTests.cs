@@ -13,7 +13,7 @@ namespace api.tests.Features.Searching {
                 Password = "password"
             };
 
-            connection.ConnectionString.ShouldBe("Host=host;Username=username;Password=password;Database=db;Timeout=5;");
+            connection.ConnectionString.ShouldBe("Host=host;Username=username;Password=password;Database=db;Timeout=5;SslMode=Disable;");
         }
     }
 }

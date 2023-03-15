@@ -51,7 +51,7 @@ namespace api.tests.Features.Geocoding {
             result.Locator.ShouldBe("USPS Delivery Points");
             result.Location.X.ShouldBe(1);
             result.Location.Y.ShouldBe(1);
-            result.AddressGrid.ShouldBe("grid");
+            result.AddressGrid.ShouldBe("GRID");
         }
 
         [Fact]
