@@ -11,7 +11,6 @@ namespace AGRC.api.Cache {
         private readonly IDatabase _db;
         private readonly MemoryCache _placeNameCache;
         private readonly MemoryCache _zipCodeCache;
-        private readonly MemoryCache _notFoundCache;
 
         public RedisCacheRepository(Lazy<IConnectionMultiplexer> redis) {
             _db = redis.Value.GetDatabase();
@@ -20,10 +19,6 @@ namespace AGRC.api.Cache {
             });
             _zipCodeCache = new MemoryCache(new MemoryCacheOptions {
                 SizeLimit = 600,
-            });
-            _notFoundCache = new MemoryCache(new MemoryCacheOptions {
-                SizeLimit = 1000,
-                CompactionPercentage = .3,
             });
         }
 
@@ -41,14 +36,6 @@ namespace AGRC.api.Cache {
             }
 
             placeName = placeName.ToLowerInvariant().Trim();
-
-            // if the place name is in memory already return nothing
-            if (_notFoundCache.TryGetValue(placeName, out _)) {
-                // TODO put this in analytics
-                await _db.StringIncrementAsync($"analytics:grid-miss:{placeName.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
-
-                return Array.Empty<GridLinkable>();
-            }
 
             // if the place name result is in memory already return it
             if (_placeNameCache.TryGetValue(placeName, out var places)) {
@@ -86,10 +73,6 @@ namespace AGRC.api.Cache {
             // if the cache has a value then the place isn't in our list
             if (count != RedisValue.Null) {
                 // TODO put this in analytics
-                _notFoundCache.Set(placeName, string.Empty, new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(30))
-                    .SetSize(1));
-
                 await _db.StringIncrementAsync($"analytics:grid-miss:{placeName.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
                 return Array.Empty<GridLinkable>();
@@ -108,15 +91,11 @@ namespace AGRC.api.Cache {
 
             zipCode = zipCode.ToLowerInvariant().Trim();
 
-            // if the place name is in memory already return nothing
-            if (_notFoundCache.TryGetValue(zipCode, out _)) {
-                // TODO put this in analytics
-                return Array.Empty<GridLinkable>();
-            }
-
             // if the place name result is in memory already return it
             if (_zipCodeCache.TryGetValue(zipCode, out var places)) {
                 // TODO put this in analytics
+                await _db.StringIncrementAsync($"analytics:zip-hit:{zipCode.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
+
                 return places as IReadOnlyCollection<GridLinkable>;
             }
 
@@ -146,9 +125,7 @@ namespace AGRC.api.Cache {
             // if the cache has a value then the place isn't in our list
             if (count != RedisValue.Null) {
                 // TODO put this in analytics
-                _notFoundCache.Set(zipCode, string.Empty, new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(30))
-                    .SetSize(1));
+                await _db.StringIncrementAsync($"analytics:grid-miss:{zipCode.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
                 return Array.Empty<GridLinkable>();
             }
