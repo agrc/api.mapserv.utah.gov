@@ -7,6 +7,6 @@
         public string Password { get; set; } = "agrc";
 
         public string ConnectionString =>
-            $"Host={Host};Username={Username};Password={Password};Database={Db};Timeout=5;";
+            $"Host={Host};Username={Username};Password={Password};Database={Db};Timeout=5;SslMode=Disable;Trust Server Certificate=true;";
     }
 }

@@ -21,7 +21,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Npgsql;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
@@ -114,6 +116,16 @@ namespace AGRC.api.Extensions {
                 var options = provider.GetService<IOptions<DatabaseConfiguration>>();
 
                 return new Lazy<IConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options.Value.ConnectionString));
+            });
+
+            services.AddSingleton((provider) => {
+                var options = provider.GetService<IOptions<SearchProviderConfiguration>>();
+
+                var builder = new NpgsqlDataSourceBuilder(options.Value.ConnectionString);
+                builder.UseLoggerFactory(provider.GetService<ILoggerFactory>());
+                builder.UseNetTopologySuite();
+
+                return builder.Build();
             });
 
             services.Configure<HostOptions>(options =>

@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
-using Microsoft.Extensions.Options;
 using NetTopologySuite.Geometries;
 using Npgsql;
 using Serilog;
@@ -82,12 +81,12 @@ namespace AGRC.api.Features.Searching {
         }
 
         public class Handler : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> {
-            private readonly string _connectionString;
+            private readonly NpgsqlDataSource _pgDataSource;
             private readonly ILogger _log;
             private readonly IComputeMediator _mediator;
 
-            public Handler(IOptions<SearchProviderConfiguration> dbOptions, IComputeMediator mediator, ILogger log) {
-                _connectionString = dbOptions.Value.ConnectionString;
+            public Handler(NpgsqlDataSource pgDataSource, IComputeMediator mediator, ILogger log) {
+                _pgDataSource = pgDataSource;
                 _mediator = mediator;
                 _log = log?.ForContext<SqlQuery>();
             }
@@ -96,21 +95,14 @@ namespace AGRC.api.Features.Searching {
                 if (string.IsNullOrEmpty(computation.TableName)) {
                     return null;
                 }
-
-                using var session = new NpgsqlConnection(_connectionString);
-                try {
-                    session.Open();
-                } catch (Exception) {
-                    _log.ForContext("query", computation.BuildQuery())
-                        .Fatal("could not connect to the database");
-                }
+                using var session = await _pgDataSource.OpenConnectionAsync(cancellationToken);
 
                 var query = computation.BuildQuery();
 
                 _log.ForContext("query", query)
                     .ForContext("table", computation.TableName)
                     .ForContext("fields", computation.ReturnValues)
-                    .Debug("quering database");
+                    .Debug("querying database");
 
                 using var cmd = new NpgsqlCommand(query, session);
                 using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
