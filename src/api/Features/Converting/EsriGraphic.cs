@@ -9,25 +9,38 @@ using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using EsriJson.Net;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace AGRC.api.Features.Converting {
     public class EsriGraphic {
         public class Computation : IComputation<ApiResponseContract<SerializableGraphic>> {
             internal readonly ApiResponseContract<SingleGeocodeResponseContract> Container;
+            internal readonly int Version;
 
-            public Computation(ApiResponseContract<SingleGeocodeResponseContract> container) {
+            public Computation(ApiResponseContract<SingleGeocodeResponseContract> container, ApiVersion? version) {
                 Container = container;
+                Version = version?.MajorVersion switch {
+                    1 => 1,
+                    2 => 2,
+                    _ => 1
+                };
             }
         }
 
         public class Handler : IComputationHandler<Computation, ApiResponseContract<SerializableGraphic>> {
-            private static string ToCamelCase(string data) => char.ToLowerInvariant(data[0]) + data[1..];
+            private readonly ILogger? _log;
+            public Handler(ILogger log) {
+                _log = log?.ForContext<EsriGraphic>();
+            }
             public Task<ApiResponseContract<SerializableGraphic>> Handle(Computation request, CancellationToken cancellationToken) {
-                EsriJsonObject geometry = null;
-                var attributes = new Dictionary<string, object>();
+                EsriJsonObject? geometry = null;
+                var attributes = new Dictionary<string, object?>();
                 var message = request.Container.Message;
                 var status = request.Container.Status;
                 var result = request.Container.Result;
+
+                _log?.Debug("converting {result} to esri json for version {version}", result, request.Version);
 
                 if (result?.Location != null) {
                     geometry = new EsriJson.Net.Geometry.Point(result.Location.X, result.Location.Y) {
@@ -36,11 +49,16 @@ namespace AGRC.api.Features.Converting {
                         }
                     };
 
-                    attributes = request.Container.Result
+                    attributes = request.Container.Result?
                         .GetType()
                         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                        .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)) && prop.Name != "Location")
-                        .ToDictionary(key => ToCamelCase(key.Name), value => value.GetValue(request.Container.Result, null));
+                        .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
+                        .ToDictionary(key => key.Name, value => value.GetValue(request.Container.Result, null))
+                        ?? attributes;
+
+                    if (request.Version != 1) {
+                        attributes.Remove("Location");
+                    }
                 }
 
                 if (geometry == null && attributes.Count < 1) {
