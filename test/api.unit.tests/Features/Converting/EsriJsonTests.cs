@@ -7,13 +7,16 @@ using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ResponseContracts;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Serilog;
 using Shouldly;
 using Xunit;
 
 namespace api.tests.Features.Converting {
     public class EsriJsonTests {
         private readonly IComputationHandler<EsriGraphic.Computation, ApiResponseContract<EsriGraphic.SerializableGraphic>> _handler =
-            new EsriGraphic.Handler();
+            new EsriGraphic.Handler(new Mock<ILogger> { DefaultValue = DefaultValue.Mock }.Object);
 
         [Fact]
         public async Task Should_convert_to_esri_graphic() {
@@ -34,7 +37,7 @@ namespace api.tests.Features.Converting {
                 Status = 200
             };
 
-            var request = new EsriGraphic.Computation(responseContainer);
+            var request = new EsriGraphic.Computation(responseContainer, new ApiVersion(2, 0));
             var result = await _handler.Handle(request, new CancellationToken());
 
             var options = new JsonSerializerOptions {
@@ -57,7 +60,7 @@ namespace api.tests.Features.Converting {
                 Status = 404
             };
 
-            var request = new EsriGraphic.Computation(responseContainer);
+            var request = new EsriGraphic.Computation(responseContainer, new ApiVersion(2, 0));
             var result = await _handler.Handle(request, new CancellationToken());
 
             result.Result.ShouldBeNull();
