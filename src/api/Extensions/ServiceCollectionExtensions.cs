@@ -9,6 +9,7 @@ using AGRC.api.Features.Health;
 using AGRC.api.Features.Milepost;
 using AGRC.api.Features.Searching;
 using AGRC.api.Filters;
+using AGRC.api.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.Configuration;
 using AGRC.api.Services;
@@ -126,6 +127,12 @@ namespace AGRC.api.Extensions {
                 builder.UseNetTopologySuite();
 
                 return builder.Build();
+            });
+
+            services.AddSingleton<IConfigureOptions<MvcOptions>>(sp => {
+                var options = sp.GetRequiredService<IOptionsMonitor<JsonOptions>>();
+                var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+                return new ConfigureMvcJsonOptions(options, loggerFactory);
             });
 
             services.Configure<HostOptions>(options =>

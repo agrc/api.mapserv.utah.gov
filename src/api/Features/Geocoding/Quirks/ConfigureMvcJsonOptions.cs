@@ -9,13 +9,11 @@ namespace AGRC.api.Geocoding;
 
 public class ConfigureMvcJsonOptions : IConfigureOptions<MvcOptions> {
     private readonly IOptionsMonitor<JsonOptions> _jsonOptions;
-    private readonly ILoggerFactory _loggerFactory;
 
     public ConfigureMvcJsonOptions(
         IOptionsMonitor<JsonOptions> jsonOptions,
-        ILoggerFactory loggerFactory) {
+        ILoggerFactory _) {
         _jsonOptions = jsonOptions;
-        _loggerFactory = loggerFactory;
     }
 
     public void Configure(MvcOptions options) {
