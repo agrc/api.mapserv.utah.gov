@@ -8,7 +8,5 @@ namespace AGRC.api.Features.Geocoding {
         ///  between 1-5. In version 2 The candidates respect the `acceptScore` option.
         /// </summary>
         public virtual IReadOnlyCollection<Candidate> Candidates { get; set; }
-
-        public bool ShouldSerializeCandidates() => Candidates?.Count > 0;
     }
 }
