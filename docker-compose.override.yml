@@ -11,7 +11,9 @@ services:
     links:
       - cache
 
+  cache:
     ports:
+      - '6379:6379'
 
   smocker:
     image: thiht/smocker
