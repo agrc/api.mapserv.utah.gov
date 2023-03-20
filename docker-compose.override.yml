@@ -11,16 +11,7 @@ services:
     links:
       - cache
 
-  developer:
     ports:
-      - "1338:1338"
-    environment:
-      - ASPNETCORE_URLS=http://+:1338
-      - ASPNETCORE_ENVIRONMENT=Development
-
-  explorer:
-    ports:
-      - '8080:80'
 
   smocker:
     image: thiht/smocker
