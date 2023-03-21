@@ -77,7 +77,7 @@ namespace AGRC.api.Features.Geocoding {
                 }
 
                 if (response.Candidates == null) {
-                    return null;
+                    return Array.Empty<Candidate>();
                 }
 
                 response.Candidates = FilterOutBadProLocatorMatches(response.Candidates);

@@ -49,15 +49,25 @@ namespace AGRC.api.Features.Converting {
                         }
                     };
 
-                    attributes = request.Container.Result?
+                    var properties = request.Container.Result?
                         .GetType()
-                        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                        .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
-                        .ToDictionary(key => key.Name, value => value.GetValue(request.Container.Result, null))
-                        ?? attributes;
+                        .GetProperties(BindingFlags.Instance | BindingFlags.Public);
 
-                    if (request.Version != 1) {
+                    if (request.Version == 1) {
+                        attributes = properties.ToDictionary(key => key.Name, value => value.GetValue(request.Container.Result, null))
+                        ?? attributes;
+                    } else {
+                        attributes = properties
+                            .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
+                            .ToDictionary(key => key.Name, value => value.GetValue(request.Container.Result, null))
+                            ?? attributes;
+
                         attributes.Remove("Location");
+
+                        if (attributes.Values.Any(x => x == null)) {
+                            attributes = attributes.Where(x => x.Value != null)
+                                .ToDictionary(x => x.Key, y => y.Value);
+                        }
                     }
                 }
 
@@ -70,7 +80,6 @@ namespace AGRC.api.Features.Converting {
 
                 var graphic =
                     new Graphic(geometry, attributes
-                        .Where(x => x.Value != null)
                         .ToDictionary(x => x.Key, y => y.Value));
 
                 var responseContainer = new ApiResponseContract<SerializableGraphic> {
