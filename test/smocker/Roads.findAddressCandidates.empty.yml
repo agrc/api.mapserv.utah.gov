@@ -1,0 +1,22 @@
+- request:
+    path: >-
+      /arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/GeocodeServer/findAddressCandidates
+    method: GET
+    query_params:
+      City: PROVO
+      Address: 326 East south temple
+      f: json
+      outSR: "26912"
+  response:
+    status: 200
+    body: '{
+      "spatialReference": {
+      "wkid": 26912,
+      "latestWkid": 26912
+      },
+      "candidates": [
+
+      ]
+      }'
+    headers:
+      Content-Type: application/json
