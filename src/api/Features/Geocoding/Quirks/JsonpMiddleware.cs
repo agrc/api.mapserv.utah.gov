@@ -45,7 +45,7 @@ public class JsonpMiddleware {
         stream.Position = 0;
         context.Response.Body = originalResponseStream;
 
-        await context.Response.WriteAsync($"/**/ typeof {callback} === 'function' && {callback} (");
+        await context.Response.WriteAsync($"/**/ typeof {callback} === 'function' && {callback}(");
         await stream.CopyToAsync(context.Response.Body);
         await context.Response.WriteAsync(");");
     }
