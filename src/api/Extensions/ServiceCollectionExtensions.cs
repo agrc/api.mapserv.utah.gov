@@ -27,6 +27,7 @@ using Microsoft.Extensions.Options;
 using Npgsql;
 using Polly;
 using Polly.Extensions.Http;
+using Polly.Retry;
 using Polly.Timeout;
 using StackExchange.Redis;
 
@@ -41,27 +42,13 @@ namespace AGRC.api.Extensions {
 
         public static void UseDi(this IServiceCollection services, IWebHostEnvironment env) {
             var retryPolicy = HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .Or<TimeoutRejectedException>() // thrown by Polly's TimeoutPolicy if the inner call times out
-                .WaitAndRetryAsync(3, retryAttempt =>
-                        TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+                            .HandleTransientHttpError()
+                            .Or<TimeoutRejectedException>() // thrown by Polly's TimeoutPolicy if the inner call times out
+                            .WaitAndRetryAsync(3, retryAttempt =>
+                                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+            var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(8);
 
-            var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(8); // Timeout for an individual try
-
-            services.AddHttpClient("arcgis", client => client.Timeout = new TimeSpan(0, 0, 15))
-                    .ConfigurePrimaryHttpMessageHandler(() => {
-                        var handler = new HttpClientHandler {
-                            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-                        };
-
-                        if (handler.SupportsAutomaticDecompression) {
-                            handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                        }
-
-                        return handler;
-                    })
-                    .AddPolicyHandler(retryPolicy)
-                    .AddPolicyHandler(timeoutPolicy);
+            AddArcGisClient(services, retryPolicy, timeoutPolicy, env.IsProduction());
 
             services.AddHttpClient("health-check", client => client.Timeout = new TimeSpan(0, 0, 5))
                     .ConfigurePrimaryHttpMessageHandler(() => {
@@ -151,6 +138,26 @@ namespace AGRC.api.Extensions {
 
             services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RequestLogger<>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceLogger<,>));
+        }
+
+        private static void AddArcGisClient(IServiceCollection services, AsyncRetryPolicy<HttpResponseMessage> retryPolicy, AsyncTimeoutPolicy<HttpResponseMessage> timeoutPolicy, bool isProduction) {
+            var builder = services.AddHttpClient("arcgis", client => client.Timeout = new TimeSpan(0, 0, 15))
+                    .ConfigurePrimaryHttpMessageHandler(() => {
+                        var handler = new HttpClientHandler {
+                            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                        };
+
+                        if (handler.SupportsAutomaticDecompression) {
+                            handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                        }
+
+                        return handler;
+                    });
+
+            if (isProduction) {
+                builder.AddPolicyHandler(retryPolicy)
+                    .AddPolicyHandler(timeoutPolicy);
+            }
         }
     }
 }
