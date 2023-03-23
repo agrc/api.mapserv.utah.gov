@@ -10,6 +10,7 @@ using AGRC.api.Features.GeometryService;
 using AGRC.api.Features.Health;
 using AGRC.api.Features.Searching;
 using AGRC.api.Infrastructure;
+using AGRC.api.Quirks;
 using api.OpenApi;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -256,6 +257,8 @@ try {
     });
 
     app.MapControllers();
+
+    app.UseMiddleware<JsonpMiddleware>();
 
     app.MapHealthChecks("/api/v1/health/details", new HealthCheckOptions {
         Predicate = healthCheck => healthCheck.Tags.Contains("health"),
