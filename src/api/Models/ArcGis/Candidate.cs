@@ -40,6 +40,7 @@ namespace AGRC.api.Models.ArcGis {
         [JsonIgnore]
         public int Weight { get; set; }
 
+        [JsonIgnore]
         public OutFields Attributes { get; set; }
     }
 

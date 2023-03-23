@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using EsriJson.Net.Geometry;
 
 namespace EsriJson.Net.Geometry.Converters {
     public class RingPointConverter : JsonConverter<RingPoint> {
