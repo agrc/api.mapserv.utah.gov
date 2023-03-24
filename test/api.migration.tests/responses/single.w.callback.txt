@@ -1,0 +1,1 @@
+/**/ typeof jsonp === 'function' && jsonp({"result":{"location":{"x":425608.67349758215,"y":4513499.5088544935},"score":98.24,"locator":"AddressPoints.AddressGrid","matchAddress":"326 E SOUTH TEMPLE ST, SALT LAKE CITY","inputAddress":"326 East south temple, slc","addressGrid":"SALT LAKE CITY"},"status":200});

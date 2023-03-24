@@ -1,5 +1,7 @@
-import { assert, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import got from "got";
+import fs from "fs";
+import responses from "./responses";
 
 const searchParams = {
   apiKey: "agrc-dev",
@@ -8,13 +10,16 @@ const headers = {
   referer: "http://unit.tests",
 };
 const throwHttpErrors = false;
+const retry = {
+  limit: 0,
+};
+const urls = {
+  match: "326 east south temple/slc",
+  noMatch: "326 east south temple st/provo",
+};
 
-const client = got.extend({
-  prefixUrl: "https://api.mapserv.utah.gov/api/v1/geocode/",
-  searchParams,
-  headers,
-  throwHttpErrors,
-});
+const getResponseFor = (name) =>
+  fs.readFileSync(`responses/${name}`, "utf-8").trim();
 
 // const cloudClient = got.extend({
 //   prefixUrl: "https://ut-dts-agrc-web-api-dev.web.app/api/v1/geocode/",
@@ -26,86 +31,94 @@ const cloudClient = got.extend({
   searchParams,
   headers,
   throwHttpErrors,
+  retry,
 });
 
 describe("geocoding", () => {
   it.concurrent("single", async () => {
-    const url = "326 east south temple/slc";
+    const cloud = await cloudClient.get(urls.match).json();
 
-    const agrc = await client.get(url).json();
-    const cloud = await cloudClient.get(url).json();
-
-    expect(cloud).toEqual(agrc);
+    expect(cloud).toEqual(responses.single);
   });
-  it.concurrent("single-404", async () => {
-    const url = "326 east south temple/provo";
+  it.concurrent("single.404", async () => {
+    const cloud = await cloudClient.get(urls.noMatch).json();
 
-    const agrc = await client.get(url).json();
-    const cloud = await cloudClient.get(url).json();
+    expect(cloud).toEqual(responses.single404);
+  });
 
-    expect(cloud).toEqual(agrc);
+  describe("with callback", () => {
+    it.concurrent("single", async () => {
+      const searchParams = {
+        callback: "jsonp",
+      };
+
+      const agrc = getResponseFor("single.w.callback.txt");
+      const cloud = await cloudClient
+        .get(urls.match, {
+          searchParams,
+        })
+        .text();
+
+      expect(cloud.length).toEqual(agrc.length);
+      expect(cloud.trim()).toEqual(agrc.trim());
+    });
   });
 
   describe("format", () => {
     it.concurrent("esrijson", async () => {
-      const url = "326 east south temple/slc";
       const searchParams = {
         format: "esrijson",
       };
 
-      const agrc = await client
-        .get(url, {
-          searchParams,
-        })
-        .json();
       const cloud = await cloudClient
-        .get(url, {
+        .get(urls.match, {
           searchParams,
         })
         .json();
 
-      expect(cloud).toEqual(agrc);
+      expect(cloud).toEqual(responses.singleEsriJson);
     });
     it.concurrent("esrijson-404", async () => {
-      const url = "326 east south temple/provo";
       const searchParams = {
         format: "esrijson",
       };
 
-      const agrc = await client
-        .get(url, {
-          searchParams,
-        })
-        .json();
       const cloud = await cloudClient
-        .get(url, {
+        .get(urls.noMatch, {
           searchParams,
         })
         .json();
 
-      expect(cloud).toEqual(agrc);
+      expect(cloud).toEqual(responses.single404);
+    });
+    it.concurrent("geojson", async () => {
+      const searchParams = {
+        format: "geojson",
+      };
+
+      const cloud = await cloudClient
+        .get(urls.match, {
+          searchParams,
+        })
+        .json();
+
+      expect(cloud).toEqual(responses.singleGeoJson);
     });
 
     describe("with candidates", () => {
       it.concurrent("esrijson", async () => {
-        const url = "326 east south temple/slc";
         const searchParams = {
           format: "esrijson",
           suggest: 1,
         };
 
-        const agrc = await client
-          .get(url, {
-            searchParams,
-          })
-          .json();
         const cloud = await cloudClient
-          .get(url, {
+          .get(urls.match, {
             searchParams,
           })
           .json();
 
-        expect(cloud).toEqual(agrc);
+        expect(cloud).toEqual(responses.singleEsriJsonWithCandidates);
       });
     });
   });
