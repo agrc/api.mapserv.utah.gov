@@ -21,10 +21,7 @@ const urls = {
 const getResponseFor = (name) =>
   fs.readFileSync(`responses/${name}`, "utf-8").trim();
 
-// const cloudClient = got.extend({
-//   prefixUrl: "https://ut-dts-agrc-web-api-dev.web.app/api/v1/geocode/",
-//   searchParams,
-// });
+const prefixUrl = "https://ut-dts-agrc-web-api-dev.web.app/api/v1/geocode/";
 
 const cloudClient = got.extend({
   prefixUrl: "http://localhost:1337/api/v1/geocode/",
@@ -59,8 +56,7 @@ describe("geocoding", () => {
         })
         .text();
 
-      expect(cloud.length).toEqual(agrc.length);
-      expect(cloud.trim()).toEqual(agrc.trim());
+      expect(cloud).toEqual(agrc);
     });
   });
 
