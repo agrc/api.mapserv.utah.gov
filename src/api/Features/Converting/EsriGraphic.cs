@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using EsriJson.Net;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
 #nullable enable
 namespace AGRC.api.Features.Converting;
@@ -93,6 +86,14 @@ public class EsriGraphic {
         }
     }
 
+    public static class SerializableGraphicFactory {
+        public static SerializableGraphic Create(Graphic graphic, ApiVersion version) =>
+            version?.MajorVersion switch {
+                1 => new SerializableGraphic(graphic),
+                2 => new SerializableGraphic(graphic),
+                _ => new SerializableGraphic(graphic)
+            };
+    }
     public class SerializableGraphic {
         public SerializableGraphic(Graphic graphic) {
             Attributes = graphic.Attributes;

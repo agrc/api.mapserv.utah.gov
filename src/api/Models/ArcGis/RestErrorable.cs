@@ -1,6 +1,5 @@
-namespace AGRC.api.Models.ArcGis {
-    public abstract class RestErrorable {
-        public virtual RestEndpointError Error { get; set; }
-        public virtual bool IsSuccessful => Error == null;
-    }
+#nullable enable
+namespace AGRC.api.Models.ArcGis;
+public abstract record RestErrorable(RestEndpointError? Error) {
+    public virtual bool IsSuccessful => Error == null;
 }

@@ -1,11 +1,9 @@
-#nullable enable
 using System.IO;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+#nullable enable
 namespace AGRC.api.Quirks;
-
 public class JsonpMiddleware {
     private readonly RequestDelegate _next;
 

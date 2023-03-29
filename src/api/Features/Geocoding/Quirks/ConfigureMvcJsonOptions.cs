@@ -2,7 +2,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using AGRC.api.Quirks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -10,13 +9,10 @@ using NetTopologySuite.IO.Converters;
 
 #nullable enable
 namespace AGRC.api.Geocoding;
-
 public class ConfigureMvcJsonOptions : IConfigureOptions<MvcOptions> {
-    private readonly IOptionsMonitor<JsonOptions> _jsonOptions;
     private readonly ILoggerFactory _log;
 
-    public ConfigureMvcJsonOptions(IOptionsMonitor<JsonOptions> jsonOptions, ILoggerFactory log) {
-        _jsonOptions = jsonOptions;
+    public ConfigureMvcJsonOptions(IOptionsMonitor<JsonOptions> _, ILoggerFactory log) {
         _log = log;
     }
 

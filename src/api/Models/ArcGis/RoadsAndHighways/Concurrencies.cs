@@ -1,40 +1,34 @@
-namespace AGRC.api.Models.ArcGis {
-    public class Concurrencies {
-        public class RequestContract {
-            public RequestLocation[] Locations { get; set; }
+#nullable enable
+namespace AGRC.api.Models.ArcGis;
+public class Concurrencies {
+    public class RequestContract {
+        public RequestLocation[] Locations { get; set; } = Array.Empty<RequestLocation>();
 
-            public override string ToString() {
-                var locations = new string[Locations.Length];
-                for (var i = 0; i < Locations.Length; i++) {
-                    var location = Locations[i];
-                    locations[i] = location.ToString();
-                }
-
-                return $"[{string.Join(',', locations)}]";
+        public override string ToString() {
+            var locations = new string[Locations.Length];
+            for (var i = 0; i < Locations.Length; i++) {
+                var location = Locations[i];
+                locations[i] = location.ToString();
             }
-        }
 
-        public class LocationBase {
-            public string RouteId { get; set; }
-            public double FromMeasure { get; set; }
-            public double ToMeasure { get; set; }
-
-            public override string ToString()
-                => $"{{\"routeId\":\"{RouteId}\",\"fromMeasure\":\"{FromMeasure}\",\"toMeasure\":\"{ToMeasure}\"}}";
-        }
-
-        public class RequestLocation : LocationBase { }
-
-        public class ResponseContract : RestErrorable {
-            public ResponseLocations[] Locations { get; set; }
-        }
-
-        public class ResponseLocations : LocationBase {
-            public ConcurrencyLocations[] Concurrencies { get; set; }
-        }
-
-        public class ConcurrencyLocations : LocationBase {
-            public bool IsDominant { get; set; }
+            return $"[{string.Join(',', locations)}]";
         }
     }
+
+    public record LocationBase(string RouteId, double FromMeasure, double ToMeasure) {
+        public override string ToString()
+            => $"{{\"routeId\":\"{RouteId}\",\"fromMeasure\":\"{FromMeasure}\",\"toMeasure\":\"{ToMeasure}\"}}";
+    }
+
+    public record RequestLocation(string RouteId, double FromMeasure, double ToMeasure)
+        : LocationBase(RouteId, FromMeasure, ToMeasure);
+
+    public record ResponseContract(ResponseLocations[] Locations, RestEndpointError? Error)
+        : RestErrorable(Error);
+
+    public record ResponseLocations(ConcurrencyLocations[] Concurrencies, string RouteId, double FromMeasure, double ToMeasure)
+        : LocationBase(RouteId, FromMeasure, ToMeasure);
+
+    public record ConcurrencyLocations(bool IsDominant, string RouteId, double FromMeasure, double ToMeasure)
+        : LocationBase(RouteId, FromMeasure, ToMeasure);
 }

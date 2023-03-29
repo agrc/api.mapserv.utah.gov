@@ -1,16 +1,15 @@
-namespace AGRC.api.Features.Milepost {
+namespace AGRC.api.Features.Milepost;
+/// <summary>
+/// The side of a divided highway
+/// </summary>
+public enum SideDelineation {
     /// <summary>
-    /// The side of a divided highway
+    /// The Positive direction; Milepost values are increasing.
     /// </summary>
-    public enum SideDelineation {
-        /// <summary>
-        /// The Positive direction; Milepost values are increasing.
-        /// </summary>
-        Increasing,
+    Increasing,
 
-        /// <summary>
-        /// The Negative direction; Milepost values are decreasing.
-        /// </summary>
-        Decreasing
-    }
+    /// <summary>
+    /// The Negative direction; Milepost values are decreasing.
+    /// </summary>
+    Decreasing
 }

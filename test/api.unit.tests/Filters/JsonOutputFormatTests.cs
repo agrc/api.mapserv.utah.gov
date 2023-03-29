@@ -12,12 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Routing;
-using Moq;
 using NetTopologySuite.Features;
-using Shouldly;
-using Xunit;
 using static AGRC.api.Features.Converting.EsriGraphic;
 using Point = EsriJson.Net.Geometry.Point;
 
@@ -25,7 +21,7 @@ namespace api.tests.Filters;
 public class JsonOutputFormatTests {
     [Fact]
     public async Task Should_be_ok_if_format_is_unknown() {
-        var httpContext = CreateVersionedHttpContextMock(1);
+        var httpContext = HttpContextHelpers.CreateVersionedHttpContext(1);
         httpContext.Request.QueryString = new QueryString("?format=someUnknownFormat");
 
         var contexts = CreateContext(httpContext);
@@ -52,7 +48,7 @@ public class JsonOutputFormatTests {
 
     [Fact]
     public async Task Should_call_esrijson() {
-        var httpContext = CreateVersionedHttpContextMock(1);
+        var httpContext = HttpContextHelpers.CreateVersionedHttpContext(1);
 
         httpContext.Request.QueryString = new QueryString("?format=esriJSON");
         var contexts = CreateContext(httpContext);
@@ -84,7 +80,7 @@ public class JsonOutputFormatTests {
 
     [Fact]
     public async Task Should_call_geojson() {
-        var httpContext = CreateVersionedHttpContextMock(1);
+        var httpContext = HttpContextHelpers.CreateVersionedHttpContext(1);
 
         httpContext.Request.QueryString = new QueryString("?format=GeoJSON");
         var contexts = CreateContext(httpContext);
@@ -117,7 +113,7 @@ public class JsonOutputFormatTests {
 
     [Fact]
     public async Task Should_skip_if_format_is_empty() {
-        var httpContext = CreateVersionedHttpContextMock(1);
+        var httpContext = HttpContextHelpers.CreateVersionedHttpContext(1);
         httpContext.Request.QueryString = new QueryString("?test=1");
 
         var httpContextAccessor = new Mock<IHttpContextAccessor>();
@@ -140,15 +136,6 @@ public class JsonOutputFormatTests {
         result2.Value.ShouldBeOfType<ApiResponseContract<SingleGeocodeResponseContract>>();
     }
 
-    private static HttpContext CreateVersionedHttpContextMock(int version) {
-        var defaultHttpContext = new DefaultHttpContext();
-
-        defaultHttpContext.Features.Set(new ApiVersioningFeature(defaultHttpContext) {
-            RequestedApiVersion = new ApiVersion(version, 0)
-        });
-
-        return defaultHttpContext;
-    }
     private static Contexts CreateContext(HttpContext httpContext) {
         var routeData = new RouteData();
         var actionDescription = new ActionDescriptor();

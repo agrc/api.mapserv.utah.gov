@@ -1,8 +1,7 @@
-namespace AGRC.api.Models.Constants {
-    public enum LocatorType {
-        Default,
-        All,
-        AddressPoints,
-        RoadCenterlines
-    }
+namespace AGRC.api.Models.Constants;
+public enum LocatorType {
+    Default,
+    All,
+    AddressPoints,
+    RoadCenterlines
 }

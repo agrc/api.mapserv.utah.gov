@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AGRC.api.Extensions;
@@ -16,7 +13,6 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CorrelationId;
 using CorrelationId.DependencyInjection;
-using MediatR;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -30,10 +26,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using NetTopologySuite.IO.Converters;
-using Serilog;
 using Serilog.Sinks.GoogleCloudLogging;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+
+#nullable enable
 
 var logger = new LoggerConfiguration()
     .WriteTo.Console()

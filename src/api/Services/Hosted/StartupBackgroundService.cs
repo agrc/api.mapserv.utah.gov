@@ -1,20 +1,18 @@
-using System.Threading;
-using System.Threading.Tasks;
 using AGRC.api.Features.Health;
 using Microsoft.Extensions.Hosting;
 
-namespace AGRC.api.Services {
-    public class StartupBackgroundService : BackgroundService {
-        private readonly StartupHealthCheck _healthCheck;
+#nullable enable
+namespace AGRC.api.Services;
+public class StartupBackgroundService : BackgroundService {
+    private readonly StartupHealthCheck _healthCheck;
 
-        public StartupBackgroundService(StartupHealthCheck healthCheck) {
-            _healthCheck = healthCheck;
-        }
+    public StartupBackgroundService(StartupHealthCheck healthCheck) {
+        _healthCheck = healthCheck;
+    }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken) {
-            _healthCheck.StartupCompleted = true;
+    protected override Task ExecuteAsync(CancellationToken stoppingToken) {
+        _healthCheck.StartupCompleted = true;
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

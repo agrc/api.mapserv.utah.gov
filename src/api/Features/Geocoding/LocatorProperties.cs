@@ -1,7 +1,4 @@
-namespace AGRC.api.Features.Geocoding {
-    public class LocatorProperties {
-        public string Url { get; set; }
-        public string Name { get; set; }
-        public int Weight { get; set; }
-    }
-}
+#nullable enable
+namespace AGRC.api.Features.Geocoding;
+
+public record LocatorProperties(string Url, string Name, int Weight = -1);

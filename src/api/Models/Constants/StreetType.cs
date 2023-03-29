@@ -1,63 +1,62 @@
-namespace AGRC.api.Models.Constants {
-    public enum StreetType {
-        None,
+namespace AGRC.api.Models.Constants;
+public enum StreetType {
+    None,
 
-        Alley,
-        Avenue,
+    Alley,
+    Avenue,
 
-        Boulevard,
+    Boulevard,
 
-        Canyon,
-        Circle,
-        Center,
-        Corner,
-        Court,
-        Cove,
-        Creek,
-        Crossing,
+    Canyon,
+    Circle,
+    Center,
+    Corner,
+    Court,
+    Cove,
+    Creek,
+    Crossing,
 
-        Drive,
+    Drive,
 
-        Estate,
-        Estates,
-        Expressway,
+    Estate,
+    Estates,
+    Expressway,
 
-        Fork,
-        Freeway,
+    Fork,
+    Freeway,
 
-        Highway,
-        Heights,
-        Hill,
-        Hollow,
+    Highway,
+    Heights,
+    Hill,
+    Hollow,
 
-        Junction,
+    Junction,
 
-        Lane,
-        Loop,
+    Lane,
+    Loop,
 
-        Pass,
-        Parkway,
-        Place,
-        Plaza,
-        Point,
+    Pass,
+    Parkway,
+    Place,
+    Plaza,
+    Point,
 
-        Ramp,
-        Ranch,
-        Ridge,
-        Road,
-        Row,
-        Route,
-        Run,
+    Ramp,
+    Ranch,
+    Ridge,
+    Road,
+    Row,
+    Route,
+    Run,
 
-        Square,
-        Street,
+    Square,
+    Street,
 
-        Terrace,
-        Trail,
+    Terrace,
+    Trail,
 
-        Village,
-        View,
+    Village,
+    View,
 
-        Way
-    }
+    Way
 }

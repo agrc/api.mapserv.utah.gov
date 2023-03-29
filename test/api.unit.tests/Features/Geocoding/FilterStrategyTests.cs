@@ -1,30 +1,29 @@
 using AGRC.api.Features.Geocoding;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Moq;
-using Shouldly;
-using Xunit;
 
-namespace api.tests.Features.Geocoding {
-    public class FilterStrategyTests {
-        [Fact]
-        public void Should_return_v1_for_api_v1() {
-            var httpContext = Mock.Of<IHttpContextAccessor>(x =>
-                x.HttpContext.Request.RouteValues == new RouteValueDictionary(new { version = "1" }));
+namespace api.tests.Features.Geocoding;
+public class FilterStrategyTests {
+    [Fact]
+    public void Should_return_v1_for_api_v1() {
+        var httpContext = HttpContextHelpers.CreateVersionedHttpContext(1);
 
-            var factory = new FilterSuggestionFactory(httpContext);
+        var httpContextAccessor = new Mock<IHttpContextAccessor>();
+        httpContextAccessor.SetupGet(x => x.HttpContext).Returns(httpContext);
 
-            factory.GetStrategy(It.IsAny<int>()).ShouldBeOfType<FilterStrategyV1>();
-        }
+        var factory = new FilterSuggestionFactory(httpContextAccessor.Object);
 
-        [Fact]
-        public void Should_return_v2_for_api_v2() {
-            var httpContext = Mock.Of<IHttpContextAccessor>(x =>
-                x.HttpContext.Request.RouteValues == new RouteValueDictionary(new { version = "2" }));
+        factory.GetStrategy(It.IsAny<int>()).ShouldBeOfType<FilterStrategyV1>();
+    }
 
-            var factory = new FilterSuggestionFactory(httpContext);
+    [Fact]
+    public void Should_return_v2_for_api_v2() {
+        var httpContext = HttpContextHelpers.CreateVersionedHttpContext(2);
 
-            factory.GetStrategy(It.IsAny<int>()).ShouldBeOfType<FilterStrategyV2>();
-        }
+        var httpContextAccessor = new Mock<IHttpContextAccessor>();
+        httpContextAccessor.SetupGet(x => x.HttpContext).Returns(httpContext);
+
+        var factory = new FilterSuggestionFactory(httpContextAccessor.Object);
+
+        factory.GetStrategy(It.IsAny<int>()).ShouldBeOfType<FilterStrategyV2>();
     }
 }

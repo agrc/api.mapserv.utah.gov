@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-
-namespace AGRC.api.Models.ArcGis {
-    public class LocatorResponse : RestErrorable {
-        public List<Candidate> Candidates { get; set; }
-    }
-}
+#nullable enable
+namespace AGRC.api.Models.ArcGis;
+public record LocatorResponse(List<Candidate> Candidates, RestEndpointError? Error)
+    : RestErrorable(Error);

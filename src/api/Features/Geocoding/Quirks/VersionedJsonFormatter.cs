@@ -1,11 +1,10 @@
-using System;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
 
+#nullable enable
 namespace AGRC.api.Geocoding;
-
 public class VersionedJsonInputFormatter : SystemTextJsonInputFormatter {
     private readonly Func<ApiVersion, bool> _isSatisfiedBy;
 

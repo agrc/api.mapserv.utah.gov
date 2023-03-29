@@ -1,45 +1,41 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+#nullable enable
+namespace AGRC.api.Infrastructure;
+public interface IComputation<TResult> { }
 
-namespace AGRC.api.Infrastructure {
-    public interface IComputation<TResult> { }
+public interface IComputationHandler<TComputation, TResult> where TComputation : IComputation<TResult> {
+    Task<TResult> Handle(TComputation computation, CancellationToken cancellationToken);
+}
 
-    public interface IComputationHandler<TComputation, TResult> where TComputation : IComputation<TResult> {
-        Task<TResult> Handle(TComputation computation, CancellationToken cancellationToken);
+public abstract class ComputationHandler<TRequest, TResponse> : IComputationHandler<TRequest, TResponse>
+    where TRequest : IComputation<TResponse> {
+    Task<TResponse> IComputationHandler<TRequest, TResponse>.Handle(TRequest request, CancellationToken cancellationToken)
+        => Task.FromResult(Handle(request));
+
+    protected abstract TResponse Handle(TRequest request);
+}
+
+public interface IComputeMediator {
+    Task<TResult> Handle<TResult>(IComputation<TResult> command, CancellationToken cancellationToken);
+}
+
+public class ComputeMediator : IComputeMediator {
+    public ComputeMediator(Func<Type, object> resolver) {
+        Resolver = resolver;
     }
 
-    public abstract class ComputationHandler<TRequest, TResponse> : IComputationHandler<TRequest, TResponse>
-        where TRequest : IComputation<TResponse> {
-        Task<TResponse> IComputationHandler<TRequest, TResponse>.Handle(TRequest request, CancellationToken cancellationToken)
-            => Task.FromResult(Handle(request));
+    private Func<Type, object> Resolver { get; }
 
-        protected abstract TResponse Handle(TRequest request);
-    }
+    public Task<TResult> Handle<TResult>(IComputation<TResult> command, CancellationToken cancellationToken) {
+        var commandType = command.GetType();
 
-    public interface IComputeMediator {
-        Task<TResult> Handle<TResult>(IComputation<TResult> command, CancellationToken cancellationToken);
-    }
+        var handlerType = typeof(IComputationHandler<,>).MakeGenericType(commandType, typeof(TResult));
 
-    public class ComputeMediator : IComputeMediator {
-        public ComputeMediator(Func<Type, object> resolver) {
-            Resolver = resolver;
-        }
+        var handler = Resolver.Invoke(handlerType);
 
-        private Func<Type, object> Resolver { get; }
+        var handleMethod = handlerType.GetMethod("Handle");
 
-        public Task<TResult> Handle<TResult>(IComputation<TResult> command, CancellationToken cancellationToken) {
-            var commandType = command.GetType();
+        var parameters = new object[] { command, cancellationToken };
 
-            var handlerType = typeof(IComputationHandler<,>).MakeGenericType(commandType, typeof(TResult));
-
-            var handler = Resolver.Invoke(handlerType);
-
-            var handleMethod = handlerType.GetMethod("Handle");
-
-            var parameters = new object[] { command, cancellationToken };
-
-            return (Task<TResult>)handleMethod.Invoke(handler, parameters);
-        }
+        return (Task<TResult>)handleMethod.Invoke(handler, parameters);
     }
 }

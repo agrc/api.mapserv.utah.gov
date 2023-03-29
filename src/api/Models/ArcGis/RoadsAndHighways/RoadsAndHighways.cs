@@ -1,11 +1,9 @@
-namespace AGRC.api.Models.ArcGis {
-    public class SpatialReference {
-        public int WKID { get; set; }
-    }
-
-    public enum GeometryType {
-        esriGeometryPoint,
-        esriGeometryPolyline,
-        esriGeometryPolygon,
-    }
+#nullable enable
+namespace AGRC.api.Models.ArcGis;
+public enum GeometryType {
+    esriGeometryPoint,
+    esriGeometryPolyline,
+    esriGeometryPolygon,
 }
+
+public record SpatialReference(int WKID);

@@ -1,73 +1,68 @@
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using AGRC.api.Cache;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
-using Serilog;
 
-namespace AGRC.api.Features.Geocoding {
-    public class DoubleAvenuesException {
-        public class Decorator : IComputationHandler<ZoneParsing.Computation, AddressWithGrids> {
-            private readonly IComputationHandler<ZoneParsing.Computation, AddressWithGrids> _decorated;
-            private readonly ILogger _log;
-            private readonly Regex _ordinal;
+#nullable enable
+namespace AGRC.api.Features.Geocoding;
+public class DoubleAvenuesException {
+    public class Decorator : IComputationHandler<ZoneParsing.Computation, AddressWithGrids> {
+        private readonly IComputationHandler<ZoneParsing.Computation, AddressWithGrids> _decorated;
+        private readonly ILogger? _log;
+        private readonly Regex _ordinal;
 
-            public Decorator(IComputationHandler<ZoneParsing.Computation, AddressWithGrids> decorated, IRegexCache cache, ILogger log) {
-                _log = log?.ForContext<DoubleAvenuesException>();
-                _ordinal = cache.Get("avesOrdinal");
-                _decorated = decorated;
-            }
-            public async Task<AddressWithGrids> Handle(ZoneParsing.Computation computation, CancellationToken cancellationToken) {
-                var response = await _decorated.Handle(computation, cancellationToken);
+        public Decorator(IComputationHandler<ZoneParsing.Computation, AddressWithGrids> decorated, IRegexCache cache, ILogger log) {
+            _log = log?.ForContext<DoubleAvenuesException>();
+            _ordinal = cache.Get("avesOrdinal");
+            _decorated = decorated;
+        }
+        public async Task<AddressWithGrids> Handle(ZoneParsing.Computation computation, CancellationToken cancellationToken) {
+            var response = await _decorated.Handle(computation, cancellationToken);
 
-                if (response.PrefixDirection != Direction.None ||
-                    response.StreetType != StreetType.Avenue || !IsOrdinal(response.StreetName)) {
-                    _log.Debug("no candidate");
-
-                    return response;
-                }
-
-                _log.ForContext("street", response.StandardizedAddress)
-                    .ForContext("zone", computation.InputZone)
-                    .Debug("possible candidate");
-
-                // it's in the problem area in midvale
-                const int midvale = 84047;
-                if ((!string.IsNullOrEmpty(computation.InputZone) &&
-                    computation.InputZone.Contains("midvale", System.StringComparison.InvariantCultureIgnoreCase)) ||
-                    (response.Zip5 == midvale)) {
-                    _log.Information("midvale avenues match");
-
-                    response.PrefixDirection = Direction.West;
-
-                    return response;
-                }
-
-                // update the slc avenues to have an east
-                if (response.AddressGrids.Select(x => x.Grid.ToLowerInvariant()).Contains("salt lake city")) {
-                    _log.Information("slc avenues match");
-
-                    response.PrefixDirection = Direction.East;
-
-                    return response;
-                }
-
-                _log.Debug("no match");
+            if (response.PrefixDirection != Direction.None ||
+                response.StreetType != StreetType.Avenue || !IsOrdinal(response.StreetName)) {
+                _log?.Debug("no candidate");
 
                 return response;
             }
 
-            private bool IsOrdinal(string streetName) {
-                if (string.IsNullOrWhiteSpace(streetName)) {
-                    return false;
-                }
+            _log?.ForContext("street", response.StandardizedAddress)
+                .ForContext("zone", computation.InputZone)
+                .Debug("possible candidate");
 
-                streetName = streetName.Replace(" ", string.Empty).Trim();
+            // it's in the problem area in midvale
+            const int midvale = 84047;
+            if ((!string.IsNullOrEmpty(computation.InputZone) &&
+                computation.InputZone.Contains("midvale", StringComparison.InvariantCultureIgnoreCase)) ||
+                (response.Zip5 == midvale)) {
+                _log?.Information("midvale avenues match");
 
-                return _ordinal.IsMatch(streetName);
+                response.PrefixDirection = Direction.West;
+
+                return response;
             }
+
+            // update the slc avenues to have an east
+            if (response.AddressGrids.Select(x => x.Grid.ToLowerInvariant()).Contains("salt lake city")) {
+                _log?.Information("slc avenues match");
+
+                response.PrefixDirection = Direction.East;
+
+                return response;
+            }
+
+            _log?.Debug("no match");
+
+            return response;
+        }
+
+        private bool IsOrdinal(string streetName) {
+            if (string.IsNullOrWhiteSpace(streetName)) {
+                return false;
+            }
+
+            streetName = streetName.Replace(" ", string.Empty).Trim();
+
+            return _ordinal.IsMatch(streetName);
         }
     }
 }

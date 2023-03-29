@@ -91,9 +91,7 @@ namespace api.tests.Features.GeometryService {
                          .ReturnsAsync(candidate);
 
             _mediator.Setup(x => x.Handle(It.Is<Reproject.Computation>(_ => true), It.IsAny<CancellationToken>()))
-                     .ReturnsAsync(new ReprojectResponse<Point> {
-                         Error = new RestEndpointError()
-                     });
+                     .ReturnsAsync(new ReprojectResponse<Point>(null, new RestEndpointError(500, "error", null)));
 
             var handler = new Reproject.Decorator<IComputation<Candidate>, Candidate>(decoratedMock.Object, _mediator.Object, _log);
 
@@ -120,9 +118,7 @@ namespace api.tests.Features.GeometryService {
                          .ReturnsAsync(candidate);
 
             _mediator.Setup(x => x.Handle(It.Is<Reproject.Computation>(_ => true), It.IsAny<CancellationToken>()))
-                     .ReturnsAsync(new ReprojectResponse<Point> {
-                         Geometries = new[] { new Point(3, 4) }
-                     });
+                     .ReturnsAsync(new ReprojectResponse<Point>(new[] { new Point(3, 4) }, null));
 
             var handler = new Reproject.Decorator<IComputation<Candidate>, Candidate>(decoratedMock.Object, _mediator.Object, _log);
 

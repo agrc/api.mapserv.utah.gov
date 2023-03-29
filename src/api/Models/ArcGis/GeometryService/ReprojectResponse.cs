@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-
-namespace AGRC.api.Models.ArcGis {
-    public class ReprojectResponse<T> : RestErrorable {
-        public IReadOnlyCollection<T> Geometries { get; set; }
-    }
-}
+#nullable enable
+namespace AGRC.api.Models.ArcGis;
+public record ReprojectResponse<T>(IReadOnlyCollection<T> Geometries, RestEndpointError? Error) : RestErrorable(Error);

@@ -1,12 +1,12 @@
-namespace AGRC.api.Models.Linkables {
-    public class PlaceGridLink : GridLinkable {
-        public PlaceGridLink(string place, string grid, int weight) :
-            base(grid, weight) {
-            City = place;
-        }
-
-        public string City { get; set; }
-
-        public override string Key => City.ToLowerInvariant();
+#nullable enable
+namespace AGRC.api.Models.Linkables;
+public class PlaceGridLink : GridLinkable {
+    public PlaceGridLink(string place, string grid, int weight) :
+        base(grid, weight) {
+        City = place;
     }
+
+    public string City { get; set; }
+
+    public override string Key => City.ToLowerInvariant();
 }

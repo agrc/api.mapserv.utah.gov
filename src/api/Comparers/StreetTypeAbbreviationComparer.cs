@@ -1,9 +1,21 @@
-using System.Collections.Generic;
+#nullable enable
+namespace AGRC.api.Comparers;
+public class StreetTypeAbbreviationComparer : IEqualityComparer<string> {
+    public bool Equals(string? x, string? y) {
+        if (x is null && y is null) {
+            return true;
+        }
 
-namespace AGRC.api.Comparers {
-    public class StreetTypeAbbreviationComparer : IEqualityComparer<string> {
-        public bool Equals(string x, string y) => x.Length == y.Length && string.Equals(x, y);
+        if (y is null) {
+            return false;
+        }
 
-        public int GetHashCode(string obj) => obj.GetHashCode();
+        if (x is null) {
+            return false;
+        }
+
+        return x.Length == y.Length && string.Equals(x, y);
     }
+
+    public int GetHashCode(string obj) => obj.GetHashCode();
 }

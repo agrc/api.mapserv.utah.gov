@@ -1,13 +1,4 @@
-namespace AGRC.api.Models.ArcGis {
-    public class ReverseGeocodeRestResponse : RestErrorable {
-        public ReverseMatchAddress Address { get; set; }
-
-        public Point Location { get; set; }
-
-        public class ReverseMatchAddress {
-            public string Address { get; set; }
-            public string City { get; set; }
-            public string Addr_type { get; set; }
-        }
-    }
-}
+#nullable enable
+namespace AGRC.api.Models.ArcGis;
+public record ReverseGeocodeRestResponse(ReverseMatchAddress? Address, Point? Location, RestEndpointError? Error) : RestErrorable(Error);
+public record ReverseMatchAddress(string Address, string City, string Addr_type);

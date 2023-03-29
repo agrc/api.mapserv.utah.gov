@@ -29,35 +29,13 @@ namespace AGRC.api.Features.Milepost {
                     }
                 };
 
-                var response = new Concurrencies.ResponseContract {
-                    Locations = new[] {
-                        new Concurrencies.ResponseLocations {
-                            RouteId = "1",
-                            FromMeasure = -1,
-                            ToMeasure = 1,
-                            Concurrencies = new [] {
-                                new Concurrencies.ConcurrencyLocations {
-                                    RouteId = "1",
-                                    FromMeasure = -1,
-                                    ToMeasure = 1,
-                                    IsDominant = true
-                                }
-                            }
-                        },
-                        new Concurrencies.ResponseLocations {
-                            RouteId = "2",
-                            FromMeasure = -1,
-                            ToMeasure = 1,
-                            Concurrencies = Array.Empty<Concurrencies.ConcurrencyLocations>()
-                        },
-                        new Concurrencies.ResponseLocations {
-                            RouteId = "3",
-                            FromMeasure = -1,
-                            ToMeasure = 1,
-                            Concurrencies = Array.Empty<Concurrencies.ConcurrencyLocations>()
-                        }
-                    }
-                };
+                var response = new Concurrencies.ResponseContract(new[] {
+                        new Concurrencies.ResponseLocations(new [] {
+                                new Concurrencies.ConcurrencyLocations(true,"1", -1, 1)
+                            }, "1", -1, 1),
+                        new Concurrencies.ResponseLocations(Array.Empty<Concurrencies.ConcurrencyLocations>(), "2", -1, 1),
+                        new Concurrencies.ResponseLocations(Array.Empty<Concurrencies.ConcurrencyLocations>(), "3", -1, 1)
+                }, null);
 
                 var computation = new DominantRouteResolver.Computation(locations, null, 0);
 

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using AGRC.api.Cache;
@@ -15,7 +13,6 @@ using AGRC.api.Models.Configuration;
 using AGRC.api.Services;
 using Google.Api.Gax;
 using Google.Cloud.Firestore;
-using MediatR;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
