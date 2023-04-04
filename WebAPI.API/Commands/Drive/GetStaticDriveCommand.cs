@@ -783,6 +783,7 @@ namespace WebAPI.API.Commands.Drive
                 new [] { "MAMMOTH CREEK", "MAMMOTH CREEK", "1"},
                 new [] { "MAMMOTH CRK", "MAMMOTH CREEK", "0"},
                 new [] { "MAMMOTH", "EUREKA", "0"},
+                new [] { "MAMMOTH", "MAMMOTH", "1"},
                 new [] { "MANDERFIELD", "BEAVER", "0"},
                 new [] { "MANDERFIELD", "MANDERFIELD", "1"},
                 new [] { "MANILA", "MANILA", "0"},
