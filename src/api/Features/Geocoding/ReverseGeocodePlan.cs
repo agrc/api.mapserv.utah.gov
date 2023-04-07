@@ -1,7 +1,6 @@
 ﻿using AGRC.api.Infrastructure;
 using Microsoft.Extensions.Options;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class ReverseGeocodePlan {
     public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {

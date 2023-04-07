@@ -1,7 +1,6 @@
 using AGRC.api.Models;
 using Google.Cloud.Firestore;
 
-#nullable enable
 namespace AGRC.api.Services;
 public class FirestoreApiKeyRepository : IApiKeyRepository {
     private readonly FirestoreDb _db;

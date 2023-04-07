@@ -1,6 +1,5 @@
 using AGRC.api.Models.Configuration;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class ReverseLocatorConfiguration : GisServerConfigurationBase {
     public string DisplayName { get; set; } = string.Empty;

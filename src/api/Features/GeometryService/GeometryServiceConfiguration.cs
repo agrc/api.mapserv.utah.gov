@@ -1,6 +1,5 @@
 using AGRC.api.Models.Configuration;
 
-#nullable enable
 namespace AGRC.api.Features.GeometryService;
 public class GeometryServiceConfiguration : GisServerConfigurationBase {
     // http://localhost:6080/arcgis/rest/services/Geometry/GeometryServer/project?f=json&amp;{0}

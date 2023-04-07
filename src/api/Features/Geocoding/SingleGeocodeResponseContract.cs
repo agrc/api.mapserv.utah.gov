@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using AGRC.api.Models;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class SingleGeocodeResponseContract : Suggestable {
     private double? _scoreDifference;

@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Models.Linkables;
 public class PlaceGridLink : GridLinkable {
     public PlaceGridLink(string place, string grid, int weight) :

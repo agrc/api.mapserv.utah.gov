@@ -3,7 +3,6 @@ using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ArcGis;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class FilterCandidates {
     public class Computation : IComputation<SingleGeocodeResponseContract?> {

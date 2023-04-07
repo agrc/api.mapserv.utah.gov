@@ -7,7 +7,6 @@ using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Mvc;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class ReverseGeocodeQuery {
     public class Query : IRequest<ObjectResult> {

@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Models;
 /// <summary>
 /// A coordinate pair collection representing a point

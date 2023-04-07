@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Infrastructure;
 public interface IComputation<TResult> { }
 

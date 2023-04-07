@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 
-#nullable enable
 namespace AGRC.api.Models.ArcGis;
 public class GeometryToMeasure {
     public class RequestContract {

@@ -1,7 +1,6 @@
 using AGRC.api.Features.Health;
 using Microsoft.Extensions.Hosting;
 
-#nullable enable
 namespace AGRC.api.Services;
 public class StartupBackgroundService : BackgroundService {
     private readonly StartupHealthCheck _healthCheck;

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
 
-#nullable enable
 namespace AGRC.api.Features.Converting;
 public class GeoJsonFeature {
     public class Computation : IComputation<ApiResponseContract<Feature>> {

@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Comparers;
 public class StreetTypeAbbreviationComparer : IEqualityComparer<string> {
     public bool Equals(string? x, string? y) {

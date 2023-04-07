@@ -28,7 +28,6 @@ using Polly.Retry;
 using Polly.Timeout;
 using StackExchange.Redis;
 
-#nullable enable
 namespace AGRC.api.Extensions;
 public static class ServiceCollectionExtensions {
     public static void UseOptions(this IServiceCollection services, IConfiguration config) {

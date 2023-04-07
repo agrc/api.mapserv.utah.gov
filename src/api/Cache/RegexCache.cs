@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Cache;
 public partial class RegexCache : IRegexCache {
     private readonly IAbbreviations _abbreviations;

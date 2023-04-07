@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Models.ArcGis;
 public enum GeometryType {
     esriGeometryPoint,

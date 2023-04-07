@@ -1,6 +1,5 @@
 using AGRC.api.Models;
 
-#nullable enable
 namespace AGRC.api.Services;
 public class PostmanApiKeyRepository : IApiKeyRepository {
     public Task<ApiKey> GetKey(string key) {

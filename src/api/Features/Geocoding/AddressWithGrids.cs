@@ -1,6 +1,5 @@
 using AGRC.api.Models.Linkables;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class AddressWithGrids : CleansedAddress {
     public AddressWithGrids(AddressBase address)

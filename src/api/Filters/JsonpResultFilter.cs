@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-#nullable enable
 namespace AGRC.api.Filters;
 public class JsonpResultFilter : IAsyncResultFilter {
     private readonly IComputeMediator _mediator;

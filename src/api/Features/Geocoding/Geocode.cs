@@ -6,7 +6,6 @@ using AGRC.api.Formatters;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ArcGis;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class Geocode {
     public class Computation : IComputation<IReadOnlyCollection<Candidate>> {

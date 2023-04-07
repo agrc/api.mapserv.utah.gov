@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Models.Linkables;
 public class ZipGridLink : GridLinkable {
     public ZipGridLink(int zip, string grid, int weight) :

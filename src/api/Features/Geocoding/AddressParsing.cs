@@ -3,7 +3,6 @@ using AGRC.api.Comparers;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public partial class AddressParsing {
     public class Computation : IComputation<CleansedAddress> {

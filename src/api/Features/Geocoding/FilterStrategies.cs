@@ -3,7 +3,6 @@ using Autofac;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public interface IFilterSuggestionFactory {
     IFilterSuggestionStrategy GetStrategy(int acceptScore);

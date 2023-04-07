@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Services;
 /// <summary>
 ///     List that keeps a sorted amount of N items

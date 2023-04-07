@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 
-#nullable enable
 namespace AGRC.api.Models.ArcGis;
 public class Candidate {
     private string _address = string.Empty;

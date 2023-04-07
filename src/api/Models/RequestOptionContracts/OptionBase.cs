@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using AGRC.api.Models.Constants;
 
-#nullable enable
 namespace AGRC.api.Models.RequestOptionContracts;
 public class OptionBase {
     /// <summary>

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NetTopologySuite.IO.Converters;
 
-#nullable enable
 namespace AGRC.api.Geocoding;
 public class ConfigureMvcJsonOptions : IConfigureOptions<MvcOptions> {
     private readonly ILoggerFactory _log;

@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Models.ArcGis;
 public class Concurrencies {
     public class RequestContract {

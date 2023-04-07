@@ -1,6 +1,5 @@
 using AGRC.api.Models.ArcGis;
 
-#nullable enable
 namespace AGRC.api.Services;
 public class TopAddressCandidates : TopNList<Candidate> {
     public TopAddressCandidates(int size, IComparer<Candidate> comparer)

@@ -2,7 +2,6 @@ using AGRC.api.Features.Geocoding;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
 
-#nullable enable
 namespace AGRC.api.Extensions;
 public static class ConversionExtensions {
     public static SingleGeocodeResponseContract ToResponseObject(this Candidate candidate, string street, string zone) =>

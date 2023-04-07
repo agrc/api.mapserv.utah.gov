@@ -5,7 +5,6 @@ using AGRC.api.Models.ResponseContracts;
 using EsriJson.Net;
 using Microsoft.AspNetCore.Mvc;
 
-#nullable enable
 namespace AGRC.api.Features.Converting;
 public class EsriGraphic {
     public class Computation : IComputation<ApiResponseContract<SerializableGraphic>> {

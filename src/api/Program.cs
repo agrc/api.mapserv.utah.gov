@@ -30,7 +30,6 @@ using Serilog.Sinks.GoogleCloudLogging;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-#nullable enable
 
 var logger = new LoggerConfiguration()
     .WriteTo.Console()

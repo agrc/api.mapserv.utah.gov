@@ -4,7 +4,6 @@ using AGRC.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 /// <inheritdoc />
 /// <summary>

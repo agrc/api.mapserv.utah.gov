@@ -4,7 +4,6 @@ using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.Linkables;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class UspsDeliveryPointLocation {
     public class Computation : IComputation<Candidate?>, IHasGeocodingOptions {

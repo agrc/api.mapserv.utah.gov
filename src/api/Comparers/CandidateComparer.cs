@@ -1,7 +1,6 @@
 using AGRC.api.Models.ArcGis;
 using Fastenshtein;
 
-#nullable enable
 namespace AGRC.api.Comparers;
 /// <inheritdoc />
 /// <summary>

@@ -1,6 +1,5 @@
 using AGRC.api.Models.ArcGis;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public abstract class Suggestable {
     /// <summary>

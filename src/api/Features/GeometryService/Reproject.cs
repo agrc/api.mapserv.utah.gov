@@ -8,7 +8,6 @@ using AGRC.api.Models.ArcGis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-#nullable enable
 namespace AGRC.api.Features.GeometryService;
 public class Reproject {
     public class Computation : IComputation<ReprojectResponse<Point>?> {

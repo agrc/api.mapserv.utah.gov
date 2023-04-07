@@ -4,7 +4,6 @@ using Google.Cloud.BigQuery.V2;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
 
-#nullable enable
 namespace AGRC.api.Services;
 public class CacheHostedService : BackgroundService {
     private BigQueryClient? _client;

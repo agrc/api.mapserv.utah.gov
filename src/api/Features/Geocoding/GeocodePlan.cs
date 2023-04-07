@@ -2,7 +2,6 @@
 using AGRC.api.Models.Constants;
 using Microsoft.Extensions.Options;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class GeocodePlan {
     public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {

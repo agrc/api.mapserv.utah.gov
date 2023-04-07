@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 
-#nullable enable
 namespace AGRC.api.Models.ArcGis;
 // measureToGeometry?f=json&locations=[{"routeId":"I90","measure":25}]&outSR=102100
 public class MeasureToGeometry {

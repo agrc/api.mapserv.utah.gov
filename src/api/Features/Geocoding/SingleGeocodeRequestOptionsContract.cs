@@ -2,7 +2,6 @@
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.RequestOptionContracts;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 /// <summary>
 /// The options available for geocoding

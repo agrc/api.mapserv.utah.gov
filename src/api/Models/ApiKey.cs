@@ -1,6 +1,5 @@
 using Google.Cloud.Firestore;
 
-#nullable enable
 namespace AGRC.api.Models;
 [FirestoreData]
 public class ApiKey {

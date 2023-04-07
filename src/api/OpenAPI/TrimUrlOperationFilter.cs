@@ -1,7 +1,6 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-#nullable enable
 namespace api.OpenApi;
 public class TrimUrlOperationFilter : IDocumentFilter {
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context) {

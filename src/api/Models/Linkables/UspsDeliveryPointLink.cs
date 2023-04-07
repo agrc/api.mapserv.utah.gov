@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Models.Linkables;
 public class UspsDeliveryPointLink : ZipGridLink {
     public string MatchAddress { get; set; }

@@ -1,4 +1,3 @@
-#nullable enable
 namespace AGRC.api.Models.Configuration;
 public abstract class GisServerConfigurationBase {
     public virtual string Protocol { get; set; } = "http";

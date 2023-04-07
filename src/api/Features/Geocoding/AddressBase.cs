@@ -1,6 +1,5 @@
 using AGRC.api.Models.Constants;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public abstract partial class AddressBase {
     protected AddressBase() { }

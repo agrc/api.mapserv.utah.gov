@@ -1,6 +1,5 @@
 using AGRC.api.Models.Constants;
 
-#nullable enable
 namespace AGRC.api.Cache;
 public class Abbreviations : IAbbreviations {
     public Dictionary<StreetType, string> StreetTypeAbbreviations => new() {

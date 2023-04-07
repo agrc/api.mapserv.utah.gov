@@ -2,7 +2,6 @@ using AGRC.api.Models.Linkables;
 using Microsoft.Extensions.Caching.Memory;
 using StackExchange.Redis;
 
-#nullable enable
 namespace AGRC.api.Cache;
 public class RedisCacheRepository : ICacheRepository {
     private readonly IDatabase _db;

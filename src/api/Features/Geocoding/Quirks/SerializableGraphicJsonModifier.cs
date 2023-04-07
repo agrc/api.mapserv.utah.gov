@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using static AGRC.api.Features.Converting.EsriGraphic;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-#nullable enable
 namespace AGRC.api.Quirks;
 public class SerializableGraphicJsonModifier {
     private readonly ILogger _log;

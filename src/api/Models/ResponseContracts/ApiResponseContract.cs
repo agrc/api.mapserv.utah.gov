@@ -1,4 +1,3 @@
-﻿#nullable enable
 namespace AGRC.api.Models.ResponseContracts;
 public class ApiResponseContract {
     /// <summary>

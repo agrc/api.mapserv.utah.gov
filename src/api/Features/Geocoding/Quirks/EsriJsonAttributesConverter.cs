@@ -1,7 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-#nullable enable
 namespace AGRC.api.Quirks;
 
 public class EsriJsonAttributesConverter : JsonConverter<Dictionary<string, object>> {

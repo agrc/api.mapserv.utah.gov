@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using AGRC.api.Models.RequestOptionContracts;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class ReverseGeocodeRequestOptionsContract : ProjectableOptions {
     /// <summary>

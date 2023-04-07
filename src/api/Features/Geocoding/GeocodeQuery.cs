@@ -6,7 +6,6 @@ using AGRC.api.Models.ResponseContracts;
 using AGRC.api.Services;
 using Microsoft.AspNetCore.Mvc;
 
-#nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class GeocodeQuery {
     public class Query : IRequest<ObjectResult> {

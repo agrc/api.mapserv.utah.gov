@@ -1,6 +1,5 @@
 using System.ComponentModel;
 
-#nullable enable
 namespace AGRC.api.Models.RequestOptionContracts;
 public class ProjectableOptions : OptionBase {
     /// <summary>
