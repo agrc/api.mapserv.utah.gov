@@ -20,7 +20,7 @@ public class RouteMilepostQuery {
                 var matches = regex.Matches(route);
 
                 if (matches.Count == 0 || matches.Count > 1 || !matches[0].Success) {
-                    route = "";
+                    route = string.Empty;
                 } else {
                     var side = options.Side == SideDelineation.Increasing ? "P" : "N";
                     route = $"{matches[0].Value.PadLeft(4, '0')}{side}M";
@@ -88,7 +88,7 @@ public class RouteMilepostQuery {
 
                     return new ObjectResult(new ApiResponseContract {
                         Status = (int)HttpStatusCode.BadRequest,
-                        Message = "Your request was invalid. Check that your inputs."
+                        Message = "Your request was invalid. Check your inputs."
                     }) {
                         StatusCode = 400
                     };
@@ -112,6 +112,13 @@ public class RouteMilepostQuery {
                     .Warning("multiple locations found");
             }
 
+            if (response.Locations is null) {
+                return new NotFoundObjectResult(new ApiResponseContract {
+                    Message = "No milepost was found within your buffer radius.",
+                    Status = (int)HttpStatusCode.NotFound
+                });
+            }
+
             var location = response.Locations[0];
 
             if (location.Status != MeasureToGeometry.Status.esriLocatingOK) {
@@ -133,11 +140,11 @@ public class RouteMilepostQuery {
             }
 
             return new OkObjectResult(new ApiResponseContract<RouteMilepostResponseContract> {
-                Result = new RouteMilepostResponseContract {
-                    Source = "UDOT Roads and Highways",
-                    Location = new Models.Point(location.Geometry.X, location.Geometry.Y),
-                    MatchRoute = $"Route {location.RouteId}, Milepost {location.Geometry.M}"
-                },
+                Result = new RouteMilepostResponseContract(
+                    "UDOT Roads and Highways",
+                    new Models.Point(location.Geometry?.X ?? -1, location.Geometry?.Y ?? -1),
+                    $"Route {location.RouteId}, Milepost {location.Geometry?.M}"
+                ),
                 Status = (int)HttpStatusCode.OK
             });
         }

@@ -127,6 +127,13 @@ public class ReverseRouteMilepostQuery {
                     .Warning("multiple locations found");
             }
 
+            if (response.Locations is null) {
+                return new NotFoundObjectResult(new ApiResponseContract {
+                    Message = "No milepost was found within your buffer radius.",
+                    Status = (int)HttpStatusCode.NotFound
+                });
+            }
+
             var location = response.Locations[0];
 
             if (location.Status != GeometryToMeasure.Status.esriLocatingOK) {
@@ -149,6 +156,13 @@ public class ReverseRouteMilepostQuery {
 
                 var dominantRoutes = await _computeMediator.Handle(
                     new DominantRouteResolver.Computation(primaryRoutes, point, request.SuggestionCount), cancellationToken);
+
+                if (dominantRoutes is null) {
+                    return new NotFoundObjectResult(new ApiResponseContract {
+                        Message = "No milepost was found within your buffer radius.",
+                        Status = (int)HttpStatusCode.NotFound
+                    });
+                }
 
                 return new OkObjectResult(new ApiResponseContract<ReverseRouteMilepostResponseContract> {
                     Result = dominantRoutes,

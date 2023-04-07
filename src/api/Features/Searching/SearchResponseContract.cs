@@ -2,7 +2,7 @@
 
 namespace AGRC.api.Features.Searching;
 public class SearchResponseContract {
-    public SerializableGraphic Geometry { get; set; }
+    public SerializableGraphic Geometry { get; set; } = default!;
 
-    public IDictionary<string, object> Attributes { get; set; }
+    public IDictionary<string, object> Attributes { get; set; } = default!;
 }

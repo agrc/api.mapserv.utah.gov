@@ -6,24 +6,24 @@ using AGRC.api.Models.ArcGis;
 #nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class FilterCandidates {
-    public class Computation : IComputation<SingleGeocodeResponseContract> {
-        public Computation(IList<Candidate> candidates, SingleGeocodeRequestOptionsContract geocodeOptions,
+    public class Computation : IComputation<SingleGeocodeResponseContract?> {
+        public Computation(IList<Candidate>? candidates, SingleGeocodeRequestOptionsContract geocodeOptions,
                 string street, string zone, AddressWithGrids geocodedAddress) {
             GeocodeOptions = geocodeOptions;
             Street = street;
             Zone = zone;
             GeocodedAddress = geocodedAddress;
-            Candidates = candidates ?? Array.Empty<Candidate>();
+            Candidates = candidates;
         }
 
         internal SingleGeocodeRequestOptionsContract GeocodeOptions { get; set; }
         internal string Street { get; set; }
         internal string Zone { get; set; }
         internal AddressWithGrids GeocodedAddress { get; set; }
-        internal IList<Candidate> Candidates { get; }
+        internal IList<Candidate>? Candidates { get; }
     }
 
-    public class Handler : IComputationHandler<Computation, SingleGeocodeResponseContract> {
+    public class Handler : IComputationHandler<Computation, SingleGeocodeResponseContract?> {
         private readonly ILogger? _log;
         private readonly IFilterSuggestionFactory _filterStrategyFactory;
 
@@ -32,13 +32,13 @@ public class FilterCandidates {
             _log = log?.ForContext<FilterCandidates>();
         }
 
-        public Task<SingleGeocodeResponseContract> Handle(Computation request, CancellationToken cancellation) {
-            if (request.Candidates.Count < 1) {
+        public Task<SingleGeocodeResponseContract?> Handle(Computation request, CancellationToken cancellation) {
+            if (request.Candidates is null || request.Candidates.Count < 1) {
                 _log?.ForContext("address", request.GeocodedAddress)
                     .ForContext("options", request.GeocodeOptions)
                     .Debug("no candidates found");
 
-                return Task.FromResult(new SingleGeocodeResponseContract {
+                return Task.FromResult<SingleGeocodeResponseContract?>(new SingleGeocodeResponseContract {
                     InputAddress = $"{request.Street}, {request.Zone}",
                     Score = -1
                 });
@@ -54,8 +54,17 @@ public class FilterCandidates {
             var topCandidate = candidates.Find(x => x.Score >= request.GeocodeOptions.AcceptScore &&
                 request.GeocodedAddress.AddressGrids
                     .Select(y => y?.Grid?.ToUpper())
-                    .Contains(x.AddressGrid?.ToUpper())) ??
-                new Candidate();
+                    .Contains(x.AddressGrid?.ToUpper()));
+
+            if (topCandidate is null) {
+                _log?.ForContext("candidates", candidates)
+                    .Debug("no candidate found above accept score");
+
+                return Task.FromResult<SingleGeocodeResponseContract?>(new SingleGeocodeResponseContract {
+                    InputAddress = $"{request.Street}, {request.Zone}",
+                    Score = -1
+                });
+            }
 
             candidates.Remove(topCandidate);
 
@@ -72,7 +81,7 @@ public class FilterCandidates {
                 _log?.ForContext("candidate", topCandidate)
                     .Debug("missing location");
 
-                return Task.FromResult((SingleGeocodeResponseContract)null);
+                return Task.FromResult<SingleGeocodeResponseContract?>(null);
             }
 
             var model = topCandidate.ToResponseObject(request.Street, request.Zone);
@@ -93,7 +102,7 @@ public class FilterCandidates {
                 model.StandardizedAddress = standard;
             }
 
-            return Task.FromResult(model);
+            return Task.FromResult<SingleGeocodeResponseContract?>(model);
         }
     }
 }

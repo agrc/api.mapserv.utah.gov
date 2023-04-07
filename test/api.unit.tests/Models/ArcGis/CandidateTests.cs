@@ -1,3 +1,4 @@
+using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
 using Shouldly;
 using Xunit;
@@ -7,22 +8,21 @@ namespace api.tests.Models.ArcGis {
         [Fact]
         public void Should_handle_empty_address() {
             const string address = "";
-            var candidate = new Candidate {
-                Address = address
-            };
+            var candidate = new Candidate(
+                new LocatorCandidate(address, new Point(1, 2), 100, new OutFields("test", "test")),
+                "locator", 0);
 
-            candidate.AddressGrid.ShouldBeNull();
+            candidate.AddressGrid.ShouldBeEmpty();
             candidate.Address.ShouldBeEmpty();
         }
 
         [Fact]
         public void Should_set_address() {
             const string address = "123 main street, grid";
-            var candidate = new Candidate {
-                Address = address
-            };
+            var candidate = new Candidate(
+                new LocatorCandidate(address, new Point(1, 2), 100, new OutFields("test", "test")),
+                "locator", 0);
 
-            candidate.AddressGrid.ShouldBeNull();
             candidate.Address.ShouldBe(address);
         }
 
@@ -30,9 +30,9 @@ namespace api.tests.Models.ArcGis {
         [Fact]
         public void Should_split_address_grid_from_address() {
             const string address = "123 main street, grid, utah";
-            var candidate = new Candidate {
-                Address = address
-            };
+            var candidate = new Candidate(
+                new LocatorCandidate(address, new Point(1, 2), 100, new OutFields("test", "test")),
+                "locator", 0);
 
             candidate.AddressGrid.ShouldBe("GRID");
             candidate.Address.ShouldBe("123 main street, utah");

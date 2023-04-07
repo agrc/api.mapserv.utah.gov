@@ -1,4 +1,5 @@
 using AGRC.api.Comparers;
+using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
 using Shouldly;
 using Xunit;
@@ -13,17 +14,23 @@ namespace api.tests.Comparers {
                                                 string addressB, int scoreB, int weightB) {
             var comparer = new CandidateComparer(address);
 
-            var a = new Candidate {
-                Address = addressA,
-                Score = scoreA,
-                Weight = weightA
-            };
+            var a = new Candidate(
+                addressA,
+                "grid",
+                new Point(0, 0),
+                scoreA,
+               "locator",
+                weightA
+            );
 
-            var b = new Candidate {
-                Address = addressB,
-                Score = scoreB,
-                Weight = weightB
-            };
+            var b = new Candidate(
+                addressB,
+                "grid",
+                new Point(0, 0),
+                scoreB,
+               "locator",
+                weightB
+            );
 
             comparer.Compare(a, b).ShouldBe(result);
         }
@@ -32,11 +39,14 @@ namespace api.tests.Comparers {
         public void Should_handle_nulls() {
             var comparer = new CandidateComparer("address");
 
-            var x = new Candidate {
-                Address = "address",
-                Score = 100,
-                Weight = 1
-            };
+            var x = new Candidate(
+                "address",
+                "grid",
+                new Point(1, 2),
+                100,
+                "locator",
+                1
+            );
 
             comparer.Compare(x, null).ShouldBe(1);
             comparer.Compare(null, x).ShouldBe(-1);

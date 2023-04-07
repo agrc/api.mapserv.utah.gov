@@ -35,7 +35,11 @@ public class NtsToEsriMapper {
             return Task.FromResult(serializableGraphic);
         }
 
-        private static List<EsriJson.Net.Geometry.RingPoint[]> ExtractRings(Polygon polygon) {
+        private static List<EsriJson.Net.Geometry.RingPoint[]> ExtractRings(Polygon? polygon) {
+            if (polygon is null) {
+                return new List<EsriJson.Net.Geometry.RingPoint[]>();
+            }
+
             var ringPoints = new List<EsriJson.Net.Geometry.RingPoint[]>();
 
             var exterior = polygon.ExteriorRing;

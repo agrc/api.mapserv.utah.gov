@@ -6,8 +6,8 @@ using Npgsql;
 
 namespace AGRC.api.Features.Searching;
 public class SqlQuery {
-    public class Computation : IComputation<IReadOnlyCollection<SearchResponseContract>> {
-        public Computation(string tableName, string returnValues, string predicate, AttributeStyle style, string geometry = null) {
+    public class Computation : IComputation<IReadOnlyCollection<SearchResponseContract?>?> {
+        public Computation(string tableName, string returnValues, string? predicate, AttributeStyle style, string? geometry = null) {
             TableName = tableName;
             ReturnValues = returnValues;
             Predicate = predicate;
@@ -47,7 +47,9 @@ public class SqlQuery {
                         } else if (geometry[colon + 1] == '{') {
                             // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
                             var point = JsonSerializer.Deserialize<Models.Point>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
-                            geometry = $"{point.X} {point.Y}";
+                            if (point is not null) {
+                                geometry = $"{point.X} {point.Y}";
+                            }
                         }
                     } else if (colon == 7) {
                         // type == polygon
@@ -70,12 +72,12 @@ public class SqlQuery {
 
         public string TableName { get; }
         public string ReturnValues { get; }
-        public string Predicate { get; }
+        public string? Predicate { get; }
         public AttributeStyle Styling { get; }
-        public string Geometry { get; }
+        public string? Geometry { get; }
     }
 
-    public class Handler : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> {
+    public class Handler : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> {
         private readonly NpgsqlDataSource _pgDataSource;
         private readonly ILogger? _log;
         private readonly IComputeMediator _mediator;
@@ -86,7 +88,7 @@ public class SqlQuery {
             _log = log?.ForContext<SqlQuery>();
         }
 
-        public async Task<IReadOnlyCollection<SearchResponseContract>> Handle(Computation computation, CancellationToken cancellationToken) {
+        public async Task<IReadOnlyCollection<SearchResponseContract?>?> Handle(Computation computation, CancellationToken cancellationToken) {
             if (string.IsNullOrEmpty(computation.TableName)) {
                 return null;
             }
@@ -114,7 +116,12 @@ public class SqlQuery {
                     var key = reader.GetName(i);
 
                     if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase)) {
-                        var ntsGeometry = reader.GetValue(i) as Geometry;
+                        if (reader.GetValue(i) is not Geometry ntsGeometry) {
+                            _log?.Warning("shape field is null for {table}", computation.TableName);
+
+                            continue;
+                        }
+
                         var geometryMapping = new NtsToEsriMapper.Computation(ntsGeometry);
 
                         response.Geometry = await _mediator.Handle(geometryMapping, cancellationToken);
@@ -131,19 +138,19 @@ public class SqlQuery {
         }
     }
 
-    public class TableMappingDecorator : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> {
-        private readonly IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> _decorated;
+    public class TableMappingDecorator : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> {
+        private readonly IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> _decorated;
         private readonly ITableMapping _mapping;
         private readonly ILogger? _log;
 
-        public TableMappingDecorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> decorated,
+        public TableMappingDecorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> decorated,
             ITableMapping mapping, ILogger log) {
             _mapping = mapping;
             _decorated = decorated;
             _log = log?.ForContext<TableMappingDecorator>();
         }
 
-        public async Task<IReadOnlyCollection<SearchResponseContract>> Handle(Computation computation, CancellationToken cancellationToken) {
+        public async Task<IReadOnlyCollection<SearchResponseContract?>?> Handle(Computation computation, CancellationToken cancellationToken) {
             var table = computation.TableName.ToLowerInvariant();
 
             if (!table.Contains("sgid")) {
@@ -177,8 +184,8 @@ public class SqlQuery {
         }
     }
 
-    public class ShapeFieldDecorator : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> {
-        private readonly IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> _decorated;
+    public class ShapeFieldDecorator : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> {
+        private readonly IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> _decorated;
         private readonly ILogger? _log;
         private const string shapeInput = "shape@";
         private const string shape = "st_simplify(shape,10) as shape";
@@ -186,13 +193,13 @@ public class SqlQuery {
         private const string envelope = "st_envelope(shape) as shape";
 
 
-        public ShapeFieldDecorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract>> decorated,
+        public ShapeFieldDecorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> decorated,
             ILogger log) {
             _decorated = decorated;
             _log = log?.ForContext<ShapeFieldDecorator>();
         }
 
-        public async Task<IReadOnlyCollection<SearchResponseContract>> Handle(Computation computation, CancellationToken cancellationToken) {
+        public async Task<IReadOnlyCollection<SearchResponseContract?>?> Handle(Computation computation, CancellationToken cancellationToken) {
             if (!computation.ReturnValues.ToLowerInvariant().Contains(shapeInput)) {
                 _log?.ForContext("return_values", computation.ReturnValues)
                     .Debug("no fields require modification");

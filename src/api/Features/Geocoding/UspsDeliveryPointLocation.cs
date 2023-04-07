@@ -47,13 +47,14 @@ public class UspsDeliveryPointLocation {
                 return Task.FromResult<Candidate?>(null);
             }
 
-            var result = new Candidate {
-                Address = deliveryPoint.MatchAddress,
-                AddressGrid = deliveryPoint.Grid,
-                Locator = "USPS Delivery Points",
-                Score = 100,
-                Location = new Point(deliveryPoint.X, deliveryPoint.Y)
-            };
+            var result = new Candidate(
+                deliveryPoint.MatchAddress,
+                deliveryPoint.Grid,
+                new Point(deliveryPoint.X, deliveryPoint.Y),
+                100,
+                "USPS Delivery Points",
+            0
+            );
 
             _log?.ForContext("delivery point", deliveryPoint.MatchAddress)
                 .Information("match");

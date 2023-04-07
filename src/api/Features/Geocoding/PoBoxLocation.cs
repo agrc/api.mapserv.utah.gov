@@ -6,7 +6,7 @@ using AGRC.api.Models.ArcGis;
 #nullable enable
 namespace AGRC.api.Features.Geocoding;
 public class PoBoxLocation {
-    public class Computation : IComputation<Candidate>, IHasGeocodingOptions {
+    public class Computation : IComputation<Candidate?>, IHasGeocodingOptions {
         internal readonly AddressWithGrids Address;
 
         public Computation(AddressWithGrids address, SingleGeocodeRequestOptionsContract options) {
@@ -17,7 +17,7 @@ public class PoBoxLocation {
         public SingleGeocodeRequestOptionsContract Options { get; }
     }
 
-    public class Handler : IComputationHandler<Computation, Candidate> {
+    public class Handler : IComputationHandler<Computation, Candidate?> {
         private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions;
         private readonly ILogger? _log;
         private readonly IDictionary<int, PoBoxAddress> _poBoxes;
@@ -30,24 +30,24 @@ public class PoBoxLocation {
             _log = log?.ForContext<PoBoxLocation>();
         }
 
-        public Task<Candidate> Handle(Computation request, CancellationToken cancellationToken) {
+        public Task<Candidate?> Handle(Computation request, CancellationToken cancellationToken) {
             if (!request.Address.Zip5.HasValue) {
                 _log?.Debug("no candidate");
 
-                return Task.FromResult((Candidate)null);
+                return Task.FromResult<Candidate?>(null);
             }
 
             if (_poBoxes is null) {
                 _log?.Warning("cache is empty");
 
-                return Task.FromResult((Candidate)null);
+                return Task.FromResult<Candidate?>(null);
             }
 
             if (!_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
                 _log?.ForContext("zip", request.Address.Zip5.Value)
                     .Debug("cache miss");
 
-                return Task.FromResult((Candidate)null);
+                return Task.FromResult<Candidate?>(null);
             }
 
             Candidate candidate;
@@ -59,28 +59,30 @@ public class PoBoxLocation {
                     .Information("match");
 
                 var exclusion = value;
-                candidate = new Candidate {
-                    Address = request.Address.StandardizedAddress,
-                    Locator = "Post Office Point Exclusions",
-                    Score = 100,
-                    Location = new Point(exclusion.X, exclusion.Y),
-                    AddressGrid = request.Address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown"
-                };
+                candidate = new Candidate(
+                     request.Address.StandardizedAddress,
+                     request.Address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown",
+                     new Point(exclusion.X, exclusion.Y),
+                     100,
+                     "Post Office Point Exclusions",
+                     0
+                );
             } else if (_poBoxes.TryGetValue(request.Address.Zip5.Value, out var result)) {
                 _log?.Information("match");
 
-                candidate = new Candidate {
-                    Address = request.Address.StandardizedAddress,
-                    Locator = "Post Office Point",
-                    Score = 100,
-                    Location = new Point(result.X, result.Y),
-                    AddressGrid = request.Address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown"
-                };
+                candidate = new Candidate(
+                     request.Address.StandardizedAddress,
+                     request.Address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown",
+                     new Point(result.X, result.Y),
+                     100,
+                     "Post Office Point",
+                     0
+                );
             } else {
-                return Task.FromResult((Candidate)null);
+                return Task.FromResult<Candidate?>(null);
             }
 
-            return Task.FromResult(candidate);
+            return Task.FromResult<Candidate?>(candidate);
         }
     }
 }

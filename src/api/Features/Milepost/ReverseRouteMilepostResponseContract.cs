@@ -1,6 +1,6 @@
 namespace AGRC.api.Features.Milepost;
 public class ReverseRouteMilepostResponseContract {
-    private string _routeName;
+    private string _routeName = string.Empty;
     private double _distance;
     private double _milepost;
 
@@ -13,7 +13,7 @@ public class ReverseRouteMilepostResponseContract {
     public string Route {
         get {
             if (string.IsNullOrEmpty(_routeName)) {
-                return "";
+                return string.Empty;
             }
 
             return _routeName.TrimStart('0').TrimEnd('M');
@@ -54,7 +54,7 @@ public class ReverseRouteMilepostResponseContract {
 
     public bool? Dominant { get; set; }
 
-    public IEnumerable<ReverseRouteMilepostResponseContract> Candidates { get; set; }
+    public IEnumerable<ReverseRouteMilepostResponseContract>? Candidates { get; set; }
 
     public bool ShouldSerializeCandidates() {
         if (Candidates == null)

@@ -28,7 +28,7 @@ public class SearchQuery {
 
         public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
             var tableName = request.TableName.ToUpperInvariant();
-            IReadOnlyCollection<SearchResponseContract> result;
+            IReadOnlyCollection<SearchResponseContract?>? result;
 
             try {
                 result = await _computeMediator.Handle(
@@ -89,8 +89,8 @@ public class SearchQuery {
             _log?.ForContext("request", request)
                      .Debug("query succeeded");
 
-            return new OkObjectResult(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract>> {
-                Result = result,
+            return new OkObjectResult(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                Result = result ?? Array.Empty<SearchResponseContract>(),
                 Status = (int)HttpStatusCode.OK
             });
         }
@@ -109,7 +109,7 @@ public class SearchQuery {
 
         public async Task<TResponse> Handle(
             TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
-            var errors = "";
+            var errors = string.Empty;
 
             if (string.IsNullOrEmpty(request.TableName)) {
                 errors = "tableName is a required field. Input was empty. ";
@@ -132,7 +132,7 @@ public class SearchQuery {
                 return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = errors
-                }) as TResponse;
+                }) as TResponse ?? throw new InvalidCastException();
             }
 
             if (!string.IsNullOrEmpty(request.Options.Predicate) &&
@@ -147,7 +147,7 @@ public class SearchQuery {
                 return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = errors
-                }) as TResponse;
+                }) as TResponse ?? throw new InvalidCastException();
             }
 
             return await next();

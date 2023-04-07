@@ -9,7 +9,7 @@ public class SingleGeocodeResponseContract : Suggestable {
     /// <summary>
     /// The geographic coordinates for where the system thinks the input address exists.
     /// </summary>
-    public Point Location { get; set; }
+    public Point Location { get; set; } = default!;
 
     /// <summary>
     /// Every street zone geocode will return a score for the match on a scale from 0-100. The score is a rating of
@@ -26,23 +26,23 @@ public class SingleGeocodeResponseContract : Suggestable {
     /// progress with the counties to map structures or places where mail is delivered. Road centerlines are a
     /// dataset with every road and the range of numbers that road segment contains.
     /// </summary>
-    public string Locator { get; set; }
+    public string Locator { get; set; } = default!;
 
     /// <summary>
     /// The address the locator matched with.
     /// </summary>
-    public string MatchAddress { get; set; }
+    public string MatchAddress { get; set; } = default!;
 
     /// <summary>
     /// The input address supplied by the caller
     /// </summary>
-    public string InputAddress { get; set; }
+    public string InputAddress { get; set; } = default!;
 
     /// <summary>
     /// The modified input address that was used by the system to help increase match scores.
     /// </summary>
     /// <value></value>
-    public string StandardizedAddress { get; set; }
+    public string? StandardizedAddress { get; set; }
 
     /// <summary>
     /// Address grids are assigned by local government addressing authorities using a defined addressing system,
@@ -52,7 +52,7 @@ public class SingleGeocodeResponseContract : Suggestable {
     /// **Salt Lake City address grid system**. It is neither within the boundaries of Salt Lake City proper,
     /// nor is that the preferred mailing address placename.
     /// </summary>
-    public string AddressGrid { get; set; }
+    public string AddressGrid { get; set; } = default!;
 
     /// <summary>
     /// The difference in score between the top match and the next highest match. This can help determine if there

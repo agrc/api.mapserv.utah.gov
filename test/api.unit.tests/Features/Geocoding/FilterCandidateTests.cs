@@ -30,18 +30,22 @@ namespace api.tests.Features.Geocoding {
             [Fact]
             public async Task Should_return_all_candidates_ignoring_accept_score_for_v1() {
                 var candidates = new[] {
-                    new Candidate {
-                        Address = "winner",
-                        Score = 1,
-                        AddressGrid = "grid",
-                        Location = new Point(0, 0)
-                    },
-                    new Candidate {
-                        Address = "not-removed",
-                        Score = 0,
-                        AddressGrid = "grid",
-                        Location = new Point(1, 1)
-                    }
+                    new Candidate(
+                        "winner",
+                        "grid",
+                        new Point(0, 0),
+                        1,
+                       "locator",
+                       0
+                    ),
+                    new Candidate(
+                        "not-removed",
+                        "grid",
+                        new Point(1, 1),
+                        0,
+                       "locator",
+                       0
+                    )
                 };
 
                 var options = new SingleGeocodeRequestOptionsContract {
@@ -64,18 +68,22 @@ namespace api.tests.Features.Geocoding {
             [Fact]
             public async Task Should_remove_candidates_below_accept_score_for_v2() {
                 var candidates = new[] {
-                    new Candidate {
-                        Address = "winner",
-                        Score = 1,
-                        AddressGrid = "grid",
-                        Location = new Point(0, 0)
-                    },
-                    new Candidate {
-                        Address = "remove",
-                        Score = 0,
-                        AddressGrid = "grid",
-                        Location = new Point(1, 1)
-                    }
+                    new Candidate(
+                        "winner",
+                        "grid",
+                        new Point(0, 0),
+                        1,
+                        "locator",
+                        0
+                    ),
+                    new Candidate(
+                        "remove",
+                        "grid",
+                        new Point(1, 1),
+                        0,
+                        "locator",
+                        0
+                    )
                 };
 
                 var options = new SingleGeocodeRequestOptionsContract {
@@ -97,24 +105,30 @@ namespace api.tests.Features.Geocoding {
             [Fact]
             public async Task Should_return_all_suggestions_ignoring_accept_score_for_v1() {
                 var candidates = new[] {
-                    new Candidate {
-                        Address = "winner",
-                        Score = 2,
-                        AddressGrid = "grid",
-                        Location = new Point(0, 0)
-                    },
-                    new Candidate {
-                        Address = "suggest",
-                        Score = 1,
-                        AddressGrid = "grid",
-                        Location = new Point(1, 1)
-                    },
-                    new Candidate {
-                        Address = "not-removed",
-                        Score = 0,
-                        AddressGrid = "grid",
-                        Location = new Point(2, 2)
-                    }
+                    new Candidate(
+                        "winner",
+                        "grid",
+                        new Point(0, 0),
+                        2,
+                        "locator",
+                        0
+                    ),
+                    new Candidate(
+                        "suggest",
+                        "grid",
+                        new Point(1, 1),
+                        1,
+                        "locator",
+                        0
+                    ),
+                    new Candidate(
+                        "not-removed",
+                        "grid",
+                        new Point(2, 2),
+                        0,
+                        "locator",
+                        0
+                    )
                 };
 
                 var options = new SingleGeocodeRequestOptionsContract {
@@ -138,24 +152,30 @@ namespace api.tests.Features.Geocoding {
             [Fact]
             public async Task Should_remove_suggestions_below_accept_score_for_v2() {
                 var candidates = new[] {
-                    new Candidate {
-                        Address = "winner",
-                        Score = 2,
-                        AddressGrid = "grid",
-                        Location = new Point(0, 0)
-                    },
-                    new Candidate {
-                        Address = "suggest",
-                        Score = 1,
-                        AddressGrid = "grid",
-                        Location = new Point(1, 1)
-                    },
-                    new Candidate {
-                        Address = "removed",
-                        Score = 0,
-                        AddressGrid = "grid",
-                        Location = new Point(2, 2)
-                    }
+                    new Candidate(
+                        "winner",
+                        "grid",
+                        new Point(0, 0),
+                        2,
+                        "locator",
+                        0
+                    ),
+                    new Candidate(
+                        "suggest",
+                        "grid",
+                        new Point(1, 1),
+                        1,
+                        "locator",
+                        0
+                    ),
+                    new Candidate(
+                        "removed",
+                        "grid",
+                        new Point(2, 2),
+                        0,
+                        "locator",
+                        0
+                   )
                 };
 
                 var options = new SingleGeocodeRequestOptionsContract {
@@ -178,18 +198,22 @@ namespace api.tests.Features.Geocoding {
             [Fact]
             public async Task Should_return_null_when_no_results_above_accept_score() {
                 var candidates = new[] {
-                    new Candidate {
-                        Address = "winner",
-                        Score = 1,
-                        AddressGrid = "grid",
-                        Location = new Point(0, 0)
-                    },
-                    new Candidate {
-                        Address = "remove",
-                        Score = 0,
-                        AddressGrid = "grid",
-                        Location = new Point(1, 1)
-                    }
+                    new Candidate(
+                        "winner",
+                        "grid",
+                        new Point(0, 0),
+                        1,
+                        "locator",
+                        0
+                    ),
+                    new Candidate(
+                        "remove",
+                        "grid",
+                        new Point(1, 1),
+                        0,
+                        "locator",
+                        0
+                    )
                 };
 
                 var options = new SingleGeocodeRequestOptionsContract {
@@ -203,7 +227,7 @@ namespace api.tests.Features.Geocoding {
                 var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await V1Handler.Handle(request, CancellationToken.None);
 
-                result.ShouldBeNull();
+                result.Candidates.ShouldBeNull();
             }
         }
 
@@ -211,18 +235,22 @@ namespace api.tests.Features.Geocoding {
             [Fact]
             public async Task Should_calculate_score_difference() {
                 var candidates = new[] {
-                    new Candidate {
-                        Address = "winner",
-                        Score = 10,
-                        AddressGrid = "grid",
-                        Location = new Point(0, 0)
-                    },
-                    new Candidate {
-                        Address = "suggest",
-                        Score = 1,
-                        AddressGrid = "grid",
-                        Location = new Point(1, 1)
-                    }
+                    new Candidate(
+                        "winner",
+                        "grid",
+                        new Point(0, 0),
+                        10,
+                        "locator",
+                        0
+                    ),
+                    new Candidate(
+                        "suggest",
+                        "grid",
+                        new Point(1, 1),
+                        1,
+                        "locator",
+                        0
+                    )
                 };
 
                 var options = new SingleGeocodeRequestOptionsContract {

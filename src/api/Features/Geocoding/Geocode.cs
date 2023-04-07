@@ -77,26 +77,16 @@ public class Geocode {
 
             response = new(FilterOutBadProLocatorMatches(response.Candidates), response.Error);
 
+            var candidates = new List<Candidate>(response.Candidates.Count);
+
             foreach (var candidate in response.Candidates) {
-                candidate.Locator = locator.Name;
-                candidate.Weight = locator.Weight;
-                candidate.AddressGrid = ParseAddressGrid(candidate.Address);
+                candidates.Add(new Candidate(candidate, locator.Name, locator.Weight));
             }
 
-            return new ReadOnlyCollection<Candidate>(response.Candidates);
+            return new ReadOnlyCollection<Candidate>(candidates);
         }
 
-        private static List<Candidate> FilterOutBadProLocatorMatches(List<Candidate> candidates) =>
+        private static List<LocatorCandidate> FilterOutBadProLocatorMatches(List<LocatorCandidate> candidates) =>
             candidates.FindAll(x => !string.IsNullOrEmpty(x.Attributes.Addnum) || x.Attributes.Addr_type == "StreetInt");
-
-        private static string ParseAddressGrid(string address) {
-            if (!address.Contains(',')) {
-                return string.Empty;
-            }
-
-            var addressParts = address.Split(',');
-
-            return addressParts[1].Trim();
-        }
     }
 }

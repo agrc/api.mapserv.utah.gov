@@ -201,13 +201,13 @@ try {
             IComputationHandler<ZoneParsing.Computation, AddressWithGrids>>();
 
         builder.RegisterDecorator<SqlQuery.ShapeFieldDecorator,
-            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
+            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
 
         builder.RegisterDecorator<SqlQuery.TableMappingDecorator,
-            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
+            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
 
         builder.RegisterDecorator<AttributeTableKeyFormatting.Decorator,
-            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
+            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
 
         builder.RegisterGenericDecorator(typeof(Reproject.Decorator<,>), typeof(IComputationHandler<,>));
 

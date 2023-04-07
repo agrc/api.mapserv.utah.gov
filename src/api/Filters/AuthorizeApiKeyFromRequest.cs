@@ -81,6 +81,18 @@ public class AuthorizeApiKeyFromRequest : IAsyncResourceFilter {
         }
 
         if (apiKey.Type == ApiKey.ApplicationType.Browser) {
+            if (apiKey.RegexPattern == null) {
+                _log?.Warning("api key usage without regex pattern {key}", apiKey);
+
+                context.Result = new BadRequestObjectResult(new ApiResponseContract {
+                    Status = BadRequest,
+                    Message = "This api key has no regex pattern. This is likely a bug. " +
+                    "Please contact the api owner to resolve this issue."
+                });
+
+                return;
+            }
+
             var pattern = new Regex(apiKey.RegexPattern, RegexOptions.IgnoreCase);
 
             if (!context.HttpContext.Request.Headers.TryGetValue("Referrer", out var referrer)) {
@@ -104,10 +116,10 @@ public class AuthorizeApiKeyFromRequest : IAsyncResourceFilter {
             }
 
             var corsOriginHeader = hasOrigin.FirstOrDefault();
-            var corsOriginValue = "";
+            var corsOriginValue = string.Empty;
 
             if (corsOriginHeader.Key != null) {
-                corsOriginValue = corsOriginHeader.Value.SingleOrDefault();
+                corsOriginValue = corsOriginHeader.Value.SingleOrDefault() ?? string.Empty;
             }
 
             if (apiKey.Configuration == ApiKey.ApplicationStatus.Development &&
@@ -145,12 +157,11 @@ public class AuthorizeApiKeyFromRequest : IAsyncResourceFilter {
     }
 
     private static bool ApiKeyPatternMatches(Regex pattern, string origin, Uri referrer) {
-        var isReferrer = !(referrer == null);
         var isOrigin = !string.IsNullOrEmpty(origin);
         var isValidBasedOnReferrer = false;
         var isValidBasedOnOrigin = false;
 
-        if (isReferrer && pattern.IsMatch(referrer.AbsoluteUri)) {
+        if (referrer is not null && pattern.IsMatch(referrer.AbsoluteUri)) {
             isValidBasedOnReferrer = true;
         }
 
@@ -165,13 +176,11 @@ public class AuthorizeApiKeyFromRequest : IAsyncResourceFilter {
     }
 
     private static bool IsLocalDevelopment(Uri referrer, string origin) {
-        var isReferrer = !(referrer == null);
         var isOrigin = !string.IsNullOrEmpty(origin);
         var isLocalBasedOnReferrer = false;
         var isLocalBasedOnOrigin = false;
 
-        if (isReferrer &&
-            referrer.AbsoluteUri.StartsWith("http://localhost/", StringComparison.OrdinalIgnoreCase)) {
+        if (referrer?.AbsoluteUri.StartsWith("http://localhost/", StringComparison.OrdinalIgnoreCase) == true) {
             isLocalBasedOnReferrer = true;
         }
 
@@ -183,32 +192,19 @@ public class AuthorizeApiKeyFromRequest : IAsyncResourceFilter {
     }
 
     public class ServerIpProvider : IServerIpProvider {
-        public string Get(HttpRequest request) => request.HttpContext.Connection.RemoteIpAddress.ToString();
+        public string Get(HttpRequest request) => request.HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
     }
 
     public class BrowserKeyProvider : IBrowserKeyProvider {
-        public string Get(HttpRequest request) {
-            try {
-                var key = request.Query["apikey"];
-
-                if (!string.IsNullOrEmpty(key)) {
-                    return key;
-                }
-            } catch {
+        public string? Get(HttpRequest request) {
+            if (request.Query.TryGetValue("apikey", out var queryStringKey)) {
+                return queryStringKey.ToString();
             }
 
-            try {
-                var formData = request.Form;
+            var formData = request.Form;
 
-                if (formData.ContainsKey("apikey") && formData.TryGetValue("apikey", out var apikey)) {
-                    return apikey.ToString();
-                }
-            } catch {
-            }
-
-            if (string.Equals(request.Path.Value, "/api/v1/geocode/ago/agrc-ago/geocodeserver", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(request.Path.Value, "/api/v1/geocode/ago/agrc-ago/geocodeserver/findaddresscandidates", StringComparison.OrdinalIgnoreCase)) {
-                return "agrc-ago";
+            if (formData.TryGetValue("apikey", out var formKey)) {
+                return formKey.ToString();
             }
 
             return null;

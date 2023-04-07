@@ -8,21 +8,21 @@ public class ReverseGeocodeResponseContract {
     /// The street address extracted from the Transportation.Roads dataset
     /// </summary>
     /// <value></value>
-    public Address Address { get; set; }
+    public Address Address { get; set; } = default!;
 
     // The addressing grid in which the address was created
     [JsonIgnore]
-    public string Grid { get; set; }
+    public string Grid { get; set; } = default!;
 
     [JsonIgnore]
-    public Point MatchPoint { get; set; }
+    public Point MatchPoint { get; set; } = default!;
 
     /// <summary>
     /// The input location coordinates
     /// </summary>
     /// <value></value>
     [JsonPropertyName("inputLocation")]
-    public Point InputPoint { get; set; }
+    public Point InputPoint { get; set; } = default!;
 
     /// <summary>
     /// The distance between the input location and the match location

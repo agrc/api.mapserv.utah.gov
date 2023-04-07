@@ -5,7 +5,7 @@ public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest> {
     private readonly ILogger? _log;
 
     public RequestLogger(ILogger log) {
-        _log = log?.ForContext<MediatR.IMediator>();
+        _log = log?.ForContext<IMediator>();
     }
 
     public Task Process(TRequest request, CancellationToken cancellationToken) {

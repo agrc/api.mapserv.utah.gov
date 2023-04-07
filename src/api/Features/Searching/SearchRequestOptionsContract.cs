@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AGRC.api.Features.Searching;
 [ModelBinder(BinderType = typeof(SearchRequestOptionsContractBinder))]
 public class SearchRequestOptionsContract : ProjectableOptions {
-    private string _predicate = "";
+    private string _predicate = string.Empty;
     private double _buffer;
 
     /// <summary>
@@ -15,9 +15,9 @@ public class SearchRequestOptionsContract : ProjectableOptions {
     /// <example>
     /// name like '%ville'
     /// </example>
-    public string Predicate {
+    public string? Predicate {
         get => _predicate;
-        set => _predicate = value?.ToUpperInvariant();
+        set => _predicate = value?.ToUpperInvariant() ?? _predicate;
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class SearchRequestOptionsContract : ProjectableOptions {
     /// <example>
     /// points:[x,y]
     /// </example>
-    public string Geometry { get; set; } = "";
+    public string? Geometry { get; set; } = string.Empty;
 
     /// <summary>
     /// The buffer distance in meters. Any valid double less than or equal to 2000

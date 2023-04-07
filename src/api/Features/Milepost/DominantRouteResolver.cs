@@ -95,7 +95,10 @@ public class DominantRouteResolver {
                 if (!locationResponse.Concurrencies.Any()) {
                     var location = computation.RouteMap[locationResponse.RouteId];
 
-                    var distance = _distance.Calculate(computation.Point, location.Geometry);
+                    var distance = -1d;
+                    if (location.Geometry is not null) {
+                        distance = _distance.Calculate(computation.Point, location.Geometry);
+                    }
 
                     dominateRoutes.Add(new DominantRouteDescriptor {
                         Route = locationResponse.RouteId,
@@ -115,7 +118,10 @@ public class DominantRouteResolver {
                         continue;
                     }
 
-                    var distance = _distance.Calculate(computation.Point, location.Geometry);
+                    var distance = -1d;
+                    if (location.Geometry is not null) {
+                        distance = _distance.Calculate(computation.Point, location.Geometry);
+                    }
 
                     dominateRoutes.Add(new DominantRouteDescriptor {
                         Route = itemWithDominance.RouteId,
@@ -161,14 +167,26 @@ public class DominantRouteResolver {
     }
 
     public class DominantRouteDescriptor {
-        public string Route { get; set; }
+        public string Route { get; set; } = string.Empty;
         public double Distance { get; set; }
         public double Milepost { get; set; }
         public bool Dominant { get; set; }
     }
 
     public class DominantRouteDescriptorComparer : IComparer<DominantRouteDescriptor> {
-        public int Compare(DominantRouteDescriptor x, DominantRouteDescriptor y) {
+        public int Compare(DominantRouteDescriptor? x, DominantRouteDescriptor? y) {
+            if (x is null && y is null) {
+                return 0;
+            }
+
+            if (y is null) {
+                return 1;
+            }
+
+            if (x is null) {
+                return -1;
+            }
+
             var isDominant = y.Dominant.CompareTo(x.Dominant);
 
             if (isDominant == 0) {

@@ -14,35 +14,50 @@ namespace api.tests.Services {
             const string tieBreakerInput = "GOLD";
             var topCandidates = new TopAddressCandidates(topItemCount, new CandidateComparer(tieBreakerInput));
 
-            topCandidates.Add(new Candidate {
-                Address = "GOLD",
-                Score = 5,
-                Weight = 100
-            });
+            topCandidates.Add(new Candidate(
+                "GOLD",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                100
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "GOLDS",
-                Score = 5,
-                Weight = 99
-            });
+            topCandidates.Add(new Candidate(
+                "GOLDS",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                99
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "BRONZE",
-                Score = 5,
-                Weight = 1
-            });
+            topCandidates.Add(new Candidate(
+                "BRONZE",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                1
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "SILVER",
-                Score = 5,
-                Weight = 50
-            });
+            topCandidates.Add(new Candidate(
+                "SILVER",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                50
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "Runner up",
-                Score = 5,
-                Weight = 0
-            });
+            topCandidates.Add(new Candidate(
+                "Runner up",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                0
+            ));
 
             var items = topCandidates.Get();
             var candidate = items[0];
@@ -62,26 +77,38 @@ namespace api.tests.Services {
                 new TopAddressCandidates(suggestCount, new CandidateComparer(address.ToUpperInvariant()));
 
             var candidates = new List<Candidate> {
-                new Candidate {
-                    Address = "669 W 3RD AVE",
-                    Score = 90.87,
-                    Weight = 1
-                },
-                new Candidate {
-                    Address = "669 E 3RD AVE",
-                    Score = 90.87,
-                    Weight = 1
-                },
-                new Candidate {
-                    Address = "670 W 3RD AVE",
-                    Score = 69.87,
-                    Weight = 1
-                },
-                new Candidate {
-                    Address = "670 E 3RD AVE",
-                    Score = 69.87,
-                    Weight = 1
-                }
+                new Candidate(
+                    "669 W 3RD AVE",
+                    "grid",
+                    new AGRC.api.Models.Point(0,0),
+                    90.87,
+                    "locator",
+                    1
+                ),
+                new Candidate(
+                    "669 E 3RD AVE",
+                    "grid",
+                    new AGRC.api.Models.Point(0,0),
+                    90.87,
+                    "locator",
+                    1
+                ),
+                new Candidate(
+                    "670 W 3RD AVE",
+                    "grid",
+                    new AGRC.api.Models.Point(0,0),
+                    69.87,
+                    "locator",
+                    1
+                ),
+                new Candidate(
+                    "670 E 3RD AVE",
+                    "grid",
+                    new AGRC.api.Models.Point(0,0),
+                    69.87,
+                    "locator",
+                    1
+                )
             };
 
             candidates.ForEach(topCandidates.Add);
@@ -100,35 +127,50 @@ namespace api.tests.Services {
             const string tieBreakerInput = "";
             var topCandidates = new TopAddressCandidates(suggestCount, new CandidateComparer(tieBreakerInput));
 
-            topCandidates.Add(new Candidate {
-                Address = "GOLD",
-                Score = 5,
-                Weight = 100
-            });
+            topCandidates.Add(new Candidate(
+                "GOLD",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                100
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "GOLDS",
-                Score = 5,
-                Weight = 100
-            });
+            topCandidates.Add(new Candidate(
+                "GOLDS",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                100
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "BRONZE",
-                Score = 5,
-                Weight = 1
-            });
+            topCandidates.Add(new Candidate(
+                "BRONZE",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                1
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "SILVER",
-                Score = 5,
-                Weight = 50
-            });
+            topCandidates.Add(new Candidate(
+                "SILVER",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                50
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "Runner up",
-                Score = 5,
-                Weight = 0
-            });
+            topCandidates.Add(new Candidate(
+                "Runner up",
+                "grid",
+                new AGRC.api.Models.Point(0, 0),
+                5,
+                "locator",
+                0
+            ));
 
             topCandidates.Get().ToList().Count.ShouldBe(suggestCount + 1);
         }
@@ -139,35 +181,50 @@ namespace api.tests.Services {
             const string tieBreakerInput = "";
             var topCandidates = new TopAddressCandidates(suggestCount, new CandidateComparer(tieBreakerInput));
 
-            topCandidates.Add(new Candidate {
-                Address = "GOLD",
-                Score = 5,
-                Weight = 100
-            });
+            topCandidates.Add(new Candidate(
+                "GOLD",
+                "grid",
+                new AGRC.api.Models.Point(1, 1),
+                5,
+                "locator",
+                100
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "GOLDS",
-                Score = 5,
-                Weight = 100
-            });
+            topCandidates.Add(new Candidate(
+                "GOLDS",
+                "grid",
+                new AGRC.api.Models.Point(1, 1),
+                5,
+                "locator",
+                100
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "BRONZE",
-                Score = 5,
-                Weight = 1
-            });
+            topCandidates.Add(new Candidate(
+                "BRONZE",
+                "grid",
+                new AGRC.api.Models.Point(1, 1),
+                5,
+                "locator",
+                1
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "SILVER",
-                Score = 5,
-                Weight = 50
-            });
+            topCandidates.Add(new Candidate(
+                "SILVER",
+                "grid",
+                new AGRC.api.Models.Point(1, 1),
+                5,
+                "locator",
+                50
+            ));
 
-            topCandidates.Add(new Candidate {
-                Address = "Runner up",
-                Score = 5,
-                Weight = 0
-            });
+            topCandidates.Add(new Candidate(
+                "Runner up",
+                "grid",
+                new AGRC.api.Models.Point(1, 1),
+                5,
+                "locator",
+                0
+            ));
 
             topCandidates.Get().ToList().Count.ShouldBe(2);
         }

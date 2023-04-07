@@ -37,7 +37,7 @@ namespace api.tests.Features.GeometryService {
 
         [Fact]
         public async Task Should_skip_objects_without_interface() {
-            var candidate = new Candidate();
+            var candidate = new Candidate("street", "grid", new Point(1, 2), 100, "test", 0);
 
             var decoratedMock = new Mock<IComputationHandler<IComputation<Candidate>, Candidate>>();
             decoratedMock.Setup(x => x.Handle(It.IsAny<IComputation<Candidate>>(), It.IsAny<CancellationToken>()))
@@ -54,7 +54,7 @@ namespace api.tests.Features.GeometryService {
 
         [Fact]
         public async Task Should_return_original_if_wkid_is_same() {
-            var candidate = new Candidate();
+            var candidate = new Candidate("street", "grid", new Point(1, 2), 100, "test", 0);
 
             var geocodingOptionsMock = new Mock<IHasGeocodingOptions>();
             geocodingOptionsMock.Setup(x => x.Options).Returns(new SingleGeocodeRequestOptionsContract {
@@ -80,10 +80,7 @@ namespace api.tests.Features.GeometryService {
                 SpatialReference = 1
             });
 
-            var candidate = new Candidate {
-                Location = new Point(1, 2)
-            };
-
+            var candidate = new Candidate("street", "grid", new Point(1, 2), 100, "test", 0);
             var computationMock = geocodingOptionsMock.As<IComputation<Candidate>>();
 
             var decoratedMock = new Mock<IComputationHandler<IComputation<Candidate>, Candidate>>();
@@ -107,10 +104,7 @@ namespace api.tests.Features.GeometryService {
                 SpatialReference = 1
             });
 
-            var candidate = new Candidate {
-                Location = new Point(1, 2)
-            };
-
+            var candidate = new Candidate("street", "grid", new Point(1, 2), 100, "test", 0);
             var computationMock = geocodingOptionsMock.As<IComputation<Candidate>>();
 
             var decoratedMock = new Mock<IComputationHandler<IComputation<Candidate>, Candidate>>();
