@@ -7,10 +7,7 @@ using AGRC.api.Cache;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.Linkables;
-using Moq;
 using Serilog;
-using Shouldly;
-using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class ZoneParsingTests {
@@ -40,7 +37,7 @@ namespace api.tests.Features.Geocoding {
         [InlineData("123456789")]
         [InlineData("12345-6789")]
         public async Task Should_parse_zip_parts(string input) {
-            var address = new AddressWithGrids(new CleansedAddress());
+            var address = AddressHelper.CreateEmptyAddress();
             var request = new ZoneParsing.Computation(input, address);
 
             var result = await _handler.Handle(request, new CancellationToken());
@@ -54,7 +51,7 @@ namespace api.tests.Features.Geocoding {
         [InlineData("Town of     Alta")]
         [InlineData("Alta ")]
         public async Task Should_find_grid_from_place(string input) {
-            var address = new AddressWithGrids(new CleansedAddress());
+            var address = AddressHelper.CreateEmptyAddress();
             var request = new ZoneParsing.Computation(input, address);
 
             var result = await _handler.Handle(request, new CancellationToken());
@@ -65,7 +62,7 @@ namespace api.tests.Features.Geocoding {
 
         [Fact]
         public async Task Should_return_empty_grid_if_zone_not_found() {
-            var address = new AddressWithGrids(new CleansedAddress());
+            var address = AddressHelper.CreateEmptyAddress();
             var request = new ZoneParsing.Computation("123eastbumble", address);
 
             var result = await _handler.Handle(request, new CancellationToken());

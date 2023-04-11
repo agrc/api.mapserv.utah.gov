@@ -7,10 +7,7 @@ using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.Linkables;
-using Moq;
 using Serilog;
-using Shouldly;
-using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class FilterCandidateTests {
@@ -53,9 +50,7 @@ namespace api.tests.Features.Geocoding {
                     Suggest = 1
                 };
 
-                var address = new AddressWithGrids(new CleansedAddress()) {
-                    AddressGrids = new[] { new ZipGridLink(0, "grid", 0) }
-                };
+                var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
                 var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await V1Handler.Handle(request, CancellationToken.None);
@@ -91,9 +86,7 @@ namespace api.tests.Features.Geocoding {
                     Suggest = 1
                 };
 
-                var address = new AddressWithGrids(new CleansedAddress()) {
-                    AddressGrids = new[] { new ZipGridLink(0, "grid", 0) }
-                };
+                var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
                 var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await V2Handler.Handle(request, CancellationToken.None);
@@ -136,9 +129,7 @@ namespace api.tests.Features.Geocoding {
                     Suggest = 3
                 };
 
-                var address = new AddressWithGrids(new CleansedAddress()) {
-                    AddressGrids = new[] { new ZipGridLink(0, "grid", 0) }
-                };
+                var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
                 var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await V1Handler.Handle(request, CancellationToken.None);
@@ -183,9 +174,7 @@ namespace api.tests.Features.Geocoding {
                     Suggest = 1
                 };
 
-                var address = new AddressWithGrids(new CleansedAddress()) {
-                    AddressGrids = new[] { new ZipGridLink(0, "grid", 0) }
-                };
+                var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
                 var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await V2Handler.Handle(request, CancellationToken.None);
@@ -220,9 +209,7 @@ namespace api.tests.Features.Geocoding {
                     AcceptScore = 2
                 };
 
-                var address = new AddressWithGrids(new CleansedAddress()) {
-                    AddressGrids = new[] { new ZipGridLink(0, "grid", 0) }
-                };
+                var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
                 var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await V1Handler.Handle(request, CancellationToken.None);
@@ -258,9 +245,7 @@ namespace api.tests.Features.Geocoding {
                     ScoreDifference = true
                 };
 
-                var address = new AddressWithGrids(new CleansedAddress()) {
-                    AddressGrids = new[] { new ZipGridLink(0, "grid", 0) }
-                };
+                var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
                 var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
                 var result = await V1Handler.Handle(request, CancellationToken.None);

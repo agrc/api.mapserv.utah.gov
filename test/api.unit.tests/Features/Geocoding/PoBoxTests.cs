@@ -5,10 +5,7 @@ using AGRC.api.Cache;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.Linkables;
-using Moq;
 using Serilog;
-using Shouldly;
-using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class PoBoxTests {
@@ -27,10 +24,10 @@ namespace api.tests.Features.Geocoding {
             _handler = new PoBoxLocation.Handler(mockCache.Object, mock.Object);
         }
 
-        private readonly Dictionary<int, PoBoxAddress> _poBoxes = new Dictionary<int, PoBoxAddress>(1);
+        private readonly Dictionary<int, PoBoxAddress> _poBoxes = new(1);
 
         private readonly Dictionary<int, PoBoxAddressCorrection> _exclusions =
-            new Dictionary<int, PoBoxAddressCorrection>(1);
+            new(1);
 
         private readonly PoBoxLocation.Handler _handler;
 
@@ -39,11 +36,9 @@ namespace api.tests.Features.Geocoding {
             const int pobox = 1;
             const int zip = 84114;
 
-            var parsedAddress = new CleansedAddress("inputAddress", 1, 0, pobox, Direction.North, "street",
-                                                    StreetType.Alley, Direction.South, 0, zip, false, false);
-            var address = new AddressWithGrids(parsedAddress) {
-                AddressGrids = new[] { new ZipGridLink(84114, "grid", 0) }
-            };
+            var address = Address.BuildPoBoxAddress("inputAddress", pobox, zip,
+                new[] { new ZipGridLink(84114, "grid", 0) }
+            );
 
             var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                 PoBox = true,
@@ -65,11 +60,9 @@ namespace api.tests.Features.Geocoding {
             const int pobox = -1;
             const int zip = 84114;
 
-            var parsedAddress = new CleansedAddress("inputAddress", 1, 0, pobox, Direction.North, "street",
-                                                    StreetType.Alley, Direction.South, 0, zip, false, false);
-            var address = new AddressWithGrids(parsedAddress) {
-                AddressGrids = new[] { new ZipGridLink(84114, "grid", 0) }
-            };
+            var address = Address.BuildPoBoxAddress("inputAddress", pobox, zip,
+                new[] { new ZipGridLink(84114, "grid", 0) }
+            );
 
             var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                 PoBox = true,
@@ -88,26 +81,10 @@ namespace api.tests.Features.Geocoding {
 
         [Fact]
         public async Task Should_return_null_for_address_without_zip_code() {
-            var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
-                                                    StreetType.Alley, Direction.South, 0, new int?(), false, false);
-            var address = new AddressWithGrids(parsedAddress);
+            const int pobox = 0;
+            const int zip = 0;
 
-            var geocodeOptions = new SingleGeocodeRequestOptionsContract {
-                PoBox = true
-            };
-
-            var request = new PoBoxLocation.Computation(address, geocodeOptions);
-            var result = await _handler.Handle(request, new CancellationToken());
-
-            result.ShouldBeNull();
-        }
-
-        [Fact]
-        public async Task Should_return_null_if_zip_not_found() {
-            var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
-                                                    StreetType.Alley, Direction.South, 0, -1, false, false);
-            var address = new AddressWithGrids(parsedAddress);
-
+            var address = Address.BuildPoBoxAddress("inputAddress", pobox, zip);
             var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                 PoBox = true
             };

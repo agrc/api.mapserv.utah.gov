@@ -1,7 +1,5 @@
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Models.Constants;
-using Shouldly;
-using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class CleansedAddressTests {
@@ -10,9 +8,8 @@ namespace api.tests.Features.Geocoding {
         [InlineData("123 band sand south andy", false)]
         [InlineData("123 south main and 326 south temple", true)]
         public void Should_know_if_intersection(string address, bool isIntersection) {
-            var model = new CleansedAddress {
-                InputAddress = address
-            };
+            var model = new Address(address, 0, Direction.None, string.Empty, StreetType.None, Direction.None, null, 0, null, 0, false, false);
+
 
             model.IsIntersection().ShouldBe(isIntersection);
         }
@@ -24,10 +21,8 @@ namespace api.tests.Features.Geocoding {
         [InlineData(5, "south main", false)]
         [InlineData(5, "", false)]
         public void Should_know_if_could_be_reversal(int? number, string name, bool maybeReversal) {
-            var model = new CleansedAddress {
-                StreetName = name,
-                HouseNumber = number
-            };
+            var model = new Address(string.Empty, number, Direction.None, name, StreetType.None, Direction.None, null, 0, null, 0, false, false);
+
 
             model.PossibleReversal().ShouldBe(maybeReversal);
         }
@@ -45,59 +40,35 @@ namespace api.tests.Features.Geocoding {
         [InlineData(50, "south main", false)]
         [InlineData(55, "", false)]
         public void Should_know_if_reversal(int? number, string name, bool reversal) {
-            var model = new CleansedAddress {
-                StreetName = name,
-                HouseNumber = number
-            };
+            var model = new Address(string.Empty, number, Direction.None, name, StreetType.None, Direction.None, null, 0, null, 0, false, false);
 
             model.IsReversal().ShouldBe(reversal);
         }
 
         [Fact]
         public void Should_create_reversal() {
-            var model = new CleansedAddress {
-                HouseNumber = 1,
-                PrefixDirection = Direction.West,
-                StreetName = "street name",
-                SuffixDirection = Direction.South,
-                StreetType = StreetType.Alley
-            };
+            var model = new Address(string.Empty, 1, Direction.West, "street name", StreetType.Alley, Direction.South, null, 0, null, 0, false, false);
 
             model.ReversalAddress.ToLowerInvariant().ShouldBe("street name south alley 1 west");
         }
 
         [Fact]
         public void Should_standardize_address() {
-            var model = new CleansedAddress {
-                HouseNumber = 1,
-                PrefixDirection = Direction.East,
-                StreetName = "street",
-                StreetType = StreetType.Alley,
-                SuffixDirection = Direction.North
-            };
+            var model = new Address(string.Empty, 1, Direction.East, "street", StreetType.Alley, Direction.North, null, 0, null, 0, false, false);
 
             model.StandardizedAddress.ToLowerInvariant().ShouldBe("1 east street alley north");
         }
 
         [Fact]
         public void Should_standardize_address_without_nones() {
-            var model = new CleansedAddress {
-                HouseNumber = 1,
-                PrefixDirection = Direction.None,
-                StreetName = "street",
-                StreetType = StreetType.None,
-                SuffixDirection = Direction.None
-            };
+            var model = new Address(string.Empty, 1, Direction.None, "street", StreetType.None, Direction.None, null, 0, null, 0, false, false);
 
             model.StandardizedAddress.ToLowerInvariant().ShouldBe("1 street");
         }
 
         [Fact]
         public void Should_standardize_po_boxes() {
-            var model = new CleansedAddress {
-                PoBox = 1,
-                IsPoBox = true
-            };
+            var model = Address.BuildPoBoxAddress("", 1, 0);
 
             model.StandardizedAddress.ToLowerInvariant().ShouldBe("p.o. box 1");
         }

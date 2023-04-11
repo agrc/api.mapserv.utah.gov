@@ -8,10 +8,7 @@ using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.Linkables;
 using Microsoft.Extensions.Options;
-using Moq;
 using Serilog;
-using Shouldly;
-using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class LocatorsForTests {
@@ -87,11 +84,21 @@ namespace api.tests.Features.Geocoding {
 
             [Fact]
             public async Task Should_create_extra_for_address_reversal() {
-                var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "2", StreetType.Alley,
-                                                        Direction.South, 0, 84114, false, false);
-                var address = new AddressWithGrids(parsedAddress) {
-                    AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
-                };
+                const string inputAddress = "inputAddress";
+                const int houseNumber = 1;
+                const Direction prefixDirection = Direction.North;
+                const string streetName = "2";
+                const StreetType streetType = StreetType.Alley;
+                const Direction suffixDirection = Direction.South;
+                const int zip5 = 84114;
+                const int zip4 = 0;
+                var addressGrids = new[] { new PlaceGridLink("place", "grid", 0) };
+                const int poBox = 0;
+                const bool isPoBox = false;
+                const bool isHighway = false;
+
+                var address = new Address(inputAddress, houseNumber, prefixDirection, streetName, streetType,
+                                                        suffixDirection, zip5, zip4, addressGrids, poBox, isPoBox, isHighway);
 
                 var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.RoadCenterlines,
@@ -114,11 +121,21 @@ namespace api.tests.Features.Geocoding {
 
             [Fact]
             public async Task Should_return_address_point_geocoder_only() {
-                var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
-                                                        StreetType.Alley, Direction.South, 0, 84114, false, false);
-                var address = new AddressWithGrids(parsedAddress) {
-                    AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
-                };
+                const string inputAddress = "inputAddress";
+                const int houseNumber = 1;
+                const Direction prefixDirection = Direction.North;
+                const string streetName = "street";
+                const StreetType streetType = StreetType.Alley;
+                const Direction suffixDirection = Direction.South;
+                const int zip5 = 84114;
+                const int zip4 = 0;
+                var addressGrids = new[] { new PlaceGridLink("place", "grid", 0) };
+                const int poBox = 0;
+                const bool isPoBox = false;
+                const bool isHighway = false;
+
+                var address = new Address(inputAddress, houseNumber, prefixDirection, streetName, streetType,
+                                                        suffixDirection, zip5, zip4, addressGrids, poBox, isPoBox, isHighway);
 
                 var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.AddressPoints,
@@ -137,11 +154,21 @@ namespace api.tests.Features.Geocoding {
 
             [Fact]
             public async Task Should_return_all_geocoders() {
-                var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
-                                                        StreetType.Alley, Direction.South, 0, 84114, false, false);
-                var address = new AddressWithGrids(parsedAddress) {
-                    AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
-                };
+                const string inputAddress = "inputAddress";
+                const int houseNumber = 1;
+                const Direction prefixDirection = Direction.North;
+                const string streetName = "street";
+                const StreetType streetType = StreetType.Alley;
+                const Direction suffixDirection = Direction.South;
+                const int zip5 = 84114;
+                const int zip4 = 0;
+                var addressGrids = new[] { new PlaceGridLink("place", "grid", 0) };
+                const int poBox = 0;
+                const bool isPoBox = false;
+                const bool isHighway = false;
+
+                var address = new Address(inputAddress, houseNumber, prefixDirection, streetName, streetType,
+                                                        suffixDirection, zip5, zip4, addressGrids, poBox, isPoBox, isHighway);
 
                 var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.All,
@@ -166,11 +193,21 @@ namespace api.tests.Features.Geocoding {
 
             [Fact]
             public async Task Should_return_centerline_geocoder_only() {
-                var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
-                                                        StreetType.Alley, Direction.South, 0, 84114, false, false);
-                var address = new AddressWithGrids(parsedAddress) {
-                    AddressGrids = new[] { new PlaceGridLink("place", "grid", 0) }
-                };
+                const string inputAddress = "inputAddress";
+                const int houseNumber = 1;
+                const Direction prefixDirection = Direction.North;
+                const string streetName = "street";
+                const StreetType streetType = StreetType.Alley;
+                const Direction suffixDirection = Direction.South;
+                const int zip5 = 84114;
+                const int zip4 = 0;
+                var addressGrids = new[] { new PlaceGridLink("place", "grid", 0) };
+                const int poBox = 0;
+                const bool isPoBox = false;
+                const bool isHighway = false;
+
+                var address = new Address(inputAddress, houseNumber, prefixDirection, streetName, streetType,
+                                                        suffixDirection, zip5, zip4, addressGrids, poBox, isPoBox, isHighway);
 
                 var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.RoadCenterlines,
@@ -189,11 +226,21 @@ namespace api.tests.Features.Geocoding {
 
             [Fact]
             public async Task Should_return_empty_when_no_grids() {
-                var parsedAddress = new CleansedAddress("inputAddress", 1, 0, 0, Direction.North, "street",
-                                                        StreetType.Alley, Direction.South, 0, 84114, false, false);
-                var address = new AddressWithGrids(parsedAddress) {
-                    AddressGrids = Array.Empty<GridLinkable>()
-                };
+                const string inputAddress = "inputAddress";
+                const int houseNumber = 1;
+                const Direction prefixDirection = Direction.North;
+                const string streetName = "2";
+                const StreetType streetType = StreetType.Alley;
+                const Direction suffixDirection = Direction.South;
+                const int zip5 = 84114;
+                const int zip4 = 0;
+                var addressGrids = Array.Empty<GridLinkable>();
+                const int poBox = 0;
+                const bool isPoBox = false;
+                const bool isHighway = false;
+
+                var address = new Address(inputAddress, houseNumber, prefixDirection, streetName, streetType,
+                                                        suffixDirection, zip5, zip4, addressGrids, poBox, isPoBox, isHighway);
 
                 var geocodeOptions = new SingleGeocodeRequestOptionsContract {
                     Locators = LocatorType.RoadCenterlines,

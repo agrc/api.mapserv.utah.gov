@@ -7,10 +7,7 @@ using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.Linkables;
-using Moq;
 using Serilog;
-using Shouldly;
-using Xunit;
 
 namespace api.tests.Features.Geocoding {
     public class DoubleAveExceptionTests {
@@ -50,9 +47,18 @@ namespace api.tests.Features.Geocoding {
         [InlineData("7th", 0, Direction.None)]
         public async Task Should_add_west_to_midvale_avenue_if_not_supplied_for_zip(
             string streetName, int zipCode, Direction direction) {
-            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetName,
-                                                                 StreetType.Avenue, Direction.None, 0, zipCode, false,
-                                                                 false));
+            var inputAddress = string.Empty;
+            int? houseNumber = null;
+            const Direction prefixDirection = Direction.None;
+            const StreetType streetType = StreetType.Avenue;
+            const Direction suffixDirection = Direction.None;
+            const int zip5 = 0;
+            const int poBox = 0;
+            const bool isPoBox = false;
+            const bool isHighway = false;
+
+            var address = new Address(inputAddress, houseNumber, prefixDirection, streetName, streetType,
+                                    suffixDirection, zipCode, zip5, null, poBox, isPoBox, isHighway);
 
             var request = new ZoneParsing.Computation(zipCode.ToString(), address);
             var result = await _decorator.Handle(request, new CancellationToken());
@@ -70,9 +76,19 @@ namespace api.tests.Features.Geocoding {
         [InlineData("7th", null, Direction.None)]
         public async Task Should_add_west_to_midvale_avenue_if_not_supplied_for_city(
             string streetName, string city, Direction direction) {
-            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetName,
-                                                                 StreetType.Avenue, Direction.None, 0, null, false,
-                                                                 false));
+            var inputAddress = string.Empty;
+            int? houseNumber = null;
+            const Direction prefixDirection = Direction.None;
+            const StreetType streetType = StreetType.Avenue;
+            const Direction suffixDirection = Direction.None;
+            const int zip4 = 0;
+            const int zip5 = 0;
+            const int poBox = 0;
+            const bool isPoBox = false;
+            const bool isHighway = false;
+
+            var address = new Address(inputAddress, houseNumber, prefixDirection, streetName, streetType,
+                                    suffixDirection, zip4, zip5, null, poBox, isPoBox, isHighway);
 
             var request = new ZoneParsing.Computation(city, address);
             var result = await _decorator.Handle(request, new CancellationToken());
@@ -87,9 +103,19 @@ namespace api.tests.Features.Geocoding {
         [InlineData("7", "  slc", Direction.East)]
         public async Task Should_add_east_to_slc_avenue_if_not_supplied_for_city(
             string streetName, string city, Direction direction) {
-            var address = new AddressWithGrids(new CleansedAddress("", 0, 0, 0, Direction.None, streetName,
-                                                                 StreetType.Avenue, Direction.None, 0, null, false,
-                                                                 false));
+            var inputAddress = string.Empty;
+            int? houseNumber = null;
+            const Direction prefixDirection = Direction.None;
+            const StreetType streetType = StreetType.Avenue;
+            const Direction suffixDirection = Direction.None;
+            const int zip4 = 0;
+            const int zip5 = 0;
+            const int poBox = 0;
+            const bool isPoBox = false;
+            const bool isHighway = false;
+
+            var address = new Address(inputAddress, houseNumber, prefixDirection, streetName, streetType,
+                                    suffixDirection, zip4, zip5, null, poBox, isPoBox, isHighway);
 
             var request = new ZoneParsing.Computation(city, address);
             var result = await _decorator.Handle(request, new CancellationToken());
