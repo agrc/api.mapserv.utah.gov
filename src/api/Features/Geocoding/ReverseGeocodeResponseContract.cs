@@ -7,7 +7,7 @@ public class ReverseGeocodeResponseContract {
     /// The street address extracted from the Transportation.Roads dataset
     /// </summary>
     /// <value></value>
-    public Address Address { get; set; } = default!;
+    public ReverseGeocodeAddress Address { get; set; } = default!;
 
     // The addressing grid in which the address was created
     [JsonIgnore]
@@ -41,4 +41,4 @@ public class ReverseGeocodeResponseContract {
         }
     }
 }
-public record Address(string Street, string AddressSystem, string AddressType);
+public record ReverseGeocodeAddress(string Street, string AddressSystem, string AddressType);

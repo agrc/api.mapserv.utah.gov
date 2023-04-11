@@ -7,9 +7,9 @@ using AGRC.api.Models.Linkables;
 namespace AGRC.api.Features.Geocoding;
 public class UspsDeliveryPointLocation {
     public class Computation : IComputation<Candidate?>, IHasGeocodingOptions {
-        internal readonly AddressWithGrids Address;
+        internal readonly Address Address;
 
-        public Computation(AddressWithGrids address, SingleGeocodeRequestOptionsContract options) {
+        public Computation(Address address, SingleGeocodeRequestOptionsContract options) {
             Address = address;
             Options = options;
         }

@@ -197,7 +197,7 @@ try {
                 .AsImplementedInterfaces();
 
         builder.RegisterDecorator<DoubleAvenuesException.Decorator,
-            IComputationHandler<ZoneParsing.Computation, AddressWithGrids>>();
+            IComputationHandler<ZoneParsing.Computation, Address>>();
 
         builder.RegisterDecorator<SqlQuery.ShapeFieldDecorator,
             IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();

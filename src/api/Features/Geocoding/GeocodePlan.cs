@@ -5,10 +5,10 @@ using Microsoft.Extensions.Options;
 namespace AGRC.api.Features.Geocoding;
 public class GeocodePlan {
     public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {
-        internal readonly AddressWithGrids Address;
+        internal readonly Address Address;
         internal readonly SingleGeocodeRequestOptionsContract Options;
 
-        public Computation(AddressWithGrids address, SingleGeocodeRequestOptionsContract options) {
+        public Computation(Address address, SingleGeocodeRequestOptionsContract options) {
             Address = address;
             Options = options;
         }
@@ -24,7 +24,7 @@ public class GeocodePlan {
         }
 
         private static IReadOnlyCollection<LocatorMetadata> BuildAddressPermutations(
-            AddressWithGrids address, int spatialReference) {
+            Address address, int spatialReference) {
             var addressPermutations = new List<LocatorMetadata>();
 
             if (!address.AddressGrids.Any()) {
@@ -39,7 +39,7 @@ public class GeocodePlan {
         }
 
         private IReadOnlyCollection<LocatorProperties> BuildLocatorLookup(
-            AddressWithGrids address, IReadOnlyCollection<LocatorMetadata> permutations, LocatorType locatorType) {
+            Address address, IReadOnlyCollection<LocatorMetadata> permutations, LocatorType locatorType) {
             var locators = new List<LocatorProperties>();
 
             if (locatorType == LocatorType.Default || locatorType == LocatorType.All) {

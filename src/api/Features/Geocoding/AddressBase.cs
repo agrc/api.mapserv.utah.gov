@@ -1,65 +1,88 @@
 using AGRC.api.Models.Constants;
+using AGRC.api.Models.Linkables;
 
 namespace AGRC.api.Features.Geocoding;
-public abstract partial class AddressBase {
-    protected AddressBase() { }
-
-    protected AddressBase(string inputAddress, int? houseNumber, double milepost, int poBox,
-                          Direction prefixDirection, string streetName, StreetType streetType,
-                          Direction suffixDirection, int zip4, int? zip5, bool isHighway, bool isPoBox) {
+public partial class Address {
+    public Address(string inputAddress, int? houseNumber,
+                 Direction prefixDirection, string streetName,
+                 StreetType streetType, Direction suffixDirection,
+                 int? zip5, int zip4,
+                 IReadOnlyCollection<GridLinkable>? addressGrids,
+                 int poBox, bool isPoBox, bool isHighway) {
         InputAddress = inputAddress;
         HouseNumber = houseNumber;
-        Milepost = milepost;
-        PoBox = poBox;
         PrefixDirection = prefixDirection;
         StreetName = streetName;
         StreetType = streetType;
         SuffixDirection = suffixDirection;
-        Zip4 = zip4;
         Zip5 = zip5;
-        IsHighway = isHighway;
+        Zip4 = zip4;
+        AddressGrids = addressGrids ?? Array.Empty<GridLinkable>();
+        PoBox = poBox;
         IsPoBox = isPoBox;
+        IsHighway = isHighway;
     }
 
-    public string InputAddress { get; set; }
+    public string InputAddress { get; }
 
-    public int? HouseNumber { get; set; }
+    public int? HouseNumber { get; }
+    public Direction PrefixDirection { get; }
+    public string StreetName { get; }
+    public StreetType StreetType { get; }
+    public Direction SuffixDirection { get; }
 
-    public double Milepost { get; set; }
+    public int PoBox { get; }
+    public int Zip4 { get; }
+    public int? Zip5 { get; }
 
-    public int PoBox { get; set; }
+    public IReadOnlyCollection<GridLinkable> AddressGrids { get; }
+    /// <summary>
+    ///     Gets or sets the standardized address.
+    /// </summary>
+    /// <value>
+    ///     The standardized address that we modify to fix common address issues.
+    ///     US89 => Highway89
+    ///     1991N => 1991 N
+    /// </value>
+    public string StandardizedAddress {
+        get {
+            if (IsPoBox) {
+                return $"P.O. Box {PoBox}";
+            }
 
-    public Direction PrefixDirection { get; set; }
+            var standardPattern = $"{HouseNumber} {PrefixDirection} {StreetName} {StreetType} {SuffixDirection}";
 
-    public string StreetName { get; set; }
+            if (IsHighway) {
+                standardPattern = $"{HouseNumber} {PrefixDirection} {StreetName} {SuffixDirection}";
+            }
 
-    public StreetType StreetType { get; set; }
+            standardPattern = standardPattern.Replace("None", "");
 
-    public Direction SuffixDirection { get; set; }
+            var regex = MultipleSpaces();
+            standardPattern = regex.Replace(standardPattern, " ");
 
-    public int Zip4 { get; set; }
+            return standardPattern.Trim();
+        }
+    }
+    public bool IsHighway { get; }
 
-    public int? Zip5 { get; set; }
+    public bool IsPoBox { get; }
 
-    public bool IsHighway { get; set; }
-
-    public bool IsPoBox { get; set; }
-
-    public virtual string ReversalAddress {
+    public string ReversalAddress {
         get {
             var address = string.Format("{2} {3} {4} {0} {1}", HouseNumber, PrefixDirection, StreetName,
                                         SuffixDirection, StreetType);
 
             address = address.Replace("None", "");
 
-            var regex = reverse();
+            var regex = MultipleSpaces();
             address = regex.Replace(address, " ");
 
             return address.Trim();
         }
     }
 
-    public virtual bool IsNumericStreetName() {
+    public bool IsNumericStreetName() {
         if (string.IsNullOrEmpty(StreetName)) {
             return false;
         }
@@ -67,9 +90,9 @@ public abstract partial class AddressBase {
         return int.TryParse(StreetName, out _);
     }
 
-    public virtual bool HasPrefix() => PrefixDirection != Direction.None;
+    public bool HasPrefix() => PrefixDirection != Direction.None;
 
-    public virtual bool IsReversal() {
+    public bool IsReversal() {
         if (string.IsNullOrEmpty(StreetName)) {
             return false;
         }
@@ -78,12 +101,12 @@ public abstract partial class AddressBase {
             return false;
         }
 
-        var notZeroOrFive = AddressBase.notZeroOrFive();
+        var notZeroOrFive = NotZeroOrFive();
 
         return notZeroOrFive.IsMatch(StreetName);
     }
 
-    public virtual bool PossibleReversal() {
+    public bool PossibleReversal() {
         if (string.IsNullOrEmpty(StreetName)) {
             return false;
         }
@@ -99,13 +122,13 @@ public abstract partial class AddressBase {
         return stepOne && stepTwo;
     }
 
-    public virtual bool IsIntersection() {
-        var regex = intersection();
+    public bool IsIntersection() {
+        var regex = Intersection();
 
         return regex.IsMatch(InputAddress);
     }
 
-    public virtual bool IsMatchable() {
+    public bool IsMatchable() {
         if (IsIntersection()) {
             return true;
         }
@@ -117,10 +140,29 @@ public abstract partial class AddressBase {
         return true;
     }
 
+    public static Address BuildPoBoxAddress(string inputAddress, int poBox, int zip5, IReadOnlyCollection<GridLinkable>? grids = null) =>
+         new(inputAddress, null, Direction.None, "P.O. Box", StreetType.None,
+             Direction.None, zip5, 0, grids, poBox, true, false);
+
     [GeneratedRegex("[ ]{2,}", RegexOptions.None)]
-    private static partial Regex reverse();
+    private static partial Regex MultipleSpaces();
     [GeneratedRegex("[^05]$")]
-    private static partial Regex notZeroOrFive();
+    private static partial Regex NotZeroOrFive();
     [GeneratedRegex("\\band\\b", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex intersection();
+    private static partial Regex Intersection();
+}
+
+public static class AddressExtensions {
+    public static Address SetAddressGrids(this Address address, IReadOnlyCollection<GridLinkable> grids) =>
+         new(address.InputAddress, address.HouseNumber, address.PrefixDirection, address.StreetName,
+                   address.StreetType, address.SuffixDirection, address.Zip5, address.Zip4, grids,
+                   address.PoBox, address.IsPoBox, address.IsHighway);
+    public static Address SetZipCodes(this Address address, int zip5, int zip4) =>
+         new(address.InputAddress, address.HouseNumber, address.PrefixDirection, address.StreetName,
+                   address.StreetType, address.SuffixDirection, zip5, zip4, address.AddressGrids,
+                   address.PoBox, address.IsPoBox, address.IsHighway);
+    public static Address SetPrefixDirection(this Address address, Direction direction) =>
+         new(address.InputAddress, address.HouseNumber, direction, address.StreetName,
+                   address.StreetType, address.SuffixDirection, address.Zip5, address.Zip4,
+                   address.AddressGrids, address.PoBox, address.IsPoBox, address.IsHighway);
 }

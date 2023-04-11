@@ -35,7 +35,7 @@ public class GeocodeQuery {
             var parseAddressComputation = new AddressParsing.Computation(street);
             var parsedStreet = await _computeMediator.Handle(parseAddressComputation, cancellationToken);
 
-            var parseZoneComputation = new ZoneParsing.Computation(zone, new AddressWithGrids(parsedStreet));
+            var parseZoneComputation = new ZoneParsing.Computation(zone, parsedStreet);
             var parsedAddress = await _computeMediator.Handle(parseZoneComputation, cancellationToken);
 
             if (request.Options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue) {
@@ -163,7 +163,7 @@ public class GeocodeQuery {
             var street = request.Street?.Trim();
             var zone = request.Zone?.Trim();
 
-            var errors = "";
+            var errors = string.Empty;
             if (string.IsNullOrEmpty(street)) {
                 errors = "Street is empty.";
             }

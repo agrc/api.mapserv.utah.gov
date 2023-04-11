@@ -7,7 +7,7 @@ namespace AGRC.api.Features.Geocoding;
 public class FilterCandidates {
     public class Computation : IComputation<SingleGeocodeResponseContract?> {
         public Computation(IList<Candidate>? candidates, SingleGeocodeRequestOptionsContract geocodeOptions,
-                string street, string zone, AddressWithGrids geocodedAddress) {
+                string street, string zone, Address geocodedAddress) {
             GeocodeOptions = geocodeOptions;
             Street = street;
             Zone = zone;
@@ -18,7 +18,7 @@ public class FilterCandidates {
         internal SingleGeocodeRequestOptionsContract GeocodeOptions { get; set; }
         internal string Street { get; set; }
         internal string Zone { get; set; }
-        internal AddressWithGrids GeocodedAddress { get; set; }
+        internal Address GeocodedAddress { get; set; }
         internal IList<Candidate>? Candidates { get; }
     }
 

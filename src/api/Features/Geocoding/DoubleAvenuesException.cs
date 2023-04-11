@@ -4,17 +4,17 @@ using AGRC.api.Models.Constants;
 
 namespace AGRC.api.Features.Geocoding;
 public class DoubleAvenuesException {
-    public class Decorator : IComputationHandler<ZoneParsing.Computation, AddressWithGrids> {
-        private readonly IComputationHandler<ZoneParsing.Computation, AddressWithGrids> _decorated;
+    public class Decorator : IComputationHandler<ZoneParsing.Computation, Address> {
+        private readonly IComputationHandler<ZoneParsing.Computation, Address> _decorated;
         private readonly ILogger? _log;
         private readonly Regex _ordinal;
 
-        public Decorator(IComputationHandler<ZoneParsing.Computation, AddressWithGrids> decorated, IRegexCache cache, ILogger log) {
+        public Decorator(IComputationHandler<ZoneParsing.Computation, Address> decorated, IRegexCache cache, ILogger log) {
             _log = log?.ForContext<DoubleAvenuesException>();
             _ordinal = cache.Get("avesOrdinal");
             _decorated = decorated;
         }
-        public async Task<AddressWithGrids> Handle(ZoneParsing.Computation computation, CancellationToken cancellationToken) {
+        public async Task<Address> Handle(ZoneParsing.Computation computation, CancellationToken cancellationToken) {
             var response = await _decorated.Handle(computation, cancellationToken);
 
             if (response.PrefixDirection != Direction.None ||
@@ -35,18 +35,14 @@ public class DoubleAvenuesException {
                 (response.Zip5 == midvale)) {
                 _log?.Information("midvale avenues match");
 
-                response.PrefixDirection = Direction.West;
-
-                return response;
+                return response.SetPrefixDirection(Direction.West);
             }
 
             // update the slc avenues to have an east
             if (response.AddressGrids.Select(x => x.Grid.ToLowerInvariant()).Contains("salt lake city")) {
                 _log?.Information("slc avenues match");
 
-                response.PrefixDirection = Direction.East;
-
-                return response;
+                return response.SetPrefixDirection(Direction.East);
             }
 
             _log?.Debug("no match");
