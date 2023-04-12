@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using AGRC.api.Features.Converting;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Filters;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using EsriJson.Net;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing;
 using NetTopologySuite.Features;
 using static AGRC.api.Features.Converting.EsriGraphic;
 using Point = EsriJson.Net.Geometry.Point;

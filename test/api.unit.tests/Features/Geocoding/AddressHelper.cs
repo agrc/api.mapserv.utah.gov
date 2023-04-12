@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.Linkables;
 
 namespace api.tests.Features.Geocoding;
-
 public static class AddressHelper {
     public static Address CreateEmptyAddress() {
         var inputAddress = string.Empty;

@@ -1,73 +1,66 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using AGRC.api.Cache;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.Linkables;
-using Serilog;
 
-namespace api.tests.Features.Geocoding {
-    public class ZoneParsingTests {
-        public ZoneParsingTests() {
-            var regex = new RegexCache(new Abbreviations());
-            var mediator = new Mock<IComputeMediator>();
+namespace api.tests.Features.Geocoding;
+public class ZoneParsingTests {
+    public ZoneParsingTests() {
+        var regex = new RegexCache(new Abbreviations());
+        var mediator = new Mock<IComputeMediator>();
 
-            mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(),
-                                       It.IsAny<CancellationToken>()))
-                    .Returns((AddressSystemFromPlace.Computation g, CancellationToken _) => {
-                        if (g.CityKey == "alta") {
-                            return Task.FromResult(new[] { new PlaceGridLink("alta", "grid", 1) } as
-                                                       IReadOnlyCollection<GridLinkable>);
-                        }
+        mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(),
+                                   It.IsAny<CancellationToken>()))
+                .Returns((AddressSystemFromPlace.Computation g, CancellationToken _) => {
+                    if (g.CityKey == "alta") {
+                        return Task.FromResult(new[] { new PlaceGridLink("alta", "grid", 1) } as
+                                                   IReadOnlyCollection<GridLinkable>);
+                    }
 
-                        return Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>);
-                    });
+                    return Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>);
+                });
 
-            var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
+        var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
-            _handler = new ZoneParsing.Handler(regex, mediator.Object, mock.Object);
-        }
+        _handler = new ZoneParsing.Handler(regex, mediator.Object, mock.Object);
+    }
 
-        private readonly ZoneParsing.Handler _handler;
+    private readonly ZoneParsing.Handler _handler;
 
-        [Theory]
-        [InlineData("123456789")]
-        [InlineData("12345-6789")]
-        public async Task Should_parse_zip_parts(string input) {
-            var address = AddressHelper.CreateEmptyAddress();
-            var request = new ZoneParsing.Computation(input, address);
+    [Theory]
+    [InlineData("123456789")]
+    [InlineData("12345-6789")]
+    public async Task Should_parse_zip_parts(string input) {
+        var address = AddressHelper.CreateEmptyAddress();
+        var request = new ZoneParsing.Computation(input, address);
 
-            var result = await _handler.Handle(request, new CancellationToken());
+        var result = await _handler.Handle(request, new CancellationToken());
 
-            result.Zip5.ShouldBe(12345);
-            result.Zip4.ShouldBe(6789);
-        }
+        result.Zip5.ShouldBe(12345);
+        result.Zip4.ShouldBe(6789);
+    }
 
-        [Theory]
-        [InlineData("City of Alta.")]
-        [InlineData("Town of     Alta")]
-        [InlineData("Alta ")]
-        public async Task Should_find_grid_from_place(string input) {
-            var address = AddressHelper.CreateEmptyAddress();
-            var request = new ZoneParsing.Computation(input, address);
+    [Theory]
+    [InlineData("City of Alta.")]
+    [InlineData("Town of     Alta")]
+    [InlineData("Alta ")]
+    public async Task Should_find_grid_from_place(string input) {
+        var address = AddressHelper.CreateEmptyAddress();
+        var request = new ZoneParsing.Computation(input, address);
 
-            var result = await _handler.Handle(request, new CancellationToken());
+        var result = await _handler.Handle(request, new CancellationToken());
 
-            result.AddressGrids.ShouldHaveSingleItem();
-            result.AddressGrids.First().Grid.ShouldBe("grid");
-        }
+        result.AddressGrids.ShouldHaveSingleItem();
+        result.AddressGrids.First().Grid.ShouldBe("grid");
+    }
 
-        [Fact]
-        public async Task Should_return_empty_grid_if_zone_not_found() {
-            var address = AddressHelper.CreateEmptyAddress();
-            var request = new ZoneParsing.Computation("123eastbumble", address);
+    [Fact]
+    public async Task Should_return_empty_grid_if_zone_not_found() {
+        var address = AddressHelper.CreateEmptyAddress();
+        var request = new ZoneParsing.Computation("123eastbumble", address);
 
-            var result = await _handler.Handle(request, new CancellationToken());
+        var result = await _handler.Handle(request, new CancellationToken());
 
-            result.AddressGrids.ShouldBeEmpty();
-        }
+        result.AddressGrids.ShouldBeEmpty();
     }
 }

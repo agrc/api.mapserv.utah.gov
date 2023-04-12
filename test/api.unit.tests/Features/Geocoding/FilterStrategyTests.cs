@@ -1,5 +1,4 @@
 using AGRC.api.Features.Geocoding;
-using Microsoft.AspNetCore.Http;
 
 namespace api.tests.Features.Geocoding;
 public class FilterStrategyTests {
