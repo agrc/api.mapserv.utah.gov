@@ -1,4 +1,4 @@
-﻿using AGRC.api.Conventions;
+using AGRC.api.Conventions;
 using AGRC.api.Filters;
 using AGRC.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Mvc;

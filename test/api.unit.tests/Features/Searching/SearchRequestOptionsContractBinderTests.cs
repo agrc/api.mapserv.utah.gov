@@ -1,4 +1,4 @@
-﻿using AGRC.api.Features.Searching;
+using AGRC.api.Features.Searching;
 using AGRC.api.Models.Constants;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;

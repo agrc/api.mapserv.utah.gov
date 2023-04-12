@@ -1,4 +1,4 @@
-﻿using AGRC.api.Features.Searching;
+using AGRC.api.Features.Searching;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using static AGRC.api.Features.Converting.EsriGraphic;

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using AGRC.api.Models;
 
 namespace AGRC.api.Features.Geocoding;

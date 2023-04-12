@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using AGRC.api.Comparers;
 using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;

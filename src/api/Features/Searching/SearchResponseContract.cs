@@ -1,4 +1,4 @@
-﻿using static AGRC.api.Features.Converting.EsriGraphic;
+using static AGRC.api.Features.Converting.EsriGraphic;
 
 namespace AGRC.api.Features.Searching;
 public class SearchResponseContract {

@@ -1,4 +1,4 @@
-﻿using AGRC.api.Models.Constants;
+using AGRC.api.Models.Constants;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
 

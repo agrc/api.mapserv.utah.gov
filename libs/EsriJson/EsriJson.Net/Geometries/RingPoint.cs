@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using EsriJson.Net.Geometry.Converters;
 
 namespace EsriJson.Net.Geometry {

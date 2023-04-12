@@ -1,4 +1,4 @@
-﻿using AGRC.api.Features.Searching;
+using AGRC.api.Features.Searching;
 using NetTopologySuite.Geometries;
 using static AGRC.api.Features.Converting.EsriGraphic;
 

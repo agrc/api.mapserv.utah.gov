@@ -1,4 +1,4 @@
-﻿using AGRC.api.Infrastructure;
+using AGRC.api.Infrastructure;
 using Microsoft.Extensions.Options;
 
 namespace AGRC.api.Features.Geocoding;

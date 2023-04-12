@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using AGRC.api.Models.RequestOptionContracts;
 
 namespace AGRC.api.Features.Geocoding;

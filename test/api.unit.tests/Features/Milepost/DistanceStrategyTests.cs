@@ -1,4 +1,4 @@
-﻿using AGRC.api.Features.Milepost;
+using AGRC.api.Features.Milepost;
 using AGRC.api.Models;
 
 namespace api.tests.Features.Milepost;

@@ -1,4 +1,4 @@
-﻿namespace EsriJson.Net.Geometry {
+namespace EsriJson.Net.Geometry {
     public class Point : EsriJsonObject {
         public Point() {
 

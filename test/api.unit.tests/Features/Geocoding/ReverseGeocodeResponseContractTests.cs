@@ -1,4 +1,4 @@
-﻿using AGRC.api.Features.Geocoding;
+using AGRC.api.Features.Geocoding;
 using AGRC.api.Models;
 
 namespace api.tests.Features.Geocoding;

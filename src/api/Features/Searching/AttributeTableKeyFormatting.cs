@@ -1,4 +1,4 @@
-﻿using AGRC.api.Infrastructure;
+using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
 
 namespace AGRC.api.Features.Searching;
