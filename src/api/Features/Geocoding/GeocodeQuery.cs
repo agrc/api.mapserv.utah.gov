@@ -45,7 +45,7 @@ public class GeocodeQuery {
                 if (result != null) {
                     var model = result.ToResponseObject(street, zone);
 
-                    var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
+                    var standard = parsedAddress.StandardizedAddress().ToLowerInvariant();
                     var input = street?.ToLowerInvariant();
 
                     if (input != standard) {
@@ -70,7 +70,7 @@ public class GeocodeQuery {
             if (uspsPoint != null) {
                 var model = uspsPoint.ToResponseObject(street, zone);
 
-                var standard = parsedAddress.StandardizedAddress.ToLowerInvariant();
+                var standard = parsedAddress.StandardizedAddress().ToLowerInvariant();
                 var input = street?.ToLowerInvariant();
 
                 if (input != standard) {
@@ -89,7 +89,7 @@ public class GeocodeQuery {
             }
 
             var topCandidates = new TopAddressCandidates(request.Options.Suggest,
-                new CandidateComparer(parsedAddress.StandardizedAddress.ToUpperInvariant()));
+                new CandidateComparer(parsedAddress.StandardizedAddress().ToUpperInvariant()));
 
             var createGeocodePlanComputation = new GeocodePlan.Computation(parsedAddress, request.Options);
             var plan = await _computeMediator.Handle(createGeocodePlanComputation, cancellationToken);

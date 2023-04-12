@@ -59,7 +59,7 @@ public class PoBoxLocation {
 
                 var exclusion = value;
                 candidate = new Candidate(
-                     request.Address.StandardizedAddress,
+                     request.Address.StandardizedAddress(),
                      request.Address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown",
                      new Point(exclusion.X, exclusion.Y),
                      100,
@@ -70,7 +70,7 @@ public class PoBoxLocation {
                 _log?.Information("match");
 
                 candidate = new Candidate(
-                     request.Address.StandardizedAddress,
+                     request.Address.StandardizedAddress(),
                      request.Address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown",
                      new Point(result.X, result.Y),
                      100,

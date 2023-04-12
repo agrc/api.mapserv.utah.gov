@@ -94,7 +94,7 @@ public class FilterCandidates {
                                            .ToArray();
             }
 
-            var standard = request.GeocodedAddress.StandardizedAddress.ToLowerInvariant();
+            var standard = request.GeocodedAddress.StandardizedAddress().ToLowerInvariant();
             var input = request.Street.ToLowerInvariant();
 
             if (input != standard) {

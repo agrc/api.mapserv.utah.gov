@@ -24,7 +24,7 @@ public class DoubleAvenuesException {
                 return response;
             }
 
-            _log?.ForContext("street", response.StandardizedAddress)
+            _log?.ForContext("street", response.StandardizedAddress())
                 .ForContext("zone", computation.InputZone)
                 .Debug("possible candidate");
 

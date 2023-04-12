@@ -58,7 +58,7 @@ public class GeocodePlan {
                 LocatorProperties(permutations, address.IsReversal(), address.PossibleReversal(), locatorType)
             );
 
-            _log?.ForContext("address", address.StandardizedAddress)
+            _log?.ForContext("address", address.StandardizedAddress())
                 .ForContext("urls", string.Join(",", locators.Select(x => x.Url)))
                 .Debug("geocode plan created");
 
@@ -72,7 +72,7 @@ public class GeocodePlan {
 
             if (reversal || likelyReversal) {
                 foreach (var locator in locators) {
-                    locatorsForAddress.AddRange(permutations.Select(p => locator.ToLocatorProperty(p, (a) => a.AddressInfo.ReversalAddress)));
+                    locatorsForAddress.AddRange(permutations.Select(p => locator.ToLocatorProperty(p, (a) => a.AddressInfo.ReverseAddressParts())));
                 }
             }
 

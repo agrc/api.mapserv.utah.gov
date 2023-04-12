@@ -447,7 +447,7 @@ public class AddressParsingTests {
         result.StreetName.ShouldBe(input.StreetName);
         result.StreetType.ShouldBe(input.StreetType);
         result.SuffixDirection.ShouldBe(input.SuffixDirection);
-        result.StandardizedAddress.ShouldBe(standardAddress);
+        result.StandardizedAddress().ShouldBe(standardAddress);
         result.IsReversal().ShouldBe(reversal);
         result.IsPoBox.ShouldBeTrue();
     }
@@ -476,7 +476,7 @@ public class AddressParsingTests {
         result.StreetName.ShouldBe(input.StreetName);
         result.StreetType.ShouldBe(input.StreetType);
         result.SuffixDirection.ShouldBe(input.SuffixDirection);
-        result.StandardizedAddress.ToLowerInvariant().ShouldBe(standardAddress);
+        result.StandardizedAddress().ToLowerInvariant().ShouldBe(standardAddress);
         result.IsPoBox.ShouldBeFalse();
     }
 
@@ -509,7 +509,7 @@ public class AddressParsingTests {
         var request = new AddressParsing.Computation(address);
         var result = await _handler.Handle(request, CancellationToken.None);
 
-        result.ReversalAddress.ToLowerInvariant().ShouldBe(reversalAddress);
+        result.ReverseAddressParts().ToLowerInvariant().ShouldBe(reversalAddress);
     }
 
     [Fact]
@@ -524,7 +524,7 @@ public class AddressParsingTests {
         result.StreetName.ShouldBe("house");
         result.StreetType.ShouldBe(StreetType.Street);
         result.SuffixDirection.ShouldBe(Direction.None);
-        result.StandardizedAddress.ToLowerInvariant().ShouldBe("123 west house street");
+        result.StandardizedAddress().ToLowerInvariant().ShouldBe("123 west house street");
         result.IsReversal().ShouldBeFalse();
     }
 
@@ -572,27 +572,27 @@ public class AddressParsingTests {
     public void Should_create_reversal() {
         var model = new Address(string.Empty, 1, Direction.West, "street name", StreetType.Alley, Direction.South, null, 0, null, 0, false, false);
 
-        model.ReversalAddress.ToLowerInvariant().ShouldBe("street name south alley 1 west");
+        model.ReverseAddressParts().ToLowerInvariant().ShouldBe("street name south alley 1 west");
     }
 
     [Fact]
     public void Should_standardize_address() {
         var model = new Address(string.Empty, 1, Direction.East, "street", StreetType.Alley, Direction.North, null, 0, null, 0, false, false);
 
-        model.StandardizedAddress.ToLowerInvariant().ShouldBe("1 east street alley north");
+        model.StandardizedAddress().ToLowerInvariant().ShouldBe("1 east street alley north");
     }
 
     [Fact]
     public void Should_standardize_address_without_nones() {
         var model = new Address(string.Empty, 1, Direction.None, "street", StreetType.None, Direction.None, null, 0, null, 0, false, false);
 
-        model.StandardizedAddress.ToLowerInvariant().ShouldBe("1 street");
+        model.StandardizedAddress().ToLowerInvariant().ShouldBe("1 street");
     }
 
     [Fact]
     public void Should_standardize_po_boxes() {
         var model = Address.BuildPoBoxAddress("", 1, 0);
 
-        model.StandardizedAddress.ToLowerInvariant().ShouldBe("p.o. box 1");
+        model.StandardizedAddress().ToLowerInvariant().ShouldBe("p.o. box 1");
     }
 }
