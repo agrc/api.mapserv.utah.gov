@@ -3,9 +3,9 @@ using AGRC.api.Models.Constants;
 
 namespace api.tests.Features.Searching;
 public class SearchRequestOptionsContractBinderTests {
-    private readonly SearchRequestOptionsContractBinder binder;
+    private readonly SearchRequestOptionsContractBinder _binder;
     public SearchRequestOptionsContractBinderTests() {
-        binder = new SearchRequestOptionsContractBinder();
+        _binder = new SearchRequestOptionsContractBinder();
     }
 
     public static ModelBindingContext GenerateContextFor(string query, string version) {
@@ -38,7 +38,7 @@ public class SearchRequestOptionsContractBinderTests {
             "?geometry=point:[1,1]&predicate=1=1&buffer=10",
             "1");
 
-        await binder.BindModelAsync(context);
+        await _binder.BindModelAsync(context);
 
         context.Result.IsModelSet.ShouldBeTrue();
         context.Result.Model.ShouldBeAssignableTo<SearchRequestOptionsContract>();
@@ -58,7 +58,7 @@ public class SearchRequestOptionsContractBinderTests {
             "?geometry=point:[1,1]&predicate=1=1&buffer=10",
             "2");
 
-        await binder.BindModelAsync(context);
+        await _binder.BindModelAsync(context);
 
         context.Result.IsModelSet.ShouldBeTrue();
         context.Result.Model.ShouldBeAssignableTo<SearchRequestOptionsContract>();
@@ -78,7 +78,7 @@ public class SearchRequestOptionsContractBinderTests {
             "?geometry=point:[1,1]&predicate=1=1&buffer=10&attributeStyle=fake",
             "1");
 
-        await binder.BindModelAsync(context);
+        await _binder.BindModelAsync(context);
 
         context.Result.IsModelSet.ShouldBeTrue();
         context.Result.Model.ShouldBeAssignableTo<SearchRequestOptionsContract>();
@@ -98,7 +98,7 @@ public class SearchRequestOptionsContractBinderTests {
             "?geometry=point:[1,1]&predicate=1=1&buffer=10&attributeStyle=fake",
             "2");
 
-        await binder.BindModelAsync(context);
+        await _binder.BindModelAsync(context);
 
         context.Result.IsModelSet.ShouldBeTrue();
         context.Result.Model.ShouldBeAssignableTo<SearchRequestOptionsContract>();
@@ -118,7 +118,7 @@ public class SearchRequestOptionsContractBinderTests {
             "?geometry=point:[1,1]&spatialReference=4326&predicate=1=1&attributeStyle=upper&buffer=10",
             "1");
 
-        await binder.BindModelAsync(context);
+        await _binder.BindModelAsync(context);
 
         context.Result.IsModelSet.ShouldBeTrue();
         context.Result.Model.ShouldBeAssignableTo<SearchRequestOptionsContract>();
@@ -138,7 +138,7 @@ public class SearchRequestOptionsContractBinderTests {
             "?buffer=100000000",
             "1");
 
-        await binder.BindModelAsync(context);
+        await _binder.BindModelAsync(context);
 
         context.Result.IsModelSet.ShouldBeTrue();
         context.Result.Model.ShouldBeAssignableTo<SearchRequestOptionsContract>();
@@ -154,7 +154,7 @@ public class SearchRequestOptionsContractBinderTests {
             "?spatialReference=what",
             "1");
 
-        await binder.BindModelAsync(context);
+        await _binder.BindModelAsync(context);
 
         context.Result.IsModelSet.ShouldBeTrue();
         context.Result.Model.ShouldBeAssignableTo<SearchRequestOptionsContract>();

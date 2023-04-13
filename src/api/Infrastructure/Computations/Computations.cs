@@ -31,10 +31,10 @@ public class ComputeMediator : IComputeMediator {
 
         var handler = Resolver.Invoke(handlerType);
 
-        var handleMethod = handlerType.GetMethod("Handle");
+        var handleMethod = handlerType.GetMethod("Handle")!;
 
         var parameters = new object[] { command, cancellationToken };
 
-        return (Task<TResult>)handleMethod.Invoke(handler, parameters);
+        return (Task<TResult>)handleMethod.Invoke(handler, parameters)!;
     }
 }

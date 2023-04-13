@@ -4,7 +4,6 @@ using AGRC.api.Models.Constants;
 namespace AGRC.api.Features.Searching;
 public class AttributeTableKeyFormatting {
     public class Decorator : IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?> {
-
         private readonly IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?> _decorated;
 
         public Decorator(IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?> decorated) {
