@@ -103,4 +103,6 @@
   "coverage-gutters.noHighlightDark": "rgb(255, 65, 54, .05)",
   "coverage-gutters.partialHighlightDark": "rgb(255, 133, 27, .05)",
   "python.formatting.provider": "black",
+  "omnisharp.enableRoslynAnalyzers": true,
+  "omnisharp.enableEditorConfigSupport": true,
 }
