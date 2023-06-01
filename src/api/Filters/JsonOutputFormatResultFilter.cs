@@ -9,11 +9,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace AGRC.api.Filters;
 public class JsonOutputFormatResultFilter : IAsyncResultFilter {
     private readonly IComputeMediator _mediator;
-    private readonly ApiVersion? _version;
 
-    public JsonOutputFormatResultFilter(IComputeMediator mediator, IHttpContextAccessor context) {
+
+    public JsonOutputFormatResultFilter(IComputeMediator mediator) {
         _mediator = mediator;
-        _version = context.HttpContext?.GetRequestedApiVersion();
     }
 
     public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next) {
@@ -35,16 +34,17 @@ public class JsonOutputFormatResultFilter : IAsyncResultFilter {
             return;
         }
 
+        var version = context.HttpContext!.GetRequestedApiVersion();
         if (response.Value is ApiResponseContract<SingleGeocodeResponseContract> container) {
             switch (format.ToString().ToLowerInvariant()) {
                 case "geojson": {
-                        var command = new GeoJsonFeature.Computation(container, _version);
+                        var command = new GeoJsonFeature.Computation(container, version);
                         response.Value = await _mediator.Handle(command, default);
 
                         break;
                     }
                 case "esrijson": {
-                        var command = new EsriGraphic.Computation(container, _version);
+                        var command = new EsriGraphic.Computation(container, version);
                         response.Value = await _mediator.Handle(command, default);
 
                         break;
