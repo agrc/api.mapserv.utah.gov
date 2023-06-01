@@ -9,12 +9,12 @@ public interface IFilterSuggestionFactory {
 }
 
 public class FilterSuggestionFactory : IFilterSuggestionFactory {
-    private readonly HttpContext _httpContext;
-    public FilterSuggestionFactory(IHttpContextAccessor httpContext) {
-        _httpContext = httpContext.HttpContext!;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public FilterSuggestionFactory(IHttpContextAccessor accessor) {
+        _httpContextAccessor = accessor;
     }
     public IFilterSuggestionStrategy GetStrategy(int acceptScore) {
-        var version = _httpContext.GetRequestedApiVersion();
+        var version = _httpContextAccessor.HttpContext!.GetRequestedApiVersion();
 
         return version?.MajorVersion switch {
             1 => new FilterStrategyV1(),
