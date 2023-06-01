@@ -60,11 +60,11 @@ public class CacheHostedService : BackgroundService {
             } else {
                 _log?.Debug("redis cache is ready.");
             }
-        } catch (Exception) {
+        } catch (Exception ex) {
             _log?
                 .ForContext("db", _db)
                 .ForContext("client", _client)
-                .Warning("trouble connecting to redis or rebuilding cache from bigquery.");
+                .Warning("trouble connecting to redis or rebuilding cache from bigquery.", ex);
         }
     }
 
