@@ -993,7 +993,7 @@ public class StaticCache : IStaticCache {
 
         var exclusions = corrections
             .Where(x => _exclusions.ContainsKey(x.Place.ToLower()))
-            .Select(x => new PoBoxAddressCorrection(x.Zip, x.Zip9, _exclusions[x.Place][0], _exclusions[x.Place][1]))
+            .Select(x => new PoBoxAddressCorrection(x.Zip9, x.Zip, _exclusions[x.Place][0], _exclusions[x.Place][1]))
             .ToList();
 
         PoBoxZipCodesWithExclusions = exclusions.Select(x => x.Zip).Distinct().ToArray();

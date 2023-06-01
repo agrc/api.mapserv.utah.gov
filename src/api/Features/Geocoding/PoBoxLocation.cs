@@ -85,3 +85,6 @@ public class PoBoxLocation {
         }
     }
 }
+
+public record PoBoxAddress(int Zip, double X, double Y);
+public record PoBoxAddressCorrection(int ZipPlusFour, int Zip, double X, double Y) : PoBoxAddress(Zip, X, Y);
