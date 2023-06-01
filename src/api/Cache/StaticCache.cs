@@ -1001,8 +1001,11 @@ public class StaticCache : IStaticCache {
     }
 
     /// <summary>
-    /// Delivery points from https://opendata.gis.utah.gov/datasets/utah-zip-code-po-boxes/explore?filters=eyJQT0JveF9UeXBlIjpbIkRlbGl2ZXJ5IFBvaW50Il19&location=39.454426%2C-111.643160%2C-1.00&showTable=true
+    /// Delivery points from the utah zip code po boxes dataset
     /// </summary>
+    /// <remarks>
+    /// https://opendata.gis.utah.gov/datasets/utah-zip-code-po-boxes/explore?filters=eyJQT0JveF9UeXBlIjpbIkRlbGl2ZXJ5IFBvaW50Il19
+    /// </remarks>
     public Dictionary<string, List<GridLinkable>> UspsDeliveryPoints => new() {
         { "84101", new List<GridLinkable>() {
             new UspsDeliveryPointLink(84101, "salt lake city", "key bank", 423993.8224, 4510841.2780)
