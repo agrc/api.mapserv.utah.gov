@@ -30,7 +30,6 @@ using Serilog.Sinks.GoogleCloudLogging;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-
 var logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
@@ -92,6 +91,7 @@ try {
     });
     builder.Services.AddControllers(options => {
         options.AddApiResponseFormatters();
+        // TODO? is this needed?
         // options.AddJsonpOutputFormatter();
     })
     .AddJsonOptions(options => {
