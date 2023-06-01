@@ -80,12 +80,12 @@ public static class ServiceCollectionExtensions {
             _ => EmulatorDetection.EmulatorOnly,
         };
 
+        // Singletons - same for every request
         // This throws in dev but not prod if the database is not running
         services.AddSingleton(new FirestoreDbBuilder {
             ProjectId = Environment.GetEnvironmentVariable("GCLOUD_PROJECT") ?? "ut-dts-agrc-web-api-dev",
             EmulatorDetection = emulator
         }.Build());
-
         services.AddSingleton<IAbbreviations, Abbreviations>();
         services.AddSingleton<IRegexCache, RegexCache>();
         services.AddSingleton<IApiKeyRepository, FirestoreApiKeyRepository>();
@@ -103,7 +103,6 @@ public static class ServiceCollectionExtensions {
 
             return new Lazy<IConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options.Value.ConnectionString));
         });
-
         services.AddSingleton((provider) => {
             var options = provider.GetService<IOptions<SearchProviderConfiguration>>();
             ArgumentNullException.ThrowIfNull(options);
@@ -114,7 +113,6 @@ public static class ServiceCollectionExtensions {
 
             return builder.Build();
         });
-
         services.AddSingleton<IConfigureOptions<MvcOptions>>(sp => {
             var options = sp.GetRequiredService<IOptionsMonitor<JsonOptions>>();
             var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
@@ -127,16 +125,16 @@ public static class ServiceCollectionExtensions {
         services.AddHostedService<StartupBackgroundService>();
         services.AddHostedService<CacheHostedService>();
 
-        services.AddScoped<IFilterSuggestionFactory, FilterSuggestionFactory>();
-
+        // transient - always different for every injection
         services.AddTransient<IPipelineBehavior<SearchQuery.Query, ObjectResult>,
             SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>>();
-
         services.AddTransient<IPipelineBehavior<GeocodeQuery.Query, ObjectResult>,
             GeocodeQuery.ValidationBehavior<GeocodeQuery.Query, ObjectResult>>();
-
         services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RequestLogger<>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceLogger<,>));
+
+        // scoped - same within a request but different for each request
+        services.AddScoped<IFilterSuggestionFactory, FilterSuggestionFactory>();
     }
 
     private static void AddArcGisClient(IServiceCollection services, AsyncRetryPolicy<HttpResponseMessage> retryPolicy, AsyncTimeoutPolicy<HttpResponseMessage> timeoutPolicy, bool isProduction) {
