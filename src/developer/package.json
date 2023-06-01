@@ -20,7 +20,7 @@
   "homepage": "https://github.com/agrc/api.mapserv.utah.gov#readme",
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "firebase-tools": "^11.25.3",
+    "firebase-tools": "^12.2.1",
     "npm-run-all": "^4.1.5"
   }
 }
