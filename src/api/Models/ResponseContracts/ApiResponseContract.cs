@@ -9,7 +9,7 @@ public class ApiResponseContract {
     /// The reason for the status code. This is only sent for status codes other than 200
     /// </summary>
     /// <example>No address candidates found with a score of 70 or better.</example>
-    public string Message { get; set; } = string.Empty;
+    public string? Message { get; set; }
 }
 
 public class ApiResponseContract<T> : ApiResponseContract where T : class {
