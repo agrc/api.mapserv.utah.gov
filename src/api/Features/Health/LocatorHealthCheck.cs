@@ -39,14 +39,14 @@ public class LocatorHealthCheck : IHealthCheck {
                     _log?.ForContext("locator", locator)
                         .Warning("unsuccessful health check {service}", locator.ServiceName);
 
-                    results.Add(locator.ServiceName, HealthCheckResult.Degraded("Unable to access geocode service", null, new Dictionary<string, object> {
+                    results.Add(locator.ServiceName, HealthCheckResult.Degraded("unable to access geocode service", null, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }
                     }));
 
                     continue;
                 }
             } catch (Exception ex) {
-                results.Add(locator.ServiceName, HealthCheckResult.Degraded("Unable to access geocode service", ex, new Dictionary<string, object> {
+                results.Add(locator.ServiceName, HealthCheckResult.Degraded("unable to access geocode service", ex, new Dictionary<string, object> {
                     { "duration", stopWatch.ElapsedMilliseconds }
                 }));
 
@@ -62,13 +62,13 @@ public class LocatorHealthCheck : IHealthCheck {
         }
 
         if (results.Values.All(x => x.Status == HealthStatus.Degraded)) {
-            return HealthCheckResult.Unhealthy("Unable to access any geocode services");
+            return HealthCheckResult.Unhealthy("unable to access any geocode services");
         }
 
         if (results.Values.Any(x => x.Status == HealthStatus.Degraded)) {
-            return HealthCheckResult.Degraded("Unable to access all geocode services");
+            return HealthCheckResult.Degraded("unable to access all geocode services");
         }
 
-        return HealthCheckResult.Healthy("All geocode services ready");
+        return HealthCheckResult.Healthy("geocode services ready");
     }
 }

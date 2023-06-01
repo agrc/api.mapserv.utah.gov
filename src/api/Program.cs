@@ -243,7 +243,7 @@ try {
     app.UseSwagger(c => c.RouteTemplate = "openapi/{documentName}/api.json");
 
     app.UseSwaggerUI(c => {
-        c.DocumentTitle = "UGRC WebAPI OpenAPI Documentation";
+        c.DocumentTitle = "UGRC API OpenAPI Documentation";
         c.RoutePrefix = "openapi";
         c.SwaggerEndpoint("/openapi/v1/api.json", "v1");
         c.SwaggerEndpoint("/openapi/v2/api.json", "v2");

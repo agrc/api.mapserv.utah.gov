@@ -28,7 +28,7 @@ public class BigQueryHealthCheck : IHealthCheck {
             );
         }
 
-        return HealthCheckResult.Healthy("BigQuery is ready", new Dictionary<string, object> {
+        return HealthCheckResult.Healthy("BigQuery ready", new Dictionary<string, object> {
             { "duration", stopWatch.ElapsedMilliseconds }
         });
     }
