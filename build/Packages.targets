@@ -43,15 +43,15 @@
     <PackageReference Update="MediatR" Version="12.0.1" />
 
     <!-- testing -->
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.6.1" />
     <PackageReference Update="moq" Version="4.18.4" />
-    <PackageReference Update="Shouldly" Version="4.1.0" />
+    <PackageReference Update="Shouldly" Version="4.2.1" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Update="xunit" Version="2.4.2" />
-    <PackageReference Update="coverlet.msbuild" Version="3.2.0">
+    <PackageReference Update="coverlet.msbuild" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
