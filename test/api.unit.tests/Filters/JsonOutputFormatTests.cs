@@ -22,7 +22,7 @@ public class JsonOutputFormatTests {
 
         var mediator = new Mock<IComputeMediator>();
 
-        var filter = new JsonOutputFormatResultFilter(mediator.Object, httpContextAccessor.Object);
+        var filter = new JsonOutputFormatResultFilter(mediator.Object);
 
         await filter.OnResultExecutionAsync(contexts.ExecutingContext,
                                             () => Task.FromResult(contexts.ExecutedContext));
@@ -55,7 +55,7 @@ public class JsonOutputFormatTests {
         mediator.Setup(x => x.Handle(It.IsAny<Computation>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(response));
 
-        var filter = new JsonOutputFormatResultFilter(mediator.Object, httpContextAccessor.Object);
+        var filter = new JsonOutputFormatResultFilter(mediator.Object);
 
         await filter.OnResultExecutionAsync(contexts.ExecutingContext, () => Task.FromResult(contexts.ExecutedContext));
 
@@ -87,7 +87,7 @@ public class JsonOutputFormatTests {
         mediator.Setup(x => x.Handle(It.IsAny<GeoJsonFeature.Computation>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(response));
 
-        var filter = new JsonOutputFormatResultFilter(mediator.Object, httpContextAccessor.Object);
+        var filter = new JsonOutputFormatResultFilter(mediator.Object);
 
         await filter.OnResultExecutionAsync(contexts.ExecutingContext,
                                             () => Task.FromResult(contexts.ExecutedContext));
@@ -112,7 +112,7 @@ public class JsonOutputFormatTests {
 
         var mediator = new Mock<IComputeMediator>();
 
-        var filter = new JsonOutputFormatResultFilter(mediator.Object, httpContextAccessor.Object);
+        var filter = new JsonOutputFormatResultFilter(mediator.Object);
 
         var contexts = CreateContext(httpContext);
         await filter.OnResultExecutionAsync(contexts.ExecutingContext, () => Task.FromResult(contexts.ExecutedContext));

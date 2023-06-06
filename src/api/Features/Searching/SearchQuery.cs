@@ -34,9 +34,7 @@ public class SearchQuery {
                 result = await _computeMediator.Handle(
                     new SqlQuery.Computation(tableName,
                         request.ReturnValues,
-                        request.Options.Predicate,
-                        request.Options.AttributeStyle,
-                        request.Options.Geometry),
+                        request.Options),
                     cancellationToken);
             } catch (KeyNotFoundException ex) {
                 _log?.ForContext("table", request.TableName)

@@ -32,7 +32,11 @@ public class TableMappingTests {
 
     [Fact]
     public async Task Should_swap_sgid_table() {
-        var computation = new SqlQuery.Computation("sgid.category.table", "attributes", "query", AttributeStyle.Lower);
+        var options = new SearchRequestOptionsContract {
+            Predicate = "query",
+            AttributeStyle = AttributeStyle.Lower
+        };
+        var computation = new SqlQuery.Computation("sgid.category.table", "attributes", options);
 
         var tableMapping = new Mock<ITableMapping>();
         tableMapping.SetupGet(x => x.MsSqlToPostgres).Returns(new Dictionary<string, string> { { "category.table", "swapped" } });
@@ -43,13 +47,17 @@ public class TableMappingTests {
 
         _mutation.TableName.ShouldBe("swapped");
         _mutation.ReturnValues.ShouldBe(computation.ReturnValues);
-        _mutation.Predicate.ShouldBe(computation.Predicate);
-        _mutation.Styling.ShouldBe(computation.Styling);
+        _mutation.SearchOptions.Predicate.ShouldBe(computation.SearchOptions.Predicate);
+        _mutation.SearchOptions.AttributeStyle.ShouldBe(computation.SearchOptions.AttributeStyle);
     }
 
     [Fact]
     public async Task Should_skip_non_sgid_tables() {
-        var computation = new SqlQuery.Computation("tablename", "attributes", "query", AttributeStyle.Upper);
+        var options = new SearchRequestOptionsContract {
+            Predicate = "query",
+            AttributeStyle = AttributeStyle.Upper
+        };
+        var computation = new SqlQuery.Computation("tablename", "attributes", options);
 
         var tableMapping = new Mock<ITableMapping>();
         tableMapping.SetupGet(x => x.MsSqlToPostgres).Returns(new Dictionary<string, string> { { "not-found", "value" } });
@@ -60,13 +68,17 @@ public class TableMappingTests {
 
         _mutation.TableName.ShouldBe(computation.TableName);
         _mutation.ReturnValues.ShouldBe(computation.ReturnValues);
-        _mutation.Predicate.ShouldBe(computation.Predicate);
-        _mutation.Styling.ShouldBe(computation.Styling);
+        _mutation.SearchOptions.Predicate.ShouldBe(computation.SearchOptions.Predicate);
+        _mutation.SearchOptions.AttributeStyle.ShouldBe(computation.SearchOptions.AttributeStyle);
     }
 
     [Fact]
     public async Task Should_throw_if_table_does_not_exist() {
-        var computation = new SqlQuery.Computation("sgid.layer.does-not-exist", "attributes", "query", AttributeStyle.Upper);
+        var options = new SearchRequestOptionsContract {
+            Predicate = "query",
+            AttributeStyle = AttributeStyle.Upper
+        };
+        var computation = new SqlQuery.Computation("sgid.layer.does-not-exist", "attributes", options);
 
         var tableMapping = new Mock<ITableMapping>();
         tableMapping.SetupGet(x => x.MsSqlToPostgres).Returns(new Dictionary<string, string> { { "key", "value" } });

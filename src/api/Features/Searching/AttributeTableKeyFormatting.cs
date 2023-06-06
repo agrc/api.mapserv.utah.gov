@@ -21,7 +21,7 @@ public class AttributeTableKeyFormatting {
             }
 
             Func<string, string> formatterFunction = x => x;
-            switch (computation.Styling) {
+            switch (computation.SearchOptions.AttributeStyle) {
                 case AttributeStyle.Lower: {
                         formatterFunction = x => x.ToLowerInvariant();
                         break;

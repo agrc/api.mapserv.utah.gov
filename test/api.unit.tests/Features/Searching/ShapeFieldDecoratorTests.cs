@@ -33,7 +33,11 @@ public class ShapeFieldDecoratorTests {
 
     [Fact]
     public async Task Should_modify_shape_token() {
-        var computation = new SqlQuery.Computation("table", "shape@,field2", "query", AttributeStyle.Lower);
+        var options = new SearchRequestOptionsContract {
+            Predicate = "query",
+            AttributeStyle = AttributeStyle.Lower
+        };
+        var computation = new SqlQuery.Computation("table", "shape@,field2", options);
 
         var decorator = new SqlQuery.ShapeFieldDecorator(_computationHandler, _logger);
 
@@ -41,13 +45,17 @@ public class ShapeFieldDecoratorTests {
 
         _mutation.TableName.ShouldBe(computation.TableName);
         _mutation.ReturnValues.ShouldBe("st_simplify(shape,10) as shape,field2");
-        _mutation.Predicate.ShouldBe(computation.Predicate);
-        _mutation.Styling.ShouldBe(computation.Styling);
+        _mutation.SearchOptions.Predicate.ShouldBe(computation.SearchOptions.Predicate);
+        _mutation.SearchOptions.AttributeStyle.ShouldBe(computation.SearchOptions.AttributeStyle);
     }
 
     [Fact]
     public async Task Should_modify_envelope_token() {
-        var computation = new SqlQuery.Computation("table", "shape@envelope,field2", "query", AttributeStyle.Lower);
+        var options = new SearchRequestOptionsContract {
+            Predicate = "query",
+            AttributeStyle = AttributeStyle.Lower
+        };
+        var computation = new SqlQuery.Computation("table", "shape@envelope,field2", options);
 
         var decorator = new SqlQuery.ShapeFieldDecorator(_computationHandler, _logger);
 
@@ -55,13 +63,17 @@ public class ShapeFieldDecoratorTests {
 
         _mutation.TableName.ShouldBe(computation.TableName);
         _mutation.ReturnValues.ShouldBe("st_envelope(shape) as shape,field2");
-        _mutation.Predicate.ShouldBe(computation.Predicate);
-        _mutation.Styling.ShouldBe(computation.Styling);
+        _mutation.SearchOptions.Predicate.ShouldBe(computation.SearchOptions.Predicate);
+        _mutation.SearchOptions.AttributeStyle.ShouldBe(computation.SearchOptions.AttributeStyle);
     }
 
     [Fact]
     public async Task Should_skip_non_spatial_fields() {
-        var computation = new SqlQuery.Computation("table", "envelope,field2", "query", AttributeStyle.Upper);
+        var options = new SearchRequestOptionsContract {
+            Predicate = "query",
+            AttributeStyle = AttributeStyle.Upper
+        };
+        var computation = new SqlQuery.Computation("table", "envelope,field2", options);
 
         var decorator = new SqlQuery.ShapeFieldDecorator(_computationHandler, _logger);
 
@@ -69,7 +81,7 @@ public class ShapeFieldDecoratorTests {
 
         _mutation.TableName.ShouldBe(computation.TableName);
         _mutation.ReturnValues.ShouldBe(computation.ReturnValues);
-        _mutation.Predicate.ShouldBe(computation.Predicate);
-        _mutation.Styling.ShouldBe(computation.Styling);
+        _mutation.SearchOptions.Predicate.ShouldBe(computation.SearchOptions.Predicate);
+        _mutation.SearchOptions.AttributeStyle.ShouldBe(computation.SearchOptions.AttributeStyle);
     }
 }

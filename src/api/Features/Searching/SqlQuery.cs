@@ -7,12 +7,10 @@ using Npgsql;
 namespace AGRC.api.Features.Searching;
 public class SqlQuery {
     public class Computation : IComputation<IReadOnlyCollection<SearchResponseContract?>?> {
-        public Computation(string tableName, string returnValues, string? predicate, AttributeStyle style, string? geometry = null) {
+        public Computation(string tableName, string returnValues, SearchRequestOptionsContract options) {
             TableName = tableName;
             ReturnValues = returnValues;
-            Predicate = predicate;
-            Geometry = geometry;
-            Styling = style;
+            SearchOptions = options;
         }
 
         public string BuildQuery() {
@@ -20,61 +18,30 @@ public class SqlQuery {
 
             var query = $"SELECT {ReturnValues} FROM {TableName}";
 
-            if (!string.IsNullOrEmpty(Predicate)) {
-                query += $" WHERE {Predicate}";
+            if (!string.IsNullOrEmpty(SearchOptions.Predicate)) {
+                query += $" WHERE {SearchOptions.Predicate}";
                 hasWhere = true;
             }
 
-            if (!string.IsNullOrEmpty(Geometry)) {
-                var geometry = Geometry.ToUpper().Trim().Replace(" ", "");
-
-                if (geometry[0] == 'P') {
-                    // have a point (5) polyline (8) or polygon (7)
-                    var colon = geometry.IndexOf(':');
-                    if (colon < 5) {
-                        // error;
-                    }
-
-                    if (colon == 5) {
-                        // type == point
-                        if (geometry[colon + 1] == '[') {
-                            // legacy point:[x,y]
-                            var start = colon + 2;
-                            var distance = geometry.Length - start - 1;
-
-                            geometry = geometry.Substring(start, distance);
-                            geometry = geometry.Replace(',', ' ');
-                        } else if (geometry[colon + 1] == '{') {
-                            // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
-                            var point = JsonSerializer.Deserialize<Models.Point>(geometry.Substring(colon + 1, geometry.Length - colon - 1));
-                            if (point is not null) {
-                                geometry = $"{point.X} {point.Y}";
-                            }
-                        }
-                    } else if (colon == 7) {
-                        // type == polygon
-                    } else {
-                        // type == polyline
-                    }
-                }
-
+            if (!string.IsNullOrEmpty(SearchOptions.Geometry)) {
                 if (hasWhere) {
                     query += " AND ";
                 } else {
                     query += " WHERE ";
                 }
 
-                query += $"ST_Intersects(Shape, ST_PointFromText('POINT({geometry})', 26912))";
+                if (SearchOptions.Buffer > 0) {
+                    SearchOptions.Geometry = $"ST_Buffer({SearchOptions.Geometry},{SearchOptions.Buffer})";
+                }
+
+                query += $"ST_Intersects(Shape,{SearchOptions.Geometry})";
             }
 
             return query;
         }
-
         public string TableName { get; }
         public string ReturnValues { get; }
-        public string? Predicate { get; }
-        public AttributeStyle Styling { get; }
-        public string? Geometry { get; }
+        public SearchRequestOptionsContract SearchOptions { get; }
     }
 
     public class Handler : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> {
@@ -123,8 +90,8 @@ public class SqlQuery {
                         }
 
                         var geometryMapping = new NtsToEsriMapper.Computation(ntsGeometry);
-
                         response.Geometry = await _mediator.Handle(geometryMapping, cancellationToken);
+
                         continue;
                     }
 
@@ -171,9 +138,7 @@ public class SqlQuery {
             var mutated = new Computation(
                 _mapping.MsSqlToPostgres[key],
                 computation.ReturnValues,
-                computation.Predicate,
-                computation.Styling,
-                computation.Geometry
+                computation.SearchOptions
             );
 
             _log?.ForContext("input_table", computation.TableName)
@@ -224,9 +189,7 @@ public class SqlQuery {
             var mutated = new Computation(
                 computation.TableName,
                 string.Join(',', fields),
-                computation.Predicate,
-                computation.Styling,
-                computation.Geometry
+                computation.SearchOptions
             );
 
             return await _decorated.Handle(mutated, cancellationToken);
