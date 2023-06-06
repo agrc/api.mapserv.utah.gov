@@ -30,10 +30,10 @@ public class SqlQuery {
                 }
 
                 if (SearchOptions.Buffer > 0) {
-                    SearchOptions.Geometry = $"ST_Buffer({SearchOptions.Geometry},{SearchOptions.Buffer})";
+                    SearchOptions.Geometry = $"st_buffer({SearchOptions.Geometry},{SearchOptions.Buffer})";
                 }
 
-                query += $"ST_Intersects(Shape,{SearchOptions.Geometry})";
+                query += $"st_intersects(shape,{SearchOptions.Geometry})";
             }
 
             return query;
@@ -262,8 +262,8 @@ public class SqlQuery {
             }
 
             computation.SearchOptions.Geometry = spatialReference switch {
-                26912 => $"ST_PointFromText('POINT({geometry})', {spatialReference})",
-                _ => $"ST_Transform(ST_PointFromText('POINT({geometry})', {spatialReference}), 26912)"
+                26912 => $"st_pointfromtext('POINT({geometry})', {spatialReference})",
+                _ => $"st_transform(st_pointfromtext('POINT({geometry})', {spatialReference}), 26912)"
             };
 
             var mutated = new Computation(
