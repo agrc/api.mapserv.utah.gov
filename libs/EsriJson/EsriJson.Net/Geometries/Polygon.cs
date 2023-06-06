@@ -13,7 +13,7 @@ public class Polygon : EsriJsonObject {
         Rings = new List<RingPoint[]>();
     }
 
-    public List<RingPoint[]> Rings { get; private set; }
+    public List<RingPoint[]> Rings { get; }
 
     private static void ValidateRings(IEnumerable<RingPoint[]> rings) {
         foreach (var ringPoints in rings) {

@@ -18,7 +18,7 @@ public class Polyline : EsriJsonObject {
 
     private static void ValidatePaths(IEnumerable<RingPoint[]> paths) {
         if (paths == null)
-            throw new ArgumentNullException("paths");
+            throw new ArgumentNullException(nameof(paths));
 
         if (paths.Select(point => point.Length).Any(length => length < 2)) {
             throw new ArgumentException("Paths are made up of two or more points. Yours has less.");
@@ -28,9 +28,7 @@ public class Polyline : EsriJsonObject {
     public void AddPath(List<RingPoint[]> paths) {
         ValidatePaths(paths);
 
-        foreach (var path in paths) {
-            Paths.Add(path);
-        }
+        Paths.AddRange(paths);
     }
 
     public override string Type => "polyline";

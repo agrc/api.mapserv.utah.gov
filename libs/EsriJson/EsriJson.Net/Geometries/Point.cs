@@ -1,8 +1,6 @@
 namespace EsriJson.Net.Geometry;
 public class Point : EsriJsonObject {
-    public Point() {
-
-    }
+    public Point() { }
 
     public Point(double x, double y) {
         X = x;
