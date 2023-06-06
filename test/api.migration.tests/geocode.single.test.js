@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import got from "got";
 import fs from "fs";
-import responses from "./responses";
+import geocodeSingle from "./responses/geocode/single";
 
 const searchParams = {
   apiKey: "agrc-dev",
@@ -19,7 +19,7 @@ const urls = {
 };
 
 const getResponseFor = (name) =>
-  fs.readFileSync(`responses/${name}`, "utf-8").trim();
+  fs.readFileSync(`responses/geocode/single/${name}`, "utf-8").trim();
 
 const prefixUrl = "https://ut-dts-agrc-web-api-dev.web.app/api/v1/geocode/";
 
@@ -35,12 +35,12 @@ describe("geocoding", () => {
   it.concurrent("single", async () => {
     const cloud = await cloudClient.get(urls.match).json();
 
-    expect(cloud).toEqual(responses.single);
+    expect(cloud).toEqual(geocodeSingle.single);
   });
   it.concurrent("single.404", async () => {
     const cloud = await cloudClient.get(urls.noMatch).json();
 
-    expect(cloud).toEqual(responses.single404);
+    expect(cloud).toEqual(geocodeSingle.single404);
   });
 
   describe("with callback", () => {
@@ -49,7 +49,7 @@ describe("geocoding", () => {
         callback: "jsonp",
       };
 
-      const agrc = getResponseFor("single.w.callback.txt");
+      const agrc = getResponseFor("callback.txt");
       const cloud = await cloudClient
         .get(urls.match, {
           searchParams,
@@ -72,7 +72,7 @@ describe("geocoding", () => {
         })
         .json();
 
-      expect(cloud).toEqual(responses.singleEsriJson);
+      expect(cloud).toEqual(geocodeSingle.singleEsriJson);
     });
     it.concurrent("esrijson-404", async () => {
       const searchParams = {
@@ -85,7 +85,7 @@ describe("geocoding", () => {
         })
         .json();
 
-      expect(cloud).toEqual(responses.single404);
+      expect(cloud).toEqual(geocodeSingle.single404);
     });
     it.concurrent("geojson", async () => {
       const searchParams = {
@@ -98,7 +98,7 @@ describe("geocoding", () => {
         })
         .json();
 
-      expect(cloud).toEqual(responses.singleGeoJson);
+      expect(cloud).toEqual(geocodeSingle.singleGeoJson);
     });
 
     describe("with candidates", () => {
@@ -114,7 +114,7 @@ describe("geocoding", () => {
           })
           .json();
 
-        expect(cloud).toEqual(responses.singleEsriJsonWithCandidates);
+        expect(cloud).toEqual(geocodeSingle.singleEsriJsonWithCandidates);
       });
     });
   });
