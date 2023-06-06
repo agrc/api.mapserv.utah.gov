@@ -38,7 +38,7 @@ public class DecodeGeometryDecoratorTests {
         var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.SearchOptions.Geometry.ShouldBe("ST_PointFromText('POINT(1 2)', 26912)");
+        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class DecodeGeometryDecoratorTests {
         var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.SearchOptions.Geometry.ShouldBe("ST_PointFromText('POINT(1 2)', 26912)");
+        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -70,7 +70,7 @@ public class DecodeGeometryDecoratorTests {
         var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.SearchOptions.Geometry.ShouldBe("ST_PointFromText('POINT(1 2)', 26912)");
+        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class DecodeGeometryDecoratorTests {
 
         _mutation.TableName.ShouldBe(table);
         _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.SearchOptions.Geometry.ShouldBe("ST_PointFromText('POINT(1 2)', 26912)");
+        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class DecodeGeometryDecoratorTests {
 
         _mutation.TableName.ShouldBe(table);
         _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.SearchOptions.Geometry.ShouldBe("ST_PointFromText('POINT(1 2)', 26912)");
+        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -124,7 +124,7 @@ public class DecodeGeometryDecoratorTests {
 
         _mutation.TableName.ShouldBe(table);
         _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.SearchOptions.Geometry.ShouldBe("ST_Transform(ST_PointFromText('POINT(1 2)', 3857), 26912)");
+        _mutation.SearchOptions.Geometry.ShouldBe("st_transform(st_pointfromtext('POINT(1 2)', 3857), 26912)");
     }
 
     [Fact]
@@ -143,6 +143,6 @@ public class DecodeGeometryDecoratorTests {
 
         _mutation.TableName.ShouldBe(table);
         _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.SearchOptions.Geometry.ShouldBe("ST_Transform(ST_PointFromText('POINT(1 2)', 3857), 26912)");
+        _mutation.SearchOptions.Geometry.ShouldBe("st_transform(st_pointfromtext('POINT(1 2)', 3857), 26912)");
     }
 }

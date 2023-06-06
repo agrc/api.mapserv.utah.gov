@@ -29,7 +29,7 @@ public class SqlQueryComputationTests {
         var computation = new SqlQuery.Computation(Table, returnFields, options);
         var query = computation.BuildQuery();
 
-        query.ShouldBe("SELECT field1,field2 FROM table WHERE FIELD1 = 'OK'");
+        query.ShouldBe("SELECT field1,field2 FROM table WHERE field1 = 'ok'");
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class SqlQueryComputationTests {
         var computation = new SqlQuery.Computation(Table, returnFields, options);
         var query = computation.BuildQuery();
 
-        query.ShouldBe("SELECT field1,field2 FROM table WHERE ST_Intersects(Shape,[transformed geometry])");
+        query.ShouldBe("SELECT field1,field2 FROM table WHERE st_intersects(shape,[transformed geometry])");
     }
 
     [Fact]
@@ -59,7 +59,7 @@ public class SqlQueryComputationTests {
         var computation = new SqlQuery.Computation(Table, returnFields, options);
         var query = computation.BuildQuery();
 
-        query.ShouldBe("SELECT field1,field2 FROM table WHERE FIELD1 LIKE 'A%' AND ST_Intersects(Shape,[transformed geometry])");
+        query.ShouldBe("SELECT field1,field2 FROM table WHERE field1 like 'a%' AND st_intersects(shape,[transformed geometry])");
     }
 
     [Fact]
@@ -75,6 +75,6 @@ public class SqlQueryComputationTests {
         var computation = new SqlQuery.Computation(Table, returnFields, options);
         var query = computation.BuildQuery();
 
-        query.ShouldBe("SELECT field1,field2 FROM table WHERE FIELD1 LIKE 'A%' AND ST_Intersects(Shape,ST_Buffer([transformed geometry],10))");
+        query.ShouldBe("SELECT field1,field2 FROM table WHERE field1 like 'a%' AND st_intersects(shape,st_buffer([transformed geometry],10))");
     }
 }

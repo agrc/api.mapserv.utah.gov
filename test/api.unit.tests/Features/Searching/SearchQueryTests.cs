@@ -115,7 +115,7 @@ public class SearchQueryTests {
 
         var response = result.Value as ApiResponseContract<SearchResponseContract>;
         response.Status.ShouldBe(400);
-        response.Message.ShouldBe("`BAD PREDICATE` is not a valid T-SQL where clause.");
+        response.Message.ShouldBe("`bad predicate` is not a valid T-SQL where clause.");
     }
 
     [Fact]
