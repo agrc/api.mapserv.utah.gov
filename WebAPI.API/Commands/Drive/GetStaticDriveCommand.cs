@@ -1241,6 +1241,7 @@ namespace WebAPI.API.Commands.Drive
             {
                 new [] { "82930","KAMAS","0"},
                 new [] { "83342","BRIGHAM CITY","0"},
+                new [] { "86044","BLANDING","0"},
                 new [] { "84001","ROOSEVELT","0"},
                 new [] { "84002","ROOSEVELT","0"},
                 new [] { "84003","AMERICAN FORK","2"},
