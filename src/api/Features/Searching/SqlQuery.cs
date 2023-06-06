@@ -151,11 +151,10 @@ public class SqlQuery {
     public class ShapeFieldDecorator : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> {
         private readonly IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> _decorated;
         private readonly ILogger? _log;
-        private const string shapeInput = "shape@";
-        private const string shape = "st_simplify(shape,10) as shape";
-        private const string envelopeInput = "shape@envelope";
-        private const string envelope = "st_envelope(shape) as shape";
-
+        private const string ShapeInput = "shape@";
+        private const string Shape = "st_simplify(shape,10)";
+        private const string EnvelopeInput = "shape@envelope";
+        private const string Envelope = "st_envelope(shape)";
 
         public ShapeFieldDecorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> decorated,
             ILogger log) {
@@ -164,7 +163,7 @@ public class SqlQuery {
         }
 
         public async Task<IReadOnlyCollection<SearchResponseContract?>?> Handle(Computation computation, CancellationToken cancellationToken) {
-            if (!computation.ReturnValues.ToLowerInvariant().Contains(shapeInput)) {
+            if (!computation.ReturnValues.ToLowerInvariant().Contains(ShapeInput)) {
                 _log?.ForContext("return_values", computation.ReturnValues)
                     .Debug("no fields require modification");
 
@@ -176,12 +175,22 @@ public class SqlQuery {
             for (var i = 0; i < fields.Length; i++) {
                 var field = fields[i];
 
-                if (string.Equals(field, shapeInput, StringComparison.InvariantCultureIgnoreCase)) {
+                if (string.Equals(field, ShapeInput, StringComparison.InvariantCultureIgnoreCase)) {
                     _log?.Debug("updated shape field");
-                    fields[i] = shape;
-                } else if (string.Equals(field, envelopeInput, StringComparison.InvariantCultureIgnoreCase)) {
-                    fields[i] = envelope;
+
+                    fields[i] = computation.SearchOptions.SpatialReference switch {
+                        26912 => $"{Shape} as shape",
+                        _ when computation.SearchOptions.SpatialReference != 26912 => $"st_transform({Shape}, {computation.SearchOptions.SpatialReference}) as shape",
+                        _ => $"{Shape} as shape",
+                    };
+                } else if (string.Equals(field, EnvelopeInput, StringComparison.InvariantCultureIgnoreCase)) {
                     _log?.Debug("updated envelope field");
+
+                    fields[i] = computation.SearchOptions.SpatialReference switch {
+                        26912 => $"{Envelope} as shape",
+                        _ when computation.SearchOptions.SpatialReference != 26912 => $"st_transform({Envelope}, {computation.SearchOptions.SpatialReference}) as shape",
+                        _ => $"{Envelope} as shape",
+                    };
                 }
             }
 
