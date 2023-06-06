@@ -1,195 +1,171 @@
-# AGRC Web API
+# UGRC API
 
-![api](https://github.com/agrc/api.mapserv.utah.gov/workflows/Test%20API/badge.svg)
-![api explorer](https://github.com/agrc/api.mapserv.utah.gov/workflows/Test%20Explorer/badge.svg)
+![api](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.api.yml/badge.svg?branch=development)
+![landing page and documentation](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.explorer.yml/badge.svg?branch=development)
 [![codecov](https://codecov.io/gh/agrc/api.mapserv.utah.gov/branch/development/graph/badge.svg)](https://codecov.io/gh/agrc/api.mapserv.utah.gov)
 
-This is the source code for the active [AGRC Web API](https://api.mapserv.utah.gov). This API allows users to sign up, create API keys, and interact with SGID data. Users are able to geocode addresses, reverse geocode addresses, find mileposts, find mileposts by a location, and perform spatial queries against all SGID spatial data.
+This is the source code for the cloud [UGRC API](https://ut-dts-agrc-web-api-dev.web.app/). This system allows users to create an account, create API keys, and geocode or interact with SGID data. Users are able to geocode addresses, reverse geocode addresses, geocode mileposts, geocode mileposts by a location, and perform spatial queries against all OpenSGID spatial data.
 
-Read the [Getting Started Guide](https://developer.mapserv.utah.gov/StartupGuide)  and the [Sample Usages](https://github.com/agrc/GeocodingSample) for geocoding samples in many popular languages for getting started using the API.
+Read the [Getting Started Guide](https://ut-dts-agrc-web-api-dev.web.app/getting-started/), view the [documentation](https://ut-dts-agrc-web-api-dev.web.app/en/documentation/), and check out the [working samples](https://github.com/agrc/api.mapserv.utah.gov/tree/development/samples) for geocoding in popular languages for an idea about how to getting started programming against the API.
 
-## Privacy Policy
-
-> Input parameter values submitted in requests to the web API may be temporarily retained by AGRC exclusively for the purpose of overall quality control and performance tuning of the web API conducted by AGRC employees. No other access to or use of input parameter values will be permitted without prior written approval of the State's Chief Information Officer and the executive officer of the agency submitting requests to the web API.
-
-## License
-
-MIT
+[Privacy Policy](https://ut-dts-agrc-web-api-dev.web.app/privacy-policy/)
 
 ## Contributions
 
-Any and all contributions are welcome! Please open an issue to discuss the feature or change before coding and submitting a pull request.
-
-### Conventional Commits
-
-Use conventional commits when checking in code.
-
-- fix
-- feature
-- docs
-- style
-- refactor
-- test
-- chore
-
-Use the following scopes depending on the areas of code you are modifying.
-
-- (api)
-- (open-api)
-- (developer)
-- (explorer)
-- (build)
-- (k8s)
-- (terraform)
+Any and all contributions are welcome! Please open an issue to discuss the feature or change before writing code and submitting a pull request.
 
 ## Development
 
-The web API is designed to run in Docker containers but Docker is not a requirement. These projects can be run entirely without Docker, but you will be in charge of maintaining the software dependencies. The current dependencies are ASP.NET Core, PostgreSQL, Redis, and ArcGIS Server. ASP.NET Core, PostgreSQL, and Redis all have community maintained containers but ArcGIS Server does not. Until ArcGIS Server has a maintained container, it is recommended to be installed in a VM or locally.
+### Conventional Commits
+
+Please use conventional commits when committing code. This allows change log and semantic versioning to be automated. Therefore, write your commit messages as you would want them to show up in the changelog.
+
+- **fix**: fixing a bug
+- **feat**: adding a new feature
+- **docs**: writing documentation
+- **style**: code formatting
+- **refactor**: changing the code to be better
+- **test**: writing tests
+- **chore**: doing things not related the others
+- **ci**: continuous integration
+
+With the following scopes depending on the areas of code you are modifying.
+
+- **(api)**
+- **(open-api)**
+- **(developer)**
+- **(explorer)**
+
+Examples
+
+- **fix(api)**: correct usage of broken thing
+- **feat(api)**: add flag to allow new feature
+
+### Development goals
+
+The API is designed to run in containers but Docker/Podman is not a requirement. These projects can be run entirely without Docker/Podman, but you will be in charge of maintaining the cloud resources and software dependencies. The current dependencies are ASP.NET Core, PostgreSQL, Redis, Firebase, and ArcGIS Server. ASP.NET Core, PostgreSQL, and Redis all have community maintained containers but ArcGIS Server does not. Until ArcGIS Server has a maintained container, it is recommended to be installed in a VM or locally. Alternatively, smocker can be used to mimic ArcGIS Server responses during development. Firebase has an emulator that can be used during development or it is very inexpensive or free to configure in the Google Cloud Platform.
+
+### Running locally
+
+#### Configuration
+
+To make the project as flexible as possible, the connection strings, urls to services, etc required by the API are read from [appsettings.json](src/api/appsettings.json) at application startup. [AppSettings](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/) files can be created for multiple environments, including Development, Staging, and Production. They work well with containers, [k8s](.kube/kube-deployment.yml), and [local development](src/api/appsettings.json). The following will describe what is required before the application will function properly.
+
+#### Startup Routine
+
+Start the firebase emulators. Navigate to the developer project
+
+```sh
+cd src/developer && npm run dev
+```
+
+Then start the cache and smocker containers from the root of the project.
+
+```sh
+$ podman-compose -f docker-compose.yml -f docker-compose.override.yml up cache smocker --detach --force
+exit code: 0
+```
+
+Once smocker is running, you can [register mock requests](test/smocker/readme.md) by copying and executing the contents of [mocks.sh](test/smocker/mocks.sh). Run the following command from the `test/smocker` directory or for a shortcut, copy the value to your clipboard and execute them.
+
+```sh
+cd test/smocker && cat mocks.sh | pbcopy
+```
+
+Then paste your clipboard and execute the commands.
+
+```sh
+$ curl -X POST localhost:8081/mocks --header "Content-Type: application/x-yaml" --data-binary "@AddressPoints.findAddressCandidates.yml
+{"message":"Mocks registered successfully"}
+```
+
+To run the API you must authenticate with GCP.
+
+```sh
+gcloud auth login
+```
+
+Start the API in watch mode from the `src/api` directory.
+
+```sh
+cd src/api && FIRESTORE_EMULATOR_HOST='127.0.0.1:8080' dotnet watch run
+```
+
+You can now view the [firebase emulator](http://localhost:4000/), the [smocker emulator](http://localhost:8081/), and the [api](http://localhost:1337/) to start making requests. There is an insomnia client json file in the `test/api tool` folder you can import to get started.
+
+### Testing
+
+#### API
+
+No containers need to be running to execute the unit tests.
+
+```sh
+cd test/api.unit.tests && dotnet watch run
+```
+
+## API System Parts
 
 ### ASP.NET Core
 
-The web api is built using ASP.NET Core. In order to run the web API and the developer website locally, the .NET Core SDK and Runtime will need to be [downloaded](https://www.microsoft.com/net/download) and installed. It is possible to run the API and developer websites in Docker containers, removing the need to install the .NET Core SDK and Runtime, but the development cycle loop is slow and Visual Studio for Mac is buggy. Container support for Visual Studio on Windows requires Windows 10 or higher and AGRC has not tested this environment. To develop locally, browse to the [download page](https://www.microsoft.com/net/download) and download the SDK and Runtime found in the `global.json`.
-
-Currently,
+The API is built using ASP.NET Core. In order to run the API locally, the .NET Core SDK and Runtime will need to be [downloaded](https://www.microsoft.com/net/download) and installed. It is possible to run the API in containers, removing the need to install the .NET Core SDK and Runtime, but the development cycle loop is slow. Currently the app is using dotnet 7.
 
 ```json
 {
   "sdk": {
-    "version": "3.1.201"
+    "version": "7.0.302"
   }
 }
 ```
 
-## Configuration
+### Firestore
 
-To make the project as flexible as possible, the connection strings, urls to services, etc required by the web API are read from [appsettings.json](src/api/appsettings.json) at application startup. [AppSettings](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/) files can be created for multiple environments, including Development, Staging, and Production. They work well with Docker, [k8s](.kube/kube-deployment.yml), and [local development](src/api/appsettings.json). The following will describe what is required before the application will function properly.
+Firestore is used to store keys and user accounts.
 
-### Databases
+### BigQuery
 
-#### PostgreSQL
+BigQuery is used to pull UGRC managed cache data from Google Spreadsheets which is loaded into a more durable BigQuery dataset. The API then pushes all of this data into Redis.
 
-Postgres is being used to store the users, api keys, and lookup information. There is a database export, `data/pg/pgdata.sql`, that contains just enough information to login to the developer website and make successful requests to the API. The file contains a preexisting login, a valid api key, and a snapshot of all lookup information.
+// TODO figure out a way to skip this requirement in development and prime Redis?
 
-If you use `docker-compose` or import the `pgdata.sql` file into an existing postgres instance, the following credentials will allow access the developer website:
+### Redis
 
-- username: `test@test.com`
-- password: `test`
+Redis 6 is used in this project for caching and analytics. While it is not required for development, it is recommended for production as it will decrease overall system stress.
 
-_If the environment variable, `webapi.database.pepper`, is modified to something other than the default, `spicy`, the credentials stored in `pgdata.sal` will not authorize access and will need to be recreated._
+// TODO Redis is required if there is no BigQuery data.
 
-_// **TODO**: Instructions on how to recreate pw with a new salt_
+### PostgreSQL
 
-##### Postgres Environment Variables
+PostGIS is used to host the spatial data for searching.
 
-The default values an be found in [appsettings.json](src/api/appsettings.json) in the `webapi.database` object.
+### Smocker
 
-#### Redis
+[Smocker](https://github.com/Thiht/smocker) is an http server that can be configured to mock requests. This service can be used in place of ArcGIS Server but every request that you plan to send to Smocker needs to have a mock registered otherwise it will return no information.
 
-The default installation of Redis is used in this project.
+### ArcGIS Server
 
-Redis is used as a caching layer for the web API. While it is not required for development, it is recommended for production as it will decrease overall system stress.
+ArcGIS Server contains the geocoding and geometry services that support the API. UGRC typically deploys two geocoding services. One is sourced by road centerlines and the other with address points. The geometry service is used to project geometries into different spatial references than the source data.
 
-### Spatial Services
+ArcGIS Server Environment Variables
 
-#### ArcGIS Server
+- The default values an be found in [appsettings.json](src/api/appsettings.json) in the `webapi.arcgis` object.
 
-ArcGIS Server contains the geocoding and geometry services that support the web API. AGRC typically deploys two geocoding services. One is sourced with road centerlines and the other with address points. The geometry service is used to project geometries into different spatial references than the source data.
+## Containers
 
-##### ArcGIS Server Environment Variables
-
-The default values an be found in [appsettings.json](src/api/appsettings.json) in the `webapi.arcgis` object.
-
-## Docker
-
-It is highly recommended to use Docker for this project or at least certain parts of it. The appeal of not having to install PostgreSQL or Redis and manage/configure them yourself should be persuasive enough!
-
-### webapi/db
-
-For the Postgres container to persist changes made while using the developer website, a docker volume needs to be created.
-
-#### Create docker volume
-
-- `docker volume create --name=pgdata`
-
-_It is worth noting that after the volume is created and the image is built, changes to the `pgdata.sql` will have no affect. If updates are required to the `pgdata.sql`, the volume will need to be deleted and recreated or manually edited through the running container with the Postgres cli._
-
-#### Remove the volume
-
-- `docker volume rm pgdata`
-
-#### Import database _with container running_
-
-- `docker exec -i $(docker-compose ps -q db) psql -U postgres -d webapi < data/pg/pgdata.sql`
-
-#### View database tables _with container running_
-
-- `docker exec -it $(docker-compose ps -q db) psql -U postgres -d webapi -c '\z'`
+It is highly recommended to use containers for this project or at least certain parts of it. The appeal of not having to install PostgreSQL or Redis and manage/configure them yourself should be persuasive enough.
 
 ### Building images
 
-- `docker-compose build`
+- `podman-compose -f docker-compose.yml -f docker-compose.override.yml build`
 
-Building Docker images is necessary any time values in the `Dockerfile` or `docker-compose.yml` change.
+Building images is necessary any time values in the `Dockerfile` or `docker-compose.yml` change.
 
 ### Starting containers
 
-- `docker-compose up`
+- `podman-compose -f docker-compose.yml -f docker-compose.override.yml up`
 
-Starting a container is like turning on the service. `docker-compose up` will start all the containers referenced in this projects `docker-compose.yaml`. For development purposes, we suggest running PostgreSQL and/or Redis in containers and letting Visual Studio (Code, for Mac, or Windows) run the web API or developer website. PostgreSQL is required for the application to start while Redis is not required.
+Starting a container is like turning on the service. `podman-compose -f docker-compose.yml -f docker-compose.override.yml up` will start all the containers referenced in this projects `docker-compose.yaml`. For development purposes, we suggest running PostgreSQL and/or Redis in containers and letting Visual Studio (Code, for Mac, or Windows) run the API. PostgreSQL is required for the application to start while Redis is not required.
 
-- `docker-compose up -d db` _This will run the PostgreSQL database in the background._
-
-## Kubernetes
-
-The containers created with Docker can be run in a Kubernetes cluster. The project contains configuration files for [Google Kubernetes Engine](.kube/gke-deployment.yml).
-
-### Infrastructure
-
-The kubernetes infrastructure is managed by terraform. To create the cluster and all of the associated networking, apply the terraform modules and resources from within the `.infrastructure`.
-
-- `terraform apply`.
-
-When using Google Kubernetes Engine, make sure to change the `kubectl` context to the GKE cluster with `gcloud`.
-
-- `gcloud container clusters get-credentials [cluster-name] --zone [cluster-zone]`
-
-To destroy the cost accruing infrastructure but allow the cluster to be created again reusing any static ips linked to DNS we have to target specific resources.
-
-- `terraform destroy -target=module.gke_cluster -target=google_compute_router_nat.nat`
-
-To destroy everything omit the `-target`'s.
-
-### Publishing Containers
-
-GKE configuration files expect containers to be published to gcr.io. Containers built locally with Docker can be tagged and [pushed to GCR](https://cloud.google.com/container-registry/docs/pushing-and-pulling) with `docker`.
-
-1. `docker tag webapi/api gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api`
-1. `docker tag webapi/explorer gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api-explorer`
-1. `docker tag webapi/db gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/db`
-1. `docker tag webapi/developer gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/developer`
-
-1. `docker push gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api`
-1. `docker push gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api-explorer`
-1. `docker push gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/db`
-1. `docker push gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/developer`
-
-### Configure Kubernetes
-
-`configMaps` are required to override the default configurations for different uses.
-
-The kubernetes manifests expect an `app-config` for mounting our custom dotnet [appsettings.json](src/api/appsettings.json). From the root execute
-
-- `kubectl create configmap app-config --from-file=appsettings.json=./.kube/appsettings.json`
-
-With the cluster created and the config map available, we can deploy the manifests to create our services.
-
-- `kubectl apply -f .kube`
-
-## Update Kubernetes Deployments
-
-When a new image is pushed to the container registry a rolling update can be initiated with kubectl.
-
-- `kubectl set image deployment/webapi-api webapi-api=gcr.io/ut-dts-agrc-web-api-dev/api.mapserv.utah.gov/api@sha256:...`
+- `podman-compose -f docker-compose.yml -f docker-compose.override.yml up --detach cache` _This will run redis in the background._
 
 ## Swagger
 
