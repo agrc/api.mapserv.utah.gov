@@ -1,6 +1,5 @@
 using System.Text.Json;
 using AGRC.api.Infrastructure;
-using AGRC.api.Models.Constants;
 using NetTopologySuite.Geometries;
 using Npgsql;
 
@@ -194,5 +193,82 @@ public class SqlQuery {
 
             return await _decorated.Handle(mutated, cancellationToken);
         }
+    }
+
+    public class DecodeGeometryDecorator : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> {
+        private readonly IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> _decorated;
+        private readonly ILogger? _log;
+
+        public DecodeGeometryDecorator(IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> decorated,
+            ILogger log) {
+            _decorated = decorated;
+            _log = log?.ForContext<DecodeGeometryDecorator>();
+        }
+
+        public async Task<IReadOnlyCollection<SearchResponseContract?>?> Handle(Computation computation, CancellationToken cancellationToken) {
+            if (string.IsNullOrEmpty(computation.SearchOptions.Geometry)) {
+                _log?.ForContext("search options", computation.SearchOptions)
+                    .Debug("geometry is empty");
+
+                return await _decorated.Handle(computation, cancellationToken);
+            }
+
+            var geometry = computation.SearchOptions.Geometry.ToUpper().Trim().Replace(" ", "");
+            var spatialReference = computation.SearchOptions.SpatialReference;
+
+            if (geometry[0] == 'P') {
+                // have a point (5) polyline (8) or polygon (7)
+                var colon = geometry.IndexOf(':');
+                if (colon < 5) {
+                    // error;
+                }
+
+                if (colon == 5) {
+                    // type == point
+                    if (geometry[colon + 1] == '[') {
+                        // legacy point:[x,y]
+                        var start = colon + 2;
+                        var distance = geometry.Length - start - 1;
+
+                        geometry = geometry.Substring(start, distance);
+                        geometry = geometry.Replace(',', ' ');
+                    } else if (geometry[colon + 1] == '{') {
+                        // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
+                        var point = JsonSerializer.Deserialize<PointWithSpatialReference>(geometry.Substring(colon + 1, geometry.Length - colon - 1), new JsonSerializerOptions() {
+                            PropertyNameCaseInsensitive = true
+                        });
+                        if (point is not null) {
+                            geometry = $"{point.X} {point.Y}";
+
+                            if (point.SpatialReference is not null) {
+                                spatialReference = point.SpatialReference.Srid;
+                            }
+                        }
+                    }
+                } else if (colon == 7) {
+                    // type == polygon
+                } else {
+                    // type == polyline
+                }
+            }
+
+            computation.SearchOptions.Geometry = spatialReference switch {
+                26912 => $"ST_PointFromText('POINT({geometry})', {spatialReference})",
+                _ => $"ST_Transform(ST_PointFromText('POINT({geometry})', {spatialReference}), 26912)"
+            };
+
+            var mutated = new Computation(
+                computation.TableName,
+                computation.ReturnValues,
+                computation.SearchOptions
+            );
+
+            return await _decorated.Handle(mutated, cancellationToken);
+        }
+
+        public record SpatialReference(int Wkid, int? LatestWkid) {
+            public int Srid => LatestWkid ?? Wkid;
+        };
+        public record PointWithSpatialReference(double X, double Y, SpatialReference SpatialReference) : Models.Point(X, Y);
     }
 }

@@ -17,10 +17,7 @@ public class GeoJsonTests {
             Result = new SingleGeocodeResponseContract {
                 Candidates = null,
                 InputAddress = "Input Address",
-                Location = new AGRC.api.Models.Point {
-                    X = 1,
-                    Y = 1
-                },
+                Location = new AGRC.api.Models.Point(1, 1),
                 Locator = "Centerlines",
                 MatchAddress = "Matched Address",
                 Score = 100,
@@ -54,10 +51,7 @@ public class GeoJsonTests {
             Result = new SingleGeocodeResponseContract {
                 Candidates = null,
                 InputAddress = "Input Address",
-                Location = new AGRC.api.Models.Point {
-                    X = 1,
-                    Y = 1
-                },
+                Location = new AGRC.api.Models.Point(1, 1),
                 Locator = "Centerlines",
                 MatchAddress = "Matched Address",
                 Score = 100,

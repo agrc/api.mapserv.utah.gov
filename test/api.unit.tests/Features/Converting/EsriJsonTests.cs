@@ -15,10 +15,7 @@ public class EsriJsonTests {
             Result = new SingleGeocodeResponseContract {
                 Candidates = null,
                 InputAddress = "Input Address",
-                Location = new Point {
-                    X = 1,
-                    Y = 1
-                },
+                Location = new Point(1, 1),
                 Locator = "Centerlines",
                 MatchAddress = "Matched Address",
                 Score = 100,

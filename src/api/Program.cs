@@ -205,6 +205,9 @@ try {
         builder.RegisterDecorator<SqlQuery.TableMappingDecorator,
             IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
 
+        builder.RegisterDecorator<SqlQuery.DecodeGeometryDecorator,
+            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
+
         builder.RegisterDecorator<AttributeTableKeyFormatting.Decorator,
             IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
 
