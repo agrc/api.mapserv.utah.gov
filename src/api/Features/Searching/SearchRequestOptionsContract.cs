@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace AGRC.api.Features.Searching;
 [ModelBinder(BinderType = typeof(SearchRequestOptionsContractBinder))]
 public class SearchRequestOptionsContract : ProjectableOptions {
-    private string _predicate = string.Empty;
     private double _buffer;
 
     /// <summary>
@@ -15,10 +14,7 @@ public class SearchRequestOptionsContract : ProjectableOptions {
     /// <example>
     /// name like '%ville'
     /// </example>
-    public string? Predicate {
-        get => _predicate;
-        set => _predicate = value?.ToUpperInvariant() ?? _predicate;
-    }
+    public string? Predicate { get; set; }
 
     /// <summary>
     /// The coordinate pair representing a point.
