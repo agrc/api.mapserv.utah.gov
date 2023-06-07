@@ -1,11 +1,10 @@
 using AGRC.api.Infrastructure;
 using EsriJson.Net;
 using NetTopologySuite.Geometries;
-using static AGRC.api.Features.Converting.EsriGraphic;
 
 namespace AGRC.api.Features.Searching;
 public class NtsToEsriMapper {
-    public class Computation : IComputation<SerializableGraphic> {
+    public class Computation : IComputation<object?> {
         internal readonly Geometry Geometry;
 
         public Computation(Geometry geometry) {
@@ -13,28 +12,69 @@ public class NtsToEsriMapper {
         }
     }
 
-    public class Handler : IComputationHandler<Computation, SerializableGraphic> {
-        public Task<SerializableGraphic> Handle(Computation computation, CancellationToken _) {
-            var ringPoints = new List<EsriJson.Net.Geometry.RingPoint[]>();
-            if (computation.Geometry is MultiPolygon multiPolygon) {
-                foreach (var p in multiPolygon.Geometries) {
-                    ringPoints.AddRange(ExtractRings(p as Polygon));
-                }
-            } else if (computation.Geometry is Polygon polygon) {
-                ringPoints = ExtractRings(polygon);
+    public class Handler : IComputationHandler<Computation, object?> {
+        private readonly ILogger? _log;
+        public Handler(ILogger log) {
+            _log = log?.ForContext<NtsToEsriMapper>();
+        }
+        public Task<object?> Handle(Computation computation, CancellationToken _) {
+            if (computation.Geometry.SRID == 0) {
+                computation.Geometry.SRID = 26912;
             }
 
-            var poly = new EsriJson.Net.Geometry.Polygon(ringPoints) {
-                CRS = new Crs {
-                    WellKnownId = 26912
-                }
+            object? result = computation.Geometry switch {
+                Point => new EsriJson.Net.Geometry.Point(computation.Geometry.Coordinate.X, computation.Geometry.Coordinate.Y) {
+                    CRS = new Crs {
+                        WellKnownId = computation.Geometry.SRID
+                    }
+                },
+                MultiPoint => new EsriJson.Net.Geometry.MultiPoint(computation.Geometry.Coordinates.Select(x => new EsriJson.Net.Geometry.Point(x.X, x.Y)).ToArray()) {
+                    CRS = new Crs {
+                        WellKnownId = computation.Geometry.SRID
+                    }
+                },
+                LineString => new EsriJson.Net.Geometry.Polyline(new List<EsriJson.Net.Geometry.RingPoint[]> { ExtractLineRingPoints(computation.Geometry as LineString) }) {
+                    CRS = new Crs {
+                        WellKnownId = computation.Geometry.SRID
+                    }
+                },
+                MultiLineString => CreateLine(computation.Geometry as MultiLineString),
+                Polygon => new EsriJson.Net.Geometry.Polygon(ExtractRings(computation.Geometry as Polygon)) {
+                    CRS = new Crs {
+                        WellKnownId = computation.Geometry.SRID
+                    }
+                },
+                MultiPolygon => CreatePolygon(computation.Geometry as MultiPolygon),
+                _ => null,
             };
 
-            var serializableGraphic = new SerializableGraphic(new Graphic(poly, new Dictionary<string, object>()));
+            if (result is null) {
+                _log?.ForContext("type", computation.Geometry.GeometryType)
+                    .ForContext("ogcType", computation.Geometry.OgcGeometryType)
+                    .Warning("requires action::could not convert geometry type");
+            }
 
-            return Task.FromResult(serializableGraphic);
+            return Task.FromResult(result);
         }
 
+        private static EsriJson.Net.Geometry.RingPoint[] ExtractLineRingPoints(Geometry? lineString) =>
+            lineString?.Coordinates.Select(x => new EsriJson.Net.Geometry.RingPoint(x.X, x.Y)).ToArray() ?? Array.Empty<EsriJson.Net.Geometry.RingPoint>();
+        private static EsriJson.Net.Geometry.Polyline CreateLine(MultiLineString? multiLineString) {
+            if (multiLineString is null) {
+                return new EsriJson.Net.Geometry.Polyline();
+            }
+
+            var ringPoints = new List<EsriJson.Net.Geometry.RingPoint[]>();
+            foreach (var lineString in multiLineString.Geometries) {
+                ringPoints.Add(ExtractLineRingPoints(lineString));
+            }
+
+            return new EsriJson.Net.Geometry.Polyline(ringPoints) {
+                CRS = new Crs {
+                    WellKnownId = multiLineString.SRID
+                }
+            };
+        }
         private static List<EsriJson.Net.Geometry.RingPoint[]> ExtractRings(Polygon? polygon) {
             if (polygon is null) {
                 return new List<EsriJson.Net.Geometry.RingPoint[]>();
@@ -60,6 +100,22 @@ public class NtsToEsriMapper {
             }
 
             return ringPoints;
+        }
+        private static EsriJson.Net.Geometry.Polygon CreatePolygon(MultiPolygon? multiPolygon) {
+            if (multiPolygon is null) {
+                return new EsriJson.Net.Geometry.Polygon();
+            }
+
+            var ringPoints = new List<EsriJson.Net.Geometry.RingPoint[]>();
+            foreach (var polygon in multiPolygon.Geometries) {
+                ringPoints.AddRange(ExtractRings(polygon as Polygon));
+            }
+
+            return new EsriJson.Net.Geometry.Polygon(ringPoints) {
+                CRS = new Crs {
+                    WellKnownId = multiPolygon.SRID
+                }
+            };
         }
     }
 }
