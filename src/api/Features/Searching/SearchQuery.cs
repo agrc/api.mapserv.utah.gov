@@ -7,9 +7,9 @@ using Npgsql;
 namespace AGRC.api.Features.Searching;
 public class SearchQuery {
     public class Query : IRequest<ObjectResult> {
-        internal readonly string TableName;
-        internal readonly string ReturnValues;
-        internal readonly SearchRequestOptionsContract Options;
+        public readonly string TableName;
+        public readonly string ReturnValues;
+        public readonly SearchRequestOptionsContract Options;
 
         public Query(string tableName, string returnValues, SearchRequestOptionsContract options) {
             TableName = tableName;
@@ -28,7 +28,20 @@ public class SearchQuery {
 
         public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
             var tableName = request.TableName.ToLowerInvariant();
-            IReadOnlyCollection<SearchResponseContract?>? result;
+            IReadOnlyCollection<SearchResponseContract?> result;
+
+            // if (tableName.Contains("raster.")) {
+            //     // raster query
+            //     result = await _computeMediator.Handle(
+            //         new RasterElevation.Computation(request.ReturnValues,
+            //             request.Options),
+            //         cancellationToken);
+
+            //     return new OkObjectResult(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+            //         Result = result ?? Array.Empty<SearchResponseContract>(),
+            //         Status = (int)HttpStatusCode.OK
+            //     });
+            // }
 
             try {
                 result = await _computeMediator.Handle(
@@ -88,7 +101,7 @@ public class SearchQuery {
                      .Debug("query succeeded");
 
             return new OkObjectResult(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
-                Result = result ?? Array.Empty<SearchResponseContract>(),
+                Result = result,
                 Status = (int)HttpStatusCode.OK
             });
         }

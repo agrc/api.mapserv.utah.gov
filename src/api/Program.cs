@@ -199,14 +199,14 @@ try {
         builder.RegisterDecorator<DoubleAvenuesException.Decorator,
             IComputationHandler<ZoneParsing.Computation, Address>>();
 
-        builder.RegisterDecorator<SqlQuery.ShapeFieldDecorator,
-            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
+        builder.RegisterDecorator<ShapeFieldDecorator,
+            IRequestHandler<SearchQuery.Query, ObjectResult>>();
 
-        builder.RegisterDecorator<SqlQuery.TableMappingDecorator,
-            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
+        builder.RegisterDecorator<TableMappingDecorator,
+            IRequestHandler<SearchQuery.Query, ObjectResult>>();
 
-        builder.RegisterDecorator<SqlQuery.DecodeGeometryDecorator,
-            IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
+        builder.RegisterDecorator<DecodeGeometryDecorator,
+            IRequestHandler<SearchQuery.Query, ObjectResult>>();
 
         builder.RegisterDecorator<AttributeTableKeyFormatting.Decorator,
             IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
