@@ -56,7 +56,7 @@ public class SearchQueryTests {
 
         var response = result.Value as ApiResponseContract<SearchResponseContract>;
         response.Status.ShouldBe(400);
-        response.Message.ShouldBe("The table `TABLE_NOT_FOUND` does not exist in the SGID. Please read https://gis.utah.gov/sgid-product-relaunch-update/#static-sgid-data-layers for more information.");
+        response.Message.ShouldBe("The table `table_not_found` does not exist in the SGID. Connect to the OpenSGID (https://gis.utah.gov/sgid/#open-sgid) to verify the table exists. Please read https://gis.utah.gov/sgid-product-relaunch-update/#static-sgid-data-layers for more information.");
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public class SearchQueryTests {
 
         var response = result.Value as ApiResponseContract<SearchResponseContract>;
         response.Status.ShouldBe(400);
-        response.Message.ShouldBe("The table `TABLE_NOT_FOUND` does not exist in the Open SGID.");
+        response.Message.ShouldBe("The table `table_not_found` does not exist in the Open SGID.");
     }
 
     [Fact]
@@ -94,7 +94,7 @@ public class SearchQueryTests {
 
         var response = result.Value as ApiResponseContract<SearchResponseContract>;
         response.Status.ShouldBe(400);
-        response.Message.ShouldBe("column `not_found` does not exist on `TABLE_NOT_FOUND`. Check that the fields exist.");
+        response.Message.ShouldBe("column `not_found` does not exist on `table_not_found`. Check that the fields exist.");
     }
 
     [Fact]
@@ -157,6 +157,6 @@ public class SearchQueryTests {
 
         var response = result.Value as ApiResponseContract<SearchResponseContract>;
         response.Status.ShouldBe(400);
-        response.Message.ShouldBe("The table `TABLE` might not exist. Check your spelling.");
+        response.Message.ShouldBe("The table `table` might not exist. Check your spelling.");
     }
 }
