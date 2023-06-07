@@ -42,7 +42,7 @@ public class SearchQuery {
 
                 return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
-                    Message = $"The table `{tableName}` does not exist in the SGID. Please read https://gis.utah.gov/sgid-product-relaunch-update/#static-sgid-data-layers for more information."
+                    Message = $"The table `{tableName}` does not exist in the SGID. Connect to the OpenSGID (https://gis.utah.gov/sgid/#open-sgid) to verify the table exists. Please read https://gis.utah.gov/sgid-product-relaunch-update/#static-sgid-data-layers for more information."
                 });
             } catch (PostgresException ex) {
                 string message;
