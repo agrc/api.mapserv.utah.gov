@@ -16,7 +16,7 @@ public class Concurrencies {
 
     public record LocationBase(string RouteId, double FromMeasure, double ToMeasure) {
         public override string ToString()
-            => $"{{\"routeId\":\"{RouteId}\",\"fromMeasure\":\"{FromMeasure}\",\"toMeasure\":\"{ToMeasure}\"}}";
+            => $$"""{"routeId":"{{RouteId}}","fromMeasure":"{{FromMeasure}}","toMeasure":"{{ToMeasure}}"}""";
     }
 
     public record RequestLocation(string RouteId, double FromMeasure, double ToMeasure)

@@ -30,7 +30,7 @@ public class MeasureToGeometry {
         : RestErrorable(Error);
 
     public record RequestLocation(string Measure, string RouteId) {
-        public override string ToString() => $"{{\"routeId\":\"{RouteId}\",\"measure\":\"{Measure}\"}}";
+        public override string ToString() => $$"""{"routeId":"{{RouteId}}","measure":"{{Measure}}"}""";
     }
 
     public record ResponseLocation(Status Status, ResponseLocation[] Results, string RouteId, GeometryType GeometryType, MeasurePoint? Geometry);

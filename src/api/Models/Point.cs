@@ -4,5 +4,5 @@ namespace AGRC.api.Models;
 /// </summary>
 public record Point(double X, double Y) {
     public string ToQuery() =>
-        $"geometries={{\"geometryType\" : \"esriGeometryPoint\",\"geometries\" : [{{\"x\" :{X}, \"y\" : {Y}}}]}}";
+        $$"""geometries={"geometryType":"esriGeometryPoint","geometries":[{"x":{{X}},"y":{{Y}}}]}""";
 }

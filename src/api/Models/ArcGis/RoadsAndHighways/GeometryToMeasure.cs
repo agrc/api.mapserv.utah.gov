@@ -39,7 +39,7 @@ public class GeometryToMeasure {
         public Point? Geometry { get; set; }
 
         public override string ToString()
-            => $"{{\"geometry\":{{\"x\":{Geometry?.X},\"y\":{Geometry?.Y}}}}}";
+            => $$"""{"geometry":{"x":{{Geometry?.X}},"y":{{Geometry?.Y}}} }""";
     }
 
     public enum Status {
