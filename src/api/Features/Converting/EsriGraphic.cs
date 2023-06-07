@@ -93,13 +93,8 @@ public class EsriGraphic {
                 _ => new SerializableGraphic(graphic)
             };
     }
-    public class SerializableGraphic {
-        public SerializableGraphic(Graphic graphic) {
-            Attributes = graphic.Attributes;
-            Geometry = graphic.Geometry;
-        }
-
-        public Dictionary<string, object> Attributes { get; }
-        public object Geometry { get; set; }
+    public class SerializableGraphic(Graphic graphic) {
+        public Dictionary<string, object> Attributes { get; } = graphic.Attributes;
+        public object Geometry { get; set; } = graphic.Geometry;
     }
 }
