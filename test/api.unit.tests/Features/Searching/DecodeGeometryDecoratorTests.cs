@@ -1,25 +1,21 @@
 using AGRC.api.Features.Searching;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.Constants;
 
 namespace api.tests.Features.Searching;
 public class DecodeGeometryDecoratorTests {
-    private readonly IReadOnlyCollection<SearchResponseContract> _data;
-    private readonly IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>> _computationHandler;
+    private readonly ObjectResult _data;
+    private readonly IRequestHandler<SearchQuery.Query, ObjectResult> _computationHandler;
     private readonly ILogger _logger;
-    private SqlQuery.Computation _mutation;
+    private SearchQuery.Query _mutation;
 
     public DecodeGeometryDecoratorTests() {
         _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
 
-        _data = new List<SearchResponseContract>{
-            new SearchResponseContract()
-        };
+        _data = new OkObjectResult(string.Empty);
 
-        var handler = new Mock<IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
-        handler.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(),
+        var handler = new Mock<IRequestHandler<SearchQuery.Query, ObjectResult>>();
+        handler.Setup(x => x.Handle(It.IsAny<SearchQuery.Query>(),
                                     It.IsAny<CancellationToken>()))
-               .Callback<SqlQuery.Computation, CancellationToken>((comp, _) => _mutation = comp)
+               .Callback<SearchQuery.Query, CancellationToken>((comp, _) => _mutation = comp)
                .ReturnsAsync(_data);
 
         _computationHandler = handler.Object;
@@ -34,11 +30,11 @@ public class DecodeGeometryDecoratorTests {
             Geometry = "point:[1,2]",
         };
 
-        var computation = new SqlQuery.Computation(table, returnFields, options);
-        var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
+        var computation = new SearchQuery.Query(table, returnFields, options);
+        var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -50,11 +46,11 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point:{"x": 1, "y": 2, "spatialReference": { "wkid": 26912}}""",
         };
 
-        var computation = new SqlQuery.Computation(table, returnFields, options);
-        var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
+        var computation = new SearchQuery.Query(table, returnFields, options);
+        var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -66,11 +62,11 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point:{"x": 1, "y": 2, "spatialReference": { "wkid": 26912}}""",
         };
 
-        var computation = new SqlQuery.Computation(table, returnFields, options);
-        var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
+        var computation = new SearchQuery.Query(table, returnFields, options);
+        var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -82,13 +78,13 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point: {"spatialReference":{"latestWkid":26912,"wkid":102100},"x":1,"y":2}""",
         };
 
-        var computation = new SqlQuery.Computation(table, returnFields, options);
-        var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
+        var computation = new SearchQuery.Query(table, returnFields, options);
+        var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
         _mutation.TableName.ShouldBe(table);
         _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -100,13 +96,13 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point: {"x":1,"y":2}""",
         };
 
-        var computation = new SqlQuery.Computation(table, returnFields, options);
-        var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
+        var computation = new SearchQuery.Query(table, returnFields, options);
+        var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
         _mutation.TableName.ShouldBe(table);
         _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.SearchOptions.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
     }
 
     [Fact]
@@ -118,13 +114,13 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point: {"x":1,"y":2, "spatialReference": { "wkid": 3857 }}""",
         };
 
-        var computation = new SqlQuery.Computation(table, returnFields, options);
-        var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
+        var computation = new SearchQuery.Query(table, returnFields, options);
+        var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
         _mutation.TableName.ShouldBe(table);
         _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.SearchOptions.Geometry.ShouldBe("st_transform(st_pointfromtext('POINT(1 2)', 3857), 26912)");
+        _mutation.Options.Geometry.ShouldBe("st_transform(st_pointfromtext('POINT(1 2)', 3857), 26912)");
     }
 
     [Fact]
@@ -137,12 +133,12 @@ public class DecodeGeometryDecoratorTests {
             SpatialReference = 3857
         };
 
-        var computation = new SqlQuery.Computation(table, returnFields, options);
-        var decorator = new SqlQuery.DecodeGeometryDecorator(_computationHandler, _logger);
+        var computation = new SearchQuery.Query(table, returnFields, options);
+        var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
         _mutation.TableName.ShouldBe(table);
         _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.SearchOptions.Geometry.ShouldBe("st_transform(st_pointfromtext('POINT(1 2)', 3857), 26912)");
+        _mutation.Options.Geometry.ShouldBe("st_transform(st_pointfromtext('POINT(1 2)', 3857), 26912)");
     }
 }
