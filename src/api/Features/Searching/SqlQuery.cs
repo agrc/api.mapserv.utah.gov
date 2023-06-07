@@ -266,6 +266,8 @@ public class SqlQuery {
                 _ => $"st_transform(st_pointfromtext('POINT({geometry})', {spatialReference}), 26912)"
             };
 
+            computation.SearchOptions.SpatialReference = spatialReference;
+
             var mutated = new Computation(
                 computation.TableName,
                 computation.ReturnValues,
