@@ -27,7 +27,7 @@ public class SearchQuery {
         }
 
         public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
-            var tableName = request.TableName.ToUpperInvariant();
+            var tableName = request.TableName.ToLowerInvariant();
             IReadOnlyCollection<SearchResponseContract?>? result;
 
             try {
