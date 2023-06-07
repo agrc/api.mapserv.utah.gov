@@ -65,7 +65,7 @@ public class SearchQueryTests {
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
-                .ThrowsAsync(new PostgresException("relation \"table_not_found\" does not exist", "ERROR", "ERROR", "42P01"));
+                .ThrowsAsync(new PostgresException("""relation "table_not_found" does not exist""", "ERROR", "ERROR", "42P01"));
 
         var handler = new SearchQuery.Handler(mediator.Object, _logger);
         var result = await handler.Handle(query, CancellationToken.None);
@@ -84,7 +84,7 @@ public class SearchQueryTests {
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
-                .ThrowsAsync(new PostgresException("column \"not_found\" does not exist", "ERROR", "ERROR", "42703"));
+                .ThrowsAsync(new PostgresException("""column "not_found" does not exist""", "ERROR", "ERROR", "42703"));
 
         var handler = new SearchQuery.Handler(mediator.Object, _logger);
         var result = await handler.Handle(query, CancellationToken.None);

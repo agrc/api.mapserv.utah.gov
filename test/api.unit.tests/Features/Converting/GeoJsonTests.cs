@@ -39,7 +39,7 @@ public class GeoJsonTests {
         options.Converters.Add(new JsonStringEnumConverter());
         options.Converters.Add(new GeoJsonConverterFactory());
 
-        const string feature = "{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[1,1]},\"properties\":{\"srid\":26912,\"score\":100,\"locator\":\"Centerlines\",\"matchAddress\":\"Matched Address\",\"inputAddress\":\"Input Address\"}}";
+        const string feature = """{"type":"Feature","geometry":{"type":"Point","coordinates":[1,1]},"properties":{"srid":26912,"score":100,"locator":"Centerlines","matchAddress":"Matched Address","inputAddress":"Input Address"}}""";
         var resultJson = JsonSerializer.Serialize(result.Result, options);
 
         resultJson.ShouldBe(feature);
@@ -73,7 +73,7 @@ public class GeoJsonTests {
         options.Converters.Add(new JsonStringEnumConverter());
         options.Converters.Add(new GeoJsonConverterFactory());
 
-        const string feature = "{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[1,1]},\"properties\":{\"Location\":{\"x\":1,\"y\":1},\"Score\":100,\"Locator\":\"Centerlines\",\"MatchAddress\":\"Matched Address\",\"InputAddress\":\"Input Address\",\"AddressGrid\":null,\"ScoreDifference\":-1,\"Wkid\":26912,\"Candidates\":[]}}";
+        const string feature = """{"type":"Feature","geometry":{"type":"Point","coordinates":[1,1]},"properties":{"Location":{"x":1,"y":1},"Score":100,"Locator":"Centerlines","MatchAddress":"Matched Address","InputAddress":"Input Address","AddressGrid":null,"ScoreDifference":-1,"Wkid":26912,"Candidates":[]}}""";
         var resultJson = JsonSerializer.Serialize(result.Result, options);
 
         resultJson.ShouldBe(feature);

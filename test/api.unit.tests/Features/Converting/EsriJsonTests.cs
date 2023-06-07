@@ -34,7 +34,7 @@ public class EsriJsonTests {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
         };
 
-        const string graphic = "{\"attributes\":{\"score\":100,\"locator\":\"Centerlines\",\"matchAddress\":\"Matched Address\",\"inputAddress\":\"Input Address\"},\"geometry\":{\"x\":1,\"y\":1,\"type\":\"point\",\"spatialReference\":{\"wkid\":26912}}}";
+        const string graphic = """{"attributes":{"score":100,"locator":"Centerlines","matchAddress":"Matched Address","inputAddress":"Input Address"},"geometry":{"x":1,"y":1,"type":"point","spatialReference":{"wkid":26912}}}""";
         var resultJson = JsonSerializer.Serialize(result.Result, options);
 
         resultJson.ShouldBe(graphic);

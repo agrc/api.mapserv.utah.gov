@@ -4,7 +4,7 @@ namespace api.tests.Models.ArcGis;
 public class RestErrorableTests {
     [Fact]
     public void Should_serialize_error_on_failure() {
-        const string geometryServiceError = "{\"error\":{\"code\": 500,\"message\": \"Error processing request\",\"details\": [ ]}}";
+        const string geometryServiceError = """{"error":{"code": 500,"message": "Error processing request","details": [ ]}}""";
 
         var obj = JsonSerializer.Deserialize<GeometryServiceInformation>(geometryServiceError, new JsonSerializerOptions {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
