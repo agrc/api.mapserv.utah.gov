@@ -1,25 +1,20 @@
 using System.Text.Json;
+using AGRC.api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AGRC.api.Features.Searching;
 
-public class TableMappingDecorator : IRequestHandler<SearchQuery.Query, ObjectResult> {
-    private readonly IRequestHandler<SearchQuery.Query, ObjectResult> _decorated;
-    private readonly ITableMapping _mapping;
-    private readonly ILogger? _log;
-
-    public TableMappingDecorator(IRequestHandler<SearchQuery.Query, ObjectResult> decorated,
-        ITableMapping mapping, ILogger log) {
-        _mapping = mapping;
-        _decorated = decorated;
-        _log = log?.ForContext<TableMappingDecorator>();
-    }
+public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, ObjectResult> decorated,
+    ITableMapping mapping, ILogger log) : IRequestHandler<SearchQuery.Query, ObjectResult> {
+    private readonly IRequestHandler<SearchQuery.Query, ObjectResult> _decorated = decorated;
+    private readonly ITableMapping _mapping = mapping;
+    private readonly ILogger? _log = log?.ForContext<TableMappingDecorator>();
 
     public async Task<ObjectResult> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
-        var table = computation.TableName.ToLowerInvariant();
+        var table = computation._tableName.ToLowerInvariant();
 
         if (!table.Contains("sgid")) {
-            _log?.ForContext("table", computation.TableName)
+            _log?.ForContext("table", computation._tableName)
                 .Debug("open sgid query");
 
             return await _decorated.Handle(computation, cancellationToken);
@@ -29,100 +24,90 @@ public class TableMappingDecorator : IRequestHandler<SearchQuery.Query, ObjectRe
         var key = table[indexOfDot..];
 
         if (!_mapping.MsSqlToPostgres.ContainsKey(key)) {
-            _log?.ForContext("table", computation.TableName)
+            _log?.ForContext("table", computation._tableName)
                 .Warning("table name not found in open sgid");
         }
 
         var mutated = new SearchQuery.Query(
             _mapping.MsSqlToPostgres[key],
-            computation.ReturnValues,
-            computation.Options
+            computation._returnValues,
+            computation._options
         );
 
-        _log?.ForContext("input_table", computation.TableName)
-            .ForContext("mapped_table", mutated.TableName)
+        _log?.ForContext("input_table", computation._tableName)
+            .ForContext("mapped_table", mutated._tableName)
                 .Warning("table name updated");
 
         return await _decorated.Handle(mutated, cancellationToken);
     }
 }
 
-public class ShapeFieldDecorator : IRequestHandler<SearchQuery.Query, ObjectResult> {
-    private readonly IRequestHandler<SearchQuery.Query, ObjectResult> _decorated;
-    private readonly ILogger? _log;
+public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, ObjectResult> decorated,
+    ILogger log) : IRequestHandler<SearchQuery.Query, ObjectResult> {
+    private readonly IRequestHandler<SearchQuery.Query, ObjectResult> _decorated = decorated;
+    private readonly ILogger? _log = log?.ForContext<ShapeFieldDecorator>();
     private const string ShapeInput = "shape@";
     private const string Shape = "st_simplify(shape,10)";
     private const string EnvelopeInput = "shape@envelope";
     private const string Envelope = "st_envelope(shape)";
 
-    public ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, ObjectResult> decorated,
-        ILogger log) {
-        _decorated = decorated;
-        _log = log?.ForContext<ShapeFieldDecorator>();
-    }
-
     public async Task<ObjectResult> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
-        if (!computation.ReturnValues.ToLowerInvariant().Contains(ShapeInput)) {
-            _log?.ForContext("return_values", computation.ReturnValues)
+        if (!computation._returnValues.ToLowerInvariant().Contains(ShapeInput)) {
+            _log?.ForContext("return_values", computation._returnValues)
                 .Debug("no fields require modification");
 
             return await _decorated.Handle(computation, cancellationToken);
         }
 
-        var fields = computation.ReturnValues.Split(',');
+        var fields = computation._returnValues.Split(',');
 
         for (var i = 0; i < fields.Length; i++) {
-            var field = fields[i];
-
-            if (string.Equals(field, ShapeInput, StringComparison.InvariantCultureIgnoreCase)) {
-                _log?.Debug("updated shape field");
-
-                fields[i] = computation.Options.SpatialReference switch {
+            if (string.Equals(fields[i], ShapeInput, StringComparison.InvariantCultureIgnoreCase)) {
+                fields[i] = computation._options.SpatialReference switch {
                     26912 => $"{Shape} as shape",
-                    _ when computation.Options.SpatialReference != 26912 => $"st_transform({Shape}, {computation.Options.SpatialReference}) as shape",
+                    _ when computation._options.SpatialReference != 26912 => $"st_transform({Shape}, {computation._options.SpatialReference}) as shape",
                     _ => $"{Shape} as shape",
                 };
-            } else if (string.Equals(field, EnvelopeInput, StringComparison.InvariantCultureIgnoreCase)) {
-                _log?.Debug("updated envelope field");
 
-                fields[i] = computation.Options.SpatialReference switch {
+                _log?.ForContext("replaced", fields[i])
+                    .Debug("updated shape field");
+            } else if (string.Equals(fields[i], EnvelopeInput, StringComparison.InvariantCultureIgnoreCase)) {
+                fields[i] = computation._options.SpatialReference switch {
                     26912 => $"{Envelope} as shape",
-                    _ when computation.Options.SpatialReference != 26912 => $"st_transform({Envelope}, {computation.Options.SpatialReference}) as shape",
+                    _ when computation._options.SpatialReference != 26912 => $"st_transform({Envelope}, {computation._options.SpatialReference}) as shape",
                     _ => $"{Envelope} as shape",
                 };
+
+                _log?.ForContext("replacedAs", fields[i])
+                    .Debug("updated envelope field");
             }
         }
 
         var mutated = new SearchQuery.Query(
-            computation.TableName,
+            computation._tableName,
             string.Join(',', fields),
-            computation.Options
+            computation._options
         );
 
         return await _decorated.Handle(mutated, cancellationToken);
     }
 }
 
-public class DecodeGeometryDecorator : IRequestHandler<SearchQuery.Query, ObjectResult> {
-    private readonly IRequestHandler<SearchQuery.Query, ObjectResult> _decorated;
-    private readonly ILogger? _log;
-
-    public DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, ObjectResult> decorated,
-        ILogger log) {
-        _decorated = decorated;
-        _log = log?.ForContext<DecodeGeometryDecorator>();
-    }
+public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, ObjectResult> decorated,
+    ILogger log) : IRequestHandler<SearchQuery.Query, ObjectResult> {
+    private readonly IRequestHandler<SearchQuery.Query, ObjectResult> _decorated = decorated;
+    private readonly ILogger? _log = log?.ForContext<DecodeGeometryDecorator>();
 
     public async Task<ObjectResult> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
-        if (string.IsNullOrEmpty(computation.Options.Geometry)) {
-            _log?.ForContext("search options", computation.Options)
-                .Debug("geometry is empty");
+        if (string.IsNullOrEmpty(computation._options.Geometry)) {
+            _log?.ForContext("search options", computation._options.Geometry)
+                .Debug("no geometry provided");
 
             return await _decorated.Handle(computation, cancellationToken);
         }
 
-        var geometry = computation.Options.Geometry.ToUpper().Trim().Replace(" ", "");
-        var spatialReference = computation.Options.SpatialReference;
+        var geometry = computation._options.Geometry.ToUpper().Trim().Replace(" ", "");
+        var spatialReference = computation._options.SpatialReference;
 
         if (geometry[0] == 'P') {
             // have a point (5) polyline (8) or polygon (7)
@@ -138,19 +123,26 @@ public class DecodeGeometryDecorator : IRequestHandler<SearchQuery.Query, Object
                     var start = colon + 2;
                     var distance = geometry.Length - start - 1;
 
-                    geometry = geometry.Substring(start, distance);
-                    geometry = geometry.Replace(',', ' ');
+                    var coordinates = geometry.Substring(start, distance).Split(',');
+
+                    computation._options.Point = new PointWithSpatialReference(
+                        double.Parse(coordinates[0]),
+                        double.Parse(coordinates[1]),
+                        new SpatialReference(spatialReference, null)
+                    );
                 } else if (geometry[colon + 1] == '{') {
                     // esri geom point:{"x" : <x>, "y" : <y>, "z" : <z>, "m" : <m>, "spatialReference" : {<spatialReference>}}
-                    var point = JsonSerializer.Deserialize<PointWithSpatialReference>(geometry.Substring(colon + 1, geometry.Length - colon - 1), new JsonSerializerOptions() {
-                        PropertyNameCaseInsensitive = true
-                    });
-                    if (point is not null) {
-                        geometry = $"{point.X} {point.Y}";
+                    try {
+                        computation._options.Point = JsonSerializer.Deserialize<PointWithSpatialReference>(geometry.Substring(colon + 1, geometry.Length - colon - 1), new JsonSerializerOptions() {
+                            PropertyNameCaseInsensitive = true
+                        });
 
-                        if (point.SpatialReference is not null) {
-                            spatialReference = point.SpatialReference.Srid;
+                        if (computation._options.Point is not null && computation._options.Point.SpatialReference is null) {
+                            computation._options.Point = new PointWithSpatialReference(computation._options.Point.X, computation._options.Point.Y, new SpatialReference(spatialReference, null));
                         }
+                    } catch (JsonException ex) {
+                        _log?.ForContext("geometry", geometry)
+                            .Information(ex, "unable to deserialize geometry");
                     }
                 }
             } else if (colon == 7) {
@@ -160,24 +152,12 @@ public class DecodeGeometryDecorator : IRequestHandler<SearchQuery.Query, Object
             }
         }
 
-        computation.Options.Geometry = spatialReference switch {
-            26912 => $"st_pointfromtext('POINT({geometry})', {spatialReference})",
-            _ => $"st_transform(st_pointfromtext('POINT({geometry})', {spatialReference}), 26912)"
-        };
-
-        computation.Options.SpatialReference = spatialReference;
-
         var mutated = new SearchQuery.Query(
-            computation.TableName,
-            computation.ReturnValues,
-            computation.Options
+            computation._tableName,
+            computation._returnValues,
+            computation._options
         );
 
         return await _decorated.Handle(mutated, cancellationToken);
     }
-
-    public record SpatialReference(int Wkid, int? LatestWkid) {
-        public int Srid => LatestWkid ?? Wkid;
-    };
-    public record PointWithSpatialReference(double X, double Y, SpatialReference SpatialReference) : Models.Point(X, Y);
 }

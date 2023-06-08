@@ -4,13 +4,7 @@ using Npgsql;
 
 namespace AGRC.api.Features.Searching;
 public class SqlQuery {
-    public class Computation : IComputation<IReadOnlyCollection<SearchResponseContract?>?> {
-        public Computation(string tableName, string returnValues, SearchRequestOptionsContract options) {
-            TableName = tableName;
-            ReturnValues = returnValues;
-            SearchOptions = options;
-        }
-
+    public class Computation(string tableName, string returnValues, SearchOptions options) : IComputation<IReadOnlyCollection<SearchResponseContract?>?> {
         public string BuildQuery() {
             var hasWhere = false;
 
@@ -21,7 +15,9 @@ public class SqlQuery {
                 hasWhere = true;
             }
 
-            if (!string.IsNullOrEmpty(SearchOptions.Geometry)) {
+            if (SearchOptions.Point is not null) {
+                var geometry = SearchOptions.Point.ToPostGis();
+
                 if (hasWhere) {
                     query += " AND ";
                 } else {
@@ -29,29 +25,23 @@ public class SqlQuery {
                 }
 
                 if (SearchOptions.Buffer > 0) {
-                    SearchOptions.Geometry = $"st_buffer({SearchOptions.Geometry},{SearchOptions.Buffer})";
+                    geometry = $"st_buffer({geometry},{SearchOptions.Buffer})";
                 }
 
-                query += $"st_intersects(shape,{SearchOptions.Geometry})";
+                query += $"st_intersects(shape,{geometry})";
             }
 
             return query;
         }
-        public string TableName { get; }
-        public string ReturnValues { get; }
-        public SearchRequestOptionsContract SearchOptions { get; }
+        public string TableName { get; } = tableName;
+        public string ReturnValues { get; } = returnValues;
+        public SearchOptions SearchOptions { get; } = options;
     }
 
-    public class Handler : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> {
-        private readonly NpgsqlDataSource _pgDataSource;
-        private readonly ILogger? _log;
-        private readonly IComputeMediator _mediator;
-
-        public Handler(NpgsqlDataSource pgDataSource, IComputeMediator mediator, ILogger log) {
-            _pgDataSource = pgDataSource;
-            _mediator = mediator;
-            _log = log?.ForContext<SqlQuery>();
-        }
+    public class Handler(NpgsqlDataSource pgDataSource, IComputeMediator mediator, ILogger log) : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> {
+        private readonly NpgsqlDataSource _pgDataSource = pgDataSource;
+        private readonly ILogger? _log = log?.ForContext<SqlQuery>();
+        private readonly IComputeMediator _mediator = mediator;
 
         public async Task<IReadOnlyCollection<SearchResponseContract?>?> Handle(Computation computation, CancellationToken cancellationToken) {
             if (string.IsNullOrEmpty(computation.TableName)) {
