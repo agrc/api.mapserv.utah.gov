@@ -63,6 +63,32 @@ describe("search", () => {
 
       expect(cloud).toEqual(search.empty);
     });
+    it.concurrent("deq county query", async () => {
+      const cloud = await cloudClient
+        .get(`${url}shape@`, {
+          searchParams: {
+            predicate: `name='CACHE'`,
+            spatialReference: 3857,
+            attributeStyle: "identical",
+          },
+        })
+        .json();
+
+      expect(cloud).toEqual(search.deq.county);
+    });
+    describe("shape@", () => {
+      it.concurrent("point", async () => {
+        const cloud = await cloudClient
+          .get(`location.address_points/shape@`, {
+            searchParams: {
+              predicate: `fulladd='2236 E ATKIN AVE'`,
+            },
+          })
+          .json();
+
+        expect(cloud).toEqual(search.shape.point);
+      });
+    });
   });
   describe("geometry", () => {
     it.concurrent("atlas county", async () => {
@@ -78,7 +104,6 @@ describe("search", () => {
 
       expect(cloud).toEqual(search.atlas.county);
     });
-
     it.concurrent("atlas national grid", async () => {
       const cloud = await cloudClient
         .get(`indices.national_grid/grid1mil,grid100k`, {
