@@ -90,9 +90,7 @@ try {
         .AllowAnyHeader());
     });
     builder.Services.AddControllers(options => {
-        options.AddApiResponseFormatters();
-        // TODO? is this needed?
-        // options.AddJsonpOutputFormatter();
+        options.AddApiResponseFormatters(); ;
     })
     .AddJsonOptions(options => {
         // open api is currently using system.text.json
