@@ -71,7 +71,6 @@ public class ReverseGeocodeQuery {
                 });
             }
 
-            // TODO: would there ever be more than one?
             var reverseGeocodeComputation = new ReverseGeocode.Computation(plan.First());
 
             try {
