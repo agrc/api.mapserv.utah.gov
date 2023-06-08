@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace AGRC.api.Features.Searching;
 public class SearchRequestOptionsContractBinder : IModelBinder {
-    private const string versionKey = "version";
-    private AttributeStyle attributeStyle = AttributeStyle.Lower;
+    private const string VersionKey = "version";
+    private AttributeStyle _attributeStyle = AttributeStyle.Lower;
 
     public Task BindModelAsync(ModelBindingContext bindingContext) {
         if (bindingContext == null) {
@@ -23,21 +23,21 @@ public class SearchRequestOptionsContractBinder : IModelBinder {
         var attribute = attributeValue.ToString();
 
         if (string.IsNullOrEmpty(attribute)) {
-            attributeStyle = AttributeStyle.Lower;
+            _attributeStyle = AttributeStyle.Lower;
 
             var version = GetVersion(bindingContext);
 
             if (version == 2) {
-                attributeStyle = AttributeStyle.Input;
+                _attributeStyle = AttributeStyle.Input;
             }
         } else {
-            if (!Enum.TryParse(attribute, true, out attributeStyle)) {
+            if (!Enum.TryParse(attribute, true, out _attributeStyle)) {
                 var version = GetVersion(bindingContext);
                 if (version == 1) {
                     // reset to default as try parse modifies value
-                    attributeStyle = AttributeStyle.Lower;
+                    _attributeStyle = AttributeStyle.Lower;
                 } else if (version == 2) {
-                    attributeStyle = AttributeStyle.Input;
+                    _attributeStyle = AttributeStyle.Input;
                 }
             }
         }
@@ -54,7 +54,7 @@ public class SearchRequestOptionsContractBinder : IModelBinder {
             Predicate = predicate,
             Geometry = pointJson,
             Buffer = Convert.ToDouble(bufferAmount),
-            AttributeStyle = attributeStyle,
+            AttributeStyle = _attributeStyle,
             SpatialReference = wkid
         };
 
@@ -66,7 +66,7 @@ public class SearchRequestOptionsContractBinder : IModelBinder {
     private static int GetVersion(ModelBindingContext bindingContext) {
         var routeValues = bindingContext.ActionContext.RouteData.Values;
 
-        routeValues.TryGetValue(versionKey, out var versionValue);
+        routeValues.TryGetValue(VersionKey, out var versionValue);
 
         return Convert.ToInt16(versionValue);
     }

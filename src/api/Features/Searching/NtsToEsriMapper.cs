@@ -4,53 +4,47 @@ using NetTopologySuite.Geometries;
 
 namespace AGRC.api.Features.Searching;
 public class NtsToEsriMapper {
-    public class Computation : IComputation<object?> {
-        internal readonly Geometry Geometry;
-
-        public Computation(Geometry geometry) {
-            Geometry = geometry;
-        }
+    public class Computation(Geometry geometry) : IComputation<object?> {
+        internal readonly Geometry _geometry = geometry;
     }
 
-    public class Handler : IComputationHandler<Computation, object?> {
-        private readonly ILogger? _log;
-        public Handler(ILogger log) {
-            _log = log?.ForContext<NtsToEsriMapper>();
-        }
+    public class Handler(ILogger log) : IComputationHandler<Computation, object?> {
+        private readonly ILogger? _log = log?.ForContext<NtsToEsriMapper>();
+
         public Task<object?> Handle(Computation computation, CancellationToken _) {
-            if (computation.Geometry.SRID == 0) {
-                computation.Geometry.SRID = 26912;
+            if (computation._geometry.SRID == 0) {
+                computation._geometry.SRID = 26912;
             }
 
-            object? result = computation.Geometry switch {
-                Point => new EsriJson.Net.Geometry.Point(computation.Geometry.Coordinate.X, computation.Geometry.Coordinate.Y) {
+            object? result = computation._geometry switch {
+                Point => new EsriJson.Net.Geometry.Point(computation._geometry.Coordinate.X, computation._geometry.Coordinate.Y) {
                     CRS = new Crs {
-                        WellKnownId = computation.Geometry.SRID
+                        WellKnownId = computation._geometry.SRID
                     }
                 },
-                MultiPoint => new EsriJson.Net.Geometry.MultiPoint(computation.Geometry.Coordinates.Select(x => new EsriJson.Net.Geometry.Point(x.X, x.Y)).ToArray()) {
+                MultiPoint => new EsriJson.Net.Geometry.MultiPoint(computation._geometry.Coordinates.Select(x => new EsriJson.Net.Geometry.Point(x.X, x.Y)).ToArray()) {
                     CRS = new Crs {
-                        WellKnownId = computation.Geometry.SRID
+                        WellKnownId = computation._geometry.SRID
                     }
                 },
-                LineString => new EsriJson.Net.Geometry.Polyline(new List<EsriJson.Net.Geometry.RingPoint[]> { ExtractLineRingPoints(computation.Geometry as LineString) }) {
+                LineString => new EsriJson.Net.Geometry.Polyline(new List<EsriJson.Net.Geometry.RingPoint[]> { ExtractLineRingPoints(computation._geometry as LineString) }) {
                     CRS = new Crs {
-                        WellKnownId = computation.Geometry.SRID
+                        WellKnownId = computation._geometry.SRID
                     }
                 },
-                MultiLineString => CreateLine(computation.Geometry as MultiLineString),
-                Polygon => new EsriJson.Net.Geometry.Polygon(ExtractRings(computation.Geometry as Polygon)) {
+                MultiLineString => CreateLine(computation._geometry as MultiLineString),
+                Polygon => new EsriJson.Net.Geometry.Polygon(ExtractRings(computation._geometry as Polygon)) {
                     CRS = new Crs {
-                        WellKnownId = computation.Geometry.SRID
+                        WellKnownId = computation._geometry.SRID
                     }
                 },
-                MultiPolygon => CreatePolygon(computation.Geometry as MultiPolygon),
+                MultiPolygon => CreatePolygon(computation._geometry as MultiPolygon),
                 _ => null,
             };
 
             if (result is null) {
-                _log?.ForContext("type", computation.Geometry.GeometryType)
-                    .ForContext("ogcType", computation.Geometry.OgcGeometryType)
+                _log?.ForContext("type", computation._geometry.GeometryType)
+                    .ForContext("ogcType", computation._geometry.OgcGeometryType)
                     .Warning("requires action::could not convert geometry type");
             }
 

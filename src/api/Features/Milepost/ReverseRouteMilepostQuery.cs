@@ -70,7 +70,7 @@ public class ReverseRouteMilepostQuery {
                 httpResponse = await _client.GetAsync(requestUri, cancellationToken);
             } catch (TaskCanceledException ex) {
                 _log?.ForContext("url", requestUri)
-                    .Fatal(ex, "failed");
+                    .Fatal(ex, "roads and highway query failed");
 
                 return new ObjectResult(new ApiResponseContract {
                     Status = (int)HttpStatusCode.InternalServerError,
