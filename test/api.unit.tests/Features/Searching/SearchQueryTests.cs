@@ -12,7 +12,7 @@ public class SearchQueryTests {
 
     [Fact]
     public async Task Should_return_results() {
-        var query = new SearchQuery.Query("tableName", "return,values", new SearchRequestOptionsContract());
+        var query = new SearchQuery.Query("tableName", "return,values", new(new()));
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
@@ -42,7 +42,7 @@ public class SearchQueryTests {
 
     [Fact]
     public async Task Should_handle_sgid_table_not_found() {
-        var query = new SearchQuery.Query("table_not_found", "return,values", new SearchRequestOptionsContract());
+        var query = new SearchQuery.Query("table_not_found", "return,values", new(new()));
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
@@ -61,7 +61,7 @@ public class SearchQueryTests {
 
     [Fact]
     public async Task Should_handle_pg_table_not_found() {
-        var query = new SearchQuery.Query("table_not_found", "return,values", new SearchRequestOptionsContract());
+        var query = new SearchQuery.Query("table_not_found", "return,values", new(new()));
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
@@ -80,7 +80,7 @@ public class SearchQueryTests {
 
     [Fact]
     public async Task Should_handle_invalid_columns() {
-        var query = new SearchQuery.Query("table_not_found", "not_found", new SearchRequestOptionsContract());
+        var query = new SearchQuery.Query("table_not_found", "not_found", new(new()));
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
@@ -99,9 +99,9 @@ public class SearchQueryTests {
 
     [Fact]
     public async Task Should_handle_invalid_predicate() {
-        var query = new SearchQuery.Query("table", "field", new SearchRequestOptionsContract {
+        var query = new SearchQuery.Query("table", "field", new(new SearchRequestOptionsContract {
             Predicate = "bad predicate"
-        });
+        }));
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
@@ -120,9 +120,9 @@ public class SearchQueryTests {
 
     [Fact]
     public async Task Should_handle_unhandled_pg_exception() {
-        var query = new SearchQuery.Query("table", "field", new SearchRequestOptionsContract {
+        var query = new SearchQuery.Query("table", "field", new(new SearchRequestOptionsContract {
             Predicate = "bad predicate"
-        });
+        }));
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
@@ -141,9 +141,9 @@ public class SearchQueryTests {
 
     [Fact]
     public async Task Should_handle_unhandled_exception() {
-        var query = new SearchQuery.Query("table", "field", new SearchRequestOptionsContract {
+        var query = new SearchQuery.Query("table", "field", new(new SearchRequestOptionsContract {
             Predicate = "bad predicate"
-        });
+        }));
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))

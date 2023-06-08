@@ -24,55 +24,55 @@ public class ShapeFieldDecoratorTests {
 
     [Fact]
     public async Task Should_modify_shape_token() {
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Lower
-        };
+        });
         var computation = new SearchQuery.Query("table", "shape@,field2", options);
 
         var decorator = new ShapeFieldDecorator(_computationHandler, _logger);
 
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.TableName.ShouldBe(computation.TableName);
-        _mutation.ReturnValues.ShouldBe("st_simplify(shape,10) as shape,field2");
-        _mutation.Options.Predicate.ShouldBe(computation.Options.Predicate);
-        _mutation.Options.AttributeStyle.ShouldBe(computation.Options.AttributeStyle);
+        _mutation._tableName.ShouldBe(computation._tableName);
+        _mutation._returnValues.ShouldBe("st_simplify(shape,10) as shape,field2");
+        _mutation._options.Predicate.ShouldBe(computation._options.Predicate);
+        _mutation._options.AttributeStyle.ShouldBe(computation._options.AttributeStyle);
     }
 
     [Fact]
     public async Task Should_modify_envelope_token() {
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Lower
-        };
+        });
         var computation = new SearchQuery.Query("table", "shape@envelope,field2", options);
 
         var decorator = new ShapeFieldDecorator(_computationHandler, _logger);
 
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.TableName.ShouldBe(computation.TableName);
-        _mutation.ReturnValues.ShouldBe("st_envelope(shape) as shape,field2");
-        _mutation.Options.Predicate.ShouldBe(computation.Options.Predicate);
-        _mutation.Options.AttributeStyle.ShouldBe(computation.Options.AttributeStyle);
+        _mutation._tableName.ShouldBe(computation._tableName);
+        _mutation._returnValues.ShouldBe("st_envelope(shape) as shape,field2");
+        _mutation._options.Predicate.ShouldBe(computation._options.Predicate);
+        _mutation._options.AttributeStyle.ShouldBe(computation._options.AttributeStyle);
     }
 
     [Fact]
     public async Task Should_skip_non_spatial_fields() {
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Upper
-        };
+        });
         var computation = new SearchQuery.Query("table", "envelope,field2", options);
 
         var decorator = new ShapeFieldDecorator(_computationHandler, _logger);
 
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.TableName.ShouldBe(computation.TableName);
-        _mutation.ReturnValues.ShouldBe(computation.ReturnValues);
-        _mutation.Options.Predicate.ShouldBe(computation.Options.Predicate);
-        _mutation.Options.AttributeStyle.ShouldBe(computation.Options.AttributeStyle);
+        _mutation._tableName.ShouldBe(computation._tableName);
+        _mutation._returnValues.ShouldBe(computation._returnValues);
+        _mutation._options.Predicate.ShouldBe(computation._options.Predicate);
+        _mutation._options.AttributeStyle.ShouldBe(computation._options.AttributeStyle);
     }
 }

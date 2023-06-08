@@ -37,10 +37,10 @@ public class AttributeTableKeyFormattingTests {
 
     [Fact]
     public async Task Should_lowercase_all_keys() {
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Lower
-        };
+        });
         var command = new SqlQuery.Computation("tablename", "attributes", options);
 
         var result = await _decorator.Handle(command, CancellationToken.None);
@@ -51,12 +51,11 @@ public class AttributeTableKeyFormattingTests {
 
     [Fact]
     public async Task Should_uppercase_all_keys() {
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Upper
-        };
+        });
         var command = new SqlQuery.Computation("tablename", "attributes", options);
-
         var result = await _decorator.Handle(command, CancellationToken.None);
 
         result.First().Attributes.Count.ShouldBe(3);
@@ -65,10 +64,10 @@ public class AttributeTableKeyFormattingTests {
 
     [Fact]
     public async Task Should_keep_all_keys_as_is() {
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Input
-        };
+        });
         var command = new SqlQuery.Computation("tablename", "attributes", options);
         var result = await _decorator.Handle(command, CancellationToken.None);
 

@@ -24,10 +24,10 @@ public class TableMappingTests {
 
     [Fact]
     public async Task Should_swap_sgid_table() {
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Lower
-        };
+        });
         var computation = new SearchQuery.Query("sgid.category.table", "attributes", options);
 
         var tableMapping = new Mock<ITableMapping>();
@@ -37,18 +37,18 @@ public class TableMappingTests {
 
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.TableName.ShouldBe("swapped");
-        _mutation.ReturnValues.ShouldBe(computation.ReturnValues);
-        _mutation.Options.Predicate.ShouldBe(computation.Options.Predicate);
-        _mutation.Options.AttributeStyle.ShouldBe(computation.Options.AttributeStyle);
+        _mutation._tableName.ShouldBe("swapped");
+        _mutation._returnValues.ShouldBe(computation._returnValues);
+        _mutation._options.Predicate.ShouldBe(computation._options.Predicate);
+        _mutation._options.AttributeStyle.ShouldBe(computation._options.AttributeStyle);
     }
 
     [Fact]
     public async Task Should_skip_non_sgid_tables() {
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Upper
-        };
+        });
         var computation = new SearchQuery.Query("tablename", "attributes", options);
 
         var tableMapping = new Mock<ITableMapping>();
@@ -58,18 +58,18 @@ public class TableMappingTests {
 
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.TableName.ShouldBe(computation.TableName);
-        _mutation.ReturnValues.ShouldBe(computation.ReturnValues);
-        _mutation.Options.Predicate.ShouldBe(computation.Options.Predicate);
-        _mutation.Options.AttributeStyle.ShouldBe(computation.Options.AttributeStyle);
+        _mutation._tableName.ShouldBe(computation._tableName);
+        _mutation._returnValues.ShouldBe(computation._returnValues);
+        _mutation._options.Predicate.ShouldBe(computation._options.Predicate);
+        _mutation._options.AttributeStyle.ShouldBe(computation._options.AttributeStyle);
     }
 
     [Fact]
     public async Task Should_throw_if_table_does_not_exist() {
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Upper
-        };
+        });
         var computation = new SearchQuery.Query("sgid.layer.does-not-exist", "attributes", options);
 
         var tableMapping = new Mock<ITableMapping>();

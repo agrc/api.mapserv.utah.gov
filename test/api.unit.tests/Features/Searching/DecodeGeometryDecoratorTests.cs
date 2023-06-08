@@ -26,15 +26,15 @@ public class DecodeGeometryDecoratorTests {
         const string table = "table";
         const string returnFields = "field1,field2";
 
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Geometry = "point:[1,2]",
-        };
+        });
 
         var computation = new SearchQuery.Query(table, returnFields, options);
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation._options.Point.ToPostGis().ShouldBe("st_pointfromtext('POINT(1 2)',26912)");
     }
 
     [Fact]
@@ -42,15 +42,15 @@ public class DecodeGeometryDecoratorTests {
         const string table = "table";
         const string returnFields = "field1,field2";
 
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Geometry = """point:{"x": 1, "y": 2, "spatialReference": { "wkid": 26912}}""",
-        };
+        });
 
         var computation = new SearchQuery.Query(table, returnFields, options);
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation._options.Point.ToPostGis().ShouldBe("st_pointfromtext('POINT(1 2)',26912)");
     }
 
     [Fact]
@@ -58,15 +58,15 @@ public class DecodeGeometryDecoratorTests {
         const string table = "table";
         const string returnFields = "field1,field2";
 
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Geometry = """point:{"x": 1, "y": 2, "spatialReference": { "wkid": 26912}}""",
-        };
+        });
 
         var computation = new SearchQuery.Query(table, returnFields, options);
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation._options.Point.ToPostGis().ShouldBe("st_pointfromtext('POINT(1 2)',26912)");
     }
 
     [Fact]
@@ -74,17 +74,17 @@ public class DecodeGeometryDecoratorTests {
         const string table = "table";
         const string returnFields = "field1,field2";
 
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Geometry = """point: {"spatialReference":{"latestWkid":26912,"wkid":102100},"x":1,"y":2}""",
-        };
+        });
 
         var computation = new SearchQuery.Query(table, returnFields, options);
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.TableName.ShouldBe(table);
-        _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation._tableName.ShouldBe(table);
+        _mutation._returnValues.ShouldBe(returnFields);
+        _mutation._options.Point.ToPostGis().ShouldBe("st_pointfromtext('POINT(1 2)',26912)");
     }
 
     [Fact]
@@ -92,17 +92,17 @@ public class DecodeGeometryDecoratorTests {
         const string table = "table";
         const string returnFields = "field1,field2";
 
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Geometry = """point: {"x":1,"y":2}""",
-        };
+        });
 
         var computation = new SearchQuery.Query(table, returnFields, options);
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.TableName.ShouldBe(table);
-        _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.Options.Geometry.ShouldBe("st_pointfromtext('POINT(1 2)', 26912)");
+        _mutation._tableName.ShouldBe(table);
+        _mutation._returnValues.ShouldBe(returnFields);
+        _mutation._options.Point.ToPostGis().ShouldBe("st_pointfromtext('POINT(1 2)',26912)");
     }
 
     [Fact]
@@ -110,17 +110,18 @@ public class DecodeGeometryDecoratorTests {
         const string table = "table";
         const string returnFields = "field1,field2";
 
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Geometry = """point: {"x":1,"y":2, "spatialReference": { "wkid": 3857 }}""",
-        };
+        });
 
         var computation = new SearchQuery.Query(table, returnFields, options);
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.TableName.ShouldBe(table);
-        _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.Options.Geometry.ShouldBe("st_transform(st_pointfromtext('POINT(1 2)', 3857), 26912)");
+        _mutation._tableName.ShouldBe(table);
+        _mutation._returnValues.ShouldBe(returnFields);
+        _mutation._options.Point.ToPostGis().ShouldBe("st_transform(st_pointfromtext('POINT(1 2)',3857),26912)");
+        _mutation._options.Point.ToEsriJson().ShouldBe("""{"x":1,"y":2,"spatialReference":{"wkid":3857}}""");
     }
 
     [Fact]
@@ -128,17 +129,17 @@ public class DecodeGeometryDecoratorTests {
         const string table = "table";
         const string returnFields = "field1,field2";
 
-        var options = new SearchRequestOptionsContract {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
             Geometry = "point:[1,2]",
             SpatialReference = 3857
-        };
+        });
 
         var computation = new SearchQuery.Query(table, returnFields, options);
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
-        _mutation.TableName.ShouldBe(table);
-        _mutation.ReturnValues.ShouldBe(returnFields);
-        _mutation.Options.Geometry.ShouldBe("st_transform(st_pointfromtext('POINT(1 2)', 3857), 26912)");
+        _mutation._tableName.ShouldBe(table);
+        _mutation._returnValues.ShouldBe(returnFields);
+        _mutation._options.Point.ToPostGis().ShouldBe("st_transform(st_pointfromtext('POINT(1 2)',3857),26912)");
     }
 }

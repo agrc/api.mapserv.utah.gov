@@ -22,7 +22,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_no_table_name() {
-        var query = new SearchQuery.Query(string.Empty, "return,values", new SearchRequestOptionsContract());
+        var query = new SearchQuery.Query(string.Empty, "return,values", new(new()));
 
         var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(mediator, _logger);
         var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
@@ -38,7 +38,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_jerk_table_name() {
-        var query = new SearchQuery.Query("jerk", "return,values", new SearchRequestOptionsContract());
+        var query = new SearchQuery.Query("jerk", "return,values", new(new()));
 
         var _mediator = new Mock<IComputeMediator>();
         _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
@@ -60,7 +60,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_no_return_values() {
-        var query = new SearchQuery.Query("table", string.Empty, new SearchRequestOptionsContract());
+        var query = new SearchQuery.Query("table", string.Empty, new(new()));
 
         var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(mediator, _logger);
         var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
@@ -76,7 +76,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_jerk_return_value() {
-        var query = new SearchQuery.Query("table", "jerk", new SearchRequestOptionsContract());
+        var query = new SearchQuery.Query("table", "jerk", new(new()));
 
         var _mediator = new Mock<IComputeMediator>();
         _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
@@ -114,9 +114,9 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_jerk_predicate() {
-        var query = new SearchQuery.Query("table", "value", new SearchRequestOptionsContract {
+        var query = new SearchQuery.Query("table", "value", new(new SearchRequestOptionsContract {
             Predicate = "jerk"
-        });
+        }));
 
         var _mediator = new Mock<IComputeMediator>();
         _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
@@ -138,7 +138,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_call_next_with_no_errors() {
-        var query = new SearchQuery.Query("table_not_found", "return,values", new SearchRequestOptionsContract());
+        var query = new SearchQuery.Query("table_not_found", "return,values", new(new()));
 
         var handler = new SearchQuery.ValidationBehavior<SearchQuery.Query, ObjectResult>(mediator, _logger);
         var result = await handler.Handle(query, delegateMock.Object, CancellationToken.None);
