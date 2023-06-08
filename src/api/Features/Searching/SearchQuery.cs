@@ -18,30 +18,55 @@ public class SearchQuery {
         }
     }
 
-    public class Handler : IRequestHandler<Query, ObjectResult> {
-        private readonly ILogger? _log;
-        private readonly IComputeMediator _computeMediator;
-        public Handler(IComputeMediator computeMediator, ILogger log) {
-            _computeMediator = computeMediator;
-            _log = log?.ForContext<SearchQuery>();
-        }
+    public class Handler(IComputeMediator computeMediator, ILogger log) : IRequestHandler<Query, ObjectResult> {
+        private readonly ILogger? _log = log?.ForContext<SearchQuery>();
+        private readonly IComputeMediator _computeMediator = computeMediator;
 
         public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
-            var tableName = request.TableName.ToLowerInvariant();
-            IReadOnlyCollection<SearchResponseContract?> result;
+            var tableName = request._tableName.ToLowerInvariant();
+            IReadOnlyCollection<SearchResponseContract?>? result;
 
-            // if (tableName.Contains("raster.")) {
-            //     // raster query
-            //     result = await _computeMediator.Handle(
-            //         new RasterElevation.Computation(request.ReturnValues,
-            //             request.Options),
-            //         cancellationToken);
+            if (tableName.Contains("raster.")) {
+                // raster query
+                try {
+                    result = await _computeMediator.Handle(
+                        new RasterElevation.Computation(request._returnValues, request._options),
+                        cancellationToken
+                    );
 
-            //     return new OkObjectResult(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
-            //         Result = result ?? Array.Empty<SearchResponseContract>(),
-            //         Status = (int)HttpStatusCode.OK
-            //     });
-            // }
+                    return new OkObjectResult(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                        Result = result ?? Array.Empty<SearchResponseContract>(),
+                        Status = (int)HttpStatusCode.OK
+                    });
+                } catch (TaskCanceledException ex) {
+                    _log?.ForContext("url", "")
+                        .Fatal(ex, "elevation query failed");
+
+                    return new ObjectResult(new ApiResponseContract {
+                        Status = (int)HttpStatusCode.InternalServerError,
+                        Message = "The request was canceled."
+                    }) {
+                        StatusCode = 500
+                    };
+                } catch (HttpRequestException ex) {
+                    _log?.ForContext("url", "")
+                        .Fatal(ex, "request error");
+
+                    return new ObjectResult(new ApiResponseContract {
+                        Status = (int)HttpStatusCode.InternalServerError,
+                        Message = "I'm sorry, it seems as though the request had issues."
+                    }) {
+                        StatusCode = 500
+                    };
+                } catch (ArgumentException ex) {
+                    return new ObjectResult(new ApiResponseContract {
+                        Status = (int)HttpStatusCode.InternalServerError,
+                        Message = ex.Message
+                    }) {
+                        StatusCode = 500
+                    };
+                }
+            }
 
             try {
                 result = await _computeMediator.Handle(

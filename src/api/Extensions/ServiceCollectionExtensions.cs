@@ -41,8 +41,7 @@ public static class ServiceCollectionExtensions {
         var retryPolicy = HttpPolicyExtensions
                         .HandleTransientHttpError()
                         .Or<TimeoutRejectedException>() // thrown by Polly's TimeoutPolicy if the inner call times out
-                        .WaitAndRetryAsync(3, retryAttempt =>
-                                TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+                        .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
         var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(8);
 
         AddArcGisClient(services, retryPolicy, timeoutPolicy, env.IsProduction());
@@ -63,6 +62,19 @@ public static class ServiceCollectionExtensions {
         services.AddHttpClient("udot", client => {
             client.BaseAddress = new Uri("https://maps.udot.utah.gov/");
             client.Timeout = new TimeSpan(0, 0, 15);
+        }).ConfigurePrimaryHttpMessageHandler(() => {
+            var handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression) {
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+
+            return handler;
+        }).AddPolicyHandler(retryPolicy)
+          .AddPolicyHandler(timeoutPolicy);
+
+        services.AddHttpClient("national-map", client => {
+            client.BaseAddress = new Uri("https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/identify");
+            client.Timeout = new TimeSpan(0, 0, 5);
         }).ConfigurePrimaryHttpMessageHandler(() => {
             var handler = new HttpClientHandler();
             if (handler.SupportsAutomaticDecompression) {

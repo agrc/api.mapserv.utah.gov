@@ -13,20 +13,16 @@ namespace AGRC.api.Features.Searching;
 [ApiVersion("2.0")]
 [Produces("application/json")]
 [ServiceFilter(typeof(AuthorizeApiKeyFromRequest))]
-public class SearchController : ControllerBase {
-    private readonly IMediator _mediator;
-
-    public SearchController(IMediator mediator) {
-        _mediator = mediator;
-    }
+public class SearchController(IMediator mediator) : ControllerBase {
+    private readonly IMediator _mediator = mediator;
 
     /// <summary>Search tables and attributes within the SGID</summary>
     /// <remarks>_Requires an API Key_</remarks>
     /// <response code="200">The query was successful</response>
     /// <response code="400">The input query data was not well formed</response>
     /// <response code="500">Something went terribly wrong</response>
-    /// <param name="tableName" example="SGID10.Boundaries.Counties">A fully qualified SGID table name</param>
-    /// <param name="returnValues" example="NAME,FIPS">A comma separated string of attributes to return values for. To include the geometry use the shape@ token or if you want the envelope use the shape@envelope token</param>
+    /// <param name="tableName" example="boundaries.county_boundaries">A fully qualified SGID table name</param>
+    /// <param name="returnValues" example="name,shape@envelope">A comma separated string of attributes to return values for. To include the geometry use the shape@ token or if you want the envelope use the shape@envelope token</param>
     /// <param name="options"></param>
     [ProducesResponseType(200, Type = typeof(ApiResponseContract<SearchResponseContract>))]
     [ProducesResponseType(400, Type = typeof(ApiResponseContract))]
@@ -40,5 +36,5 @@ public class SearchController : ControllerBase {
     [Route("api/v{version:apiVersion}/search/{tableName}/{returnValues}")]
     public async Task<ObjectResult> Get(
         string tableName, string returnValues, [FromQuery] SearchRequestOptionsContract options) =>
-            await _mediator.Send(new SearchQuery.Query(tableName, returnValues, options));
+            await _mediator.Send(new SearchQuery.Query(tableName, returnValues, new SearchOptions(options)));
 }

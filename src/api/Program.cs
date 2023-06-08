@@ -196,17 +196,18 @@ try {
                 .AsClosedTypesOf(typeof(IComputationHandler<,>))
                 .AsImplementedInterfaces();
 
-        builder.RegisterDecorator<DoubleAvenuesException.Decorator,
-            IComputationHandler<ZoneParsing.Computation, Address>>();
-
-        builder.RegisterDecorator<ShapeFieldDecorator,
-            IRequestHandler<SearchQuery.Query, ObjectResult>>();
-
+        // decorators are executed in the order they are registered
         builder.RegisterDecorator<TableMappingDecorator,
             IRequestHandler<SearchQuery.Query, ObjectResult>>();
 
         builder.RegisterDecorator<DecodeGeometryDecorator,
             IRequestHandler<SearchQuery.Query, ObjectResult>>();
+
+        builder.RegisterDecorator<ShapeFieldDecorator,
+            IRequestHandler<SearchQuery.Query, ObjectResult>>();
+
+        builder.RegisterDecorator<DoubleAvenuesException.Decorator,
+            IComputationHandler<ZoneParsing.Computation, Address>>();
 
         builder.RegisterDecorator<AttributeTableKeyFormatting.Decorator,
             IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();

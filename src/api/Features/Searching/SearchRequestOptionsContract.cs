@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using AGRC.api.Models;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.RequestOptionContracts;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,8 @@ public class SearchRequestOptionsContract : ProjectableOptions {
     /// The coordinate pair representing a point.
     /// </summary>
     /// <example>
-    /// points:[x,y]
+    /// points:[x,y] or
+    /// {"spatialReference":{"wkid":26912},"x":x,"y":y}
     /// </example>
     public string? Geometry { get; set; } = string.Empty;
 
@@ -52,7 +54,19 @@ public class SearchRequestOptionsContract : ProjectableOptions {
     ///     AliasLower: lower case the field alias eg: alias
     ///     AliasUpper: upper case the field alias eg: ALIAS
     /// </summary>
-    // TODO: v1 this value is lower
+    // TODO!: v1 this value is lower
     [DefaultValue(AttributeStyle.Input)]
     public AttributeStyle AttributeStyle { get; set; } = AttributeStyle.Input;
+}
+
+public sealed class SearchOptions : SearchRequestOptionsContract {
+    public SearchOptions(SearchRequestOptionsContract options) {
+        AttributeStyle = options.AttributeStyle;
+        Buffer = options.Buffer;
+        Geometry = options.Geometry;
+        Predicate = options.Predicate;
+        SpatialReference = options.SpatialReference;
+        Format = options.Format;
+    }
+    public PointWithSpatialReference? Point { get; set; }
 }
