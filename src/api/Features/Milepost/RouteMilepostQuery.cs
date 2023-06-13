@@ -29,7 +29,7 @@ public class RouteMilepostQuery {
 
             Route = route;
             Milepost = milepost;
-            SpatialReference = options.SpatialReference!.Value;
+            SpatialReference = options.SpatialReference;
         }
     }
 

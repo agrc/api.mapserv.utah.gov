@@ -23,7 +23,7 @@ public class ReverseGeocodeQuery {
             var y = request.Location.Y;
 
             if (request.Options.SpatialReference != 26912) {
-                var reprojectOptions = new PointReprojectOptions(request.Options.SpatialReference!.Value, 26912, new[] { x, y });
+                var reprojectOptions = new PointReprojectOptions(request.Options.SpatialReference, 26912, new[] { x, y });
                 var reprojectCommand = new Reproject.Computation(reprojectOptions);
                 var pointReprojectResponse = await _computeMediator.Handle(reprojectCommand, default);
 
@@ -48,7 +48,7 @@ public class ReverseGeocodeQuery {
                 }
             }
 
-            var createPlanComputation = new ReverseGeocodePlan.Computation(x, y, request.Options.Distance, request.Options.SpatialReference!.Value);
+            var createPlanComputation = new ReverseGeocodePlan.Computation(x, y, request.Options.Distance, request.Options.SpatialReference);
             var plan = await _computeMediator.Handle(createPlanComputation, default);
 
             if (plan?.Any() != true) {

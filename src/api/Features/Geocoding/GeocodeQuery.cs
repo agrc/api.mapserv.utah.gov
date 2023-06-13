@@ -30,7 +30,7 @@ public class GeocodeQuery {
             var parseZoneComputation = new ZoneParsing.Computation(zone, parsedStreet);
             var parsedAddress = await _computeMediator.Handle(parseZoneComputation, cancellationToken);
 
-            if (request._options.PoBox!.Value && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue) {
+            if (request._options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue) {
                 var poboxComputation = new PoBoxLocation.Computation(parsedAddress, request._options);
                 var result = await _computeMediator.Handle(poboxComputation, cancellationToken);
 
@@ -80,7 +80,7 @@ public class GeocodeQuery {
                 }, request._jsonOptions, "application/json", StatusCodes.Status200OK);
             }
 
-            var topCandidates = new TopAddressCandidates(request._options.Suggest!.Value,
+            var topCandidates = new TopAddressCandidates(request._options.Suggest,
                 new CandidateComparer(parsedAddress.StandardizedAddress().ToUpperInvariant()));
 
             var createGeocodePlanComputation = new GeocodePlan.Computation(parsedAddress, request._options);
@@ -129,7 +129,7 @@ public class GeocodeQuery {
                     .Warning("no matches found", street, zone, request._options.AcceptScore);
             }
 
-            winner.Wkid = request._options.SpatialReference!.Value;
+            winner.Wkid = request._options.SpatialReference;
 
             _log?.ForContext("locator", winner.Locator)
                 .ForContext("score", winner.Score)

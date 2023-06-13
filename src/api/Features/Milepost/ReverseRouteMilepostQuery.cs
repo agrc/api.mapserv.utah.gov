@@ -21,7 +21,7 @@ public class ReverseRouteMilepostQuery {
         public Query(double x, double y, ReverseRouteMilepostRequestOptionsContract options) {
             X = x;
             Y = y;
-            SpatialReference = options.SpatialReference!.Value;
+            SpatialReference = options.SpatialReference;
             SuggestionCount = options.Suggest;
             Tolerance = options.Buffer;
             IncludeRamps = options.IncludeRampSystem;

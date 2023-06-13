@@ -107,7 +107,7 @@ public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IResult>
         }
 
         var geometry = computation._options.Geometry.ToUpper().Trim().Replace(" ", "");
-        var spatialReference = computation._options.SpatialReference!.Value;
+        var spatialReference = computation._options.SpatialReference;
 
         if (geometry[0] == 'P') {
             // have a point (5) polyline (8) or polygon (7)
