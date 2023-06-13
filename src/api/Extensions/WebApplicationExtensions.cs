@@ -1,9 +1,11 @@
+using AGRC.api.Features.Converting;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Features.Health;
 using AGRC.api.Features.Milepost;
 using AGRC.api.Features.Searching;
 using AGRC.api.Middleware;
 using AGRC.api.Models.ResponseContracts;
+using Asp.Versioning;
 using Asp.Versioning.Conventions;
 using CorrelationId;
 using Microsoft.AspNetCore.Builder;
@@ -38,8 +40,17 @@ public static class WebApplicationExtensions {
         var geocode = api.MapGroup("/geocode");
         var search = api.MapGroup("/search");
 
-        geocode.MapGet("{street}/{zone}", async ([FromRoute] string street, [FromRoute] string zone, [AsParameters] SingleGeocodeRequestOptionsContract options, [FromServices] IMediator mediator)
-            => await mediator.Send(new GeocodeQuery.Query(street, zone, options)))
+        geocode.MapGet("{street}/{zone}", async (
+            [FromRoute] string street,
+            [FromRoute] string zone,
+            SingleGeocodeRequestOptionsContract options,
+            [FromServices] IMediator mediator,
+            [FromServices] IJsonSerializerOptionsFactory factory,
+            [FromServices] ApiVersion apiVersion)
+            => {
+                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
+                return await mediator.Send(new GeocodeQuery.Query(street, zone, options, jsonOptions));
+            })
             .WithApiVersionSet(versionSet)
             .IsApiVersionNeutral()
             .Produces<ApiResponseContract<SingleGeocodeResponseContract>>(StatusCodes.Status200OK)

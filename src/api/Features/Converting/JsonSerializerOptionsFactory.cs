@@ -1,23 +1,23 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using AGRC.api.Geocoding;
 using AGRC.api.Quirks;
 using Asp.Versioning;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using NetTopologySuite.IO.Converters;
 
-namespace AGRC.api.Geocoding;
-public class ConfigureMvcJsonOptions : IConfigureOptions<MvcOptions> {
-    private readonly ILoggerFactory _log;
+namespace AGRC.api.Features.Converting;
 
-    public ConfigureMvcJsonOptions(IOptionsMonitor<JsonOptions> _, ILoggerFactory log) {
-        _log = log;
-    }
+internal interface IJsonSerializerOptionsFactory {
+    JsonSerializerOptions GetSerializerOptionsFor(ApiVersion version);
+}
 
-    public void Configure(MvcOptions options) {
-        var defaultOptions = new JsonSerializerOptions() {
+internal class JsonSerializerOptionsFactory : IJsonSerializerOptionsFactory {
+    private readonly JsonSerializerOptions _defaultOptions;
+    private readonly JsonSerializerOptions _quirkOptions;
+
+    public JsonSerializerOptionsFactory() {
+        _defaultOptions = new JsonSerializerOptions() {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
@@ -27,7 +27,7 @@ public class ConfigureMvcJsonOptions : IConfigureOptions<MvcOptions> {
             },
         };
 
-        var quirkOptions = new JsonSerializerOptions() {
+        _quirkOptions = new JsonSerializerOptions() {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             DictionaryKeyPolicy = new AsIsNamingPolicy(),
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
@@ -37,19 +37,14 @@ public class ConfigureMvcJsonOptions : IConfigureOptions<MvcOptions> {
             },
             TypeInfoResolver = new DefaultJsonTypeInfoResolver {
                 Modifiers = {
-                    new SerializableGraphicJsonModifier(_log.CreateLogger<SerializableGraphicJsonModifier>()).ModifyAttributeConverter
-                 }
+                    new SerializableGraphicJsonModifier().ModifyAttributeConverter
+                }
             }
         };
-
-        options.OutputFormatters.Insert(0, new VersionedJsonOutputFormatter(
-            static apiVersion => apiVersion == ApiVersion.Default,
-            quirkOptions
-        ));
-
-        options.OutputFormatters.Insert(0, new VersionedJsonOutputFormatter(
-            static apiVersion => apiVersion > ApiVersion.Default,
-            defaultOptions
-        ));
     }
+
+    public JsonSerializerOptions GetSerializerOptionsFor(ApiVersion version) => version.MinorVersion switch {
+        1 => _quirkOptions,
+        _ => _defaultOptions
+    };
 }

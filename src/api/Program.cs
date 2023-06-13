@@ -16,7 +16,6 @@ try {
     builder.ConfigureConfiguration();
     builder.ConfigureLogging();
     builder.ConfigureCors();
-    builder.ConfigureJsonSerialization();
     builder.ConfigureVersioning();
     builder.ConfigureHealthChecks();
     builder.ConfigureDependencyInjection();

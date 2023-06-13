@@ -1,15 +1,13 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using AGRC.api.Cache;
+using AGRC.api.Features.Converting;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Features.GeometryService;
 using AGRC.api.Features.Health;
 using AGRC.api.Features.Milepost;
 using AGRC.api.Features.Searching;
-using AGRC.api.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Middleware;
 using AGRC.api.Models.Configuration;
@@ -24,7 +22,6 @@ using Google.Cloud.Firestore;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -32,7 +29,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using NetTopologySuite.IO.Converters;
 using Npgsql;
 using Polly;
 using Polly.Extensions.Http;
@@ -120,6 +116,7 @@ public static class WebApplicationBuilderExtensions {
             ProjectId = Environment.GetEnvironmentVariable("GCLOUD_PROJECT") ?? "ut-dts-agrc-web-api-dev",
             EmulatorDetection = emulator
         }.Build());
+        builder.Services.AddSingleton<IJsonSerializerOptionsFactory, JsonSerializerOptionsFactory>();
         builder.Services.AddSingleton<IAbbreviations, Abbreviations>();
         builder.Services.AddSingleton<IRegexCache, RegexCache>();
         builder.Services.AddSingleton<IApiKeyRepository, FirestoreApiKeyRepository>();
@@ -145,11 +142,6 @@ public static class WebApplicationBuilderExtensions {
             builder.UseNetTopologySuite();
 
             return builder.Build();
-        });
-        builder.Services.AddSingleton<IConfigureOptions<MvcOptions>>(sp => {
-            var options = sp.GetRequiredService<IOptionsMonitor<JsonOptions>>();
-            var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-            return new ConfigureMvcJsonOptions(options, loggerFactory);
         });
 
         builder.Services.Configure<HostOptions>(options =>
@@ -355,15 +347,7 @@ public static class WebApplicationBuilderExtensions {
             x.ReportApiVersions = true;
             x.AssumeDefaultVersionWhenUnspecified = true;
             x.DefaultApiVersion = new ApiVersion(1, 0);
-        });
-    public static void ConfigureJsonSerialization(this WebApplicationBuilder builder)
-        => builder.Services.ConfigureHttpJsonOptions(options => {
-            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            // options.SerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-            options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            options.SerializerOptions.Converters.Add(new GeoJsonConverterFactory());
-        });
+        }).EnableApiVersionBinding();
     public static void ConfigureCors(this WebApplicationBuilder builder)
         => builder.Services.AddCors(options => {
             options.AddDefaultPolicy(

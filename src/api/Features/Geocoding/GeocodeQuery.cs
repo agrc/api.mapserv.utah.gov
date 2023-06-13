@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using AGRC.api.Comparers;
 using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;
@@ -8,10 +9,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Geocoding;
 public class GeocodeQuery {
-    public class Query(string street, string zone, SingleGeocodeRequestOptionsContract options) : IRequest<IResult> {
+    public class Query(string street, string zone, SingleGeocodeRequestOptionsContract options, JsonSerializerOptions jsonOptions) : IRequest<IResult> {
         internal readonly string _street = street;
         internal readonly string _zone = zone;
         internal readonly SingleGeocodeRequestOptionsContract _options = options;
+        internal readonly JsonSerializerOptions _jsonOptions = jsonOptions;
     }
 
     public class Handler(IComputeMediator computeMediator, ILogger log) : IRequestHandler<Query, IResult> {
@@ -47,10 +49,10 @@ public class GeocodeQuery {
                         .ForContext("difference", model.ScoreDifference)
                         .Debug("match found");
 
-                    return Results.Ok(new ApiResponseContract<SingleGeocodeResponseContract> {
+                    return TypedResults.Json(new ApiResponseContract<SingleGeocodeResponseContract> {
                         Result = model,
                         Status = (int)HttpStatusCode.OK
-                    });
+                    }, request._jsonOptions, "application/json", StatusCodes.Status200OK);
                 }
             }
 
@@ -72,10 +74,10 @@ public class GeocodeQuery {
                     .ForContext("difference", model.ScoreDifference)
                     .Debug("match found");
 
-                return Results.Ok(new ApiResponseContract<SingleGeocodeResponseContract> {
+                return TypedResults.Json(new ApiResponseContract<SingleGeocodeResponseContract> {
                     Result = model,
-                    Status = (int)HttpStatusCode.OK
-                });
+                    Status = StatusCodes.Status200OK
+                }, request._jsonOptions, "application/json", StatusCodes.Status200OK);
             }
 
             var topCandidates = new TopAddressCandidates(request._options.Suggest!.Value,
@@ -88,10 +90,10 @@ public class GeocodeQuery {
                 _log?.ForContext("address", parsedAddress)
                     .Debug("no plan generated");
 
-                return Results.NotFound(new ApiResponseContract {
+                return TypedResults.Json(new ApiResponseContract<SingleGeocodeResponseContract> {
                     Message = $"No address candidates found with a score of {request._options.AcceptScore} or better.",
-                    Status = (int)HttpStatusCode.NotFound
-                });
+                    Status = StatusCodes.Status404NotFound
+                }, request._jsonOptions, "application/json", StatusCodes.Status404NotFound);
             }
 
             var tasks = await Task.WhenAll(
@@ -114,10 +116,10 @@ public class GeocodeQuery {
                     .ForContext("score", request._options.AcceptScore)
                     .Warning("no matches found", street, zone, request._options.AcceptScore);
 
-                return Results.NotFound(new ApiResponseContract {
+                return TypedResults.Json(new ApiResponseContract<SingleGeocodeResponseContract> {
                     Message = $"No address candidates found with a score of {request._options.AcceptScore} or better.",
-                    Status = (int)HttpStatusCode.NotFound
-                });
+                    Status = StatusCodes.Status404NotFound
+                }, request._jsonOptions, "application/json", StatusCodes.Status404NotFound);
             }
 
             if (winner.Location == null) {
@@ -134,10 +136,10 @@ public class GeocodeQuery {
                 .ForContext("difference", winner.ScoreDifference)
                 .Debug("match found");
 
-            return Results.Ok(new ApiResponseContract<SingleGeocodeResponseContract> {
+            return TypedResults.Json(new ApiResponseContract<SingleGeocodeResponseContract> {
                 Result = winner,
-                Status = (int)HttpStatusCode.OK
-            });
+                Status = StatusCodes.Status200OK
+            }, request._jsonOptions, "application/json", StatusCodes.Status200OK);
         }
     }
 
@@ -163,14 +165,10 @@ public class GeocodeQuery {
                 _log?.ForContext("errors", errors)
                     .Debug("geocoding validation failed");
 
-                if (Results.BadRequest(new ApiResponseContract<SingleGeocodeResponseContract> {
-                    Status = (int)HttpStatusCode.BadRequest,
+                return (TResponse)(TypedResults.Json(new ApiResponseContract<SingleGeocodeResponseContract> {
+                    Status = StatusCodes.Status400BadRequest,
                     Message = errors
-                }) is not TResponse response) {
-                    throw new Exception("ValidationBehavior: unable to cast response");
-                }
-
-                return response;
+                }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest) as IResult);
             }
 
             return await next();
