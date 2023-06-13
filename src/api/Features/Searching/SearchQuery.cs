@@ -2,22 +2,22 @@ using System.Net;
 using System.Net.Http;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Npgsql;
 
 namespace AGRC.api.Features.Searching;
 public class SearchQuery {
-    public class Query(string tableName, string returnValues, SearchOptions options) : IRequest<ObjectResult> {
+    public class Query(string tableName, string returnValues, SearchOptions options) : IRequest<IResult> {
         public readonly string _tableName = tableName;
         public readonly string _returnValues = returnValues;
         public readonly SearchOptions _options = options;
     }
 
-    public class Handler(IComputeMediator computeMediator, ILogger log) : IRequestHandler<Query, ObjectResult> {
+    public class Handler(IComputeMediator computeMediator, ILogger log) : IRequestHandler<Query, IResult> {
         private readonly ILogger? _log = log?.ForContext<SearchQuery>();
         private readonly IComputeMediator _computeMediator = computeMediator;
 
-        public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
+        public async Task<IResult> Handle(Query request, CancellationToken cancellationToken) {
             var tableName = request._tableName.ToLowerInvariant();
             IReadOnlyCollection<SearchResponseContract?>? result;
 
@@ -29,7 +29,7 @@ public class SearchQuery {
                         cancellationToken
                     );
 
-                    return new OkObjectResult(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                    return Results.Ok(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
                         Result = result ?? Array.Empty<SearchResponseContract>(),
                         Status = (int)HttpStatusCode.OK
                     });
@@ -37,29 +37,23 @@ public class SearchQuery {
                     _log?.ForContext("url", "")
                         .Fatal(ex, "elevation query failed");
 
-                    return new ObjectResult(new ApiResponseContract {
+                    return Results.Json(new ApiResponseContract {
                         Status = (int)HttpStatusCode.InternalServerError,
                         Message = "The request was canceled."
-                    }) {
-                        StatusCode = 500
-                    };
+                    }, null, "application/json", (int)HttpStatusCode.InternalServerError);
                 } catch (HttpRequestException ex) {
                     _log?.ForContext("url", "")
                         .Fatal(ex, "request error");
 
-                    return new ObjectResult(new ApiResponseContract {
+                    return Results.Json(new ApiResponseContract {
                         Status = (int)HttpStatusCode.InternalServerError,
                         Message = "I'm sorry, it seems as though the request had issues."
-                    }) {
-                        StatusCode = 500
-                    };
+                    }, null, "application/json", (int)HttpStatusCode.InternalServerError);
                 } catch (ArgumentException ex) {
-                    return new ObjectResult(new ApiResponseContract {
+                    return Results.Json(new ApiResponseContract {
                         Status = (int)HttpStatusCode.InternalServerError,
                         Message = ex.Message
-                    }) {
-                        StatusCode = 500
-                    };
+                    }, null, "application/json", (int)HttpStatusCode.InternalServerError);
                 }
             }
 
@@ -73,7 +67,7 @@ public class SearchQuery {
                 _log?.ForContext("table", request._tableName)
                     .Error("table not in SGID", ex);
 
-                return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
+                return Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = $"The table `{tableName}` does not exist in the SGID. Connect to the OpenSGID (https://gis.utah.gov/sgid/#open-sgid) to verify the table exists. Please read https://gis.utah.gov/sgid-product-relaunch-update/#static-sgid-data-layers for more information."
                 });
@@ -102,7 +96,7 @@ public class SearchQuery {
                     message = ex.MessageText;
                 }
 
-                return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
+                return Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = message
                 });
@@ -111,7 +105,7 @@ public class SearchQuery {
                     .ForContext("request", request)
                     .Error("unhandled search query exception", ex);
 
-                return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
+                return Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = $"The table `{tableName}` might not exist. Check your spelling."
                 });
@@ -120,7 +114,7 @@ public class SearchQuery {
             _log?.ForContext("request", request)
                      .Debug("query succeeded");
 
-            return new OkObjectResult(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+            return Results.Ok(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
                 Result = result ?? Array.Empty<SearchResponseContract>(),
                 Status = (int)HttpStatusCode.OK
             });
@@ -129,7 +123,7 @@ public class SearchQuery {
 
     public class ValidationBehavior<TRequest, TResponse>(IComputeMediator computeMediator, ILogger log) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : Query, IRequest<TResponse>
-    where TResponse : ObjectResult {
+    where TResponse : IResult {
         private readonly ILogger? _log = log?.ForContext<SearchQuery>();
         private readonly IComputeMediator _computeMediator = computeMediator;
 
@@ -155,10 +149,10 @@ public class SearchQuery {
                 _log?.ForContext("request", request)
                     .Error("no search options");
 
-                return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
+                return (TResponse)Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = errors
-                }) as TResponse ?? throw new InvalidCastException();
+                });
             }
 
             if (!string.IsNullOrEmpty(request._options.Predicate) &&
@@ -170,10 +164,10 @@ public class SearchQuery {
                 _log?.ForContext("errors", errors)
                     .Warning("search validation failed");
 
-                return new BadRequestObjectResult(new ApiResponseContract<SearchResponseContract> {
+                return (TResponse)Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = errors
-                }) as TResponse ?? throw new InvalidCastException();
+                });
             }
 
             return await next();

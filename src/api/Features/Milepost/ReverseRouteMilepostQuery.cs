@@ -6,11 +6,11 @@ using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.ResponseContracts;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Milepost;
 public class ReverseRouteMilepostQuery {
-    public class Query : IRequest<ObjectResult> {
+    public class Query : IRequest<IResult> {
         internal readonly double X;
         internal readonly double Y;
         internal readonly int SpatialReference;
@@ -21,14 +21,14 @@ public class ReverseRouteMilepostQuery {
         public Query(double x, double y, ReverseRouteMilepostRequestOptionsContract options) {
             X = x;
             Y = y;
-            SpatialReference = options.SpatialReference;
+            SpatialReference = options.SpatialReference!.Value;
             SuggestionCount = options.Suggest;
             Tolerance = options.Buffer;
             IncludeRamps = options.IncludeRampSystem;
         }
     }
 
-    public class Handler : IRequestHandler<Query, ObjectResult> {
+    public class Handler : IRequestHandler<Query, IResult> {
         private readonly HttpClient _client;
         private readonly MediaTypeFormatter[] _mediaTypes;
         private readonly ILogger? _log;
@@ -44,7 +44,7 @@ public class ReverseRouteMilepostQuery {
             _computeMediator = computeMediator;
         }
 
-        public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
+        public async Task<IResult> Handle(Query request, CancellationToken cancellationToken) {
             var point = new Point(request.X, request.Y);
             var requestContract = new GeometryToMeasure.RequestContract {
                 Locations = new[] {
@@ -72,22 +72,18 @@ public class ReverseRouteMilepostQuery {
                 _log?.ForContext("url", requestUri)
                     .Fatal(ex, "roads and highway query failed");
 
-                return new ObjectResult(new ApiResponseContract {
+                return Results.Json(new ApiResponseContract {
                     Status = (int)HttpStatusCode.InternalServerError,
                     Message = "The request was canceled."
-                }) {
-                    StatusCode = 500
-                };
+                }, null, "application/json", (int)HttpStatusCode.InternalServerError);
             } catch (HttpRequestException ex) {
                 _log?.ForContext("url", requestUri)
                     .Fatal(ex, "request error");
 
-                return new ObjectResult(new ApiResponseContract {
+                return Results.Json(new ApiResponseContract {
                     Status = (int)HttpStatusCode.InternalServerError,
                     Message = "I'm sorry, it seems as though the request had issues."
-                }) {
-                    StatusCode = 500
-                };
+                }, null, "application/json", (int)HttpStatusCode.InternalServerError);
             }
 
             GeometryToMeasure.ResponseContract response;
@@ -100,12 +96,10 @@ public class ReverseRouteMilepostQuery {
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
                     .Fatal(ex, "error reading response");
 
-                return new ObjectResult(new ApiResponseContract {
+                return Results.Json(new ApiResponseContract {
                     Status = (int)HttpStatusCode.InternalServerError,
                     Message = "I'm sorry, we received an unexpected response from UDOT."
-                }) {
-                    StatusCode = 500
-                };
+                }, null, "application/json", (int)HttpStatusCode.InternalServerError);
             }
 
             if (!response.IsSuccessful) {
@@ -113,12 +107,10 @@ public class ReverseRouteMilepostQuery {
                     .ForContext("error", response.Error)
                     .Warning("invalid request");
 
-                return new ObjectResult(new ApiResponseContract {
+                return Results.Json(new ApiResponseContract {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = "Your request was invalid. Check that your coordinates and spatial reference match."
-                }) {
-                    StatusCode = 400
-                };
+                }, null, "application/json", (int)HttpStatusCode.BadRequest);
             }
 
             if (response.Locations?.Length != 1) {
@@ -128,7 +120,7 @@ public class ReverseRouteMilepostQuery {
             }
 
             if (response.Locations is null) {
-                return new NotFoundObjectResult(new ApiResponseContract {
+                return Results.NotFound(new ApiResponseContract {
                     Message = "No milepost was found within your buffer radius.",
                     Status = (int)HttpStatusCode.NotFound
                 });
@@ -138,7 +130,7 @@ public class ReverseRouteMilepostQuery {
 
             if (location.Status != GeometryToMeasure.Status.esriLocatingOK) {
                 if (location.Status != GeometryToMeasure.Status.esriLocatingMultipleLocation) {
-                    return new NotFoundObjectResult(new ApiResponseContract {
+                    return Results.NotFound(new ApiResponseContract {
                         Message = "No milepost was found within your buffer radius.",
                         Status = (int)HttpStatusCode.NotFound
                     });
@@ -148,7 +140,7 @@ public class ReverseRouteMilepostQuery {
                 var primaryRoutes = FilterPrimaryRoutes(location.Results, request.IncludeRamps);
 
                 if (primaryRoutes.Count < 1) {
-                    return new NotFoundObjectResult(new ApiResponseContract {
+                    return Results.NotFound(new ApiResponseContract {
                         Message = "No milepost was found within your buffer radius.",
                         Status = (int)HttpStatusCode.NotFound
                     });
@@ -158,13 +150,13 @@ public class ReverseRouteMilepostQuery {
                     new DominantRouteResolver.Computation(primaryRoutes, point, request.SuggestionCount), cancellationToken);
 
                 if (dominantRoutes is null) {
-                    return new NotFoundObjectResult(new ApiResponseContract {
+                    return Results.NotFound(new ApiResponseContract {
                         Message = "No milepost was found within your buffer radius.",
                         Status = (int)HttpStatusCode.NotFound
                     });
                 }
 
-                return new OkObjectResult(new ApiResponseContract<ReverseRouteMilepostResponseContract> {
+                return Results.Ok(new ApiResponseContract<ReverseRouteMilepostResponseContract> {
                     Result = dominantRoutes,
                     Status = (int)HttpStatusCode.OK
                 });
@@ -173,7 +165,7 @@ public class ReverseRouteMilepostQuery {
             var routes = FilterPrimaryRoutes(location.Results, request.IncludeRamps);
 
             if (routes.Count < 1) {
-                return new NotFoundObjectResult(new ApiResponseContract {
+                return Results.NotFound(new ApiResponseContract {
                     Message = "No milepost was found within your buffer radius.",
                     Status = (int)HttpStatusCode.NotFound
                 });
@@ -181,7 +173,7 @@ public class ReverseRouteMilepostQuery {
 
             location = routes[0];
 
-            return new OkObjectResult(new ApiResponseContract<ReverseRouteMilepostResponseContract> {
+            return Results.Ok(new ApiResponseContract<ReverseRouteMilepostResponseContract> {
                 Result = new ReverseRouteMilepostResponseContract {
                     Route = location.RouteId,
                     OffsetMeters = 0,

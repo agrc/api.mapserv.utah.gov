@@ -4,33 +4,23 @@ using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using AGRC.api.Services;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Geocoding;
 public class GeocodeQuery {
-    public class Query : IRequest<ObjectResult> {
-        internal readonly string Street;
-        internal readonly string Zone;
-        internal readonly SingleGeocodeRequestOptionsContract Options;
-
-        public Query(string street, string zone, SingleGeocodeRequestOptionsContract options) {
-            Street = street;
-            Zone = zone;
-            Options = options;
-        }
+    public class Query(string street, string zone, SingleGeocodeRequestOptionsContract options) : IRequest<IResult> {
+        internal readonly string _street = street;
+        internal readonly string _zone = zone;
+        internal readonly SingleGeocodeRequestOptionsContract _options = options;
     }
 
-    public class Handler : IRequestHandler<Query, ObjectResult> {
-        private readonly IComputeMediator _computeMediator;
-        private readonly ILogger? _log;
+    public class Handler(IComputeMediator computeMediator, ILogger log) : IRequestHandler<Query, IResult> {
+        private readonly IComputeMediator _computeMediator = computeMediator;
+        private readonly ILogger? _log = log?.ForContext<GeocodeQuery>();
 
-        public Handler(IComputeMediator computeMediator, ILogger log) {
-            _computeMediator = computeMediator;
-            _log = log?.ForContext<GeocodeQuery>();
-        }
-        public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
-            var street = request.Street.Trim();
-            var zone = request.Zone.Trim();
+        public async Task<IResult> Handle(Query request, CancellationToken cancellationToken) {
+            var street = request._street.Trim();
+            var zone = request._zone.Trim();
 
             var parseAddressComputation = new AddressParsing.Computation(street);
             var parsedStreet = await _computeMediator.Handle(parseAddressComputation, cancellationToken);
@@ -38,8 +28,8 @@ public class GeocodeQuery {
             var parseZoneComputation = new ZoneParsing.Computation(zone, parsedStreet);
             var parsedAddress = await _computeMediator.Handle(parseZoneComputation, cancellationToken);
 
-            if (request.Options.PoBox && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue) {
-                var poboxComputation = new PoBoxLocation.Computation(parsedAddress, request.Options);
+            if (request._options.PoBox!.Value && parsedAddress.IsPoBox && parsedAddress.Zip5.HasValue) {
+                var poboxComputation = new PoBoxLocation.Computation(parsedAddress, request._options);
                 var result = await _computeMediator.Handle(poboxComputation, cancellationToken);
 
                 if (result != null) {
@@ -57,14 +47,14 @@ public class GeocodeQuery {
                         .ForContext("difference", model.ScoreDifference)
                         .Debug("match found");
 
-                    return new OkObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
+                    return Results.Ok(new ApiResponseContract<SingleGeocodeResponseContract> {
                         Result = model,
                         Status = (int)HttpStatusCode.OK
                     });
                 }
             }
 
-            var deliveryPointComputation = new UspsDeliveryPointLocation.Computation(parsedAddress, request.Options);
+            var deliveryPointComputation = new UspsDeliveryPointLocation.Computation(parsedAddress, request._options);
             var uspsPoint = await _computeMediator.Handle(deliveryPointComputation, cancellationToken);
 
             if (uspsPoint != null) {
@@ -82,24 +72,24 @@ public class GeocodeQuery {
                     .ForContext("difference", model.ScoreDifference)
                     .Debug("match found");
 
-                return new OkObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
+                return Results.Ok(new ApiResponseContract<SingleGeocodeResponseContract> {
                     Result = model,
                     Status = (int)HttpStatusCode.OK
                 });
             }
 
-            var topCandidates = new TopAddressCandidates(request.Options.Suggest,
+            var topCandidates = new TopAddressCandidates(request._options.Suggest!.Value,
                 new CandidateComparer(parsedAddress.StandardizedAddress().ToUpperInvariant()));
 
-            var createGeocodePlanComputation = new GeocodePlan.Computation(parsedAddress, request.Options);
+            var createGeocodePlanComputation = new GeocodePlan.Computation(parsedAddress, request._options);
             var plan = await _computeMediator.Handle(createGeocodePlanComputation, cancellationToken);
 
             if (plan?.Any() != true) {
                 _log?.ForContext("address", parsedAddress)
                     .Debug("no plan generated");
 
-                return new NotFoundObjectResult(new ApiResponseContract {
-                    Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
+                return Results.NotFound(new ApiResponseContract {
+                    Message = $"No address candidates found with a score of {request._options.AcceptScore} or better.",
                     Status = (int)HttpStatusCode.NotFound
                 });
             }
@@ -115,17 +105,17 @@ public class GeocodeQuery {
             var highestScores = topCandidates.Get();
 
             var chooseBestAddressCandidateComputation = new FilterCandidates.Computation(
-                highestScores, request.Options, street, zone, parsedAddress);
+                highestScores, request._options, street, zone, parsedAddress);
             var winner = await _computeMediator.Handle(chooseBestAddressCandidateComputation, cancellationToken);
 
             if (winner == null || winner.Score < 0) {
                 _log?.ForContext("street", street)
                     .ForContext("zone", zone)
-                    .ForContext("score", request.Options.AcceptScore)
-                    .Warning("no matches found", street, zone, request.Options.AcceptScore);
+                    .ForContext("score", request._options.AcceptScore)
+                    .Warning("no matches found", street, zone, request._options.AcceptScore);
 
-                return new NotFoundObjectResult(new ApiResponseContract {
-                    Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
+                return Results.NotFound(new ApiResponseContract {
+                    Message = $"No address candidates found with a score of {request._options.AcceptScore} or better.",
                     Status = (int)HttpStatusCode.NotFound
                 });
             }
@@ -133,35 +123,32 @@ public class GeocodeQuery {
             if (winner.Location == null) {
                 _log?.ForContext("street", street)
                     .ForContext("zone", zone)
-                    .ForContext("score", request.Options.AcceptScore)
-                    .Warning("no matches found", street, zone, request.Options.AcceptScore);
+                    .ForContext("score", request._options.AcceptScore)
+                    .Warning("no matches found", street, zone, request._options.AcceptScore);
             }
 
-            winner.Wkid = request.Options.SpatialReference;
+            winner.Wkid = request._options.SpatialReference!.Value;
 
             _log?.ForContext("locator", winner.Locator)
                 .ForContext("score", winner.Score)
                 .ForContext("difference", winner.ScoreDifference)
                 .Debug("match found");
 
-            return new OkObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
+            return Results.Ok(new ApiResponseContract<SingleGeocodeResponseContract> {
                 Result = winner,
                 Status = (int)HttpStatusCode.OK
             });
         }
     }
 
-    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class ValidationBehavior<TRequest, TResponse>(ILogger log) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : Query, IRequest<TResponse>
-    where TResponse : ObjectResult {
-        private readonly ILogger? _log;
+    where TResponse : IResult {
+        private readonly ILogger? _log = log?.ForContext<GeocodeQuery>();
 
-        public ValidationBehavior(ILogger log) {
-            _log = log?.ForContext<GeocodeQuery>();
-        }
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
-            var street = request.Street?.Trim();
-            var zone = request.Zone?.Trim();
+            var street = request._street?.Trim();
+            var zone = request._zone?.Trim();
 
             var errors = string.Empty;
             if (string.IsNullOrEmpty(street)) {
@@ -176,7 +163,7 @@ public class GeocodeQuery {
                 _log?.ForContext("errors", errors)
                     .Debug("geocoding validation failed");
 
-                if (new BadRequestObjectResult(new ApiResponseContract<SingleGeocodeResponseContract> {
+                if (Results.BadRequest(new ApiResponseContract<SingleGeocodeResponseContract> {
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = errors
                 }) is not TResponse response) {

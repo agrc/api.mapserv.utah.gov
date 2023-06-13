@@ -4,11 +4,11 @@ using System.Net.Http.Formatting;
 using AGRC.api.Formatters;
 using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.ResponseContracts;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Milepost;
 public class RouteMilepostQuery {
-    public class Query : IRequest<ObjectResult> {
+    public class Query : IRequest<IResult> {
         internal readonly string Route;
         internal readonly string Milepost;
         internal readonly int SpatialReference;
@@ -29,11 +29,11 @@ public class RouteMilepostQuery {
 
             Route = route;
             Milepost = milepost;
-            SpatialReference = options.SpatialReference;
+            SpatialReference = options.SpatialReference!.Value;
         }
     }
 
-    public class Handler : IRequestHandler<Query, ObjectResult> {
+    public class Handler : IRequestHandler<Query, IResult> {
         private readonly HttpClient _client;
         private readonly MediaTypeFormatter[] _mediaTypes;
         private readonly ILogger? _log;
@@ -47,7 +47,7 @@ public class RouteMilepostQuery {
             _log = log?.ForContext<RouteMilepostQuery>();
         }
 
-        public async Task<ObjectResult> Handle(Query request, CancellationToken cancellationToken) {
+        public async Task<IResult> Handle(Query request, CancellationToken cancellationToken) {
             var requestContract = new MeasureToGeometry.RequestContract {
                 Locations = new[] {
                     new MeasureToGeometry.RequestLocation(request.Milepost, request.Route)
@@ -67,14 +67,12 @@ public class RouteMilepostQuery {
                 _log?.ForContext("url", requestUri)
                     .Fatal(ex, "failed");
 
-                return new ObjectResult(false);
+                return Results.Json(false, null, "application/json", (int)HttpStatusCode.InternalServerError);
             } catch (HttpRequestException ex) {
                 _log?.ForContext("url", requestUri)
                     .Fatal(ex, "request error");
 
-                return new ObjectResult(false) {
-                    StatusCode = 500
-                };
+                return Results.Json(false, null, "application/json", (int)HttpStatusCode.InternalServerError);
             }
 
             try {
@@ -86,12 +84,10 @@ public class RouteMilepostQuery {
                         .ForContext("error", response.Error)
                         .Error("invalid request");
 
-                    return new ObjectResult(new ApiResponseContract {
+                    return Results.Json(new ApiResponseContract {
                         Status = (int)HttpStatusCode.BadRequest,
                         Message = "Your request was invalid. Check your inputs."
-                    }) {
-                        StatusCode = 400
-                    };
+                    }, null, "application/json", (int)HttpStatusCode.BadRequest);
                 }
 
                 return ProcessResult(response);
@@ -100,20 +96,18 @@ public class RouteMilepostQuery {
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
                     .Fatal(ex, "error reading response");
 
-                return new ObjectResult(false) {
-                    StatusCode = 500
-                };
+                return Results.Json(false, null, "application/json", (int)HttpStatusCode.InternalServerError);
             }
         }
 
-        private ObjectResult ProcessResult(MeasureToGeometry.ResponseContract response) {
+        private IResult ProcessResult(MeasureToGeometry.ResponseContract response) {
             if (response.Locations?.Length != 1) {
                 _log?.ForContext("response", response)
                     .Warning("multiple locations found");
             }
 
             if (response.Locations is null) {
-                return new NotFoundObjectResult(new ApiResponseContract {
+                return Results.NotFound(new ApiResponseContract {
                     Message = "No milepost was found within your buffer radius.",
                     Status = (int)HttpStatusCode.NotFound
                 });
@@ -127,7 +121,7 @@ public class RouteMilepostQuery {
                     .Warning("status is not ok");
 
                 // TODO: create messages from status
-                return new NotFoundObjectResult(new ApiResponseContract {
+                return Results.NotFound(new ApiResponseContract {
                     Message = location.Status.ToString(),
                     Status = (int)HttpStatusCode.NotFound
                 });
@@ -139,7 +133,7 @@ public class RouteMilepostQuery {
                     .Warning("geometry type is not point");
             }
 
-            return new OkObjectResult(new ApiResponseContract<RouteMilepostResponseContract> {
+            return Results.Ok(new ApiResponseContract<RouteMilepostResponseContract> {
                 Result = new RouteMilepostResponseContract(
                     "UDOT Roads and Highways",
                     new Models.Point(location.Geometry?.X ?? -1, location.Geometry?.Y ?? -1),
