@@ -114,8 +114,13 @@ public static class WebApplicationExtensions {
                 [FromRoute] string tableName,
                 [FromRoute] string returnValues,
                 SearchRequestOptionsContract options,
-                [FromServices] IMediator mediator)
-            => await mediator.Send(new SearchQuery.Query(tableName, returnValues, new SearchOptions(options))))
+                [FromServices] IMediator mediator,
+                 [FromServices] IJsonSerializerOptionsFactory factory,
+            [FromServices] ApiVersion apiVersion)
+            => {
+                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
+                return await mediator.Send(new SearchQuery.Query(tableName, returnValues, new SearchOptions(options), jsonOptions));
+            })
             .WithApiVersionSet(versionSet)
             .IsApiVersionNeutral()
             .WithOpenApi(operation => new(operation) {

@@ -2,12 +2,13 @@ using System.ComponentModel;
 using AGRC.api.Models;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.RequestOptionContracts;
-using Microsoft.AspNetCore.Mvc;
+using Asp.Versioning;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace AGRC.api.Features.Searching;
-[ModelBinder(BinderType = typeof(SearchRequestOptionsContractBinder))]
 public class SearchRequestOptionsContract : ProjectableOptions {
-    private double _buffer;
+    private double _buffer = 0;
 
     /// <summary>
     /// The where clause to be evaluated
@@ -24,7 +25,7 @@ public class SearchRequestOptionsContract : ProjectableOptions {
     /// points:[x,y] or
     /// {"spatialReference":{"wkid":26912},"x":x,"y":y}
     /// </example>
-    public string? Geometry { get; set; } = string.Empty;
+    public string Geometry { get; set; } = string.Empty;
 
     /// <summary>
     /// The buffer distance in meters. Any valid double less than or equal to 2000
@@ -35,13 +36,13 @@ public class SearchRequestOptionsContract : ProjectableOptions {
     public double Buffer {
         get => _buffer;
         set {
-            if (value > 2000) {
+            _buffer = Math.Abs(value);
+
+            if (_buffer > 2000) {
                 _buffer = 2000;
 
                 return;
             }
-
-            _buffer = value;
         }
     }
 
@@ -54,9 +55,56 @@ public class SearchRequestOptionsContract : ProjectableOptions {
     ///     AliasLower: lower case the field alias eg: alias
     ///     AliasUpper: upper case the field alias eg: ALIAS
     /// </summary>
-    // TODO!: v1 this value is lower
-    [DefaultValue(AttributeStyle.Input)]
-    public AttributeStyle AttributeStyle { get; set; } = AttributeStyle.Input;
+    // TODO!: v2 this value should be input
+    [DefaultValue(AttributeStyle.Lower)]
+    public AttributeStyle AttributeStyle { get; set; } = AttributeStyle.Lower;
+
+    public static ValueTask<SearchRequestOptionsContract> BindAsync(HttpContext context) {
+        var keyValueModel = QueryHelpers.ParseQuery(context.Request.QueryString.Value);
+        keyValueModel.TryGetValue("geometry", out var pointJson);
+        keyValueModel.TryGetValue("spatialReference", out var spatialReference);
+        keyValueModel.TryGetValue("predicate", out var predicate);
+        keyValueModel.TryGetValue("attributeStyle", out var attributeValue);
+        keyValueModel.TryGetValue("buffer", out var bufferAmount);
+
+        var attribute = attributeValue.ToString();
+        var version = context.GetRequestedApiVersion();
+
+        AttributeStyle attributeStyle;
+        if (string.IsNullOrEmpty(attribute)) {
+            attributeStyle = Models.Constants.AttributeStyle.Lower;
+
+            if (version > ApiVersion.Default) {
+                attributeStyle = Models.Constants.AttributeStyle.Input;
+            }
+        } else {
+            if (!Enum.TryParse(attribute, true, out attributeStyle)) {
+                attributeStyle = Models.Constants.AttributeStyle.Lower;
+
+                if (version > ApiVersion.Default) {
+                    attributeStyle = Models.Constants.AttributeStyle.Input;
+                }
+            }
+        }
+
+        var wkid = 26912;
+        if (!string.IsNullOrEmpty(spatialReference)) {
+            if (!int.TryParse(spatialReference, out wkid)) {
+                // reset to default
+                wkid = 26912;
+            }
+        }
+
+        var result = new SearchRequestOptionsContract {
+            Predicate = predicate,
+            Geometry = pointJson,
+            Buffer = Convert.ToDouble(bufferAmount),
+            AttributeStyle = attributeStyle,
+            SpatialReference = wkid
+        };
+
+        return new ValueTask<SearchRequestOptionsContract>(result);
+    }
 }
 
 public sealed class SearchOptions : SearchRequestOptionsContract {

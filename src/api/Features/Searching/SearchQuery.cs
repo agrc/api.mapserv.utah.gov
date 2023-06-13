@@ -1,5 +1,5 @@
-using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Http;
@@ -7,10 +7,11 @@ using Npgsql;
 
 namespace AGRC.api.Features.Searching;
 public class SearchQuery {
-    public class Query(string tableName, string returnValues, SearchOptions options) : IRequest<IResult> {
+    public class Query(string tableName, string returnValues, SearchOptions options, JsonSerializerOptions jsonOptions) : IRequest<IResult> {
         public readonly string _tableName = tableName;
         public readonly string _returnValues = returnValues;
         public readonly SearchOptions _options = options;
+        public readonly JsonSerializerOptions _jsonOptions = jsonOptions;
     }
 
     public class Handler(IComputeMediator computeMediator, ILogger log) : IRequestHandler<Query, IResult> {
@@ -29,31 +30,31 @@ public class SearchQuery {
                         cancellationToken
                     );
 
-                    return Results.Ok(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                    return TypedResults.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
                         Result = result ?? Array.Empty<SearchResponseContract>(),
-                        Status = (int)HttpStatusCode.OK
-                    });
+                        Status = StatusCodes.Status200OK
+                    }, request._jsonOptions, "application/json", StatusCodes.Status200OK);
                 } catch (TaskCanceledException ex) {
                     _log?.ForContext("url", "")
                         .Fatal(ex, "elevation query failed");
 
-                    return Results.Json(new ApiResponseContract {
-                        Status = (int)HttpStatusCode.InternalServerError,
+                    return TypedResults.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                        Status = StatusCodes.Status500InternalServerError,
                         Message = "The request was canceled."
-                    }, null, "application/json", (int)HttpStatusCode.InternalServerError);
+                    }, request._jsonOptions, "application/json", StatusCodes.Status500InternalServerError);
                 } catch (HttpRequestException ex) {
                     _log?.ForContext("url", "")
                         .Fatal(ex, "request error");
 
-                    return Results.Json(new ApiResponseContract {
-                        Status = (int)HttpStatusCode.InternalServerError,
+                    return TypedResults.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                        Status = StatusCodes.Status500InternalServerError,
                         Message = "I'm sorry, it seems as though the request had issues."
-                    }, null, "application/json", (int)HttpStatusCode.InternalServerError);
+                    }, request._jsonOptions, "application/json", StatusCodes.Status500InternalServerError);
                 } catch (ArgumentException ex) {
-                    return Results.Json(new ApiResponseContract {
-                        Status = (int)HttpStatusCode.InternalServerError,
+                    return TypedResults.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                        Status = StatusCodes.Status500InternalServerError,
                         Message = ex.Message
-                    }, null, "application/json", (int)HttpStatusCode.InternalServerError);
+                    }, request._jsonOptions, "application/json", StatusCodes.Status500InternalServerError);
                 }
             }
 
@@ -67,10 +68,10 @@ public class SearchQuery {
                 _log?.ForContext("table", request._tableName)
                     .Error("table not in SGID", ex);
 
-                return Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
-                    Status = (int)HttpStatusCode.BadRequest,
+                return TypedResults.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                    Status = StatusCodes.Status400BadRequest,
                     Message = $"The table `{tableName}` does not exist in the SGID. Connect to the OpenSGID (https://gis.utah.gov/sgid/#open-sgid) to verify the table exists. Please read https://gis.utah.gov/sgid-product-relaunch-update/#static-sgid-data-layers for more information."
-                });
+                }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest);
             } catch (PostgresException ex) {
                 string message;
 
@@ -96,28 +97,28 @@ public class SearchQuery {
                     message = ex.MessageText;
                 }
 
-                return Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
-                    Status = (int)HttpStatusCode.BadRequest,
+                return TypedResults.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                    Status = StatusCodes.Status400BadRequest,
                     Message = message
-                });
+                }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest);
             } catch (Exception ex) {
                 _log?.ForContext("message", ex.Message)
                     .ForContext("request", request)
                     .Error("unhandled search query exception", ex);
 
-                return Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
-                    Status = (int)HttpStatusCode.BadRequest,
+                return TypedResults.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                    Status = StatusCodes.Status400BadRequest,
                     Message = $"The table `{tableName}` might not exist. Check your spelling."
-                });
+                }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest);
             }
 
             _log?.ForContext("request", request)
                      .Debug("query succeeded");
 
-            return Results.Ok(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+            return TypedResults.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
                 Result = result ?? Array.Empty<SearchResponseContract>(),
-                Status = (int)HttpStatusCode.OK
-            });
+                Status = StatusCodes.Status200OK
+            }, request._jsonOptions, "application/json", StatusCodes.Status200OK);
         }
     }
 
@@ -149,10 +150,10 @@ public class SearchQuery {
                 _log?.ForContext("request", request)
                     .Error("no search options");
 
-                return (TResponse)Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
-                    Status = (int)HttpStatusCode.BadRequest,
+                return (TResponse)Results.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                    Status = StatusCodes.Status400BadRequest,
                     Message = errors
-                });
+                }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest);
             }
 
             if (!string.IsNullOrEmpty(request._options.Predicate) &&
@@ -164,10 +165,10 @@ public class SearchQuery {
                 _log?.ForContext("errors", errors)
                     .Warning("search validation failed");
 
-                return (TResponse)Results.BadRequest(new ApiResponseContract<SearchResponseContract> {
-                    Status = (int)HttpStatusCode.BadRequest,
+                return (TResponse)Results.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                    Status = StatusCodes.Status400BadRequest,
                     Message = errors
-                });
+                }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest);
             }
 
             return await next();

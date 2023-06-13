@@ -31,7 +31,8 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IResult> d
         var mutated = new SearchQuery.Query(
             _mapping.MsSqlToPostgres[key],
             computation._returnValues,
-            computation._options
+            computation._options,
+            new()
         );
 
         _log?.ForContext("input_table", computation._tableName)
@@ -86,7 +87,8 @@ public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IResult> dec
         var mutated = new SearchQuery.Query(
             computation._tableName,
             string.Join(',', fields),
-            computation._options
+            computation._options,
+            new()
         );
 
         return await _decorated.Handle(mutated, cancellationToken);
@@ -155,7 +157,8 @@ public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IResult>
         var mutated = new SearchQuery.Query(
             computation._tableName,
             computation._returnValues,
-            computation._options
+            computation._options,
+            new()
         );
 
         return await _decorated.Handle(mutated, cancellationToken);

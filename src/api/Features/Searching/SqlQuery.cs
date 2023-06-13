@@ -68,6 +68,7 @@ public class SqlQuery {
                 };
 
                 for (var i = 0; i < reader.VisibleFieldCount; i++) {
+                    // TODO! input attributeStyle doesn't work here because pg always returns lower case
                     var key = reader.GetName(i);
 
                     if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase)) {
