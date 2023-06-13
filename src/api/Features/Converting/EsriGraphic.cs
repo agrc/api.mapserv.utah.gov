@@ -4,7 +4,6 @@ using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using Asp.Versioning;
 using EsriJson.Net;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AGRC.api.Features.Converting;
 public class EsriGraphic {
