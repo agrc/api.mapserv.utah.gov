@@ -1,4 +1,3 @@
-using System.Net;
 using AGRC.api.Extensions;
 using AGRC.api.Features.GeometryService;
 using AGRC.api.Infrastructure;
@@ -36,8 +35,8 @@ public class ReverseGeocodeQuery {
                     return Results.Json(new ApiResponseContract {
                         Message = "We could not reproject your input location. " +
                                   "Please check your input coordinates and well known id value.",
-                        Status = (int)HttpStatusCode.InternalServerError
-                    }, null, "application/json", (int)HttpStatusCode.InternalServerError);
+                        Status = StatusCodes.Status500InternalServerError
+                    }, null, "application/json", StatusCodes.Status500InternalServerError);
                 }
 
                 var points = pointReprojectResponse.Geometries.FirstOrDefault();
@@ -56,7 +55,7 @@ public class ReverseGeocodeQuery {
 
                 return Results.NotFound(new ApiResponseContract {
                     Message = $"No address candidates found within {request.Options.Distance} meters of {x}, {y}.",
-                    Status = (int)HttpStatusCode.NotFound
+                    Status = StatusCodes.Status404NotFound
                 });
             }
 
@@ -68,7 +67,7 @@ public class ReverseGeocodeQuery {
                 if (response == null) {
                     return Results.NotFound(new ApiResponseContract {
                         Message = $"No address candidates found within {request.Options.Distance} meters of {x}, {y}.",
-                        Status = (int)HttpStatusCode.NotFound
+                        Status = StatusCodes.Status404NotFound
                     });
                 }
 
@@ -76,15 +75,15 @@ public class ReverseGeocodeQuery {
 
                 return Results.Ok(new ApiResponseContract<ReverseGeocodeResponseContract> {
                     Result = result,
-                    Status = (int)HttpStatusCode.OK
+                    Status = StatusCodes.Status200OK
                 });
             } catch (Exception ex) {
                 _log?.Fatal(ex, "error reverse geocoding {plan}", plan);
 
                 return Results.Json(new ApiResponseContract {
                     Message = "There was a problem handling your request.",
-                    Status = (int)HttpStatusCode.InternalServerError
-                }, null, "application/json", (int)HttpStatusCode.InternalServerError);
+                    Status = StatusCodes.Status500InternalServerError
+                }, null, "application/json", StatusCodes.Status500InternalServerError);
             }
         }
     }

@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using AGRC.api.Formatters;
@@ -67,12 +66,12 @@ public class RouteMilepostQuery {
                 _log?.ForContext("url", requestUri)
                     .Fatal(ex, "failed");
 
-                return Results.Json(false, null, "application/json", (int)HttpStatusCode.InternalServerError);
+                return Results.Json(false, null, "application/json", StatusCodes.Status500InternalServerError);
             } catch (HttpRequestException ex) {
                 _log?.ForContext("url", requestUri)
                     .Fatal(ex, "request error");
 
-                return Results.Json(false, null, "application/json", (int)HttpStatusCode.InternalServerError);
+                return Results.Json(false, null, "application/json", StatusCodes.Status500InternalServerError);
             }
 
             try {
@@ -85,9 +84,9 @@ public class RouteMilepostQuery {
                         .Error("invalid request");
 
                     return Results.Json(new ApiResponseContract {
-                        Status = (int)HttpStatusCode.BadRequest,
+                        Status = StatusCodes.Status400BadRequest,
                         Message = "Your request was invalid. Check your inputs."
-                    }, null, "application/json", (int)HttpStatusCode.BadRequest);
+                    }, null, "application/json", StatusCodes.Status400BadRequest);
                 }
 
                 return ProcessResult(response);
@@ -96,7 +95,7 @@ public class RouteMilepostQuery {
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
                     .Fatal(ex, "error reading response");
 
-                return Results.Json(false, null, "application/json", (int)HttpStatusCode.InternalServerError);
+                return Results.Json(false, null, "application/json", StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -109,7 +108,7 @@ public class RouteMilepostQuery {
             if (response.Locations is null) {
                 return Results.NotFound(new ApiResponseContract {
                     Message = "No milepost was found within your buffer radius.",
-                    Status = (int)HttpStatusCode.NotFound
+                    Status = StatusCodes.Status404NotFound
                 });
             }
 
@@ -123,7 +122,7 @@ public class RouteMilepostQuery {
                 // TODO: create messages from status
                 return Results.NotFound(new ApiResponseContract {
                     Message = location.Status.ToString(),
-                    Status = (int)HttpStatusCode.NotFound
+                    Status = StatusCodes.Status404NotFound
                 });
             }
 
@@ -139,7 +138,7 @@ public class RouteMilepostQuery {
                     new Models.Point(location.Geometry?.X ?? -1, location.Geometry?.Y ?? -1),
                     $"Route {location.RouteId}, Milepost {location.Geometry?.M}"
                 ),
-                Status = (int)HttpStatusCode.OK
+                Status = StatusCodes.Status200OK
             });
         }
     }

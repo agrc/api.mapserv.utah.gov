@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text.Json;
 using AGRC.api.Comparers;
 using AGRC.api.Extensions;
@@ -51,7 +50,7 @@ public class GeocodeQuery {
 
                     return TypedResults.Json(new ApiResponseContract<SingleGeocodeResponseContract> {
                         Result = model,
-                        Status = (int)HttpStatusCode.OK
+                        Status = StatusCodes.Status200OK
                     }, request._jsonOptions, "application/json", StatusCodes.Status200OK);
                 }
             }
