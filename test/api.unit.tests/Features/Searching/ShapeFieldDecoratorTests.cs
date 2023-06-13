@@ -3,17 +3,17 @@ using AGRC.api.Models.Constants;
 
 namespace api.tests.Features.Searching;
 public class ShapeFieldDecoratorTests {
-    private readonly ObjectResult _data;
-    private readonly IRequestHandler<SearchQuery.Query, ObjectResult> _computationHandler;
+    private readonly IResult _data;
+    private readonly IRequestHandler<SearchQuery.Query, IResult> _computationHandler;
     private readonly ILogger _logger;
     private SearchQuery.Query _mutation;
 
     public ShapeFieldDecoratorTests() {
         _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
 
-        _data = new OkObjectResult(string.Empty);
+        _data = Results.Ok(string.Empty);
 
-        var handler = new Mock<IRequestHandler<SearchQuery.Query, ObjectResult>>();
+        var handler = new Mock<IRequestHandler<SearchQuery.Query, IResult>>();
         handler.Setup(x => x.Handle(It.IsAny<SearchQuery.Query>(),
                                     It.IsAny<CancellationToken>()))
                .Callback<SearchQuery.Query, CancellationToken>((comp, _) => _mutation = comp)
@@ -28,7 +28,7 @@ public class ShapeFieldDecoratorTests {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Lower
         });
-        var computation = new SearchQuery.Query("table", "shape@,field2", options);
+        var computation = new SearchQuery.Query("table", "shape@,field2", options, new());
 
         var decorator = new ShapeFieldDecorator(_computationHandler, _logger);
 
@@ -46,7 +46,7 @@ public class ShapeFieldDecoratorTests {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Lower
         });
-        var computation = new SearchQuery.Query("table", "shape@envelope,field2", options);
+        var computation = new SearchQuery.Query("table", "shape@envelope,field2", options, new());
 
         var decorator = new ShapeFieldDecorator(_computationHandler, _logger);
 
@@ -64,7 +64,7 @@ public class ShapeFieldDecoratorTests {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Upper
         });
-        var computation = new SearchQuery.Query("table", "envelope,field2", options);
+        var computation = new SearchQuery.Query("table", "envelope,field2", options, new());
 
         var decorator = new ShapeFieldDecorator(_computationHandler, _logger);
 

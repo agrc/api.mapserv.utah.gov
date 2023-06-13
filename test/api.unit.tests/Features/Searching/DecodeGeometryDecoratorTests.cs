@@ -2,17 +2,17 @@ using AGRC.api.Features.Searching;
 
 namespace api.tests.Features.Searching;
 public class DecodeGeometryDecoratorTests {
-    private readonly ObjectResult _data;
-    private readonly IRequestHandler<SearchQuery.Query, ObjectResult> _computationHandler;
+    private readonly IResult _data;
+    private readonly IRequestHandler<SearchQuery.Query, IResult> _computationHandler;
     private readonly ILogger _logger;
     private SearchQuery.Query _mutation;
 
     public DecodeGeometryDecoratorTests() {
         _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
 
-        _data = new OkObjectResult(string.Empty);
+        _data = Results.Ok(string.Empty);
 
-        var handler = new Mock<IRequestHandler<SearchQuery.Query, ObjectResult>>();
+        var handler = new Mock<IRequestHandler<SearchQuery.Query, IResult>>();
         handler.Setup(x => x.Handle(It.IsAny<SearchQuery.Query>(),
                                     It.IsAny<CancellationToken>()))
                .Callback<SearchQuery.Query, CancellationToken>((comp, _) => _mutation = comp)
@@ -30,7 +30,7 @@ public class DecodeGeometryDecoratorTests {
             Geometry = "point:[1,2]",
         });
 
-        var computation = new SearchQuery.Query(table, returnFields, options);
+        var computation = new SearchQuery.Query(table, returnFields, options, new());
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
@@ -46,7 +46,7 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point:{"x": 1, "y": 2, "spatialReference": { "wkid": 26912}}""",
         });
 
-        var computation = new SearchQuery.Query(table, returnFields, options);
+        var computation = new SearchQuery.Query(table, returnFields, options, new());
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
@@ -62,7 +62,7 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point:{"x": 1, "y": 2, "spatialReference": { "wkid": 26912}}""",
         });
 
-        var computation = new SearchQuery.Query(table, returnFields, options);
+        var computation = new SearchQuery.Query(table, returnFields, options, new());
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
@@ -78,7 +78,7 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point: {"spatialReference":{"latestWkid":26912,"wkid":102100},"x":1,"y":2}""",
         });
 
-        var computation = new SearchQuery.Query(table, returnFields, options);
+        var computation = new SearchQuery.Query(table, returnFields, options, new());
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
@@ -96,7 +96,7 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point: {"x":1,"y":2}""",
         });
 
-        var computation = new SearchQuery.Query(table, returnFields, options);
+        var computation = new SearchQuery.Query(table, returnFields, options, new());
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
@@ -114,7 +114,7 @@ public class DecodeGeometryDecoratorTests {
             Geometry = """point: {"x":1,"y":2, "spatialReference": { "wkid": 3857 }}""",
         });
 
-        var computation = new SearchQuery.Query(table, returnFields, options);
+        var computation = new SearchQuery.Query(table, returnFields, options, new());
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
@@ -134,7 +134,7 @@ public class DecodeGeometryDecoratorTests {
             SpatialReference = 3857
         });
 
-        var computation = new SearchQuery.Query(table, returnFields, options);
+        var computation = new SearchQuery.Query(table, returnFields, options, new());
         var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
         var _ = await decorator.Handle(computation, CancellationToken.None);
 

@@ -1,7 +1,7 @@
+global using Asp.Versioning;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
-global using System.Net;
 global using System.Net.Http;
 global using System.Text.Json;
 global using System.Text.Json.Serialization;
@@ -14,7 +14,6 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.Abstractions;
 global using Microsoft.AspNetCore.Mvc.Filters;
 global using Microsoft.AspNetCore.Mvc.ModelBinding;
-global using Microsoft.AspNetCore.Mvc.Versioning;
 global using Microsoft.AspNetCore.Routing;
 global using Microsoft.Extensions.Options;
 global using Moq;

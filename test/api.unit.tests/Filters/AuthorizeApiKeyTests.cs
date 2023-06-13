@@ -1,5 +1,6 @@
-using AGRC.api.Filters;
+using AGRC.api.Middleware;
 using AGRC.api.Models;
+using AGRC.api.Models.ResponseContracts;
 using AGRC.api.Services;
 
 namespace api.tests.Filters;
@@ -76,16 +77,17 @@ public class AuthorizeApiKeyTests {
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
 
-        var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, _log);
-        var contexts = CreateContext(httpContext);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
 
-        await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
-                                              () => Task.FromResult(contexts.ExecutedContext));
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
-        if (contexts.ExecutingContext.Result is ObjectResult result) {
-            result.StatusCode.ShouldBe(responseCode);
+        var result = await filter.InvokeAsync(contextMock.Object, (EndpointFilterInvocationContext) => new ValueTask<object>());
+
+        if (result is ApiResponseContract contract) {
+            contract.Status.ShouldBe(responseCode);
         } else {
-            contexts.ExecutingContext.Result.ShouldBe(responseCode);
+            result.ShouldBe(responseCode);
         }
     }
 
@@ -155,16 +157,17 @@ public class AuthorizeApiKeyTests {
         httpContext.Request.Headers["Referrer"] = url;
         httpContext.Request.Headers["Origin"] = url;
 
-        var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, _log);
-        var contexts = CreateContext(httpContext);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
 
-        await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
-                                              () => Task.FromResult(contexts.ExecutedContext));
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
-        if (contexts.ExecutingContext.Result is ObjectResult result) {
-            result.StatusCode.ShouldBe(responseCode);
+        var result = await filter.InvokeAsync(contextMock.Object, (EndpointFilterInvocationContext) => new ValueTask<object>());
+
+        if (result is ApiResponseContract contract) {
+            contract.Status.ShouldBe(responseCode);
         } else {
-            contexts.ExecutingContext.Result.ShouldBe(responseCode);
+            result.ShouldBe(responseCode);
         }
     }
 
@@ -194,16 +197,17 @@ public class AuthorizeApiKeyTests {
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
 
-        var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, _log);
-        var contexts = CreateContext(httpContext);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
 
-        await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
-                                              () => Task.FromResult(contexts.ExecutedContext));
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
-        if (contexts.ExecutingContext.Result is ObjectResult result) {
-            result.StatusCode.ShouldBe(responseCode);
+        var result = await filter.InvokeAsync(contextMock.Object, (EndpointFilterInvocationContext) => new ValueTask<object>());
+
+        if (result is ApiResponseContract contract) {
+            contract.Status.ShouldBe(responseCode);
         } else {
-            contexts.ExecutingContext.Result.ShouldBe(responseCode);
+            result.ShouldBe(responseCode);
         }
     }
 
@@ -224,16 +228,17 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, _log);
-        var contexts = CreateContext(httpContext);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
 
-        await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
-                                              () => Task.FromResult(contexts.ExecutedContext));
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
-        if (contexts.ExecutingContext.Result is ObjectResult result) {
-            result.StatusCode.ShouldBe(400);
+        var result = await filter.InvokeAsync(contextMock.Object, (EndpointFilterInvocationContext) => new ValueTask<object>());
+
+        if (result is ApiResponseContract contract) {
+            contract.Status.ShouldBe(400);
         } else {
-            true.ShouldBe(false);
+            result.ShouldBe(false);
         }
     }
 
@@ -260,16 +265,17 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, _log);
-        var contexts = CreateContext(httpContext);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
 
-        await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
-                                              () => Task.FromResult(contexts.ExecutedContext));
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
-        if (contexts.ExecutingContext.Result is ObjectResult result) {
-            result.StatusCode.ShouldBe(400);
+        var result = await filter.InvokeAsync(contextMock.Object, (EndpointFilterInvocationContext) => new ValueTask<object>());
+
+        if (result is ApiResponseContract contract) {
+            contract.Status.ShouldBe(400);
         } else {
-            true.ShouldBe(false);
+            result.ShouldBe(false);
         }
     }
 
@@ -298,16 +304,17 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, _log);
-        var contexts = CreateContext(httpContext);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
 
-        await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
-                                              () => Task.FromResult(contexts.ExecutedContext));
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
-        if (contexts.ExecutingContext.Result is ObjectResult result) {
-            result.StatusCode.ShouldBe(responseCode);
+        var result = await filter.InvokeAsync(contextMock.Object, (EndpointFilterInvocationContext) => new ValueTask<object>());
+
+        if (result is ApiResponseContract contract) {
+            contract.Status.ShouldBe(responseCode);
         } else {
-            contexts.ExecutingContext.Result.ShouldBe(responseCode);
+            result.ShouldBe(responseCode);
         }
     }
 
@@ -349,16 +356,17 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, _log);
-        var contexts = CreateContext(httpContext);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
 
-        await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
-                                              () => Task.FromResult(contexts.ExecutedContext));
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
-        if (contexts.ExecutingContext.Result is ObjectResult result) {
-            result.StatusCode.ShouldBe(400);
+        var result = await filter.InvokeAsync(contextMock.Object, (EndpointFilterInvocationContext) => new ValueTask<object>());
+
+        if (result is ApiResponseContract contract) {
+            contract.Status.ShouldBe(400);
         } else {
-            true.ShouldBe(false);
+            result.ShouldBe(false);
         }
     }
 
@@ -383,12 +391,13 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFromRequest(keyProvider.Object, ipProvider.Object, apiRepo.Object, _log);
-        var contexts = CreateContext(httpContext);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
 
-        await filter.OnResourceExecutionAsync(contexts.ExecutingContext,
-                                              () => Task.FromResult(contexts.ExecutedContext));
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
-        contexts.ExecutingContext.Result.ShouldBeNull();
+        var result = await filter.InvokeAsync(contextMock.Object, (EndpointFilterInvocationContext) => new ValueTask<object>());
+
+        result.ShouldBeNull();
     }
 }
