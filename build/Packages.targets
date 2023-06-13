@@ -22,7 +22,7 @@
     <PackageReference Update="WebApiContrib.Core.Formatter.Jsonp" Version="2.1.0" />
 
     <!-- mvc -->
-    <PackageReference Update="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
+    <PackageReference Update="Asp.Versioning.Http" Version="7.0.0" />
 
     <!-- DI -->
     <PackageReference Update="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
@@ -31,6 +31,7 @@
     <!-- open api -->
     <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
     <PackageReference Update="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="7.0.*-*" />
 
     <!-- http -->
     <PackageReference Update="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />

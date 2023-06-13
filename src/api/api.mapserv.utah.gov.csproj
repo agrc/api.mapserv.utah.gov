@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Http" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" />
     <PackageReference Include="Autofac" />
     <PackageReference Include="CorrelationId" />
@@ -22,7 +23,7 @@
     <PackageReference Include="Google.Cloud.Firestore" />
     <PackageReference Include="MediatR" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" />
     <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" />
     <PackageReference Include="Npgsql.NetTopologySuite" />
