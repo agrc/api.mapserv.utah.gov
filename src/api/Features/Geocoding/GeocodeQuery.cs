@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Http;
 namespace AGRC.api.Features.Geocoding;
 public class GeocodeQuery {
     public class Query(string street, string zone, SingleGeocodeRequestOptionsContract options, JsonSerializerOptions jsonOptions) : IRequest<IResult> {
-        internal readonly string _street = street;
-        internal readonly string _zone = zone;
-        internal readonly SingleGeocodeRequestOptionsContract _options = options;
-        internal readonly JsonSerializerOptions _jsonOptions = jsonOptions;
+        public readonly string _street = street;
+        public readonly string _zone = zone;
+        public readonly SingleGeocodeRequestOptionsContract _options = options;
+        public readonly JsonSerializerOptions _jsonOptions = jsonOptions;
     }
 
     public class Handler(IComputeMediator computeMediator, ILogger log) : IRequestHandler<Query, IResult> {
