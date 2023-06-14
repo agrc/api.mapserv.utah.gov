@@ -343,10 +343,8 @@ public static class WebApplicationBuilderExtensions {
         });
     }
     public static void ConfigureVersioning(this WebApplicationBuilder builder)
-        => builder.Services.AddApiVersioning(x => {
-            x.ReportApiVersions = true;
-            x.AssumeDefaultVersionWhenUnspecified = true;
-            x.DefaultApiVersion = new ApiVersion(1, 0);
+        => builder.Services.AddApiVersioning(options => {
+            options.ReportApiVersions = true;
         }).EnableApiVersionBinding();
     public static void ConfigureCors(this WebApplicationBuilder builder)
         => builder.Services.AddCors(options => {
