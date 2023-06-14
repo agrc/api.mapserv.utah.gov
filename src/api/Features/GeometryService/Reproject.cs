@@ -10,45 +10,33 @@ using Microsoft.Extensions.Options;
 
 namespace AGRC.api.Features.GeometryService;
 public class Reproject {
-    public class Computation : IComputation<ReprojectResponse<Point>?> {
-        public Computation(PointReprojectOptions options) {
-            Options = options;
-        }
-
-        public readonly PointReprojectOptions Options;
+    public class Computation(PointReprojectOptions options) : IComputation<ReprojectResponse<Point>?> {
+        public readonly PointReprojectOptions _options = options;
         public string ReprojectUrl { get; set; } = string.Empty;
     }
 
-    public class Handler : IComputationHandler<Computation, ReprojectResponse<Point>?> {
-        private readonly HttpClient _client;
-        private readonly IOptions<GeometryServiceConfiguration> _geometryServiceConfiguration;
-        private readonly ILogger? _log;
-        private readonly MediaTypeFormatter[] _mediaTypes;
-
-        public Handler(IOptions<GeometryServiceConfiguration> geometryServiceConfiguration,
-                       IHttpClientFactory clientFactory, ILogger log) {
-            _geometryServiceConfiguration = geometryServiceConfiguration;
-            _client = clientFactory.CreateClient("arcgis");
-            _mediaTypes = new MediaTypeFormatter[] {
+    public class Handler(IOptions<GeometryServiceConfiguration> geometryServiceConfiguration,
+                   IHttpClientFactory clientFactory, ILogger log) : IComputationHandler<Computation, ReprojectResponse<Point>?> {
+        private readonly HttpClient _client = clientFactory.CreateClient("arcgis");
+        private readonly ILogger? _log = log?.ForContext<Reproject>();
+        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
             };
-            _log = log?.ForContext<Reproject>();
-        }
 
         public async Task<ReprojectResponse<Point>?> Handle(Computation request, CancellationToken token) {
             if (string.IsNullOrEmpty(request.ReprojectUrl)) {
-                request.ReprojectUrl = _geometryServiceConfiguration.Value.Url();
+                request.ReprojectUrl = geometryServiceConfiguration.Value.Url();
             }
 
             var query = new QueryString("?f=json");
-            query = query.Add("inSR", request.Options.CurrentSpatialReference.ToString());
-            query = query.Add("outSR", request.Options.ReprojectToSpatialReference.ToString());
-            query = query.Add("geometries", string.Join(",", request.Options.Coordinates));
+            query = query.Add("inSR", request._options.CurrentSpatialReference.ToString());
+            query = query.Add("outSR", request._options.ReprojectToSpatialReference.ToString());
+            query = query.Add("geometries", string.Join(",", request._options.Coordinates));
 
             var requestUri = string.Format(request.ReprojectUrl, query.Value);
 
             _log?.ForContext("url", request.ReprojectUrl)
-                .Debug("request generated", request.Options, request.ReprojectUrl);
+                .Debug("request generated", request._options, request.ReprojectUrl);
 
             ReprojectResponse<Point>? result = null;
             HttpResponseMessage response;
@@ -81,22 +69,14 @@ public class Reproject {
         }
     }
 
-    public class Decorator<TComputation, TResponse>
+    public class Decorator<TComputation, TResponse>(IComputationHandler<TComputation, TResponse> decorated, IComputeMediator computeMediator, ILogger log)
         : IComputationHandler<TComputation, TResponse>
             where TComputation
         : IComputation<TResponse> where TResponse : Candidate? {
-        private readonly IComputationHandler<TComputation, TResponse> _decorated;
-        private readonly IComputeMediator _computeMediator;
-        private readonly ILogger? _log;
-
-        public Decorator(IComputationHandler<TComputation, TResponse> decorated, IComputeMediator computeMediator, ILogger log) {
-            _decorated = decorated;
-            _computeMediator = computeMediator;
-            _log = log?.ForContext<Decorator<TComputation, TResponse>>();
-        }
+        private readonly ILogger? _log = log?.ForContext<Decorator<TComputation, TResponse>>();
 
         public async Task<TResponse> Handle(TComputation computation, CancellationToken cancellationToken) {
-            var response = await _decorated.Handle(computation, cancellationToken);
+            var response = await decorated.Handle(computation, cancellationToken);
             PointReprojectOptions? options = null;
 
             if (response == null) {
@@ -121,7 +101,7 @@ public class Reproject {
                 return response;
             }
 
-            var projected = await _computeMediator.Handle(new Computation(options), cancellationToken);
+            var projected = await computeMediator.Handle(new Computation(options), cancellationToken);
 
             if (projected?.IsSuccessful != true || !projected.Geometries.Any()) {
                 _log?.ForContext("candidate", string.Join(",", options.Coordinates))
