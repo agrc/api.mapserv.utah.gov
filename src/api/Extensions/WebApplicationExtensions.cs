@@ -34,13 +34,14 @@ public static class WebApplicationExtensions {
             .ReportApiVersions()
             .Build();
 
-        var api = app.MapGroup("/api/v{version:apiVersion}");
+        var api = app.MapGroup("/api/v{version:apiVersion}")
+            .WithApiVersionSet(versionSet);
         api.AddEndpointFilter<AuthorizeApiKeyFilter>();
 
         var geocode = api.MapGroup("/geocode");
         var search = api.MapGroup("/search");
 
-        geocode.MapGet("{street}/{zone}", async (
+        geocode.MapGet("/{street}/{zone}", async (
             [FromRoute] string street,
             [FromRoute] string zone,
             SingleGeocodeRequestOptionsContract options,
@@ -51,9 +52,8 @@ public static class WebApplicationExtensions {
                 var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
                 return await mediator.Send(new GeocodeQuery.Query(street, zone, options, jsonOptions));
             })
-            .WithApiVersionSet(versionSet)
-            .IsApiVersionNeutral()
-            .Produces<ApiResponseContract<SingleGeocodeResponseContract>>(StatusCodes.Status200OK)
+            .HasApiVersion(1)
+            .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
                 OperationId = "Geocode",
                 Summary = "Single address geocoding",
@@ -65,10 +65,19 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
 
-        geocode.MapGet("reverse/{x}/{y}", async ([FromRoute] double x, [FromRoute] double y, [AsParameters] ReverseGeocodeRequestOptionsContract options, [FromServices] IMediator mediator)
-            => await mediator.Send(new ReverseGeocodeQuery.Query(x, y, options)))
-            .WithApiVersionSet(versionSet)
-            .IsApiVersionNeutral()
+        geocode.MapGet("/reverse/{x}/{y}", async (
+            [FromRoute] double x,
+            [FromRoute] double y,
+            ReverseGeocodeRequestOptionsContract options,
+            [FromServices] IMediator mediator,
+            [FromServices] IJsonSerializerOptionsFactory factory,
+            [FromServices] ApiVersion apiVersion)
+            => {
+                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
+                return await mediator.Send(new ReverseGeocodeQuery.Query(x, y, options, jsonOptions));
+            })
+            .HasApiVersion(1)
+            .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
                 OperationId = "ReverseGeocode",
                 Summary = "Reverse Geocoding",
@@ -80,10 +89,19 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
 
-        geocode.MapGet("milepost/{route}/{milepost}", async ([FromRoute] string route, [FromRoute] string milepost, [AsParameters] RouteMilepostRequestOptionsContract options, [FromServices] IMediator mediator)
-            => await mediator.Send(new RouteMilepostQuery.Query(route, milepost, options)))
-            .WithApiVersionSet(versionSet)
-            .IsApiVersionNeutral()
+        geocode.MapGet("/milepost/{route}/{milepost}", async (
+            [FromRoute] string route,
+            [FromRoute] string milepost,
+            RouteMilepostRequestOptionsContract options,
+            [FromServices] IMediator mediator,
+            [FromServices] IJsonSerializerOptionsFactory factory,
+            [FromServices] ApiVersion apiVersion)
+            => {
+                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
+                return await mediator.Send(new RouteMilepostQuery.Query(route, milepost, options, jsonOptions));
+            })
+            .HasApiVersion(1)
+            .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
                 OperationId = "MilepostGeocode",
                 Summary = "Milepost Geocoding",
@@ -95,10 +113,19 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
 
-        geocode.MapGet("reversemilepost/{x}/{y}", async ([FromRoute] double x, [FromRoute] double y, [AsParameters] ReverseRouteMilepostRequestOptionsContract options, [FromServices] IMediator mediator)
-            => await mediator.Send(new ReverseRouteMilepostQuery.Query(x, y, options)))
-            .WithApiVersionSet(versionSet)
-            .IsApiVersionNeutral()
+        geocode.MapGet("/reversemilepost/{x}/{y}", async (
+            [FromRoute] double x,
+            [FromRoute] double y,
+            ReverseRouteMilepostRequestOptionsContract options,
+            [FromServices] IMediator mediator,
+            [FromServices] IJsonSerializerOptionsFactory factory,
+            [FromServices] ApiVersion apiVersion)
+            => {
+                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
+                return await mediator.Send(new ReverseRouteMilepostQuery.Query(x, y, options, jsonOptions));
+            })
+            .HasApiVersion(1)
+            .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
                 OperationId = "ReverseMilepostGeocode",
                 Summary = "Reverse Milepost Geocoding",
@@ -110,19 +137,19 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
 
-        search.MapGet("{tableName}/{returnValues}", async (
-                [FromRoute] string tableName,
-                [FromRoute] string returnValues,
-                SearchRequestOptionsContract options,
-                [FromServices] IMediator mediator,
-                 [FromServices] IJsonSerializerOptionsFactory factory,
+        search.MapGet("/{tableName}/{returnValues}", async (
+            [FromRoute] string tableName,
+            [FromRoute] string returnValues,
+            SearchRequestOptionsContract options,
+            [FromServices] IMediator mediator,
+            [FromServices] IJsonSerializerOptionsFactory factory,
             [FromServices] ApiVersion apiVersion)
             => {
                 var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
                 return await mediator.Send(new SearchQuery.Query(tableName, returnValues, new SearchOptions(options), jsonOptions));
             })
-            .WithApiVersionSet(versionSet)
-            .IsApiVersionNeutral()
+            .HasApiVersion(1)
+            .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
                 OperationId = "Search",
                 Summary = "Search the OpenSGID",
