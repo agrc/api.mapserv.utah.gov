@@ -1,7 +1,6 @@
 using AGRC.api.Models.ArcGis;
 using Autofac;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AGRC.api.Features.Geocoding;
 public interface IFilterSuggestionFactory {

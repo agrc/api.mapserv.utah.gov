@@ -13,7 +13,6 @@ using AGRC.api.Middleware;
 using AGRC.api.Models.Configuration;
 using AGRC.api.Services;
 using api.OpenApi;
-using Asp.Versioning;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CorrelationId.DependencyInjection;
