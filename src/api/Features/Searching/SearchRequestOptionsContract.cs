@@ -72,17 +72,17 @@ public class SearchRequestOptionsContract : ProjectableOptions {
 
         AttributeStyle attributeStyle;
         if (string.IsNullOrEmpty(attribute)) {
-            attributeStyle = Models.Constants.AttributeStyle.Lower;
+            attributeStyle = AttributeStyle.Lower;
 
             if (version > ApiVersion.Default) {
-                attributeStyle = Models.Constants.AttributeStyle.Input;
+                attributeStyle = AttributeStyle.Input;
             }
         } else {
             if (!Enum.TryParse(attribute, true, out attributeStyle)) {
-                attributeStyle = Models.Constants.AttributeStyle.Lower;
+                attributeStyle = AttributeStyle.Lower;
 
                 if (version > ApiVersion.Default) {
-                    attributeStyle = Models.Constants.AttributeStyle.Input;
+                    attributeStyle = AttributeStyle.Input;
                 }
             }
         }
@@ -97,7 +97,7 @@ public class SearchRequestOptionsContract : ProjectableOptions {
 
         var result = new SearchRequestOptionsContract {
             Predicate = predicate,
-            Geometry = pointJson,
+            Geometry = string.IsNullOrEmpty(pointJson) ? string.Empty : pointJson.ToString(),
             Buffer = Convert.ToDouble(bufferAmount),
             AttributeStyle = attributeStyle,
             SpatialReference = wkid
