@@ -66,7 +66,7 @@ public class ReverseGeocodeQuery {
             try {
                 var response = await _computeMediator.Handle(reverseGeocodeComputation, default);
 
-                if (response == null) {
+                if (response?.Address is null || string.IsNullOrEmpty(response.Address.Address)) {
                     return TypedResults.Json(new ApiResponseContract {
                         Message = $"No address candidates found within {request._options.Distance} meters of {x}, {y}.",
                         Status = StatusCodes.Status404NotFound
