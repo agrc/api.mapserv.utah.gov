@@ -5,27 +5,17 @@ using AGRC.api.Infrastructure;
 using AGRC.api.Models.ArcGis;
 
 namespace AGRC.api.Features.Geocoding;
-public class ReverseGeocode {
-    public class Computation : IComputation<ReverseGeocodeRestResponse?> {
-        internal readonly LocatorProperties Locator;
-
-        public Computation(LocatorProperties locator) {
-            Locator = locator;
-        }
+public static class ReverseGeocode {
+    public class Computation(LocatorProperties locator) : IComputation<ReverseGeocodeRestResponse?> {
+        internal readonly LocatorProperties Locator = locator;
     }
 
-    public class Handler : IComputationHandler<Computation, ReverseGeocodeRestResponse?> {
-        private readonly HttpClient _client;
-        private readonly ILogger? _log;
-        private readonly MediaTypeFormatter[] _mediaTypes;
-
-        public Handler(IHttpClientFactory clientFactory, ILogger log) {
-            _log = log?.ForContext<ReverseGeocodeQuery>();
-            _client = clientFactory.CreateClient("arcgis");
-            _mediaTypes = new MediaTypeFormatter[] {
+    public class Handler(IHttpClientFactory clientFactory, ILogger log) : IComputationHandler<Computation, ReverseGeocodeRestResponse?> {
+        private readonly HttpClient _client = clientFactory.CreateClient("arcgis");
+        private readonly ILogger? _log = log?.ForContext<ReverseGeocodeQuery>();
+        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
             };
-        }
 
         public async Task<ReverseGeocodeRestResponse?> Handle(Computation request, CancellationToken cancellationToken) {
             _log?.ForContext("url", request.Locator.Url)
