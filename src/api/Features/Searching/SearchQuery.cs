@@ -1,6 +1,8 @@
 using System.Net.Http;
+using AGRC.api.Features.Converting;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Http;
 using Npgsql;
 
@@ -120,42 +122,44 @@ public class SearchQuery {
         }
     }
 
-    public class ValidationBehavior<TRequest, TResponse>(IComputeMediator computeMediator, ILogger log) : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : Query, IRequest<TResponse>
-    where TResponse : IResult {
-        private readonly ILogger? _log = log?.ForContext<SearchQuery>();
-        private readonly IComputeMediator _computeMediator = computeMediator;
+    public class ValidationFilter(IComputeMediator mediator, IJsonSerializerOptionsFactory factory, ApiVersion apiVersion, ILogger? log) : IEndpointFilter {
+        private readonly IComputeMediator _computeMediator = mediator;
+        private readonly IJsonSerializerOptionsFactory _factory = factory;
+        private readonly ApiVersion _apiVersion = apiVersion;
+        private readonly ILogger? _log = log?.ForContext<ValidationFilter>();
 
-        public async Task<TResponse> Handle(
-            TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
+        public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next) {
+            var tableName = context.GetArgument<string>(0).Trim();
+            var returnValues = context.GetArgument<string>(1).Trim();
+            var options = context.GetArgument<SearchRequestOptionsContract>(2);
+
             var errors = string.Empty;
 
-            if (string.IsNullOrEmpty(request._tableName)) {
+            if (string.IsNullOrEmpty(tableName)) {
                 errors = "tableName is a required field. Input was empty. ";
-            } else if (await _computeMediator.Handle(new ValidateSql.Computation(request._tableName), default)) {
+            } else if (await _computeMediator.Handle(new ValidateSql.Computation(tableName), default)) {
                 errors += "tableName contains unsafe characters. Don't be a jerk. ";
             }
 
-            if (string.IsNullOrEmpty(request._returnValues)) {
+            if (string.IsNullOrEmpty(returnValues)) {
                 errors += "returnValues is a required field. Input was empty. ";
-            } else if (await _computeMediator.Handle(new ValidateSql.Computation(request._returnValues), default)) {
+            } else if (await _computeMediator.Handle(new ValidateSql.Computation(returnValues), default)) {
                 errors += "returnValues contains unsafe characters. Don't be a jerk. ";
             }
 
-            if (request._options == null) {
+            if (options == null) {
                 errors += "Search options did not bind correctly. Sorry. ";
 
-                _log?.ForContext("request", request)
-                    .Error("no search options");
+                var jsonOptions = _factory.GetSerializerOptionsFor(_apiVersion);
 
-                return (TResponse)Results.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                return Results.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
                     Status = StatusCodes.Status400BadRequest,
                     Message = errors
-                }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest);
+                }, jsonOptions, "application/json", StatusCodes.Status400BadRequest);
             }
 
-            if (!string.IsNullOrEmpty(request._options.Predicate) &&
-                await _computeMediator.Handle(new ValidateSql.Computation(request._options.Predicate), default)) {
+            if (!string.IsNullOrEmpty(options.Predicate) &&
+                await _computeMediator.Handle(new ValidateSql.Computation(options.Predicate), default)) {
                 errors += "Predicate contains unsafe characters. Don't be a jerk. ";
             }
 
@@ -163,13 +167,15 @@ public class SearchQuery {
                 _log?.ForContext("errors", errors)
                     .Warning("search validation failed");
 
-                return (TResponse)Results.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
+                var jsonOptions = _factory.GetSerializerOptionsFor(_apiVersion);
+
+                return Results.Json(new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
                     Status = StatusCodes.Status400BadRequest,
                     Message = errors
-                }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest);
+                }, jsonOptions, "application/json", StatusCodes.Status400BadRequest);
             }
 
-            return await next();
+            return await next(context);
         }
     }
 }

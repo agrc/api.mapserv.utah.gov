@@ -151,10 +151,6 @@ public static class WebApplicationBuilderExtensions {
         builder.Services.AddHostedService<CacheHostedService>();
 
         // transient - always different for every injection
-        builder.Services.AddTransient<IPipelineBehavior<SearchQuery.Query, IResult>,
-            SearchQuery.ValidationBehavior<SearchQuery.Query, IResult>>();
-        builder.Services.AddTransient<IPipelineBehavior<GeocodeQuery.Query, IResult>,
-            GeocodeQuery.ValidationBehavior<GeocodeQuery.Query, IResult>>();
         builder.Services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RequestLogger<>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceLogger<,>));
 

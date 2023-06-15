@@ -1,8 +1,10 @@
 using AGRC.api.Comparers;
 using AGRC.api.Extensions;
+using AGRC.api.Features.Converting;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
 using AGRC.api.Services;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Geocoding;
@@ -140,35 +142,37 @@ public class GeocodeQuery {
         }
     }
 
-    public class ValidationBehavior<TRequest, TResponse>(ILogger log) : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : Query, IRequest<TResponse>
-    where TResponse : IResult {
-        private readonly ILogger? _log = log?.ForContext<GeocodeQuery>();
+    public class ValidationFilter(IJsonSerializerOptionsFactory factory, ApiVersion apiVersion, ILogger? log) : IEndpointFilter {
+        private readonly ILogger? _log = log?.ForContext<ValidationFilter>();
+        private readonly IJsonSerializerOptionsFactory _factory = factory;
+        private readonly ApiVersion _apiVersion = apiVersion;
 
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
-            var street = request._street?.Trim();
-            var zone = request._zone?.Trim();
+        public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next) {
+            var street = context.GetArgument<string>(0).Trim();
+            var zone = context.GetArgument<string>(1).Trim();
 
             var errors = string.Empty;
             if (string.IsNullOrEmpty(street)) {
-                errors = "Street is empty.";
+                errors = "street is a required field. Input was empty. ";
             }
 
             if (string.IsNullOrEmpty(zone)) {
-                errors += "Zip code or city name is empty";
+                errors += "zone is a required field. Input was empty. ";
             }
 
             if (errors.Length > 0) {
                 _log?.ForContext("errors", errors)
                     .Debug("geocoding validation failed");
 
-                return (TResponse)(TypedResults.Json(new ApiResponseContract<SingleGeocodeResponseContract> {
+                var options = _factory.GetSerializerOptionsFor(_apiVersion);
+
+                return Results.Json(new ApiResponseContract {
                     Status = StatusCodes.Status400BadRequest,
                     Message = errors
-                }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest) as IResult);
+                }, options, "application/json", StatusCodes.Status400BadRequest);
             }
 
-            return await next();
+            return await next(context);
         }
     }
 }

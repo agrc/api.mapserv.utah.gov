@@ -53,6 +53,7 @@ public static class WebApplicationExtensions {
 
                 return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })
+            .AddEndpointFilter<GeocodeQuery.ValidationFilter>()
             .HasApiVersion(1)
             .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
@@ -150,6 +151,7 @@ public static class WebApplicationExtensions {
 
                 return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })
+            .AddEndpointFilter<SearchQuery.ValidationFilter>()
             .HasApiVersion(1)
             .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
