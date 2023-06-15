@@ -12,7 +12,7 @@ namespace AGRC.api.Features.GeometryService;
 public class Reproject {
     public class Computation(PointReprojectOptions options) : IComputation<ReprojectResponse<Point>?> {
         public readonly PointReprojectOptions _options = options;
-        public string ReprojectUrl { get; set; } = string.Empty;
+        public string? ReprojectUrl { get; set; }
     }
 
     public class Handler(IOptions<GeometryServiceConfiguration> geometryServiceConfiguration,

@@ -1,14 +1,9 @@
 using System.Diagnostics;
 
 namespace AGRC.api.Infrastructure;
-public class PerformanceLogger<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse> {
-    private readonly Stopwatch _timer;
-    private readonly ILogger? _log;
-
-    public PerformanceLogger(ILogger log) {
-        _timer = new Stopwatch();
-        _log = log?.ForContext<PerformanceLogger<TRequest, TResponse>>();
-    }
+public class PerformanceLogger<TRequest, TResponse>(ILogger log) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse> {
+    private readonly Stopwatch _timer = new Stopwatch();
+    private readonly ILogger? _log = log?.ForContext<PerformanceLogger<TRequest, TResponse>>();
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
         _timer.Start();

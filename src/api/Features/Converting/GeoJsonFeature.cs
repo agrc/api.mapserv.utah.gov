@@ -1,52 +1,42 @@
 using System.Text.Json.Serialization;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
-using AGRC.api.Models.ResponseContracts;
 using Asp.Versioning;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
 
 namespace AGRC.api.Features.Converting;
-public class GeoJsonFeature {
-    public class Computation : IComputation<ApiResponseContract<Feature>> {
-        internal readonly ApiResponseContract<SingleGeocodeResponseContract> Container;
-        internal readonly int Version;
-
-        public Computation(ApiResponseContract<SingleGeocodeResponseContract> container, ApiVersion? version) {
-            Container = container;
-            Version = version?.MajorVersion switch {
-                1 => 1,
-                2 => 2,
-                _ => 1
-            };
-        }
+public static class GeoJsonFeature {
+    public class Computation(SingleGeocodeResponseContract container, ApiVersion? version) : IComputation<Feature> {
+        public readonly SingleGeocodeResponseContract _result = container;
+        public readonly int _version = version?.MajorVersion switch {
+            1 => 1,
+            2 => 2,
+            _ => 1
+        };
     }
 
-    public class Handler : IComputationHandler<Computation, ApiResponseContract<Feature>> {
-        private readonly ILogger? _log;
+    public class Handler(ILogger log) : IComputationHandler<Computation, Feature> {
+        private readonly ILogger? _log = log?.ForContext<EsriGraphic>();
         private static string ToCamelCase(string data) => char.ToLowerInvariant(data[0]) + data[1..];
-        public Handler(ILogger log) {
-            _log = log?.ForContext<EsriGraphic>();
-        }
-        public Task<ApiResponseContract<Feature>> Handle(Computation request, CancellationToken cancellationToken) {
+
+        public Task<Feature> Handle(Computation request, CancellationToken cancellationToken) {
             Geometry? geometry = null;
             var attributes = new Dictionary<string, object?>();
-            var message = request.Container.Message;
-            var status = request.Container.Status;
-            var result = request.Container.Result;
+            var result = request._result;
 
-            _log?.Debug("converting {result} to esri json for version {version}", result, request.Version);
+            _log?.Debug("converting {result} to esri json for version {version}", result, request._version);
 
             if (result?.Location != null) {
                 geometry = new Point(new Coordinate(result.Location.X, result.Location.Y));
 
-                var properties = request.Container.Result?
+                var properties = request._result?
                     .GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
 
-                if (request.Version == 1) {
+                if (request._version == 1) {
                     foreach (var property in properties) {
-                        var value = property.GetValue(request.Container.Result, null);
+                        var value = property.GetValue(request._result, null);
 
                         if (property.Name.Equals("standardizedAddress", StringComparison.OrdinalIgnoreCase) && value is null) {
                             continue;
@@ -65,7 +55,7 @@ public class GeoJsonFeature {
                 } else {
                     attributes = properties
                         .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
-                        .ToDictionary(key => ToCamelCase(key.Name), value => value.GetValue(request.Container.Result, null))
+                        .ToDictionary(key => ToCamelCase(key.Name), value => value.GetValue(request._result, null))
                         ?? attributes;
 
                     attributes.Remove("location");
@@ -82,10 +72,7 @@ public class GeoJsonFeature {
             }
 
             if (geometry == null && attributes.Count < 1) {
-                return Task.FromResult(new ApiResponseContract<Feature> {
-                    Status = status,
-                    Message = message
-                });
+                return Task.FromResult(new Feature());
             }
 
             var attributeTable = new AttributesTable(
@@ -94,13 +81,7 @@ public class GeoJsonFeature {
 
             var feature = new Feature(geometry, attributeTable);
 
-            var responseContainer = new ApiResponseContract<Feature> {
-                Result = feature,
-                Status = status,
-                Message = message
-            };
-
-            return Task.FromResult(responseContainer);
+            return Task.FromResult(feature);
         }
     }
 }

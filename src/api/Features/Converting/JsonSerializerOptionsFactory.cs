@@ -8,11 +8,11 @@ using NetTopologySuite.IO.Converters;
 
 namespace AGRC.api.Features.Converting;
 
-internal interface IJsonSerializerOptionsFactory {
+public interface IJsonSerializerOptionsFactory {
     JsonSerializerOptions GetSerializerOptionsFor(ApiVersion version);
 }
 
-internal class JsonSerializerOptionsFactory : IJsonSerializerOptionsFactory {
+public class JsonSerializerOptionsFactory : IJsonSerializerOptionsFactory {
     private readonly JsonSerializerOptions _defaultOptions;
     private readonly JsonSerializerOptions _quirkOptions;
 
