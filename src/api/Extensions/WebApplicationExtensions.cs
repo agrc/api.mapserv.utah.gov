@@ -49,8 +49,9 @@ public static class WebApplicationExtensions {
             [FromServices] IJsonSerializerOptionsFactory factory,
             [FromServices] ApiVersion apiVersion)
             => {
-                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
-                return await mediator.Send(new GeocodeQuery.Query(street, zone, options, jsonOptions));
+                var result = await mediator.Send(new GeocodeQuery.Query(street, zone, options));
+
+                return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })
             .HasApiVersion(1)
             .HasApiVersion(2)
@@ -145,8 +146,9 @@ public static class WebApplicationExtensions {
             [FromServices] IJsonSerializerOptionsFactory factory,
             [FromServices] ApiVersion apiVersion)
             => {
-                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
-                return await mediator.Send(new SearchQuery.Query(tableName, returnValues, new SearchOptions(options), jsonOptions));
+                var result = await mediator.Send(new SearchQuery.Query(tableName, returnValues, new SearchOptions(options)));
+
+                return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })
             .HasApiVersion(1)
             .HasApiVersion(2)

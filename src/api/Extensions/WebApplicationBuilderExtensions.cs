@@ -168,19 +168,19 @@ public static class WebApplicationBuilderExtensions {
 
             // decorators are executed in the order they are registered
             builder.RegisterDecorator<TableMappingDecorator,
-                IRequestHandler<SearchQuery.Query, IResult>>();
+                IRequestHandler<SearchQuery.Query, IApiResponse>>();
 
             builder.RegisterDecorator<DecodeGeometryDecorator,
-                IRequestHandler<SearchQuery.Query, IResult>>();
+                IRequestHandler<SearchQuery.Query, IApiResponse>>();
 
             builder.RegisterDecorator<ShapeFieldDecorator,
-                IRequestHandler<SearchQuery.Query, IResult>>();
-
-            builder.RegisterDecorator<DoubleAvenuesException.Decorator,
-                IComputationHandler<ZoneParsing.Computation, Address>>();
+                IRequestHandler<SearchQuery.Query, IApiResponse>>();
 
             builder.RegisterDecorator<AttributeTableKeyFormatting.Decorator,
                 IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?>>();
+
+            builder.RegisterDecorator<DoubleAvenuesException.Decorator,
+                IComputationHandler<ZoneParsing.Computation, Address>>();
 
             builder.RegisterGenericDecorator(typeof(Reproject.Decorator<,>), typeof(IComputationHandler<,>));
 
