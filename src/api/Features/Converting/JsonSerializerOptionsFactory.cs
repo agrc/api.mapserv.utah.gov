@@ -43,7 +43,7 @@ public class JsonSerializerOptionsFactory : IJsonSerializerOptionsFactory {
         };
     }
 
-    public JsonSerializerOptions GetSerializerOptionsFor(ApiVersion version) => version.MinorVersion switch {
+    public JsonSerializerOptions GetSerializerOptionsFor(ApiVersion version) => version.MajorVersion switch {
         1 => _quirkOptions,
         _ => _defaultOptions
     };
