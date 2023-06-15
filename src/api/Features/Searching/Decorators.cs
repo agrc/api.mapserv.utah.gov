@@ -1,16 +1,16 @@
 using System.Text.Json;
 using AGRC.api.Models;
-using Microsoft.AspNetCore.Http;
+using AGRC.api.Models.ResponseContracts;
 
 namespace AGRC.api.Features.Searching;
 
-public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IResult> decorated,
-    ITableMapping mapping, ILogger log) : IRequestHandler<SearchQuery.Query, IResult> {
-    private readonly IRequestHandler<SearchQuery.Query, IResult> _decorated = decorated;
+public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiResponse> decorated,
+    ITableMapping mapping, ILogger log) : IRequestHandler<SearchQuery.Query, IApiResponse> {
+    private readonly IRequestHandler<SearchQuery.Query, IApiResponse> _decorated = decorated;
     private readonly ITableMapping _mapping = mapping;
     private readonly ILogger? _log = log?.ForContext<TableMappingDecorator>();
 
-    public async Task<IResult> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
+    public async Task<IApiResponse> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
         var table = computation._tableName.ToLowerInvariant();
 
         if (!table.Contains("sgid")) {
@@ -31,8 +31,7 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IResult> d
         var mutated = new SearchQuery.Query(
             _mapping.MsSqlToPostgres[key],
             computation._returnValues,
-            computation._options,
-            new()
+            computation._options
         );
 
         _log?.ForContext("input_table", computation._tableName)
@@ -43,16 +42,16 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IResult> d
     }
 }
 
-public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IResult> decorated,
-    ILogger log) : IRequestHandler<SearchQuery.Query, IResult> {
-    private readonly IRequestHandler<SearchQuery.Query, IResult> _decorated = decorated;
+public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IApiResponse> decorated,
+    ILogger log) : IRequestHandler<SearchQuery.Query, IApiResponse> {
+    private readonly IRequestHandler<SearchQuery.Query, IApiResponse> _decorated = decorated;
     private readonly ILogger? _log = log?.ForContext<ShapeFieldDecorator>();
     private const string ShapeInput = "shape@";
     private const string Shape = "st_simplify(shape,10)";
     private const string EnvelopeInput = "shape@envelope";
     private const string Envelope = "st_envelope(shape)";
 
-    public async Task<IResult> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
+    public async Task<IApiResponse> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
         if (!computation._returnValues.ToLowerInvariant().Contains(ShapeInput)) {
             _log?.ForContext("return_values", computation._returnValues)
                 .Debug("no fields require modification");
@@ -87,20 +86,19 @@ public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IResult> dec
         var mutated = new SearchQuery.Query(
             computation._tableName,
             string.Join(',', fields),
-            computation._options,
-            new()
+            computation._options
         );
 
         return await _decorated.Handle(mutated, cancellationToken);
     }
 }
 
-public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IResult> decorated,
-    ILogger log) : IRequestHandler<SearchQuery.Query, IResult> {
-    private readonly IRequestHandler<SearchQuery.Query, IResult> _decorated = decorated;
+public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IApiResponse> decorated,
+    ILogger log) : IRequestHandler<SearchQuery.Query, IApiResponse> {
+    private readonly IRequestHandler<SearchQuery.Query, IApiResponse> _decorated = decorated;
     private readonly ILogger? _log = log?.ForContext<DecodeGeometryDecorator>();
 
-    public async Task<IResult> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
+    public async Task<IApiResponse> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
         if (string.IsNullOrEmpty(computation._options.Geometry)) {
             _log?.ForContext("search options", computation._options.Geometry)
                 .Debug("no geometry provided");
@@ -157,8 +155,7 @@ public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IResult>
         var mutated = new SearchQuery.Query(
             computation._tableName,
             computation._returnValues,
-            computation._options,
-            new()
+            computation._options
         );
 
         return await _decorated.Handle(mutated, cancellationToken);

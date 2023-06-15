@@ -11,6 +11,7 @@ using AGRC.api.Features.Searching;
 using AGRC.api.Infrastructure;
 using AGRC.api.Middleware;
 using AGRC.api.Models.Configuration;
+using AGRC.api.Models.ResponseContracts;
 using AGRC.api.Services;
 using api.OpenApi;
 using Autofac;
@@ -167,6 +168,9 @@ public static class WebApplicationBuilderExtensions {
                     .AsImplementedInterfaces();
 
             // decorators are executed in the order they are registered
+            builder.RegisterDecorator<JsonOutputFormatDecorator,
+                IRequestHandler<GeocodeQuery.Query, IApiResponse>>();
+
             builder.RegisterDecorator<TableMappingDecorator,
                 IRequestHandler<SearchQuery.Query, IApiResponse>>();
 
