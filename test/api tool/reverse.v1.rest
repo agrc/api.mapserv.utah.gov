@@ -1,0 +1,15 @@
+@hostname = localhost
+@port = 1337
+@host = {{hostname}}:{{port}}
+@apiKey = apikey=agrc-dev
+@reverse = http://{{host}}/api/v1/geocode/reverse/425608/4513499?{{apiKey}}
+
+GET {{reverse}}
+###
+GET {{reverse}}&distance=1
+###
+GET {{reverse}}&callback=jsonp
+###
+// Validation Error
+GET http://{{host}}/api/v1/geocode/reverse/%20/%20?{{apiKey}}
+###
