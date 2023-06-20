@@ -1,7 +1,5 @@
-using System.ComponentModel;
-
 namespace AGRC.api.Models.RequestOptionContracts;
-public class ProjectableOptions : OptionBase {
+public interface IProjectable {
     /// <summary>
     /// The spatial reference defines how the coordinates will represent a location on the earth defined by how the
     /// round earth was made flat. The well known id's (WKID) of different coordinate systems define if the
@@ -15,5 +13,5 @@ public class ProjectableOptions : OptionBase {
     /// system if length and area calculations are important as other coordinate systems will skew the truth.
     /// </summary>
     [DefaultValue(26912)]
-    public int SpatialReference { get; set; } = 26912;
+    public int SpatialReference { get; set; }
 }

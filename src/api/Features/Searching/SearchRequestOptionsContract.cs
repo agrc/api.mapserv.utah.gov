@@ -1,13 +1,10 @@
-using System.ComponentModel;
 using AGRC.api.Models;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.RequestOptionContracts;
-using Asp.Versioning;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace AGRC.api.Features.Searching;
-public class SearchRequestOptionsContract : ProjectableOptions {
+public class SearchRequestOptionsContract : IProjectable {
     private double _buffer = 0;
 
     /// <summary>
@@ -58,6 +55,7 @@ public class SearchRequestOptionsContract : ProjectableOptions {
     // TODO!: v2 this value should be input
     [DefaultValue(AttributeStyle.Lower)]
     public AttributeStyle AttributeStyle { get; set; } = AttributeStyle.Lower;
+    public int SpatialReference { get; set; } = 26912;
 
     public static ValueTask<SearchRequestOptionsContract> BindAsync(HttpContext context) {
         var keyValueModel = QueryHelpers.ParseQuery(context.Request.QueryString.Value);
@@ -114,7 +112,6 @@ public sealed class SearchOptions : SearchRequestOptionsContract {
         Geometry = options.Geometry;
         Predicate = options.Predicate;
         SpatialReference = options.SpatialReference;
-        Format = options.Format;
     }
     public PointWithSpatialReference? Point { get; set; }
 }

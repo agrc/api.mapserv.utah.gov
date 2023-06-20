@@ -1,11 +1,8 @@
-using System.ComponentModel;
-using AGRC.api.Models.Constants;
 using AGRC.api.Models.RequestOptionContracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace AGRC.api.Features.Milepost;
-public class ReverseRouteMilepostRequestOptionsContract : ProjectableOptions {
+public class ReverseRouteMilepostRequestOptionsContract : IProjectable {
     private double _buffer = 100;
     private int _suggest = 0;
 
@@ -54,6 +51,7 @@ public class ReverseRouteMilepostRequestOptionsContract : ProjectableOptions {
             }
         }
     }
+    public int SpatialReference { get; set; } = 26912;
 
     public static ValueTask<ReverseRouteMilepostRequestOptionsContract> BindAsync(HttpContext context) {
         var keyValueModel = QueryHelpers.ParseQuery(context.Request.QueryString.Value);
@@ -61,20 +59,12 @@ public class ReverseRouteMilepostRequestOptionsContract : ProjectableOptions {
         keyValueModel.TryGetValue("buffer", out var bufferValue);
         keyValueModel.TryGetValue("spatialReference", out var spatialReferenceValue);
         keyValueModel.TryGetValue("suggest", out var suggestValue);
-        keyValueModel.TryGetValue("format", out var formatValue);
-
-        var formats = formatValue.ToString().ToLowerInvariant();
 
         var options = new ReverseRouteMilepostRequestOptionsContract() {
             IncludeRampSystem = bool.TryParse(includeRampSystemValue, out var includeRampSystem) && includeRampSystem,
             Buffer = int.TryParse(bufferValue, out var buffer) ? buffer : 200,
             Suggest = int.TryParse(suggestValue, out var suggest) ? suggest : 0,
             SpatialReference = int.TryParse(spatialReferenceValue, out var spatialReference) ? spatialReference : 26912,
-            Format = formats switch {
-                "geojson" => JsonFormat.GeoJson,
-                "esrijson" => JsonFormat.EsriJson,
-                _ => JsonFormat.None
-            },
         };
 
         return new ValueTask<ReverseRouteMilepostRequestOptionsContract>(options);

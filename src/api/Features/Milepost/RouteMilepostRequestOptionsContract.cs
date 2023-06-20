@@ -1,10 +1,10 @@
+using AGRC.api.Features.Converting;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.RequestOptionContracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace AGRC.api.Features.Milepost;
-public class RouteMilepostRequestOptionsContract : ProjectableOptions {
+public class RouteMilepostRequestOptionsContract : IProjectable, IOutputConvertible {
     /// <summary>
     /// The side of a divided highway.
     /// </summary>
@@ -20,7 +20,8 @@ public class RouteMilepostRequestOptionsContract : ProjectableOptions {
     /// 0015PC30554
     /// </example>
     public bool FullRoute { get; set; }
-
+    public int SpatialReference { get; set; } = 26912;
+    public JsonFormat Format { get; set; } = JsonFormat.None;
     public static ValueTask<RouteMilepostRequestOptionsContract> BindAsync(HttpContext context) {
         var keyValueModel = QueryHelpers.ParseQuery(context.Request.QueryString.Value);
         keyValueModel.TryGetValue("side", out var sideValue);

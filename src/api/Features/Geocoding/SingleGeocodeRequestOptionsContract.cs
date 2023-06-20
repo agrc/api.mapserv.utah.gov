@@ -1,15 +1,13 @@
-using System.ComponentModel;
+using AGRC.api.Features.Converting;
 using AGRC.api.Models.Constants;
 using AGRC.api.Models.RequestOptionContracts;
-using Asp.Versioning;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace AGRC.api.Features.Geocoding;
 /// <summary>
 /// The options available for geocoding
 /// </summary>
-public class SingleGeocodeRequestOptionsContract : ProjectableOptions {
+public class SingleGeocodeRequestOptionsContract : IProjectable, IOutputConvertible {
     private int _acceptScore = 70;
     private int _suggest = 0;
 
@@ -84,6 +82,8 @@ public class SingleGeocodeRequestOptionsContract : ProjectableOptions {
     /// </summary>
     [DefaultValue(false)]
     public bool ScoreDifference { get; set; } = false;
+    public int SpatialReference { get; set; } = 26912;
+    public JsonFormat Format { get; set; } = JsonFormat.None;
 
     public static ValueTask<SingleGeocodeRequestOptionsContract> BindAsync(HttpContext context) {
         var keyValueModel = QueryHelpers.ParseQuery(context.Request.QueryString.Value);

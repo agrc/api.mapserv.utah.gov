@@ -1,8 +1,16 @@
-using System.ComponentModel;
 using AGRC.api.Models.Constants;
+using EsriJson.Net;
+using NetTopologySuite.Features;
 
-namespace AGRC.api.Models.RequestOptionContracts;
-public class OptionBase {
+namespace AGRC.api.Features.Converting;
+
+public interface IConvertible<TInput> {
+    object Convert(TInput input, ApiVersion? version);
+    SerializableGraphic ToEsriJson(ApiVersion? version, int wkid);
+    Feature ToGeoJson(ApiVersion? version, int wkid);
+}
+
+public interface IOutputConvertible {
     /// <summary>
     /// There are three output formats for the resulting street and zone geocoding. The **default** being empty.
     /// `esrijson` will parse into an `esri.Graphic` for mapping purposes and `geojson` will format as a
@@ -10,5 +18,5 @@ public class OptionBase {
     ///  be returned.
     /// </summary>
     [DefaultValue(JsonFormat.None)]
-    public JsonFormat Format { get; set; } = JsonFormat.None;
+    public JsonFormat Format { get; set; }
 }
