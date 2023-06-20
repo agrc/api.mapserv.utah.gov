@@ -1,9 +1,7 @@
 using System.Text.Json;
 using AGRC.api.Extensions;
-using AGRC.api.Features.GeometryService;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
-using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Http;
 
@@ -11,7 +9,7 @@ namespace AGRC.api.Features.Geocoding;
 public class ReverseGeocodeQuery {
     public class Query(double x, double y, ReverseGeocodeRequestOptionsContract options, JsonSerializerOptions jsonOptions) : IRequest<IResult> {
         public readonly ReverseGeocodeRequestOptionsContract _options = options;
-        public readonly Point _location = new(x, y);
+        public readonly PointWithSpatialReference _location = new(x, y, new(options.SpatialReference, null));
         public readonly JsonSerializerOptions _jsonOptions = jsonOptions;
     }
 
@@ -20,43 +18,14 @@ public class ReverseGeocodeQuery {
         private readonly IComputeMediator _computeMediator = computeMediator;
 
         public async Task<IResult> Handle(Query request, CancellationToken cancellationToken) {
-            var x = request._location.X;
-            var y = request._location.Y;
-
-            if (request._options.SpatialReference != 26912) {
-                var reprojectOptions = new PointReprojectOptions(request._options.SpatialReference, 26912, new[] { x, y });
-                var reprojectCommand = new Reproject.Computation(reprojectOptions);
-                var pointReprojectResponse = await _computeMediator.Handle(reprojectCommand, default);
-
-                if (pointReprojectResponse?.IsSuccessful != true ||
-                    !pointReprojectResponse.Geometries.Any()) {
-                    _log?.ForContext("location", request._location)
-                        .ForContext("options", request._options)
-                        .Fatal("reproject failed: {@error}", pointReprojectResponse?.Error);
-
-                    return TypedResults.Json(new ApiResponseContract {
-                        Message = "We could not reproject your input location. " +
-                                  "Please check your input coordinates and well known id value.",
-                        Status = StatusCodes.Status500InternalServerError
-                    }, request._jsonOptions, "application/json", StatusCodes.Status500InternalServerError);
-                }
-
-                var points = pointReprojectResponse.Geometries.FirstOrDefault();
-
-                if (points != null) {
-                    x = points.X;
-                    y = points.Y;
-                }
-            }
-
-            var createPlanComputation = new ReverseGeocodePlan.Computation(x, y, request._options.Distance, request._options.SpatialReference);
+            var createPlanComputation = new ReverseGeocodePlan.Computation(request._location, request._options.Distance, request._options.SpatialReference);
             var plan = await _computeMediator.Handle(createPlanComputation, default);
 
             if (plan?.Any() != true) {
                 _log?.Fatal("no plan generated");
 
                 return TypedResults.Json(new ApiResponseContract {
-                    Message = $"No address candidates found within {request._options.Distance} meters of {x}, {y}.",
+                    Message = $"No address candidates found within {request._options.Distance} meters of {request._location}.",
                     Status = StatusCodes.Status404NotFound
                 }, request._jsonOptions, "application/json", StatusCodes.Status404NotFound);
             }
@@ -68,7 +37,7 @@ public class ReverseGeocodeQuery {
 
                 if (response?.Address is null || string.IsNullOrEmpty(response.Address.Address)) {
                     return TypedResults.Json(new ApiResponseContract {
-                        Message = $"No address candidates found within {request._options.Distance} meters of {x}, {y}.",
+                        Message = $"No address candidates found within {request._options.Distance} meters of {request._location}.",
                         Status = StatusCodes.Status404NotFound
                     }, request._jsonOptions, "application/json", StatusCodes.Status404NotFound);
                 }
