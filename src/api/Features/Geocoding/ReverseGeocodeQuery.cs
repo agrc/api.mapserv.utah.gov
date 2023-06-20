@@ -1,9 +1,7 @@
-using System.Text.Json;
 using AGRC.api.Extensions;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ResponseContracts;
-using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Geocoding;
 public class ReverseGeocodeQuery {

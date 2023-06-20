@@ -4,7 +4,6 @@ using AGRC.api.Formatters;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
-using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Milepost;
 public class DominantRouteResolver {

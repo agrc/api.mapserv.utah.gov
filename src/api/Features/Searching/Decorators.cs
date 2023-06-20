@@ -1,4 +1,3 @@
-using System.Text.Json;
 using AGRC.api.Models;
 using AGRC.api.Models.ResponseContracts;
 

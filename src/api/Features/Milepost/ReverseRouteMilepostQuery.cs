@@ -1,12 +1,10 @@
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text.Json;
 using AGRC.api.Formatters;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.ResponseContracts;
-using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Milepost;
 public static class ReverseRouteMilepostQuery {

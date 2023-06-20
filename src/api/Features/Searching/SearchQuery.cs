@@ -2,8 +2,6 @@ using System.Net.Http;
 using AGRC.api.Features.Converting;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
-using Asp.Versioning;
-using Microsoft.AspNetCore.Http;
 using Npgsql;
 
 namespace AGRC.api.Features.Searching;

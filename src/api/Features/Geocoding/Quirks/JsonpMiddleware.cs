@@ -1,6 +1,4 @@
 using System.IO;
-using Asp.Versioning;
-using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Quirks;
 public class JsonpMiddleware(RequestDelegate next) {

@@ -5,7 +5,6 @@ using AGRC.api.Formatters;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
 using AGRC.api.Models.ArcGis;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
 namespace AGRC.api.Features.GeometryService;

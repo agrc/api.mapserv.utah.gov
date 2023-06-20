@@ -1,7 +1,6 @@
 using AGRC.api.Models;
 using AGRC.api.Models.ResponseContracts;
 using AGRC.api.Services;
-using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Middleware;
 

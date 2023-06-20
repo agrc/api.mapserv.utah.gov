@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http;
-
 namespace AGRC.api.Middleware;
 
 public interface IKeyProvider {
