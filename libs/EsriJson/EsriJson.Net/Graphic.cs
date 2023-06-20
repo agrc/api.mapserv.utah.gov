@@ -7,3 +7,8 @@ public class Graphic(EsriJsonObject geometry, Dictionary<string, object> attribu
 
     public EsriJsonObject Geometry { get; set; } = geometry;
 }
+
+public class SerializableGraphic(Graphic graphic) {
+    public Dictionary<string, object> Attributes { get; } = graphic.Attributes;
+    public object Geometry { get; set; } = graphic.Geometry;
+}
