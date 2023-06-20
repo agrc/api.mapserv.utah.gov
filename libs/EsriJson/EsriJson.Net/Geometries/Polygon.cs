@@ -22,10 +22,10 @@ public class Polygon : EsriJsonObject {
             if (length < 3)
                 throw new ArgumentException("Rings are made up of three or more points. Yours has less.");
 
-            var startpoint = ringPoints[0];
+            var startPoint = ringPoints[0];
             var endpoint = ringPoints[length - 1];
 
-            if (!startpoint.Equals(endpoint)) {
+            if (!startPoint.Equals(endpoint)) {
                 throw new ArgumentException(
                                             "A ring must be explicitly closed. The first and last point must be the same.");
             }
@@ -35,9 +35,7 @@ public class Polygon : EsriJsonObject {
     public void AddRing(IList<RingPoint[]> rings) {
         ValidateRings(rings);
 
-        foreach (var ring in rings) {
-            Rings.Add(ring);
-        }
+        Rings.AddRange(rings);
     }
 
     public override string Type => "polygon";
