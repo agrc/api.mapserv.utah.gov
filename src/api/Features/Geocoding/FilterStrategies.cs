@@ -7,11 +7,9 @@ public interface IFilterSuggestionFactory {
     IFilterSuggestionStrategy GetStrategy(int acceptScore);
 }
 
-public class FilterSuggestionFactory : IFilterSuggestionFactory {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    public FilterSuggestionFactory(IHttpContextAccessor accessor) {
-        _httpContextAccessor = accessor;
-    }
+public class FilterSuggestionFactory(IHttpContextAccessor accessor) : IFilterSuggestionFactory {
+    private readonly IHttpContextAccessor _httpContextAccessor = accessor;
+
     public IFilterSuggestionStrategy GetStrategy(int acceptScore) {
         var version = _httpContextAccessor.HttpContext!.GetRequestedApiVersion();
 
@@ -32,13 +30,9 @@ public class FilterStrategyV1 : IFilterSuggestionStrategy {
         => candidates;
 }
 
-public class FilterStrategyV2 : IFilterSuggestionStrategy {
-    private readonly int acceptScore;
-
-    public FilterStrategyV2(int acceptScore) {
-        this.acceptScore = acceptScore;
-    }
+public class FilterStrategyV2(int acceptScore) : IFilterSuggestionStrategy {
+    private readonly int _acceptScore = acceptScore;
 
     public IReadOnlyCollection<Candidate> Filter(IReadOnlyCollection<Candidate> candidates)
-        => candidates.Where(x => x.Score > acceptScore).ToList();
+        => candidates.Where(x => x.Score > _acceptScore).ToList();
 }

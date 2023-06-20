@@ -1,5 +1,5 @@
 namespace AGRC.api.Models.ArcGis;
-public class Concurrencies {
+public static class Concurrencies {
     public class RequestContract {
         public RequestLocation[] Locations { get; set; } = Array.Empty<RequestLocation>();
 

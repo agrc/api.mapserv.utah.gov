@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Models.ArcGis;
-public class GeometryToMeasure {
+public static class GeometryToMeasure {
     public class RequestContract {
         /// <summary>
         ///  [{"geometry":{"x":423622,"y":4509387}}]
         /// </summary>
-        /// <value></value>
         public RequestLocation[] Locations { get; set; } = Array.Empty<RequestLocation>();
         public double Tolerance { get; set; }
         public int OutSr { get; set; } = 26912;

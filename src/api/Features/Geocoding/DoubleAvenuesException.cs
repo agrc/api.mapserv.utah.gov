@@ -4,16 +4,11 @@ using AGRC.api.Models.Constants;
 
 namespace AGRC.api.Features.Geocoding;
 public class DoubleAvenuesException {
-    public class Decorator : IComputationHandler<ZoneParsing.Computation, Address> {
-        private readonly IComputationHandler<ZoneParsing.Computation, Address> _decorated;
-        private readonly ILogger? _log;
-        private readonly Regex _ordinal;
+    public class Decorator(IComputationHandler<ZoneParsing.Computation, Address> decorated, IRegexCache cache, ILogger log) : IComputationHandler<ZoneParsing.Computation, Address> {
+        private readonly IComputationHandler<ZoneParsing.Computation, Address> _decorated = decorated;
+        private readonly ILogger? _log = log?.ForContext<DoubleAvenuesException>();
+        private readonly Regex _ordinal = cache.Get("avesOrdinal");
 
-        public Decorator(IComputationHandler<ZoneParsing.Computation, Address> decorated, IRegexCache cache, ILogger log) {
-            _log = log?.ForContext<DoubleAvenuesException>();
-            _ordinal = cache.Get("avesOrdinal");
-            _decorated = decorated;
-        }
         public async Task<Address> Handle(ZoneParsing.Computation computation, CancellationToken cancellationToken) {
             var response = await _decorated.Handle(computation, cancellationToken);
 

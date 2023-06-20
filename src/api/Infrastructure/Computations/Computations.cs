@@ -17,12 +17,8 @@ public interface IComputeMediator {
     Task<TResult> Handle<TResult>(IComputation<TResult> command, CancellationToken cancellationToken);
 }
 
-public class ComputeMediator : IComputeMediator {
-    public ComputeMediator(Func<Type, object> resolver) {
-        Resolver = resolver;
-    }
-
-    private Func<Type, object> Resolver { get; }
+public class ComputeMediator(Func<Type, object> resolver) : IComputeMediator {
+    private Func<Type, object> Resolver { get; } = resolver;
 
     public Task<TResult> Handle<TResult>(IComputation<TResult> command, CancellationToken cancellationToken) {
         var commandType = command.GetType();

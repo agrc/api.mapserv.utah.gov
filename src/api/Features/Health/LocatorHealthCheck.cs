@@ -8,23 +8,15 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 
 namespace AGRC.api.Features.Health;
-public class LocatorHealthCheck : IHealthCheck {
+public class LocatorHealthCheck(IOptions<List<LocatorConfiguration>> options, IHttpClientFactory factory, ILogger log) : IHealthCheck {
     public string Name => nameof(LocatorHealthCheck);
 
-    private readonly HttpClient _client;
-    private readonly MediaTypeFormatter[] _mediaTypes;
-    private readonly List<LocatorConfiguration> _locatorMetadata;
-    private readonly ILogger? _log;
-
-    public LocatorHealthCheck(IOptions<List<LocatorConfiguration>> options, IHttpClientFactory factory, ILogger log) {
-        _client = factory.CreateClient("health-check");
-        _mediaTypes = new MediaTypeFormatter[] {
+    private readonly HttpClient _client = factory.CreateClient("health-check");
+    private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
             new TextPlainResponseFormatter()
         };
-
-        _locatorMetadata = options.Value;
-        _log = log?.ForContext<LocatorHealthCheck>();
-    }
+    private readonly List<LocatorConfiguration> _locatorMetadata = options.Value;
+    private readonly ILogger? _log = log?.ForContext<LocatorHealthCheck>();
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext _, CancellationToken cancellationToken = default) {
         var results = new Dictionary<string, HealthCheckResult>(_locatorMetadata.Count);

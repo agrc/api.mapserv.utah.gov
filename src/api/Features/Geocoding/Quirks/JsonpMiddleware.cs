@@ -3,12 +3,8 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Quirks;
-public class JsonpMiddleware {
-    private readonly RequestDelegate _next;
-
-    public JsonpMiddleware(RequestDelegate next) {
-        _next = next;
-    }
+public class JsonpMiddleware(RequestDelegate next) {
+    private readonly RequestDelegate _next = next;
 
     public async Task InvokeAsync(HttpContext context) {
         var version = context.GetRequestedApiVersion()!;

@@ -3,12 +3,9 @@ using Google.Cloud.Firestore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace AGRC.api.Features.Health;
-public class KeyStoreHealthCheck : IHealthCheck {
-    private readonly FirestoreDb _db;
+public class KeyStoreHealthCheck(FirestoreDb singleton) : IHealthCheck {
+    private readonly FirestoreDb _db = singleton;
 
-    public KeyStoreHealthCheck(FirestoreDb singleton) {
-        _db = singleton;
-    }
     public string Name => nameof(KeyStoreHealthCheck);
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {

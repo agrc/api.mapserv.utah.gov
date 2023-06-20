@@ -8,18 +8,13 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 
 namespace AGRC.api.Features.Health;
-public class GeometryServiceHealthCheck : IHealthCheck {
-    private readonly string _url;
-    private readonly HttpClient _client;
-    private readonly MediaTypeFormatter[] _mediaTypes;
-
-    public GeometryServiceHealthCheck(IOptions<GeometryServiceConfiguration> dbOptions, IHttpClientFactory factory) {
-        _url = $"{dbOptions.Value.GetHost()}{dbOptions.Value.Path}?f=json";
-        _client = factory.CreateClient("health-check");
-        _mediaTypes = new MediaTypeFormatter[] {
+public class GeometryServiceHealthCheck(IOptions<GeometryServiceConfiguration> dbOptions, IHttpClientFactory factory) : IHealthCheck {
+    private readonly string _url = $"{dbOptions.Value.GetHost()}{dbOptions.Value.Path}?f=json";
+    private readonly HttpClient _client = factory.CreateClient("health-check");
+    private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
             new TextPlainResponseFormatter()
         };
-    }
+
     public string Name => nameof(GeometryServiceHealthCheck);
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) {

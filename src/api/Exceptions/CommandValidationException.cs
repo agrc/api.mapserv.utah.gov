@@ -1,6 +1,2 @@
 namespace AGRC.api.Exceptions;
-public class CommandValidationException : Exception {
-    public CommandValidationException(string message)
-        : base(message) {
-    }
-}
+public class CommandValidationException(string message) : Exception(message) { }

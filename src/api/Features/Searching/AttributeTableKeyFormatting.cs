@@ -2,7 +2,7 @@ using AGRC.api.Infrastructure;
 using AGRC.api.Models.Constants;
 
 namespace AGRC.api.Features.Searching;
-public class AttributeTableKeyFormatting {
+public static class AttributeTableKeyFormatting {
     public class Decorator(IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?> decorated) : IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?> {
         private readonly IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?> _decorated = decorated;
 

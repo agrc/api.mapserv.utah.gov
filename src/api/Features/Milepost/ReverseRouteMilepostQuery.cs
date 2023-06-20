@@ -9,7 +9,7 @@ using AGRC.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Milepost;
-public class ReverseRouteMilepostQuery {
+public static class ReverseRouteMilepostQuery {
     public class Query(double x, double y, ReverseRouteMilepostRequestOptionsContract options, JsonSerializerOptions jsonOptions) : IRequest<IResult> {
         public readonly double _x = x;
         public readonly double _y = y;

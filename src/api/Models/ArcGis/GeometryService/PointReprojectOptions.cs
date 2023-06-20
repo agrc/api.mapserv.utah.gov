@@ -1,20 +1,14 @@
 using System.Text.Json.Serialization;
 
 namespace AGRC.api.Models.ArcGis;
-public class PointReprojectOptions {
-    public PointReprojectOptions(int currentSpatialReference, int reprojectToSpatialReference,
-                                 IReadOnlyCollection<double> coordinates) {
-        CurrentSpatialReference = currentSpatialReference;
-        ReprojectToSpatialReference = reprojectToSpatialReference;
-        Coordinates = coordinates;
-    }
-
+public class PointReprojectOptions(int currentSpatialReference, int reprojectToSpatialReference,
+                             IReadOnlyCollection<double> coordinates) {
     [JsonPropertyName("inSR")]
-    public int CurrentSpatialReference { get; }
+    public int CurrentSpatialReference { get; } = currentSpatialReference;
 
     [JsonPropertyName("outSR")]
-    public int ReprojectToSpatialReference { get; }
+    public int ReprojectToSpatialReference { get; } = reprojectToSpatialReference;
 
     [JsonPropertyName("geometries")]
-    public IReadOnlyCollection<double> Coordinates { get; }
+    public IReadOnlyCollection<double> Coordinates { get; } = coordinates;
 }

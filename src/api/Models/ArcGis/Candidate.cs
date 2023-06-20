@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace AGRC.api.Models.ArcGis;
 public class Candidate {
     private string _address = string.Empty;
-    private string addressGrid = string.Empty;
+    private string _addressGrid = string.Empty;
 
     public Candidate(string address, string grid, Point location, double score, string locator, int weight) {
         Address = address;
@@ -62,7 +62,7 @@ public class Candidate {
 
     public string Locator { get; set; }
 
-    public string AddressGrid { get => addressGrid; set => addressGrid = value.ToUpperInvariant(); }
+    public string AddressGrid { get => _addressGrid; set => _addressGrid = value.ToUpperInvariant(); }
 
     [JsonIgnore]
     public int Weight { get; set; }

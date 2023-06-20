@@ -3,12 +3,9 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using StackExchange.Redis;
 
 namespace AGRC.api.Features.Health;
-public class CacheHealthCheck : IHealthCheck {
-    private readonly IDatabase _db;
+public class CacheHealthCheck(Lazy<IConnectionMultiplexer> redis) : IHealthCheck {
+    private readonly IDatabase _db = redis.Value.GetDatabase();
 
-    public CacheHealthCheck(Lazy<IConnectionMultiplexer> redis) {
-        _db = redis.Value.GetDatabase();
-    }
     public string Name => nameof(CacheHealthCheck);
 
     public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext _, CancellationToken token = default) {

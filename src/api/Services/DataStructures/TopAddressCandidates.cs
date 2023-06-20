@@ -1,11 +1,7 @@
 using AGRC.api.Models.ArcGis;
 
 namespace AGRC.api.Services;
-public class TopAddressCandidates : TopNList<Candidate> {
-    public TopAddressCandidates(int size, IComparer<Candidate> comparer)
-        : base(ChooseSize(size), comparer) {
-    }
-
+public class TopAddressCandidates(int size, IComparer<Candidate> comparer) : TopNList<Candidate>(ChooseSize(size), comparer) {
     private static int ChooseSize(int size) {
         // allow score difference calculation for when no suggestion is selected
         if (size == 0) {
