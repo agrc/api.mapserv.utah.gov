@@ -10,4 +10,10 @@ public static class HttpContextHelpers {
 
         return httpContext;
     }
+    public static HttpContext GenerateContextFor(string query, int version) {
+        var context = CreateVersionedHttpContext(version);
+        context.Request.QueryString = new QueryString(query);
+
+        return context;
+    }
 }

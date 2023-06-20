@@ -1,148 +1,122 @@
+using AGRC.api.Features.Converting;
 using AGRC.api.Features.Searching;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace api.tests.Features.Searching;
 public class SearchQueryValidationTests {
     private readonly ILogger _logger;
-    private readonly Mock<RequestHandlerDelegate<IApiResponse>> delegateMock;
-    private readonly IComputeMediator mediator;
+    private readonly IComputeMediator _mediator;
+    private readonly ApiVersion _version = new(1, 0);
+    private readonly IJsonSerializerOptionsFactory _jsonFactory;
+
     public SearchQueryValidationTests() {
         _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
 
-        delegateMock = new Mock<RequestHandlerDelegate<IApiResponse>>();
-        delegateMock.Setup(x => x());
-
-        var _mediator = new Mock<IComputeMediator>();
-        _mediator.Setup(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
+        var mediator = new Mock<IComputeMediator>();
+        mediator.Setup(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
-        mediator = _mediator.Object;
+        _mediator = mediator.Object;
+        var jsonFactory = new Mock<IJsonSerializerOptionsFactory>();
+        jsonFactory.Setup(x => x.GetSerializerOptionsFor(It.IsAny<ApiVersion>())).Returns(new JsonSerializerOptions());
+
+        _jsonFactory = jsonFactory.Object;
     }
 
-    // [Fact]
-    // public async Task Should_fail_with_no_table_name() {
-    //     var query = new SearchQuery.Query(string.Empty, "return,values", new(new()));
+    private static EndpointFilterInvocationContext GetEndpointContext(params object[] arguments) =>
+      new DefaultEndpointFilterInvocationContext(new DefaultHttpContext(), arguments);
 
-    //     var handler = new SearchQuery.ValidationFilter(mediator, _logger);
-    //     var result = await handler.InvokeAsync(query, delegateMock.Object, CancellationToken.None) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
+    [Fact]
+    public async Task Should_fail_with_no_table_name() {
+        var context = GetEndpointContext(string.Empty, "return,values", new SearchOptions(new()));
 
-    //     delegateMock.Verify(x => x(), Times.Never);
-    //     result.StatusCode.ShouldBe(400);
-    //     result.Value.ShouldBeAssignableTo<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>();
+        var filter = new SearchQuery.ValidationFilter(_mediator, _jsonFactory, _version, _logger);
+        var result = await filter.InvokeAsync(context, (_) => new ValueTask<object>()) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
 
-    //     var response = result.Value;
-    //     response.Status.ShouldBe(400);
-    //     response.Message.ShouldBe("tableName is a required field. Input was empty. ");
-    // }
+        result.StatusCode.ShouldBe(400);
+        result.Value.Status.ShouldBe(400);
+        result.Value.Message.ShouldBe("tableName is a required field. Input was empty. ");
+    }
 
-    // [Fact]
-    // public async Task Should_fail_with_jerk_table_name() {
-    //     var query = new SearchQuery.Query("jerk", "return,values", new(new()));
+    [Fact]
+    public async Task Should_fail_with_jerk_table_name() {
+        var context = GetEndpointContext("jerk", "return,values", new SearchOptions(new()));
 
-    //     var _mediator = new Mock<IComputeMediator>();
-    //     _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
-    //             .ReturnsAsync(true)
-    //             .ReturnsAsync(false)
-    //             .ReturnsAsync(false);
+        var _mediator = new Mock<IComputeMediator>();
+        _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true)
+                .ReturnsAsync(false)
+                .ReturnsAsync(false);
 
-    //     var handler = new SearchQuery.ValidationFilter(_mediator.Object, _logger);
-    //     var result = await handler.InvokeAsync(query, delegateMock.Object, CancellationToken.None) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
+        var filter = new SearchQuery.ValidationFilter(_mediator.Object, _jsonFactory, _version, _logger);
+        var result = await filter.InvokeAsync(context, (_) => new ValueTask<object>()) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
 
-    //     delegateMock.Verify(x => x(), Times.Never);
-    //     result.StatusCode.ShouldBe(400);
-    //     result.Value.ShouldBeAssignableTo<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>();
+        result.StatusCode.ShouldBe(400);
+        result.Value.Status.ShouldBe(400);
+        result.Value.Message.ShouldBe("tableName contains unsafe characters. Don't be a jerk. ");
+    }
 
-    //     var response = result.Value;
-    //     response.Status.ShouldBe(400);
-    //     response.Message.ShouldBe("tableName contains unsafe characters. Don't be a jerk. ");
-    // }
+    [Fact]
+    public async Task Should_fail_with_no_return_values() {
+        var context = GetEndpointContext("table", string.Empty, new SearchOptions(new()));
 
-    // [Fact]
-    // public async Task Should_fail_with_no_return_values() {
-    //     var query = new SearchQuery.Query("table", string.Empty, new(new()));
+        var filter = new SearchQuery.ValidationFilter(_mediator, _jsonFactory, _version, _logger);
+        var result = await filter.InvokeAsync(context, (_) => new ValueTask<object>()) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
 
-    //     var handler = new SearchQuery.ValidationFilter(mediator, _logger);
-    //     var result = await handler.InvokeAsync(query, delegateMock.Object, CancellationToken.None) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
+        result.StatusCode.ShouldBe(400);
+        result.Value.Status.ShouldBe(400);
+        result.Value.Message.ShouldBe("returnValues is a required field. Input was empty. ");
+    }
 
-    //     delegateMock.Verify(x => x(), Times.Never);
-    //     result.StatusCode.ShouldBe(400);
-    //     result.Value.ShouldBeAssignableTo<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>();
+    [Fact]
+    public async Task Should_fail_with_jerk_return_value() {
+        var context = GetEndpointContext("table", "jerk", new SearchOptions(new()));
 
-    //     var response = result.Value;
-    //     response.Status.ShouldBe(400);
-    //     response.Message.ShouldBe("returnValues is a required field. Input was empty. ");
-    // }
+        var _mediator = new Mock<IComputeMediator>();
+        _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false)
+                .ReturnsAsync(true)
+                .ReturnsAsync(false);
 
-    // [Fact]
-    // public async Task Should_fail_with_jerk_return_value() {
-    //     var query = new SearchQuery.Query("table", "jerk", new(new()));
+        var filter = new SearchQuery.ValidationFilter(_mediator.Object, _jsonFactory, _version, _logger);
+        var result = await filter.InvokeAsync(context, (_) => new ValueTask<object>()) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
 
-    //     var _mediator = new Mock<IComputeMediator>();
-    //     _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
-    //             .ReturnsAsync(false)
-    //             .ReturnsAsync(true)
-    //             .ReturnsAsync(false);
+        result.StatusCode.ShouldBe(400);
+        result.Value.Status.ShouldBe(400);
+        result.Value.Message.ShouldBe("returnValues contains unsafe characters. Don't be a jerk. ");
+    }
 
-    //     var handler = new SearchQuery.ValidationFilter(_mediator.Object, _logger);
-    //     var result = await handler.InvokeAsync(query, delegateMock.Object, CancellationToken.None) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
+    [Fact]
+    public async Task Should_fail_with_empty_options() {
+        var context = GetEndpointContext("table_not_found", "return,values", null);
 
-    //     delegateMock.Verify(x => x(), Times.Never);
-    //     result.StatusCode.ShouldBe(400);
-    //     result.Value.ShouldBeAssignableTo<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>();
+        var filter = new SearchQuery.ValidationFilter(_mediator, _jsonFactory, _version, _logger);
+        var result = await filter.InvokeAsync(context, (_) => new ValueTask<object>()) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
 
-    //     var response = result.Value;
-    //     response.Status.ShouldBe(400);
-    //     response.Message.ShouldBe("returnValues contains unsafe characters. Don't be a jerk. ");
-    // }
+        result.StatusCode.ShouldBe(400);
+        result.Value.Status.ShouldBe(400);
+        result.Value.Message.ShouldBe("Search options did not bind correctly. Sorry. ");
+    }
 
-    // [Fact]
-    // public async Task Should_fail_with_empty_options() {
-    //     var query = new SearchQuery.Query("table_not_found", "return,values", null);
+    [Fact]
+    public async Task Should_fail_with_jerk_predicate() {
+        var context = GetEndpointContext("table", "value", new SearchOptions(new SearchRequestOptionsContract {
+            Predicate = "jerk"
+        }));
 
-    //     var handler = new SearchQuery.ValidationFilter(mediator, _logger);
-    //     var result = await handler.InvokeAsync(query, delegateMock.Object, CancellationToken.None) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
+        var _mediator = new Mock<IComputeMediator>();
+        _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false)
+                .ReturnsAsync(false)
+                .ReturnsAsync(true);
 
-    //     delegateMock.Verify(x => x(), Times.Never);
-    //     result.StatusCode.ShouldBe(400);
-    //     result.Value.ShouldBeAssignableTo<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>();
+        var filter = new SearchQuery.ValidationFilter(_mediator.Object, _jsonFactory, _version, _logger);
+        var result = await filter.InvokeAsync(context, (_) => new ValueTask<object>()) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
 
-    //     var response = result.Value;
-    //     response.Status.ShouldBe(400);
-    //     response.Message.ShouldBe("Search options did not bind correctly. Sorry. ");
-    // }
-
-    // [Fact]
-    // public async Task Should_fail_with_jerk_predicate() {
-    //     var query = new SearchQuery.Query("table", "value", new(new SearchRequestOptionsContract {
-    //         Predicate = "jerk"
-    //     }));
-
-    //     var _mediator = new Mock<IComputeMediator>();
-    //     _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
-    //             .ReturnsAsync(false)
-    //             .ReturnsAsync(false)
-    //             .ReturnsAsync(true);
-
-    //     var handler = new SearchQuery.ValidationFilter(_mediator.Object, _logger);
-    //     var result = await handler.InvokeAsync(query, delegateMock.Object, CancellationToken.None) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
-
-    //     delegateMock.Verify(x => x(), Times.Never);
-    //     result.StatusCode.ShouldBe(400);
-    //     result.Value.ShouldBeAssignableTo<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>();
-
-    //     var response = result.Value;
-    //     response.Status.ShouldBe(400);
-    //     response.Message.ShouldBe("Predicate contains unsafe characters. Don't be a jerk. ");
-    // }
-
-    // [Fact]
-    // public async Task Should_call_next_with_no_errors() {
-    //     var query = new SearchQuery.Query("table_not_found", "return,values", new(new()));
-
-    //     var handler = new SearchQuery.ValidationFilter(mediator, _logger);
-    //     var result = await handler.InvokeAsync();
-
-    //     delegateMock.Verify(x => x(), Times.Once);
-    // }
+        result.StatusCode.ShouldBe(400);
+        result.Value.Status.ShouldBe(400);
+        result.Value.Message.ShouldBe("Predicate contains unsafe characters. Don't be a jerk. ");
+    }
 }
