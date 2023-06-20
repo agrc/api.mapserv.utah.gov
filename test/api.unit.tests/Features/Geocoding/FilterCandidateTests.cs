@@ -5,18 +5,18 @@ using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.Linkables;
 
 namespace api.tests.Features.Geocoding;
-public class FilterCandidateTests {
+public static class FilterCandidateTests {
     static FilterCandidateTests() {
         var logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
         var filterStrategyFactory = Mock.Of<IFilterSuggestionFactory>(x => x.GetStrategy(It.IsAny<int>()) == new FilterStrategyV1());
         var v2FilterStrategyFactory = Mock.Of<IFilterSuggestionFactory>(x => x.GetStrategy(It.IsAny<int>()) == new FilterStrategyV2(It.IsAny<int>()));
 
-        V1Handler = new FilterCandidates.Handler(filterStrategyFactory, logger.Object);
-        V2Handler = new FilterCandidates.Handler(v2FilterStrategyFactory, logger.Object);
+        _v1Handler = new FilterCandidates.Handler(filterStrategyFactory, logger.Object);
+        _v2Handler = new FilterCandidates.Handler(v2FilterStrategyFactory, logger.Object);
     }
 
-    internal static IComputationHandler<FilterCandidates.Computation, SingleGeocodeResponseContract> V1Handler;
-    internal static IComputationHandler<FilterCandidates.Computation, SingleGeocodeResponseContract> V2Handler;
+    internal static IComputationHandler<FilterCandidates.Computation, SingleGeocodeResponseContract> _v1Handler;
+    internal static IComputationHandler<FilterCandidates.Computation, SingleGeocodeResponseContract> _v2Handler;
 
     public class AcceptScoreTests {
         [Fact]
@@ -48,7 +48,7 @@ public class FilterCandidateTests {
             var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
             var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
-            var result = await V1Handler.Handle(request, CancellationToken.None);
+            var result = await _v1Handler.Handle(request, CancellationToken.None);
 
             result.Candidates.ShouldHaveSingleItem();
             result.Candidates.First().Address.ShouldBe("not-removed");
@@ -84,7 +84,7 @@ public class FilterCandidateTests {
             var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
             var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
-            var result = await V2Handler.Handle(request, CancellationToken.None);
+            var result = await _v2Handler.Handle(request, CancellationToken.None);
 
             result.Candidates.ShouldBeEmpty();
             result.MatchAddress.ShouldBe("winner");
@@ -127,7 +127,7 @@ public class FilterCandidateTests {
             var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
             var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
-            var result = await V1Handler.Handle(request, CancellationToken.None);
+            var result = await _v1Handler.Handle(request, CancellationToken.None);
 
             result.Candidates.Count.ShouldBe(2);
             result.Candidates.First().Address.ShouldBe("suggest");
@@ -172,7 +172,7 @@ public class FilterCandidateTests {
             var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
             var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
-            var result = await V2Handler.Handle(request, CancellationToken.None);
+            var result = await _v2Handler.Handle(request, CancellationToken.None);
 
             result.Candidates.ShouldHaveSingleItem();
             result.Candidates.First().Address.ShouldBe("suggest");
@@ -207,7 +207,7 @@ public class FilterCandidateTests {
             var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
             var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
-            var result = await V1Handler.Handle(request, CancellationToken.None);
+            var result = await _v1Handler.Handle(request, CancellationToken.None);
 
             result.Candidates.ShouldBeNull();
         }
@@ -243,7 +243,7 @@ public class FilterCandidateTests {
             var address = new[] { new ZipGridLink(0, "grid", 0) }.CreateAddress();
 
             var request = new FilterCandidates.Computation(candidates, options, "street", "zone", address);
-            var result = await V1Handler.Handle(request, CancellationToken.None);
+            var result = await _v1Handler.Handle(request, CancellationToken.None);
 
             result.Candidates.ShouldBeNull();
             result.ScoreDifference.ShouldBe(9);
@@ -254,7 +254,7 @@ public class FilterCandidateTests {
         [Fact]
         public async Task Should_return_default_empty_response_when_no_candidates() {
             var request = new FilterCandidates.Computation(Array.Empty<Candidate>(), null, "street", "zone", null);
-            var result = await V1Handler.Handle(request, CancellationToken.None);
+            var result = await _v1Handler.Handle(request, CancellationToken.None);
 
             result.InputAddress.ShouldBe("street, zone");
             result.Score.ShouldBe(-1);
@@ -263,7 +263,7 @@ public class FilterCandidateTests {
         [Fact]
         public async Task Should_return_default_empty_response_when_null_candidates() {
             var request = new FilterCandidates.Computation(null, null, "street", "zone", null);
-            var result = await V1Handler.Handle(request, CancellationToken.None);
+            var result = await _v1Handler.Handle(request, CancellationToken.None);
 
             result.InputAddress.ShouldBe("street, zone");
             result.Score.ShouldBe(-1);

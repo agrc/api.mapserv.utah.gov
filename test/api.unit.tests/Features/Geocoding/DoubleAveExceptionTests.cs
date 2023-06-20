@@ -16,7 +16,7 @@ public class DoubleAveExceptionTests {
 
         mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(), It.IsAny<CancellationToken>()))
                 .Returns((AddressSystemFromPlace.Computation g, CancellationToken _) => {
-                    if (g?.CityKey == "slc") {
+                    if (g?._cityKey == "slc") {
                         return Task.FromResult(new[] { new PlaceGridLink("slc", "salt lake city", 1) } as
                                                    IReadOnlyCollection<GridLinkable>);
                     }

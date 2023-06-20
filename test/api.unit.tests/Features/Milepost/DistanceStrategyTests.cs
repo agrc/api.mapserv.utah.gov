@@ -2,7 +2,7 @@ using AGRC.api.Features.Milepost;
 using AGRC.api.Models;
 
 namespace api.tests.Features.Milepost;
-public class DistanceStrategyTests {
+public static class DistanceStrategyTests {
     public class PythagoreanDistanceTests {
         private readonly IDistanceStrategy _patient;
 

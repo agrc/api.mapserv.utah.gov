@@ -2,7 +2,7 @@ using System.Net;
 using AGRC.api.Models.ArcGis;
 
 namespace AGRC.api.Features.Milepost;
-public class DominantRouteResolverTests {
+public static class DominantRouteResolverTests {
     public class ComputationTests {
         [Fact]
         public async Task Should_build_route_map_for_every_location() {

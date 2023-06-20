@@ -88,7 +88,7 @@ public class SearchQueryTests {
     public async Task Should_handle_invalid_predicate() {
         var query = new SearchQuery.Query("table", "field", new(new SearchRequestOptionsContract {
             Predicate = "bad predicate"
-        })); ;
+        }));
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))

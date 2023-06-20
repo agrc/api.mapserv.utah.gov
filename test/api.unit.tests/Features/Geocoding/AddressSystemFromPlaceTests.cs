@@ -16,16 +16,16 @@ public class AddressSystemFromPlaceTests {
         var redisCache = new RedisCacheRepository(new Lazy<IConnectionMultiplexer>(() => mockConnection.Object));
         var mockLogger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
-        Handler = new AddressSystemFromPlace.Handler(redisCache, mockLogger.Object);
+        _handler = new AddressSystemFromPlace.Handler(redisCache, mockLogger.Object);
     }
 
-    internal static IComputationHandler<AddressSystemFromPlace.Computation, IReadOnlyCollection<GridLinkable>> Handler;
+    internal static IComputationHandler<AddressSystemFromPlace.Computation, IReadOnlyCollection<GridLinkable>> _handler;
 
     [Fact]
     public async Task Should_return_empty_when_zip_is_null() {
         var place = string.Empty;
         var request = new AddressSystemFromPlace.Computation(place);
-        var result = await Handler.Handle(request, CancellationToken.None);
+        var result = await _handler.Handle(request, CancellationToken.None);
 
         result.ShouldBeEmpty();
     }
@@ -33,7 +33,7 @@ public class AddressSystemFromPlaceTests {
     [Fact]
     public async Task Should_return_empty_when_zip_not_found() {
         var request = new AddressSystemFromPlace.Computation("other place");
-        var result = await Handler.Handle(request, CancellationToken.None);
+        var result = await _handler.Handle(request, CancellationToken.None);
 
         result.ShouldBeEmpty();
     }
@@ -41,7 +41,7 @@ public class AddressSystemFromPlaceTests {
     [Fact]
     public async Task Should_return_grid_from_place() {
         var request = new AddressSystemFromPlace.Computation("place");
-        var result = await Handler.Handle(request, CancellationToken.None);
+        var result = await _handler.Handle(request, CancellationToken.None);
 
         result.Count.ShouldBe(1);
         result.First().Grid.ShouldBe("grid");

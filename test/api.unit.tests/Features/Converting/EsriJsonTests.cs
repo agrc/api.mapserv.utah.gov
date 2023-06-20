@@ -1,4 +1,3 @@
-using AGRC.api.Features.Converting;
 using AGRC.api.Features.Geocoding;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models;
@@ -7,8 +6,8 @@ using static AGRC.api.Features.Converting.EsriGraphic;
 
 namespace api.tests.Features.Converting;
 public class EsriJsonTests {
-    private readonly IComputationHandler<EsriGraphic.Computation, EsriGraphic.SerializableGraphic> _handler =
-        new EsriGraphic.Handler(new Mock<ILogger> { DefaultValue = DefaultValue.Mock }.Object);
+    private readonly IComputationHandler<Computation, SerializableGraphic> _handler =
+        new Handler(new Mock<ILogger> { DefaultValue = DefaultValue.Mock }.Object);
 
     [Fact]
     public async Task Should_convert_to_esri_graphic() {
@@ -23,7 +22,7 @@ public class EsriJsonTests {
             ScoreDifference = null
         };
 
-        var request = new EsriGraphic.Computation(responseContainer, new ApiVersion(2, 0));
+        var request = new Computation(responseContainer, new ApiVersion(2, 0));
         var result = await _handler.Handle(request, new CancellationToken());
 
         var options = new JsonSerializerOptions {
@@ -42,7 +41,7 @@ public class EsriJsonTests {
     public async Task Should_handle_address_not_found() {
         var responseContainer = new SingleGeocodeResponseContract();
 
-        var request = new EsriGraphic.Computation(responseContainer, new ApiVersion(2, 0));
+        var request = new Computation(responseContainer, new ApiVersion(2, 0));
         var result = await _handler.Handle(request, new CancellationToken());
 
         result.ShouldBeEquivalentTo(new SerializableGraphic(new Graphic(null, null)));

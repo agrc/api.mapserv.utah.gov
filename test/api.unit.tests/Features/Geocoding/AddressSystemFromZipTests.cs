@@ -5,7 +5,7 @@ using AGRC.api.Models.Linkables;
 
 namespace api.tests.Features.Geocoding;
 public class AddressSystemFromZipTests {
-    internal static IComputationHandler<AddressSystemFromZipCode.Computation, IReadOnlyCollection<GridLinkable>> Handler;
+    internal static IComputationHandler<AddressSystemFromZipCode.Computation, IReadOnlyCollection<GridLinkable>> _handler;
 
     public AddressSystemFromZipTests() {
         var mockDb = new Mock<IDatabase>();
@@ -18,13 +18,13 @@ public class AddressSystemFromZipTests {
         var redisCache = new RedisCacheRepository(new Lazy<IConnectionMultiplexer>(() => mockConnection.Object));
         var mockLogger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
-        Handler = new AddressSystemFromZipCode.Handler(redisCache, mockLogger.Object);
+        _handler = new AddressSystemFromZipCode.Handler(redisCache, mockLogger.Object);
     }
 
     [Fact]
     public async Task Should_return_grid_from_zip() {
         var request = new AddressSystemFromZipCode.Computation(1);
-        var result = await Handler.Handle(request, CancellationToken.None);
+        var result = await _handler.Handle(request, CancellationToken.None);
 
         result.Count.ShouldBe(1);
         result.First().Grid.ShouldBe("grid");
@@ -33,7 +33,7 @@ public class AddressSystemFromZipTests {
     [Fact]
     public async Task Should_return_empty_when_zip_not_found() {
         var request = new AddressSystemFromZipCode.Computation(0);
-        var result = await Handler.Handle(request, CancellationToken.None);
+        var result = await _handler.Handle(request, CancellationToken.None);
 
         result.ShouldBeEmpty();
     }
@@ -41,7 +41,7 @@ public class AddressSystemFromZipTests {
     [Fact]
     public async Task Should_return_empty_when_zip_is_null() {
         var request = new AddressSystemFromZipCode.Computation(null);
-        var result = await Handler.Handle(request, CancellationToken.None);
+        var result = await _handler.Handle(request, CancellationToken.None);
 
         result.ShouldBeEmpty();
     }

@@ -4,18 +4,18 @@ using AGRC.api.Models.Constants;
 using AGRC.api.Models.Linkables;
 
 namespace api.tests.Features.Geocoding;
-public class LocatorsForTests {
+public static class LocatorsForTests {
     public class LocatorsForReverseGeocodingTests {
         public LocatorsForReverseGeocodingTests() {
             var options = new Mock<IOptions<List<ReverseLocatorConfiguration>>>();
-            handler = new ReverseGeocodePlan.Handler(options.Object);
+            _handler = new ReverseGeocodePlan.Handler(options.Object);
         }
 
-        internal IComputationHandler<ReverseGeocodePlan.Computation, IReadOnlyCollection<LocatorProperties>> handler;
+        internal IComputationHandler<ReverseGeocodePlan.Computation, IReadOnlyCollection<LocatorProperties>> _handler;
 
         [Fact]
         public async Task Should_return_centerline_geocoder_only() {
-            var request = new ReverseGeocodePlan.Computation(1, 2, 3, 4);
+            var request = new ReverseGeocodePlan.Computation(new(1, 2, new(3, null)), 4, 5);
             var options = new Mock<IOptions<List<ReverseLocatorConfiguration>>>();
             options.Setup(x => x.Value).Returns(new List<ReverseLocatorConfiguration> {
                 new ReverseLocatorConfiguration {
@@ -35,14 +35,14 @@ public class LocatorsForTests {
                 }
             });
 
-            handler = new ReverseGeocodePlan.Handler(options.Object);
+            _handler = new ReverseGeocodePlan.Handler(options.Object);
 
-            var result = await handler.Handle(request, CancellationToken.None);
+            var result = await _handler.Handle(request, CancellationToken.None);
 
             result.ShouldHaveSingleItem();
 
             var locator = result.First();
-            locator.Url.ShouldBe("protocol://test:1/arcgis/rest/services/Geolocators/service/GeocodeServer/reverseGeocode?f=json&location=1,2&distance=3&outSR=4");
+            locator.Url.ShouldBe("""protocol://test:1/arcgis/rest/services/Geolocators/service/GeocodeServer/reverseGeocode?f=json&location={"x":1,"y":2,"spatialReference":{"wkid":3}}&distance=4&outSR=5""");
             locator.Name.ShouldBe("correct.answer");
         }
     }
@@ -70,10 +70,10 @@ public class LocatorsForTests {
 
             var logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
-            Handler = new GeocodePlan.Handler(options.Object, logger.Object);
+            _handler = new GeocodePlan.Handler(options.Object, logger.Object);
         }
 
-        internal IComputationHandler<GeocodePlan.Computation, IReadOnlyCollection<LocatorProperties>> Handler;
+        internal IComputationHandler<GeocodePlan.Computation, IReadOnlyCollection<LocatorProperties>> _handler;
 
         [Fact]
         public async Task Should_create_extra_for_address_reversal() {
@@ -99,7 +99,7 @@ public class LocatorsForTests {
             };
 
             var request = new GeocodePlan.Computation(address, geocodeOptions);
-            var result = await Handler.Handle(request, new CancellationToken());
+            var result = await _handler.Handle(request, new CancellationToken());
 
             result.Count.ShouldBe(2);
 
@@ -136,7 +136,7 @@ public class LocatorsForTests {
             };
 
             var request = new GeocodePlan.Computation(address, geocodeOptions);
-            var result = await Handler.Handle(request, new CancellationToken());
+            var result = await _handler.Handle(request, new CancellationToken());
 
             result.ShouldHaveSingleItem();
 
@@ -169,7 +169,7 @@ public class LocatorsForTests {
             };
 
             var request = new GeocodePlan.Computation(address, geocodeOptions);
-            var result = await Handler.Handle(request, new CancellationToken());
+            var result = await _handler.Handle(request, new CancellationToken());
 
             result.Count.ShouldBe(2);
 
@@ -179,7 +179,7 @@ public class LocatorsForTests {
             };
 
             request = new GeocodePlan.Computation(address, geocodeOptions);
-            result = await Handler.Handle(request, new CancellationToken());
+            result = await _handler.Handle(request, new CancellationToken());
 
             result.Count.ShouldBe(2);
         }
@@ -208,7 +208,7 @@ public class LocatorsForTests {
             };
 
             var request = new GeocodePlan.Computation(address, geocodeOptions);
-            var result = await Handler.Handle(request, new CancellationToken());
+            var result = await _handler.Handle(request, new CancellationToken());
 
             result.ShouldHaveSingleItem();
 
@@ -241,7 +241,7 @@ public class LocatorsForTests {
             };
 
             var request = new GeocodePlan.Computation(address, geocodeOptions);
-            var result = await Handler.Handle(request, new CancellationToken());
+            var result = await _handler.Handle(request, new CancellationToken());
 
             result.ShouldBeEmpty();
         }

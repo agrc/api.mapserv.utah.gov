@@ -12,7 +12,7 @@ public class ZoneParsingTests {
         mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(),
                                    It.IsAny<CancellationToken>()))
                 .Returns((AddressSystemFromPlace.Computation g, CancellationToken _) => {
-                    if (g.CityKey == "alta") {
+                    if (g._cityKey == "alta") {
                         return Task.FromResult(new[] { new PlaceGridLink("alta", "grid", 1) } as
                                                    IReadOnlyCollection<GridLinkable>);
                     }
