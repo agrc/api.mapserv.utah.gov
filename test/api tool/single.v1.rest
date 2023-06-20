@@ -6,6 +6,10 @@
 
 GET {{single}}
 ###
+GET http://{{host}}/api/v1/geocode/delivery point/84114?{{apiKey}}&format=geojson
+###
+GET http://{{host}}/api/v1/geocode/pobox 143/84082?{{apiKey}}&pobox=true&format=geojson
+###
 GET {{single}}&suggest=2
 ###
 GET {{single}}&format=geojson

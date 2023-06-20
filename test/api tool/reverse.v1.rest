@@ -8,7 +8,11 @@ GET {{reverse}}
 ###
 GET {{reverse}}&distance=1
 ###
+GET {{reverse}}&format=esrijson
+###
 GET {{reverse}}&callback=jsonp
+###
+GET http://{{host}}/api/v1/geocode/reverse/-111.7118/40.30984?{{apiKey}}&spatialReference=4326
 ###
 // Validation Error
 GET http://{{host}}/api/v1/geocode/reverse/%20/%20?{{apiKey}}
