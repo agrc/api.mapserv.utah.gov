@@ -67,7 +67,7 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
 
-        geocode.MapGet("/reverse/{x}/{y}", async (
+        geocode.MapGet("/reverse/{x:double}/{y:double}", async (
             [FromRoute] double x,
             [FromRoute] double y,
             ReverseGeocodeRequestOptionsContract options,
@@ -91,7 +91,7 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
 
-        geocode.MapGet("/milepost/{route}/{milepost}", async (
+        geocode.MapGet("/milepost/{route}/{milepost:double}", async (
             [FromRoute] string route,
             [FromRoute] string milepost,
             RouteMilepostRequestOptionsContract options,
@@ -115,7 +115,7 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
 
-        geocode.MapGet("/reversemilepost/{x}/{y}", async (
+        geocode.MapGet("/reversemilepost/{x:double}/{y:double}", async (
             [FromRoute] double x,
             [FromRoute] double y,
             ReverseRouteMilepostRequestOptionsContract options,
