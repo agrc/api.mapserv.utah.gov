@@ -147,6 +147,7 @@ public partial class RouteMilepostQuery {
                     new Models.Point(location.Geometry?.X ?? -1, location.Geometry?.Y ?? -1),
                     $"Route {location.RouteId}, Milepost {location.Geometry?.M}"
                 ) {
+                InputRouteMilePost = $"Route {query.Route} Milepost {query.Milepost}"
             }.Convert(query.Options, query.Version);
 
             return TypedResults.Json(new ApiResponseContract {

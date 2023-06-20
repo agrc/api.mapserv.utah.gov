@@ -33,7 +33,13 @@ public static class MeasureToGeometry {
         public override string ToString() => $$"""{"routeId":"{{RouteId}}","measure":"{{Measure}}"}""";
     }
 
-    public record ResponseLocation(Status Status, ResponseLocation[] Results, string RouteId, GeometryType GeometryType, MeasurePoint? Geometry);
+    public record ResponseLocation(Status Status, ResponseLocation[] Results, string InputRouteId, GeometryType GeometryType, MeasurePoint? Geometry) {
+        private string _routeId = InputRouteId;
+        public string RouteId {
+            get => string.IsNullOrEmpty(_routeId) ? "" : _routeId.TrimStart('0').TrimEnd('M');
+            set => _routeId = value;
+        }
+    }
 
     public record MeasurePoint(double X, double Y, double M);
 
