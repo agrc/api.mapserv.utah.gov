@@ -17,21 +17,14 @@ public class ReverseRouteMilepostQuery {
         public readonly JsonSerializerOptions _jsonOptions = jsonOptions;
     }
 
-    public class Handler : IRequestHandler<Query, IResult> {
-        private readonly HttpClient _client;
-        private readonly MediaTypeFormatter[] _mediaTypes;
-        private readonly ILogger? _log;
-        private readonly IComputeMediator _computeMediator;
-        private const string BaseUrl = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
-
-        public Handler(IComputeMediator computeMediator, IHttpClientFactory httpClientFactory, ILogger log) {
-            _client = httpClientFactory.CreateClient("udot");
-            _mediaTypes = new MediaTypeFormatter[] {
+    public class Handler(IComputeMediator computeMediator, IHttpClientFactory httpClientFactory, ILogger log) : IRequestHandler<Query, IResult> {
+        private readonly HttpClient _client = httpClientFactory.CreateClient("udot");
+        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
             };
-            _log = log?.ForContext<RouteMilepostQuery>();
-            _computeMediator = computeMediator;
-        }
+        private readonly ILogger? _log = log?.ForContext<RouteMilepostQuery>();
+        private readonly IComputeMediator _computeMediator = computeMediator;
+        private const string BaseUrl = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
 
         public async Task<IResult> Handle(Query request, CancellationToken cancellationToken) {
             var point = new Point(request._x, request._y);

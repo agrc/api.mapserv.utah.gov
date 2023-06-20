@@ -5,32 +5,27 @@ using AGRC.api.Models.Linkables;
 namespace AGRC.api.Features.Geocoding;
 public class AddressSystemFromZipCode {
     public class Computation : IComputation<IReadOnlyCollection<GridLinkable>> {
-        internal readonly string Zip = string.Empty;
+        public readonly string _zip = string.Empty;
 
         public Computation(int? zip) {
             if (zip.HasValue) {
-                Zip = zip.ToString() ?? string.Empty;
+                _zip = zip.ToString() ?? string.Empty;
             }
         }
     }
 
-    public class Handler : IComputationHandler<Computation, IReadOnlyCollection<GridLinkable>> {
-        private readonly ILogger? _log;
-        private readonly ICacheRepository _memoryCache;
-
-        public Handler(ICacheRepository cache, ILogger log) {
-            _log = log?.ForContext<AddressSystemFromZipCode>();
-            _memoryCache = cache;
-        }
+    public class Handler(ICacheRepository cache, ILogger log) : IComputationHandler<Computation, IReadOnlyCollection<GridLinkable>> {
+        private readonly ILogger? _log = log?.ForContext<AddressSystemFromZipCode>();
+        private readonly ICacheRepository _memoryCache = cache;
 
         public async Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
-            _log?.Debug("getting address system from zip {zip}", request.Zip);
+            _log?.Debug("getting address system from zip {zip}", request._zip);
 
-            if (string.IsNullOrEmpty(request.Zip)) {
+            if (string.IsNullOrEmpty(request._zip)) {
                 return Array.Empty<GridLinkable>();
             }
 
-            var result = await _memoryCache.FindGridsForZipCodeAsync(request.Zip);
+            var result = await _memoryCache.FindGridsForZipCodeAsync(request._zip);
 
             _log?.Debug("found {systems}", result);
 

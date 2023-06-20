@@ -7,8 +7,8 @@ using AGRC.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Milepost;
-public class RouteMilepostQuery {
-    public class Query : IRequest<IResult> {
+public partial class RouteMilepostQuery {
+    public partial class Query : IRequest<IResult> {
         public readonly string _route;
         public readonly string _milepost;
         public readonly int _spatialReference;
@@ -16,7 +16,7 @@ public class RouteMilepostQuery {
 
         public Query(string route, string milepost, RouteMilepostRequestOptionsContract options, JsonSerializerOptions jsonOptions) {
             if (!options.FullRoute) {
-                var regex = new Regex(@"\d+");
+                var regex = Digits();
 
                 var matches = regex.Matches(route);
 
@@ -33,21 +33,18 @@ public class RouteMilepostQuery {
             _spatialReference = options.SpatialReference;
             _jsonOptions = jsonOptions;
         }
+
+        [GeneratedRegex("\\d+")]
+        private static partial Regex Digits();
     }
 
-    public class Handler : IRequestHandler<Query, IResult> {
-        private readonly HttpClient _client;
-        private readonly MediaTypeFormatter[] _mediaTypes;
-        private readonly ILogger? _log;
-        private const string BaseUrl = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
-
-        public Handler(IHttpClientFactory httpClientFactory, ILogger log) {
-            _client = httpClientFactory.CreateClient("udot");
-            _mediaTypes = new MediaTypeFormatter[] {
+    public class Handler(IHttpClientFactory httpClientFactory, ILogger log) : IRequestHandler<Query, IResult> {
+        private readonly HttpClient _client = httpClientFactory.CreateClient("udot");
+        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
             };
-            _log = log?.ForContext<RouteMilepostQuery>();
-        }
+        private readonly ILogger? _log = log?.ForContext<RouteMilepostQuery>();
+        private const string BaseUrl = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
 
         public async Task<IResult> Handle(Query request, CancellationToken cancellationToken) {
             var requestContract = new MeasureToGeometry.RequestContract {
@@ -122,7 +119,6 @@ public class RouteMilepostQuery {
                     Message = "No milepost was found within your buffer radius.",
                     Status = StatusCodes.Status404NotFound
                 }, jsonOptions, "application/json", StatusCodes.Status404NotFound);
-
             }
 
             var location = response.Locations[0];

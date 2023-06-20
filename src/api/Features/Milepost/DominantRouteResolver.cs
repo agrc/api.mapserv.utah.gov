@@ -9,47 +9,40 @@ using Microsoft.AspNetCore.Http;
 namespace AGRC.api.Features.Milepost;
 public class DominantRouteResolver {
     public class Computation : IComputation<ReverseRouteMilepostResponseContract?> {
-        internal readonly Concurrencies.RequestContract RequestContract;
-        internal readonly Dictionary<string, GeometryToMeasure.ResponseLocation> RouteMap;
-        internal readonly Point Point;
-        internal readonly int SuggestCount;
+        public readonly Concurrencies.RequestContract _requestContract;
+        public readonly Dictionary<string, GeometryToMeasure.ResponseLocation> _routeMap;
+        public readonly Point _point;
+        public readonly int _suggestCount;
 
         public Computation(IList<GeometryToMeasure.ResponseLocation> locations, Point point, int suggestCount) {
-            Point = point;
-            SuggestCount = suggestCount;
-            RequestContract = new Concurrencies.RequestContract {
+            _point = point;
+            _suggestCount = suggestCount;
+            _requestContract = new Concurrencies.RequestContract {
                 Locations = new Concurrencies.RequestLocation[locations.Count]
             };
-            RouteMap = new Dictionary<string, GeometryToMeasure.ResponseLocation>(locations.Count);
+            _routeMap = new Dictionary<string, GeometryToMeasure.ResponseLocation>(locations.Count);
 
             for (var i = 0; i < locations.Count; i++) {
                 var item = locations[i];
-                RouteMap[item.RouteId] = item;
+                _routeMap[item.RouteId] = item;
 
-                RequestContract.Locations[i] = new Concurrencies.RequestLocation(item.RouteId, item.Measure, item.Measure);
+                _requestContract.Locations[i] = new Concurrencies.RequestLocation(item.RouteId, item.Measure, item.Measure);
             }
         }
     }
 
-    public class Handler : IComputationHandler<Computation, ReverseRouteMilepostResponseContract?> {
-        private readonly HttpClient _client;
-        private readonly MediaTypeFormatter[] _mediaTypes;
-        private readonly ILogger? _log;
-        private readonly IDistanceStrategy _distance;
-        private const string BaseUrl = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
-
-        public Handler(IHttpClientFactory httpClientFactory, IDistanceStrategy distance, ILogger log) {
-            _client = httpClientFactory.CreateClient("udot");
-            _mediaTypes = new MediaTypeFormatter[] {
+    public class Handler(IHttpClientFactory httpClientFactory, IDistanceStrategy distance, ILogger log) : IComputationHandler<Computation, ReverseRouteMilepostResponseContract?> {
+        private readonly HttpClient _client = httpClientFactory.CreateClient("udot");
+        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
             };
-            _log = log?.ForContext<DominantRouteResolver>();
-            _distance = distance;
-        }
+        private readonly ILogger? _log = log?.ForContext<DominantRouteResolver>();
+        private readonly IDistanceStrategy _distance = distance;
+        private const string BaseUrl = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
 
         public async Task<ReverseRouteMilepostResponseContract?> Handle(Computation computation, CancellationToken cancellationToken) {
             var query = new QueryString("?f=json");
-            query = query.Add("locations", computation.RequestContract.ToString());
+            query = query.Add("locations", computation._requestContract.ToString());
 
             var requestUri = $"{BaseUrl}concurrencies{query.Value}";
 
@@ -93,11 +86,11 @@ public class DominantRouteResolver {
 
             foreach (var locationResponse in response.Locations) {
                 if (!locationResponse.Concurrencies.Any()) {
-                    var location = computation.RouteMap[locationResponse.RouteId];
+                    var location = computation._routeMap[locationResponse.RouteId];
 
                     var distance = -1d;
                     if (location.Geometry is not null) {
-                        distance = _distance.Calculate(computation.Point, location.Geometry);
+                        distance = _distance.Calculate(computation._point, location.Geometry);
                     }
 
                     dominateRoutes.Add(new DominantRouteDescriptor {
@@ -111,7 +104,7 @@ public class DominantRouteResolver {
                 }
 
                 foreach (var itemWithDominance in locationResponse.Concurrencies) {
-                    if (!computation.RouteMap.TryGetValue(itemWithDominance.RouteId, out var location)) {
+                    if (!computation._routeMap.TryGetValue(itemWithDominance.RouteId, out var location)) {
                         _log?.ForContext("dominance", itemWithDominance)
                             .Warning("not present in geometryToMeasure");
 
@@ -120,7 +113,7 @@ public class DominantRouteResolver {
 
                     var distance = -1d;
                     if (location.Geometry is not null) {
-                        distance = _distance.Calculate(computation.Point, location.Geometry);
+                        distance = _distance.Calculate(computation._point, location.Geometry);
                     }
 
                     dominateRoutes.Add(new DominantRouteDescriptor {
@@ -140,10 +133,10 @@ public class DominantRouteResolver {
                 Dominant = closest.Dominant,
             };
 
-            if (computation.SuggestCount > 0) {
+            if (computation._suggestCount > 0) {
                 dominateRoutes.Remove(closest);
-                var candidates = new List<ReverseRouteMilepostResponseContract>(computation.SuggestCount);
-                var suggestCount = computation.SuggestCount;
+                var candidates = new List<ReverseRouteMilepostResponseContract>(computation._suggestCount);
+                var suggestCount = computation._suggestCount;
 
                 var suggestions = dominateRoutes.ToList();
                 if (suggestCount < dominateRoutes.Count) {

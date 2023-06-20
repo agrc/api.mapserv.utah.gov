@@ -8,42 +8,32 @@ using AGRC.api.Models.ArcGis;
 
 namespace AGRC.api.Features.Geocoding;
 public class Geocode {
-    public class Computation : IComputation<IReadOnlyCollection<Candidate>> {
-        internal readonly LocatorProperties Locator;
-
-        public Computation(LocatorProperties locator) {
-            Locator = locator;
-        }
+    public class Computation(LocatorProperties locator) : IComputation<IReadOnlyCollection<Candidate>> {
+        internal readonly LocatorProperties _locator = locator;
     }
 
-    public class Handler : IComputationHandler<Computation, IReadOnlyCollection<Candidate>> {
-        private readonly HttpClient _client;
-        private readonly ILogger? _log;
-        private readonly MediaTypeFormatter[] _mediaTypes;
-
-        public Handler(IHttpClientFactory clientFactory, ILogger log) {
-            _client = clientFactory.CreateClient("arcgis");
-            _mediaTypes = new MediaTypeFormatter[] {
+    public class Handler(IHttpClientFactory clientFactory, ILogger log) : IComputationHandler<Computation, IReadOnlyCollection<Candidate>> {
+        private readonly HttpClient _client = clientFactory.CreateClient("arcgis");
+        private readonly ILogger? _log = log?.ForContext<Geocode>();
+        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
             };
-            _log = log?.ForContext<Geocode>();
-        }
 
         public async Task<IReadOnlyCollection<Candidate>> Handle(Computation request,
                                                                  CancellationToken cancellationToken) {
-            _log?.ForContext("url", request.Locator.Url)
+            _log?.ForContext("url", request._locator.Url)
                 .Debug("request generated");
 
             HttpResponseMessage httpResponse;
             try {
-                httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
+                httpResponse = await _client.GetAsync(request._locator.Url, cancellationToken);
             } catch (TaskCanceledException ex) {
-                _log?.ForContext("url", request.Locator.Url)
+                _log?.ForContext("url", request._locator.Url)
                     .Fatal(ex, "failed");
 
                 return Array.Empty<Candidate>();
             } catch (HttpRequestException ex) {
-                _log?.ForContext("url", request.Locator.Url)
+                _log?.ForContext("url", request._locator.Url)
                     .Fatal(ex, "request error");
 
                 return Array.Empty<Candidate>();
@@ -53,9 +43,9 @@ public class Geocode {
                 var geocodeResponse =
                     await httpResponse.Content.ReadAsAsync<LocatorResponse>(_mediaTypes, cancellationToken);
 
-                return ProcessResult(geocodeResponse, request.Locator);
+                return ProcessResult(geocodeResponse, request._locator);
             } catch (Exception ex) {
-                _log?.ForContext("url", request.Locator.Url)
+                _log?.ForContext("url", request._locator.Url)
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
                     .Fatal(ex, "error reading response");
 

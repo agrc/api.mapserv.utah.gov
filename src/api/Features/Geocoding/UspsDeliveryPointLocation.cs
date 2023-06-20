@@ -6,37 +6,27 @@ using AGRC.api.Models.Linkables;
 
 namespace AGRC.api.Features.Geocoding;
 public class UspsDeliveryPointLocation {
-    public class Computation : IComputation<Candidate?>, IHasGeocodingOptions {
-        internal readonly Address Address;
+    public class Computation(Address address, SingleGeocodeRequestOptionsContract options) : IComputation<Candidate?>, IHasGeocodingOptions {
+        public readonly Address _address = address;
 
-        public Computation(Address address, SingleGeocodeRequestOptionsContract options) {
-            Address = address;
-            Options = options;
-        }
-
-        public SingleGeocodeRequestOptionsContract Options { get; }
+        public SingleGeocodeRequestOptionsContract Options { get; } = options;
     }
 
-    public class Handler : IComputationHandler<Computation, Candidate?> {
-        private readonly IStaticCache _staticCache;
-        private readonly ILogger? _log;
-
-        public Handler(IStaticCache staticCache, ILogger log) {
-            _staticCache = staticCache;
-            _log = log?.ForContext<UspsDeliveryPointLocation>();
-        }
+    public class Handler(IStaticCache staticCache, ILogger log) : IComputationHandler<Computation, Candidate?> {
+        private readonly IStaticCache _staticCache = staticCache;
+        private readonly ILogger? _log = log?.ForContext<UspsDeliveryPointLocation>();
 
         public Task<Candidate?> Handle(Computation request, CancellationToken cancellationToken) {
-            if (!request.Address.Zip5.HasValue) {
-                _log?.Debug("no candidate", request.Address);
+            if (!request._address.Zip5.HasValue) {
+                _log?.Debug("no candidate", request._address);
 
                 return Task.FromResult<Candidate?>(null);
             }
 
-            _staticCache.UspsDeliveryPoints.TryGetValue(request.Address.Zip5.Value.ToString(), out var items);
+            _staticCache.UspsDeliveryPoints.TryGetValue(request._address.Zip5.Value.ToString(), out var items);
 
             if (items?.Any() != true) {
-                _log?.ForContext("zip", request.Address.Zip5.Value)
+                _log?.ForContext("zip", request._address.Zip5.Value)
                     .Debug("cache miss");
 
                 return Task.FromResult<Candidate?>(null);

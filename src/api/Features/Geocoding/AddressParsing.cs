@@ -5,12 +5,8 @@ using AGRC.api.Models.Constants;
 
 namespace AGRC.api.Features.Geocoding;
 public partial class AddressParsing {
-    public class Computation : IComputation<Address> {
-        public Computation(string street) {
-            Street = street;
-        }
-
-        internal string Street { get; set; }
+    public class Computation(string street) : IComputation<Address> {
+        public string Street { get; set; } = street;
     }
 
     public partial class Handler : IComputationHandler<Computation, Address> {

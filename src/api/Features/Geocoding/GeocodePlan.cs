@@ -4,24 +4,14 @@ using Microsoft.Extensions.Options;
 
 namespace AGRC.api.Features.Geocoding;
 public class GeocodePlan {
-    public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {
-        internal readonly Address Address;
-        internal readonly SingleGeocodeRequestOptionsContract Options;
-
-        public Computation(Address address, SingleGeocodeRequestOptionsContract options) {
-            Address = address;
-            Options = options;
-        }
+    public class Computation(Address address, SingleGeocodeRequestOptionsContract options) : IComputation<IReadOnlyCollection<LocatorProperties>> {
+        public readonly Address _address = address;
+        public readonly SingleGeocodeRequestOptionsContract _options = options;
     }
 
-    public class Handler : IComputationHandler<Computation, IReadOnlyCollection<LocatorProperties>> {
-        private readonly List<LocatorConfiguration> _locators;
-        private readonly ILogger? _log;
-
-        public Handler(IOptions<List<LocatorConfiguration>> options, ILogger log) {
-            _locators = options.Value;
-            _log = log?.ForContext<GeocodePlan>();
-        }
+    public class Handler(IOptions<List<LocatorConfiguration>> options, ILogger log) : IComputationHandler<Computation, IReadOnlyCollection<LocatorProperties>> {
+        private readonly List<LocatorConfiguration> _locators = options.Value;
+        private readonly ILogger? _log = log?.ForContext<GeocodePlan>();
 
         private static IReadOnlyCollection<LocatorMetadata> BuildAddressPermutations(
             Address address, int spatialReference) {
@@ -84,9 +74,9 @@ public class GeocodePlan {
         }
 
         public Task<IReadOnlyCollection<LocatorProperties>> Handle(Computation request, CancellationToken cancellation) {
-            var permutations = BuildAddressPermutations(request.Address, request.Options.SpatialReference);
+            var permutations = BuildAddressPermutations(request._address, request._options.SpatialReference);
 
-            return Task.FromResult(BuildLocatorLookup(request.Address, permutations, request.Options.Locators));
+            return Task.FromResult(BuildLocatorLookup(request._address, permutations, request._options.Locators));
         }
     }
 }

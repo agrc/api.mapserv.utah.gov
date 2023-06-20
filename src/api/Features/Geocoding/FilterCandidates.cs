@@ -5,31 +5,18 @@ using AGRC.api.Models.ArcGis;
 
 namespace AGRC.api.Features.Geocoding;
 public class FilterCandidates {
-    public class Computation : IComputation<SingleGeocodeResponseContract?> {
-        public Computation(IList<Candidate>? candidates, SingleGeocodeRequestOptionsContract geocodeOptions,
-                string street, string zone, Address geocodedAddress) {
-            GeocodeOptions = geocodeOptions;
-            Street = street;
-            Zone = zone;
-            GeocodedAddress = geocodedAddress;
-            Candidates = candidates;
-        }
-
-        internal SingleGeocodeRequestOptionsContract GeocodeOptions { get; set; }
-        internal string Street { get; set; }
-        internal string Zone { get; set; }
-        internal Address GeocodedAddress { get; set; }
-        internal IList<Candidate>? Candidates { get; }
+    public class Computation(IList<Candidate>? candidates, SingleGeocodeRequestOptionsContract geocodeOptions,
+            string street, string zone, Address geocodedAddress) : IComputation<SingleGeocodeResponseContract?> {
+        public SingleGeocodeRequestOptionsContract GeocodeOptions { get; set; } = geocodeOptions;
+        public string Street { get; set; } = street;
+        public string Zone { get; set; } = zone;
+        public Address GeocodedAddress { get; set; } = geocodedAddress;
+        public IList<Candidate>? Candidates { get; } = candidates;
     }
 
-    public class Handler : IComputationHandler<Computation, SingleGeocodeResponseContract?> {
-        private readonly ILogger? _log;
-        private readonly IFilterSuggestionFactory _filterStrategyFactory;
-
-        public Handler(IFilterSuggestionFactory filterStrategyFactory, ILogger log) {
-            _filterStrategyFactory = filterStrategyFactory;
-            _log = log?.ForContext<FilterCandidates>();
-        }
+    public class Handler(IFilterSuggestionFactory filterStrategyFactory, ILogger log) : IComputationHandler<Computation, SingleGeocodeResponseContract?> {
+        private readonly ILogger? _log = log?.ForContext<FilterCandidates>();
+        private readonly IFilterSuggestionFactory _filterStrategyFactory = filterStrategyFactory;
 
         public Task<SingleGeocodeResponseContract?> Handle(Computation request, CancellationToken cancellation) {
             if (request.Candidates is null || request.Candidates.Count < 1) {

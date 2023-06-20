@@ -3,14 +3,9 @@ using AGRC.api.Infrastructure;
 
 namespace AGRC.api.Features.Geocoding;
 public partial class ZoneParsing {
-    public class Computation : IComputation<Address> {
-        public Computation(string inputZone, Address addressModel) {
-            InputZone = inputZone;
-            AddressModel = addressModel;
-        }
-
-        internal string InputZone { get; set; }
-        internal Address AddressModel { get; set; }
+    public class Computation(string inputZone, Address addressModel) : IComputation<Address> {
+        public string InputZone { get; set; } = inputZone;
+        public Address AddressModel { get; set; } = addressModel;
     }
 
     public partial class Handler : IComputationHandler<Computation, Address> {

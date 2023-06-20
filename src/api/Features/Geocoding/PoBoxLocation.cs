@@ -5,32 +5,21 @@ using AGRC.api.Models.ArcGis;
 
 namespace AGRC.api.Features.Geocoding;
 public class PoBoxLocation {
-    public class Computation : IComputation<Candidate?>, IHasGeocodingOptions {
-        internal readonly Address Address;
+    public class Computation(Address address, SingleGeocodeRequestOptionsContract options) : IComputation<Candidate?>, IHasGeocodingOptions {
+        public readonly Address _address = address;
 
-        public Computation(Address address, SingleGeocodeRequestOptionsContract options) {
-            Address = address;
-            Options = options;
-        }
-
-        public SingleGeocodeRequestOptionsContract Options { get; }
+        public SingleGeocodeRequestOptionsContract Options { get; } = options;
     }
 
-    public class Handler : IComputationHandler<Computation, Candidate?> {
-        private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions;
-        private readonly ILogger? _log;
-        private readonly IDictionary<int, PoBoxAddress> _poBoxes;
-        private readonly IReadOnlyCollection<int> _zipExclusions;
-
-        public Handler(IStaticCache cache, ILogger log) {
-            _poBoxes = cache.PoBoxes;
-            _exclusions = cache.PoBoxExclusions;
-            _zipExclusions = cache.PoBoxZipCodesWithExclusions;
-            _log = log?.ForContext<PoBoxLocation>();
-        }
+    public class Handler(IStaticCache cache, ILogger log) : IComputationHandler<Computation, Candidate?> {
+        private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions = cache.PoBoxExclusions;
+        private readonly ILogger? _log = log?.ForContext<PoBoxLocation>();
+        private readonly IDictionary<int, PoBoxAddress> _poBoxes = cache.PoBoxes;
+        private readonly IReadOnlyCollection<int> _zipExclusions
+         = cache.PoBoxZipCodesWithExclusions;
 
         public Task<Candidate?> Handle(Computation request, CancellationToken cancellationToken) {
-            if (!request.Address.Zip5.HasValue) {
+            if (!request._address.Zip5.HasValue) {
                 _log?.Debug("no candidate");
 
                 return Task.FromResult<Candidate?>(null);
@@ -42,36 +31,36 @@ public class PoBoxLocation {
                 return Task.FromResult<Candidate?>(null);
             }
 
-            if (!_poBoxes.ContainsKey(request.Address.Zip5.Value)) {
-                _log?.ForContext("zip", request.Address.Zip5.Value)
+            if (!_poBoxes.ContainsKey(request._address.Zip5.Value)) {
+                _log?.ForContext("zip", request._address.Zip5.Value)
                     .Debug("cache miss");
 
                 return Task.FromResult<Candidate?>(null);
             }
 
             Candidate candidate;
-            var key = (request.Address.Zip5.Value * 10000) + request.Address.PoBox;
+            var key = (request._address.Zip5.Value * 10000) + request._address.PoBox;
 
-            if (_zipExclusions.Any(x => x == request.Address.Zip5) &&
+            if (_zipExclusions.Any(x => x == request._address.Zip5) &&
                 _exclusions.TryGetValue(key, out var value)) {
                 _log?.ForContext("post office exclusion", key)
                     .Information("match");
 
                 var exclusion = value;
                 candidate = new Candidate(
-                     request.Address.StandardizedAddress(),
-                     request.Address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown",
+                     request._address.StandardizedAddress(),
+                     request._address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown",
                      new Point(exclusion.X, exclusion.Y),
                      100,
                      "Post Office Point Exclusions",
                      0
                 );
-            } else if (_poBoxes.TryGetValue(request.Address.Zip5.Value, out var result)) {
+            } else if (_poBoxes.TryGetValue(request._address.Zip5.Value, out var result)) {
                 _log?.Information("match");
 
                 candidate = new Candidate(
-                     request.Address.StandardizedAddress(),
-                     request.Address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown",
+                     request._address.StandardizedAddress(),
+                     request._address.AddressGrids.FirstOrDefault()?.Grid ?? "unknown",
                      new Point(result.X, result.Y),
                      100,
                      "Post Office Point",

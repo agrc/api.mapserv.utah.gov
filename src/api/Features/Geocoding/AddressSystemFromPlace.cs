@@ -4,31 +4,22 @@ using AGRC.api.Models.Linkables;
 
 namespace AGRC.api.Features.Geocoding;
 public class AddressSystemFromPlace {
-    public class Computation : IComputation<IReadOnlyCollection<GridLinkable>> {
-        public readonly string CityKey;
-
-        public Computation(string cityKey) {
-            CityKey = cityKey.ToLowerInvariant();
-        }
+    public class Computation(string cityKey) : IComputation<IReadOnlyCollection<GridLinkable>> {
+        public readonly string _cityKey = cityKey.ToLowerInvariant();
     }
 
-    public class Handler : IComputationHandler<Computation, IReadOnlyCollection<GridLinkable>> {
-        private readonly ILogger? _log;
-        private readonly ICacheRepository _memoryCache;
-
-        public Handler(ICacheRepository cache, ILogger log) {
-            _log = log?.ForContext<AddressSystemFromPlace>();
-            _memoryCache = cache;
-        }
+    public class Handler(ICacheRepository cache, ILogger log) : IComputationHandler<Computation, IReadOnlyCollection<GridLinkable>> {
+        private readonly ILogger? _log = log?.ForContext<AddressSystemFromPlace>();
+        private readonly ICacheRepository _memoryCache = cache;
 
         public async Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
-            _log?.Debug("getting address system from city {city}", request.CityKey);
+            _log?.Debug("getting address system from city {city}", request._cityKey);
 
-            if (string.IsNullOrEmpty(request.CityKey)) {
+            if (string.IsNullOrEmpty(request._cityKey)) {
                 return Array.Empty<GridLinkable>();
             }
 
-            var result = await _memoryCache.FindGridsForPlaceAsync(request.CityKey);
+            var result = await _memoryCache.FindGridsForPlaceAsync(request._cityKey);
 
             _log?.Debug("found {systems}", result);
 

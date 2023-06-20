@@ -7,7 +7,7 @@ using AGRC.api.Models.ArcGis;
 namespace AGRC.api.Features.Geocoding;
 public static class ReverseGeocode {
     public class Computation(LocatorProperties locator) : IComputation<ReverseGeocodeRestResponse?> {
-        internal readonly LocatorProperties Locator = locator;
+        internal readonly LocatorProperties _locator = locator;
     }
 
     public class Handler(IHttpClientFactory clientFactory, ILogger log) : IComputationHandler<Computation, ReverseGeocodeRestResponse?> {
@@ -18,19 +18,19 @@ public static class ReverseGeocode {
             };
 
         public async Task<ReverseGeocodeRestResponse?> Handle(Computation request, CancellationToken cancellationToken) {
-            _log?.ForContext("url", request.Locator.Url)
+            _log?.ForContext("url", request._locator.Url)
                 .Debug("request generated");
 
             HttpResponseMessage httpResponse;
             try {
-                httpResponse = await _client.GetAsync(request.Locator.Url, cancellationToken);
+                httpResponse = await _client.GetAsync(request._locator.Url, cancellationToken);
             } catch (TaskCanceledException ex) {
-                _log?.ForContext("url", request.Locator.Url)
+                _log?.ForContext("url", request._locator.Url)
                     .Fatal(ex, "failed");
 
                 return null;
             } catch (HttpRequestException ex) {
-                _log?.ForContext("url", request.Locator.Url)
+                _log?.ForContext("url", request._locator.Url)
                     .Fatal(ex, "request error");
 
                 return null;
@@ -42,7 +42,7 @@ public static class ReverseGeocode {
                                                                                        cancellationToken);
 
                 if (!reverseResponse.IsSuccessful) {
-                    _log?.ForContext("url", request.Locator.Url)
+                    _log?.ForContext("url", request._locator.Url)
                         .ForContext("response", reverseResponse)
                         .Fatal("error reverse geocoding");
 
@@ -51,7 +51,7 @@ public static class ReverseGeocode {
 
                 return reverseResponse;
             } catch (Exception ex) {
-                _log?.ForContext("url", request.Locator.Url)
+                _log?.ForContext("url", request._locator.Url)
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
                     .Fatal(ex, "error reading response");
 

@@ -1,35 +1,24 @@
 using AGRC.api.Infrastructure;
+using AGRC.api.Models;
 using Microsoft.Extensions.Options;
 
 namespace AGRC.api.Features.Geocoding;
-public class ReverseGeocodePlan {
-    public class Computation : IComputation<IReadOnlyCollection<LocatorProperties>> {
-        internal double _x;
-        internal double _y;
-        internal double _distance;
-        internal int _spatialReference;
-
-        public Computation(double x, double y, double distance, int spatialReference) {
-            _x = x;
-            _y = y;
-            _distance = distance;
-            _spatialReference = spatialReference;
-        }
+public static class ReverseGeocodePlan {
+    public class Computation(PointWithSpatialReference point, double distance, int spatialReference) : IComputation<IReadOnlyCollection<LocatorProperties>> {
+        public PointWithSpatialReference _point = point;
+        public double _distance = distance;
+        public int _spatialReference = spatialReference;
     }
 
-    public class Handler : IComputationHandler<Computation, IReadOnlyCollection<LocatorProperties>> {
-        private readonly List<ReverseLocatorConfiguration> _locators;
-
-        public Handler(IOptions<List<ReverseLocatorConfiguration>> options) {
-            _locators = options.Value;
-        }
+    public class Handler(IOptions<List<ReverseLocatorConfiguration>> options) : IComputationHandler<Computation, IReadOnlyCollection<LocatorProperties>> {
+        private readonly List<ReverseLocatorConfiguration> _locators = options.Value;
 
         public Task<IReadOnlyCollection<LocatorProperties>> Handle(Computation request, CancellationToken cancellationToken) {
             var locators = _locators.Where(x => x.ReverseGeocodes);
             var locatorsForLocation = new List<LocatorProperties>();
 
             foreach (var locator in locators) {
-                locatorsForLocation.Add(locator.ToLocatorProperty(request._x, request._y, request._distance, request._spatialReference));
+                locatorsForLocation.Add(locator.ToLocatorProperty(request._point, request._distance, request._spatialReference));
             }
 
             return Task.FromResult<IReadOnlyCollection<LocatorProperties>>(locatorsForLocation);
