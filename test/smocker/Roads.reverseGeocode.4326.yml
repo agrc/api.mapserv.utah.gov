@@ -3,10 +3,10 @@
       /arcgis/rest/services/Geolocators/Roads_AddressSystem_STREET/GeocodeServer/reverseGeocode
     method: GET
     query_params:
-      location: '{"x":425608,"y":4513499,"spatialReference":{"wkid":26912}}'
+      location: '{"x":-111.7118,"y":40.30984,"spatialReference":{"wkid":4326}}'
       distance: "5"
       f: "json"
-      outSR: "26912"
+      outSR: "4326"
   response:
     status: 200
     body: '{
