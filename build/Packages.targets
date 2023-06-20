@@ -52,6 +52,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Update="xunit" Version="2.4.2" />
+
+    <PackageReference Update="coverlet.collector" Version="6.0.0" />
     <PackageReference Update="coverlet.msbuild" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

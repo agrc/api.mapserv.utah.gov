@@ -100,7 +100,7 @@ You can now view the [firebase emulator](http://localhost:4000/), the [smocker e
 No containers need to be running to execute the unit tests.
 
 ```sh
-cd test/api.unit.tests && dotnet watch run
+cd test/api.unit.tests && dotnet watch test --collect:"XPlat Code Coverage"
 ```
 
 ## API System Parts
