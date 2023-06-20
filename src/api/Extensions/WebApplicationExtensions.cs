@@ -5,12 +5,10 @@ using AGRC.api.Features.Milepost;
 using AGRC.api.Features.Searching;
 using AGRC.api.Middleware;
 using AGRC.api.Models.ResponseContracts;
-using Asp.Versioning;
 using Asp.Versioning.Conventions;
 using CorrelationId;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -49,7 +47,7 @@ public static class WebApplicationExtensions {
             [FromServices] IJsonSerializerOptionsFactory factory,
             [FromServices] ApiVersion apiVersion)
             => {
-                var result = await mediator.Send(new GeocodeQuery.Query(street, zone, options));
+                var result = await mediator.Send(new GeocodeQuery.Query(street, zone, options, apiVersion));
 
                 return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })
@@ -100,7 +98,7 @@ public static class WebApplicationExtensions {
             [FromServices] ApiVersion apiVersion)
             => {
                 var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
-                return await mediator.Send(new RouteMilepostQuery.Query(route, milepost, options, jsonOptions));
+                return await mediator.Send(new RouteMilepostQuery.Query(route, milepost, options, jsonOptions, apiVersion));
             })
             .HasApiVersion(1)
             .HasApiVersion(2)

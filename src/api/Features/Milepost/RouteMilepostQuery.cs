@@ -1,20 +1,18 @@
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text.Json;
 using AGRC.api.Formatters;
 using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.ResponseContracts;
-using Microsoft.AspNetCore.Http;
 
 namespace AGRC.api.Features.Milepost;
 public partial class RouteMilepostQuery {
     public partial class Query : IRequest<IResult> {
-        public readonly string _route;
-        public readonly string _milepost;
-        public readonly int _spatialReference;
-        public readonly JsonSerializerOptions _jsonOptions;
+        public Query(string route, string milepost, RouteMilepostRequestOptionsContract options, JsonSerializerOptions jsonOptions, ApiVersion version) {
+            Milepost = milepost;
+            Options = options;
+            JsonOptions = jsonOptions;
+            Version = version;
 
-        public Query(string route, string milepost, RouteMilepostRequestOptionsContract options, JsonSerializerOptions jsonOptions) {
             if (!options.FullRoute) {
                 var regex = Digits();
 
@@ -28,11 +26,14 @@ public partial class RouteMilepostQuery {
                 }
             }
 
-            _route = route;
-            _milepost = milepost;
-            _spatialReference = options.SpatialReference;
-            _jsonOptions = jsonOptions;
+            Route = route;
         }
+
+        public ApiVersion Version { get; }
+        public string Route { get; }
+        public string Milepost { get; }
+        public RouteMilepostRequestOptionsContract Options { get; }
+        public JsonSerializerOptions JsonOptions { get; }
 
         [GeneratedRegex("\\d+")]
         private static partial Regex Digits();
@@ -49,9 +50,9 @@ public partial class RouteMilepostQuery {
         public async Task<IResult> Handle(Query request, CancellationToken cancellationToken) {
             var requestContract = new MeasureToGeometry.RequestContract {
                 Locations = new[] {
-                    new MeasureToGeometry.RequestLocation(request._milepost, request._route)
+                    new MeasureToGeometry.RequestLocation(request.Milepost, request.Route)
                 },
-                OutSr = request._spatialReference
+                OutSr = request.Options.SpatialReference
             };
 
             var requestUri = $"{BaseUrl}measureToGeometry{requestContract.QueryString}";
@@ -69,7 +70,7 @@ public partial class RouteMilepostQuery {
                 return TypedResults.Json(new ApiResponseContract {
                     Message = "There was a problem handling your request.",
                     Status = StatusCodes.Status500InternalServerError
-                }, request._jsonOptions, "application/json", StatusCodes.Status500InternalServerError);
+                }, request.JsonOptions, "application/json", StatusCodes.Status500InternalServerError);
             } catch (HttpRequestException ex) {
                 _log?.ForContext("url", requestUri)
                     .Fatal(ex, "request error");
@@ -77,7 +78,7 @@ public partial class RouteMilepostQuery {
                 return TypedResults.Json(new ApiResponseContract {
                     Message = "There was a problem handling your request.",
                     Status = StatusCodes.Status500InternalServerError
-                }, request._jsonOptions, "application/json", StatusCodes.Status500InternalServerError);
+                }, request.JsonOptions, "application/json", StatusCodes.Status500InternalServerError);
             }
 
             try {
@@ -92,10 +93,10 @@ public partial class RouteMilepostQuery {
                     return TypedResults.Json(new ApiResponseContract {
                         Status = StatusCodes.Status400BadRequest,
                         Message = "Your request was invalid. Check your inputs."
-                    }, request._jsonOptions, "application/json", StatusCodes.Status400BadRequest);
+                    }, request.JsonOptions, "application/json", StatusCodes.Status400BadRequest);
                 }
 
-                return ProcessResult(response, request._jsonOptions);
+                return ProcessResult(response, request);
             } catch (Exception ex) {
                 _log?.ForContext("url", requestUri)
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
@@ -104,11 +105,11 @@ public partial class RouteMilepostQuery {
                 return TypedResults.Json(new ApiResponseContract {
                     Message = "There was a problem handling your request.",
                     Status = StatusCodes.Status500InternalServerError
-                }, request._jsonOptions, "application/json", StatusCodes.Status500InternalServerError);
+                }, request.JsonOptions, "application/json", StatusCodes.Status500InternalServerError);
             }
         }
 
-        private IResult ProcessResult(MeasureToGeometry.ResponseContract response, JsonSerializerOptions jsonOptions) {
+        private IResult ProcessResult(MeasureToGeometry.ResponseContract response, Query query) {
             if (response.Locations?.Length != 1) {
                 _log?.ForContext("response", response)
                     .Warning("multiple locations found");
@@ -118,7 +119,7 @@ public partial class RouteMilepostQuery {
                 return TypedResults.Json(new ApiResponseContract {
                     Message = "No milepost was found within your buffer radius.",
                     Status = StatusCodes.Status404NotFound
-                }, jsonOptions, "application/json", StatusCodes.Status404NotFound);
+                }, query.JsonOptions, "application/json", StatusCodes.Status404NotFound);
             }
 
             var location = response.Locations[0];
@@ -132,7 +133,7 @@ public partial class RouteMilepostQuery {
                 return TypedResults.Json(new ApiResponseContract {
                     Message = location.Status.ToString(),
                     Status = StatusCodes.Status404NotFound
-                }, jsonOptions, "application/json", StatusCodes.Status404NotFound);
+                }, query.JsonOptions, "application/json", StatusCodes.Status404NotFound);
             }
 
             if (location.GeometryType != GeometryType.esriGeometryPoint) {
@@ -141,14 +142,17 @@ public partial class RouteMilepostQuery {
                     .Warning("geometry type is not point");
             }
 
-            return TypedResults.Json(new ApiResponseContract<RouteMilepostResponseContract> {
-                Result = new RouteMilepostResponseContract(
+            var result = new RouteMilepostResponseContract(
                     "UDOT Roads and Highways",
                     new Models.Point(location.Geometry?.X ?? -1, location.Geometry?.Y ?? -1),
                     $"Route {location.RouteId}, Milepost {location.Geometry?.M}"
-                ),
+                ) {
+            }.Convert(query.Options, query.Version);
+
+            return TypedResults.Json(new ApiResponseContract {
+                Result = result,
                 Status = StatusCodes.Status200OK
-            }, jsonOptions, "application/json", StatusCodes.Status200OK);
+            }, query.JsonOptions, "application/json", StatusCodes.Status200OK);
         }
     }
 }

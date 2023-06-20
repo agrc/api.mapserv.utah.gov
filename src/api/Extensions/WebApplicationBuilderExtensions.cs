@@ -21,7 +21,6 @@ using Google.Api.Gax;
 using Google.Cloud.Firestore;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -164,9 +163,6 @@ public static class WebApplicationBuilderExtensions {
                     .AsImplementedInterfaces();
 
             // decorators are executed in the order they are registered
-            builder.RegisterDecorator<JsonOutputFormatDecorator,
-                IRequestHandler<GeocodeQuery.Query, IApiResponse>>();
-
             builder.RegisterDecorator<TableMappingDecorator,
                 IRequestHandler<SearchQuery.Query, IApiResponse>>();
 
@@ -342,9 +338,8 @@ public static class WebApplicationBuilderExtensions {
         });
     }
     public static void ConfigureVersioning(this WebApplicationBuilder builder)
-        => builder.Services.AddApiVersioning(options => {
-            options.ReportApiVersions = true;
-        }).EnableApiVersionBinding();
+        => builder.Services.AddApiVersioning(options =>
+            options.ReportApiVersions = true).EnableApiVersionBinding();
     public static void ConfigureCors(this WebApplicationBuilder builder)
         => builder.Services.AddCors(options => {
             options.AddDefaultPolicy(

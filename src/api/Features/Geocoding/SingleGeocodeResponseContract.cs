@@ -1,14 +1,19 @@
 using System.Text.Json.Serialization;
-using AGRC.api.Models;
+using AGRC.api.Extensions;
+using AGRC.api.Features.Converting;
+using AGRC.api.Models.Constants;
+using EsriJson.Net;
+using NetTopologySuite.Features;
+using NetTopologySuite.Geometries;
 
 namespace AGRC.api.Features.Geocoding;
-public class SingleGeocodeResponseContract : Suggestable {
+public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeocodeRequestOptionsContract> {
     private double? _scoreDifference;
 
     /// <summary>
     /// The geographic coordinates for where the system thinks the input address exists.
     /// </summary>
-    public Point Location { get; set; } = default!;
+    public Models.Point Location { get; set; } = default!;
 
     /// <summary>
     /// Every street zone geocode will return a score for the match on a scale from 0-100. The score is a rating of
@@ -67,4 +72,117 @@ public class SingleGeocodeResponseContract : Suggestable {
 
     [JsonIgnore]
     public int Wkid { get; set; }
+
+    public object Convert(SingleGeocodeRequestOptionsContract input, ApiVersion? version)
+    => input.Format switch {
+        JsonFormat.EsriJson => ToEsriJson(version, input.SpatialReference),
+        JsonFormat.GeoJson => ToGeoJson(version, input.SpatialReference),
+        JsonFormat.None => this,
+        _ => throw new NotImplementedException(),
+    };
+
+    public SerializableGraphic ToEsriJson(ApiVersion? version, int wkid) {
+        EsriJsonObject? geometry = null;
+        var attributes = new Dictionary<string, object?>();
+
+        if (Location != null) {
+            geometry = new EsriJson.Net.Geometry.Point(Location.X, Location.Y) {
+                CRS = new Crs {
+                    WellKnownId = wkid
+                }
+            };
+
+            var properties = this?
+                .GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
+
+            if ((version?.MajorVersion ?? 1) == 1) {
+                attributes = properties.ToDictionary(key => key.Name, value => value.GetValue(this, null))
+                ?? attributes;
+            } else {
+                attributes = properties
+                    .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
+                    .ToDictionary(key => key.Name, value => value.GetValue(this, null))
+                    ?? attributes;
+
+                attributes.Remove("Location");
+
+                if (attributes.Values.Any(x => x == null)) {
+                    attributes = attributes.Where(x => x.Value != null)
+                        .ToDictionary(x => x.Key, y => y.Value);
+                }
+            }
+        }
+
+        if (geometry == null && attributes.Count < 1) {
+            return new SerializableGraphic(new Graphic(null, null));
+        }
+
+        var graphic =
+            new Graphic(geometry, attributes
+                .ToDictionary(x => x.Key, y => y.Value));
+
+        return new SerializableGraphic(graphic);
+    }
+
+    public Feature ToGeoJson(ApiVersion? version, int wkid) {
+        Geometry? geometry = null;
+        var attributes = new Dictionary<string, object?>();
+
+        // _log?.Debug("converting {result} to esri json for version {version}", this, version);
+
+        if (Location != null) {
+            geometry = new NetTopologySuite.Geometries.Point(new Coordinate(Location.X, Location.Y));
+
+            var properties = this?
+                .GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
+
+            if ((version?.MajorVersion ?? 1) == 1) {
+                foreach (var property in properties) {
+                    var value = property.GetValue(this, null);
+
+                    if (property.Name.Equals("standardizedAddress", StringComparison.OrdinalIgnoreCase) && value is null) {
+                        continue;
+                    }
+
+                    if (property.Name.Equals("scoreDifference", StringComparison.OrdinalIgnoreCase) && value is null) {
+                        value = -1;
+                    }
+
+                    if (property.Name.Equals("candidates", StringComparison.OrdinalIgnoreCase) && value is null) {
+                        value = Array.Empty<object>();
+                    }
+
+                    attributes.Add(property.Name, value);
+                }
+            } else {
+                attributes = properties
+                    .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
+                    .ToDictionary(key => key.Name.ToCamelCase(), value => value.GetValue(this, null))
+                    ?? attributes;
+
+                attributes.Remove("location");
+
+                if (attributes.Any()) {
+                    attributes.Add("srid", wkid);
+                }
+
+                if (attributes.Values.Any(x => x == null)) {
+                    attributes = attributes.Where(x => x.Value != null)
+                        .ToDictionary(x => x.Key, y => y.Value);
+                }
+            }
+        }
+
+        if (geometry == null && attributes.Count < 1) {
+            return new Feature();
+        }
+
+        var attributeTable = new AttributesTable(
+            attributes.ToDictionary(x => x.Key, y => y.Value)
+        );
+
+        return new Feature(geometry, attributeTable);
+    }
 }
