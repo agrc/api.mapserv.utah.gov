@@ -1,7 +1,7 @@
 using AGRC.api.Features.Searching;
 using AGRC.api.Infrastructure;
 using AGRC.api.Models.ResponseContracts;
-using static AGRC.api.Features.Converting.EsriGraphic;
+using EsriJson.Net;
 
 namespace api.tests.Features.Searching;
 public class SearchQueryTests {
