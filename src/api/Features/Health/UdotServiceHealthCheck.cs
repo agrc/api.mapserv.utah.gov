@@ -19,7 +19,7 @@ public class UdotServiceHealthCheck(IHttpClientFactory factory) : IHealthCheck {
         var stopWatch = Stopwatch.StartNew();
         try {
             var message = await _client.GetAsync(Url, cancellationToken);
-            var result = await message.Content.ReadAsAsync<GeometryServiceInformation>(_mediaTypes, cancellationToken);
+            var result = await message.Content.ReadAsAsync<ServiceInformation>(_mediaTypes, cancellationToken);
 
             if (!result.IsSuccessful) {
                 return HealthCheckResult.Degraded("Unable to access roads and highways", null, new Dictionary<string, object> {
