@@ -62,7 +62,7 @@ public class ReverseRouteMilepostRequestOptionsContract : IProjectable {
 
         var options = new ReverseRouteMilepostRequestOptionsContract() {
             IncludeRampSystem = bool.TryParse(includeRampSystemValue, out var includeRampSystem) && includeRampSystem,
-            Buffer = int.TryParse(bufferValue, out var buffer) ? buffer : 200,
+            Buffer = int.TryParse(bufferValue, out var buffer) ? buffer : 100,
             Suggest = int.TryParse(suggestValue, out var suggest) ? suggest : 0,
             SpatialReference = int.TryParse(spatialReferenceValue, out var spatialReference) ? spatialReference : 26912,
         };
