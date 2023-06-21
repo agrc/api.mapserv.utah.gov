@@ -71,7 +71,7 @@ public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeo
     }
 
     [JsonIgnore]
-    public int Wkid { get; set; }
+    public int Wkid { get; set; } = 26912;
 
     public object Convert(SingleGeocodeRequestOptionsContract input, ApiVersion? version)
     => input.Format switch {
@@ -97,8 +97,15 @@ public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeo
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
 
             if ((version?.MajorVersion ?? 1) == 1) {
-                attributes = properties.ToDictionary(key => key.Name, value => value.GetValue(this, null))
-                ?? attributes;
+                foreach (var property in properties) {
+                    var value = property.GetValue(this, null);
+
+                    if (property.Name.Equals("wkid", StringComparison.OrdinalIgnoreCase)) {
+                        value = wkid;
+                    }
+
+                    attributes.Add(property.Name, value);
+                }
             } else {
                 attributes = properties
                     .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
@@ -132,7 +139,7 @@ public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeo
         // _log?.Debug("converting {result} to esri json for version {version}", this, version);
 
         if (Location != null) {
-            geometry = new NetTopologySuite.Geometries.Point(new Coordinate(Location.X, Location.Y));
+            geometry = new Point(new Coordinate(Location.X, Location.Y));
 
             var properties = this?
                 .GetType()
@@ -152,6 +159,10 @@ public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeo
 
                     if (property.Name.Equals("candidates", StringComparison.OrdinalIgnoreCase) && value is null) {
                         value = Array.Empty<object>();
+                    }
+
+                    if (property.Name.Equals("wkid", StringComparison.OrdinalIgnoreCase)) {
+                        value = wkid;
                     }
 
                     attributes.Add(property.Name, value);
