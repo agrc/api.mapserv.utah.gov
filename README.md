@@ -143,7 +143,7 @@ PostGIS is used to host the spatial data for searching.
 
 ### ArcGIS Server
 
-ArcGIS Server contains the geocoding and geometry services that support the API. UGRC typically deploys two geocoding services. One is sourced by road centerlines and the other with address points. The geometry service is used to project geometries into different spatial references than the source data.
+ArcGIS Server contains the geocoding services that support the API. UGRC typically deploys two geocoding services. One is sourced by road centerlines and the other with address points.
 
 ArcGIS Server Environment Variables
 

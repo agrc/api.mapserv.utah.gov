@@ -4,7 +4,6 @@ using System.Net.Http;
 using AGRC.api.Cache;
 using AGRC.api.Features.Converting;
 using AGRC.api.Features.Geocoding;
-using AGRC.api.Features.GeometryService;
 using AGRC.api.Features.Health;
 using AGRC.api.Features.Milepost;
 using AGRC.api.Features.Searching;
@@ -92,14 +91,12 @@ public static class WebApplicationBuilderExtensions {
          .AddCheck<StartupHealthCheck>("Startup", failureStatus: HealthStatus.Degraded, tags: new[] { "startup" })
          .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
          .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy, tags: new[] { "health" })
-         .AddCheck<GeometryServiceHealthCheck>("ArcGIS:GeometryService", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
          .AddCheck<UdotServiceHealthCheck>("ArcGIS:RoadsAndHighwaysService", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
          .AddCheck<LocatorHealthCheck>("ArcGIS:LocatorServices", tags: new[] { "health" })
          .AddCheck<BigQueryHealthCheck>("Database", tags: new[] { "health" });
     public static void ConfigureDependencyInjection(this WebApplicationBuilder builder) {
         builder.Services.Configure<List<LocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
         builder.Services.Configure<List<ReverseLocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
-        builder.Services.Configure<GeometryServiceConfiguration>(builder.Configuration.GetSection("webapi:geometryService"));
         builder.Services.Configure<DatabaseConfiguration>(builder.Configuration.GetSection("webapi:redis"));
 
         builder.Services.AddHttpContextAccessor();
@@ -177,8 +174,6 @@ public static class WebApplicationBuilderExtensions {
 
             builder.RegisterDecorator<DoubleAvenuesException.Decorator,
                 IComputationHandler<ZoneParsing.Computation, Address>>();
-
-            builder.RegisterGenericDecorator(typeof(Reproject.Decorator<,>), typeof(IComputationHandler<,>));
 
             builder.Register(c => new ComputeMediator(c.Resolve<IComponentContext>().Resolve))
                    .AsImplementedInterfaces()
