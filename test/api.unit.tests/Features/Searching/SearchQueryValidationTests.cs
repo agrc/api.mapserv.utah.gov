@@ -24,13 +24,9 @@ public class SearchQueryValidationTests {
 
         _jsonFactory = jsonFactory.Object;
     }
-
-    private static EndpointFilterInvocationContext GetEndpointContext(params object[] arguments) =>
-      new DefaultEndpointFilterInvocationContext(new DefaultHttpContext(), arguments);
-
     [Fact]
     public async Task Should_fail_with_no_table_name() {
-        var context = GetEndpointContext(string.Empty, "return,values", new SearchOptions(new()));
+        var context = HttpContextHelpers.GetEndpointContext(string.Empty, "return,values", new SearchOptions(new()));
 
         var filter = new SearchQuery.ValidationFilter(_mediator, _jsonFactory, _version, _logger);
         var result = await filter.InvokeAsync(context, (_) => new ValueTask<object>()) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
@@ -42,7 +38,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_jerk_table_name() {
-        var context = GetEndpointContext("jerk", "return,values", new SearchOptions(new()));
+        var context = HttpContextHelpers.GetEndpointContext("jerk", "return,values", new SearchOptions(new()));
 
         var _mediator = new Mock<IComputeMediator>();
         _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
@@ -60,7 +56,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_no_return_values() {
-        var context = GetEndpointContext("table", string.Empty, new SearchOptions(new()));
+        var context = HttpContextHelpers.GetEndpointContext("table", string.Empty, new SearchOptions(new()));
 
         var filter = new SearchQuery.ValidationFilter(_mediator, _jsonFactory, _version, _logger);
         var result = await filter.InvokeAsync(context, (_) => new ValueTask<object>()) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
@@ -72,7 +68,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_jerk_return_value() {
-        var context = GetEndpointContext("table", "jerk", new SearchOptions(new()));
+        var context = HttpContextHelpers.GetEndpointContext("table", "jerk", new SearchOptions(new()));
 
         var _mediator = new Mock<IComputeMediator>();
         _mediator.SetupSequence(x => x.Handle(It.IsAny<ValidateSql.Computation>(), It.IsAny<CancellationToken>()))
@@ -90,7 +86,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_empty_options() {
-        var context = GetEndpointContext("table_not_found", "return,values", null);
+        var context = HttpContextHelpers.GetEndpointContext("table_not_found", "return,values", null);
 
         var filter = new SearchQuery.ValidationFilter(_mediator, _jsonFactory, _version, _logger);
         var result = await filter.InvokeAsync(context, (_) => new ValueTask<object>()) as JsonHttpResult<ApiResponseContract<IReadOnlyCollection<SearchResponseContract>>>;
@@ -102,7 +98,7 @@ public class SearchQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_jerk_predicate() {
-        var context = GetEndpointContext("table", "value", new SearchOptions(new SearchRequestOptionsContract {
+        var context = HttpContextHelpers.GetEndpointContext("table", "value", new SearchOptions(new SearchRequestOptionsContract {
             Predicate = "jerk"
         }));
 

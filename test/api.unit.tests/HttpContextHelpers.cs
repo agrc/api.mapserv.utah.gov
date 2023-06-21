@@ -16,4 +16,7 @@ public static class HttpContextHelpers {
 
         return context;
     }
+
+    public static EndpointFilterInvocationContext GetEndpointContext(params object[] arguments) =>
+      new DefaultEndpointFilterInvocationContext(new DefaultHttpContext(), arguments);
 }
