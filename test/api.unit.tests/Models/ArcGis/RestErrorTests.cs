@@ -6,7 +6,7 @@ public class RestErrorableTests {
     public void Should_serialize_error_on_failure() {
         const string geometryServiceError = """{"error":{"code": 500,"message": "Error processing request","details": [ ]}}""";
 
-        var obj = JsonSerializer.Deserialize<GeometryServiceInformation>(geometryServiceError, new JsonSerializerOptions {
+        var obj = JsonSerializer.Deserialize<ServiceInformation>(geometryServiceError, new JsonSerializerOptions {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
 
