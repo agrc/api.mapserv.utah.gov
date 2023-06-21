@@ -12,7 +12,7 @@ public class ReverseRouteMilepostResponseContract {
     /// </value>
     public string Route {
         get {
-            if (string.IsNullOrEmpty(_routeName)) {
+            if (string.IsNullOrEmpty(_routeName?.Trim())) {
                 return string.Empty;
             }
 
