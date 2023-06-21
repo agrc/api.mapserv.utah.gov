@@ -167,7 +167,7 @@ public class GeocodeQuery {
 
                 return Results.Json(new ApiResponseContract {
                     Status = StatusCodes.Status400BadRequest,
-                    Message = errors
+                    Message = errors.Trim()
                 }, options, "application/json", StatusCodes.Status400BadRequest);
             }
 
