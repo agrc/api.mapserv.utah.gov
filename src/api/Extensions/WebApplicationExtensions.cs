@@ -73,8 +73,9 @@ public static class WebApplicationExtensions {
             [FromServices] IJsonSerializerOptionsFactory factory,
             [FromServices] ApiVersion apiVersion)
             => {
-                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
-                return await mediator.Send(new ReverseGeocodeQuery.Query(x, y, options, jsonOptions));
+                var result = await mediator.Send(new ReverseGeocodeQuery.Query(x, y, options));
+
+                return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })
             .HasApiVersion(1)
             .HasApiVersion(2)
@@ -97,8 +98,9 @@ public static class WebApplicationExtensions {
             [FromServices] IJsonSerializerOptionsFactory factory,
             [FromServices] ApiVersion apiVersion)
             => {
-                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
-                return await mediator.Send(new RouteMilepostQuery.Query(route, milepost, options, jsonOptions, apiVersion));
+                var result = await mediator.Send(new RouteMilepostQuery.Query(route, milepost, options, apiVersion));
+
+                return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })
             .AddEndpointFilter<RouteMilepostQuery.ValidationFilter>()
             .HasApiVersion(1)
@@ -122,8 +124,9 @@ public static class WebApplicationExtensions {
             [FromServices] IJsonSerializerOptionsFactory factory,
             [FromServices] ApiVersion apiVersion)
             => {
-                var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
-                return await mediator.Send(new ReverseRouteMilepostQuery.Query(x, y, options, jsonOptions));
+                var result = await mediator.Send(new ReverseRouteMilepostQuery.Query(x, y, options));
+
+                return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })
             .HasApiVersion(1)
             .HasApiVersion(2)

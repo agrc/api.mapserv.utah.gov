@@ -7,11 +7,10 @@ using AGRC.api.Models.ResponseContracts;
 
 namespace AGRC.api.Features.Milepost;
 public partial class RouteMilepostQuery {
-    public partial class Query : IRequest<IResult> {
-        public Query(string route, string milepost, RouteMilepostRequestOptionsContract options, JsonSerializerOptions jsonOptions, ApiVersion version) {
+    public partial class Query : IRequest<IApiResponse> {
+        public Query(string route, string milepost, RouteMilepostRequestOptionsContract options, ApiVersion version) {
             Milepost = milepost;
             Options = options;
-            JsonOptions = jsonOptions;
             Version = version;
 
             if (!options.FullRoute) {
@@ -34,13 +33,11 @@ public partial class RouteMilepostQuery {
         public string Route { get; }
         public string Milepost { get; }
         public RouteMilepostRequestOptionsContract Options { get; }
-        public JsonSerializerOptions JsonOptions { get; }
-
         [GeneratedRegex("\\d+")]
         private static partial Regex Digits();
     }
 
-    public class Handler(IHttpClientFactory httpClientFactory, ILogger log) : IRequestHandler<Query, IResult> {
+    public class Handler(IHttpClientFactory httpClientFactory, ILogger log) : IRequestHandler<Query, IApiResponse> {
         private readonly HttpClient _client = httpClientFactory.CreateClient("udot");
         private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
                 new TextPlainResponseFormatter()
@@ -48,7 +45,7 @@ public partial class RouteMilepostQuery {
         private readonly ILogger? _log = log?.ForContext<RouteMilepostQuery>();
         private const string BaseUrl = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
 
-        public async Task<IResult> Handle(Query request, CancellationToken cancellationToken) {
+        public async Task<IApiResponse> Handle(Query request, CancellationToken cancellationToken) {
             var requestContract = new MeasureToGeometry.RequestContract {
                 Locations = new[] {
                     new MeasureToGeometry.RequestLocation(request.Milepost, request.Route)
@@ -68,18 +65,18 @@ public partial class RouteMilepostQuery {
                 _log?.ForContext("url", requestUri)
                     .Fatal(ex, "failed");
 
-                return TypedResults.Json(new ApiResponseContract {
-                    Message = "There was a problem handling your request.",
+                return new ApiResponseContract {
+                    Message = "The request was canceled.",
                     Status = StatusCodes.Status500InternalServerError
-                }, request.JsonOptions, "application/json", StatusCodes.Status500InternalServerError);
+                };
             } catch (HttpRequestException ex) {
                 _log?.ForContext("url", requestUri)
                     .Fatal(ex, "request error");
 
-                return TypedResults.Json(new ApiResponseContract {
+                return new ApiResponseContract {
                     Message = "There was a problem handling your request.",
                     Status = StatusCodes.Status500InternalServerError
-                }, request.JsonOptions, "application/json", StatusCodes.Status500InternalServerError);
+                };
             }
 
             try {
@@ -91,10 +88,10 @@ public partial class RouteMilepostQuery {
                         .ForContext("error", response.Error)
                         .Error("invalid request");
 
-                    return TypedResults.Json(new ApiResponseContract {
+                    return new ApiResponseContract {
                         Status = StatusCodes.Status400BadRequest,
-                        Message = "Your request was invalid. Check your inputs."
-                    }, request.JsonOptions, "application/json", StatusCodes.Status400BadRequest);
+                        Message = "Your request was invalid. Check that your coordinates and spatial reference match."
+                    };
                 }
 
                 return ProcessResult(response, request);
@@ -103,24 +100,24 @@ public partial class RouteMilepostQuery {
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
                     .Fatal(ex, "error reading response");
 
-                return TypedResults.Json(new ApiResponseContract {
-                    Message = "There was a problem handling your request.",
+                return new ApiResponseContract {
+                    Message = "There was an unexpected response from UDOT.",
                     Status = StatusCodes.Status500InternalServerError
-                }, request.JsonOptions, "application/json", StatusCodes.Status500InternalServerError);
+                };
             }
         }
 
-        private IResult ProcessResult(MeasureToGeometry.ResponseContract response, Query query) {
+        private IApiResponse ProcessResult(MeasureToGeometry.ResponseContract response, Query query) {
             if (response.Locations?.Length != 1) {
                 _log?.ForContext("response", response)
                     .Warning("multiple locations found");
             }
 
             if (response.Locations is null) {
-                return TypedResults.Json(new ApiResponseContract {
+                return new ApiResponseContract {
                     Message = "No milepost was found within your buffer radius.",
                     Status = StatusCodes.Status404NotFound
-                }, query.JsonOptions, "application/json", StatusCodes.Status404NotFound);
+                };
             }
 
             var location = response.Locations[0];
@@ -131,10 +128,10 @@ public partial class RouteMilepostQuery {
                     .Warning("status is not ok");
 
                 // TODO: create messages from status
-                return TypedResults.Json(new ApiResponseContract {
+                return new ApiResponseContract {
                     Message = location.Status.ToString(),
                     Status = StatusCodes.Status404NotFound
-                }, query.JsonOptions, "application/json", StatusCodes.Status404NotFound);
+                };
             }
 
             if (location.GeometryType != GeometryType.esriGeometryPoint) {
@@ -151,10 +148,10 @@ public partial class RouteMilepostQuery {
                 InputRouteMilePost = $"Route {query.Route} Milepost {query.Milepost}"
             }.Convert(query.Options, query.Version);
 
-            return TypedResults.Json(new ApiResponseContract {
+            return new ApiResponseContract {
                 Result = result,
                 Status = StatusCodes.Status200OK
-            }, query.JsonOptions, "application/json", StatusCodes.Status200OK);
+            };
         }
     }
 
