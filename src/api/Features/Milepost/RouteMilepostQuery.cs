@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using AGRC.api.Features.Converting;
 using AGRC.api.Formatters;
 using AGRC.api.Models.ArcGis;
 using AGRC.api.Models.ResponseContracts;
@@ -154,6 +155,46 @@ public partial class RouteMilepostQuery {
                 Result = result,
                 Status = StatusCodes.Status200OK
             }, query.JsonOptions, "application/json", StatusCodes.Status200OK);
+        }
+    }
+
+    public class ValidationFilter(IJsonSerializerOptionsFactory factory, ApiVersion apiVersion, ILogger? log) : IEndpointFilter {
+        private readonly ILogger? _log = log?.ForContext<ValidationFilter>();
+        private readonly IJsonSerializerOptionsFactory _factory = factory;
+        private readonly ApiVersion _apiVersion = apiVersion;
+
+        public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next) {
+            var route = context.GetArgument<string>(0).Trim();
+            var milepostValue = context.GetArgument<string>(1).Trim();
+            double milepost = 0;
+            var errors = string.Empty;
+            if (string.IsNullOrEmpty(route)) {
+                errors = "route is a required field. Input was empty. ";
+            }
+
+            if (string.IsNullOrEmpty(milepostValue)) {
+                errors += "milepost is a required field. Input was empty. ";
+            } else if (!double.TryParse(milepostValue, out milepost)) {
+                errors += "milepost is a number value. Input was not a number. ";
+            }
+
+            if (milepost < 0) {
+                errors += "milepost is a positive value. Input was negative. ";
+            }
+
+            if (errors.Length > 0) {
+                _log?.ForContext("errors", errors)
+                    .Debug("milepost validation failed");
+
+                var options = _factory.GetSerializerOptionsFor(_apiVersion);
+
+                return Results.Json(new ApiResponseContract {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = errors.Trim()
+                }, options, "application/json", StatusCodes.Status400BadRequest);
+            }
+
+            return await next(context);
         }
     }
 }
