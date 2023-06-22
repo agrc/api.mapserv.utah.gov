@@ -100,6 +100,7 @@ public static class WebApplicationExtensions {
                 var jsonOptions = factory.GetSerializerOptionsFor(apiVersion);
                 return await mediator.Send(new RouteMilepostQuery.Query(route, milepost, options, jsonOptions, apiVersion));
             })
+            .AddEndpointFilter<RouteMilepostQuery.ValidationFilter>()
             .HasApiVersion(1)
             .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
