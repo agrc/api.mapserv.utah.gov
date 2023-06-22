@@ -1,40 +1,27 @@
 namespace AGRC.api.Models.ArcGis;
 public static class GeometryToMeasure {
-    public class RequestContract {
+    public class RequestContract : RequestContractBase<RequestLocation> {
         /// <summary>
         ///  [{"geometry":{"x":423622,"y":4509387}}]
         /// </summary>
-        public RequestLocation[] Locations { get; set; } = Array.Empty<RequestLocation>();
         public double Tolerance { get; set; }
         public int OutSr { get; set; } = 26912;
         public int InSr { get; set; } = 26912;
 
         public string? QueryString {
             get {
-                var query = new QueryString("?f=json");
-                query = query.Add("locations", LocationsAsQuery());
-                query = query.Add("outSR", OutSr.ToString());
-                query = query.Add("inSR", InSr.ToString());
-                query = query.Add("tolerance", Tolerance.ToString());
+                var query = new QueryString("?f=json")
+                    .Add("locations", LocationsAsQuery())
+                    .Add("outSR", OutSr.ToString())
+                    .Add("inSR", InSr.ToString())
+                    .Add("tolerance", Tolerance.ToString());
 
                 return query.Value;
             }
         }
-
-        internal string LocationsAsQuery() {
-            var locations = new string[Locations.Length];
-            for (var i = 0; i < Locations.Length; i++) {
-                var location = Locations[i];
-                locations[i] = location.ToString();
-            }
-
-            return $"[{string.Join(',', locations)}]";
-        }
     }
 
-    public class RequestLocation {
-        public Point? Geometry { get; set; }
-
+    public record RequestLocation(Point? Geometry) {
         public override string ToString()
             => $$$"""{"geometry":{"x":{{{Geometry?.X}}},"y":{{{Geometry?.Y}}}}}""";
     }
