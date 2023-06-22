@@ -6,14 +6,18 @@ public static class MeasureToGeometry {
         public int OutSr { get; set; } = 26912;
         public string? QueryString {
             get {
-                var query = new QueryString("?f=json");
-                query = query.Add("locations", LocationsAsQuery());
-                query = query.Add("outSR", OutSr.ToString());
+                var query = new QueryString("?f=json")
+                    .Add("locations", LocationsAsQuery())
+                    .Add("outSR", OutSr.ToString());
 
                 return query.Value;
             }
         }
         internal string LocationsAsQuery() {
+            if (Locations.Length == 0) {
+                return string.Empty;
+            }
+
             var locations = new string[Locations.Length];
             for (var i = 0; i < Locations.Length; i++) {
                 var location = Locations[i];
