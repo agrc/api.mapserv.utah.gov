@@ -5,7 +5,7 @@ namespace api.tests.Features.Searching;
 public class SearchRequestOptionsContractTests {
     [Fact]
     public async Task Should_bind_defaults_for_version_1() {
-        var context = HttpContextHelpers.GenerateContextFor("?geometry=point:[1,1]&predicate=1=1&buffer=10", 1);
+        var context = TestHelpers.GenerateContextFor("?geometry=point:[1,1]&predicate=1=1&buffer=10", 1);
 
         var contract = await SearchRequestOptionsContract.BindAsync(context);
 
@@ -18,7 +18,7 @@ public class SearchRequestOptionsContractTests {
 
     [Fact]
     public async Task Should_bind_defaults_for_version_2() {
-        var context = HttpContextHelpers.GenerateContextFor("?geometry=point:[1,1]&predicate=1=1&buffer=10", 2);
+        var context = TestHelpers.GenerateContextFor("?geometry=point:[1,1]&predicate=1=1&buffer=10", 2);
 
         var contract = await SearchRequestOptionsContract.BindAsync(context);
 
@@ -31,7 +31,7 @@ public class SearchRequestOptionsContractTests {
 
     [Fact]
     public async Task Should_bind_defaults_for_unknown_for_version_1() {
-        var context = HttpContextHelpers.GenerateContextFor(
+        var context = TestHelpers.GenerateContextFor(
             "?geometry=point:[1,1]&predicate=1=1&buffer=10&attributeStyle=fake",
             1);
 
@@ -46,7 +46,7 @@ public class SearchRequestOptionsContractTests {
 
     [Fact]
     public async Task Should_bind_defaults_for_unknown_for_version_2() {
-        var context = HttpContextHelpers.GenerateContextFor(
+        var context = TestHelpers.GenerateContextFor(
             "?geometry=point:[1,1]&predicate=1=1&buffer=10&attributeStyle=fake",
             2);
 
@@ -61,7 +61,7 @@ public class SearchRequestOptionsContractTests {
 
     [Fact]
     public async Task Should_bind_all_values() {
-        var context = HttpContextHelpers.GenerateContextFor(
+        var context = TestHelpers.GenerateContextFor(
             "?geometry=point:[1,1]&spatialReference=4326&predicate=1=1&attributeStyle=upper&buffer=10",
             1);
 
@@ -76,7 +76,7 @@ public class SearchRequestOptionsContractTests {
 
     [Fact]
     public async Task Should_limit_buffer() {
-        var context = HttpContextHelpers.GenerateContextFor("?buffer=100000000", 1);
+        var context = TestHelpers.GenerateContextFor("?buffer=100000000", 1);
 
         var contract = await SearchRequestOptionsContract.BindAsync(context);
 
@@ -85,7 +85,7 @@ public class SearchRequestOptionsContractTests {
 
     [Fact]
     public async Task Should_use_default_for_unknown_spatial_reference() {
-        var context = HttpContextHelpers.GenerateContextFor("?spatialReference=what", 1);
+        var context = TestHelpers.GenerateContextFor("?spatialReference=what", 1);
 
         var contract = await SearchRequestOptionsContract.BindAsync(context);
 
@@ -93,7 +93,7 @@ public class SearchRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_handle_negative_values() {
-        var context = HttpContextHelpers.GenerateContextFor("?buffer=-5", 1);
+        var context = TestHelpers.GenerateContextFor("?buffer=-5", 1);
 
         var contract = await SearchRequestOptionsContract.BindAsync(context);
 
@@ -101,7 +101,7 @@ public class SearchRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_set_max_values_values() {
-        var context = HttpContextHelpers.GenerateContextFor("?buffer=-5000", 1);
+        var context = TestHelpers.GenerateContextFor("?buffer=-5000", 1);
 
         var contract = await SearchRequestOptionsContract.BindAsync(context);
 

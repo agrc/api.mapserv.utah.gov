@@ -5,7 +5,7 @@ namespace api.tests.Features.Milepost;
 public class MilepostRequestOptionsContractTests {
     [Fact]
     public async Task Should_bind_defaults_for_version_1() {
-        var context = HttpContextHelpers.GenerateContextFor(string.Empty, 1);
+        var context = TestHelpers.GenerateContextFor(string.Empty, 1);
 
         var contract = await RouteMilepostRequestOptionsContract.BindAsync(context);
 
@@ -16,7 +16,7 @@ public class MilepostRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_bind_defaults_for_version_2() {
-        var context = HttpContextHelpers.GenerateContextFor(string.Empty, 2);
+        var context = TestHelpers.GenerateContextFor(string.Empty, 2);
 
         var contract = await RouteMilepostRequestOptionsContract.BindAsync(context);
 
@@ -27,7 +27,7 @@ public class MilepostRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_bind_defaults_for_unknown_for_version_1() {
-        var context = HttpContextHelpers.GenerateContextFor(
+        var context = TestHelpers.GenerateContextFor(
             "?format=unknown&SIDE=wrong&fullrouTe=four&spatialReference=incorrect", 1);
 
         var contract = await RouteMilepostRequestOptionsContract.BindAsync(context);
@@ -39,7 +39,7 @@ public class MilepostRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_bind_all_values() {
-        var context = HttpContextHelpers.GenerateContextFor(
+        var context = TestHelpers.GenerateContextFor(
             "?format=GEOJSON&SIDE=decreasING&fullrouTe=true&spatialReference=3857", 1);
 
         var contract = await RouteMilepostRequestOptionsContract.BindAsync(context);

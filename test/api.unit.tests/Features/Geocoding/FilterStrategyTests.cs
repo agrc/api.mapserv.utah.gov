@@ -4,7 +4,7 @@ namespace api.tests.Features.Geocoding;
 public class FilterStrategyTests {
     [Fact]
     public void Should_return_v1_for_api_v1() {
-        var httpContext = HttpContextHelpers.CreateVersionedHttpContext(1);
+        var httpContext = TestHelpers.CreateVersionedHttpContext(1);
 
         var httpContextAccessor = new Mock<IHttpContextAccessor>();
         httpContextAccessor.SetupGet(x => x.HttpContext).Returns(httpContext);
@@ -16,7 +16,7 @@ public class FilterStrategyTests {
 
     [Fact]
     public void Should_return_v2_for_api_v2() {
-        var httpContext = HttpContextHelpers.CreateVersionedHttpContext(2);
+        var httpContext = TestHelpers.CreateVersionedHttpContext(2);
 
         var httpContextAccessor = new Mock<IHttpContextAccessor>();
         httpContextAccessor.SetupGet(x => x.HttpContext).Returns(httpContext);

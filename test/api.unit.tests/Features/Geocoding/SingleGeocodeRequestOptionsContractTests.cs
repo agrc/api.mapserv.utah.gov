@@ -5,7 +5,7 @@ namespace api.tests.Features.Geocoding;
 public class SingleGeocodeRequestOptionsContractTests {
     [Fact]
     public async Task Should_bind_defaults_for_version_1() {
-        var context = HttpContextHelpers.GenerateContextFor(string.Empty, 1);
+        var context = TestHelpers.GenerateContextFor(string.Empty, 1);
 
         var contract = await SingleGeocodeRequestOptionsContract.BindAsync(context);
 
@@ -19,7 +19,7 @@ public class SingleGeocodeRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_bind_defaults_for_version_2() {
-        var context = HttpContextHelpers.GenerateContextFor(string.Empty, 2);
+        var context = TestHelpers.GenerateContextFor(string.Empty, 2);
 
         var contract = await SingleGeocodeRequestOptionsContract.BindAsync(context);
 
@@ -33,7 +33,7 @@ public class SingleGeocodeRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_bind_defaults_for_unknown_for_version_1() {
-        var context = HttpContextHelpers.GenerateContextFor(
+        var context = TestHelpers.GenerateContextFor(
             "?format=unknown&locators=wrong&buffer=four&spatialReference=incorrect&suggest=ok&scoreDifference=boo&pobox=wrong", 1);
 
         var contract = await SingleGeocodeRequestOptionsContract.BindAsync(context);
@@ -48,7 +48,7 @@ public class SingleGeocodeRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_bind_defaults_for_unknown_for_version_2() {
-        var context = HttpContextHelpers.GenerateContextFor(
+        var context = TestHelpers.GenerateContextFor(
             "?format=unknown&locators=wrong&buffer=four&spatialReference=incorrect&suggest=ok&scoreDifference=boo&pobox=wrong",
             2);
 
@@ -64,7 +64,7 @@ public class SingleGeocodeRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_bind_all_values() {
-        var context = HttpContextHelpers.GenerateContextFor(
+        var context = TestHelpers.GenerateContextFor(
             "?format=eSRIJson&locators=RoADCenterLines&acceptScore=10&spatialReference=3857&suggest=3&pobox=true",
             1);
 
@@ -80,7 +80,7 @@ public class SingleGeocodeRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_limit_accept_score() {
-        var context = HttpContextHelpers.GenerateContextFor("?acceptScore=100000000", 1);
+        var context = TestHelpers.GenerateContextFor("?acceptScore=100000000", 1);
 
         var contract = await SingleGeocodeRequestOptionsContract.BindAsync(context);
 
@@ -88,7 +88,7 @@ public class SingleGeocodeRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_limit_negative_accept_score() {
-        var context = HttpContextHelpers.GenerateContextFor("?acceptScore=-90", 1);
+        var context = TestHelpers.GenerateContextFor("?acceptScore=-90", 1);
 
         var contract = await SingleGeocodeRequestOptionsContract.BindAsync(context);
 
@@ -96,7 +96,7 @@ public class SingleGeocodeRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_limit_suggest() {
-        var context = HttpContextHelpers.GenerateContextFor("?suggest=100000000", 1);
+        var context = TestHelpers.GenerateContextFor("?suggest=100000000", 1);
 
         var contract = await SingleGeocodeRequestOptionsContract.BindAsync(context);
 
@@ -104,7 +104,7 @@ public class SingleGeocodeRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_limit_negative_suggest() {
-        var context = HttpContextHelpers.GenerateContextFor("?suggest=-20", 1);
+        var context = TestHelpers.GenerateContextFor("?suggest=-20", 1);
 
         var contract = await SingleGeocodeRequestOptionsContract.BindAsync(context);
 
@@ -112,7 +112,7 @@ public class SingleGeocodeRequestOptionsContractTests {
     }
     [Fact]
     public async Task Should_use_default_for_unknown_spatial_reference() {
-        var context = HttpContextHelpers.GenerateContextFor("?spatialReference=what", 1);
+        var context = TestHelpers.GenerateContextFor("?spatialReference=what", 1);
 
         var contract = await SingleGeocodeRequestOptionsContract.BindAsync(context);
 

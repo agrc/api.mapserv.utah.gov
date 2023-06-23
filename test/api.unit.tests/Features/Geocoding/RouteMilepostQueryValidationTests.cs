@@ -21,7 +21,7 @@ public class RouteMilepostQueryValidationTests {
 
     [Fact]
     public async Task Should_fail_with_no_route_name() {
-        var context = HttpContextHelpers.GetEndpointContext(string.Empty, "89", new(), _version);
+        var context = TestHelpers.GetEndpointContext(string.Empty, "89", new(), _version);
 
         var result = await _handler.InvokeAsync(context, _delegateMock.Object) as JsonHttpResult<ApiResponseContract>;
 
@@ -35,7 +35,7 @@ public class RouteMilepostQueryValidationTests {
     }
     [Fact]
     public async Task Should_fail_with_no_milepost_values() {
-        var context = HttpContextHelpers.GetEndpointContext("15", string.Empty, new());
+        var context = TestHelpers.GetEndpointContext("15", string.Empty, new());
 
         var result = await _handler.InvokeAsync(context, _delegateMock.Object) as JsonHttpResult<ApiResponseContract>;
 
@@ -49,7 +49,7 @@ public class RouteMilepostQueryValidationTests {
     }
     [Fact]
     public async Task Should_fail_with_negative_milepost_values() {
-        var context = HttpContextHelpers.GetEndpointContext("15", "-80", new());
+        var context = TestHelpers.GetEndpointContext("15", "-80", new());
 
         var result = await _handler.InvokeAsync(context, _delegateMock.Object) as JsonHttpResult<ApiResponseContract>;
 
@@ -63,7 +63,7 @@ public class RouteMilepostQueryValidationTests {
     }
     [Fact]
     public async Task Should_fail_with_invalid_milepost_values() {
-        var context = HttpContextHelpers.GetEndpointContext("15", "a", new());
+        var context = TestHelpers.GetEndpointContext("15", "a", new());
 
         var result = await _handler.InvokeAsync(context, _delegateMock.Object) as JsonHttpResult<ApiResponseContract>;
 
@@ -77,7 +77,7 @@ public class RouteMilepostQueryValidationTests {
     }
     [Fact]
     public async Task Should_fail_with_both_empty() {
-        var context = HttpContextHelpers.GetEndpointContext(string.Empty, "     ", null);
+        var context = TestHelpers.GetEndpointContext(string.Empty, "     ", null);
 
         var result = await _handler.InvokeAsync(context, _delegateMock.Object) as JsonHttpResult<ApiResponseContract>;
 
@@ -92,7 +92,7 @@ public class RouteMilepostQueryValidationTests {
 
     [Fact]
     public async Task Should_call_next_with_no_errors() {
-        var context = HttpContextHelpers.GetEndpointContext("15", "300", new());
+        var context = TestHelpers.GetEndpointContext("15", "300", new());
 
         var result = await _handler.InvokeAsync(context, _delegateMock.Object) as JsonHttpResult<ApiResponseContract>;
         _delegateMock.Verify(x => x(It.IsAny<EndpointFilterInvocationContext>()), Times.Once);
