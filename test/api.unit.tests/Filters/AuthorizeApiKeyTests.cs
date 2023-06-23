@@ -65,14 +65,14 @@ public class AuthorizeApiKeyTests {
 
         var apiRepo = new Mock<IApiKeyRepository>();
         apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
-               .Returns(Task.FromResult(new ApiKey("Api-Key") {
+               .ReturnsAsync(new ApiKey("Api-Key") {
                    Elevated = false,
                    Deleted = false,
                    Enabled = ApiKey.KeyStatus.Active,
                    Type = ApiKey.ApplicationType.Browser,
                    RegexPattern = pattern,
                    Configuration = ApiKey.ApplicationStatus.Production
-               }));
+               });
 
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
@@ -144,14 +144,14 @@ public class AuthorizeApiKeyTests {
 
         var apiRepo = new Mock<IApiKeyRepository>();
         apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
-               .Returns(Task.FromResult(new ApiKey("Api-Key") {
+               .ReturnsAsync(new ApiKey("Api-Key") {
                    Elevated = false,
                    Deleted = false,
                    Enabled = ApiKey.KeyStatus.Active,
                    Type = ApiKey.ApplicationType.Browser,
                    RegexPattern = pattern,
                    Configuration = ApiKey.ApplicationStatus.Production
-               }));
+               });
 
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
@@ -185,14 +185,14 @@ public class AuthorizeApiKeyTests {
 
         var apiRepo = new Mock<IApiKeyRepository>();
         apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
-               .Returns(Task.FromResult(new ApiKey("Api-Key") {
+               .ReturnsAsync(new ApiKey("Api-Key") {
                    Elevated = false,
                    Deleted = false,
                    Enabled = ApiKey.KeyStatus.Active,
                    Type = ApiKey.ApplicationType.Browser,
                    RegexPattern = pattern,
                    Configuration = ApiKey.ApplicationStatus.Development
-               }));
+               });
 
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
@@ -224,7 +224,7 @@ public class AuthorizeApiKeyTests {
 
         var apiRepo = new Mock<IApiKeyRepository>();
         apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
-               .Returns(Task.FromResult((ApiKey)null));
+               .ReturnsAsync((ApiKey)null);
 
         var httpContext = new DefaultHttpContext();
 
@@ -254,14 +254,14 @@ public class AuthorizeApiKeyTests {
 
         var apiRepo = new Mock<IApiKeyRepository>();
         apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
-               .Returns(Task.FromResult(new ApiKey("key") {
+               .ReturnsAsync(new ApiKey("key") {
                    Elevated = false,
                    Deleted = deleted,
                    Enabled = status,
                    Type = ApiKey.ApplicationType.Browser,
                    RegexPattern = "pattern",
                    Configuration = ApiKey.ApplicationStatus.Production
-               }));
+               });
 
         var httpContext = new DefaultHttpContext();
 
@@ -293,14 +293,14 @@ public class AuthorizeApiKeyTests {
 
         var apiRepo = new Mock<IApiKeyRepository>();
         apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
-               .Returns(Task.FromResult(new ApiKey("key") {
+               .ReturnsAsync(new ApiKey("key") {
                    Elevated = false,
                    Deleted = false,
                    Enabled = ApiKey.KeyStatus.Active,
                    Type = ApiKey.ApplicationType.Server,
                    Pattern = keyIp,
                    Configuration = ApiKey.ApplicationStatus.Production
-               }));
+               });
 
         var httpContext = new DefaultHttpContext();
 
@@ -328,7 +328,7 @@ public class AuthorizeApiKeyTests {
 
         var apiRepo = new Mock<IApiKeyRepository>();
         apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
-               .Returns(Task.FromResult((ApiKey)null));
+               .ReturnsAsync((ApiKey)null);
 
         var httpContext = new DefaultHttpContext();
 
@@ -356,14 +356,14 @@ public class AuthorizeApiKeyTests {
 
         var apiRepo = new Mock<IApiKeyRepository>();
         apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
-               .Returns(Task.FromResult(new ApiKey("key") {
+               .ReturnsAsync(new ApiKey("key") {
                    Elevated = true,
                    Deleted = false,
                    Enabled = ApiKey.KeyStatus.Active,
                    Type = ApiKey.ApplicationType.Browser,
                    RegexPattern = "pattern",
                    Configuration = ApiKey.ApplicationStatus.Production
-               }));
+               });
 
         var httpContext = new DefaultHttpContext();
 

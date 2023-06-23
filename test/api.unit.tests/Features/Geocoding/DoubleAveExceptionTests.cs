@@ -15,16 +15,15 @@ public class DoubleAveExceptionTests {
         var mediator = new Mock<IComputeMediator>();
 
         mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(), It.IsAny<CancellationToken>()))
-                .Returns((AddressSystemFromPlace.Computation g, CancellationToken _) => {
+                .ReturnsAsync((AddressSystemFromPlace.Computation g, CancellationToken _) => {
                     if (g?._cityKey == "slc") {
-                        return Task.FromResult(new[] { new PlaceGridLink("slc", "salt lake city", 1) } as
-                                                   IReadOnlyCollection<GridLinkable>);
+                        return new[] { new PlaceGridLink("slc", "salt lake city", 1) };
                     }
 
-                    return Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>);
+                    return Array.Empty<GridLinkable>();
                 });
         mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromZipCode.Computation>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>));
+                .ReturnsAsync(Array.Empty<GridLinkable>());
 
         var regexCache = new RegexCache(new Abbreviations());
         _computationHandler = new ZoneParsing.Handler(regexCache, mediator.Object, mockLogger.Object);

@@ -11,13 +11,12 @@ public class ZoneParsingTests {
 
         mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(),
                                    It.IsAny<CancellationToken>()))
-                .Returns((AddressSystemFromPlace.Computation g, CancellationToken _) => {
+                .ReturnsAsync((AddressSystemFromPlace.Computation g, CancellationToken _) => {
                     if (g._cityKey == "alta") {
-                        return Task.FromResult(new[] { new PlaceGridLink("alta", "grid", 1) } as
-                                                   IReadOnlyCollection<GridLinkable>);
+                        return new[] { new PlaceGridLink("alta", "grid", 1) };
                     }
 
-                    return Task.FromResult(Array.Empty<GridLinkable>() as IReadOnlyCollection<GridLinkable>);
+                    return Array.Empty<GridLinkable>();
                 });
 
         var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };

@@ -23,13 +23,13 @@ public class AttributeTableKeyFormattingTests {
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(Array.Empty<SearchResponseContract>() as IReadOnlyCollection<SearchResponseContract>));
+                .ReturnsAsync(Array.Empty<SearchResponseContract>());
 
         var dbOptions = Options.Create(new SearchProviderConfiguration());
 
         var handler = new Mock<IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract>>>();
         handler.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(_data));
+                .ReturnsAsync(_data);
 
         _computationHandler = handler.Object;
         _decorator = new AttributeTableKeyFormatting.Decorator(_computationHandler);

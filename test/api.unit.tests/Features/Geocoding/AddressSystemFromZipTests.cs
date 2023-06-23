@@ -10,7 +10,7 @@ public class AddressSystemFromZipTests {
     public AddressSystemFromZipTests() {
         var mockDb = new Mock<IDatabase>();
         mockDb.Setup(x => x.StringGetAsync(It.Is<RedisKey>(p => p.Equals(new RedisKey("1"))), CommandFlags.None))
-              .Returns(Task.FromResult(new RedisValue("grid,1")));
+              .ReturnsAsync(new RedisValue("grid,1"));
 
         var mockConnection = new Mock<IConnectionMultiplexer>();
         mockConnection.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(mockDb.Object);
