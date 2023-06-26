@@ -28,20 +28,46 @@ public class RasterElevation {
 
             var elevationIdentify = new ImageServiceIdentify.RequestContract(computation.Options.Point, GeometryType.esriGeometryPoint);
             var requestUri = elevationIdentify.ToQuery();
-            var httpResponse = await _client.GetAsync(requestUri, cancellationToken);
 
-            var response = await httpResponse.Content.ReadAsAsync<ImageServiceIdentify.ResponseContract>(_mediaTypes, cancellationToken);
+            _log?.ForContext("url", requestUri)
+                 .Debug("request generated");
 
-            if (!response.IsSuccessful) {
+            HttpResponseMessage httpResponse;
+            try {
+                httpResponse = await _client.GetAsync(requestUri, cancellationToken);
+            } catch (TaskCanceledException ex) {
+                _log?.ForContext("url", requestUri)
+                    .Fatal(ex, "failed");
+
+                throw new TaskCanceledException("The request was canceled.");
+            } catch (HttpRequestException ex) {
+                _log?.ForContext("url", requestUri)
+                    .Fatal(ex, "request error");
+
+                throw new HttpRequestException("There was a problem handling your request.");
+            }
+
+            ImageServiceIdentify.ResponseContract? response;
+            try {
+                response = await httpResponse.Content.ReadAsAsync<ImageServiceIdentify.ResponseContract>(_mediaTypes, cancellationToken);
+            } catch (Exception ex) {
+                _log?.ForContext("url", requestUri)
+                    .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
+                    .Fatal(ex, "error reading response");
+
+                throw new Exception("There was an unexpected response from UDOT.");
+            }
+
+            if (!(response?.IsSuccessful ?? false)) {
                 _log?.ForContext("request", requestUri)
-                    .ForContext("error", response.Error)
+                    .ForContext("error", response?.Error)
                     .Warning("invalid request");
 
                 throw new ArgumentException("Your request was invalid. Check that your coordinates and spatial reference match.");
             }
 
             var attributes = new Dictionary<string, object>();
-            var values = computation.ReturnValues.Split(',').Select(x => x.ToLowerInvariant());
+            var values = computation.ReturnValues.Split(',').Select(x => x.ToLowerInvariant().Trim());
 
             if (values.Contains("feet")) {
                 attributes["feet"] = response.Feet;
@@ -56,10 +82,10 @@ public class RasterElevation {
             }
 
             return new[]{
-                    new SearchResponseContract {
-                        Attributes = attributes
-                    },
-                };
+                new SearchResponseContract {
+                    Attributes = attributes
+                },
+            };
         }
     }
 }

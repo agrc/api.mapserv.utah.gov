@@ -75,6 +75,13 @@ public class Geocode {
             return new ReadOnlyCollection<Candidate>(candidates);
         }
 
+        /// <summary>
+        /// Include all candidates that have an addnum or are a street intersection
+        /// Pro locator include many nebulous items (https://pro.arcgis.com/en/pro-app/latest/help/data/geocoding/what-is-included-in-the-geocoded-results-.htm)
+        /// that are not useful for our purposes. This filters out those results.
+        /// </summary>
+        /// <param name="candidates"></param>
+        /// <returns></returns>
         private static List<LocatorCandidate> FilterOutBadProLocatorMatches(List<LocatorCandidate> candidates) =>
             candidates.FindAll(x => !string.IsNullOrEmpty(x.Attributes.Addnum) || x.Attributes.Addr_type == "StreetInt");
     }
