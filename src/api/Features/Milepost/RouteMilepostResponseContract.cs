@@ -59,7 +59,9 @@ public record RouteMilepostResponseContract(string Source, Models.Point Location
         var attributes = new Dictionary<string, object?>();
 
         if (Location != null) {
-            geometry = new Point(new Coordinate(Location.X, Location.Y));
+            geometry = new Point(new Coordinate(Location.X, Location.Y)) {
+                SRID = wkid
+            };
 
             var properties = this?
                 .GetType()
@@ -103,7 +105,6 @@ public record RouteMilepostResponseContract(string Source, Models.Point Location
     => options.Format switch {
         JsonFormat.EsriJson => ToEsriJson(version, options.SpatialReference),
         JsonFormat.GeoJson => ToGeoJson(version, options.SpatialReference),
-        JsonFormat.None => this,
-        _ => throw new NotImplementedException(),
+        _ => this,
     };
 }
