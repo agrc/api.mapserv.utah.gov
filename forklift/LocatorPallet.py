@@ -81,10 +81,7 @@ class LocatorsPallet(Pallet):
             },
         )
 
-        project_id = "ut-dts-agrc-web-api-dev"
-        if configuration == "Production":
-            project_id = "ut-dts-agrc-web-api-prod"
-
+        project_id = self.secrets["project_id"]
         storage_client = storage.Client(project=project_id)
         self.bucket = storage_client.bucket(self.secrets["storage_bucket"])
 
