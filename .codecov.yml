@@ -1,6 +1,8 @@
 ignore:
   - "libs/**"
+  - "src/api/Program.cs"
   - "src/api/Extensions/WebApplicationBuilderExtensions.cs"
   - "src/api/Extensions/WebApplicationExtensions.cs"
   - "src/api/Services/Repositories/PostmanApiKeyRepository.cs"
   - "src/api/Features/Health/**"
+  - "src/api/Exceptions/**"
