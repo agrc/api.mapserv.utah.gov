@@ -29,7 +29,7 @@ from google.cloud import pubsub_v1, storage
 from data.secrets import configuration as secrets
 
 
-class LocatorsPallet(Pallet):
+class CloudLocatorsPallet(Pallet):
     """A module that contains a pallet definition for data to support the
     web api locator services and methods to keep them current.
 
