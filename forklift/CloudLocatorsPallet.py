@@ -97,7 +97,7 @@ class CloudLocatorsPallet(Pallet):
         path_to_locators = Path(self.secrets["path_to_locators"])
         for locator in dirty_locators:
             #: copy current locator to a place to get rebuilt
-            rebuild_path = path_to_locators / "scratch_build"
+            rebuild_path = path_to_locators / "cloud_scratch_build"
 
             self.copy_locator_to(path_to_locators, locator, rebuild_path)
             locator_path = str(Path(rebuild_path) / f"{locator}.loc")
