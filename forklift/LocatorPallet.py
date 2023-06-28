@@ -40,17 +40,13 @@ class LocatorsPallet(Pallet):
     def __init__(self) -> None:
         super().__init__()
 
-        self.destination_coordinate_system: int = 26912
         self.secrets: dict[str, str]
         self.output_location: Path
-        self.locator_lookup: dict[str, tuple[str, str]]
         self.locators: Path
         self.arcgis_services: list[tuple[str, str]]
         self.bucket: storage.bucket
         self.publisher: pubsub_v1.PublisherClient
-        self.topic: str = ""
-        self.sgid: Path
-        self.road_grinder: str
+        self.topic: str
 
     def build(self, configuration: str = "Production") -> None:
         """a method to build the pallet
@@ -63,37 +59,24 @@ class LocatorsPallet(Pallet):
             ("Geolocators/Roads_AddressSystem_STREET", "GeocodeServer"),
         ]
 
-        self.locator_lookup = {
-            "AddressPoints_AddressSystem": (
-                "Geolocators/AddressPoints_AddressSystem",
-                "GeocodeServer",
-            ),
-            "Roads_AddressSystem_STREET": (
-                "Geolocators/Roads_AddressSystem_STREET",
-                "GeocodeServer",
-            ),
-        }
-
         self.copy_data = [str(Path(self.staging_rack) / "locators")]
 
         self.secrets = secrets[configuration]
         self.output_location = Path(self.secrets["path_to_locators"].replace("\\", "/"))
 
         self.locators = Path(self.staging_rack) / "locators.gdb"
-        self.sgid = Path(self.garage) / "SGID.sde"
-        self.road_grinder = self.secrets["path_to_roadgrinder"]
 
         self.add_crate(
             "AddressPoints",
             {
-                "source_workspace": str(self.sgid),
+                "source_workspace": str(Path(self.garage) / "SGID.sde"),
                 "destination_workspace": str(self.locators),
             },
         )
         self.add_crates(
             ["AtlNamesAddrPnts", "AtlNamesRoads", "GeocodeRoads"],
             {
-                "source_workspace": self.road_grinder,
+                "source_workspace": self.secrets["path_to_roadgrinder"],
                 "destination_workspace": str(self.locators),
             },
         )
