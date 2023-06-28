@@ -13,8 +13,8 @@ export default function Header() {
         </P>
         <H1 className="mt-5">Trust the data</H1>
         <P className="ml-3">
-          AGRC was developed specifically to coordinate Utah-specific data, and we’ve been doing this for 30+ years. Other programs can provide you with similar
-          data, but if you’re looking for information that considers the nuances of Utah, this is it—we have the most comprehensive Utah geospatial data, and we
+          AGRC was developed specifically to coordinate Utah-specific data, and we've been doing this for 30+ years. Other programs can provide you with similar
+          data, but if you're looking for information that considers the nuances of Utah, this is it—we have the most comprehensive Utah geospatial data, and we
           want to share it with you.
         </P>
       </div>

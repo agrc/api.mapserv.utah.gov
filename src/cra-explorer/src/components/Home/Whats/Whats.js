@@ -9,10 +9,10 @@ export default function Whats() {
         <div>
           <H1>What is geocoding</H1>
           <P className="ml-3">
-            Geocoding allows you to find a geographic location (i.e., the geographical coordinates) from an address using road segments and address point data. AGRC’s geocoding philosophy is unique in
+            Geocoding allows you to find a geographic location (i.e., the geographical coordinates) from an address using road segments and address point data. AGRC's geocoding philosophy is unique in
             that we would rather give you no match than the wrong match. But we assure you: we will have the best match rates for Utah addresses.
           </P>
-          <P className="ml-3 mt-5">How can we be so sure?—Because we’re the experts in Utah geospatial data.</P>
+          <P className="ml-3 mt-5">How can we be so sure?—Because we're the experts in Utah geospatial data.</P>
         </div>
         <div className="hidden md:flex justify-center self-center">
           <svg className="float-left mr-2" xmlns="http://www.w3.org/2000/svg" width="250" height="215.7" viewBox="0 0 1142 960">
