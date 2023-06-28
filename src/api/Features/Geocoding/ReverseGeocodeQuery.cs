@@ -41,7 +41,7 @@ public class ReverseGeocodeQuery {
 
                 var result = response.ToResponseObject(request._location);
 
-                return new ApiResponseContract<ReverseGeocodeResponseContract> {
+                return new ApiResponseContract {
                     Result = result,
                     Status = StatusCodes.Status200OK
                 };
