@@ -99,16 +99,61 @@
     "worknote",
     "xunit"
   ],
-  "editor.rulers": [
-    120
-  ],
   "coverage-gutters.showGutterCoverage": false,
   "coverage-gutters.showLineCoverage": true,
   "coverage-gutters.showRulerCoverage": false,
   "coverage-gutters.highlightdark": "rgb(61, 153, 112, .05)",
   "coverage-gutters.noHighlightDark": "rgb(255, 65, 54, .05)",
   "coverage-gutters.partialHighlightDark": "rgb(255, 133, 27, .05)",
-  "python.formatting.provider": "black",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "editor.formatOnSave": true,
+  "editor.rulers": [
+    120
+  ],
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js, ${capture}.typegen.ts",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.json": "${capture}.json, ${capture}.*.json",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
+    "*.mts": "${capture}.typegen.ts",
+    "*.cts": "${capture}.typegen.ts",
+    "docker-compose.yml": "docker-compose.override.yml, .dockerignore",
+    "Program.cs": "Globalusings.cs",
+    "README.md": "LICENSE, .gitattributes, .gitignore",
+    ".editorconfig": ".codecov.yml, omnisharp.json",
+    "*.sln": "Directory.Build.props, Directory.Build.targets",
+  },
+  "prettier.printWidth": 120,
+  "prettier.singleQuote": true,
+  "prettier.documentSelectors": [
+    "*.{js,jsx,css,html,md,json}"
+  ],
+  "python.linting.enabled": true,
+  "python.linting.pycodestyleEnabled": false,
+  "python.formatting.provider": "none",
+  "python.languageServer": "Pylance",
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "--no-cov"
+  ],
   "omnisharp.enableRoslynAnalyzers": true,
   "omnisharp.enableEditorConfigSupport": true,
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  },
 }
