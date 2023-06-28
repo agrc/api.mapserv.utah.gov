@@ -17,41 +17,47 @@ Creating the locators
     - In arcgis pro python execute `LocatorsPallet.py`
 """
 
+from pathlib import Path
 from shutil import copyfile, rmtree
 from time import perf_counter
-from pathlib import Path
 
 import arcpy
-from google.cloud import pubsub_v1
-from google.cloud import storage
-from data.secrets import configuration as secrets
 from forklift.models import Crate, Pallet
 from forklift.seat import format_time
+from google.cloud import pubsub_v1, storage
+
+from data.secrets import configuration as secrets
 
 
 class LocatorsPallet(Pallet):
     """A module that contains a pallet definition for data to support the
     web api locator services and methods to keep them current.
+
+    Args:
+        Pallet (forklift.models.Pallet): the base class for all pallets
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.destination_coordinate_system = 26912
-        self.secrets = {}
-        self.configuration = "Dev"
-        self.output_location = None
-        self.locator_lookup = {}
-        self.locators = None
-        self.arcgis_services = []
-        self.bucket = None
-        self.publisher = None
-        self.topic = ""
-        self.sgid = None
-        self.road_grinder = None
+        self.destination_coordinate_system: int = 26912
+        self.secrets: dict[str, str]
+        self.output_location: Path
+        self.locator_lookup: dict[str, tuple[str, str]]
+        self.locators: Path
+        self.arcgis_services: list[tuple[str, str]]
+        self.bucket: storage.bucket
+        self.publisher: pubsub_v1.PublisherClient
+        self.topic: str = ""
+        self.sgid: Path
+        self.road_grinder: str
 
-    def build(self, configuration="Production"):
-        """Builds the pallet."""
+    def build(self, configuration: str = "Production") -> None:
+        """a method to build the pallet
+
+        Args:
+            configuration (str, optional): the configuration of the pallet. Defaults to "Production".
+        """
         self.arcgis_services = [
             ("Geolocators/AddressPoints_AddressSystem", "GeocodeServer"),
             ("Geolocators/Roads_AddressSystem_STREET", "GeocodeServer"),
@@ -71,7 +77,6 @@ class LocatorsPallet(Pallet):
         self.copy_data = [str(Path(self.staging_rack) / "locators")]
 
         self.secrets = secrets[configuration]
-        self.configuration = configuration
         self.output_location = Path(self.secrets["path_to_locators"].replace("\\", "/"))
 
         self.locators = Path(self.staging_rack) / "locators.gdb"
@@ -98,12 +103,13 @@ class LocatorsPallet(Pallet):
             project_id = "ut-dts-agrc-web-api-prod"
 
         storage_client = storage.Client(project=project_id)
-        self.bucket = storage_client.bucket(self.configuration.storage_bucket)
+        self.bucket = storage_client.bucket(self.secrets["storage_bucket"])
 
         self.publisher = pubsub_v1.PublisherClient()
         self.topic = self.publisher.topic_path(project_id, "locator-data-updated")
 
-    def process(self):
+    def process(self) -> None:
+        """Invoked during lift if any crates have data updates."""
         dirty_locators = self._get_dirty_locators()
 
         self.log.info("dirty locators: %s", ",".join(dirty_locators))
@@ -141,9 +147,17 @@ class LocatorsPallet(Pallet):
                     "error removing temp locator folder: %s", error, exc_info=True
                 )
 
-    def ship(self):
-        """this is only for logging purposes. the actual shipping is done in the process
-        method by updating cloud storage and publishing a message to pubsub"""
+    def ship(self) -> bool:
+        """Invoked whether the crates have updates or not.
+
+        This is only for logging purposes. the actual shipping is done in the process
+        method by updating cloud storage and publishing a message to pubsub.
+
+        You must set the self.success for reporting
+
+        Returns:
+            bool: true if the ship process happened
+        """
         dirty_locators = self._get_dirty_locators()
 
         if len(dirty_locators) < 1:
@@ -159,8 +173,12 @@ class LocatorsPallet(Pallet):
 
         return True
 
-    def _get_dirty_locators(self):
-        """returns a list of locator names that need to be rebuilt""" ""
+    def _get_dirty_locators(self) -> set[str]:
+        """returns a list of locator names that need to be rebuilt
+
+        Returns:
+            set[str]: a list of dirty locators
+        """
         lookup = {
             "sgid.location.addresspoints": "AddressPoints_AddressSystem",
             "atlnamesaddrpnts": "AddressPoints_AddressSystem",
@@ -174,8 +192,14 @@ class LocatorsPallet(Pallet):
             if crate.was_updated()
         )
 
-    def copy_locator_to(self, file_path, locator, to_folder):
-        """this copies files from one folder to another folder matching the locator name"""
+    def copy_locator_to(self, file_path: Path, locator: str, to_folder: Path) -> None:
+        """this copies files from one folder to another folder matching the locator name
+
+        Args:
+            file_path (Path): The source folder path containing the locators
+            locator (str): the locator name
+            to_folder (_type_): The destination folder path
+        """
         self.log.debug("copying %s to %s", file_path / locator, to_folder)
         for filename in file_path.glob(f"{locator}.lo*"):
             locator_with_extension = filename.name
@@ -186,8 +210,8 @@ class LocatorsPallet(Pallet):
 
             copyfile(filename, output)
 
-    def create_locators(self):
-        """create locators from scratch"""
+    def create_locators(self) -> None:
+        """create the street and address locators from scratch"""
         #: address points
         primary_fields = [
             "'PointAddress.FEATURE_ID AddressPoints.OBJECTID'",
@@ -290,8 +314,15 @@ class LocatorsPallet(Pallet):
         self.log.info("finished %s", format_time(perf_counter() - process_seconds))
         self.log.info("done %s", format_time(perf_counter() - start_seconds))
 
-    def update_locator_properties(self, locator, locator_path):
-        """Update the locator properties with UGRC defaults"""
+    def update_locator_properties(
+        self, locator: arcpy.geocoding.Locator, locator_path: str
+    ) -> None:
+        """Updates the locator instance and property file with UGRC defaults
+
+        Args:
+            locator (arcpy.geocoding.Locator): the locator instance
+            locator_path (str): the locator name
+        """
         locator.intersectionConnectors = '"&","@","|","and","at"'
         locator.maxCandidates = 10
         locator.minCandidateScore = 60
@@ -314,8 +345,8 @@ if __name__ == "__main__":
         locator         Roads or AddressPoints
         configuration   Dev Staging Production
     """
-    import logging
     import argparse
+    import logging
 
     parser = argparse.ArgumentParser(description="Locator backdoor CLI")
     parser.add_argument("--create", action="store_true", default=False)
