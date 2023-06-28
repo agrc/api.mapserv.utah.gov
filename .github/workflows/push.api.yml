@@ -44,7 +44,7 @@ jobs:
             ${{ runner.OS }}
 
       - name: 🧪 Run tests
-        run: dotnet test /p:CollectCoverage=true /p:ExcludeByFile=\"libs/**/*.cs,samples/**/*.cs\" /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
 
       - name: 📝️ Report coverage to Codecov
         uses: codecov/codecov-action@v3
