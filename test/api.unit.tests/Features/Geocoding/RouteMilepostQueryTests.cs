@@ -10,8 +10,6 @@ public class RouteMilepostQueryTests {
     private readonly ApiVersion _version;
     private readonly Uri _expectedUri = new("""https://maps.udot.utah.gov/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/measureToGeometry?f=json&locations=%5B{"routeId"%3A"0015PM","measure"%3A"80"}%5D&outSR=26912""");
     private readonly RouteMilepostQuery.Query _query;
-
-
     public RouteMilepostQueryTests() {
         _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
         _version = new ApiVersion(1);

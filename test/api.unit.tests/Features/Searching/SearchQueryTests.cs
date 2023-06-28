@@ -19,7 +19,7 @@ public class SearchQueryTests {
                 .ReturnsAsync(new[] {
                     new SearchResponseContract {
                         Geometry = new SerializableGraphic(
-                            new EsriJson.Net.Graphic(
+                            new Graphic(
                                 new EsriJson.Net.Geometry.Point(1, 1),
                                 new Dictionary<string, object>()
                             )),
