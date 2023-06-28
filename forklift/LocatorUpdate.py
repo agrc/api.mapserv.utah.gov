@@ -7,6 +7,7 @@ A module that runs as a scheduled task to look for pub sub topics. The callback 
 from concurrent.futures import TimeoutError
 
 from google.cloud import logging, pubsub_v1, storage
+from data.secrets import configuration
 
 LOGGING_CLIENT = logging.Client()
 STORAGE_CLIENT = storage.Client()
@@ -15,7 +16,7 @@ SUB_CLIENT = pubsub_v1.SubscriberClient()
 LOGGING_CLIENT.setup_logging()
 
 SUBSCRIPTION = SUB_CLIENT.subscription_path(
-    "ut-dts-agrc-web-api-dev", "locator-data-updated"
+    configuration["Dev"]["project_id"], "locator-data-updated"
 )
 
 
