@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /src/api
+    schedule:
+      interval: monthly
+  - package-ecosystem: pip
+    directory: /forklift
+    schedule:
+      interval: monthly
+  - package-ecosystem: npm
+    directory: src/explorer
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
