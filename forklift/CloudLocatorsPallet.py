@@ -17,16 +17,18 @@ Creating the locators
     - In arcgis pro python execute `LocatorsPallet.py`
 """
 
+from json import load
 from pathlib import Path
 from shutil import copyfile, rmtree
 from time import perf_counter
 
 import arcpy
+from data.secrets import configuration as secrets
+from google.cloud import pubsub_v1, storage
+from google.oauth2 import service_account
+
 from forklift.models import Crate, Pallet
 from forklift.seat import format_time
-from google.cloud import pubsub_v1, storage
-
-from data.secrets import configuration as secrets
 
 
 class CloudLocatorsPallet(Pallet):
@@ -81,11 +83,23 @@ class CloudLocatorsPallet(Pallet):
             },
         )
 
+        credential_file = Path("./gcp_service_account.json")
+        if not credential_file.exists():
+            raise Exception("missing service account")
+
+        credential_data = {}
+        with credential_file.open() as reader:
+            credential_data = load(reader)
+
+        credentials = service_account.Credentials.from_service_account_info(
+            credential_data
+        )
+
         project_id = self.secrets["project_id"]
-        storage_client = storage.Client(project=project_id)
+        storage_client = storage.Client(project=project_id, credentials=credentials)
         self.bucket = storage_client.bucket(self.secrets["storage_bucket"])
 
-        self.publisher = pubsub_v1.PublisherClient()
+        self.publisher = pubsub_v1.PublisherClient(credentials=credentials)
         self.topic = self.publisher.topic_path(project_id, "locator-data-updated")
 
     def process(self) -> None:
