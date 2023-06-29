@@ -357,7 +357,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    pallet = LocatorsPallet()
+    pallet = CloudLocatorsPallet()
     logging.basicConfig(
         format="%(levelname)s %(asctime)s %(lineno)s %(message)s",
         datefmt="%H:%M:%S",
