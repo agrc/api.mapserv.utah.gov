@@ -83,7 +83,7 @@ class CloudLocatorsPallet(Pallet):
             },
         )
 
-        credential_file = Path("./gcp_service_account.json")
+        credential_file = Path(self.garage) / "api_service_account.json"
         if not credential_file.exists():
             raise Exception("missing service account")
 
