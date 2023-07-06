@@ -72,12 +72,16 @@
     }
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
+    "@radix-ui/react-collapsible": "^1.0.3",
+    "@radix-ui/react-popover": "^1.0.6",
     "@utahdts/utah-design-system-header": "^0.10.3",
     "firebase-admin": "^11.9.0",
     "firebase-functions": "^4.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "reactfire": "^4.2.3"
+    "reactfire": "^4.2.3",
+    "tailwindcss-animate": "^1.0.6"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",

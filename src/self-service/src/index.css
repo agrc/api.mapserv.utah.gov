@@ -48,10 +48,6 @@
 .utah-design-system {
   --primary-color: theme('colors.wavy.700');
 }
-.utah-design-system.main-menu__outer,
-.utds-footer {
-  display: none !important; /* not sure how to get around the important here */
-}
 .utah-design-system.utds-official-website-popup__wrapper {
   z-index: 1;
 }

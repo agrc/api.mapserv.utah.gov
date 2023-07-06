@@ -38,6 +38,7 @@
     "geospatial",
     "GLOBALID",
     "gserviceaccount",
+    "heroicons",
     "immer",
     "kube",
     "kubectl",
