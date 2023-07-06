@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.github/
+package.json
+package-lock.json
+.emulator-data/
+.husky/
+.vscode/
+coverage/
+firebase-export-*/
+public/assets/**
