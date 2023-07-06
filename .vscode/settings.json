@@ -129,6 +129,8 @@
     "README.md": "LICENSE, .gitattributes, .gitignore",
     ".editorconfig": ".codecov.yml, omnisharp.json",
     "*.sln": "Directory.Build.props, Directory.Build.targets",
+    "firebase.json": ".firebaserc, firestore.indexes.json, firestore.rules, storage.rules, firebase-debug.log, firestore-debug.log, ui-debug.log",
+    "tailwind.config.js": "postcss.config.js",
   },
   "prettier.printWidth": 120,
   "prettier.singleQuote": true,
