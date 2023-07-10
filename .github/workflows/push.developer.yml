@@ -1,0 +1,63 @@
+name: Push Events (Developer)
+
+on:
+  push:
+    branches:
+      - development
+    paths:
+      - "src/self-service/**"
+      - ".github/workflows/push.developer.yml"
+
+permissions:
+  contents: write
+  id-token: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-please:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release-please.outputs.release_created }}
+
+    steps:
+      - name: 🚀 Create Release
+        id: release-please
+        uses: agrc/release-composite-action@dev
+        with:
+          prerelease: ${{ github.ref_name == 'development' }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          monorepo: true
+          github-app-id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
+          github-app-key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
+          github-app-name: ${{ secrets.UGRC_RELEASE_BOT_NAME }}
+          github-app-email: ${{ secrets.UGRC_RELEASE_BOT_EMAIL }}
+
+  deploy-firebase-dev:
+    name: 🚀 Deploy to Firebase (dev)
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    defaults:
+      run:
+        working-directory: src/self-service
+
+    steps:
+      - name: 🚀 Deploy
+        uses: agrc/firebase-website-deploy-composite-action@v1
+        with:
+          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project-id: ${{ secrets.PROJECT_ID }}
+          build-command: npm run build -- --mode dev
+          preview: yes
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          service-now-instance: ${{ secrets.SN_INSTANCE }}
+          service-now-table: ${{ secrets.SN_TABLE }}
+          service-now-system-id: ${{ secrets.SN_SYS_ID }}
+          service-now-username: ${{ secrets.SN_USERNAME }}
+          service-now-password: ${{ secrets.SN_PASSWORD }}
