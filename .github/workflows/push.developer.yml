@@ -56,7 +56,7 @@ jobs:
             {"type":"ci","section":"⚙️ Continuous Integration Changes","hidden":true},
             {"type":"chore","section":"🧰 Maintenance","hidden":true}]
           default-branch: ${{ github.ref_name }}
-          path: src/self-service
+          path: "src/self-service"
           monorepo-tags: true
 
   deploy-firebase-dev:
@@ -104,4 +104,4 @@ jobs:
 
       - name: 🚀 Firebase deploy
         shell: bash
-        run: npx firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
+        run: npx firebase-tools deploy --only hosting --project ${{ secrets.PROJECT_ID }}
