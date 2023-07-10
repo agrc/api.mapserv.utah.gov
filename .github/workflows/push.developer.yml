@@ -8,6 +8,10 @@ on:
       - "src/self-service/**"
       - ".github/workflows/push.developer.yml"
 
+defaults:
+  run:
+    working-directory: src/self-service
+
 permissions:
   contents: write
   id-token: write
@@ -18,25 +22,42 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  release-please:
-    name: Create release
+  release:
+    name: Create Release
     runs-on: ubuntu-latest
-    outputs:
-      release_created: ${{ steps.release-please.outputs.release_created }}
 
     steps:
-      - name: 🚀 Create Release
-        id: release-please
-        uses: agrc/release-composite-action@dev
+      - name: 🪙 Convert token
+        uses: tibdex/github-app-token@v1
+        id: generate_token
         with:
-          working-directory: src/self-service
-          prerelease: ${{ github.ref_name == 'development' }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          monorepo: true
-          github-app-id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
-          github-app-key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
-          github-app-name: ${{ secrets.UGRC_RELEASE_BOT_NAME }}
-          github-app-email: ${{ secrets.UGRC_RELEASE_BOT_EMAIL }}
+          app_id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
+          private_key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
+
+      - name: ⬇️ Set up code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ steps.generate_token.outputs.token }}
+
+      - name: 🚀 Create release
+        uses: google-github-actions/release-please-action@v3
+        id: release-please
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          release-type: "node"
+          pull-request-title-pattern: "chore: release v${version}"
+          changelog-types: >
+            [{"type":"feat","section":"🚀 Features","hidden":false},
+            {"type":"fix","section":"🐛 Bug Fixes","hidden":false},
+            {"type":"deps","section":"🌲 Dependencies","hidden":false},
+            {"type":"docs","section":"📖 Documentation Improvements","hidden":false},
+            {"type":"style","section":"🎨 Design Improvements","hidden":false},
+            {"type":"ci","section":"⚙️ Continuous Integration Changes","hidden":true},
+            {"type":"chore","section":"🧰 Maintenance","hidden":true}]
+          default-branch: ${{ github.ref_name }}
+          path: src/self-service
+          monorepo-tags: true
 
   deploy-firebase-dev:
     name: 🚀 Deploy to Firebase (dev)
@@ -45,18 +66,42 @@ jobs:
       name: dev
 
     steps:
-      - name: 🚀 Deploy
-        uses: agrc/firebase-website-deploy-composite-action@dev
+      - name: ⬇️ Set up code
+        uses: actions/checkout@v3
+
+      - name: ⎔ Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          working-directory: src/self-service
-          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
-          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-          project-id: ${{ secrets.PROJECT_ID }}
-          build-command: npm run build -- --mode dev
-          preview: yes
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          service-now-instance: ${{ secrets.SN_INSTANCE }}
-          service-now-table: ${{ secrets.SN_TABLE }}
-          service-now-system-id: ${{ secrets.SN_SYS_ID }}
-          service-now-username: ${{ secrets.SN_USERNAME }}
-          service-now-password: ${{ secrets.SN_PASSWORD }}
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: src/self-service/package-lock.json
+
+      - name: 📥 Download dependencies
+        shell: bash
+        run: npm ci
+
+      - name: 🏗 Run build command
+        shell: bash
+        run: npm run build
+
+      - name: 🪣 Cache firebase
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/firebase
+          key: ${{ runner.OS }}-firebase-${{ hashFiles('~/.cache/firebase/**') }}
+          restore-keys: |
+            ${{ runner.OS }}-firebase-
+            ${{ runner.OS }}-
+
+      - name: 🗝️ Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          access_token_scopes: "email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase"
+          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          create_credentials_file: true
+
+      - name: 🚀 Firebase deploy
+        shell: bash
+        run: npx firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
