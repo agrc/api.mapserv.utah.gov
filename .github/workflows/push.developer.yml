@@ -56,7 +56,6 @@ jobs:
             {"type":"ci","section":"⚙️ Continuous Integration Changes","hidden":true},
             {"type":"chore","section":"🧰 Maintenance","hidden":true}]
           default-branch: ${{ github.ref_name }}
-          path: "src/self-service"
           monorepo-tags: true
 
   deploy-firebase-dev:
