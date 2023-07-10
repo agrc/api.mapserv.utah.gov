@@ -18,6 +18,7 @@
     "Autofac",
     "centerlines",
     "cloudrun",
+    "clsx",
     "codecov",
     "Concurrencies",
     "Errorable",
@@ -73,6 +74,7 @@
     "psql",
     "purgecss",
     "randh",
+    "reactfire",
     "reproject",
     "reprojecting",
     "requestip",
@@ -149,6 +151,10 @@
   ],
   "omnisharp.enableRoslynAnalyzers": true,
   "omnisharp.enableEditorConfigSupport": true,
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

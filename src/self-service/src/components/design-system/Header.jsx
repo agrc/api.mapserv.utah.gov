@@ -3,7 +3,7 @@ import {
   CheckBadgeIcon,
   LockClosedIcon,
 } from '@heroicons/react/24/outline';
-import { Squares2X2Icon } from '@heroicons/react/24/solid';
+import { Squares2X2Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import * as Popover from '@radix-ui/react-popover';
 import PropTypes from 'prop-types';
@@ -12,14 +12,14 @@ const Header = ({ className, children, links }) => {
   return (
     <Collapsible.Root>
       <header className={className}>
-        <div className="flex justify-between items-center px-3 py-6 border-b-wavy-300 border-b border-dashed">
-          <div className="h-16 divide-x divide-slate-500 space-x-6 flex flex-row">
+        <div className="flex justify-between items-center px-3 py-6 border-b-wavy-300 dark:border-b-mustard-300 border-b border-dashed">
+          <div className="h-16 flex-1 divide-x divide-slate-500 space-x-6 flex flex-row">
             <Collapsible.Trigger className="h-16 w-28">
               <span className="sr-only">
                 An official website of the State of Utah. Click to learn more.
               </span>
               <svg
-                className="fill-wavy-800"
+                className="fill-wavy-800 dark:fill-slate-300"
                 viewBox="0 0 105.9496 47.6226"
                 role="img"
               >
@@ -35,18 +35,18 @@ const Header = ({ className, children, links }) => {
                 </g>
               </svg>
             </Collapsible.Trigger>
-            <div className="pl-4">{children}</div>
+            <div className="pl-6 flex-1 flex">{children}</div>
           </div>
-          <div className="mr-10">
+          <div className="lg:mr-10 items-center inline-flex">
             <Popover.Root>
               <Popover.Trigger asChild>
                 <button aria-label="Links">
-                  <Squares2X2Icon className="text-slate-600 w-7" />
+                  <Squares2X2Icon className="text-slate-600 dark:text-slate-300 w-7" />
                 </button>
               </Popover.Trigger>
               <Popover.Portal>
                 <Popover.Content
-                  className="bg-white z-10 mr-2 rounded-md border p-4 shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
+                  className="bg-white dark:bg-slate-900 z-10 mr-2 rounded-md border p-4 shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
                   sideOffset={4}
                 >
                   <div className="grid grid-cols-1 divide-y whitespace-nowrap">
@@ -54,10 +54,10 @@ const Header = ({ className, children, links }) => {
                       <a
                         href={link.actionUrl.url}
                         key={i}
-                        className="text-sm p-1 flex items-center justify-between hover:text-slate-600"
+                        className="text-slate-500 dark:text-slate-300 text-sm p-1 flex items-center justify-between hover:text-slate-600"
                       >
                         {link.title}{' '}
-                        <ArrowTopRightOnSquareIcon className="ml-1 text-slate-500 w-4" />
+                        <ArrowTopRightOnSquareIcon className="ml-1 text-slate-500 dark:text-slate-300 w-4" />
                       </a>
                     ))}
                   </div>
@@ -76,12 +76,12 @@ const Header = ({ className, children, links }) => {
 
 const Flyout = () => {
   return (
-    <div className="relative bg-wavy-800 z-10 p-6">
+    <div className="relative bg-wavy-800 z-10 px-6 py-4 border-b shadow-lg border-b-mustard-300">
       <h3 className="text-white mb-2">
         This is an official website of the State of Utah. Here&apos;s how you
         know:
       </h3>
-      <div className="flex gap-10">
+      <div className="flex flex-col lg:flex-row gap-10">
         <div className="flex items-start gap-2 max-w-sm flex-1">
           <CheckBadgeIcon className="text-white w-24" />
           <div className="text-white">
@@ -104,7 +104,7 @@ const Flyout = () => {
             websites.
           </div>
         </div>
-        <div className="text-white">
+        <div className="text-white flex sm:flex-col sm:gap-1 gap-4 items-center">
           <svg
             className="fill-current w-36"
             viewBox="0 0 105.9496 47.6226"
@@ -126,14 +126,16 @@ const Flyout = () => {
           </div>
         </div>
       </div>
-      <button
-        type="button"
-        className="utds-official-website-popup__close-button button icon-button icon-button--borderless"
-        id="02310010-1013-4321-8101-001211330310"
-      >
-        <span className="utds-icon-before-x-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Close official website popup</span>
-      </button>
+      <Collapsible.Trigger>
+        <button
+          type="button"
+          className="absolute top-2 right-2 text-white"
+          id="02310010-1013-4321-8101-001211330310"
+        >
+          <XMarkIcon className="w-7" />
+          <span className="sr-only">Close official website popup</span>
+        </button>
+      </Collapsible.Trigger>
     </div>
   );
 };

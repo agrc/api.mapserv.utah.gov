@@ -1,10 +1,12 @@
 import Footer from './components/design-system/Footer';
 import Header from './components/design-system/Header';
+import ThemeToggle from './components/page/ThemeToggle';
 
 function App() {
   return (
     <>
       <Header
+        className="bg-slate-100 dark:bg-wavy-900 transition-colors duration-1000"
         links={[
           {
             actionUrl: {
@@ -36,33 +38,40 @@ function App() {
           },
         ]}
       >
-        <div className="flex space-x-2 items-center">
+        <div className="flex flex-1 space-x-2 items-center">
           <img
             src="/logo.svg"
             alt="UGRC API"
-            className="h-12 w-auto"
+            className="hidden sm:block max-h-16 w-auto"
             role="presentation"
           />
-          <h1 className="text-slate-700">UGRC API</h1>
+          <h1 className="text-slate-700 dark:text-slate-300 text-center">
+            UGRC API
+          </h1>
+          <div className="inline-flex flex-1 justify-end px-4">
+            <ThemeToggle />
+          </div>
         </div>
       </Header>
       <main>
         <section>
           <div className="max-w-full mx-auto px-3 lg:px-0">
             <div className="flex flex-wrap">
-              <div className="w-full max-w-full min-h-[480px] lg:min-h-[980px] bg-white py-10 lg:flex-basis-auto lg:w-1/2 lg:grow-0 lg:shrink-0 lg:py-[114px]">
+              <div className="w-full max-w-full min-h-[480px] lg:min-h-[980px] py-10 lg:flex-basis-auto lg:w-1/2 lg:grow-0 lg:shrink-0 lg:py-[114px]">
                 <div className="mx-auto w-full max-w-[480px] grid gap-6">
-                  <h2 className="text-wavy-800">Access your keys</h2>
-                  <p className="text-slate-700">
+                  <h2 className="text-wavy-800 dark:text-slate-100">
+                    Access your keys
+                  </h2>
+                  <p className="text-slate-700 dark:text-slate-300">
                     The UGRC API requires a UtahId account to create and manage
                     API keys. Your name and email address will be shared with
                     this application.
                   </p>
-                  <p className="text-slate-700">
+                  <p className="text-slate-700 dark:text-slate-300">
                     You will be able to claim your existing API keys by linking
                     your prior account to your UtahId account after signing in.
                   </p>
-                  <p className="text-slate-700">
+                  <p className="text-slate-700 dark:text-slate-300">
                     API keys are anonymous and randomly generated. No personal
                     information will be shared or made public.{' '}
                     <a href="/">View our privacy policy</a>.
