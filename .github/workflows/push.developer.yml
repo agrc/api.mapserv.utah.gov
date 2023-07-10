@@ -57,6 +57,7 @@ jobs:
             {"type":"chore","section":"🧰 Maintenance","hidden":true}]
           default-branch: ${{ github.ref_name }}
           monorepo-tags: true
+          command: manifest
 
   deploy-firebase-dev:
     name: 🚀 Deploy to Firebase (dev)
