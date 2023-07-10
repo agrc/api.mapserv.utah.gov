@@ -22,3 +22,6 @@ forklift/data/secrets.py
 forklift/gcp_service_account.json
 forklift/.env
 __pycache__
+
+# node
+node_modules
