@@ -25,13 +25,11 @@ jobs:
       release_created: ${{ steps.release-please.outputs.release_created }}
 
     steps:
-      - name: hack my way to victory
-        run: cd src/self-service
-
       - name: 🚀 Create Release
         id: release-please
         uses: agrc/release-composite-action@dev
         with:
+          working-directory: src/self-service
           prerelease: ${{ github.ref_name == 'development' }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           monorepo: true
@@ -47,12 +45,10 @@ jobs:
       name: dev
 
     steps:
-      - name: hack my way to victory
-        run: cd src/self-service
-
       - name: 🚀 Deploy
-        uses: agrc/firebase-website-deploy-composite-action@v1
+        uses: agrc/firebase-website-deploy-composite-action@dev
         with:
+          working-directory: src/self-service
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
