@@ -8,6 +8,10 @@ on:
       - "src/self-service/**"
       - ".github/workflows/push.developer.yml"
 
+defaults:
+  run:
+    working-directory: src/self-service
+
 permissions:
   contents: write
   id-token: write
@@ -42,9 +46,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: dev
-    defaults:
-      run:
-        working-directory: src/self-service
 
     steps:
       - name: 🚀 Deploy
