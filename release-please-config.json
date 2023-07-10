@@ -1,6 +1,7 @@
 {
   "bootstrap-sha": "4c8c095281aaa14392312afd03c45d37b091be82",
   "release-type": "node",
+  "separate-pull-requests": true,
   "packages": {
     "src/self-service": {},
     "src/explorer": {},
