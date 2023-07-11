@@ -17,7 +17,7 @@
   ],
   "hosting": [
     {
-      "target": "developer",
+      "target": "self-service",
       "public": "dist",
       "ignore": [
         "firebase.json",
