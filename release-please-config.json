@@ -6,7 +6,8 @@
     "src/developer": {},
     "src/explorer": {},
     "src/api": {
-      "release-type": "simple"
+      "release-type": "simple",
+      "component": "api"
     }
   }
 }
