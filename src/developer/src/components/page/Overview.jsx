@@ -1,7 +1,7 @@
 import Button from '../design-system/Button';
 
 const OverviewPage = () => (
-  <section className="max-w-prose mt-6 justify-center mx-auto space-y-4">
+  <section className="min-h-[480px] lg:min-h-screen max-w-prose mt-6 justify-center mx-auto space-y-4">
     <h2 className="text-center text-wavy-800 dark:text-slate-200">
       API Key Statistics
     </h2>
