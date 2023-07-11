@@ -5,14 +5,14 @@ on:
     branches:
       - development
     paths:
-      - "src/self-service/**"
+      - "src/developer/**"
       - ".github/workflows/push.developer.yml"
       - "release-please-config.json"
       - ".release-please-manifest.json"
 
 defaults:
   run:
-    working-directory: src/self-service
+    working-directory: src/developer
 
 permissions:
   contents: write
@@ -76,7 +76,7 @@ jobs:
         with:
           node-version: lts/*
           cache: npm
-          cache-dependency-path: src/self-service/package-lock.json
+          cache-dependency-path: src/developer/package-lock.json
 
       - name: 📥 Download dependencies
         shell: bash

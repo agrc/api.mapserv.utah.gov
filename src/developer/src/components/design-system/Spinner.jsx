@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
-import { createKeyLookup } from './';
+import { createKeyLookup } from '.';
 
 const SIZES = {
   xs: 'h-3 w-3',

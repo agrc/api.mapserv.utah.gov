@@ -25,3 +25,7 @@ __pycache__
 
 # node
 node_modules
+
+# original projects
+cra-explorer/
+csharp-developer/

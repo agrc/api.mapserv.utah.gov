@@ -3,7 +3,7 @@
   "release-type": "node",
   "separate-pull-requests": true,
   "packages": {
-    "src/self-service": {},
+    "src/developer": {},
     "src/explorer": {},
     "src/api": {
       "release-type": "simple"

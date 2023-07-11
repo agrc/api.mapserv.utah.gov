@@ -1,6 +1,6 @@
 import '@utahdts/utah-design-system-header/css';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom/client.js';
 import { FirebaseAppProvider } from 'reactfire';
 import App from './App.jsx';
 import './index.css';

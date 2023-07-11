@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "ut-dts-agrc-web-api-dev"
-  }
+  },
+  "targets": {
+    "ut-dts-agrc-web-api-dev": {
+      "hosting": {
+        "self-service": [
+          "ut-dts-agrc-web-api-dev-self-service"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
