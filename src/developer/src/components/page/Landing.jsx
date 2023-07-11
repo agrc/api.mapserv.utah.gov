@@ -1,4 +1,5 @@
 import LoginButton from '../LoginButton';
+import product from './product.png';
 
 const LandingPage = () => (
   <section className="max-w-full mx-auto px-3 lg:px-0">
@@ -51,7 +52,7 @@ const LandingPage = () => (
             width="667"
             height="557"
             className="mx-auto grayscale hover:grayscale-0"
-            src="/product.png"
+            src={product}
             alt=""
           ></img>
         </div>
