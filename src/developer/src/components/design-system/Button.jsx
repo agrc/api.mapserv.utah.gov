@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { createKeyLookup } from '.';
 import Spinner from './Spinner';
@@ -91,9 +92,6 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   title: PropTypes.string,
-  /**
-   * Size of the button. Corresponds with the tailwind text sizes (base, sm, lg, xl)
-   */
   size: PropTypes.oneOf(Object.keys(SIZES)),
 };
 
@@ -108,5 +106,49 @@ Button.defaultProps = {
 Button.Colors = createKeyLookup(COLORS);
 Button.Appearances = createKeyLookup(APPEARANCES);
 Button.Sizes = createKeyLookup(SIZES);
+
+export const RouterButtonLink = ({
+  to,
+  children,
+  className,
+  appearance,
+  color,
+  size,
+}) => {
+  console.log(to, children, className, appearance, color, size);
+  return (
+    <Link
+      to={to}
+      className={twMerge(
+        'flex w-fit cursor-pointer select-none items-center justify-center rounded-full',
+        appearance === APPEARANCES.outlined && 'border-2',
+        COLORS[color][appearance],
+        SIZES[size],
+        'transition-all duration-200 ease-in-out',
+        'focus:outline-none focus:ring-2 focus:ring-opacity-50',
+        'hover:text-white',
+        className,
+      )}
+    >
+      {children}
+    </Link>
+  );
+};
+RouterButtonLink.displayName = 'RouterButtonLink';
+RouterButtonLink.propTypes = {
+  appearance: PropTypes.oneOf(Object.keys(APPEARANCES)),
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  color: PropTypes.oneOf(Object.keys(COLORS)),
+  size: PropTypes.oneOf(Object.keys(SIZES)),
+  to: PropTypes.string.isRequired,
+};
+RouterButtonLink.defaultProps = {
+  appearance: 'outlined',
+  busy: false,
+  color: 'none',
+  disabled: false,
+  size: 'base',
+};
 
 export default Button;
