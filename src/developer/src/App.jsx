@@ -70,7 +70,7 @@ const App = () => {
               <img
                 src="/logo.svg"
                 alt="UGRC API"
-                className="hidden sm:block max-h-16 w-auto"
+                className="hidden sm:block h-16 w-16"
                 role="presentation"
               />
               <h1 className="text-slate-700 dark:text-slate-300 text-center">
