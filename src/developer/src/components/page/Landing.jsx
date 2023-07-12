@@ -10,7 +10,7 @@ const LandingPage = () => (
             Access your keys
           </h2>
           <p className="text-slate-700 dark:text-slate-300">
-            The UGRC API requires a UtahId account to create and manage API
+            The UGRC API requires a UtahID account to create and manage API
             keys. Your name and email address will be shared with this
             application.
           </p>
