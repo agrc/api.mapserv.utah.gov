@@ -52,6 +52,7 @@ function Button({
   disabled,
   onClick,
   size,
+  title,
 }) {
   if (busy) {
     disabled = true;
@@ -73,6 +74,7 @@ function Button({
       )}
       disabled={disabled}
       onClick={onClick}
+      title={title}
     >
       {children}
       {busy && <Spinner className="ml-1" ariaLabel="loading" size={size} />}
@@ -88,6 +90,7 @@ Button.propTypes = {
   color: PropTypes.oneOf(Object.keys(COLORS)),
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
+  title: PropTypes.string,
   /**
    * Size of the button. Corresponds with the tailwind text sizes (base, sm, lg, xl)
    */

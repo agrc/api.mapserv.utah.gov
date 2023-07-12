@@ -20,6 +20,7 @@ const UtahIdLogin = () => {
       appearance={Button.Appearances.solid}
       color={Button.Colors.primary}
       onClick={handleClick}
+      title="UtahID Login"
     >
       <svg
         className="h-24 w-24 fill-current py-1"
