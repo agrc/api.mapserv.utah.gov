@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Popover from './design-system/Popover';
 import Tooltip from './design-system/Tooltip';
 
-const size = 64;
+const size = 120;
 
 const gravatarIcon = (
   <svg
