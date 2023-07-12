@@ -3,6 +3,7 @@ import { getFirestore } from 'firebase/firestore';
 import { useFirebaseApp, useSigninCheck, useUser } from 'reactfire';
 import connectEmulators from './Emulators';
 import Routes from './Routes';
+import Avatar from './components/Avatar';
 import ThemeToggle from './components/ThemeToggle';
 import Footer from './components/design-system/Footer';
 import Header from './components/design-system/Header';
@@ -64,8 +65,15 @@ const App = () => {
           <h1 className="text-slate-700 dark:text-slate-300 text-center">
             UGRC API
           </h1>
-          <div className="inline-flex flex-1 justify-end px-4">
+          <div className="inline-flex flex-grow justify-end">
             <ThemeToggle />
+          </div>
+          <div className="inline-flex flex-shrink justify-end px-4">
+            <Avatar
+              anonymous={!(data?.signedIn ?? false)}
+              user={user}
+              signOut={() => auth.signOut()}
+            />
           </div>
         </div>
       </Header>
