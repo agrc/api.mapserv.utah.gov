@@ -1,4 +1,4 @@
-import LoginButton from '../LoginButton';
+import UtahIdLogin from '../UtahIdLogin';
 import product from './product.png';
 
 const LandingPage = () => (
@@ -31,7 +31,7 @@ const LandingPage = () => (
             <span className="h-px flex-1 bg-slate-200"></span>
           </div>
           <div className="flex justify-center">
-            <LoginButton />
+            <UtahIdLogin />
           </div>
         </div>
       </div>

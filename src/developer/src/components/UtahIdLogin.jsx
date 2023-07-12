@@ -2,7 +2,7 @@ import { OAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useAuth } from 'reactfire';
 import Button from './design-system/Button';
 
-const LoginButton = () => {
+const UtahIdLogin = () => {
   const auth = useAuth();
 
   const handleClick = () => {
@@ -83,4 +83,4 @@ const LoginButton = () => {
   );
 };
 
-export default LoginButton;
+export default UtahIdLogin;
