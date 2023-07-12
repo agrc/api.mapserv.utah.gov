@@ -1,78 +1,58 @@
-import { connectAuthEmulator, getAuth } from 'firebase/auth';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
-import { AuthProvider, useFirebaseApp } from 'reactfire';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { useFirebaseApp, useSigninCheck, useUser } from 'reactfire';
+import connectEmulators from './Emulators';
 import Routes from './Routes';
 import ThemeToggle from './components/ThemeToggle';
 import Footer from './components/design-system/Footer';
 import Header from './components/design-system/Header';
 
-function App() {
-  const app = useFirebaseApp();
-  const auth = getAuth(app);
-  const firestore = getFirestore(app);
+const links = [
+  {
+    actionUrl: {
+      url: 'https://www.utah.gov/support/disclaimer.html',
+      openInNewTab: true,
+    },
+    title: 'Terms of Use',
+  },
+  {
+    actionUrl: {
+      url: 'https://www.utah.gov/support/privacypolicy.html',
+      openInNewTab: true,
+    },
+    title: 'Privacy Policy',
+  },
+  {
+    actionUrl: {
+      url: 'https://www.utah.gov/support/accessibility.html',
+      openInNewTab: true,
+    },
+    title: 'Accessibility',
+  },
+  {
+    actionUrl: {
+      url: 'https://www.utah.gov/support/translate.html',
+      openInNewTab: true,
+    },
+    title: 'Translate',
+  },
+];
 
-  if (import.meta.env.DEV) {
-    if (typeof window === 'undefined' || !window['_firebase_auth_emulator']) {
-      try {
-        connectAuthEmulator(auth, 'http://localhost:9099', {
-          disableWarnings: true,
-        });
-      } catch {
-        console.log('auth emulator already connected');
-      }
-      if (typeof window !== 'undefined') {
-        window['_firebase_auth_emulator'] = true;
-      }
-    }
-    if (
-      typeof window === 'undefined' ||
-      !window['_firebase_firestore_emulator']
-    ) {
-      try {
-        connectFirestoreEmulator(firestore, 'localhost', 8080);
-      } catch {
-        console.log('firestore emulator already connected');
-      }
-      if (typeof window !== 'undefined') {
-        window['_firebase_firestore_emulator'] = true;
-      }
-    }
-  }
+const App = () => {
+  const app = useFirebaseApp();
+  const firestore = getFirestore(app);
+  const auth = getAuth(app);
+
+  const { data } = useSigninCheck();
+  const { data: user } = useUser();
+
+  connectEmulators(import.meta.env.DEV, auth, firestore);
 
   return (
     <>
       <Header
         className="bg-slate-100 dark:bg-wavy-900 transition-colors duration-1000"
-        links={[
-          {
-            actionUrl: {
-              url: 'https://www.utah.gov/support/disclaimer.html',
-              openInNewTab: true,
-            },
-            title: 'Terms of Use',
-          },
-          {
-            actionUrl: {
-              url: 'https://www.utah.gov/support/privacypolicy.html',
-              openInNewTab: true,
-            },
-            title: 'Privacy Policy',
-          },
-          {
-            actionUrl: {
-              url: 'https://www.utah.gov/support/accessibility.html',
-              openInNewTab: true,
-            },
-            title: 'Accessibility',
-          },
-          {
-            actionUrl: {
-              url: 'https://www.utah.gov/support/translate.html',
-              openInNewTab: true,
-            },
-            title: 'Translate',
-          },
-        ]}
+        links={links}
       >
         <div className="flex flex-1 space-x-2 items-center">
           <img
@@ -97,6 +77,6 @@ function App() {
       <Footer className="w-full bg-wavy-800 fixed lg:relative bottom-0" />
     </>
   );
-}
+};
 
 export default App;
