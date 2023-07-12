@@ -80,7 +80,7 @@ const App = () => {
       <main>
         <Routes />
       </main>
-      <Footer className="w-full bg-wavy-800 fixed lg:relative bottom-0" />
+      <Footer className="w-full bg-wavy-800 relative" />
     </>
   );
 };

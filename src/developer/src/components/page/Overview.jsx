@@ -1,7 +1,7 @@
 import Button from '../design-system/Button';
 
 const OverviewPage = () => (
-  <section className="min-h-[480px] lg:min-h-screen max-w-prose mt-6 justify-center mx-auto space-y-4">
+  <section className="min-h-screen max-w-prose mt-6 justify-center mx-auto space-y-4">
     <h2 className="text-center text-wavy-800 dark:text-slate-200">
       API Key Statistics
     </h2>
@@ -31,18 +31,20 @@ const OverviewPage = () => (
       <p className="dark:text-slate-200">
         API keys are the invitation to use this API. Every request sent to the
         API requires an API key to be in the query string. They are free to make
-        and allow you to track your usage of the key. Keys are restricted to a
-        website address or an computers IP address. This allows you to control
-        who can use your key.
+        and allow you to track the usage of the key. This is a great metric to
+        see how popular an application or feature is. Keys are restricted to a
+        website address or a computers IP address. This allows you to control
+        who can use the key.
       </p>
       <p className="dark:text-slate-200">
-        We have created your first API key for you already. This key is special
-        and is only usable from the{' '}
+        We have created your first API key for you already. This is a special
+        key and can only be used from the{' '}
         <a href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient">
           UGRC API Client
         </a>{' '}
         desktop application. If you need to geocode addresses from a website or
-        application, you will need to create a new key.
+        a different application, you will need to create a key specific to that
+        use case.
       </p>
     </div>
     <div className="flex gap-6 justify-center pt-12">
