@@ -33,16 +33,8 @@
     ]
   },
   "prettier": {
-    "plugins": [
-      "prettier-plugin-organize-imports",
-      "prettier-plugin-packagejson",
-      "prettier-plugin-tailwindcss"
-    ],
     "semi": true,
-    "singleQuote": true,
-    "tailwindFunctions": [
-      "clsx"
-    ]
+    "singleQuote": true
   },
   "eslintConfig": {
     "env": {
@@ -65,10 +57,10 @@
     },
     "plugins": [
       "react",
-      "prettier",
       "jsx-a11y",
       "react-hooks",
-      "react-refresh"
+      "react-refresh",
+      "prettier"
     ],
     "extends": [
       "eslint:recommended",
@@ -76,8 +68,8 @@
       "plugin:react/jsx-runtime",
       "plugin:react-hooks/recommended",
       "plugin:jsx-a11y/recommended",
-      "prettier",
-      "plugin:storybook/recommended"
+      "plugin:storybook/recommended",
+      "plugin:prettier/recommended"
     ],
     "rules": {
       "prettier/prettier": [
