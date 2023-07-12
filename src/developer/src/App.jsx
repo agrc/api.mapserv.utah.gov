@@ -1,19 +1,19 @@
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { Suspense } from 'react';
+import {
+  Outlet,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from 'react-router-dom';
 import { useFirebaseApp, useSigninCheck, useUser } from 'reactfire';
 import connectEmulators from './Emulators';
 import Avatar from './components/Avatar';
 import ThemeToggle from './components/ThemeToggle';
 import Footer from './components/design-system/Footer';
 import Header from './components/design-system/Header';
-import { Suspense } from 'react';
-import {
-  Outlet,
-  createBrowserRouter,
-  Route,
-  createRoutesFromElements,
-  RouterProvider,
-} from 'react-router-dom';
 
 const links = [
   {
