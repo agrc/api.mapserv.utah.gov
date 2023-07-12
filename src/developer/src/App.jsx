@@ -2,9 +2,9 @@ import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { AuthProvider, useFirebaseApp } from 'reactfire';
 import Routes from './Routes';
+import ThemeToggle from './components/ThemeToggle';
 import Footer from './components/design-system/Footer';
 import Header from './components/design-system/Header';
-import ThemeToggle from './components/page/ThemeToggle';
 
 function App() {
   const app = useFirebaseApp();

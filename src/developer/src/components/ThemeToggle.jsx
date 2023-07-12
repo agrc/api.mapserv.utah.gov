@@ -37,7 +37,7 @@ const ThemeToggle = () => {
           <label
             key={i}
             className={clsx(
-              'relative flex items-center justify-center opacity-60',
+              'relative flex items-center justify-center opacity-60 cursor-pointer',
               {
                 'text-white': checked,
               },
