@@ -5,8 +5,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { Squares2X2Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import * as Collapsible from '@radix-ui/react-collapsible';
-import * as Popover from '@radix-ui/react-popover';
 import PropTypes from 'prop-types';
+import Popover from './Popover';
 
 const Header = ({ className, children, links }) => {
   return (
@@ -38,32 +38,26 @@ const Header = ({ className, children, links }) => {
             <div className="pl-6 flex-1 flex">{children}</div>
           </div>
           <div className="lg:mr-10 items-center inline-flex">
-            <Popover.Root>
-              <Popover.Trigger asChild>
+            <Popover
+              trigger={
                 <button aria-label="Links">
                   <Squares2X2Icon className="text-slate-600 dark:text-slate-300 w-7" />
                 </button>
-              </Popover.Trigger>
-              <Popover.Portal>
-                <Popover.Content
-                  className="bg-white dark:bg-slate-900 z-10 mr-2 rounded-md border p-4 shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
-                  sideOffset={4}
-                >
-                  <div className="grid grid-cols-1 divide-y whitespace-nowrap">
-                    {links.map((link, i) => (
-                      <a
-                        href={link.actionUrl.url}
-                        key={i}
-                        className="text-slate-500 dark:text-slate-300 text-sm p-1 flex items-center justify-between hover:text-slate-600"
-                      >
-                        {link.title}{' '}
-                        <ArrowTopRightOnSquareIcon className="ml-1 text-slate-500 dark:text-slate-300 w-4" />
-                      </a>
-                    ))}
-                  </div>
-                </Popover.Content>
-              </Popover.Portal>
-            </Popover.Root>
+              }
+            >
+              <div className="grid grid-cols-1 divide-y whitespace-nowrap">
+                {links.map((link, i) => (
+                  <a
+                    href={link.actionUrl.url}
+                    key={i}
+                    className="text-slate-500 dark:text-slate-300 text-sm p-1 flex items-center justify-between hover:text-slate-600"
+                  >
+                    {link.title}{' '}
+                    <ArrowTopRightOnSquareIcon className="ml-1 text-slate-500 dark:text-slate-300 w-4" />
+                  </a>
+                ))}
+              </div>
+            </Popover>
           </div>
         </div>
       </header>
