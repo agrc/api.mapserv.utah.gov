@@ -70,9 +70,7 @@ const App = () => {
         </div>
       </Header>
       <main>
-        <AuthProvider sdk={auth}>
-          <Routes />
-        </AuthProvider>
+        <Routes />
       </main>
       <Footer className="w-full bg-wavy-800 fixed lg:relative bottom-0" />
     </>
