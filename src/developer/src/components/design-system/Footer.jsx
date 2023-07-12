@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 const Footer = ({ className }) => {
   return (
     <footer className={className}>
-      <div className="p-8 flex flex-col lg:flex-row flex-wrap justify-between items-center relative border-t-mustard-300 border-t border-dashed">
-        <div className="lg:divide-x flex-col lg:flex-row flex items-center text-center lg:text-left lg:h-8 gap-4">
+      <div className="relative flex flex-col flex-wrap items-center justify-between border-t border-dashed border-t-mustard-300 p-8 lg:flex-row">
+        <div className="flex flex-col items-center gap-4 text-center lg:h-8 lg:flex-row lg:divide-x lg:text-left">
           <div className="h-full" id="utah-logo-svg">
             <svg
-              className="fill-white h-8 w-auto block"
+              className="block h-8 w-auto fill-white"
               viewBox="0 0 107 30.51"
               role="img"
             >
@@ -17,15 +17,15 @@ const Footer = ({ className }) => {
             </svg>
           </div>
           <div className="pl-4">
-            <div className="text-lg text-white font-semibold">
+            <div className="text-lg font-semibold text-white">
               An official website of the{' '}
               <span className="whitespace-no-wrap">State of Utah</span>
             </div>
             <div className="text-sm text-white">©2023 State of Utah</div>
           </div>
         </div>
-        <div className="text-white text-sm text-center pt-6 lg:pt-0">
-          <div className="space-x-2 lg:space-x-4 whitespace-pre-wrap">
+        <div className="pt-6 text-center text-sm text-white lg:pt-0">
+          <div className="space-x-2 whitespace-pre-wrap lg:space-x-4">
             <a href="https://www.utah.gov" target="__blank" rel="noreferrer">
               Utah.gov Home
             </a>

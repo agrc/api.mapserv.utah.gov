@@ -2,6 +2,8 @@
   "name": "@ugrc/api-system",
   "version": "1.0.0",
   "description": "a package json just for release please",
+  "license": "MIT",
+  "author": "",
   "main": "\"\"",
   "directories": {
     "test": "test"
@@ -9,8 +11,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "release-please": "^15.11.1"
   }

@@ -26,9 +26,9 @@ const Avatar = ({ anonymous = true, user = {}, signOut }) => {
   return (
     <Popover
       trigger={
-        <div className="flex w-full flex-col items-center gap-6 cursor-pointer">
+        <div className="flex w-full cursor-pointer flex-col items-center gap-6">
           <span className="relative">
-            <span className="mr-2 inline-block w-16 h-16 overflow-hidden rounded-full border-2 border-wavy-500 bg-wavy-500 shadow-lg">
+            <span className="mr-2 inline-block h-16 w-16 overflow-hidden rounded-full border-2 border-wavy-500 bg-wavy-500 shadow-lg">
               <Gravatar email={user.email} name={user.displayName} />
             </span>
             <Tooltip trigger={gravatarIcon} delayDuration={300}>
@@ -42,12 +42,12 @@ const Avatar = ({ anonymous = true, user = {}, signOut }) => {
       <div className="grid grid-cols-1 divide-y whitespace-nowrap">
         <a
           href="https://id.utah.gov"
-          className="text-slate-500 dark:text-slate-300 text-sm p-1 flex items-center justify-between hover:text-slate-600"
+          className="flex items-center justify-between p-1 text-sm text-slate-500 hover:text-slate-600 dark:text-slate-300"
         >
           UtahID Profile
         </a>
         <button
-          className="text-slate-500 dark:text-slate-300 text-sm p-1 flex items-center justify-between hover:text-slate-600"
+          className="flex items-center justify-between p-1 text-sm text-slate-500 hover:text-slate-600 dark:text-slate-300"
           onClick={() => signOut()}
           type="button"
         >
@@ -75,11 +75,11 @@ const Gravatar = ({ email, name = '' }) => {
   const initials = getInitials(name);
 
   return (
-    <div className="relative w-full h-full inline-flex items-center justify-center">
+    <div className="relative inline-flex h-full w-full items-center justify-center">
       <div
         aria-hidden="true"
         className={clsx(
-          'text-white dark:text-black opacity-60 text-center text-2xl font-extralight select-none',
+          'select-none text-center text-2xl font-extralight text-white opacity-60 dark:text-black',
           {
             'text-3xl': initials.length < 3,
             'text-2xl': initials.length === 3,
@@ -90,7 +90,7 @@ const Gravatar = ({ email, name = '' }) => {
       </div>
       <img
         src={gravatar}
-        className="absolute top-0 left-0"
+        className="absolute left-0 top-0"
         alt={`${name}'s Gravatar`}
       />
     </div>

@@ -1,14 +1,15 @@
-import { Link } from 'react-router-dom';
+import { RouterButtonLink } from '../design-system/Button';
+import { TextLink } from '../Link';
 
 export function Component() {
   return (
-    <section className="min-h-screen max-w-prose mt-6 justify-center mx-auto space-y-4">
+    <section className="mx-auto mt-6 min-h-screen max-w-prose justify-center space-y-4">
       <h2 className="text-center text-wavy-800 dark:text-slate-200">
         API Key Statistics
       </h2>
       <div className="flex flex-1 justify-center">
         <div className="max-w-fit">
-          <div className="rounded-lg dark:bg-slate-900 border dark:border-slate-950 shadow-lg flex flex-1 dark:divide-slate-950 divide-x">
+          <div className="flex flex-1 divide-x rounded-lg border shadow-lg dark:divide-slate-950 dark:border-slate-950 dark:bg-slate-900">
             <div className="p-6 text-center">
               <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
                 2,712,908
@@ -28,7 +29,7 @@ export function Component() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-6 justify-center pt-10">
+      <div className="flex flex-col justify-center gap-6 pt-10">
         <p className="dark:text-slate-200">
           API keys are the invitation to use this API. Every request sent to the
           API requires an API key to be in the query string. They are free to
@@ -40,17 +41,31 @@ export function Component() {
         <p className="dark:text-slate-200">
           We have created your first API key for you already. This is a special
           key and can only be used from the{' '}
-          <a href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient">
+          <TextLink href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient">
             UGRC API Client
-          </a>{' '}
+          </TextLink>{' '}
           desktop application. If you need to geocode addresses from a website
           or a different application, you will need to create a key specific to
           that use case.
         </p>
       </div>
-      <div className="flex gap-6 justify-center pt-12">
-        <Link to="/create">create a new key</Link>
-        <Link to="/keys">manage keys</Link>
+      <div className="flex justify-center gap-6 pt-12">
+        <RouterButtonLink
+          to="/create"
+          appearance="solid"
+          color="primary"
+          size="xl"
+        >
+          create a new key
+        </RouterButtonLink>
+        <RouterButtonLink
+          to="/keys"
+          appearance="solid"
+          color="primary"
+          size="xl"
+        >
+          manage keys
+        </RouterButtonLink>
       </div>
     </section>
   );

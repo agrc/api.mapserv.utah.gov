@@ -12,8 +12,8 @@ const Header = ({ className, children, links }) => {
   return (
     <Collapsible.Root>
       <header className={className}>
-        <div className="flex justify-between items-center px-3 py-6 border-b-wavy-300 dark:border-b-mustard-300 border-b border-dashed">
-          <div className="h-16 flex-1 divide-x divide-slate-500 space-x-6 flex flex-row">
+        <div className="flex items-center justify-between border-b border-dashed border-b-wavy-300 px-3 py-6 dark:border-b-mustard-300">
+          <div className="flex h-16 flex-1 flex-row space-x-6 divide-x divide-slate-500">
             <Collapsible.Trigger className="h-16 w-28">
               <span className="sr-only">
                 An official website of the State of Utah. Click to learn more.
@@ -35,13 +35,13 @@ const Header = ({ className, children, links }) => {
                 </g>
               </svg>
             </Collapsible.Trigger>
-            <div className="pl-6 flex-1 flex">{children}</div>
+            <div className="flex flex-1 pl-6">{children}</div>
           </div>
-          <div className="lg:mr-10 items-center inline-flex">
+          <div className="inline-flex items-center lg:mr-10">
             <Popover
               trigger={
                 <button aria-label="Links">
-                  <Squares2X2Icon className="text-slate-600 dark:text-slate-300 w-7" />
+                  <Squares2X2Icon className="w-7 text-slate-600 dark:text-slate-300" />
                 </button>
               }
             >
@@ -50,10 +50,10 @@ const Header = ({ className, children, links }) => {
                   <a
                     href={link.actionUrl.url}
                     key={i}
-                    className="text-slate-500 dark:text-slate-300 text-sm p-1 flex items-center justify-between hover:text-slate-600"
+                    className="flex items-center justify-between p-1 text-sm text-slate-500 hover:text-slate-600 dark:text-slate-300"
                   >
                     {link.title}{' '}
-                    <ArrowTopRightOnSquareIcon className="ml-1 text-slate-500 dark:text-slate-300 w-4" />
+                    <ArrowTopRightOnSquareIcon className="ml-1 w-4 text-slate-500 dark:text-slate-300" />
                   </a>
                 ))}
               </div>
@@ -70,16 +70,16 @@ const Header = ({ className, children, links }) => {
 
 const Flyout = () => {
   return (
-    <div className="relative bg-wavy-800 z-10 px-6 py-4 border-b shadow-lg border-b-mustard-300">
-      <h3 className="text-white mb-2">
+    <div className="relative z-10 border-b border-b-mustard-300 bg-wavy-800 px-6 py-4 shadow-lg">
+      <h3 className="mb-2 text-white">
         This is an official website of the State of Utah. Here&apos;s how you
         know:
       </h3>
-      <div className="flex flex-col lg:flex-row gap-10">
-        <div className="flex items-start gap-2 max-w-sm flex-1">
-          <CheckBadgeIcon className="text-white w-24" />
+      <div className="flex flex-col gap-10 lg:flex-row">
+        <div className="flex max-w-sm flex-1 items-start gap-2">
+          <CheckBadgeIcon className="w-24 text-white" />
           <div className="text-white">
-            <span className="font-bold block">
+            <span className="block font-bold">
               Official Utah websites use utah.gov in the browser&apos;s address
               bar.
             </span>
@@ -88,19 +88,19 @@ const Flyout = () => {
             <div className="utds-official-website-popup__address-bar"></div>
           </div>
         </div>
-        <div className="flex items-start gap-2 max-w-sm">
-          <LockClosedIcon className="text-white w-20" />
+        <div className="flex max-w-sm items-start gap-2">
+          <LockClosedIcon className="w-20 text-white" />
           <div className="text-white">
-            <span className="font-bold block">
+            <span className="block font-bold">
               Be careful when sharing sensitive information.
             </span>
             Share sensitive information only on secure official Utah.gov
             websites.
           </div>
         </div>
-        <div className="text-white flex sm:flex-col sm:gap-1 gap-4 items-center">
+        <div className="flex items-center gap-4 text-white sm:flex-col sm:gap-1">
           <svg
-            className="fill-current w-36"
+            className="w-36 fill-current"
             viewBox="0 0 105.9496 47.6226"
             role="img"
           >
@@ -123,7 +123,7 @@ const Flyout = () => {
       <Collapsible.Trigger>
         <button
           type="button"
-          className="absolute top-2 right-2 text-white"
+          className="absolute right-2 top-2 text-white"
           id="02310010-1013-4321-8101-001211330310"
         >
           <XMarkIcon className="w-7" />

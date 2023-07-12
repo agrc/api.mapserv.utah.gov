@@ -10,22 +10,22 @@
     height: 100%;
   }
   h1 {
-    @apply md:text-4xl font-bold text-3xl;
+    @apply text-3xl font-bold md:text-4xl;
   }
   h2 {
-    @apply md:text-3xl font-bold text-2xl;
+    @apply text-2xl font-bold md:text-3xl;
   }
   h3 {
-    @apply md:text-2xl font-bold text-xl;
+    @apply text-xl font-bold md:text-2xl;
   }
   h4 {
-    @apply md:text-xl font-bold text-lg;
+    @apply text-lg font-bold md:text-xl;
   }
   h5 {
-    @apply md:text-lg font-bold text-base;
+    @apply text-base font-bold md:text-lg;
   }
   h6 {
-    @apply md:text-base font-bold text-sm;
+    @apply text-sm font-bold md:text-base;
   }
   @font-face {
     font-family: 'utah design system';

@@ -63,17 +63,17 @@ const App = () => {
       element={
         <>
           <Header
-            className="bg-slate-100 dark:bg-wavy-900 transition-colors duration-1000"
+            className="bg-slate-100 transition-colors duration-1000 dark:bg-wavy-900"
             links={links}
           >
-            <div className="flex flex-1 space-x-2 items-center">
+            <div className="flex flex-1 items-center space-x-2">
               <img
                 src="/logo.svg"
                 alt="UGRC API"
-                className="hidden sm:block h-16 w-16"
+                className="hidden h-16 w-16 sm:block"
                 role="presentation"
               />
-              <h1 className="text-slate-700 dark:text-slate-300 text-center">
+              <h1 className="text-center text-slate-700 dark:text-slate-300">
                 UGRC API
               </h1>
               <div className="inline-flex flex-grow justify-end">
@@ -91,7 +91,7 @@ const App = () => {
           <main>
             <Outlet />
           </main>
-          <Footer className="w-full bg-wavy-800 relative" />
+          <Footer className="relative w-full bg-wavy-800" />
         </>
       }
       errorElement={<div>404</div>}
