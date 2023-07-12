@@ -40,6 +40,7 @@ export function Component() {
           <img
             className="absolute left-0 top-0 h-full w-full"
             src="/sparkles.png"
+            loading="lazy"
             alt=""
           ></img>
           <h2 className="text-white text-center w-full mt-12">
@@ -54,6 +55,7 @@ export function Component() {
               height="557"
               className="mx-auto grayscale hover:grayscale-0"
               src={product}
+              loading="lazy"
               alt=""
             ></img>
           </div>
