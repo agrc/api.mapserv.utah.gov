@@ -88,7 +88,7 @@ const App = () => {
               </div>
             </div>
           </Header>
-          <main>
+          <main className="mb-12">
             <Outlet />
           </main>
           <Footer className="relative w-full bg-wavy-800" />
