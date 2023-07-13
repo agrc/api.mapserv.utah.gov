@@ -83,7 +83,9 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-collapsible": "^1.0.3",
+    "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.6",
+    "@radix-ui/react-radio-group": "^1.1.3",
     "@radix-ui/react-tooltip": "^1.0.6",
     "@utahdts/utah-design-system-header": "^0.10.3",
     "clsx": "^1.2.1",
