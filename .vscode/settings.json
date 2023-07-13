@@ -42,11 +42,13 @@
     "GLOBALID",
     "gserviceaccount",
     "heroicons",
+    "hookform",
     "immer",
     "kube",
     "kubectl",
     "kubernetes",
     "Kustomize",
+    "labelledby",
     "levelname",
     "Linkables",
     "loadbalancer",
@@ -56,11 +58,13 @@
     "multipoint",
     "multipolygon",
     "Newtonsoft",
+    "noopener",
     "noreferrer",
     "npgsql",
     "oidc",
     "openapi",
     "opensgid",
+    "packagejson",
     "pbcopy",
     "pgdata",
     "Pnts",
@@ -123,6 +127,7 @@
   "editor.rulers": [
     120
   ],
+  "editor.wordWrap": "on",
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js, ${capture}.typegen.ts",
@@ -141,10 +146,8 @@
     "*.sln": "Directory.Build.props, Directory.Build.targets",
     "firebase.json": ".firebaserc, firestore.indexes.json, firestore.rules, storage.rules, firebase-debug.log, firestore-debug.log, ui-debug.log",
     "tailwind.config.js": "postcss.config.js",
-    "release-please-config.json": ".release-please-manifest.json",
+    "release-please-config.json": ".release-please-manifest.json"
   },
-  "prettier.printWidth": 120,
-  "prettier.singleQuote": true,
   "prettier.documentSelectors": [
     "*.{js,jsx,css,html,md,json}"
   ],
@@ -158,28 +161,26 @@
   ],
   "omnisharp.enableRoslynAnalyzers": true,
   "omnisharp.enableEditorConfigSupport": true,
+  "[jsx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true
+    "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
     "editor.formatOnPaste": true
-  },
+  }
 }
