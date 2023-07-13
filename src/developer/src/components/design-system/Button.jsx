@@ -115,7 +115,6 @@ export const RouterButtonLink = ({
   color,
   size,
 }) => {
-  console.log(to, children, className, appearance, color, size);
   return (
     <Link
       to={to}
