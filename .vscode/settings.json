@@ -131,9 +131,9 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js, ${capture}.typegen.ts",
-    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts, ${capture}.test.js",
     "*.json": "${capture}.json, ${capture}.*.json",
-    "*.jsx": "${capture}.js, ${capture}.stories.jsx",
+    "*.jsx": "${capture}.js, ${capture}.stories.jsx, ${capture}.test.jsx",
     "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
     "tsconfig.json": "tsconfig.*.json",
     "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
