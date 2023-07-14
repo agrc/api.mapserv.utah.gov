@@ -18,7 +18,11 @@ const gravatarIcon = (
   </svg>
 );
 
-const Avatar = ({ anonymous = true, user = {}, signOut }) => {
+const Avatar = ({
+  anonymous = true,
+  user = { email: '', displayName: '' },
+  signOut,
+}) => {
   if (anonymous || anonymous === undefined || anonymous === null) {
     return null;
   }
