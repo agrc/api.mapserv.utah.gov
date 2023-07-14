@@ -6,6 +6,7 @@ import { TextLink } from '../Link';
 import Pill from '../Pill';
 import Button from '../design-system/Button';
 import Card from '../design-system/Card';
+import { FormErrors } from '../design-system/Form';
 import Input from '../design-system/Input';
 import RadioGroup from '../design-system/RadioGroup';
 
@@ -21,47 +22,52 @@ const onSubmit = (data) => console.log(data);
 
 const base = z.object({
   mode: z.enum(['dev', 'prod']),
-  type: z.enum(['browser', 'server']),
 });
 
-const schema = z
-  .discriminatedUnion('type', [
-    z
-      .object({
-        type: z.literal('server'),
-        pattern: z
-          .string()
-          .ip({ version: 'v4' })
-          .startsWith('10.', {
-            message:
-              'This looks like a private ip address. Please use a public ip address.',
-          })
-          .startsWith('192.', {
-            message:
-              'This looks like a private ip address. Please use a public ip address.',
-          })
-          .startsWith('127.', {
-            message:
-              'This looks like a private ip address. Please use a public ip address.',
-          })
-          .startsWith('172.', {
-            message:
-              'This looks like a private ip address. Please use a public ip address.',
-          }),
-      })
-      .merge(base),
-    z
-      .object({
-        type: z.literal('browser'),
-        pattern: z.string(),
-      })
-      .merge(base),
-  ])
-  .strip();
+const privateIps = [10, 127, 172, 192];
+const schema = z.discriminatedUnion('type', [
+  z
+    .object({
+      type: z.literal('server'),
+      ip: z
+        .string()
+        .superRefine((val, ctx) => {
+          const firstOctet = val.indexOf('.');
+          if (firstOctet === -1) {
+            return;
+          }
+
+          const value = val.slice(0, firstOctet);
+          console.log(value);
+
+          if (privateIps.includes(value)) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'This is a private address. Use a public address.',
+            });
+          }
+        })
+        .ip({ version: 'v4' }),
+    })
+
+    .merge(base),
+  z
+    .object({
+      type: z.literal('browser'),
+      pattern: z.string(),
+    })
+    .merge(base),
+]);
 
 export function Component() {
-  const { control, handleSubmit, setValue } = useForm({
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm({
     resolver: zodResolver(schema),
+    mode: 'all',
     defaultValues: {
       pattern: '',
       mode: 'dev',
@@ -72,16 +78,17 @@ export function Component() {
   return (
     <>
       <section className="border-b border-slate-400 p-6">
-        <div className="mx-auto flex max-w-5xl flex-col gap-6 md:px-6">
-          <h2 id="key-creation" className="text-wavy-800 dark:text-slate-200">
+        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 max-w-5xl gap-4 md:gap-10 md:px-6">
+          <h2
+            id="key-creation"
+            className="md:col-span-2 text-wavy-800 dark:text-slate-200"
+          >
             Key creation
           </h2>
           <p className="text-wavy-800 dark:text-slate-200">
-            Once you have confirmed ownership of your email address, you can
-            generate API keys. Each key is specific to an application you have
-            created; either a browser or server based application. Browser based
-            applications run in a web browser. For example, the React geocoding
-            component{' '}
+            Each key is specific to an application you have created; either a
+            browser or server based application. Browser based applications run
+            in a web browser. For example, the React geocoding component{' '}
             <TextLink href="https://github.com/agrc/kitchen-sink/tree/main/packages/dart-board">
               dartboard
             </TextLink>
@@ -89,8 +96,11 @@ export function Component() {
             <TextLink href="https://atlas.utah.gov">atlas.utah.gov</TextLink> is
             a browser based application. The request to the UGRC API is created
             in javascript running inside the browser using the browser&apos;s
-            fetch API or with an XHR request. Server based applications run on a
-            computer or a server. For example, the{' '}
+            fetch API or with an XHR request.
+          </p>
+          <p className="text-wavy-800 dark:text-slate-200">
+            Server based applications run on a computer or a server. For
+            example, the{' '}
             <TextLink href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient">
               API Client
             </TextLink>{' '}
@@ -140,7 +150,7 @@ export function Component() {
           </div>
         </div>
       </section>
-      <section className="mt-6 max-w-5xl md:mx-auto">
+      <section className="mt-6 max-w-5xl md:mx-auto mb-12">
         <h3
           id="create-key"
           className="col-span-2 mb-3 ml-2 px-6 text-wavy-800 dark:text-slate-200"
@@ -195,7 +205,8 @@ export function Component() {
                     rules={{ required: true }}
                     render={({ field }) => (
                       <RadioGroup
-                        label="Key Mode"
+                        label="Key environment configuration"
+                        ariaLabel="Key environment configuration"
                         required
                         items={items}
                         defaultValue="dev"
@@ -206,18 +217,36 @@ export function Component() {
                 </div>
               </Tabs.Content>
               <Tabs.Content className="p-8" value="server">
+                <FormErrors errors={errors} />
                 <div className="grid grid-cols-2 items-start gap-8 dark:text-slate-200">
-                  <Input
+                  <Controller
                     name="ip"
-                    label="IP Address"
-                    placeholder="10.0.0.1"
-                    required
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Input
+                        label="IP Address"
+                        placeholder="10.0.0.1"
+                        required
+                        error={errors.ip?.message}
+                        {...field}
+                      />
+                    )}
                   />
-                  <RadioGroup
-                    label="Key Mode"
-                    required
-                    items={items}
-                    defaultValue="dev"
+                  <Controller
+                    name="mode"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <RadioGroup
+                        label="Key environment configuration"
+                        ariaLabel="Key environment configuration"
+                        required
+                        items={items}
+                        defaultValue="dev"
+                        {...field}
+                      />
+                    )}
                   />
                 </div>
               </Tabs.Content>
@@ -246,3 +275,4 @@ export function Component() {
     </>
   );
 }
+Component.displayName = 'CreateKey';
