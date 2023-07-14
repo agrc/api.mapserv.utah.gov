@@ -3,6 +3,7 @@
   "private": true,
   "description": "Cloud Functions for Firebase",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
