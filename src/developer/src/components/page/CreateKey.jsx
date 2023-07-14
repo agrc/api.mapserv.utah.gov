@@ -31,14 +31,15 @@ const schema = z.discriminatedUnion('type', [
       type: z.literal('server'),
       ip: z
         .string()
+        .ip({ version: 'v4' })
         .superRefine((val, ctx) => {
           const firstOctet = val.indexOf('.');
+
           if (firstOctet === -1) {
             return;
           }
 
           const value = val.slice(0, firstOctet);
-          console.log(value);
 
           if (privateIps.includes(value)) {
             ctx.addIssue({
@@ -46,8 +47,7 @@ const schema = z.discriminatedUnion('type', [
               message: 'This is a private address. Use a public address.',
             });
           }
-        })
-        .ip({ version: 'v4' }),
+        }),
     })
 
     .merge(base),
