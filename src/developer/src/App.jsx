@@ -2,49 +2,15 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { Suspense } from 'react';
 import {
-  Outlet,
+  Navigate,
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import { useFirebaseApp, useSigninCheck, useUser } from 'reactfire';
+import { useFirebaseApp, useSigninCheck } from 'reactfire';
 import connectEmulators from './Emulators';
-import Avatar from './components/Avatar';
-import ThemeToggle from './components/ThemeToggle';
-import Footer from './components/design-system/Footer';
-import Header from './components/design-system/Header';
-
-const links = [
-  {
-    actionUrl: {
-      url: 'https://www.utah.gov/support/disclaimer.html',
-      openInNewTab: true,
-    },
-    title: 'Terms of Use',
-  },
-  {
-    actionUrl: {
-      url: 'https://www.utah.gov/support/privacypolicy.html',
-      openInNewTab: true,
-    },
-    title: 'Privacy Policy',
-  },
-  {
-    actionUrl: {
-      url: 'https://www.utah.gov/support/accessibility.html',
-      openInNewTab: true,
-    },
-    title: 'Accessibility',
-  },
-  {
-    actionUrl: {
-      url: 'https://www.utah.gov/support/translate.html',
-      openInNewTab: true,
-    },
-    title: 'Translate',
-  },
-];
+import Layout from './components/page/Layout';
 
 const App = () => {
   const app = useFirebaseApp();
@@ -52,69 +18,12 @@ const App = () => {
   const auth = getAuth(app);
 
   const { data } = useSigninCheck();
-  const { data: user } = useUser();
 
   connectEmulators(import.meta.env.DEV, auth, firestore);
 
-  const authenticated = data?.signedIn ?? false;
-
   const routes = createRoutesFromElements(
-    <Route
-      element={
-        <>
-          <Header
-            className="bg-slate-100 transition-colors duration-1000 dark:bg-wavy-900"
-            links={links}
-          >
-            <div className="flex flex-1 items-center space-x-2">
-              <img
-                src="/logo.svg"
-                alt="UGRC API"
-                className="hidden h-16 w-16 sm:block"
-                role="presentation"
-              />
-              <h1 className="text-center text-slate-700 dark:text-slate-300">
-                UGRC API
-              </h1>
-              <div className="inline-flex flex-grow justify-end">
-                <ThemeToggle />
-              </div>
-              <div className="inline-flex flex-shrink justify-end px-4">
-                <Avatar
-                  anonymous={!(data?.signedIn ?? false)}
-                  user={user}
-                  signOut={() => auth.signOut()}
-                />
-              </div>
-            </div>
-          </Header>
-          <main className="mb-12">
-            <Outlet />
-          </main>
-          <Footer className="relative w-full bg-wavy-800" />
-        </>
-      }
-      errorElement={<div>404</div>}
-    >
-      {authenticated && (
-        <>
-          <Route path="/" lazy={() => import('./components/page/Overview')} />
-          <Route
-            path="create"
-            lazy={() => import('./components/page/CreateKey')}
-          />
-          <Route
-            path="keys"
-            lazy={() => import('./components/page/ManageKeys')}
-          />
-        </>
-      )}
-      {!authenticated && (
-        <Route path="/" lazy={() => import('./components/page/Landing')} />
-      )}
-    </Route>,
+    createRoutes(data?.signedIn ?? false),
   );
-
   const router = createBrowserRouter(routes, {
     future: {
       v7_normalizeFormMethod: true,
@@ -125,6 +34,36 @@ const App = () => {
     <Suspense fallback={<div> loading...</div>}>
       <RouterProvider router={router} />
     </Suspense>
+  );
+};
+
+const createRoutes = (authenticated) => {
+  if (authenticated) {
+    return (
+      <>
+        <Route element={<Layout />}>
+          <Route index lazy={() => import('./components/page/Overview')} />
+          <Route
+            path="create"
+            lazy={() => import('./components/page/CreateKey')}
+          />
+          <Route
+            path="keys"
+            lazy={() => import('./components/page/ManageKeys')}
+          />
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Route element={<Layout />}>
+        <Route index lazy={() => import('./components/page/Landing')} />
+      </Route>
+      <Route path="*" element={<Navigate to="/" />} />
+    </>
   );
 };
 
