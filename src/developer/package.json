@@ -33,11 +33,6 @@
     ]
   },
   "prettier": {
-    "plugins": [
-      "prettier-plugin-packagejson",
-      "prettier-plugin-organize-imports",
-      "prettier-plugin-tailwindcss"
-    ],
     "semi": true,
     "singleQuote": true
   },
