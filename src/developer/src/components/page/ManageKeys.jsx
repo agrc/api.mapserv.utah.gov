@@ -11,3 +11,4 @@ export function Component() {
     </section>
   );
 }
+Component.displayName = 'ManageKey';

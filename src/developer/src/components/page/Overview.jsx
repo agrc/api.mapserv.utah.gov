@@ -70,3 +70,4 @@ export function Component() {
     </section>
   );
 }
+Component.displayName = 'Authenticated';
