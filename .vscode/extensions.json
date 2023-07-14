@@ -17,7 +17,8 @@
     "charliermarsh.ruff",
     "bungcip.better-toml",
     "redhat.vscode-yaml",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "lllllllqw.jsdoc"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []
