@@ -18,6 +18,7 @@ const App = () => {
   const firestore = getFirestore(app);
   const auth = getAuth(app);
   const { status, data: signInCheck } = useSigninCheck();
+  const { data: user } = useSigninCheck();
 
   connectEmulators(import.meta.env.DEV, auth, firestore);
 
@@ -36,17 +37,17 @@ const App = () => {
           <Route path="/self-service" Component={Outlet}>
             <Route
               index
-              loader={() => protectedRoute(anonymous)}
+              loader={() => protectedRoute(anonymous, user)}
               lazy={() => import('./components/page/Overview')}
             />
             <Route
               path="create-key"
-              loader={() => protectedRoute(anonymous)}
+              loader={() => protectedRoute(anonymous, user)}
               lazy={() => import('./components/page/CreateKey')}
             />
             <Route
               path="keys"
-              loader={() => protectedRoute(anonymous)}
+              loader={() => protectedRoute(anonymous, user)}
               lazy={() => import('./components/page/ManageKeys')}
             />
           </Route>
@@ -68,12 +69,12 @@ const App = () => {
   );
 };
 
-const protectedRoute = (anonymous) => {
+const protectedRoute = (anonymous, user) => {
   if (anonymous) {
     return redirect('/');
   }
 
-  return null;
+  return user;
 };
 
 const promotableRoute = (anonymous) => {
