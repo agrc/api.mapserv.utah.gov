@@ -168,7 +168,7 @@ export function Component() {
             >
               <Tabs.List className="grid h-10 w-full grid-cols-2 items-center justify-center p-1">
                 <Tabs.Trigger
-                  className="border-b border-slate-400 py-2 text-lg font-bold data-[state=active]:border-b-8 dark:text-slate-200 data-[state=active]:dark:border-mustard-400 data-[state=active]:dark:text-mustard-400"
+                  className="relative border-slate-400 py-2 text-lg font-bold dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=inactive]:after:h-px data-[state=active]:after:h-2 data-[state=inactive]:after:dark:bg-slate-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:bottom-1 after:block after:absolute after:left-0 after:w-full after:rounded-full"
                   value="browser"
                 >
                   <span className="rounded-full px-3 py-1 hover:bg-slate-500">
@@ -176,7 +176,7 @@ export function Component() {
                   </span>
                 </Tabs.Trigger>
                 <Tabs.Trigger
-                  className="border-b border-slate-400 py-2 text-lg font-bold data-[state=active]:border-b-8 dark:text-slate-200 data-[state=active]:dark:border-mustard-400 data-[state=active]:dark:text-mustard-400"
+                  className="relative border-slate-400 py-2 text-lg font-bold dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=inactive]:after:h-px data-[state=active]:after:h-2 data-[state=inactive]:after:dark:bg-slate-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:bottom-1 after:block after:absolute after:left-0 after:w-full after:rounded-full"
                   value="server"
                 >
                   <span className="rounded-full px-3 py-1 hover:bg-slate-500">
