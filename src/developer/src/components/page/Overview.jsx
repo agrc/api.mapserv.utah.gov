@@ -51,7 +51,7 @@ export function Component() {
       </div>
       <div className="flex justify-center gap-6 pt-12">
         <RouterButtonLink
-          to="/create"
+          to="create-key"
           appearance="solid"
           color="primary"
           size="xl"
@@ -59,7 +59,7 @@ export function Component() {
           create a new key
         </RouterButtonLink>
         <RouterButtonLink
-          to="/keys"
+          to="keys"
           appearance="solid"
           color="primary"
           size="xl"

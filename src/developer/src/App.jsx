@@ -2,11 +2,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { Suspense } from 'react';
 import {
-  Navigate,
+  Outlet,
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  redirect,
 } from 'react-router-dom';
 import { useFirebaseApp, useSigninCheck } from 'reactfire';
 import connectEmulators from './Emulators';
@@ -16,55 +17,71 @@ const App = () => {
   const app = useFirebaseApp();
   const firestore = getFirestore(app);
   const auth = getAuth(app);
-
-  const { data } = useSigninCheck();
+  const { status, data: signInCheck } = useSigninCheck();
 
   connectEmulators(import.meta.env.DEV, auth, firestore);
 
-  const routes = createRoutesFromElements(
-    createRoutes(data?.signedIn ?? false),
-  );
-  const router = createBrowserRouter(routes, {
-    future: {
-      v7_normalizeFormMethod: true,
-    },
-  });
+  const anonymous = !(signInCheck?.signedIn ?? false);
 
-  return (
-    <Suspense fallback={<div> loading...</div>}>
-      <RouterProvider router={router} />
-    </Suspense>
-  );
-};
-
-const createRoutes = (authenticated) => {
-  if (authenticated) {
-    return (
-      <>
+  let router = {};
+  if (status !== 'loading') {
+    router = createBrowserRouter(
+      createRoutesFromElements(
         <Route element={<Layout />}>
-          <Route index lazy={() => import('./components/page/Overview')} />
           <Route
-            path="create"
-            lazy={() => import('./components/page/CreateKey')}
+            index
+            loader={() => promotableRoute(anonymous)}
+            lazy={() => import('./components/page/Landing')}
           />
-          <Route
-            path="keys"
-            lazy={() => import('./components/page/ManageKeys')}
-          />
-        </Route>
-        <Route path="*" element={<Navigate to="/" />} />
-      </>
+          <Route path="/self-service" Component={Outlet}>
+            <Route
+              index
+              loader={() => protectedRoute(anonymous)}
+              lazy={() => import('./components/page/Overview')}
+            />
+            <Route
+              path="create-key"
+              loader={() => protectedRoute(anonymous)}
+              lazy={() => import('./components/page/CreateKey')}
+            />
+            <Route
+              path="keys"
+              loader={() => protectedRoute(anonymous)}
+              lazy={() => import('./components/page/ManageKeys')}
+            />
+          </Route>
+          <Route path="*" loader={() => redirect('/')} />
+        </Route>,
+      ),
+      {
+        future: {
+          v7_normalizeFormMethod: true,
+        },
+      },
     );
   }
 
   return (
-    <>
-      <Route element={<Layout />}>
-        <Route index lazy={() => import('./components/page/Landing')} />
-      </Route>
-      <Route path="*" element={<Navigate to="/" />} />
-    </>
+    <Suspense fallback={<div> loading...</div>}>
+      {status === 'loading' ? null : <RouterProvider router={router} />}
+    </Suspense>
   );
+};
+
+const protectedRoute = (anonymous) => {
+  if (anonymous) {
+    return redirect('/');
+  }
+
+  return null;
+};
+
+const promotableRoute = (anonymous) => {
+  if (!anonymous) {
+    return redirect('/self-service');
+  }
+
+  return null;
 };
 
 export default App;

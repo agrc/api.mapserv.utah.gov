@@ -38,7 +38,7 @@ const links = [
 ];
 
 const Layout = () => {
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const auth = getAuth();
   const { data } = useSigninCheck();
   const { data: user } = useUser();
@@ -68,7 +68,7 @@ const Layout = () => {
               user={user}
               signOut={() => {
                 auth.signOut();
-                navigator('/');
+                navigate('/');
               }}
             />
           </div>
