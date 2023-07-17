@@ -161,6 +161,12 @@
   ],
   "omnisharp.enableRoslynAnalyzers": true,
   "omnisharp.enableEditorConfigSupport": true,
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "clsx\\(([^)]*)\\)",
+      "(?:'|\"|`)([^']*)(?:'|\"|`)"
+    ]
+  ],
   "[jsx]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
