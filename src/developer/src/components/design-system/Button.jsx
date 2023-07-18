@@ -44,6 +44,12 @@ const SIZES = {
   xl: 'text-xl px-10 py-3 h-12 min-h-[3rem]',
 };
 
+const TYPES = {
+  button: 'button',
+  submit: 'submit',
+  reset: 'reset',
+};
+
 function Button({
   appearance,
   busy,
@@ -54,6 +60,7 @@ function Button({
   onClick,
   size,
   title,
+  type,
 }) {
   if (busy) {
     disabled = true;
@@ -76,6 +83,7 @@ function Button({
       disabled={disabled}
       onClick={onClick}
       title={title}
+      type={type}
     >
       {children}
       {busy && <Spinner className="ml-1" ariaLabel="loading" size={size} />}
@@ -92,6 +100,7 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   title: PropTypes.string,
+  type: PropTypes.oneOf(Object.keys(TYPES)),
   size: PropTypes.oneOf(Object.keys(SIZES)),
 };
 
@@ -100,12 +109,14 @@ Button.defaultProps = {
   busy: false,
   color: 'none',
   disabled: false,
+  type: 'button',
   size: 'base',
 };
 
 Button.Colors = createKeyLookup(COLORS);
 Button.Appearances = createKeyLookup(APPEARANCES);
 Button.Sizes = createKeyLookup(SIZES);
+Button.Types = createKeyLookup(TYPES);
 
 export const RouterButtonLink = ({
   to,
