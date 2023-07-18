@@ -33,3 +33,21 @@ export const FormErrors = ({ errors }) => {
 FormErrors.propTypes = {
   errors: PropTypes.object.isRequired,
 };
+
+export const FormError = ({ message }) => {
+  if (message?.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-row gap-2 border border-fuchsia-500 rounded min-h-[75px] dark:bg-slate-700 dark:text-slate-100 m-6 max-w-lg mx-auto ">
+      <div className="inline-flex justify-center items-center bg-fuchsia-200 text-fuchsia-500/70 min-w-[75px]">
+        <ExclamationTriangleIcon className="h-10" />
+      </div>
+      <div className="px-3 py-2 font-bold self-center">{message}</div>
+    </div>
+  );
+};
+FormError.propTypes = {
+  message: PropTypes.string,
+};
