@@ -58,3 +58,10 @@ Spinner.Sizes = createKeyLookup(SIZES);
 Spinner.defaultProps = {
   size: 'base',
 };
+
+Spinner.sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+Spinner.minDelay = async (promise, ms) => {
+  let [p] = await Promise.all([promise, Spinner.sleep(ms)]);
+
+  return p;
+};
