@@ -17,6 +17,7 @@ const Input = forwardRef(
       message,
       min,
       name,
+      onBlur,
       onChange,
       placeholder,
       required,
@@ -69,10 +70,11 @@ const Input = forwardRef(
               step={step}
               id={id}
               disabled={disabled}
-              defaultValue={value}
+              value={value}
               name={name}
               placeholder={placeholder}
               onChange={(event) => onChange(event.target.value)}
+              onBlur={onBlur}
               required={required}
               aria-required={required}
               aria-labelledby={label ? `label.${name}` : null}
@@ -101,6 +103,7 @@ Input.propTypes = {
   message: PropTypes.string,
   min: PropTypes.number,
   name: PropTypes.string,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
