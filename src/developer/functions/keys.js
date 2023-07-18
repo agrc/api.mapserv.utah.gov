@@ -5,11 +5,11 @@ const min = 100000;
 const max = 999999;
 
 /**
- * A function that creates a new API key
+ * A function that generates a new API key
  * It joins UGRC- with the first 8 characters of a UUID with a random number between 100000 and 999999
  * @returns {string}
  */
-export const createKey = () => {
+export const generateKey = () => {
   const key = uuid();
   let randomValue;
 
