@@ -1,27 +1,33 @@
+import { ClipboardIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Tabs from '@radix-ui/react-tabs';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { httpsCallable } from 'firebase/functions';
+import { useEffect } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Controller, useForm } from 'react-hook-form';
+import { useLoaderData } from 'react-router-dom';
+import { useFunctions } from 'reactfire';
 import * as z from 'zod';
 import { TextLink } from '../Link';
 import Pill from '../Pill';
 import Button from '../design-system/Button';
 import Card from '../design-system/Card';
-import { FormErrors } from '../design-system/Form';
+import { FormError, FormErrors } from '../design-system/Form';
 import Input from '../design-system/Input';
 import RadioGroup from '../design-system/RadioGroup';
+import Spinner from '../design-system/Spinner';
 
 const items = [
-  { label: 'Production', value: 'prod' },
+  { label: 'Production', value: 'production' },
   {
     label: 'Development',
-    value: 'dev',
+    value: 'development',
   },
 ];
 
-const onSubmit = (data) => console.log(data);
-
 const base = z.object({
-  mode: z.enum(['dev', 'prod']),
+  mode: z.enum(['development', 'production']),
 });
 
 const privateIps = [10, 127, 172, 192];
@@ -59,21 +65,55 @@ const schema = z.discriminatedUnion('type', [
     .merge(base),
 ]);
 
+const defaultValues = {
+  pattern: '',
+  mode: 'development',
+  type: 'browser',
+};
+
 export function Component() {
   const {
     control,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
     handleSubmit,
+    reset,
     setValue,
   } = useForm({
     resolver: zodResolver(schema),
     mode: 'all',
-    defaultValues: {
-      pattern: '',
-      mode: 'dev',
-      type: 'browser',
+    defaultValues,
+  });
+
+  const loaderData = useLoaderData();
+  const functions = useFunctions();
+  const createKey = httpsCallable(functions, 'createKey');
+
+  const queryClient = useQueryClient();
+  const {
+    data,
+    mutate,
+    status: mutationStatus,
+  } = useMutation({
+    mutationFn: (data) => Spinner.minDelay(createKey(data), 5000),
+    onSuccess: async () => {
+      await queryClient.cancelQueries();
+
+      queryClient.invalidateQueries({ queryKey: ['my keys'] });
     },
   });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset(defaultValues);
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  const onSubmit = (data) =>
+    mutate({
+      ...data,
+      for: loaderData.user.uid,
+      fulfilled: false,
+    });
 
   return (
     <>
@@ -209,7 +249,7 @@ export function Component() {
                         ariaLabel="Key environment configuration"
                         required
                         items={items}
-                        defaultValue="dev"
+                        defaultValue="development"
                         {...field}
                       />
                     )}
@@ -243,7 +283,7 @@ export function Component() {
                         ariaLabel="Key environment configuration"
                         required
                         items={items}
-                        defaultValue="dev"
+                        defaultValue="development"
                         {...field}
                       />
                     )}
@@ -251,12 +291,37 @@ export function Component() {
                 </div>
               </Tabs.Content>
             </Tabs.Root>
+            {mutationStatus === 'loading' && (
+              <div className="relative flex items-center justify-center gap-6 py-4 mb-12 border w-full md:w-3/4 mx-auto font-black text-2xl md:text-4xl dark:text-mustard-200 dark:bg-slate-500 shadow border-x-0 md:border-x">
+                <Spinner
+                  size={Spinner.Sizes.custom}
+                  className="h-8"
+                  ariaLabel="waiting to generate key"
+                />{' '}
+                Creating key...
+              </div>
+            )}
+            {mutationStatus === 'success' && (
+              <div className="relative flex items-center justify-center gap-6 py-4 mb-12 border w-full md:w-3/4 mx-auto font-black text-2xl md:text-4xl dark:text-mustard-200 dark:bg-slate-500 shadow border-x-0 md:border-x">
+                {data.data}
+                <CopyToClipboard
+                  text={data.data}
+                  className="absolute top-1 right-1 h-8 cursor-pointer hover:text-mustard-400 dark:hover:text-mustard-500"
+                >
+                  <ClipboardIcon title="copy to clipboard" />
+                </CopyToClipboard>
+              </div>
+            )}
+            {mutationStatus === 'error' && (
+              <FormError message="We had some trouble creating this key. Give it another try and create an issue in GitHub if it fails again. Or tweet us @MapUtah." />
+            )}
             <div className="flex justify-center gap-6 pb-6">
               <Button
                 type="submit"
                 appearance="solid"
                 color="primary"
                 size="xl"
+                disabled={mutationStatus === 'loading'}
               >
                 Create Key
               </Button>

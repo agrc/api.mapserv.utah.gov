@@ -1,5 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getFunctions } from 'firebase/functions';
 import { Suspense } from 'react';
 import {
   Outlet,
@@ -16,11 +17,12 @@ import Layout from './components/page/Layout';
 const App = () => {
   const app = useFirebaseApp();
   const firestore = getFirestore(app);
+  const functions = getFunctions(app);
   const auth = getAuth(app);
   const { status, data: signInCheck } = useSigninCheck();
   const { data: user } = useSigninCheck();
 
-  connectEmulators(import.meta.env.DEV, auth, firestore);
+  connectEmulators(import.meta.env.DEV, auth, firestore, functions);
 
   const anonymous = !(signInCheck?.signedIn ?? false);
 

@@ -1,9 +1,12 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import '@utahdts/utah-design-system-header/css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { FirebaseAppProvider } from 'reactfire';
 import App from './App.jsx';
 import FirebaseContainer from './FirebaseContainer.jsx';
+
 import './index.css';
 
 const config = {
@@ -16,11 +19,25 @@ const config = {
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <FirebaseAppProvider firebaseConfig={config}>
-      <FirebaseContainer>
-        <App />
-      </FirebaseContainer>
-    </FirebaseAppProvider>
-  </React.StrictMode>,
+  <QueryClientProvider
+    client={
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+    }
+  >
+    <React.StrictMode>
+      <FirebaseAppProvider firebaseConfig={config}>
+        <FirebaseContainer>
+          <App />
+          <ReactQueryDevtools />
+        </FirebaseContainer>
+      </FirebaseAppProvider>
+    </React.StrictMode>
+    ,
+  </QueryClientProvider>,
 );
