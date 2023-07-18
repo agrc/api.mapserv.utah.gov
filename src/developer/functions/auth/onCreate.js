@@ -1,6 +1,8 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { error, info } from 'firebase-functions/logger';
 
+const db = getFirestore();
+
 export const createUser = async (user) => {
   info('[auth::user::onCreate] adding user to client connection', user);
 
@@ -10,10 +12,11 @@ export const createUser = async (user) => {
     created: new Date(),
     claimedAccounts: [],
     keys: [],
+    keyIds: [],
   };
 
   try {
-    await getFirestore().collection('clients').doc(user.uid).set(data);
+    await db.collection('clients').doc(user.uid).set(data);
   } catch (errorMessage) {
     error('[auth::user::onCreate] firebase error', { errorMessage, user });
 
