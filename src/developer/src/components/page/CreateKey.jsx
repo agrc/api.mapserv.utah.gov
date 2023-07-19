@@ -17,6 +17,7 @@ import { FormError, FormErrors } from '../design-system/Form';
 import Input from '../design-system/Input';
 import RadioGroup from '../design-system/RadioGroup';
 import Spinner from '../design-system/Spinner';
+import TextArea from '../design-system/TextArea';
 
 const items = [
   { label: 'Production', value: 'production' },
@@ -28,9 +29,13 @@ const items = [
 
 const base = z.object({
   mode: z.enum(['development', 'production']),
+  notes: z
+    .string()
+    .max(500, 'Limit your notes to 500 characters or less')
+    .optional(),
 });
 
-const privateIps = [10, 127, 172, 192];
+const privateIps = ['10', '127', '192.168'];
 const schema = z.discriminatedUnion('type', [
   z
     .object({
@@ -67,8 +72,10 @@ const schema = z.discriminatedUnion('type', [
 
 const defaultValues = {
   pattern: '',
+  notes: '',
   mode: 'development',
   type: 'browser',
+  fulfilled: false,
 };
 
 export function Component() {
@@ -112,19 +119,18 @@ export function Component() {
     mutate({
       ...data,
       for: loaderData.user.uid,
-      fulfilled: false,
     });
 
   return (
     <>
       <section className="border-b border-slate-400 p-6">
+        <h2
+          id="key-creation"
+          className="max-w-5xl mx-auto md:col-span-2 text-wavy-800 dark:text-slate-200 mb-4"
+        >
+          Key creation
+        </h2>
         <div className="mx-auto grid grid-cols-1 md:grid-cols-2 max-w-5xl gap-4 md:gap-10 md:px-6">
-          <h2
-            id="key-creation"
-            className="md:col-span-2 text-wavy-800 dark:text-slate-200"
-          >
-            Key creation
-          </h2>
           <p className="text-wavy-800 dark:text-slate-200">
             Each key is specific to an application you have created; either a
             browser or server based application. Browser based applications run
@@ -193,14 +199,14 @@ export function Component() {
       <section className="mt-6 max-w-5xl md:mx-auto mb-12">
         <h3
           id="create-key"
-          className="col-span-2 mb-3 ml-2 px-6 text-wavy-800 dark:text-slate-200"
+          className="text-center col-span-2 mb-3 ml-2 px-6 text-wavy-800 dark:text-slate-200"
         >
           Create a key
         </h3>
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 ">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full border border-slate-400 dark:bg-slate-600"
+            className="shadow-md w-full border border-slate-300 bg-slate-100 dark:bg-slate-600"
           >
             <Tabs.Root
               defaultValue="browser"
@@ -208,20 +214,24 @@ export function Component() {
             >
               <Tabs.List className="grid h-10 w-full grid-cols-2 items-center justify-center p-1">
                 <Tabs.Trigger
-                  className="relative border-slate-400 py-2 text-lg font-bold dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=inactive]:after:h-px data-[state=active]:after:h-2 data-[state=inactive]:after:dark:bg-slate-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:bottom-1 after:block after:absolute after:left-0 after:w-full after:rounded-full"
+                  className="relative border-slate-400 py-2 text-lg font-bold dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=inactive]:after:h-px data-[state=active]:after:h-2 data-[state=inactive]:after:dark:bg-slate-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:bottom-1 data-[state=active]:text-wavy-600 data-[state=inactive]:text-slate-500 data-[state=inactive]:after:bg-slate-400 data-[state=active]:after:bg-wavy-400 after:block after:absolute after:left-0 after:w-full after:rounded-full"
                   value="browser"
                 >
-                  <span className="rounded-full px-3 py-1 hover:bg-slate-500">
-                    Browser
-                  </span>
+                  <div className="mb-2">
+                    <span className="rounded-full px-3 py-1 hover:bg-white hover:dark:bg-slate-500 uppercase">
+                      Browser
+                    </span>
+                  </div>
                 </Tabs.Trigger>
                 <Tabs.Trigger
-                  className="relative border-slate-400 py-2 text-lg font-bold dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=inactive]:after:h-px data-[state=active]:after:h-2 data-[state=inactive]:after:dark:bg-slate-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:bottom-1 after:block after:absolute after:left-0 after:w-full after:rounded-full"
+                  className="relative border-slate-400 py-2 text-lg font-bold dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=inactive]:after:h-px data-[state=active]:after:h-2 data-[state=inactive]:after:dark:bg-slate-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:bottom-1 data-[state=active]:text-wavy-600 data-[state=inactive]:text-slate-500 data-[state=inactive]:after:bg-slate-400 data-[state=active]:after:bg-wavy-400 after:block after:absolute after:left-0 after:w-full after:rounded-full"
                   value="server"
                 >
-                  <span className="rounded-full px-3 py-1 hover:bg-slate-500">
-                    Server
-                  </span>
+                  <div className="mb-2">
+                    <span className="rounded-full px-3 py-1 hover:bg-white hover:dark:bg-slate-500 uppercase">
+                      Server
+                    </span>
+                  </div>
                 </Tabs.Trigger>
               </Tabs.List>
               <Tabs.Content className="p-8" value="browser">
@@ -229,11 +239,11 @@ export function Component() {
                   <Controller
                     name="pattern"
                     control={control}
-                    rules={{ required: true }}
                     render={({ field }) => (
                       <Input
                         label="URL Pattern"
                         placeholder="*.example.com/*"
+                        error={errors.pattern?.message}
                         required
                         {...field}
                       />
@@ -242,7 +252,6 @@ export function Component() {
                   <Controller
                     name="mode"
                     control={control}
-                    rules={{ required: true }}
                     render={({ field }) => (
                       <RadioGroup
                         label="Key environment configuration"
@@ -250,6 +259,19 @@ export function Component() {
                         required
                         items={items}
                         defaultValue="development"
+                        {...field}
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="notes"
+                    control={control}
+                    render={({ field }) => (
+                      <TextArea
+                        className="col-span-2"
+                        label="Notes"
+                        error={errors.notes?.message}
+                        placeholder="This key will be used for..."
                         {...field}
                       />
                     )}
@@ -262,7 +284,6 @@ export function Component() {
                   <Controller
                     name="ip"
                     control={control}
-                    rules={{ required: true }}
                     render={({ field }) => (
                       <Input
                         label="IP Address"
@@ -276,7 +297,6 @@ export function Component() {
                   <Controller
                     name="mode"
                     control={control}
-                    rules={{ required: true }}
                     render={({ field }) => (
                       <RadioGroup
                         label="Key environment configuration"
@@ -284,6 +304,19 @@ export function Component() {
                         required
                         items={items}
                         defaultValue="development"
+                        {...field}
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="notes"
+                    control={control}
+                    render={({ field }) => (
+                      <TextArea
+                        className="col-span-2"
+                        label="Notes"
+                        error={errors.notes?.message}
+                        placeholder="This key will be used for..."
                         {...field}
                       />
                     )}
@@ -302,11 +335,11 @@ export function Component() {
               </div>
             )}
             {mutationStatus === 'success' && (
-              <div className="relative flex items-center justify-center gap-6 py-4 mb-12 border w-full md:w-3/4 mx-auto font-black text-2xl md:text-4xl dark:text-mustard-200 dark:bg-slate-500 shadow border-x-0 md:border-x">
+              <div className="relative flex items-center justify-center gap-6 py-4 mb-12 border border-wavy-400/70 w-full md:w-3/4 mx-auto font-black text-2xl md:text-4xl text-wavy-500 bg-slate-300/70 dark:text-mustard-200 dark:bg-slate-500 shadow border-x-0 md:border-x uppercase">
                 {data.data}
                 <CopyToClipboard
                   text={data.data}
-                  className="absolute top-1 right-1 h-8 cursor-pointer hover:text-mustard-400 dark:hover:text-mustard-500"
+                  className="absolute top-1 right-1 h-8 cursor-pointer hover:text-wavy-400 dark:hover:text-mustard-500"
                 >
                   <ClipboardIcon title="copy to clipboard" />
                 </CopyToClipboard>
