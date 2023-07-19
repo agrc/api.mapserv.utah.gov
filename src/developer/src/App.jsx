@@ -40,7 +40,7 @@ const App = () => {
             <Route
               index
               loader={() => protectedRoute(anonymous, user)}
-              lazy={() => import('./components/page/Overview')}
+              lazy={() => import('./components/page/SelfService')}
             />
             <Route
               path="create-key"
@@ -50,7 +50,12 @@ const App = () => {
             <Route
               path="keys"
               loader={() => protectedRoute(anonymous, user)}
-              lazy={() => import('./components/page/ManageKeys')}
+              lazy={() => import('./components/page/Keys')}
+            />
+            <Route
+              path="keys/:key"
+              loader={protectedRoute(anonymous, user)}
+              lazy={() => import('./components/page/Key')}
             />
           </Route>
           <Route path="*" loader={() => redirect('/')} />

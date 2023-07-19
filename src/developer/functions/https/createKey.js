@@ -14,17 +14,17 @@ export const createKey = async (data) => {
     id: key,
     accountId,
     key,
-    createdOn: new Date(),
-    status: 'active',
+    created: new Date(),
+    status: 'active', // active, paused, deleted
     type: data.type,
     mode: data.mode,
     pattern: data.type === 'browser' ? data.pattern : data.ip,
     regularExpression: '',
     machineName: false,
-    deleted: false,
     elevated: false,
-    deletedOn: null,
-    disabledOn: null,
+    deleted: null,
+    disabled: null,
+    notes: data.notes,
   };
 
   await db.runTransaction(async (transaction) => {
