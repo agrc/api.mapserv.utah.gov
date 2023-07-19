@@ -164,7 +164,7 @@ export function Component() {
             columns={columns}
             data={data.data}
             visibility={{ createdDate: false }}
-            className="bg-white dark:bg-slate-800 min-h-[250px] max-w-5xl mx-auto border-wavy-500/50 border-2 dark:border-slate-500/50 shadow-md text-sm"
+            className="bg-white dark:bg-slate-800 min-h-[250px] max-w-5xl mx-auto border-wavy-500/50 border-2 dark:border-mustard-500/30 dark:border shadow-md text-sm"
             caption="Your API keys"
           />
         )}
