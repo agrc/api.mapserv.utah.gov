@@ -19,7 +19,11 @@ const Header = ({ className, children, links }) => {
                 An official website of the State of Utah. Click to learn more.
               </span>
               <svg
-                className="fill-wavy-800 dark:fill-slate-300"
+                className="fill-wavy-800 dark:fill-slate-300 text-sm"
+                style={{
+                  fontFamily:
+                    'SourceSansPro-Regular,Source Sans Pro,Arial,Helvetica,sans-serif',
+                }}
                 viewBox="0 0 105.9496 47.6226"
                 role="img"
               >
@@ -100,7 +104,11 @@ const Flyout = () => {
         </div>
         <div className="flex items-center gap-4 text-white sm:flex-col sm:gap-1">
           <svg
-            className="w-36 fill-current"
+            className="w-36 fill-current text-sm"
+            style={{
+              fontFamily:
+                'SourceSansPro-Regular,Source Sans Pro,Arial,Helvetica,sans-serif',
+            }}
             viewBox="0 0 105.9496 47.6226"
             role="img"
           >
