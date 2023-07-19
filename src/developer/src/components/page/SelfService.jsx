@@ -12,7 +12,7 @@ export function Component() {
           </h3>
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">
-              <div className="flex flex-1 divide-x rounded-lg border shadow-lg dark:divide-slate-950 dark:border-slate-950 dark:bg-slate-900  bg-white">
+              <div className="flex flex-1 divide-x rounded-lg border shadow-lg dark:divide-slate-950 dark:border-mustard-400/20 dark:bg-slate-900  bg-white">
                 <div className="p-6 text-center">
                   <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
                     2,712,908

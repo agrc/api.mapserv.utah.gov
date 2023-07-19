@@ -18,7 +18,7 @@ const columns = [
   columnHelper.accessor('key', {
     header: () => <span>Key</span>,
     cell: (info) => {
-      const value = info.getValue();
+      const value = info.getValue().toUpperCase();
       return (
         <Link className="" to={`${value}`}>
           {value}

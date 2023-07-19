@@ -74,10 +74,10 @@ const Layout = () => {
           </div>
         </div>
       </Header>
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
-      <Footer className="relative w-full bg-wavy-800" />
+      <Footer className="w-full bg-wavy-800" />
     </>
   );
 };
