@@ -15,7 +15,7 @@ const COLORS = {
     outlined:
       'border-wavy-500 text-wavy-500 focus:border-wavy-500 focus:ring-wavy-500 hover:border-wavy-500 hover:bg-wavy-500 ',
     solid:
-      'border-wavy-600 bg-wavy-500 text-mustard-100 focus:border-wavy-700 focus:ring-wavy-700 hover:border-wavy-600 hover:bg-wavy-700',
+      'border-wavy-600 bg-wavy-500 text-mustard-100 focus:border-wavy-700 focus:ring-wavy-700 hover:border-wavy-600 hover:bg-wavy-700 border border-2 dark:border-mustard-600/50',
   },
   secondary: {
     outlined:
@@ -41,7 +41,7 @@ const SIZES = {
   sm: 'text-sm px-3 py-0 h-6',
   base: 'px-7 py-1 h-8 min-h-[2rem]',
   lg: 'text-lg px-8 py-2 h-10 min-h-[2.5rem]',
-  xl: 'text-xl px-10 py-3 h-12 min-h-[3rem]',
+  xl: 'text-xl px-10 pt-2 pb-3 h-12 min-h-[3rem]',
 };
 
 const TYPES = {
