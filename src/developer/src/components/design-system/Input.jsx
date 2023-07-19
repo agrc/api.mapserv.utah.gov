@@ -52,7 +52,11 @@ const Input = forwardRef(
         </Label.Root>
         <div className="flex flex-1 flex-col">
           <div className="space-y-1">
-            {error && <p className="ml-2 text-sm text-fuchsia-200">{error}</p>}
+            {error && (
+              <p className="ml-2 text-sm dark:text-fuchsia-200 text-fuchsia-500">
+                {error}
+              </p>
+            )}
             <input
               ref={ref}
               className={twMerge(
