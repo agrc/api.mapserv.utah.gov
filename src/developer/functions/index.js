@@ -17,7 +17,7 @@ export const onCreateUser = auth.user().onCreate(async (user) => {
   return result;
 });
 
-// firestore
+// functions
 export const createKey = https.onCall({ cors: false }, async (request) => {
   if (request.auth === undefined) {
     debug('[https::createKey] no auth context');
@@ -34,6 +34,28 @@ export const createKey = https.onCall({ cors: false }, async (request) => {
   const result = await createKey(request.data);
 
   debug('[https::createKey]', result);
+
+  return result.toUpperCase();
+});
+
+export const keys = https.onCall({ cors: false }, async (request) => {
+  debug('[https::keys] starting');
+
+  if (request.auth === undefined) {
+    debug('[https::keys] no auth context');
+
+    throw new https.HttpsError(
+      https.FunctionsErrorCode.UNAUTHENTICATED,
+      'unauthenticated',
+    );
+  }
+
+  debug('[https::keys] importing getKeys');
+  const getKeys = (await import('./https/keys.js')).getKeys;
+
+  const result = await getKeys(request.auth.uid);
+
+  debug('[https::getKeys]', result);
 
   return result;
 });
