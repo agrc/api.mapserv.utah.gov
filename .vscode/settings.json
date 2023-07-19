@@ -121,6 +121,9 @@
   "coverage-gutters.highlightdark": "rgb(61, 153, 112, .05)",
   "coverage-gutters.noHighlightDark": "rgb(255, 65, 54, .05)",
   "coverage-gutters.partialHighlightDark": "rgb(255, 133, 27, .05)",
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
   },
