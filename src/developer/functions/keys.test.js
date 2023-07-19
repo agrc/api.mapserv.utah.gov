@@ -11,7 +11,7 @@ describe.concurrent('keys', () => {
   it('is 19 characters', async () => {
     expect(generateKey().length).toBe(19);
   });
-  it('starts with UGRC-', async () => {
-    expect(generateKey().startsWith('UGRC-')).toBeTruthy();
+  it('starts with ugrc-', async () => {
+    expect(generateKey().startsWith('ugrc-')).toBeTruthy();
   });
 });

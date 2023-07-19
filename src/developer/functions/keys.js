@@ -17,5 +17,5 @@ export const generateKey = () => {
     randomValue = webcrypto.getRandomValues(new Uint32Array(1))[0];
   } while (randomValue < min || randomValue > max);
 
-  return `UGRC-${key.substring(0, 8).toUpperCase()}${randomValue}`;
+  return `ugrc-${key.substring(0, 8).toLowerCase()}${randomValue}`;
 };
