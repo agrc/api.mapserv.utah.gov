@@ -46,14 +46,6 @@
   }
 }
 
-/* required for utah design system header */
-.utah-design-system {
-  --primary-color: theme('colors.wavy.700');
-}
-.utah-design-system.utds-official-website-popup__wrapper {
-  z-index: 1;
-}
-
 /* overwrite calcite fonts */
 :root {
   font-family: theme('fontFamily.sans');
