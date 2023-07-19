@@ -7,7 +7,7 @@ public static class Concurrencies {
             var locations = new string[Locations.Length];
             for (var i = 0; i < Locations.Length; i++) {
                 var location = Locations[i];
-                locations[i] = location.ToString();
+                locations[i] = location.ToJson();
             }
 
             return $"[{string.Join(',', locations)}]";
@@ -15,7 +15,7 @@ public static class Concurrencies {
     }
 
     public record LocationBase(string RouteId, double FromMeasure, double ToMeasure) {
-        public override string ToString()
+        public virtual string ToJson()
             => $$"""{"routeId":"{{RouteId}}","fromMeasure":"{{FromMeasure}}","toMeasure":"{{ToMeasure}}"}""";
     }
 
