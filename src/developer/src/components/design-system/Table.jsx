@@ -29,7 +29,6 @@ const Table = forwardRef(function Table(
       columnVisibility,
     },
     onSortingChange: setSorting,
-    debugColumns: true,
     ...props,
   });
 

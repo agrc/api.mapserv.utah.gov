@@ -49,12 +49,13 @@ const App = () => {
             />
             <Route
               path="keys"
+              exact
               loader={() => protectedRoute(anonymous, user)}
               lazy={() => import('./components/page/Keys')}
             />
             <Route
               path="keys/:key"
-              loader={protectedRoute(anonymous, user)}
+              loader={() => protectedRoute(anonymous, user)}
               lazy={() => import('./components/page/Key')}
             />
           </Route>
