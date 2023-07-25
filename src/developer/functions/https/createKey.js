@@ -25,6 +25,8 @@ export const createKey = async (data) => {
     deleted: false,
     disabled: false,
     notes: data.notes,
+    lastUsed: 'never',
+    usage: 'none',
   };
 
   await db.runTransaction(async (transaction) => {
