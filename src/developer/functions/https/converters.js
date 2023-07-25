@@ -7,25 +7,22 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   minute: 'numeric',
   timeZone: 'MST',
 });
-export const myKeysConverter = {
+export const keyConverter = {
   toFirestore(data) {
     return data;
   },
   fromFirestore(snapshot, options) {
-    const keys = snapshot.data(options).keys;
+    const data = snapshot.data(options);
 
-    console.log(keys);
 
-    return keys.map((data) => {
-      return {
-        key: data.key,
-        created: timeSince(Date.parse(data.created.toDate().toISOString())),
-        createdDate: dateFormatter.format(
-          Date.parse(data.created.toDate().toISOString()),
-        ),
-        notes: data.notes ?? 'edit this key to add notes',
-      };
-    });
+    return {
+      key: data.key,
+      created: timeSince(Date.parse(data.created.toDate().toISOString())),
+      createdDate: dateFormatter.format(
+        Date.parse(data.created.toDate().toISOString())
+      ),
+      notes: data.notes ?? 'edit this key to add notes',
+    };
   },
 };
 

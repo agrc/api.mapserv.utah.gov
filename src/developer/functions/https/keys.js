@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { myKeysConverter } from './converters.js';
+import { keyConverter } from './converters.js';
 
 const db = getFirestore();
 const empty = [];
@@ -14,15 +14,13 @@ export const getKeys = async (uid) => {
     return empty;
   }
 
-  const clientRef = await db
-    .collection('clients')
-    .doc(uid)
-    .withConverter(myKeysConverter)
+  const querySnapshot = await db
+    .collection(`clients/${uid}/keys`)
+    .withConverter(keyConverter)
     .get();
 
-  if (clientRef.exists === false) {
-    return empty;
-  }
+  const keys = [];
+  querySnapshot.forEach((doc) => keys.push(doc.data()));
 
-  return clientRef.data();
+  return keys;
 };

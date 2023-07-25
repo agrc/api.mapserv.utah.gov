@@ -1,4 +1,4 @@
-import { FieldValue, getFirestore } from 'firebase-admin/firestore';
+import { getFirestore } from 'firebase-admin/firestore';
 import { debug, info } from 'firebase-functions/logger';
 import { generateKey } from '../keys.js';
 
@@ -32,10 +32,10 @@ export const createKey = async (data) => {
     transaction.create(db.collection('keys').doc(apiKey.id), apiKey);
 
     // add key to the user
-    transaction.update(db.collection('clients').doc(accountId), {
-      keys: FieldValue.arrayUnion(apiKey),
-      keyIds: FieldValue.arrayUnion(apiKey.id),
-    });
+    transaction.create(
+      db.collection(`clients/${accountId}/keys`).doc(apiKey.id),
+      apiKey
+    );
   });
 
   return apiKey.id;
