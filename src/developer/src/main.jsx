@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import '@utahdts/utah-design-system-header/css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { FirebaseAppProvider } from 'reactfire';
@@ -38,5 +37,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </FirebaseContainer>
       </FirebaseAppProvider>
     </React.StrictMode>
-  </QueryClientProvider>,
+  </QueryClientProvider>
 );
