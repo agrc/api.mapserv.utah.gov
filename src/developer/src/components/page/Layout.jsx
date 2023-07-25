@@ -5,6 +5,7 @@ import Avatar from '../Avatar';
 import ThemeToggle from '../ThemeToggle';
 import Footer from '../design-system/Footer';
 import Header from '../design-system/Header';
+import Menu from '../design-system/Menu';
 
 const links = [
   {
@@ -74,6 +75,7 @@ const Layout = () => {
           </div>
         </div>
       </Header>
+      <Menu />
       <main className="flex-1">
         <Outlet />
       </main>
