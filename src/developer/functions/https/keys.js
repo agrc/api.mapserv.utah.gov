@@ -16,6 +16,7 @@ export const getKeys = async (uid) => {
 
   const querySnapshot = await db
     .collection(`clients/${uid}/keys`)
+    .where('deleted', '!=', true)
     .withConverter(keyConverter)
     .get();
 

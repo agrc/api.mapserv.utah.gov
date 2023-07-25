@@ -22,8 +22,8 @@ export const createKey = async (data) => {
     regularExpression: '',
     machineName: false,
     elevated: false,
-    deleted: null,
-    disabled: null,
+    deleted: false,
+    disabled: false,
     notes: data.notes,
   };
 
