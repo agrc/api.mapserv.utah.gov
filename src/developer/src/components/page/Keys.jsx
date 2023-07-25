@@ -33,14 +33,14 @@ const columns = [
       if (value === '[api-client]') {
         return (
           <>
-            Visit{' '}
+            🚀️ UGRC API Client. Visit{' '}
             <a
               className="text-mustard-700"
               href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient"
             >
               gis.utah.gov
             </a>{' '}
-            to get started with the UGRC API Client
+            to get started! 🚀️
           </>
         );
       }
