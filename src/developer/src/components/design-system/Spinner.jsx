@@ -20,7 +20,7 @@ export default function Spinner({ className, ariaLabel, size }) {
       className={twMerge(
         SIZES[size],
         'flex-shrink-0 animate-spin motion-reduce:hidden',
-        className,
+        className
       )}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

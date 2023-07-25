@@ -126,11 +126,11 @@ export function Component() {
       <section className="border-b border-slate-400 p-6">
         <h2
           id="key-creation"
-          className="max-w-5xl mx-auto md:col-span-2 text-wavy-800 dark:text-slate-200 mb-4"
+          className="mx-auto mb-4 max-w-5xl text-wavy-800 dark:text-slate-200 md:col-span-2"
         >
           Key creation
         </h2>
-        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 max-w-5xl gap-4 md:gap-10 md:px-6">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-10 md:px-6">
           <p className="text-wavy-800 dark:text-slate-200">
             Each key is specific to an application you have created; either a
             browser or server based application. Browser based applications run
@@ -196,17 +196,17 @@ export function Component() {
           </div>
         </div>
       </section>
-      <section className="mt-6 max-w-5xl md:mx-auto mb-12">
+      <section className="mb-12 mt-6 max-w-5xl md:mx-auto">
         <h3
           id="create-key"
-          className="text-center col-span-2 mb-3 ml-2 px-6 text-wavy-800 dark:text-slate-200"
+          className="col-span-2 mb-3 ml-2 px-6 text-center text-wavy-800 dark:text-slate-200"
         >
           Create a key
         </h3>
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 ">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="shadow-md w-full border border-slate-300 bg-slate-100 dark:bg-slate-600"
+            className="w-full border border-slate-300 bg-slate-100 shadow-md dark:bg-slate-600"
           >
             <Tabs.Root
               defaultValue="browser"
@@ -214,21 +214,21 @@ export function Component() {
             >
               <Tabs.List className="grid h-10 w-full grid-cols-2 items-center justify-center p-1">
                 <Tabs.Trigger
-                  className="relative border-slate-400 py-2 text-lg font-bold dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=inactive]:after:h-px data-[state=active]:after:h-2 data-[state=inactive]:after:dark:bg-slate-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:bottom-1 data-[state=active]:text-wavy-600 data-[state=inactive]:text-slate-500 data-[state=inactive]:after:bg-slate-400 data-[state=active]:after:bg-wavy-400 after:block after:absolute after:left-0 after:w-full after:rounded-full"
+                  className="relative border-slate-400 py-2 text-lg font-bold after:absolute after:left-0 after:block after:w-full after:rounded-full data-[state=active]:text-wavy-600 data-[state=inactive]:text-slate-500 data-[state=inactive]:after:bottom-1 data-[state=active]:after:h-2 data-[state=inactive]:after:h-px data-[state=active]:after:bg-wavy-400 data-[state=inactive]:after:bg-slate-400 dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:dark:bg-slate-400"
                   value="browser"
                 >
                   <div className="mb-2">
-                    <span className="rounded-full px-3 py-1 hover:bg-white hover:dark:bg-slate-500 uppercase">
+                    <span className="rounded-full px-3 py-1 uppercase hover:bg-white hover:dark:bg-slate-500">
                       Browser
                     </span>
                   </div>
                 </Tabs.Trigger>
                 <Tabs.Trigger
-                  className="relative border-slate-400 py-2 text-lg font-bold dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=inactive]:after:h-px data-[state=active]:after:h-2 data-[state=inactive]:after:dark:bg-slate-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:bottom-1 data-[state=active]:text-wavy-600 data-[state=inactive]:text-slate-500 data-[state=inactive]:after:bg-slate-400 data-[state=active]:after:bg-wavy-400 after:block after:absolute after:left-0 after:w-full after:rounded-full"
+                  className="relative border-slate-400 py-2 text-lg font-bold after:absolute after:left-0 after:block after:w-full after:rounded-full data-[state=active]:text-wavy-600 data-[state=inactive]:text-slate-500 data-[state=inactive]:after:bottom-1 data-[state=active]:after:h-2 data-[state=inactive]:after:h-px data-[state=active]:after:bg-wavy-400 data-[state=inactive]:after:bg-slate-400 dark:text-slate-200 data-[state=active]:dark:text-mustard-400 data-[state=active]:after:dark:bg-mustard-400 data-[state=inactive]:after:dark:bg-slate-400"
                   value="server"
                 >
                   <div className="mb-2">
-                    <span className="rounded-full px-3 py-1 hover:bg-white hover:dark:bg-slate-500 uppercase">
+                    <span className="rounded-full px-3 py-1 uppercase hover:bg-white hover:dark:bg-slate-500">
                       Server
                     </span>
                   </div>
@@ -325,7 +325,7 @@ export function Component() {
               </Tabs.Content>
             </Tabs.Root>
             {mutationStatus === 'loading' && (
-              <div className="relative flex items-center justify-center gap-6 py-4 mb-12 border w-full md:w-3/4 mx-auto font-black text-2xl md:text-4xl dark:text-mustard-200 dark:bg-slate-500 shadow border-x-0 md:border-x">
+              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow dark:bg-slate-500 dark:text-mustard-200 md:w-3/4 md:border-x md:text-4xl">
                 <Spinner
                   size={Spinner.Sizes.custom}
                   className="h-8"
@@ -335,11 +335,11 @@ export function Component() {
               </div>
             )}
             {mutationStatus === 'success' && (
-              <div className="relative flex items-center justify-center gap-6 py-4 mb-12 border border-wavy-400/70 w-full md:w-3/4 mx-auto font-black text-2xl md:text-4xl text-wavy-500 bg-slate-300/70 dark:text-mustard-200 dark:bg-slate-500 shadow border-x-0 md:border-x uppercase">
+              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 border-wavy-400/70 bg-slate-300/70 py-4 text-2xl font-black uppercase text-wavy-500 shadow dark:bg-slate-500 dark:text-mustard-200 md:w-3/4 md:border-x md:text-4xl">
                 {data.data}
                 <CopyToClipboard
                   text={data.data}
-                  className="absolute top-1 right-1 h-8 cursor-pointer hover:text-wavy-400 dark:hover:text-mustard-500"
+                  className="absolute right-1 top-1 h-8 cursor-pointer hover:text-wavy-400 dark:hover:text-mustard-500"
                 >
                   <ClipboardIcon title="copy to clipboard" />
                 </CopyToClipboard>

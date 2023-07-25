@@ -6,7 +6,7 @@
   html,
   body,
   #root {
-    @apply flex h-full w-full min-h-full flex-col;
+    @apply flex h-full min-h-full w-full flex-col;
   }
   h1 {
     @apply text-3xl font-bold md:text-4xl;
@@ -29,8 +29,7 @@
   @font-face {
     font-family: 'utah design system';
     src: url('https://cdn.utah.gov/design-system/fonts/utah-design-system.eot');
-    src:
-      url('https://cdn.utah.gov/design-system/fonts/utah-design-system.eot?#iefix')
+    src: url('https://cdn.utah.gov/design-system/fonts/utah-design-system.eot?#iefix')
         format('embedded-opentype'),
       url('https://cdn.utah.gov/design-system/fonts/utah-design-system.woff')
         format('woff'),

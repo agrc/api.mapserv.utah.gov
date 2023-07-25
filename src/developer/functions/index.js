@@ -18,44 +18,50 @@ export const onCreateUser = auth.user().onCreate(async (user) => {
 });
 
 // functions
-export const createKey = https.onCall({ cors: false }, async (request) => {
-  if (request.auth === undefined) {
-    debug('[https::createKey] no auth context');
+export const createKey = https.onCall(
+  { cors: [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/] },
+  async (request) => {
+    if (request.auth === undefined) {
+      debug('[https::createKey] no auth context');
 
-    throw new https.HttpsError(
-      https.FunctionsErrorCode.UNAUTHENTICATED,
-      'unauthenticated',
-    );
+      throw new https.HttpsError(
+        https.FunctionsErrorCode.UNAUTHENTICATED,
+        'unauthenticated'
+      );
+    }
+
+    debug('[https::createKey] importing createKey');
+    const createKey = (await import('./https/createKey.js')).createKey;
+
+    const result = await createKey(request.data);
+
+    debug('[https::createKey]', result);
+
+    return result.toUpperCase();
   }
+);
 
-  debug('[https::createKey] importing createKey');
-  const createKey = (await import('./https/createKey.js')).createKey;
+export const keys = https.onCall(
+  { cors: [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/] },
+  async (request) => {
+    debug('[https::keys] starting');
 
-  const result = await createKey(request.data);
+    if (request.auth === undefined) {
+      debug('[https::keys] no auth context');
 
-  debug('[https::createKey]', result);
+      throw new https.HttpsError(
+        https.FunctionsErrorCode.UNAUTHENTICATED,
+        'unauthenticated'
+      );
+    }
 
-  return result.toUpperCase();
-});
+    debug('[https::keys] importing getKeys');
+    const getKeys = (await import('./https/keys.js')).getKeys;
 
-export const keys = https.onCall({ cors: false }, async (request) => {
-  debug('[https::keys] starting');
+    const result = await getKeys(request.auth.uid);
 
-  if (request.auth === undefined) {
-    debug('[https::keys] no auth context');
+    debug('[https::getKeys]', result);
 
-    throw new https.HttpsError(
-      https.FunctionsErrorCode.UNAUTHENTICATED,
-      'unauthenticated',
-    );
+    return result;
   }
-
-  debug('[https::keys] importing getKeys');
-  const getKeys = (await import('./https/keys.js')).getKeys;
-
-  const result = await getKeys(request.auth.uid);
-
-  debug('[https::getKeys]', result);
-
-  return result;
-});
+);

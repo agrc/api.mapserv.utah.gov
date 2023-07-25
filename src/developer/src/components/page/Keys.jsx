@@ -124,11 +124,11 @@ export function Component() {
         <div className="mx-auto max-w-5xl md:px-6">
           <h2
             id="my-keys"
-            className="md:col-span-2 text-wavy-800 dark:text-slate-200"
+            className="text-wavy-800 dark:text-slate-200 md:col-span-2"
           >
             Manage Keys
           </h2>
-          <p className="text-wavy-800 dark:text-slate-200 mt-4">
+          <p className="mt-4 text-wavy-800 dark:text-slate-200">
             API keys are used to authenticate requests to the UGRC API. You can
             create as many keys as you need and each key is associated with an
             application or a process. Here you can manage your keys by deleting
@@ -137,7 +137,7 @@ export function Component() {
             used.
           </p>
         </div>
-        <div className="flex justify-center gap-6 mt-6">
+        <div className="mt-6 flex justify-center gap-6">
           <RouterButtonLink
             to="/self-service/create-key"
             appearance="solid"
@@ -148,11 +148,11 @@ export function Component() {
           </RouterButtonLink>
         </div>
       </section>
-      <section className="relative w-full md:mx-auto mb-12 px-6">
+      <section className="relative mb-12 w-full px-6 md:mx-auto">
         <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
         <div className="pt-12"></div>
         {status === 'loading' ? (
-          <div className="justify-center items-center relative flex flex-col border-b border-b-slate-300 bg-white dark:bg-slate-800 min-h-[250px] max-w-5xl mx-auto border-wavy-500/50 border-2 dark:border-slate-500/50 shadow-md">
+          <div className="relative mx-auto flex min-h-[250px] max-w-5xl flex-col items-center justify-center border-2 border-b border-wavy-500/50 border-b-slate-300 bg-white shadow-md dark:border-slate-500/50 dark:bg-slate-800">
             <Spinner
               size={Spinner.Sizes.custom}
               className="h-16 text-wavy-400"
@@ -164,7 +164,7 @@ export function Component() {
             columns={columns}
             data={data.data}
             visibility={{ createdDate: false }}
-            className="bg-white dark:bg-slate-800 min-h-[250px] max-w-5xl mx-auto border-wavy-500/50 border-2 dark:border-mustard-500/30 dark:border shadow-md text-sm"
+            className="mx-auto min-h-[250px] max-w-5xl border-2 border-wavy-500/50 bg-white text-sm shadow-md dark:border dark:border-mustard-500/30 dark:bg-slate-800"
             caption="Your API keys"
           />
         )}

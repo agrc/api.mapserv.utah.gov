@@ -98,19 +98,19 @@ export const Component = () => {
 
   return (
     <>
-      <section className="max-w-5xl mx-auto md:col-span-2 p-6 flex gap-4">
-        <KeyIcon className="dark:fill-wavy-500/50 dark:text-mustard-400/80 drop-shadow-md h-14 fill-mustard-500/20 text-wavy-500/80" />
+      <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
+        <KeyIcon className="h-14 fill-mustard-500/20 text-wavy-500/80 drop-shadow-md dark:fill-wavy-500/50 dark:text-mustard-400/80" />
         <div>
           <h2
             id="key-creation"
-            className="text-wavy-600 dark:text-wavy-200 uppercase"
+            className="uppercase text-wavy-600 dark:text-wavy-200"
           >
             {key}
           </h2>
-          <p className="text-wavy-400">{data.pattern}</p>
+          <p className="text-wavy-400">{data?.pattern}</p>
         </div>
       </section>
-      <section className="relative w-full md:mx-auto mb-12 px-6">
+      <section className="relative mb-12 w-full px-6 md:mx-auto">
         <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
         <div className="relative z-10 mx-auto max-w-5xl px-6">
           {data && (
@@ -120,7 +120,7 @@ export const Component = () => {
           )}
         </div>
         <div className="mx-auto w-full">
-          <div className="relative flex-wrap flex gap-2 sm:gap-8 lg:gap-12 flex-1 justify-around max-w-7xl mx-auto px-6">
+          <div className="relative mx-auto flex max-w-7xl flex-1 flex-wrap justify-around gap-2 px-6 sm:gap-8 lg:gap-12">
             <Card className="min-w-[250px]" title="Creation Date">
               <MetadataItem>
                 <CakeIcon className={iconStyle} />
@@ -172,9 +172,9 @@ export const Component = () => {
           </div>
         </div>
       </section>
-      <section className="max-w-5xl mx-auto md:col-span-2 p-6 mb-12">
+      <section className="mx-auto mb-12 max-w-5xl p-6 md:col-span-2">
         <Card title="Key Notes">
-          <div className="p-4 text-wavy-800 dark:text-wavy-200 flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-4 p-4 text-wavy-800 dark:text-wavy-200">
             {data?.notes}
             <Button>Edit</Button>
           </div>
@@ -191,7 +191,7 @@ MetadataItem.propTypes = {
 };
 
 const Banner = ({ children }) => (
-  <div className="bg-slate-200 dark:bg-slate-600 dark:border-y-slate-500/50 h-12 border-y border-y-slate-300 items-center flex justify-center">
+  <div className="flex h-12 items-center justify-center border-y border-y-slate-300 bg-slate-200 dark:border-y-slate-500/50 dark:bg-slate-600">
     {children}
   </div>
 );

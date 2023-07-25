@@ -60,13 +60,13 @@ const App = () => {
             />
           </Route>
           <Route path="*" loader={() => redirect('/')} />
-        </Route>,
+        </Route>
       ),
       {
         future: {
           v7_normalizeFormMethod: true,
         },
-      },
+      }
     );
   }
 

@@ -4,7 +4,7 @@ import { TextLink } from '../Link';
 export function Component() {
   return (
     <article className="">
-      <section className="relative w-full md:mx-auto mb-12 px-6">
+      <section className="relative mb-12 w-full px-6 md:mx-auto">
         <div className="bg-circuit absolute inset-0 h-32 bg-wavy-600 shadow-lg"></div>
         <div className="relative space-y-4">
           <h3 className="mb-3 ml-2 pt-3 text-center text-white dark:text-slate-200">
@@ -12,7 +12,7 @@ export function Component() {
           </h3>
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">
-              <div className="flex flex-1 divide-x rounded-lg border shadow-lg dark:divide-slate-950 dark:border-mustard-400/20 dark:bg-slate-900  bg-white">
+              <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-slate-950 dark:border-mustard-400/20  dark:bg-slate-900">
                 <div className="p-6 text-center">
                   <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
                     2,712,908
@@ -34,7 +34,7 @@ export function Component() {
           </div>
         </div>
       </section>
-      <section className="flex justify-center gap-6 mb-6">
+      <section className="mb-6 flex justify-center gap-6">
         <RouterButtonLink
           to="create-key"
           appearance="solid"

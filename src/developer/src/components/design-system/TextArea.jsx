@@ -22,13 +22,12 @@ const TextArea = forwardRef(
       rows,
       value,
     },
-    ref,
+    ref
   ) => {
     if (!id) {
       id = label.toLowerCase().replace(' ', '-');
     }
 
-    console.log('textarea', error, invalid);
     if (error) {
       invalid = true;
     }
@@ -37,7 +36,7 @@ const TextArea = forwardRef(
       <div
         className={twMerge(
           inline ? 'inline-flex items-center' : 'flex flex-col',
-          className,
+          className
         )}
       >
         <Label.Root asChild className={inline && 'mr-2'} htmlFor={id}>
@@ -51,20 +50,20 @@ const TextArea = forwardRef(
         <div className="flex flex-1 flex-col">
           <div className="space-y-1">
             {error && (
-              <p className="ml-2 text-sm dark:text-fuchsia-200 text-fuchsia-500">
+              <p className="ml-2 text-sm text-fuchsia-500 dark:text-fuchsia-200">
                 {error}
               </p>
             )}
             <textarea
               ref={ref}
               className={twMerge(
-                'resize-none w-full rounded-md border-slate-400 px-2 py-1 text-slate-700 shadow-sm transition-all duration-200 ease-in-out placeholder:text-slate-400 focus:border-mustard-500 focus:outline-none focus:ring focus:ring-mustard-600 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm',
+                'w-full resize-none rounded-md border-slate-400 px-2 py-1 text-slate-700 shadow-sm transition-all duration-200 ease-in-out placeholder:text-slate-400 focus:border-mustard-500 focus:outline-none focus:ring focus:ring-mustard-600 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm',
                 !inline && 'w-full',
                 invalid &&
                   'border-2 border-fuchsia-500 focus:border-fuchsia-500 focus:ring-fuchsia-600',
                 disabled
                   ? 'cursor-not-allowed border-slate-300 bg-slate-100'
-                  : 'bg-white',
+                  : 'bg-white'
               )}
               rows={rows}
               id={id}
@@ -87,7 +86,7 @@ const TextArea = forwardRef(
         </div>
       </div>
     );
-  },
+  }
 );
 TextArea.displayName = 'TextArea';
 TextArea.propTypes = {

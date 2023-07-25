@@ -19,7 +19,7 @@ const Header = ({ className, children, links }) => {
                 An official website of the State of Utah. Click to learn more.
               </span>
               <svg
-                className="fill-wavy-800 dark:fill-slate-300 text-sm"
+                className="fill-wavy-800 text-sm dark:fill-slate-300"
                 style={{
                   fontFamily:
                     'SourceSansPro-Regular,Source Sans Pro,Arial,Helvetica,sans-serif',
