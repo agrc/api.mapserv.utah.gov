@@ -15,7 +15,7 @@
     "ms-python.python",
     "donjayamanne.python-environment-manager",
     "charliermarsh.ruff",
-    "bungcip.better-toml",
+    "tamasfe.even-better-toml",
     "redhat.vscode-yaml",
     "esbenp.prettier-vscode",
     "lllllllqw.jsdoc"
