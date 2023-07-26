@@ -1,10 +1,18 @@
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 
 const Card = ({ title, subTitle, children }) => {
   return (
     <div className="mt-6 border border-slate-300 bg-slate-100 shadow-md dark:border-slate-800 dark:bg-slate-700 md:mt-0">
       {title && (
-        <h4 className="bg-white px-5 pt-3 uppercase text-wavy-600 dark:bg-slate-600 dark:text-slate-50">
+        <h4
+          className={clsx(
+            'bg-white px-5 pt-3 uppercase text-wavy-600 dark:bg-slate-600 dark:text-slate-50',
+            {
+              'pb-3': !subTitle,
+            }
+          )}
+        >
           {title}
         </h4>
       )}
