@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { keyConverter } from './converters.js';
+import { minimalKeyConversion } from './converters.js';
 
 const db = getFirestore();
 const empty = [];
@@ -17,7 +17,7 @@ export const getKeys = async (uid) => {
   const querySnapshot = await db
     .collection(`clients/${uid}/keys`)
     .where('deleted', '!=', true)
-    .withConverter(keyConverter)
+    .withConverter(minimalKeyConversion)
     .get();
 
   const keys = [];
