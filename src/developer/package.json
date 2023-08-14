@@ -10,6 +10,7 @@
     "dev": "cross-env NODE_ENV=development run-p dev:*",
     "dev:vite": "vite",
     "dev:firebase": "firebase emulators:start --import ../../data/firebase --only auth,firestore,functions",
+    "dev:migrate": "FIRESTORE_EMULATOR_HOST='127.0.0.1:8080' fireway migrate",
     "format": "prettier --write .",
     "lint": "eslint ./ --ext .js,.jsx --report-unused-disable-directives --max-warnings 0 --ignore-path ./.eslintignore",
     "lint:fix": "eslint ./ --ext .js,.jsx --quiet --fix --ignore-path ./.eslintignore",
