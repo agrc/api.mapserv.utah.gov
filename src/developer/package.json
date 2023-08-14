@@ -17,7 +17,7 @@
     "preview": "vite preview",
     "save-firebase-state": "firebase emulators:start --import ../../data/firebase --export-on-exit --only auth,firestore,functions",
     "start": "npm run dev",
-    "test": "vitest",
+    "test": "vitest --silent --coverage --ui --open",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
