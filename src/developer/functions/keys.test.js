@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createKey as generateKey } from './keys';
+import { generateKey } from './keys';
 
 describe.concurrent('keys', () => {
   it('is not empty', async () => {
