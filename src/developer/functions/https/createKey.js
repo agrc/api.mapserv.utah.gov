@@ -1,7 +1,9 @@
+import { initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { debug, info } from 'firebase-functions/logger';
 import { generateKey } from '../keys.js';
 
+initializeApp();
 const db = getFirestore();
 
 export const createKey = async (data) => {
@@ -9,6 +11,14 @@ export const createKey = async (data) => {
   const accountId = data.for;
 
   const key = await getUniqueKey();
+
+  let regularExpression = '';
+  if (data.type === 'browser') {
+    regularExpression = generateRegexFromPattern(data.pattern);
+    if (regularExpression === '') {
+      throw new Error('Invalid pattern');
+    }
+  }
 
   const apiKey = {
     id: key,
@@ -19,7 +29,7 @@ export const createKey = async (data) => {
     type: data.type,
     mode: data.mode,
     pattern: data.type === 'browser' ? data.pattern : data.ip,
-    regularExpression: '',
+    regularExpression,
     machineName: false,
     elevated: false,
     deleted: false,
@@ -36,7 +46,7 @@ export const createKey = async (data) => {
     // add key to the user
     transaction.create(
       db.collection(`clients/${accountId}/keys`).doc(apiKey.id),
-      apiKey
+      apiKey,
     );
   });
 
@@ -59,4 +69,48 @@ const getUniqueKey = async () => {
   debug('[functions::createKey] using key', key);
 
   return key;
+};
+
+const httpsRegex = /https?:\/\//i;
+const oneOrMoreOfAny = '.+';
+const empty = '';
+
+export const generateRegexFromPattern = (pattern) => {
+  // if no pattern, return empty
+  if (!pattern) {
+    return empty;
+  }
+
+  pattern = pattern.toString().trim().toLowerCase();
+
+  // if pattern is empty, return empty
+  if (pattern.length < 1) {
+    return empty;
+  }
+
+  if (pattern === '*') {
+    return empty;
+  }
+
+  // strip http(s)://
+  let stripped = pattern.replace(httpsRegex, empty);
+
+  // escape periods
+  let escaped = stripped.replace(/\./g, '\\.');
+
+  // replace *\. with .+\.
+  if (escaped.startsWith('*')) {
+    if (escaped.startsWith(`*\\.`)) {
+      escaped = oneOrMoreOfAny + escaped.substring(1);
+    } else {
+      escaped = escaped.substring(1);
+    }
+  }
+
+  // replace /* with /.+
+  if (escaped.endsWith('/*')) {
+    escaped = escaped.substring(0, escaped.length - 1) + '.*';
+  }
+
+  return `^https?://` + escaped;
 };
