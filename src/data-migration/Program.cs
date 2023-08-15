@@ -213,7 +213,7 @@ namespace models {
     }
     [FirestoreData]
     public class PasswordHashAndSalt {
-        [FirestoreProperty("password_hash")]
+        [FirestoreProperty("hash")]
         public string HashedPassword { get; set; } = string.Empty;
         [FirestoreProperty("salt")]
         public string Salt { get; set; } = string.Empty;
