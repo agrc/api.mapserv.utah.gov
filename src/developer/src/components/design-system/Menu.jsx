@@ -11,7 +11,7 @@ const menuTextCss = (isActive) =>
     {
       'before:absolute before:-top-1.5 before:left-0 before:z-10 before:block before:h-1 before:w-full before:rounded-full before:bg-mustard-500':
         isActive,
-    }
+    },
   );
 
 const menuItemCss =
@@ -110,7 +110,7 @@ const ListItem = forwardRef(
         <a
           className={clsx(
             'block select-none rounded p-3 text-base no-underline outline-none transition-colors hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-mustard-400 dark:hover:bg-slate-700/50',
-            className
+            className,
           )}
           {...props}
           ref={forwardedRef}
@@ -124,7 +124,7 @@ const ListItem = forwardRef(
         </a>
       </NavigationMenu.Link>
     </li>
-  )
+  ),
 );
 ListItem.propTypes = {
   className: PropTypes.string,

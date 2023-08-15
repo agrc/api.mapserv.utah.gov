@@ -19,7 +19,7 @@ export const minimalKeyConversion = {
       key: data.key,
       created: timeSince(Date.parse(data.created.toDate().toISOString())),
       createdDate: dateFormatter.format(
-        Date.parse(data.created.toDate().toISOString())
+        Date.parse(data.created.toDate().toISOString()),
       ),
       notes: data.notes ?? 'edit this key to add notes',
     };

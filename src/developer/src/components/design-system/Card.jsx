@@ -10,7 +10,7 @@ const Card = ({ title, subTitle, children }) => {
             'bg-white px-5 pt-3 uppercase text-wavy-600 dark:bg-slate-600 dark:text-slate-50',
             {
               'pb-3': !subTitle,
-            }
+            },
           )}
         >
           {title}

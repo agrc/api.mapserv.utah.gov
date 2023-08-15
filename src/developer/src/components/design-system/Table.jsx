@@ -13,7 +13,7 @@ import { twJoin, twMerge } from 'tailwind-merge';
 // note: I tried v3 beta of react-virtual but it didn't quite work
 const Table = forwardRef(function Table(
   { columns, data, className, caption, ...props },
-  forwardedRef
+  forwardedRef,
 ) {
   // eslint-disable-next-line react/prop-types
   const [sorting, setSorting] = useState(props?.initialState?.sorting ?? []);
@@ -63,13 +63,13 @@ const Table = forwardRef(function Table(
                           header.column.getCanSort() &&
                             'flex cursor-pointer select-none items-center justify-between',
                           header.column.getIsSorted() &&
-                            'before:absolute before:-bottom-1 before:left-0 before:z-10 before:block before:h-2 before:w-full before:rounded-full before:bg-mustard-500'
+                            'before:absolute before:-bottom-1 before:left-0 before:z-10 before:block before:h-2 before:w-full before:rounded-full before:bg-mustard-500',
                         )}
                         onClick={header.column.getToggleSortingHandler()}
                       >
                         {flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                         {{
                           asc: <ChevronUpIcon className="h-4" />,
@@ -97,7 +97,7 @@ const Table = forwardRef(function Table(
                         even,
                       'bg-wavy-100 text-wavy-800 dark:bg-slate-700 dark:text-wavy-300':
                         odd,
-                    }
+                    },
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -108,7 +108,7 @@ const Table = forwardRef(function Table(
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </td>
                   ))}

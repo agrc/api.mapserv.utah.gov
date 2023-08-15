@@ -25,7 +25,7 @@ const Input = forwardRef(
       type = 'text',
       value,
     },
-    ref
+    ref,
   ) => {
     if (!id) {
       id = label.toLowerCase().replace(' ', '-');
@@ -39,7 +39,7 @@ const Input = forwardRef(
       <div
         className={twMerge(
           inline ? 'inline-flex items-center' : 'flex flex-col',
-          className
+          className,
         )}
       >
         <Label.Root asChild className={inline && 'mr-2'} htmlFor={id}>
@@ -66,7 +66,7 @@ const Input = forwardRef(
                   'border-2 border-fuchsia-500 focus:border-fuchsia-500 focus:ring-fuchsia-600',
                 disabled
                   ? 'cursor-not-allowed border-slate-300 bg-slate-100'
-                  : 'bg-white'
+                  : 'bg-white',
               )}
               type={type}
               min={min}
@@ -92,7 +92,7 @@ const Input = forwardRef(
         </div>
       </div>
     );
-  }
+  },
 );
 Input.displayName = 'Input';
 Input.propTypes = {

@@ -26,7 +26,7 @@ export const createKey = https.onCall(
 
       throw new https.HttpsError(
         https.FunctionsErrorCode.UNAUTHENTICATED,
-        'unauthenticated'
+        'unauthenticated',
       );
     }
 
@@ -38,7 +38,7 @@ export const createKey = https.onCall(
     debug('[https::createKey]', result);
 
     return result.toUpperCase();
-  }
+  },
 );
 
 export const keys = https.onCall(
@@ -51,7 +51,7 @@ export const keys = https.onCall(
 
       throw new https.HttpsError(
         https.FunctionsErrorCode.UNAUTHENTICATED,
-        'unauthenticated'
+        'unauthenticated',
       );
     }
 
@@ -63,5 +63,5 @@ export const keys = https.onCall(
     debug('[https::getKeys]', result);
 
     return result;
-  }
+  },
 );

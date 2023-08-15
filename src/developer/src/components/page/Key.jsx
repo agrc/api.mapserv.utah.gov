@@ -39,7 +39,7 @@ export const Component = () => {
 
   const ref = doc(
     useFirestore(),
-    `clients/${loaderData.user.uid}/keys/${key.toLowerCase()}`
+    `clients/${loaderData.user.uid}/keys/${key.toLowerCase()}`,
   );
 
   const { status, data } = useFirestoreDocData(ref);
@@ -124,7 +124,7 @@ export const Component = () => {
                     <CakeIcon className={iconStyle} />
                     <Banner>
                       {dateFormatter.format(
-                        Date.parse(data?.created.toDate().toISOString())
+                        Date.parse(data?.created.toDate().toISOString()),
                       )}
                     </Banner>
                   </MetadataItem>
@@ -176,7 +176,7 @@ export const Component = () => {
                       {data?.lastUsed ?? 'never' === 'never'
                         ? 'never'
                         : timeSince(
-                            Date.parse(data.lastUsed.toDate().toISOString())
+                            Date.parse(data.lastUsed.toDate().toISOString()),
                           )}
                     </Banner>
                   </MetadataItem>

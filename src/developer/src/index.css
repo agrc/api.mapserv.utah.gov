@@ -29,7 +29,8 @@
   @font-face {
     font-family: 'utah design system';
     src: url('https://cdn.utah.gov/design-system/fonts/utah-design-system.eot');
-    src: url('https://cdn.utah.gov/design-system/fonts/utah-design-system.eot?#iefix')
+    src:
+      url('https://cdn.utah.gov/design-system/fonts/utah-design-system.eot?#iefix')
         format('embedded-opentype'),
       url('https://cdn.utah.gov/design-system/fonts/utah-design-system.woff')
         format('woff'),

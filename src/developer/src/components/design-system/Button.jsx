@@ -78,7 +78,7 @@ function Button({
         'hover:text-white',
         !disabled && 'active:scale-95 active:shadow-inner',
         'disabled:cursor-not-allowed disabled:opacity-50',
-        className
+        className,
       )}
       disabled={disabled}
       onClick={onClick}
@@ -137,7 +137,7 @@ export const RouterButtonLink = ({
         'transition-all duration-200 ease-in-out',
         'focus:outline-none focus:ring-2 focus:ring-opacity-50',
         'hover:text-white',
-        className
+        className,
       )}
     >
       {children}

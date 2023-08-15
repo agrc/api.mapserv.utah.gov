@@ -73,7 +73,7 @@ Avatar.displayName = 'Avatar';
 
 const Gravatar = ({ email, name = '' }) => {
   const gravatar = `https://www.gravatar.com/avatar/${md5(
-    email.toLowerCase()
+    email.toLowerCase(),
   )}?size=${size}&default=blank`;
 
   const initials = getInitials(name);
@@ -87,7 +87,7 @@ const Gravatar = ({ email, name = '' }) => {
           {
             'text-3xl': initials.length < 3,
             'text-2xl': initials.length === 3,
-          }
+          },
         )}
       >
         {initials}

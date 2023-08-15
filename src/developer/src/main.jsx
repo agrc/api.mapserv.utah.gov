@@ -37,5 +37,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </FirebaseContainer>
       </FirebaseAppProvider>
     </React.StrictMode>
-  </QueryClientProvider>
+  </QueryClientProvider>,
 );

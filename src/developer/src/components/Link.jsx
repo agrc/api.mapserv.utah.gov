@@ -16,7 +16,7 @@ export const TextLink = ({ href, target, children, color }) => {
       target={target}
       className={twMerge(
         'font-medium italic text-mustard-900 underline underline-offset-2 transition-all hover:decoration-2 hover:underline-offset-4 focus:outline-none active:underline-offset-8',
-        COLORS[color]
+        COLORS[color],
       )}
       rel={target === '_blank' ? 'noopener noreferrer' : undefined}
     >
