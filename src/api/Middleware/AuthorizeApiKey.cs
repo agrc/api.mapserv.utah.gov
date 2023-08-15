@@ -35,6 +35,8 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             );
         }
 
+        _log?.Debug("api key: {@apiKey}", apiKey);
+
         if (apiKey.Deleted || apiKey.Enabled == ApiKey.KeyStatus.Disabled) {
             _log?.Information("attempt to use deleted or disabled key {key}", apiKey);
 
@@ -60,11 +62,12 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             var pattern = new Regex(apiKey.RegularExpression, RegexOptions.IgnoreCase);
 
             if (!context.HttpContext.Request.Headers.TryGetValue("Referrer", out var referrer)) {
+                _log?.Debug("referrer header not found");
                 context.HttpContext.Request.Headers.TryGetValue("Referer", out referrer);
+                _log?.Debug("using common misspelling: {referrer}", referrer);
             }
 
             var hasOrigin = context.HttpContext.Request.Headers.Where(x => x.Key == "Origin").ToList();
-
             if (string.IsNullOrEmpty(referrer.ToString()) && !hasOrigin.Any()) {
                 _log?.Information("api key usage without referrer header {key}", apiKey);
 
@@ -80,6 +83,21 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
 
             if (corsOriginHeader.Key != null) {
                 corsOriginValue = corsOriginHeader.Value.SingleOrDefault() ?? string.Empty;
+            }
+
+            _log?.Debug("request origin header: {origin}", corsOriginValue);
+
+            try {
+                var uri = new Uri(referrer.ToString());
+                _log?.Debug("referrer uri: {@uri}", uri);
+            } catch {
+                _log?.Information("invalid referrer uri {referrer}", referrer);
+
+                return BadRequest(
+                    "The http referrer header is invalid. Turn off any security solutions that may remove this " +
+                    "header to use this service. If you are trying to test your query add the referrer header via a tool like postman " +
+                    "or browse to api.mapserv.utah.gov and use the api explorer."
+                );
             }
 
             if (apiKey.Configuration == ApiKey.ApplicationStatus.Development &&
@@ -115,7 +133,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
         Message = message
     };
     private static bool ApiKeyPatternMatches(Regex pattern, string origin, Uri referrer) {
-        var isOrigin = !string.IsNullOrEmpty(origin);
+        var isOrigin = !string.IsNullOrEmpty(origin) && origin != "null";
         var isValidBasedOnReferrer = false;
         var isValidBasedOnOrigin = false;
 
