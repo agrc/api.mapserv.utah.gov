@@ -35,8 +35,6 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             );
         }
 
-        // TODO make sure user has confirmed email address
-
         if (apiKey.Deleted || apiKey.Enabled == ApiKey.KeyStatus.Disabled) {
             _log?.Information("attempt to use deleted or disabled key {key}", apiKey);
 
