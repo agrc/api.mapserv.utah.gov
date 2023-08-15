@@ -3,7 +3,12 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { debug, info } from 'firebase-functions/logger';
 import { generateKey } from '../keys.js';
 
-initializeApp();
+try {
+  initializeApp();
+} catch {
+  // if already initialized, do nothing
+}
+
 const db = getFirestore();
 
 export const createKey = async (data) => {
