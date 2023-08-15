@@ -51,7 +51,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
         }
 
         if (apiKey.Type == ApiKey.ApplicationType.Browser) {
-            if (apiKey.RegexPattern == null) {
+            if (apiKey.RegularExpression == null) {
                 _log?.Warning("api key usage without regex pattern {key}", apiKey);
 
                 return BadRequest("This api key has no regex pattern. This is likely a bug. " +
@@ -59,7 +59,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
                 );
             }
 
-            var pattern = new Regex(apiKey.RegexPattern, RegexOptions.IgnoreCase);
+            var pattern = new Regex(apiKey.RegularExpression, RegexOptions.IgnoreCase);
 
             if (!context.HttpContext.Request.Headers.TryGetValue("Referrer", out var referrer)) {
                 context.HttpContext.Request.Headers.TryGetValue("Referer", out referrer);

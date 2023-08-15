@@ -70,7 +70,7 @@ public class AuthorizeApiKeyTests {
                    Deleted = false,
                    Enabled = ApiKey.KeyStatus.Active,
                    Type = ApiKey.ApplicationType.Browser,
-                   RegexPattern = pattern,
+                   RegularExpression = pattern,
                    Configuration = ApiKey.ApplicationStatus.Production
                });
 
@@ -149,7 +149,7 @@ public class AuthorizeApiKeyTests {
                    Deleted = false,
                    Enabled = ApiKey.KeyStatus.Active,
                    Type = ApiKey.ApplicationType.Browser,
-                   RegexPattern = pattern,
+                   RegularExpression = pattern,
                    Configuration = ApiKey.ApplicationStatus.Production
                });
 
@@ -190,7 +190,7 @@ public class AuthorizeApiKeyTests {
                    Deleted = false,
                    Enabled = ApiKey.KeyStatus.Active,
                    Type = ApiKey.ApplicationType.Browser,
-                   RegexPattern = pattern,
+                   RegularExpression = pattern,
                    Configuration = ApiKey.ApplicationStatus.Development
                });
 
@@ -259,7 +259,7 @@ public class AuthorizeApiKeyTests {
                    Deleted = deleted,
                    Enabled = status,
                    Type = ApiKey.ApplicationType.Browser,
-                   RegexPattern = "pattern",
+                   RegularExpression = "pattern",
                    Configuration = ApiKey.ApplicationStatus.Production
                });
 
@@ -361,7 +361,7 @@ public class AuthorizeApiKeyTests {
                    Deleted = false,
                    Enabled = ApiKey.KeyStatus.Active,
                    Type = ApiKey.ApplicationType.Browser,
-                   RegexPattern = "pattern",
+                   RegularExpression = "pattern",
                    Configuration = ApiKey.ApplicationStatus.Production
                });
 
