@@ -9,7 +9,7 @@ public class PostmanApiKeyRepository : IApiKeyRepository {
                 Configuration = ApiKey.ApplicationStatus.Production,
                 Deleted = false,
                 IsMachineName = false,
-                RegexPattern = "localhost",
+                RegularExpression = "localhost",
                 Type = ApiKey.ApplicationType.Browser,
                 Elevated = true
             });
@@ -21,7 +21,7 @@ public class PostmanApiKeyRepository : IApiKeyRepository {
                 Configuration = ApiKey.ApplicationStatus.Production,
                 Deleted = false,
                 IsMachineName = false,
-                RegexPattern = "localhost",
+                RegularExpression = "localhost",
                 Type = ApiKey.ApplicationType.Browser
             });
         }
@@ -32,7 +32,7 @@ public class PostmanApiKeyRepository : IApiKeyRepository {
                 Configuration = ApiKey.ApplicationStatus.Production,
                 Deleted = true,
                 IsMachineName = false,
-                RegexPattern = "localhost",
+                RegularExpression = "localhost",
                 Type = ApiKey.ApplicationType.Browser
             });
         }
