@@ -117,5 +117,6 @@ export const generateRegexFromPattern = (pattern) => {
     escaped = escaped.substring(0, escaped.length - 1) + '.*';
   }
 
-  return `^https?://` + escaped;
+  // eslint-disable-next-line no-useless-escape
+  return `^https?:\/\/` + escaped;
 };
