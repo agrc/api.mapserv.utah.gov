@@ -5,7 +5,9 @@
       "label": "build",
       "command": "dotnet",
       "type": "shell",
-      "args": ["build"],
+      "args": [
+        "build"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/src/api"
       },
@@ -22,7 +24,9 @@
       "label": "test",
       "command": "dotnet",
       "type": "shell",
-      "args": ["test"],
+      "args": [
+        "test"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/test/api.unit.tests"
       },
@@ -52,12 +56,14 @@
       }
     },
     {
-      "label": "build developer",
+      "label": "build data migration",
       "command": "dotnet",
       "type": "shell",
-      "args": ["build"],
+      "args": [
+        "build"
+      ],
       "options": {
-        "cwd": "${workspaceFolder}/src/developer"
+        "cwd": "${workspaceFolder}/src/data-migration"
       },
       "problemMatcher": "$msCompile",
       "group": {

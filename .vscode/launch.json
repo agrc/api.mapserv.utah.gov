@@ -249,28 +249,19 @@
       "processId": "${command:pickProcess}"
     },
     {
-      "name": "developer portal",
+      "name": "database migration",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build developer",
+      "preLaunchTask": "build data migration",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/developer/bin/Debug/net7.0/developer.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/data-migration/bin/Debug/net7.0/data-migration.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/src/developer",
+      "cwd": "${workspaceFolder}/src/data-migration",
       "stopAtEntry": false,
       "internalConsoleOptions": "openOnSessionStart",
-      "serverReadyAction": {
-        "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
-        "uriFormat": "%s/accountaccess"
-      },
       "env": {
         "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "https://localhost:1338"
-      },
-      "sourceFileMap": {
-        "/Views": "${workspaceFolder}/Views"
       }
     }
   ]
