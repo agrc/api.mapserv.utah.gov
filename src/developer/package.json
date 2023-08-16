@@ -10,16 +10,15 @@
     "dev": "cross-env NODE_ENV=development run-p dev:*",
     "dev:vite": "vite",
     "dev:firebase": "firebase emulators:start --import ../../data/firebase --only auth,firestore,functions",
-    "dev:migrate": "FIRESTORE_EMULATOR_HOST='127.0.0.1:8080' fireway migrate",
+    "firebase:migrate": "FIRESTORE_EMULATOR_HOST='127.0.0.1:8080' fireway migrate",
+    "firebase:save-state": "firebase emulators:start --import ../../data/firebase --export-on-exit --only auth,firestore,functions",
     "format": "prettier --write .",
     "lint": "eslint ./ --ext .js,.jsx --report-unused-disable-directives --max-warnings 0 --ignore-path ./.eslintignore",
     "lint:fix": "eslint ./ --ext .js,.jsx --quiet --fix --ignore-path ./.eslintignore",
     "preview": "vite preview",
-    "save-firebase-state": "firebase emulators:start --import ../../data/firebase --export-on-exit --only auth,firestore,functions",
     "start": "npm run dev",
-    "test": "vitest --silent --coverage --ui --open",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "test": "vitest --silent --coverage --ui --open"
   },
   "browserslist": {
     "production": [
