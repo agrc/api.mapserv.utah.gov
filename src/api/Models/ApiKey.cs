@@ -45,6 +45,8 @@ public class ApiKey {
     [FirestoreProperty("elevated")] public bool Elevated { get; set; }
     [FirestoreProperty("deletedOn")] public Timestamp? DeletedOn { get; set; }
     [FirestoreProperty("disabled")] public bool Disabled { get; set; }
+    [FirestoreProperty("claimed")] public bool Claimed { get; set; }
+    [FirestoreProperty("claimedOn")] public Timestamp? ClaimedOn { get; set; }
 
     public override string ToString() => string.Format(@"## Key
 * **Pattern**: {0}

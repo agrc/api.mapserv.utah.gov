@@ -42,6 +42,7 @@ export const createKey = async (data) => {
     notes: data.notes,
     lastUsed: 'never',
     usage: 'none',
+    claimed: true,
   };
 
   await db.runTransaction(async (transaction) => {

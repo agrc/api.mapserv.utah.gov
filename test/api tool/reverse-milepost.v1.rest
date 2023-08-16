@@ -1,0 +1,18 @@
+@hostname = localhost
+@port = 1337
+@host = {{hostname}}:{{port}}
+@apiKey = apikey=agrc-dev
+@url = http://{{host}}/api/v1/geocode/reversemilepost/-111.91019459597521/40.77285542661867?{{apiKey}}
+
+GET {{url}}
+###
+GET {{url}}&side=decreasing
+###
+GET {{url}}&callback=jsonp
+###
+GET {{url}}&format=geojson
+###
+GET {{url}}&format=esrijson
+###
+GET {{url}}&spatialReference=4326
+###
