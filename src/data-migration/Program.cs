@@ -7,107 +7,129 @@ Console.WriteLine("Migrating RavenDB to firestore...");
 
 var store = new DocumentStore() {
     Urls = new[] { "http://localhost:3000" },
-    Database = "wsut"
+    Database = "export"
 }.Initialize();
 
-var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+var canContinue = true;
+
+using var session = store.OpenSession();
+// query for all raven accounts
+var ravenAccounts = session.Query<RavenAccount>(null, "Accounts", false).ToList();
+var totalAccounts = ravenAccounts.Count;
+ravenAccounts = ravenAccounts.Where(x => x.KeyQuota.KeysUsed > 0).ToList();
+
+Console.WriteLine($"Removed {totalAccounts - ravenAccounts.Count} accounts without keys");
+
+// list any duplicate emails which will cause problems. only one account per email is allowed
+foreach (var duplicate in ravenAccounts.GroupBy(x => x.Email).Where(x => x.Count() > 1)) {
+    Console.WriteLine($"Duplicate email: {duplicate.Key}");
+    canContinue = false;
+}
+
+if (!canContinue) {
+    Console.WriteLine("Only one account per email is allowed. remove the duplicates and try again.");
+
+    return;
+}
 
 var client = new FirestoreDbBuilder {
-    ProjectId = environment == "Development" ? "ut-dts-agrc-web-api-dev" : "ut-dts-agrc-web-api-prod",
+    ProjectId = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") switch {
+        "Development" => "ut-dts-agrc-web-api-dev",
+        "Release" => "ut-dts-agrc-web-api-prod",
+        _ => "ut-dts-agrc-web-api-dev"
+    },
     EmulatorDetection = EmulatorDetection.EmulatorOnly
 }.Build();
 
-using var session = store.OpenSession();
 var batch = client.StartBatch();
 
-var clientCreatedKeyMap = new Dictionary<string, List<ApiKey>>();
+var clientCreatedKeyMap = new Dictionary<string, List<FirestoreApiKey>>();
 var elevatedAccounts = new[] { "sgourley@utah.gov", "api-explorer@utah.gov", "mpeters@utah.gov" };
 var elevatedKeys = new[] { "agrc-apiexplorer", "agrc-dev", "agrc-plssaddin", "agrc-uptime" };
 var quota = 500;
 var items = 1;
 
-var keys = session.Query<ApiKey>().ToList();
-var accounts = session.Query<Account>().ToList();
-
 var keyCollection = client.Collection("keys");
-var accountCollection = client.Collection("unclaimed-accounts");
+var accountCollection = client.Collection("clients-unclaimed");
 
-foreach (var key in keys) {
-    key.Key = key.Key.ToLowerInvariant();
-    key.Elevated = elevatedKeys.Contains(key.Key);
+// query for all keys from raven
+var ravenKeys = session.Query<RavenApiKey>(null, "ApiKeys", false).ToList();
+var totalKeys = ravenKeys.Count;
+ravenKeys = ravenKeys.Where(x => !x.Deleted).ToList();
 
-    AddOrUpdate(key.AccountId, key);
+Console.WriteLine($"Removed {totalKeys - ravenKeys.Count} deleted keys");
 
+foreach (var ravenKey in ravenKeys) {
+    // submit keys if the batch size is met
     batch = await SubmitBatchIfFull(batch);
-
-    var document = keyCollection.Document(key.Key);
-    batch.Create(document, key);
-}
-
-foreach (var duplicate in accounts.GroupBy(x => x.Email).Where(x => x.Count() > 1)) {
-    Console.WriteLine($"Duplicate email: {duplicate.Key}");
-}
-
-foreach (var account in accounts) {
-    batch = await SubmitBatchIfFull(batch);
-    account.Email = account.Email.ToLowerInvariant();
-
-    account.Elevated = elevatedAccounts.Contains(account.Email);
-
-    var document = accountCollection.Document(account.Email);
-    batch.Create(document, account);
-
-    if (!clientCreatedKeyMap.TryGetValue(account.Id, out var userCreatedKeys)) {
+    // convert to firestore model
+    var fireStoreKey = new FirestoreApiKey(ravenKey, elevatedKeys.Contains(ravenKey.Key.ToLowerInvariant()));
+    // add key to map of account id to list of keys
+    AddOrUpdate(ravenKey.AccountId, fireStoreKey);
+    // create firestore document in /keys/agrc-000 collection
+    var document = keyCollection.Document(fireStoreKey.Key);
+    var snapshot = await document.GetSnapshotAsync();
+    // if key already exists skip to next key
+    if (snapshot.Exists) {
+        Console.WriteLine("    skipping " + fireStoreKey.Key);
         continue;
     }
 
+    // add create operation to batch
+    batch.Create(document, fireStoreKey);
+}
+
+foreach (var ravenAccount in ravenAccounts) {
+    // submit accounts if the batch size is met
+    batch = await SubmitBatchIfFull(batch);
+    // convert to firestore model
+    var unclaimed = new Client(ravenAccount);
+    // create firestore document in /clients-unclaimed/email@address collection
+    var document = accountCollection.Document(unclaimed.Email);
+    // add create operation to batch
+    batch.Create(document, unclaimed);
+    // if account has no keys skip to next account
+    if (!clientCreatedKeyMap.TryGetValue(ravenAccount.Id, out var userCreatedKeys)) {
+        continue;
+    }
+    // create sub collection for /clients-unclaimed/keys
     var subCollection = document.Collection("keys");
 
     foreach (var key in userCreatedKeys) {
+        // submit keys if the batch size is met
         batch = await SubmitBatchIfFull(batch);
-
-        var subDocument = subCollection.Document(key.Key);
+        // create firestore document in /clients-unclaimed/email@address/keys/agrc-000 collection
+        // get firestore document in /keys/agrc-000 collection
         var keyDocument = keyCollection.Document(key.Key);
-
-        batch.Create(subDocument, new {
-            link = keyDocument,
-            key = key.Key,
-            deleted = key.Deleted,
-            status = key.ApiKeyStatus,
-            type = key.Type,
-            pattern = key.Pattern
-        });
-
+        // submit keys if the batch size is met
         batch = await SubmitBatchIfFull(batch);
-
-        batch.Set(keyDocument, new {
-            created_by = new {
-                email = account.Email,
-                account = document,
-            }
-        }, SetOptions.MergeAll);
+        batch.Update(keyDocument, new Dictionary<string, object> { { "accountId", ravenAccount.Email } });
+        // submit keys if the batch size is met
+        batch = await SubmitBatchIfFull(batch);
     }
 }
 
 await batch.CommitAsync();
-
-Console.WriteLine("Accounts: " + accounts.Count);
-Console.WriteLine("Keys: " + keys.Count);
+Console.WriteLine("--------------------");
+Console.WriteLine("Accounts: " + ravenAccounts.Count);
+Console.WriteLine("Keys: " + ravenKeys.Count);
 Console.WriteLine("Key owning accounts: " + clientCreatedKeyMap.Count);
-Console.WriteLine("Average keys per account: " + clientCreatedKeyMap.Values.Average(x => x.Count));
-Console.WriteLine("Most keys for an account: " + clientCreatedKeyMap.Values.Max(x => x.Count));
+try {
+    Console.WriteLine("Average keys per account: " + clientCreatedKeyMap.Values.Average(x => x.Count));
+    Console.WriteLine("Most keys for an account: " + clientCreatedKeyMap.Values.Max(x => x.Count));
+} catch { }
 
-void AddOrUpdate(string key, ApiKey value) {
+void AddOrUpdate(string key, FirestoreApiKey value) {
     if (clientCreatedKeyMap.TryGetValue(key, out var list)) {
         list.Add(value);
     } else {
-        clientCreatedKeyMap.Add(key, new List<ApiKey> { value });
+        clientCreatedKeyMap.Add(key, new List<FirestoreApiKey> { value });
     }
 }
 
 async Task<WriteBatch> SubmitBatchIfFull(WriteBatch batch) {
     if (items++ % quota == 0) {
-        Console.WriteLine($"    Committing batch {items / quota}");
+        Console.WriteLine($"    writing batch {items / quota}");
         await batch.CommitAsync();
 
         return client.StartBatch();
@@ -117,105 +139,121 @@ async Task<WriteBatch> SubmitBatchIfFull(WriteBatch batch) {
 }
 
 namespace models {
-    [FirestoreData]
-    public class ApiKey {
-        [FirestoreData(ConverterType = typeof(FirestoreEnumNameConverter<ApplicationStatus>))]
-        public enum ApplicationStatus {
-            Development,
-            Production,
-            None
+    [FirestoreData(ConverterType = typeof(FirestoreEnumIgnoreCaseNameConverter<ApplicationStatus>))]
+    public enum ApplicationStatus {
+        Development,
+        Production,
+        None
+    }
+    [FirestoreData(ConverterType = typeof(FirestoreEnumIgnoreCaseNameConverter<ApplicationType>))]
+    public enum ApplicationType {
+        None,
+        Browser,
+        Server
+    }
+    [FirestoreData(ConverterType = typeof(FirestoreEnumIgnoreCaseNameConverter<KeyStatus>))]
+    public enum KeyStatus {
+        None,
+        Active,
+        Disabled
+    }
+    public class FirestoreEnumIgnoreCaseNameConverter<T> : IFirestoreConverter<T>
+        where T : struct, Enum {
+        /// <inheritdoc />
+        public T FromFirestore(object value) {
+            var name = (string)value;
+
+            return Enum.TryParse<T>(name, true, out var result)
+                ? result
+                : throw new ArgumentException($"Unknown name {name} for enum {typeof(T).FullName}");
         }
 
-        [FirestoreData(ConverterType = typeof(FirestoreEnumNameConverter<ApplicationType>))]
-        public enum ApplicationType {
-            None,
-            Browser,
-            Server
-        }
-
-        [FirestoreData(ConverterType = typeof(FirestoreEnumNameConverter<KeyStatus>))]
-        public enum KeyStatus {
-            None,
-            Active,
-            Disabled
-        }
-
-        public ApiKey(string apiKey) {
-            Key = apiKey;
-        }
-
-        public ApiKey() { }
-
-        public string Id { get; set; } = string.Empty;
-        public string AccountId { get; set; }
-        [FirestoreProperty("key")]
-        public string Key { get; set; }
-        public long CreatedAtTicks { get; set; }
-        [FirestoreProperty("created_on")]
-        public DateTime CreatedAt => new DateTime(CreatedAtTicks).ToUniversalTime();
-        [FirestoreProperty("status")]
-        public KeyStatus ApiKeyStatus { get; set; }
-        [FirestoreProperty("type")]
-        public ApplicationType Type { get; set; }
-        [FirestoreProperty("mode")]
-        public ApplicationStatus AppStatus { get; set; }
-        [FirestoreProperty("pattern")]
-        public string Pattern { get; set; }
-        [FirestoreProperty("regular_expression")]
-        public string RegexPattern { get; set; }
-        [FirestoreProperty("machine_name")]
-        public bool IsMachineName { get; set; }
-        [FirestoreProperty("deleted")]
-        public bool Deleted { get; set; }
-        [FirestoreProperty("elevated")]
-        public bool Elevated { get; set; }
-        [FirestoreProperty("deleted_on")]
-        public Timestamp? DeletedOn { get; set; }
-        [FirestoreProperty("disabled_on")]
-        public Timestamp? DisabledOn { get; set; }
-
-        public override string ToString() => string.Format(@"## Key
-* **Pattern**: {0}
-* **Key**: {1}", Pattern, Key);
+        /// <inheritdoc />
+        public object ToFirestore(T value) => value.ToString().ToLowerInvariant();
     }
     [FirestoreData]
-    public class Account {
+    public class FirestoreApiKey {
+        // required for firestore
+        public FirestoreApiKey() { }
+        public FirestoreApiKey(RavenApiKey apiKey, bool elevated) {
+            AccountId = string.Empty;
+            Key = apiKey.Key.ToLowerInvariant();
+            Created = new DateTime(apiKey.CreatedAtTicks).ToUniversalTime();
+            Status = apiKey.ApiKeyStatus switch {
+                KeyStatus.Active => "active",
+                KeyStatus.Disabled => "paused",
+                _ => string.Empty
+            };
+            Type = apiKey.Type;
+            Mode = apiKey.AppStatus;
+            Pattern = apiKey.Pattern;
+            RegularExpression = apiKey.RegexPattern;
+            MachineName = apiKey.IsMachineName;
+            Elevated = elevated;
+            Deleted = apiKey.Deleted;
+            Disabled = apiKey.ApiKeyStatus == KeyStatus.Disabled;
+            Notes = "👻️👻️👻️ an unclaimed key 👻️👻️👻️";
+            LastUsed = "comes from redis";
+            Usage = "comes from redis";
+            Claimed = false;
+
+            if (apiKey.Deleted) {
+                Status = "deleted";
+            }
+        }
+        [FirestoreProperty("accountId")] public string AccountId { get; set; } = string.Empty;
+        [FirestoreProperty("key")] public string Key { get; set; } = string.Empty;
+        [FirestoreProperty("created")] public DateTime Created { get; set; }
+        [FirestoreProperty("status")] public string Status { get; set; }
+        [FirestoreProperty("type")] public ApplicationType Type { get; set; }
+        [FirestoreProperty("mode")] public ApplicationStatus Mode { get; set; }
+        [FirestoreProperty("pattern")] public string? Pattern { get; set; }
+        [FirestoreProperty("regularExpression")] public string? RegularExpression { get; set; }
+        [FirestoreProperty("deleted")] public bool Deleted { get; set; }
+        [FirestoreProperty("machineName")] public bool MachineName { get; set; }
+        [FirestoreProperty("elevated")] public bool Elevated { get; set; }
+        [FirestoreProperty("disabled")] public bool Disabled { get; set; }
+        [FirestoreProperty("claimed")] public bool Claimed { get; set; }
+        [FirestoreProperty("notes")] public string Notes { get; set; }
+        [FirestoreProperty("lastUsed")] public string LastUsed { get; set; }
+        [FirestoreProperty("usage")] public string Usage { get; set; }
+    }
+    [FirestoreData]
+    public class Client {
+        // required for firestore
+        public Client() { }
+        public Client(RavenAccount account) {
+            Email = account.Email.ToLowerInvariant();
+            Password = account.Password.HashedPassword;
+            Salt = account.Password.Salt;
+        }
+        [FirestoreProperty("email")] public string Email { get; set; } = null!;
+        [FirestoreProperty("password")] public string Password { get; set; } = null!;
+        [FirestoreProperty("salt")] public string Salt { get; set; } = null!;
+    }
+    public class RavenApiKey {
+        public string AccountId { get; set; } = null!;
+        public string Key { get; set; } = null!;
+        public long CreatedAtTicks { get; set; }
+        public KeyStatus ApiKeyStatus { get; set; }
+        public ApplicationType Type { get; set; }
+        public ApplicationStatus AppStatus { get; set; }
+        public string Pattern { get; set; } = null!;
+        public string RegexPattern { get; set; } = null!;
+        public bool IsMachineName { get; set; }
+        public bool Deleted { get; set; }
+    }
+    public class RavenAccount {
         public string Id { get; set; } = null!;
-        [FirestoreProperty("email")]
         public string Email { get; set; } = string.Empty;
-        [FirestoreProperty("company")]
-        public string Company { get; set; } = string.Empty;
-        [FirestoreProperty("elevated")]
-        public bool Elevated { get; set; }
-        [FirestoreProperty("account_confirmation")]
-        public EmailConfirmation Confirmation { get; set; } = null!;
-        public KeyQuota KeyQuota { get; set; } = null!;
-        [FirestoreProperty("key_count")]
-        public int KeysUsed => KeyQuota?.KeysUsed ?? 0;
-        [FirestoreProperty("password")]
+        public Quota KeyQuota { get; set; } = new();
         public PasswordHashAndSalt Password { get; set; } = null!;
     }
-    [FirestoreData]
-    public class EmailConfirmation {
-        private DateTime? confirmationDate;
-        [FirestoreProperty("confirmed")]
-        public bool Confirmed { get; set; }
-        [FirestoreProperty("confirmed_on")]
-        public DateTime? ConfirmationDate {
-            get => confirmationDate > new DateTime(2000, 1, 1) ? confirmationDate.Value.ToUniversalTime() : null;
-            set => confirmationDate = value;
-        }
-    }
-    [FirestoreData]
-    public class KeyQuota {
-        [FirestoreProperty("keys_used")]
+    public class Quota {
         public int KeysUsed { get; set; }
     }
-    [FirestoreData]
     public class PasswordHashAndSalt {
-        [FirestoreProperty("hash")]
         public string HashedPassword { get; set; } = string.Empty;
-        [FirestoreProperty("salt")]
         public string Salt { get; set; } = string.Empty;
     }
 }
