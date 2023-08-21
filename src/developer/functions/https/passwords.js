@@ -6,6 +6,12 @@ import { safelyInitializeApp } from '../firebase';
 safelyInitializeApp();
 const db = getFirestore();
 
+/**
+ * Creates the key and iv for the password hash
+ * @param {string} password
+ * @param {string} pepper
+ * @returns {{key: Buffer, iv: Buffer}}}
+ */
 export const createKeyGen = (password, pepper) => {
   const pepperBytes = Buffer.from(pepper, 'utf8');
 
@@ -26,6 +32,13 @@ export const createKeyGen = (password, pepper) => {
   };
 };
 
+/**
+ * Encrypts the password
+ * @param {string} password
+ * @param {string} salt
+ * @param {string} pepper
+ * @returns {string} a base64 encoded string of the encrypted password
+ */
 export const encryptPassword = (password, salt, pepper) => {
   if (!salt) {
     salt = '';
@@ -53,11 +66,10 @@ export const encryptPassword = (password, salt, pepper) => {
 
 /**
  * Validates a user account claim request
- * @param {string} userId - the users id from Utah id SSO
  * @param {string} email - the users email address
  * @param {string} password - the users plain text password
  * @param {string} pepper - the pepper used to hash the password
- * @returns {Promise<Object>} - the result object returns the status of the validation and a list of api keys from the legacy account.
+ * @returns {Promise<boolean>} true if the password matched, false otherwise
  */
 export const validateClaim = async (email, password, pepper) => {
   email = email.toLowerCase();

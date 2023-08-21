@@ -1,11 +1,23 @@
 import { debug } from 'firebase-functions/logger';
-import { auth } from 'firebase-functions/v1'; // v2 does not support this yet
+import { auth } from 'firebase-functions/v1'; // v2 does not support auth triggers as of july/23
 import { https } from 'firebase-functions/v2';
 import { safelyInitializeApp } from './firebase.js';
+
+// const { defineSecret } = require('firebase-functions/params');
+
+/**
+ * @template CallableRequestT
+ * @typedef {import('firebase-functions/v2/https').CallableRequest<CallableRequestT>} CallableRequest
+ */
 
 safelyInitializeApp();
 
 // auth
+/**
+ * This private function creates a user in firestore when someone creates an account with firebase auth.
+ * @param {any} async(user - The user details from the OIDC flow from Utahid.
+ * @returns {bool} - The true or false result of the create user method.
+ */
 export const onCreateUser = auth.user().onCreate(async (user) => {
   debug('[auth::user::onCreate] importing createUser');
   const createUser = (await import('./auth/onCreate.js')).createUser;
@@ -18,6 +30,11 @@ export const onCreateUser = auth.user().onCreate(async (user) => {
 });
 
 // functions
+/**
+ * This public https function creates an api key based on form data.
+ * @param {CallableRequest<Object>} request - The request object containing the auth and form data.
+ * @returns {Promise<string>} The api key string value.
+ */
 export const createKey = https.onCall(
   { cors: [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/] },
   async (request) => {
@@ -41,6 +58,16 @@ export const createKey = https.onCall(
   },
 );
 
+/**
+ * Returns all the keys for a specific user
+ * @param {CallableRequest<null>} request - The request object containing the auth and form data.
+ * @returns {Promise<{
+ *   key: string,
+ *   created: string,
+ *   createdDate: string,
+ *   notes: string
+ * }[]>} an array of minimal key objects
+ */
 export const keys = https.onCall(
   { cors: [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/] },
   async (request) => {

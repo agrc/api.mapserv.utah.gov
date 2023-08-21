@@ -6,6 +6,18 @@ import { generateKey } from '../keys.js';
 safelyInitializeApp();
 const db = getFirestore();
 
+/**
+ * Creates an api key record, placing it in the keys and user/keys collections
+ * @param {{
+ *  for: string,
+ *  pattern: string,
+ *  ip: string,
+ *  type: 'browser' | 'server',
+ *  mode: 'development' | 'production',
+ *  notes: string
+ * }} data - The forms data
+ * @returns {Promise<string>} The api key id
+ */
 export const createKey = async (data) => {
   info('[functions::createKey] creating key for', data);
   const accountId = data.for;
@@ -54,6 +66,10 @@ export const createKey = async (data) => {
   return apiKey.id;
 };
 
+/**
+ * This generates a unique key by checking if it exists in the database
+ * @returns {Promise<string>} The unique key
+ */
 const getUniqueKey = async () => {
   const key = generateKey();
 
@@ -76,7 +92,11 @@ const httpsRegex = /https?:\/\//i;
 const oneOrMoreOfAny = '.+';
 const empty = '';
 
-export const generateRegexFromPattern = (pattern) => {
+/**
+ * Description
+ * @param {string} inputPattern - the user friendly basic pattern from the self service website
+ * @returns {string} the proper regular expression text
+ */
 export const generateRegexFromPattern = (inputPattern) => {
   // if no pattern, return empty
   if (!inputPattern) {
