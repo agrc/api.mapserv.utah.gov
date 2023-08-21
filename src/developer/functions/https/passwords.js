@@ -26,7 +26,7 @@ export const createKeyGen = (password, pepper) => {
   };
 };
 
-export const hashPassword = (password, salt, pepper) => {
+export const encryptPassword = (password, salt, pepper) => {
   if (!salt) {
     salt = '';
     warn('[functions::hashPassword] no salt provided to hashPassword function');
@@ -59,30 +59,25 @@ export const hashPassword = (password, salt, pepper) => {
  * @param {string} pepper - the pepper used to hash the password
  * @returns {Promise<Object>} - the result object returns the status of the validation and a list of api keys from the legacy account.
  */
-export const validateClaim = async (userId, email, password, pepper) => {
-  const account = await db.collection('unclaimed-accounts').get(email);
-  // check firestore that email exists
-  // if not, return false
-  if (!account.exists) {
+export const validateClaim = async (email, password, pepper) => {
+  email = email.toLowerCase();
+
+  const unclaimedAccountSnap = await db
+    .collection('clients-unclaimed')
+    .get(email);
+  // check firestore that email exists if not, return false
+  if (!unclaimedAccountSnap.exists) {
     return false;
   }
   // if so, get the password hash
-  const credentials = account.data().password;
-  // hash the password
-  const hash = hashPassword(password, credentials.salt, pepper);
+  const credentials = unclaimedAccountSnap.data();
+  // encrypted the password
+  const encrypted = encryptPassword(password, credentials.salt, pepper);
   // compare the hashes
-  if (hash !== credentials.hash) {
+  if (encrypted !== credentials.password) {
     // if not, return false with an empty array
-    return { status: false, keys: [] };
+    return false;
   }
-  // if they match, return true will all the api keys as an array
-  const querySnapshot = await db
-    .collection(`keys`)
-    .where('accountId', '==', userId)
-    .get();
 
-  const keys = [];
-  querySnapshot.forEach((doc) => keys.push(doc.data()));
-
-  return { status: true, keys };
+  return true;
 };

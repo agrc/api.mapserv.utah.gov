@@ -8,8 +8,13 @@ const empty = [];
 
 /**
  * A function that returns the keys for a given user.
- * @param {string} uid
- * @returns {Promise.<Object[]>} keys
+ * @param {string} uid - the id of the user to get keys for
+ * @returns {Promise<{
+ *   key: string,
+ *   created: string,
+ *   createdDate: string,
+ *   notes: string
+ * }[]>} an array of keys run through the minimalKeyConversion converter
  */
 export const getKeys = async (uid) => {
   if (!uid) {
@@ -17,8 +22,9 @@ export const getKeys = async (uid) => {
   }
 
   const querySnapshot = await db
-    .collection(`clients/${uid}/keys`)
+    .collection('/keys')
     .where('deleted', '!=', true)
+    .where('accountId', '==', uid)
     .withConverter(minimalKeyConversion)
     .get();
 

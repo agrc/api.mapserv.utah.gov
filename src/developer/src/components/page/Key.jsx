@@ -13,7 +13,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { doc } from 'firebase/firestore';
 import PropTypes from 'prop-types';
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { useFirestore, useFirestoreDocData } from 'reactfire';
 import { timeSince } from '../../../functions/time';
 import Button, { RouterButtonLink } from '../design-system/Button';
@@ -35,14 +36,9 @@ const iconStyle =
 
 export const Component = () => {
   const { key } = useParams();
-  const loaderData = useLoaderData();
+  const keyRef = useRef(doc(useFirestore(), `/keys/${key?.toLowerCase()}`));
 
-  const ref = doc(
-    useFirestore(),
-    `clients/${loaderData.user.uid}/keys/${key.toLowerCase()}`,
-  );
-
-  const { status, data } = useFirestoreDocData(ref);
+  const { status, data } = useFirestoreDocData(keyRef.current);
 
   if (status === 'success' && !data) {
     return (
@@ -202,6 +198,49 @@ export const Component = () => {
   );
 };
 Component.displayName = 'Key';
+
+export const ErrorBoundary = () => {
+  const { key } = useParams();
+
+  return (
+    <>
+      <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
+        <KeyIcon className="h-14 fill-mustard-500/20 text-wavy-500/80 drop-shadow-md dark:fill-wavy-500/50 dark:text-mustard-400/80" />
+        <div>
+          <h2
+            id="key-creation"
+            className="uppercase text-wavy-600 dark:text-wavy-200"
+          >
+            {key}
+          </h2>
+          <p className="text-wavy-400">key does not exist</p>
+        </div>
+      </section>
+      <section className="relative mb-12 w-full px-6 md:mx-auto">
+        <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
+        <div className="mx-auto w-full">
+          <div className="mt-16 flex flex-col items-center gap-2">
+            <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-mustard-400 drop-shadow-md">
+              This key does not exist!
+            </h3>
+            <ShieldExclamationIcon className="mb-14 h-24 fill-wavy-500/70 text-mustard-400/90 drop-shadow-md" />
+          </div>
+        </div>
+      </section>
+      <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
+        <RouterButtonLink
+          to="/self-service/keys"
+          appearance="solid"
+          color="primary"
+          size="xl"
+        >
+          Go back to your keys
+        </RouterButtonLink>
+      </section>
+    </>
+  );
+};
+ErrorBoundary.displayName = 'KeyErrorBoundary';
 
 const MetadataItem = ({ children }) => (
   <div className="flex w-[250px] flex-col justify-center gap-4">{children}</div>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createKeyGen, hashPassword } from './passwords';
+import { createKeyGen, encryptPassword } from './passwords';
 
 const salt = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 const pepper = 'yyyyyyyy';
@@ -23,6 +23,6 @@ describe('passwords', () => {
     );
   });
   it('generates the proper hash', async () => {
-    expect(hashPassword(password, salt, pepper)).toEqual(dotnetHash);
+    expect(encryptPassword(password, salt, pepper)).toEqual(dotnetHash);
   });
 });
