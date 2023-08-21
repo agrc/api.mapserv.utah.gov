@@ -41,10 +41,7 @@ export const createKey = https.onCall(
     if (request.auth === undefined) {
       debug('[https::createKey] no auth context');
 
-      throw new https.HttpsError(
-        https.FunctionsErrorCode.UNAUTHENTICATED,
-        'unauthenticated',
-      );
+      throw new https.HttpsError('unauthenticated', 'requires authentication');
     }
 
     debug('[https::createKey] importing createKey');
@@ -76,10 +73,7 @@ export const keys = https.onCall(
     if (request.auth === undefined) {
       debug('[https::keys] no auth context');
 
-      throw new https.HttpsError(
-        https.FunctionsErrorCode.UNAUTHENTICATED,
-        'unauthenticated',
-      );
+      throw new https.HttpsError('unauthenticated', 'requires authentication');
     }
 
     debug('[https::keys] importing getKeys');
