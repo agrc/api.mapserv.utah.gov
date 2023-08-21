@@ -1,6 +1,8 @@
 import { getFirestore } from 'firebase-admin/firestore';
+import { safelyInitializeApp } from '../firebase.js';
 import { minimalKeyConversion } from './converters.js';
 
+safelyInitializeApp();
 const db = getFirestore();
 const empty = [];
 

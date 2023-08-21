@@ -1,13 +1,9 @@
-import { initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { warn } from 'firebase-functions/logger';
 import crypto from 'node:crypto';
+import { safelyInitializeApp } from '../firebase';
 
-try {
-  initializeApp();
-} catch {
-  // if already initialized, do nothing
-}
+safelyInitializeApp();
 const db = getFirestore();
 
 export const createKeyGen = (password, pepper) => {

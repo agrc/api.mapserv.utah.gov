@@ -1,9 +1,9 @@
-import { initializeApp } from 'firebase-admin/app';
 import { debug } from 'firebase-functions/logger';
 import { auth } from 'firebase-functions/v1'; // v2 does not support this yet
 import { https } from 'firebase-functions/v2';
+import { safelyInitializeApp } from './firebase.js';
 
-initializeApp();
+safelyInitializeApp();
 
 // auth
 export const onCreateUser = auth.user().onCreate(async (user) => {

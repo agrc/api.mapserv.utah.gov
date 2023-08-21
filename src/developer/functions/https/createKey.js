@@ -1,14 +1,9 @@
-import { initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { debug, info } from 'firebase-functions/logger';
+import { safelyInitializeApp } from '../firebase';
 import { generateKey } from '../keys.js';
 
-try {
-  initializeApp();
-} catch {
-  // if already initialized, do nothing
-}
-
+safelyInitializeApp();
 const db = getFirestore();
 
 export const createKey = async (data) => {
