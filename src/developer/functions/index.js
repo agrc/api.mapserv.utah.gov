@@ -81,7 +81,7 @@ export const keys = https.onCall(
 
     const result = await getKeys(request.auth.uid);
 
-    debug('[https::getKeys]', result);
+    debug('[https::getKeys]', result.length);
 
     return result;
   },
