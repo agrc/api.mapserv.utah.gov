@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-escape */
 import { describe, expect, it } from 'vitest';
 import { generateRegexFromPattern } from './createKey';
+
 describe('createKey', () => {
   it.each([null, undefined, '', '   '])(
     'returns an empty string for %s',

@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { debug, info } from 'firebase-functions/logger';
+import { debug, info, warn } from 'firebase-functions/logger';
 import { safelyInitializeApp } from '../firebase';
 import { generateKey } from '../keys.js';
 
@@ -77,42 +77,57 @@ const oneOrMoreOfAny = '.+';
 const empty = '';
 
 export const generateRegexFromPattern = (pattern) => {
+export const generateRegexFromPattern = (inputPattern) => {
   // if no pattern, return empty
-  if (!pattern) {
+  if (!inputPattern) {
     return empty;
   }
 
-  pattern = pattern.toString().trim().toLowerCase();
+  inputPattern = inputPattern.toString().trim().toLowerCase();
 
   // if pattern is empty, return empty
-  if (pattern.length < 1) {
+  if (inputPattern.length < 1) {
     return empty;
   }
 
-  if (pattern === '*') {
+  if (inputPattern === '*') {
     return empty;
   }
 
   // strip http(s)://
-  let stripped = pattern.replace(httpsRegex, empty);
+  let stripped = inputPattern.replace(httpsRegex, empty);
 
   // escape periods
-  let escaped = stripped.replace(/\./g, '\\.');
+  let replacements = stripped.replace(/\./g, '\\.');
 
   // replace *\. with .+\.
-  if (escaped.startsWith('*')) {
-    if (escaped.startsWith(`*\\.`)) {
-      escaped = oneOrMoreOfAny + escaped.substring(1);
+  if (replacements.startsWith('*')) {
+    if (replacements.startsWith(`*\\.`)) {
+      replacements = oneOrMoreOfAny + replacements.substring(1);
     } else {
-      escaped = escaped.substring(1);
+      replacements = replacements.substring(1);
     }
   }
 
   // replace /* with /.+
-  if (escaped.endsWith('/*')) {
-    escaped = escaped.substring(0, escaped.length - 1) + '.*';
+  if (replacements.endsWith('/*')) {
+    replacements = replacements.substring(0, replacements.length - 1) + '.*';
   }
 
   // eslint-disable-next-line no-useless-escape
-  return `^https?:\/\/` + escaped;
+  const pattern = `^https?:\/\/` + replacements;
+
+  try {
+    new RegExp(pattern);
+  } catch {
+    warn(
+      '[functions::createKey::generateRegexFromPattern] invalid regex from pattern',
+      {
+        inputPattern,
+        pattern,
+      },
+    );
+  }
+
+  return pattern;
 };
