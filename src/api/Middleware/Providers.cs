@@ -8,8 +8,15 @@ public interface IBrowserKeyProvider : IKeyProvider {
 public interface IServerIpProvider : IKeyProvider {
 }
 
-public class ServerIpProvider : IServerIpProvider {
+public class LocalServerIpProvider : IServerIpProvider {
     public string Get(HttpRequest request) => request.HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+}
+public class FirebaseClientIpProvider : IServerIpProvider {
+    public string Get(HttpRequest request) {
+        var value = request.Headers["X-Forwarded-For"].FirstOrDefault() ?? string.Empty;
+
+        return value.Contains(',') ? value.Split(',').First() : value;
+    }
 }
 
 public class BrowserKeyProvider : IBrowserKeyProvider {

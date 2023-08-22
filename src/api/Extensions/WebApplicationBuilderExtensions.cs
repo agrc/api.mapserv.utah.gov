@@ -119,7 +119,7 @@ public static class WebApplicationBuilderExtensions {
         builder.Services.AddSingleton<ICacheRepository, RedisCacheRepository>();
         builder.Services.AddSingleton<IStaticCache, StaticCache>();
         builder.Services.AddSingleton<IBrowserKeyProvider, BrowserKeyProvider>();
-        builder.Services.AddSingleton<IServerIpProvider, ServerIpProvider>();
+        builder.Services.AddSingleton<IServerIpProvider, FirebaseClientIpProvider>();
         builder.Services.AddSingleton<IDistanceStrategy, PythagoreanDistance>();
         builder.Services.AddSingleton<ITableMapping, TableMapping>();
         builder.Services.AddSingleton<StartupHealthCheck>();
