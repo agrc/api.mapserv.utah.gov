@@ -30,7 +30,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             _log?.ForContext("query", context.HttpContext.Request.Query)
                 .Information("unknown api key usage attempt for {key}", apiKey);
 
-            return BadRequest("Your API key does match the pattern created in the developer console. " +
+            return BadRequest("Your API key does match the pattern created in the self service website. " +
                 $"Check the referrer header on the request with the pattern for the api key `{key}`"
             );
         }
@@ -107,7 +107,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
 
             if (!ApiKeyPatternMatches(pattern, corsOriginValue, new Uri(referrer.ToString()))) {
                 return BadRequest(
-                    "Your API key does match the pattern created in the developer console. " +
+                    "Your API key does match the pattern created in the self service website. " +
                     $"Check the referrer header on the request with the pattern for the api key `{key}`"
                 );
             }
@@ -120,8 +120,8 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
                                  apiKey);
 
                 return BadRequest(
-                    $"Your API key does match the pattern created in the developer console for key `{key}`. " +
-                    $"The request is not originating from `{userHostAddress}`"
+                    $"Your API key does match the pattern created in the self service website for key `{key}`. " +
+                    $"The request is originating from `{userHostAddress}`"
                 );
             }
         }
