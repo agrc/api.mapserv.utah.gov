@@ -118,6 +118,9 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             if (ip != userHostAddress) {
                 _log?.Information("invalid api key pattern match {ip} != {host} for {key}", ip, userHostAddress,
                                  apiKey);
+                log?.Information("http context connection info: {@request}", context.HttpContext.Connection);
+                log?.Information("request http context connection info: {@request}", context.HttpContext.Request.HttpContext.Connection);
+                log?.Information("request headers: {@headers}", context.HttpContext.Request.Headers);
 
                 return BadRequest(
                     $"Your API key does match the pattern created in the self service website for key `{key}`. " +
