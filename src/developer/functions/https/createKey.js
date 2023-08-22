@@ -1,6 +1,6 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { debug, info, warn } from 'firebase-functions/logger';
-import { safelyInitializeApp } from '../firebase';
+import { safelyInitializeApp } from '../firebase.js';
 import { generateKey } from '../keys.js';
 
 safelyInitializeApp();

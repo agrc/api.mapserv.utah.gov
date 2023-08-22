@@ -1,7 +1,7 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { warn } from 'firebase-functions/logger';
 import crypto from 'node:crypto';
-import { safelyInitializeApp } from '../firebase';
+import { safelyInitializeApp } from '../firebase.js';
 
 safelyInitializeApp();
 const db = getFirestore();
