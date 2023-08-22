@@ -122,7 +122,7 @@ export const generateRegexFromPattern = (inputPattern) => {
 
   // replace *\. with .+\.
   if (replacements.startsWith('*')) {
-    if (replacements.startsWith(`*\\.`)) {
+    if (replacements.startsWith('*\\.')) {
       replacements = oneOrMoreOfAny + replacements.substring(1);
     } else {
       replacements = replacements.substring(1);
@@ -134,8 +134,7 @@ export const generateRegexFromPattern = (inputPattern) => {
     replacements = replacements.substring(0, replacements.length - 1) + '.*';
   }
 
-  // eslint-disable-next-line no-useless-escape
-  const pattern = `^https?:\/\/` + replacements;
+  const pattern = '^https?:\\/\\/' + replacements;
 
   try {
     new RegExp(pattern);

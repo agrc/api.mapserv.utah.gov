@@ -13,7 +13,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('atlas.utah.gov');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?://atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov`);
     expect(regex.test('http://atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/')).toBeTruthy();
   });
@@ -21,7 +21,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('http://atlas.utah.gov');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?://atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov`);
     expect(regex.test('http://atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/')).toBeTruthy();
   });
@@ -29,7 +29,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('HttP://atlas.Utah.GOV');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?://atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov`);
     expect(regex.test('http://atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/')).toBeTruthy();
   });
@@ -37,7 +37,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('https://atlas.utah.gov');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?://atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov`);
     expect(regex.test('http://atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/')).toBeTruthy();
   });
@@ -45,7 +45,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('atlas.utah.gov/*');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?://atlas\\.utah\\.gov/.*`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov/.*`);
     expect(regex.test('http://atlas.utah.gov/slug')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/slug')).toBeTruthy();
   });
@@ -53,7 +53,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('*.atlas.utah.gov');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?://.+\\.atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/.+\\.atlas\\.utah\\.gov`);
     expect(regex.test('http://sub.atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://sub.atlas.utah.gov/')).toBeTruthy();
   });
