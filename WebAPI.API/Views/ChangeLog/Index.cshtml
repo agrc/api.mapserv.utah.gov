@@ -5,6 +5,12 @@
 }
 
 <h1>Changelog</h1>
+<h2>1.13.6</h2>
+<ul>
+    <li class="item">Update dependencies
+    <li class="item">Update address system weight for rocky ridge
+    <li class="item">Add address system for manderfield, mammoth, and more
+</ul>
 <h2>
     1.13.5
     <small>09/01/2022</small>
@@ -42,7 +48,9 @@
     <small>2/04/2021</small>
 </h2>
 <ul>
-    <li class="item">Remove <a href="https://github.com/agrc/porter/issues?q=+sort%3Aupdated-desc+label%3Adeprecation+">deprecated tables</a> from the SGID table mapping. Use open sgid table names for search queries.
+    <li class="item">Remove <a
+            href="https://github.com/agrc/porter/issues?q=+sort%3Aupdated-desc+label%3Adeprecation+">deprecated
+            tables</a> from the SGID table mapping. Use open sgid table names for search queries.
 </ul>
 <h2>
     1.13.0
@@ -117,7 +125,8 @@
     <small>3/03/2019</small>
 </h2>
 <ul>
-    <li class="item">Fix route and mile post issue that only allowed milepost to be found in the positive direction (#91)
+    <li class="item">Fix route and mile post issue that only allowed milepost to be found in the positive direction
+        (#91)
 </ul>
 <h2>
     1.10.0
@@ -132,7 +141,8 @@
 </h2>
 <ul>
     <li class="item">Remove .,_ from zone inputs to avoid argument null exception (#82)
-    <li class="item">Reorder CORS handler to run before authorization so failed auth attempts can retrieve CORS payload (#80)
+    <li class="item">Reorder CORS handler to run before authorization so failed auth attempts can retrieve CORS payload
+        (#80)
 </ul>
 <h2>
     1.9.6
@@ -307,7 +317,8 @@
 </h2>
 <ul>
     <li class="item">
-        Before fixing #29, all returnValues input for the search api were uppercased. camelCase was the default response casing and since the values were all uppercased the api would return all lowercased values.
+        Before fixing #29, all returnValues input for the search api were uppercased. camelCase was the default response
+        casing and since the values were all uppercased the api would return all lowercased values.
         This patch update changes the default response casing to lowercase to match this behavior.
 
     <li class="item">
@@ -329,7 +340,8 @@
 </h2>
 <ul>
     <li class="item">
-        Fix issue with over replacement of unit values in street names. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/22">#22</a>
+        Fix issue with over replacement of unit values in street names. <a
+            href="https://github.com/agrc/api.mapserv.utah.gov/issues/22">#22</a>
 
 </ul>
 <h2>
@@ -338,7 +350,8 @@
 </h2>
 <ul>
     <li class="item">
-        Allow reverse geocode to handle other spatial refereces. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/26">#26</a>
+        Allow reverse geocode to handle other spatial refereces. <a
+            href="https://github.com/agrc/api.mapserv.utah.gov/issues/26">#26</a>
 
 </ul>
 <h2>
@@ -350,7 +363,8 @@
         Strip city of and down of text from zone. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/6">#6</a>
 
     <li class="item">
-        Update documentation around spatial reference and remove not implemented badge on search endpoint. <a href="https://github.com/agrc/api.mapserv.utah.gov/issues/5">#5</a>
+        Update documentation around spatial reference and remove not implemented badge on search endpoint. <a
+            href="https://github.com/agrc/api.mapserv.utah.gov/issues/5">#5</a>
 
 </ul>
 <h2>
@@ -384,7 +398,8 @@
     <li class="item">
         Fixed CSS bug with API Explorer demos.
 
-    <li class="item">Removed callback parameter from multiple geocoding requests since you cannot POST with JSONP. Use CORS.
+    <li class="item">Removed callback parameter from multiple geocoding requests since you cannot POST with JSONP. Use
+        CORS.
 </ul>
 <h2>
     1.3.1124.1
@@ -443,7 +458,8 @@
     <small>4/30/2014</small>
 </h2>
 <ul>
-    <li class="item">Added secret search flag for modifying attribute format. identical: as is in data. upper: upper cases all attribute names. lower: lowercases all attribute names. camel: camel cases all attribute names.
+    <li class="item">Added secret search flag for modifying attribute format. identical: as is in data. upper: upper
+        cases all attribute names. lower: lowercases all attribute names. camel: camel cases all attribute names.
     <li class="item">shape@envelope is implemented
     <li class="item">reverse route and mile post used 3 significant digits
 </ul>
@@ -513,10 +529,13 @@
     <small>1/16/2014</small>
 </h2>
 <ul>
-    <li class="item">fixed bug where address score and weight were a tie so first address into top K list wins. introduced Levenshtein to look at string values.
+    <li class="item">fixed bug where address score and weight were a tie so first address into top K list wins.
+        introduced Levenshtein to look at string values.
     <li class="item">Updated address system grid lookup with st. george value.
-    <li class="item">Our 'is definitely an address reversal' logic had some holes in it. Make the extra request with input address as a fall back to protect from silly address names.
-    <li class="item">fixed a bug where white space in entries in street zone resource would result in no address matches found.
+    <li class="item">Our 'is definitely an address reversal' logic had some holes in it. Make the extra request with
+        input address as a fall back to protect from silly address names.
+    <li class="item">fixed a bug where white space in entries in street zone resource would result in no address matches
+        found.
 </ul>
 <h2>
     1.3.0107.1
@@ -539,7 +558,8 @@
     <small>12/3/2013</small>
 </h2>
 <ul>
-    <li class="item">Added reverse milepost endpoint. Enter an x,y coordinate and get back the closest route and milepost value.
+    <li class="item">Added reverse milepost endpoint. Enter an x,y coordinate and get back the closest route and
+        milepost value.
 </ul>
 <h2>
     1.2.1111.1
@@ -683,7 +703,8 @@
     <small>5/7/2013</small>
 </h2>
 <ul>
-    <li class="item">Geocoding can now detect house addresses and street names that are in the reversed order and find a match using the correct order.
+    <li class="item">Geocoding can now detect house addresses and street names that are in the reversed order and find a
+        match using the correct order.
     <li class="item">Bug fix to improve address point geocoding.
 </ul>
 <h2>
@@ -741,13 +762,13 @@
         font-size: 20px;
     }
 
-        h2 > small {
-            color: #888;
-            display: block;
-            font-size: 12px;
-            font-weight: normal;
-            letter-spacing: 0px;
-        }
+    h2>small {
+        color: #888;
+        display: block;
+        font-size: 12px;
+        font-weight: normal;
+        letter-spacing: 0px;
+    }
 
     ul {
         list-style: none;
