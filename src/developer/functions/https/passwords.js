@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { warn } from 'firebase-functions/logger';
+import { debug, warn } from 'firebase-functions/logger';
 import crypto from 'node:crypto';
 import { safelyInitializeApp } from '../firebase.js';
 
@@ -73,18 +73,26 @@ export const encryptPassword = (password, salt, pepper) => {
  */
 export const validateClaim = async (email, password, pepper) => {
   email = email.toLowerCase();
+  debug('[functions::validateClaim] email:', email);
 
   const unclaimedAccountSnap = await db
     .collection('clients-unclaimed')
-    .get(email);
+    .doc(email)
+    .get();
   // check firestore that email exists if not, return false
   if (!unclaimedAccountSnap.exists) {
+    debug('[functions::validateClaim] email not found in firestore');
     return false;
   }
   // if so, get the password hash
   const credentials = unclaimedAccountSnap.data();
   // encrypted the password
   const encrypted = encryptPassword(password, credentials.salt, pepper);
+  debug(
+    '[functions::validateClaim] comparison:',
+    encrypted,
+    credentials.password,
+  );
   // compare the hashes
   if (encrypted !== credentials.password) {
     // if not, return false with an empty array

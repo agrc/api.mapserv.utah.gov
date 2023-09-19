@@ -3,14 +3,12 @@ import { auth } from 'firebase-functions/v1'; // v2 does not support auth trigge
 import { https } from 'firebase-functions/v2';
 import { safelyInitializeApp } from './firebase.js';
 
-// const { defineSecret } = require('firebase-functions/params');
+safelyInitializeApp();
 
 /**
  * @template CallableRequestT
  * @typedef {import('firebase-functions/v2/https').CallableRequest<CallableRequestT>} CallableRequest
  */
-
-safelyInitializeApp();
 
 // auth
 /**
@@ -84,5 +82,53 @@ export const keys = https.onCall(
     debug('[https::getKeys]', result.length);
 
     return result;
+  },
+);
+
+/**
+ * This private https function is used to validate a legacy account claim.
+ * @param {CallableRequest<{email: string, password: string}>} request - The request object should contain the email address and the plain text password to hash and validate.
+ * @returns {Promise<{status: bool, keys: number}>} The result object returns the status of the validation and a count of api keys transferred from the legacy account.
+ */
+export const validateClaim = https.onCall(
+  {
+    cors: [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/],
+    secrets: ['LEGACY_PEPPER'],
+  },
+  async (request) => {
+    if (request.auth === undefined) {
+      debug('[https::validateClaim] no auth context');
+
+      throw new https.HttpsError('unauthenticated', 'requires authentication');
+    }
+
+    if (!request.data.email || !request.data.password) {
+      debug('[https::validateClaim] missing email or password');
+
+      throw new https.HttpsError('invalid-argument', 'missing arguments');
+    }
+
+    debug('[https::validateClaim] importing validatePassword');
+    const validateClaim = (await import('./https/passwords.js')).validateClaim;
+    const userId = request.auth.uid;
+
+    const result = await validateClaim(
+      request.data.email,
+      request.data.password,
+      process.env.LEGACY_PEPPER ?? '',
+    );
+
+    debug('[https::validateClaim]', result);
+
+    if (result) {
+      debug('[https::validateClaim] transferring keys');
+      const transferKeys = (await import('./https/keys.js')).transferKeys;
+
+      const count = await transferKeys(request.data.email, userId);
+
+      return { status: true, keys: count };
+    }
+
+    return { status: false, keys: 0 };
   },
 );

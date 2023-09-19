@@ -39,6 +39,9 @@ const Menu = () => {
                 Pause, resume, or delete your API Keys and access analytics for
                 the key.
               </ListItem>
+              <ListItem href="/self-service/claim-account" title="Claim Keys">
+                Claim keys from a legacy UGRC API account
+              </ListItem>
             </ul>
           </NavigationMenu.Content>
         </NavigationMenu.Item>
