@@ -11,9 +11,6 @@ export const createUser = async (user) => {
     email: user.email,
     displayName: user.displayName,
     created: new Date(),
-    claimedAccounts: [],
-    keys: [],
-    keyIds: [],
   };
 
   try {
