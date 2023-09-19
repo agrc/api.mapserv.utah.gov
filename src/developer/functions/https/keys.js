@@ -1,4 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
+import { debug } from 'firebase-functions/logger';
 import { safelyInitializeApp } from '../firebase.js';
 import { minimalKeyConversion } from './converters.js';
 
@@ -32,4 +33,57 @@ export const getKeys = async (uid) => {
   querySnapshot.forEach((doc) => keys.push(doc.data()));
 
   return keys;
+};
+
+/**
+ * Transfers keys to a new client
+ * @param {string} from - the unclaimed account email to transfer keys from
+ * @param {string} to - the new document id to assign the keys to
+ * @returns {Promise<claimedKeys: string[]}>} the keys transferred
+ */
+export const transferKeys = async (from, to) => {
+  if (!to || !from) {
+    return false;
+  }
+
+  const batch = db.batch();
+
+  const keys = await db
+    .collection('/keys')
+    .where('accountId', '==', from)
+    .get();
+  debug('[functions::transferKeys] collected keys:', keys.size);
+
+  const claimedKeys = [];
+  if (keys.size === 0) {
+    return claimedKeys;
+  }
+
+  // move every key to the new client
+  keys.forEach(async (key) => {
+    claimedKeys.push(key.id);
+
+    batch.update(key.ref, {
+      accountId: to,
+      claimed: true,
+      notes: `transferred from ${from}`,
+    });
+  });
+  debug('[functions::transferKeys] moved keys to new client', to);
+  // add email to claimedAccounts on the claiming account
+  batch.set(db.collection(`/clients/${to}/claimedAccounts`).doc(from), {
+    email: from,
+  });
+  debug(
+    '[functions::transferKeys] added new claimed account to new client',
+    from,
+    `/clients/${to}/claimedAccounts`,
+  );
+  // remove unclaimed account as it's no longer needed
+  batch.delete(db.collection('/clients-unclaimed').doc(from));
+  debug('[functions::transferKeys] removed unclaimed account', from);
+  // commit the batch
+  await batch.commit();
+
+  return claimedKeys;
 };
