@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Linq;
 using System.Web;
 
 namespace WebAPI.Common.Providers
@@ -7,7 +9,12 @@ namespace WebAPI.Common.Providers
     {
         public virtual string GetIp(HttpRequestMessage request)
         {
-            return ((HttpContextBase) request.Properties["MS_HttpContext"]).Request.UserHostAddress;
+            if (request.Headers.TryGetValues("X-Forwarded-For", out IEnumerable<string> headerValues))
+            {
+                return headerValues.LastOrDefault();
+            }
+
+            return ((HttpContextBase)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
         }
     }
 }
