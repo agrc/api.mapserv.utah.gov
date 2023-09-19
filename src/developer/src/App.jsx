@@ -49,7 +49,6 @@ const App = () => {
             />
             <Route
               path="keys"
-              exact
               loader={() => protectedRoute(anonymous, user)}
               lazy={() => import('./components/page/Keys')}
             />
@@ -57,6 +56,11 @@ const App = () => {
               path="keys/:key"
               loader={() => protectedRoute(anonymous, user)}
               lazy={() => import('./components/page/Key')}
+            />
+            <Route
+              path="claim-account"
+              loader={() => protectedRoute(anonymous, user)}
+              lazy={() => import('./components/page/ClaimAccount')}
             />
           </Route>
           <Route path="*" loader={() => redirect('/')} />
