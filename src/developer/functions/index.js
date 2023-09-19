@@ -88,7 +88,7 @@ export const keys = https.onCall(
 /**
  * This private https function is used to validate a legacy account claim.
  * @param {CallableRequest<{email: string, password: string}>} request - The request object should contain the email address and the plain text password to hash and validate.
- * @returns {Promise<{status: bool, keys: number}>} The result object returns the status of the validation and a count of api keys transferred from the legacy account.
+ * @returns {Promise<string[]>} The keys transferred from the legacy account.
  */
 export const validateClaim = https.onCall(
   {
@@ -126,11 +126,11 @@ export const validateClaim = https.onCall(
       debug('[https::validateClaim] transferring keys');
       const transferKeys = (await import('./https/keys.js')).transferKeys;
 
-      const count = await transferKeys(request.data.email, userId);
+      const keys = await transferKeys(request.data.email, userId);
 
-      return { status: true, keys: count };
+      return keys;
     }
 
-    return { status: false, keys: 0 };
+    return [];
   },
 );
