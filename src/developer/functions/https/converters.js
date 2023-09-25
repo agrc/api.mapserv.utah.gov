@@ -15,6 +15,10 @@ export const minimalKeyConversion = {
   fromFirestore(snapshot, options) {
     const data = snapshot.data(options);
 
+    if (!data.created) {
+      data.created = { toDate: () => new Date() };
+    }
+
     return {
       key: data.key,
       created: timeSince(Date.parse(data.created.toDate().toISOString())),
