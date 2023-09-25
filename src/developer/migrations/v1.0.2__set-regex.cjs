@@ -9,7 +9,7 @@ module.exports.migrate = async ({ firestore }) => {
   let size = 0;
   let batchIndex = 0;
 
-  await keysSnapshot.forEach(async (doc) => {
+  for (const doc of keysSnapshot.docs) {
     size += 1;
     const key = doc.data();
 
@@ -25,7 +25,7 @@ module.exports.migrate = async ({ firestore }) => {
       batchIndex += 1;
       batches[batchIndex] = firestore.batch();
     }
-  });
+  }
 
   for (const batch of batches) {
     await batch.commit();
