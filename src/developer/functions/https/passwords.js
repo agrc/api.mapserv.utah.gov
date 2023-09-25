@@ -88,11 +88,6 @@ export const validateClaim = async (email, password, pepper) => {
   const credentials = unclaimedAccountSnap.data();
   // encrypted the password
   const encrypted = encryptPassword(password, credentials.salt, pepper);
-  debug(
-    '[functions::validateClaim] comparison:',
-    encrypted,
-    credentials.password,
-  );
   // compare the hashes
   if (encrypted !== credentials.password) {
     // if not, return false with an empty array
