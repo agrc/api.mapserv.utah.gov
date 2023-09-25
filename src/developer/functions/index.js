@@ -112,6 +112,8 @@ export const validateClaim = https.onCall(
     const validateClaim = (await import('./https/passwords.js')).validateClaim;
     const userId = request.auth.uid;
 
+    request.data.email = request.data.email.toLowerCase().trim();
+
     const result = await validateClaim(
       request.data.email,
       request.data.password,
