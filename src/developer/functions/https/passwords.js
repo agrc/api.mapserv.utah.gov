@@ -52,7 +52,7 @@ export const encryptPassword = (password, salt, pepper) => {
     );
   }
 
-  const outputEncoding = 'base64';
+  const outputEncoding = 'utf8';
   const { key, iv } = createKeyGen(password + salt, pepper);
   const passwordAndSalt = Buffer.from(password + salt, 'utf8');
 

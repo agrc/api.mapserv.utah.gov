@@ -4,8 +4,7 @@ import { createKeyGen, encryptPassword } from './passwords';
 const salt = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 const pepper = 'yyyyyyyy';
 const password = 'password123';
-const dotnetHash =
-  'DC07eaMXkaeK26KTIt3ldtzTdISTH5j9cmrg3OzFF16MvfKkEi9ihEkI8VDLzNvU';
+const dotnetHash = `\f-;y�\u0017���ۢ�\"��v��t��\u001f��rj����\u0017^���\u0012/b�I\b�P����`; // eslint-disable-line
 
 describe('passwords', () => {
   it('generates the proper key', () => {
