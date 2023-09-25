@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.1](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.1.0...api-v1.1.1) (2023-09-25)
+
+
+### Bug Fixes
+
+* **api:** correct concurrency serialization ([c42c3b0](https://github.com/agrc/api.mapserv.utah.gov/commit/c42c3b0e90afd720f0fd216a15fec281e9c6cd51))
+* **api:** create an ip provider that works with our cloud infrastructure ([2a6cda1](https://github.com/agrc/api.mapserv.utah.gov/commit/2a6cda171e53642f009753b94471d9acd2a72a0f))
+* **api:** update bad request api key response message ([47a46d0](https://github.com/agrc/api.mapserv.utah.gov/commit/47a46d079861d1994b5dff982259183743e4efa2))
+* **api:** update model binding to allow for api key authorization ([77a2b30](https://github.com/agrc/api.mapserv.utah.gov/commit/77a2b301f557833cb233c18ff676968d7bed56bc))
+
 ## [1.1.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.0.0...api-v1.1.0) (2023-07-14)
 
 
