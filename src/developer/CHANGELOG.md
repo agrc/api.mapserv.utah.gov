@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v1.1.0...developer-v1.2.0) (2023-09-25)
+
+
+### Features
+
+* **developer:** add menu to all pages ([8dade0b](https://github.com/agrc/api.mapserv.utah.gov/commit/8dade0baf56d8f4e11939f27f1e53af6d7ce02f0))
+* **developer:** allow api keys to be claimed ([e32f3c4](https://github.com/agrc/api.mapserv.utah.gov/commit/e32f3c4ca84597bf43dbd34ecab72fa00465a5ff))
+* **developer:** create specific key metadata screen ([560c584](https://github.com/agrc/api.mapserv.utah.gov/commit/560c584dfc0b8c34a6660f87af065038da5fc21a))
+
+
+### Bug Fixes
+
+* **developer:** build regular expression for browser keys ([bfe059f](https://github.com/agrc/api.mapserv.utah.gov/commit/bfe059f1c954fa182109ee1dcca7d398e87dede9))
+
 ## [1.1.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v1.0.0...developer-v1.1.0) (2023-07-20)
 
 
