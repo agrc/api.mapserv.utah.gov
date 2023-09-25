@@ -97,7 +97,7 @@ export function Component() {
           </h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="grid w-full gap-6 border border-slate-300 bg-slate-100 p-8 shadow-md dark:bg-slate-600"
+            className="mb-12 grid w-full gap-6 border border-slate-300 bg-slate-100 p-8 shadow-md dark:bg-slate-600"
           >
             <div className="grid grid-cols-1 items-start gap-8 dark:text-slate-200">
               <Controller
