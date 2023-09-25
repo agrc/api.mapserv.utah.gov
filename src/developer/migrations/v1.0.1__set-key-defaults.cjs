@@ -1,7 +1,7 @@
 module.exports.migrate = async ({ firestore }) => {
   const clientKeysSnapshot = await firestore.collection('clients').get();
 
-  await clientKeysSnapshot.forEach(async (doc) => {
+  for (const doc of clientKeysSnapshot.docs) {
     const collection = await firestore
       .collection(`clients/${doc.id}/keys`)
       .get();
@@ -22,10 +22,10 @@ module.exports.migrate = async ({ firestore }) => {
         usage: 'none',
       });
     });
-  });
+  }
 
   const keysSnapshot = await firestore.collectionGroup('keys').get();
-  await keysSnapshot.forEach(async (doc) => {
+  for (const doc of keysSnapshot.docs) {
     const key = doc.data();
 
     await doc.ref.update({
@@ -38,5 +38,5 @@ module.exports.migrate = async ({ firestore }) => {
       lastUsed: 'never',
       usage: 'none',
     });
-  });
+  }
 };
