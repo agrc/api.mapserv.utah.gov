@@ -1,9 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpsCallable } from 'firebase/functions';
-import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useLoaderData } from 'react-router-dom';
 import { useFunctions } from 'reactfire';
 import * as z from 'zod';
 import Button from '../design-system/Button';
@@ -32,7 +30,7 @@ const defaultValues = {
 export function Component() {
   const {
     control,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
     reset,
   } = useForm({
@@ -41,7 +39,6 @@ export function Component() {
     defaultValues,
   });
 
-  const loaderData = useLoaderData();
   const functions = useFunctions();
   const validateClaim = httpsCallable(functions, 'validateClaim');
 
@@ -51,25 +48,20 @@ export function Component() {
     mutate,
     status: mutationStatus,
   } = useMutation({
-    mutationFn: (data) => Spinner.minDelay(validateClaim(data), 5000),
+    mutationFn: (data) => Spinner.minDelay(validateClaim(data), 3000),
     onSuccess: async () => {
       await queryClient.cancelQueries();
 
       queryClient.invalidateQueries({ queryKey: ['my keys'] });
+      reset(defaultValues);
     },
   });
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset(defaultValues);
-    }
-  }, [isSubmitSuccessful, reset]);
-
-  const onSubmit = (data) =>
-    mutate({
-      ...data,
-      for: loaderData.user.uid,
-    });
+  /**
+   * The on submit function for the form which calls the validateClaim function
+   * @param {{email: string, password: string}} formData
+   */
+  const onSubmit = (formData) => mutate(formData);
 
   return (
     <>
@@ -161,8 +153,13 @@ export function Component() {
               </div>
             )}
             {mutationStatus === 'success' && (
-              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 border-wavy-400/70 bg-slate-300/70 py-4 text-2xl font-black uppercase text-wavy-500 shadow dark:bg-slate-500 dark:text-mustard-200 md:w-3/4 md:border-x md:text-4xl">
-                {JSON.stringify(data)}
+              <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-2 border border-x-0 border-wavy-400/70 bg-slate-300/70 px-6 py-4 text-2xl font-black uppercase text-wavy-500 shadow dark:bg-slate-500 dark:text-mustard-200 md:w-3/4 md:border-x md:text-4xl">
+                <span>Transferred {data.data.length} keys</span>
+                <ul className="grid gap-x-16 text-base lg:grid-cols-2">
+                  {data.data.map((key) => (
+                    <li key={key}>{key}</li>
+                  ))}
+                </ul>
               </div>
             )}
             {mutationStatus === 'error' && (
