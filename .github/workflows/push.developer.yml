@@ -47,8 +47,6 @@ jobs:
         id: release-please
         with:
           token: ${{ steps.generate_token.outputs.token }}
-          release-type: "node"
-          pull-request-title-pattern: "chore: release v${version}"
           changelog-types: >
             [{"type":"feat","section":"🚀 Features","hidden":false},
             {"type":"fix","section":"🐛 Bug Fixes","hidden":false},
