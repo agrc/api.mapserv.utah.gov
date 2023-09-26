@@ -1,13 +1,28 @@
 {
   "bootstrap-sha": "4c8c095281aaa14392312afd03c45d37b091be82",
-  "release-type": "node",
   "separate-pull-requests": true,
   "packages": {
-    "src/developer": {},
-    "src/explorer": {},
+    "src/developer": {
+      "package-name": "developer",
+      "component": "developer",
+      "release-type": "node",
+      "pull-request-header": ":robot: A new release is ready :rocket:",
+      "pull-request-title-pattern": "chore(${scope}): release v${version}"
+    },
+    "src/explorer": {
+      "package-name": "explorer",
+      "component": "explorer",
+      "release-type": "node",
+      "pull-request-header": ":robot: A new release is ready :rocket:",
+      "pull-request-title-pattern": "chore(${component}): release v${version}"
+    },
     "src/api": {
+      "package-name": "api",
+      "component": "api",
       "release-type": "simple",
-      "component": "api"
+
+      "pull-request-header": ":robot: A new release is ready :rocket:",
+      "pull-request-title-pattern": "chore(${scope}): release v${version}"
     }
   }
 }
