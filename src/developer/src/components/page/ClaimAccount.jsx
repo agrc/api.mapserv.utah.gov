@@ -48,8 +48,8 @@ export function Component() {
     mutate,
     status: mutationStatus,
   } = useMutation({
-    mutationFn: (data) => Spinner.minDelay(validateClaim(data), 3000),
     onSuccess: async () => {
+    mutationFn: (data) => Spinner.minDelay(validateClaim(data)),
       await queryClient.cancelQueries();
 
       queryClient.invalidateQueries({ queryKey: ['my keys'] });

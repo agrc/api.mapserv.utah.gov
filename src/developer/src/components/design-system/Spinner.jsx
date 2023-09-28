@@ -60,8 +60,8 @@ Spinner.defaultProps = {
 };
 
 Spinner.sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-Spinner.minDelay = async (promise, ms) => {
-  let [p] = await Promise.all([promise, Spinner.sleep(ms)]);
+Spinner.minDelay = async (promise, ms = 2500) => {
+  await Promise.allSettled([promise, Spinner.sleep(ms)]);
 
-  return p;
+  return promise;
 };
