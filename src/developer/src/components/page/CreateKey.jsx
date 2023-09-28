@@ -368,6 +368,7 @@ export function Component() {
                 color="primary"
                 size="xl"
                 disabled={mutationStatus === 'loading'}
+                busy={mutationStatus === 'loading'}
               >
                 Create Key
               </Button>
