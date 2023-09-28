@@ -170,7 +170,7 @@ export function Component() {
         ) : (
           <Table
             columns={columns}
-            data={data.data}
+            data={data?.data ?? []}
             visibility={{ createdDate: false }}
             className="mx-auto min-h-[250px] max-w-5xl border-2 border-wavy-500/50 bg-white text-sm shadow-md dark:border dark:border-mustard-500/30 dark:bg-slate-800"
             caption="Your API keys"
