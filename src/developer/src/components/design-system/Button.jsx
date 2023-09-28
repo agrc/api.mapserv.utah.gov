@@ -13,21 +13,21 @@ const COLORS = {
   },
   primary: {
     outlined:
-      'border-wavy-500 text-wavy-500 focus:border-wavy-500 focus:ring-wavy-500 hover:border-wavy-500 hover:bg-wavy-500 ',
+      'border-wavy-500 text-wavy-500 focus:border-wavy-500 focus:ring-wavy-500 hover:border-wavy-500 hover:bg-wavy-500',
     solid:
       'border-wavy-600 bg-wavy-500 text-mustard-100 focus:border-wavy-700 focus:ring-wavy-700 hover:border-wavy-600 hover:bg-wavy-700 border border-2 dark:border-mustard-600/50',
   },
   secondary: {
     outlined:
-      'border-secondary text-secondary focus:border-secondary focus:ring-secondary hover:border-secondary hover:bg-secondary',
+      'bg-white/75 dark:bg-transparent border-mustard-600 text-mustard-500 dark:text-mustard-100 focus:border-mustard-400 focus:ring-mustard-400 dark:hover:text-slate-600 dark:hover:bg-mustard-400 hover:text-slate-600 hover:bg-mustard-400',
     solid:
-      'border-secondary bg-secondary text-white focus:border-secondary focus:ring-secondary hover:border-secondary-dark hover:bg-secondary-dark',
+      'bg-mustard-500/75 border-mustard-600 text-white focus:border-mustard-400 focus:ring-mustard-400 hover:text-slate-600 hover:border-mustard-400 hover:bg-mustard-400',
   },
   accent: {
     outlined:
       'border-accent text-accent focus:border-accent focus:ring-accent hover:border-accent hover:bg-accent',
     solid:
-      'border-accent bg-accent text-white focus:border-accent focus:ring-accent hover:border-accent-dark hover:bg-accent-dark',
+      'border-accent bg-accent text-white focus:border-accent focus:ring-accent hover:border-accent hover:bg-accent',
   },
 };
 
@@ -136,7 +136,6 @@ export const RouterButtonLink = ({
         SIZES[size],
         'transition-all duration-200 ease-in-out',
         'focus:outline-none focus:ring-2 focus:ring-opacity-50',
-        'hover:text-white',
         className,
       )}
     >
