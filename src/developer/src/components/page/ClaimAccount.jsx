@@ -76,16 +76,15 @@ export function Component() {
           <p className="text-wavy-800 dark:text-slate-200">
             The UGRC API has migrated login systems. Because of this change, you
             currently do not have access to any of the existing keys from your
-            legacy account. All of these keys will continue to function.
-            However, if you would like to be able to manage these keys you will
-            need to claim the account that previously created them.
+            legacy account. All of these keys will continue to function for the
+            time being. However, if you would like to manage these keys and
+            ensure their longevity the keys will need to be claimed from the
+            account that originally created them.
           </p>
           <p className="text-wavy-800 dark:text-slate-200">
             In order to do this, you will need to know the email address and
-            password of the legacy account that created the keys. You can
-            perform this action multiple times if you have multiple legacy
-            accounts. If you do not know this information, please contact the
-            UGRC.
+            password of the legacy account that created the keys. You can claim
+            keys from multiple legacy accounts if necessary.
           </p>
         </div>
       </section>
@@ -93,7 +92,7 @@ export function Component() {
         <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
         <div className="relative z-10 mx-auto max-w-5xl px-6">
           <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">
-            Claim Account
+            Claim Keys From Account
           </h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -105,7 +104,7 @@ export function Component() {
                 control={control}
                 render={({ field }) => (
                   <Input
-                    label="email"
+                    label="legacy account email"
                     placeholder="you@email.com"
                     type="email"
                     error={errors.email?.message}
@@ -119,7 +118,7 @@ export function Component() {
                 control={control}
                 render={({ field }) => (
                   <Input
-                    label="password"
+                    label="legacy account password"
                     type="password"
                     error={errors.password?.message}
                     required
@@ -149,7 +148,7 @@ export function Component() {
                   className="h-8"
                   ariaLabel="waiting to claim account"
                 />{' '}
-                Claiming account...
+                Claiming keys from account...
               </div>
             )}
             {mutationStatus === 'success' && (
