@@ -4,7 +4,7 @@ import { httpsCallable } from 'firebase/functions';
 import { useLoaderData } from 'react-router-dom';
 import { useFunctions } from 'reactfire';
 import { TextLink } from '../Link';
-import { RouterButtonLink } from '../design-system/Button';
+import Button, { RouterButtonLink } from '../design-system/Button';
 import Spinner from '../design-system/Spinner';
 
 export function Component() {
@@ -72,17 +72,17 @@ export function Component() {
       <section className="mb-6 flex justify-center gap-6">
         <RouterButtonLink
           to="create-key"
-          appearance="solid"
-          color="primary"
-          size="xl"
+          appearance={Button.Appearances.solid}
+          color={Button.Colors.primary}
+          size={Button.Sizes.xl}
         >
           create a new key
         </RouterButtonLink>
         <RouterButtonLink
           to="keys"
-          appearance="solid"
-          color="primary"
-          size="xl"
+          appearance={Button.Appearances.solid}
+          color={Button.Colors.primary}
+          size={Button.Sizes.xl}
         >
           manage keys
         </RouterButtonLink>

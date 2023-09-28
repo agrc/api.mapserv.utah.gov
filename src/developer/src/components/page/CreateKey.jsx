@@ -363,10 +363,10 @@ export function Component() {
             )}
             <div className="flex justify-center gap-6 pb-6">
               <Button
-                type="submit"
-                appearance="solid"
-                color="primary"
-                size="xl"
+                type={Button.Types.submit}
+                appearance={Button.Appearances.solid}
+                color={Button.Colors.primary}
+                size={Button.Sizes.xl}
                 disabled={mutationStatus === 'loading'}
                 busy={mutationStatus === 'loading'}
               >

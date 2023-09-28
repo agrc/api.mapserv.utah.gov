@@ -5,7 +5,8 @@ import { httpsCallable } from 'firebase/functions';
 import { Controller, useForm } from 'react-hook-form';
 import { useFunctions } from 'reactfire';
 import * as z from 'zod';
-import Button from '../design-system/Button';
+import { TextLink } from '../Link';
+import Button, { RouterButtonLink } from '../design-system/Button';
 import { FormError, FormErrors } from '../design-system/Form';
 import Input from '../design-system/Input';
 import Spinner from '../design-system/Spinner';
@@ -187,17 +188,25 @@ export function Component() {
                 </span>
               </FormError>
             )}
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-6">
               <Button
-                type="submit"
-                appearance="solid"
-                color="primary"
-                size="xl"
+                type={Button.Types.submit}
+                appearance={Button.Appearances.solid}
+                color={Button.Colors.primary}
+                size={Button.Sizes.xl}
                 disabled={mutationStatus === 'loading'}
                 busy={mutationStatus === 'loading'}
               >
                 claim account
               </Button>
+              <RouterButtonLink
+                to="/self-service/keys"
+                appearance={Button.Appearances.outline}
+                color={Button.Colors.secondary}
+                size={Button.Sizes.xl}
+              >
+                manage keys
+              </RouterButtonLink>
             </div>
           </form>
         </div>

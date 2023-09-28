@@ -9,7 +9,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import { httpsCallable } from 'firebase/functions';
 import { Link, useLoaderData } from 'react-router-dom';
 import { useFunctions } from 'reactfire';
-import { RouterButtonLink } from '../design-system/Button';
+import Button, { RouterButtonLink } from '../design-system/Button';
 import Spinner from '../design-system/Spinner';
 import Table from '../design-system/Table';
 
@@ -140,17 +140,17 @@ export function Component() {
         <div className="mt-6 flex justify-center gap-6">
           <RouterButtonLink
             to="/self-service/create-key"
-            appearance="solid"
-            color="primary"
-            size="xl"
+            appearance={Button.Appearances.solid}
+            color={Button.Colors.primary}
+            size={Button.Sizes.xl}
           >
             create a new key
           </RouterButtonLink>
           <RouterButtonLink
             to="/self-service/claim-account"
-            appearance="solid"
-            color="primary"
-            size="xl"
+            appearance={Button.Appearances.solid}
+            color={Button.Colors.primary}
+            size={Button.Sizes.xl}
           >
             claim a legacy key
           </RouterButtonLink>

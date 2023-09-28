@@ -69,9 +69,9 @@ export const Component = () => {
         <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
           <RouterButtonLink
             to="/self-service/keys"
-            appearance="solid"
-            color="primary"
-            size="xl"
+            appearance={Button.Appearances.solid}
+            color={Button.Colors.primary}
+            size={Button.Sizes.xl}
           >
             Go back to your keys
           </RouterButtonLink>
@@ -230,9 +230,9 @@ export const ErrorBoundary = () => {
       <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
         <RouterButtonLink
           to="/self-service/keys"
-          appearance="solid"
-          color="primary"
-          size="xl"
+          appearance={Button.Appearances.solid}
+          color={Button.Colors.primary}
+          size={Button.Sizes.xl}
         >
           Go back to your keys
         </RouterButtonLink>
