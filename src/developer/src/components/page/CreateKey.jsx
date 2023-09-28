@@ -346,7 +346,20 @@ export function Component() {
               </div>
             )}
             {mutationStatus === 'error' && (
-              <FormError message="We had some trouble creating this key. Give it another try and create an issue in GitHub if it fails again. Or tweet us @MapUtah." />
+              <FormError>
+                <span>
+                  We had some trouble creating this key. Give it another try and
+                  if it fails again, create an issue in{' '}
+                  <TextLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">
+                    GitHub
+                  </TextLink>{' '}
+                  or tweet us{' '}
+                  <TextLink href="https://twitter.com/maputah">
+                    @MapUtah
+                  </TextLink>
+                  .
+                </span>
+              </FormError>
             )}
             <div className="flex justify-center gap-6 pb-6">
               <Button

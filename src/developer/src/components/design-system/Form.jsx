@@ -1,5 +1,5 @@
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
+import { Banner } from './Banner';
 
 export const FormErrors = ({ errors }) => {
   const entries = Object.entries(errors);
@@ -9,10 +9,7 @@ export const FormErrors = ({ errors }) => {
   }
 
   return (
-    <div className="m-6 mx-auto flex min-h-[75px] max-w-lg flex-row gap-2 rounded border border-fuchsia-500 dark:bg-slate-700 dark:text-slate-100">
-      <div className="inline-flex min-w-[75px] items-center justify-center bg-fuchsia-200 text-fuchsia-500/70">
-        <ExclamationTriangleIcon className="h-10" />
-      </div>
+    <Banner>
       <div className="px-3 py-2">
         <span className="inline-block font-bold">
           Some errors have been found:
@@ -27,27 +24,24 @@ export const FormErrors = ({ errors }) => {
           })}
         </ul>
       </div>
-    </div>
+    </Banner>
   );
 };
 FormErrors.propTypes = {
   errors: PropTypes.object.isRequired,
 };
 
-export const FormError = ({ message }) => {
-  if (message?.length === 0) {
+export const FormError = ({ children }) => {
+  if (children?.length === 0) {
     return null;
   }
 
   return (
-    <div className="m-6 mx-auto flex min-h-[75px] max-w-lg flex-row gap-2 rounded border border-fuchsia-500 dark:bg-slate-700 dark:text-slate-100 ">
-      <div className="inline-flex min-w-[75px] items-center justify-center bg-fuchsia-200 text-fuchsia-500/70">
-        <ExclamationTriangleIcon className="h-10" />
-      </div>
-      <div className="self-center px-3 py-2 font-bold">{message}</div>
-    </div>
+    <Banner>
+      <div className="self-center px-3 py-2 font-bold">{children}</div>
+    </Banner>
   );
 };
 FormError.propTypes = {
-  message: PropTypes.string,
+  children: PropTypes.node,
 };
