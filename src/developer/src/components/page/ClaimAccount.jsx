@@ -196,7 +196,7 @@ export function Component() {
                 disabled={mutationStatus === 'loading'}
                 busy={mutationStatus === 'loading'}
               >
-                Claim Account
+                claim account
               </Button>
             </div>
           </form>

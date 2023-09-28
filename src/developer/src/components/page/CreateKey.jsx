@@ -370,7 +370,7 @@ export function Component() {
                 disabled={mutationStatus === 'loading'}
                 busy={mutationStatus === 'loading'}
               >
-                Create Key
+                create key
               </Button>
             </div>
           </form>
