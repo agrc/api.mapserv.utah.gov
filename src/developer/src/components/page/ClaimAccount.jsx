@@ -48,10 +48,15 @@ export function Component() {
   const {
     data: response,
     mutate,
+    reset: resetMutation,
     status: mutationStatus,
   } = useMutation({
-    onSuccess: async () => {
     mutationFn: (data) => Spinner.minDelay(validateClaim(data)),
+    onSuccess: async (response) => {
+      if (response.data.keys.length === 0) {
+        return;
+      }
+
       await queryClient.cancelQueries();
 
       queryClient.invalidateQueries({ queryKey: ['my keys'] });
