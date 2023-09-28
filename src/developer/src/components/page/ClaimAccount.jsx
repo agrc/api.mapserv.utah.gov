@@ -37,7 +37,7 @@ export function Component() {
     reset,
   } = useForm({
     resolver: zodResolver(schema),
-    mode: 'all',
+    mode: 'onBlur',
     defaultValues,
   });
 

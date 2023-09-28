@@ -87,7 +87,7 @@ export function Component() {
     setValue,
   } = useForm({
     resolver: zodResolver(schema),
-    mode: 'all',
+    mode: 'onBlur',
     defaultValues,
   });
 
