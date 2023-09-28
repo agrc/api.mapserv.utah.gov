@@ -66,7 +66,7 @@ export const transferKeys = async (from, to) => {
     batch.update(key.ref, {
       accountId: to,
       claimed: true,
-      notes: `transferred from ${from}`,
+      notes: `📦 transferred from ${from} 📦`,
     });
   });
   debug('[functions::transferKeys] moved keys to new client', to);
