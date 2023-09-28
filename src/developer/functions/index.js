@@ -128,9 +128,9 @@ export const validateClaim = https.onCall(
 
       const keys = await transferKeys(request.data.email, userId);
 
-      return keys;
+      return { keys, message: 'success' };
     }
 
-    return [];
+    return { keys: [], message: 'invalid account information' };
   },
 );

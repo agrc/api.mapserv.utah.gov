@@ -1,7 +1,25 @@
-import { RouterButtonLink } from '../design-system/Button';
+import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
+import { useQuery } from '@tanstack/react-query';
+import { httpsCallable } from 'firebase/functions';
+import { useLoaderData } from 'react-router-dom';
+import { useFunctions } from 'reactfire';
 import { TextLink } from '../Link';
+import { RouterButtonLink } from '../design-system/Button';
+import Spinner from '../design-system/Spinner';
 
 export function Component() {
+  const functions = useFunctions();
+  const getKeys = httpsCallable(functions, 'keys');
+  const loaderData = useLoaderData();
+
+  const { status, data: response } = useQuery({
+    queryKey: ['my keys', loaderData.user.uid],
+    queryFn: () => Spinner.minDelay(getKeys()),
+    enabled: loaderData.user?.uid.length ?? 0 > 0 ? true : false,
+    onError: () => 'We had some trouble finding your keys.',
+    cacheTime: Infinity,
+  });
+
   return (
     <article className="">
       <section className="relative mb-12 w-full px-6 md:mx-auto">
@@ -12,7 +30,7 @@ export function Component() {
           </h3>
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">
-              <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-slate-950 dark:border-mustard-400/20  dark:bg-slate-900">
+              <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-slate-950 dark:border-mustard-400/20 dark:bg-slate-900">
                 <div className="p-6 text-center">
                   <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
                     2,712,908
@@ -23,7 +41,24 @@ export function Component() {
                 </div>
                 <div className="p-6 text-center">
                   <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
-                    15
+                    {status === 'success' && response.data.length}
+                    {status === 'error' && (
+                      <div className="flex min-h-[32px] items-center justify-center">
+                        <span className="sr-only">
+                          We were unable to fetch your API key count
+                        </span>
+                        <ExclamationTriangleIcon className="h-6 w-6 text-mustard-500" />
+                      </div>
+                    )}
+                    {status === 'loading' && (
+                      <div className="flex min-h-[32px] items-center justify-center">
+                        <Spinner
+                          size={Spinner.Sizes.xl}
+                          className="text-wavy-800"
+                          ariaLabel="fetching API key count"
+                        />
+                      </div>
+                    )}
                   </p>
                   <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
                     total keys
