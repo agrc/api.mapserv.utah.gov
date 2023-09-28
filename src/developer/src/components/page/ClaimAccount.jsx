@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useFunctions } from 'reactfire';
 import * as z from 'zod';
 import Button from '../design-system/Button';
-import { FormError } from '../design-system/Form';
+import { FormError, FormErrors } from '../design-system/Form';
 import Input from '../design-system/Input';
 import Spinner from '../design-system/Spinner';
 
@@ -98,6 +98,7 @@ export function Component() {
             onSubmit={handleSubmit(onSubmit)}
             className="mb-12 grid w-full gap-6 border border-slate-300 bg-slate-100 p-8 shadow-md dark:bg-slate-600"
           >
+            <FormErrors errors={errors} />
             <div className="grid grid-cols-1 items-start gap-8 dark:text-slate-200">
               <Controller
                 name="email"
@@ -162,7 +163,20 @@ export function Component() {
               </div>
             )}
             {mutationStatus === 'error' && (
-              <FormError message="We had some trouble claiming this account. Give it another try and create an issue in GitHub if it fails again. Or tweet us @MapUtah." />
+              <FormError>
+                <span>
+                  We had some trouble claiming this account. Give it another try
+                  and if it fails again, create an issue in{' '}
+                  <TextLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">
+                    GitHub
+                  </TextLink>{' '}
+                  or tweet us{' '}
+                  <TextLink href="https://twitter.com/maputah">
+                    @MapUtah
+                  </TextLink>
+                  .
+                </span>
+              </FormError>
             )}
             <div className="flex justify-center">
               <Button
