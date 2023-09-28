@@ -32,16 +32,22 @@ const Menu = () => {
           </MenuTrigger>
           <NavigationMenu.Content className={menuItemCss}>
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">
-              <ListItem href="/self-service/create-key" title="Create Keys">
+              <InternalListItem
+                to="/self-service/create-key"
+                title="Create Keys"
+              >
                 Generate a new API Key.
-              </ListItem>
-              <ListItem href="/self-service/keys" title="Manage Keys">
+              </InternalListItem>
+              <InternalListItem to="/self-service/keys" title="Manage Keys">
                 Pause, resume, or delete your API Keys and access analytics for
                 the key.
-              </ListItem>
-              <ListItem href="/self-service/claim-account" title="Claim Keys">
+              </InternalListItem>
+              <InternalListItem
+                to="/self-service/claim-account"
+                title="Claim Keys"
+              >
                 Claim keys from a legacy UGRC API account
-              </ListItem>
+              </InternalListItem>
             </ul>
           </NavigationMenu.Content>
         </NavigationMenu.Item>
@@ -49,18 +55,18 @@ const Menu = () => {
           <MenuTrigger toArray={[]}>Help</MenuTrigger>
           <NavigationMenu.Content className={menuItemCss}>
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">
-              <ListItem
+              <ExternalListItem
                 href="https://ut-dts-agrc-web-api-dev.web.app/"
                 title="API Home page"
               >
                 Visit the API home page.
-              </ListItem>
-              <ListItem
+              </ExternalListItem>
+              <ExternalListItem
                 href="https://ut-dts-agrc-web-api-dev.web.app/en/documentation"
                 title="API Documentation"
               >
                 View the API documentation.
-              </ListItem>
+              </ExternalListItem>
             </ul>
           </NavigationMenu.Content>
         </NavigationMenu.Item>
@@ -106,13 +112,43 @@ MenuTrigger.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const ListItem = forwardRef(
+const InternalListItem = forwardRef(
+  ({ className, children, title, ...props }, forwardedRef) => (
+    <li className="leading-[.5em]">
+      <NavigationMenu.Link asChild>
+        <Link
+          className={clsx(
+            'block select-none rounded p-3 text-base no-underline outline-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-mustard-400 dark:hover:bg-slate-700/50',
+            className,
+          )}
+          {...props}
+          ref={forwardedRef}
+        >
+          <div className="font-medium text-wavy-700 dark:text-mustard-600">
+            {title}
+          </div>
+          <p className="text-sm text-wavy-500 dark:text-mustard-100/50">
+            {children}
+          </p>
+        </Link>
+      </NavigationMenu.Link>
+    </li>
+  ),
+);
+InternalListItem.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+};
+InternalListItem.displayName = 'InternalListItem';
+
+const ExternalListItem = forwardRef(
   ({ className, children, title, ...props }, forwardedRef) => (
     <li className="leading-[.5em]">
       <NavigationMenu.Link asChild>
         <a
           className={clsx(
-            'block select-none rounded p-3 text-base no-underline outline-none transition-colors hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-mustard-400 dark:hover:bg-slate-700/50',
+            'block select-none rounded p-3 text-base no-underline outline-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-mustard-400 dark:hover:bg-slate-700/50',
             className,
           )}
           {...props}
@@ -129,11 +165,11 @@ const ListItem = forwardRef(
     </li>
   ),
 );
-ListItem.propTypes = {
+ExternalListItem.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
 };
-ListItem.displayName = 'ListItem';
+ExternalListItem.displayName = 'ExternalListItem';
 
 export default Menu;

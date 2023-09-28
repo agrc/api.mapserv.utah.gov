@@ -47,7 +47,7 @@ const Layout = () => {
   return (
     <>
       <Header
-        className="bg-slate-100 transition-colors duration-1000 dark:bg-wavy-900"
+        className="bg-slate-100 duration-1000 dark:bg-wavy-900"
         links={links}
       >
         <div className="flex flex-1 items-center space-x-2">
