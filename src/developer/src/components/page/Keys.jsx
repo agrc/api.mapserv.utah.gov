@@ -146,6 +146,14 @@ export function Component() {
           >
             create a new key
           </RouterButtonLink>
+          <RouterButtonLink
+            to="/self-service/claim-account"
+            appearance="solid"
+            color="primary"
+            size="xl"
+          >
+            claim a legacy key
+          </RouterButtonLink>
         </div>
       </section>
       <section className="relative mb-12 w-full px-6 md:mx-auto">
