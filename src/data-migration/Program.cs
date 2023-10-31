@@ -179,44 +179,41 @@ namespace models {
             AccountId = string.Empty;
             Key = apiKey.Key.ToLowerInvariant();
             Created = new DateTime(apiKey.CreatedAtTicks).ToUniversalTime();
-            Status = apiKey.ApiKeyStatus switch {
-                KeyStatus.Active => "active",
-                KeyStatus.Disabled => "paused",
-                _ => string.Empty
-            };
-            Type = apiKey.Type;
-            Mode = apiKey.AppStatus;
             Pattern = apiKey.Pattern;
             RegularExpression = apiKey.RegexPattern;
             MachineName = apiKey.IsMachineName;
             Elevated = elevated;
-            Deleted = apiKey.Deleted;
-            Disabled = apiKey.ApiKeyStatus == KeyStatus.Disabled;
             Notes = "👻️👻️👻️ an unclaimed key 👻️👻️👻️";
             LastUsed = "comes from redis";
             Usage = "comes from redis";
             Claimed = false;
 
-            if (apiKey.Deleted) {
-                Status = "deleted";
-            }
+            Flags = new Dictionary<string, bool>() {
+                { "deleted", apiKey.Deleted },
+                { "disabled", apiKey.ApiKeyStatus == KeyStatus.Disabled },
+                { "server", apiKey.Type == ApplicationType.Server },
+                { "production", apiKey.AppStatus == ApplicationStatus.Production}
+            };
         }
         [FirestoreProperty("accountId")] public string AccountId { get; set; } = string.Empty;
         [FirestoreProperty("key")] public string Key { get; set; } = string.Empty;
         [FirestoreProperty("created")] public DateTime Created { get; set; }
-        [FirestoreProperty("status")] public string Status { get; set; }
-        [FirestoreProperty("type")] public ApplicationType Type { get; set; }
-        [FirestoreProperty("mode")] public ApplicationStatus Mode { get; set; }
         [FirestoreProperty("pattern")] public string? Pattern { get; set; }
         [FirestoreProperty("regularExpression")] public string? RegularExpression { get; set; }
-        [FirestoreProperty("deleted")] public bool Deleted { get; set; }
         [FirestoreProperty("machineName")] public bool MachineName { get; set; }
         [FirestoreProperty("elevated")] public bool Elevated { get; set; }
-        [FirestoreProperty("disabled")] public bool Disabled { get; set; }
+        [FirestoreProperty("notes")]
+        public string Notes { get; set; } = string.Empty;
+        [FirestoreProperty("lastUsed")] public string LastUsed { get; set; } = "never";
+        [FirestoreProperty("usage")] public string Usage { get; set; } = "none";
         [FirestoreProperty("claimed")] public bool Claimed { get; set; }
-        [FirestoreProperty("notes")] public string Notes { get; set; }
-        [FirestoreProperty("lastUsed")] public string LastUsed { get; set; }
-        [FirestoreProperty("usage")] public string Usage { get; set; }
+        [FirestoreProperty("flags")]
+        public Dictionary<string, bool> Flags { get; set; } = new Dictionary<string, bool>() {
+                { "deleted", false },
+                { "disabled", false },
+                { "server", false },
+                { "production", false }
+        };
     }
     [FirestoreData]
     public class Client {
