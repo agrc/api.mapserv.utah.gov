@@ -149,7 +149,7 @@ export function Component() {
               />
             </div>
 
-            {mutationStatus === 'loading' && (
+            {mutationStatus === 'pending' && (
               <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow dark:bg-slate-500 dark:text-mustard-200 md:w-3/4 md:border-x md:text-4xl">
                 <Spinner
                   size={Spinner.Sizes.custom}
@@ -199,8 +199,8 @@ export function Component() {
                 appearance={Button.Appearances.solid}
                 color={Button.Colors.primary}
                 size={Button.Sizes.xl}
-                disabled={mutationStatus === 'loading'}
-                busy={mutationStatus === 'loading'}
+                disabled={mutationStatus === 'pending'}
+                busy={mutationStatus === 'pending'}
               >
                 claim account
               </Button>

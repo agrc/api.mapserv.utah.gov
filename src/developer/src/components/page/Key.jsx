@@ -92,13 +92,13 @@ export const Component = () => {
             {key}
           </h2>
           <p className="text-wavy-400">
-            {status === 'loading' ? 'fetching metadata...' : data?.pattern}
+            {status === 'pending' ? 'fetching metadata...' : data?.pattern}
           </p>
         </div>
       </section>
       <section className="relative mb-12 w-full px-6 md:mx-auto">
         <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
-        {status === 'loading' ? (
+        {status === 'pending' ? (
           <div className="flex h-full flex-1 items-center justify-center">
             <Spinner
               size={Spinner.Sizes.custom}

@@ -367,8 +367,8 @@ export function Component() {
                 appearance={Button.Appearances.solid}
                 color={Button.Colors.primary}
                 size={Button.Sizes.xl}
-                disabled={mutationStatus === 'loading'}
-                busy={mutationStatus === 'loading'}
+                disabled={mutationStatus === 'pending'}
+                busy={mutationStatus === 'pending'}
               >
                 create key
               </Button>

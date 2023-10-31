@@ -115,7 +115,7 @@ export function Component() {
     queryFn: () => Spinner.minDelay(getKeys()),
     enabled: loaderData.user?.uid.length ?? 0 > 0 ? true : false,
     onError: () => 'We had some trouble finding your keys.',
-    cacheTime: Infinity,
+    gcTime: Infinity,
   });
 
   return (
@@ -159,7 +159,7 @@ export function Component() {
       <section className="relative mb-12 w-full px-6 md:mx-auto">
         <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
         <div className="pt-12"></div>
-        {status === 'loading' ? (
+        {status === 'pending' ? (
           <div className="relative mx-auto flex min-h-[250px] max-w-5xl flex-col items-center justify-center border-2 border-b border-wavy-500/50 border-b-slate-300 bg-white shadow-md dark:border-slate-500/50 dark:bg-slate-800">
             <Spinner
               size={Spinner.Sizes.custom}

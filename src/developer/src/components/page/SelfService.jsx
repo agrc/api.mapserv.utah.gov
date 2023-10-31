@@ -17,7 +17,7 @@ export function Component() {
     queryFn: () => Spinner.minDelay(getKeys()),
     enabled: loaderData.user?.uid.length ?? 0 > 0 ? true : false,
     onError: () => 'We had some trouble finding your keys.',
-    cacheTime: Infinity,
+    gcTime: Infinity,
   });
 
   return (
@@ -50,7 +50,7 @@ export function Component() {
                         <ExclamationTriangleIcon className="h-6 w-6 text-mustard-500" />
                       </div>
                     )}
-                    {status === 'loading' && (
+                    {status === 'pending' && (
                       <div className="flex min-h-[32px] items-center justify-center">
                         <Spinner
                           size={Spinner.Sizes.xl}
