@@ -32,9 +32,7 @@ public class DominantRouteResolver {
 
     public class Handler(IHttpClientFactory httpClientFactory, IDistanceStrategy distance, ILogger log) : IComputationHandler<Computation, ReverseRouteMilepostResponseContract?> {
         private readonly HttpClient _client = httpClientFactory.CreateClient("udot");
-        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
-                new TextPlainResponseFormatter()
-            };
+        private readonly MediaTypeFormatter[] _mediaTypes = [new TextPlainResponseFormatter()];
         private readonly ILogger? _log = log?.ForContext<DominantRouteResolver>();
         private readonly IDistanceStrategy _distance = distance;
         private const string BaseUrl = "/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1/";

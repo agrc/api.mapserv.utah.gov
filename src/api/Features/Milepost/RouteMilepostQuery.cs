@@ -39,17 +39,13 @@ public partial class RouteMilepostQuery {
 
     public class Handler(IHttpClientFactory httpClientFactory, ILogger log) : IRequestHandler<Query, IApiResponse> {
         private readonly HttpClient _client = httpClientFactory.CreateClient("udot");
-        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
-                new TextPlainResponseFormatter()
-            };
+        private readonly MediaTypeFormatter[] _mediaTypes = [new TextPlainResponseFormatter()];
         private readonly ILogger? _log = log?.ForContext<RouteMilepostQuery>();
         private const string BaseUrl = "/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1/";
 
         public async Task<IApiResponse> Handle(Query request, CancellationToken cancellationToken) {
             var requestContract = new MeasureToGeometry.RequestContract {
-                Locations = new[] {
-                    new MeasureToGeometry.RequestLocation(request.Milepost, request.Route)
-                },
+                Locations = [new MeasureToGeometry.RequestLocation(request.Milepost, request.Route)],
                 OutSr = request.Options.SpatialReference
             };
 

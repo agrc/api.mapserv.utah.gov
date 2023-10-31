@@ -15,9 +15,7 @@ public class Geocode {
     public class Handler(IHttpClientFactory clientFactory, ILogger log) : IComputationHandler<Computation, IReadOnlyCollection<Candidate>> {
         private readonly HttpClient _client = clientFactory.CreateClient("arcgis");
         private readonly ILogger? _log = log?.ForContext<Geocode>();
-        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
-                new TextPlainResponseFormatter()
-            };
+        private readonly MediaTypeFormatter[] _mediaTypes = [new TextPlainResponseFormatter()];
 
         public async Task<IReadOnlyCollection<Candidate>> Handle(Computation request,
                                                                  CancellationToken cancellationToken) {

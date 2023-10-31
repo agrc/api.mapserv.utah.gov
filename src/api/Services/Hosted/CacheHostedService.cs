@@ -51,7 +51,7 @@ public class CacheHostedService : BackgroundService {
         }
 
         try {
-            var keys = await _db.KeyExistsAsync(new RedisKey[] { "places", "zips" });
+            var keys = await _db.KeyExistsAsync(["places", "zips"]);
 
             if (keys != 2) {
                 _log?.Warning("redis cache is missing keys. rebuilding cache from bigquery.");

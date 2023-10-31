@@ -13,9 +13,7 @@ public static class ReverseGeocode {
     public class Handler(IHttpClientFactory clientFactory, ILogger log) : IComputationHandler<Computation, ReverseGeocodeRestResponse?> {
         private readonly HttpClient _client = clientFactory.CreateClient("arcgis");
         private readonly ILogger? _log = log?.ForContext<ReverseGeocodeQuery>();
-        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
-                new TextPlainResponseFormatter()
-            };
+        private readonly MediaTypeFormatter[] _mediaTypes = [new TextPlainResponseFormatter()];
 
         public async Task<ReverseGeocodeRestResponse?> Handle(Computation request, CancellationToken cancellationToken) {
             _log?.ForContext("url", request._locator.Url)

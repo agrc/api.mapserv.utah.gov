@@ -43,7 +43,7 @@ public class Candidate {
                 return;
             }
 
-            var parts = _address.Split(new[] { ',' });
+            var parts = _address.Split([',']);
 
             if (parts.Length != 3) {
                 return;

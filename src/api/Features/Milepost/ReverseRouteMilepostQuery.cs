@@ -16,9 +16,7 @@ public static class ReverseRouteMilepostQuery {
 
     public class Handler(IComputeMediator computeMediator, IHttpClientFactory httpClientFactory, ILogger log) : IRequestHandler<Query, IApiResponse> {
         private readonly HttpClient _client = httpClientFactory.CreateClient("udot");
-        private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
-                new TextPlainResponseFormatter()
-            };
+        private readonly MediaTypeFormatter[] _mediaTypes = [new TextPlainResponseFormatter()];
         private readonly ILogger? _log = log?.ForContext<RouteMilepostQuery>();
         private readonly IComputeMediator _computeMediator = computeMediator;
         private const string BaseUrl = "/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1/";
@@ -26,9 +24,7 @@ public static class ReverseRouteMilepostQuery {
         public async Task<IApiResponse> Handle(Query request, CancellationToken cancellationToken) {
             var point = new Point(request._x, request._y);
             var requestContract = new GeometryToMeasure.RequestContract {
-                Locations = new[] {
-                    new GeometryToMeasure.RequestLocation(point)
-                },
+                Locations = [new GeometryToMeasure.RequestLocation(point)],
                 OutSr = request._options.SpatialReference,
                 InSr = request._options.SpatialReference,
                 Tolerance = request._options.Buffer

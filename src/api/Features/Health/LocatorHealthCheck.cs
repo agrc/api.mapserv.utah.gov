@@ -12,9 +12,7 @@ public class LocatorHealthCheck(IOptions<List<LocatorConfiguration>> options, IH
     public string Name => nameof(LocatorHealthCheck);
 
     private readonly HttpClient _client = factory.CreateClient("health-check");
-    private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
-            new TextPlainResponseFormatter()
-        };
+    private readonly MediaTypeFormatter[] _mediaTypes = [new TextPlainResponseFormatter()];
     private readonly List<LocatorConfiguration> _locatorMetadata = options.Value;
     private readonly ILogger? _log = log?.ForContext<LocatorHealthCheck>();
 

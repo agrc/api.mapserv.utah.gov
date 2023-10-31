@@ -13,9 +13,7 @@ public class RasterElevation {
 
     public class Handler(IHttpClientFactory httpClientFactory, ILogger log) : IComputationHandler<Computation, IReadOnlyCollection<SearchResponseContract?>?> {
         internal readonly HttpClient _client = httpClientFactory.CreateClient("national-map");
-        internal readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
-                new TextPlainResponseFormatter()
-            };
+        internal readonly MediaTypeFormatter[] _mediaTypes = [new TextPlainResponseFormatter()];
         internal readonly ILogger? _log = log?.ForContext<RasterElevation>();
 
         public async Task<IReadOnlyCollection<SearchResponseContract?>?> Handle(Computation computation, CancellationToken cancellationToken) {
