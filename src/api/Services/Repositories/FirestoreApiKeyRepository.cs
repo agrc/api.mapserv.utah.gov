@@ -6,10 +6,7 @@ public class FirestoreApiKeyRepository(FirestoreDb singleton) : IApiKeyRepositor
     private readonly FirestoreDb _db = singleton;
 
     public async Task<ApiKey> GetKey(string key) {
-        key = key.ToLowerInvariant();
-
-        var reference = _db.Collection("keys").Document(key);
-        var snapshot = await reference.GetSnapshotAsync();
+        var snapshot = await _db.Collection("keys").Document(key.ToLowerInvariant()).GetSnapshotAsync();
 
         return snapshot.ConvertTo<ApiKey>();
     }
