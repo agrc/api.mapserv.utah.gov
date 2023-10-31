@@ -1,12 +1,14 @@
-name: Push Events (Explorer)
+name: Release Events (Developer)
 
 on:
-  push:
-    branches:
-      - development
-    paths:
-      - "src/explorer/**"
-      - ".github/workflows/push.explorer.yml"
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: src/developer
 
 permissions:
   contents: write
@@ -14,29 +16,29 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
   deploy-firebase-dev:
     name: 🚀 Deploy to Firebase (dev)
+    if: ${{ startsWith(github.ref, 'refs/tags/developer') }}
     runs-on: ubuntu-latest
     environment:
       name: dev
-    defaults:
-      run:
-        working-directory: src/explorer
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
 
       - name: ⎔ Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: npm
-          cache-dependency-path: src/explorer/package-lock.json
+          cache-dependency-path: src/developer/package-lock.json
 
       - name: 📥 Download dependencies
         shell: bash
@@ -45,12 +47,19 @@ jobs:
       - name: 🏗 Run build command
         shell: bash
         run: npm run build
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
 
       - name: 🪣 Cache firebase
         uses: actions/cache@v3
         with:
           path: ~/.cache/firebase
-          key: ${{ runner.OS }}-firebase-${{ hashFiles('**/*.cache/firebase/**') }}
+          key: ${{ runner.OS }}-firebase-${{ hashFiles('~/.cache/firebase/**') }}
           restore-keys: |
             ${{ runner.OS }}-firebase-
             ${{ runner.OS }}-
