@@ -15,7 +15,7 @@ import { doc } from 'firebase/firestore';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useFirestore, useFirestoreDocData } from 'reactfire';
+import { useFirestore, useFirestoreDocDataOnce } from 'reactfire';
 import { timeSince } from '../../../functions/time';
 import Button, { RouterButtonLink } from '../design-system/Button';
 import Card from '../design-system/Card';
@@ -38,7 +38,7 @@ export const Component = () => {
   const { key } = useParams();
   const keyRef = useRef(doc(useFirestore(), `/keys/${key?.toLowerCase()}`));
 
-  const { status, data } = useFirestoreDocData(keyRef.current);
+  const { status, data } = useFirestoreDocDataOnce(keyRef.current);
 
   if (status === 'success' && !data) {
     return (
