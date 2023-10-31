@@ -16,4 +16,8 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
 RUN apt update -y && apt install -y libc-dev
+
+RUN useradd -s /bin/bash dummy
+USER dummy
+
 ENTRYPOINT ["dotnet", "api.mapserv.utah.gov.dll"]
