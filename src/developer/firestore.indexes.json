@@ -2,14 +2,14 @@
   "indexes": [
     {
       "collectionGroup": "keys",
-      "queryScope": "COLLECTION_GROUP",
+      "queryScope": "COLLECTION",
       "fields": [
         {
           "fieldPath": "accountId",
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "deleted",
+          "fieldPath": "flags.deleted",
           "order": "ASCENDING"
         }
       ]
