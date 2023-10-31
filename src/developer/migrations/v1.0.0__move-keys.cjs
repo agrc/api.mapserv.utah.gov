@@ -1,7 +1,7 @@
 module.exports.migrate = async ({ firestore, FieldValue }) => {
   const querySnapshot = await firestore.collection('clients').get();
 
-  await querySnapshot.forEach(async (doc) => {
+  for (const doc of querySnapshot.docs) {
     const client = doc.data();
     const collection = firestore.collection(`clients/${doc.id}/keys`);
 
@@ -12,5 +12,5 @@ module.exports.migrate = async ({ firestore, FieldValue }) => {
     await doc.ref.update({
       keys: FieldValue.delete(),
     });
-  });
+  }
 };

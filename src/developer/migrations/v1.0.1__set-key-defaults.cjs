@@ -6,7 +6,7 @@ module.exports.migrate = async ({ firestore }) => {
       .collection(`clients/${doc.id}/keys`)
       .get();
 
-    collection.forEach(async (doc) => {
+    for (const doc of collection.docs) {
       const key = doc.data();
 
       await doc.ref.update({
@@ -21,7 +21,7 @@ module.exports.migrate = async ({ firestore }) => {
         lastUsed: 'never',
         usage: 'none',
       });
-    });
+    }
   }
 
   const keysSnapshot = await firestore.collectionGroup('keys').get();
