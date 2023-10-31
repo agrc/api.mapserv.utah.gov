@@ -55,14 +55,16 @@ jobs:
           VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
           VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
 
+      - name: 🔢 Get firebase version
+        id: cache-settings
+        run: |
+          echo "firebase-tools=$(npm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')" >> GITHUB_OUTPUT
+
       - name: 🪣 Cache firebase
         uses: actions/cache@v3
         with:
           path: ~/.cache/firebase
-          key: ${{ runner.OS }}-firebase-${{ hashFiles('~/.cache/firebase/**') }}
-          restore-keys: |
-            ${{ runner.OS }}-firebase-
-            ${{ runner.OS }}-
+          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: 🗝️ Authenticate to Google Cloud
         id: auth
