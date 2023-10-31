@@ -37,7 +37,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
 
         _log?.Debug("api key: {@apiKey}", apiKey);
 
-        if (apiKey.Deleted || apiKey.Enabled == ApiKey.KeyStatus.Disabled) {
+        if (apiKey.Flags["deleted"] || apiKey.Flags["disabled"]) {
             _log?.Information("attempt to use deleted or disabled key {key}", apiKey);
 
             return BadRequest($"{key} is no longer active. It has been disabled or deleted by it's owner.");
@@ -50,7 +50,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             return await next(context);
         }
 
-        if (apiKey.Type == ApiKey.ApplicationType.Browser) {
+        if (apiKey.Flags["server"] == false) {
             if (apiKey.RegularExpression == null) {
                 _log?.Warning("api key usage without regex pattern {key}", apiKey);
 
@@ -100,7 +100,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
                 );
             }
 
-            if (apiKey.Configuration == ApiKey.ApplicationStatus.Development &&
+            if (apiKey.Flags["production"] == false &&
                 IsLocalDevelopment(new Uri(referrer.ToString()), corsOriginValue)) {
                 return await next(context);
             }

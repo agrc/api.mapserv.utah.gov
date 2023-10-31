@@ -35,20 +35,21 @@ public class ApiKey {
     [FirestoreProperty("key")] public string Key { get; set; } = string.Empty;
     public long CreatedAtTicks { get; set; }
     [FirestoreProperty("created")] public DateTime CreatedAt => new DateTime(CreatedAtTicks).ToUniversalTime();
-    [FirestoreProperty("status")] public KeyStatus Enabled { get; set; }
-    [FirestoreProperty("type")] public ApplicationType Type { get; set; }
-    [FirestoreProperty("mode")] public ApplicationStatus Configuration { get; set; }
     [FirestoreProperty("pattern")] public string? Pattern { get; set; }
     [FirestoreProperty("regularExpression")] public string? RegularExpression { get; set; }
     [FirestoreProperty("machineName")] public bool IsMachineName { get; set; }
-    [FirestoreProperty("deleted")] public bool Deleted { get; set; }
     [FirestoreProperty("elevated")] public bool Elevated { get; set; }
     [FirestoreProperty("deletedOn")] public Timestamp? DeletedOn { get; set; }
-    [FirestoreProperty("disabled")] public bool Disabled { get; set; }
     [FirestoreProperty("claimed")] public bool Claimed { get; set; }
     [FirestoreProperty("claimedOn")] public Timestamp? ClaimedOn { get; set; }
+    [FirestoreProperty("notes")] public string Notes { get; set; } = string.Empty;
+    [FirestoreProperty("flags")]
+    public Dictionary<string, bool> Flags { get; set; } = new Dictionary<string, bool>() {
+                { "deleted", false },
+                { "disabled", false },
+                { "server", false },
+                { "production", false }
+        };
 
-    public override string ToString() => string.Format(@"## Key
-* **Pattern**: {0}
-* **Key**: {1}", Pattern, Key);
+    public override string ToString() => string.Format(@"{0} {1}", Key, Pattern);
 }

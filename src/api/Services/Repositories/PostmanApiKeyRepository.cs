@@ -5,46 +5,34 @@ public class PostmanApiKeyRepository : IApiKeyRepository {
     public Task<ApiKey> GetKey(string key) {
         if (string.Equals(key, "postman", StringComparison.InvariantCultureIgnoreCase)) {
             return Task.FromResult(new ApiKey(key) {
-                Enabled = ApiKey.KeyStatus.Active,
-                Configuration = ApiKey.ApplicationStatus.Production,
-                Deleted = false,
+                Flags = new() { { "deleted", false }, { "disabled", false }, { "server", false }, { "production", true } },
                 IsMachineName = false,
                 RegularExpression = "localhost",
-                Type = ApiKey.ApplicationType.Browser,
                 Elevated = true
             });
         }
 
         if (string.Equals(key, "postman-disabled", StringComparison.InvariantCultureIgnoreCase)) {
             return Task.FromResult(new ApiKey(key) {
-                Enabled = ApiKey.KeyStatus.Disabled,
-                Configuration = ApiKey.ApplicationStatus.Production,
-                Deleted = false,
+                Flags = new() { { "deleted", false }, { "disabled", true }, { "server", false }, { "production", true } },
                 IsMachineName = false,
                 RegularExpression = "localhost",
-                Type = ApiKey.ApplicationType.Browser
             });
         }
 
         if (string.Equals(key, "postman-deleted", StringComparison.InvariantCultureIgnoreCase)) {
             return Task.FromResult(new ApiKey(key) {
-                Enabled = ApiKey.KeyStatus.Active,
-                Configuration = ApiKey.ApplicationStatus.Production,
-                Deleted = true,
+                Flags = new() { { "deleted", true }, { "disabled", false }, { "server", false }, { "production", true } },
                 IsMachineName = false,
                 RegularExpression = "localhost",
-                Type = ApiKey.ApplicationType.Browser
             });
         }
 
         if (string.Equals(key, "postman-ip", StringComparison.InvariantCultureIgnoreCase)) {
             return Task.FromResult(new ApiKey(key) {
-                Enabled = ApiKey.KeyStatus.Active,
-                Configuration = ApiKey.ApplicationStatus.Production,
-                Deleted = false,
+                Flags = new() { { "deleted", false }, { "disabled", false }, { "server", true }, { "production", true } },
                 IsMachineName = false,
                 Pattern = "::1",
-                Type = ApiKey.ApplicationType.Server
             });
         }
 
