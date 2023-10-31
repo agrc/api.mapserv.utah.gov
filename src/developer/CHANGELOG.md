@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.1.0...developer-v2.1.1) (2023-10-31)
+
+
+### Bug Fixes
+
+* **developer:** migrate database to use flags ([a97311f](https://github.com/agrc/api.mapserv.utah.gov/commit/a97311f3479e3d2e6b0a64d33b446e06236fe845))
+
 ## [2.1.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.0.0...developer-v2.1.0) (2023-10-31)
 
 
