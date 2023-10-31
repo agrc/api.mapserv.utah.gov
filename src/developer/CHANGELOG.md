@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.0.0...developer-v2.1.0) (2023-10-31)
+
+
+### Features
+
+* **developer:** show key count instead of place holder ([44e05c9](https://github.com/agrc/api.mapserv.utah.gov/commit/44e05c9cc0b47893040c2fabf780d4bac55165b1))
+
+
+### Bug Fixes
+
+* **developer:** correct internal link routing ([e06b58d](https://github.com/agrc/api.mapserv.utah.gov/commit/e06b58d13e58eec78db7122c0f70c89bc4782e10))
+
 ## [2.0.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v1.2.6...developer-v2.0.0) (2023-09-26)
 
 
