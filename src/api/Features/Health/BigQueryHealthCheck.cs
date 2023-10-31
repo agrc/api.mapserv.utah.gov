@@ -11,6 +11,7 @@ public class BigQueryHealthCheck : IHealthCheck {
         BigQueryClient client;
 
         try {
+            // TODO! switch based on build config or something
             client = await BigQueryClient.CreateAsync("ut-dts-agrc-web-api-dev");
         } catch (Exception ex) {
             return HealthCheckResult.Unhealthy("Unable to access BigQuery", ex, new Dictionary<string, object> {
