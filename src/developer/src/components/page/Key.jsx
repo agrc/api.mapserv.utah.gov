@@ -119,9 +119,10 @@ export const Component = () => {
                   <MetadataItem>
                     <CakeIcon className={iconStyle} />
                     <Banner>
-                      {dateFormatter.format(
-                        Date.parse(data?.created.toDate().toISOString()),
-                      )}
+                      {data?.created.toDate().toISOString() &&
+                        dateFormatter.format(
+                          Date.parse(data?.created.toDate().toISOString()),
+                        )}
                     </Banner>
                   </MetadataItem>
                 </Card>
