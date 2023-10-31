@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.1.2...developer-v2.1.3) (2023-10-31)
+
+
+### Bug Fixes
+
+* **developer:** correct race condition for key creation date ([cf241d0](https://github.com/agrc/api.mapserv.utah.gov/commit/cf241d0a0c5e76511dc74bc1a2ef324b4a8db992))
+
 ## [2.1.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.1.1...developer-v2.1.2) (2023-10-31)
 
 
