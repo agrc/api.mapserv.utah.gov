@@ -21,7 +21,7 @@ export function Component() {
   });
 
   return (
-    <article className="">
+    <article>
       <section className="relative mb-12 w-full px-6 md:mx-auto">
         <div className="bg-circuit absolute inset-0 h-32 bg-wavy-600 shadow-lg"></div>
         <div className="relative space-y-4">
@@ -40,7 +40,7 @@ export function Component() {
                   </p>
                 </div>
                 <div className="p-6 text-center">
-                  <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
+                  <div className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
                     {status === 'success' && response.data.length}
                     {status === 'error' && (
                       <div className="flex min-h-[32px] items-center justify-center">
@@ -59,7 +59,7 @@ export function Component() {
                         />
                       </div>
                     )}
-                  </p>
+                  </div>
                   <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
                     total keys
                   </p>
