@@ -67,11 +67,8 @@ public class AuthorizeApiKeyTests {
         apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
                .ReturnsAsync(new ApiKey("Api-Key") {
                    Elevated = false,
-                   Deleted = false,
-                   Enabled = ApiKey.KeyStatus.Active,
-                   Type = ApiKey.ApplicationType.Browser,
+                   Flags = new() { { "deleted", false }, { "disabled", false }, { "production", true }, { "server", false } },
                    RegularExpression = pattern,
-                   Configuration = ApiKey.ApplicationStatus.Production
                });
 
         var httpContext = new DefaultHttpContext();
@@ -146,11 +143,8 @@ public class AuthorizeApiKeyTests {
         apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
                .ReturnsAsync(new ApiKey("Api-Key") {
                    Elevated = false,
-                   Deleted = false,
-                   Enabled = ApiKey.KeyStatus.Active,
-                   Type = ApiKey.ApplicationType.Browser,
+                   Flags = new() { { "deleted", false }, { "disabled", false }, { "production", true }, { "server", false } },
                    RegularExpression = pattern,
-                   Configuration = ApiKey.ApplicationStatus.Production
                });
 
         var httpContext = new DefaultHttpContext();
@@ -187,11 +181,8 @@ public class AuthorizeApiKeyTests {
         apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
                .ReturnsAsync(new ApiKey("Api-Key") {
                    Elevated = false,
-                   Deleted = false,
-                   Enabled = ApiKey.KeyStatus.Active,
-                   Type = ApiKey.ApplicationType.Browser,
+                   Flags = new() { { "deleted", false }, { "disabled", false }, { "production", false }, { "server", false } },
                    RegularExpression = pattern,
-                   Configuration = ApiKey.ApplicationStatus.Development
                });
 
         var httpContext = new DefaultHttpContext();
@@ -243,9 +234,9 @@ public class AuthorizeApiKeyTests {
     }
 
     [Theory]
-    [InlineData(true, ApiKey.KeyStatus.Disabled)]
-    [InlineData(false, ApiKey.KeyStatus.Active)]
-    public async Task Should_404_disabled_or_deleted_keys(bool deleted, ApiKey.KeyStatus status) {
+    [InlineData(true, true)]
+    [InlineData(false, false)]
+    public async Task Should_404_disabled_or_deleted_keys(bool deleted, bool disabled) {
         var ipProvider = new Mock<IServerIpProvider>();
 
         var keyProvider = new Mock<IBrowserKeyProvider>();
@@ -256,11 +247,8 @@ public class AuthorizeApiKeyTests {
         apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
                .ReturnsAsync(new ApiKey("key") {
                    Elevated = false,
-                   Deleted = deleted,
-                   Enabled = status,
-                   Type = ApiKey.ApplicationType.Browser,
+                   Flags = new() { { "deleted", deleted }, { "disabled", disabled }, { "production", true }, { "server", false } },
                    RegularExpression = "pattern",
-                   Configuration = ApiKey.ApplicationStatus.Production
                });
 
         var httpContext = new DefaultHttpContext();
@@ -295,11 +283,8 @@ public class AuthorizeApiKeyTests {
         apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
                .ReturnsAsync(new ApiKey("key") {
                    Elevated = false,
-                   Deleted = false,
-                   Enabled = ApiKey.KeyStatus.Active,
-                   Type = ApiKey.ApplicationType.Server,
+                   Flags = new() { { "deleted", false }, { "disabled", false }, { "production", true }, { "server", true } },
                    Pattern = keyIp,
-                   Configuration = ApiKey.ApplicationStatus.Production
                });
 
         var httpContext = new DefaultHttpContext();
@@ -358,11 +343,8 @@ public class AuthorizeApiKeyTests {
         apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
                .ReturnsAsync(new ApiKey("key") {
                    Elevated = true,
-                   Deleted = false,
-                   Enabled = ApiKey.KeyStatus.Active,
-                   Type = ApiKey.ApplicationType.Browser,
+                   Flags = new() { { "deleted", false }, { "disabled", false }, { "production", true }, { "server", false } },
                    RegularExpression = "pattern",
-                   Configuration = ApiKey.ApplicationStatus.Production
                });
 
         var httpContext = new DefaultHttpContext();
