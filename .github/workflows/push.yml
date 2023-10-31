@@ -25,8 +25,8 @@ jobs:
         with:
           owner: ${{ github.repository_owner }}
           repositories: "api.mapserv.utah.gov"
-          app_id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
-          private_key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
+          app-id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
+          private-key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
 
       - name: ⬇️ Set up code
         uses: actions/checkout@v4
