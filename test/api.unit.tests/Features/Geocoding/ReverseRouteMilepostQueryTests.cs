@@ -10,7 +10,7 @@ namespace api.tests.Features.Geocoding;
 public class ReverseRouteMilepostQueryTests {
     private readonly ILogger _logger;
     private readonly IComputeMediator _computeMediator;
-    private readonly Uri _expectedUri = new("""https://maps.udot.utah.gov/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/geometryToMeasure?f=json&locations=%5B{"geometry"%3A{"x"%3A423692,"y"%3A4499779}}%5D&outSR=26912&inSR=26912&tolerance=100""");
+    private readonly Uri _expectedUri = new("""https://roads.udot.utah.gov/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1/geometryToMeasure?f=json&locations=%5B{"geometry"%3A{"x"%3A423692,"y"%3A4499779}}%5D&outSR=26912&inSR=26912&tolerance=100""");
     private readonly ReverseRouteMilepostQuery.Query _query = new(423692, 4499779, new());
     public ReverseRouteMilepostQueryTests() {
         _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
@@ -31,7 +31,7 @@ public class ReverseRouteMilepostQueryTests {
     [Fact]
     public async Task Should_handle_task_canceled_exceptions() {
         var handlerMock = TestHelpers.CreateHttpMessageHandlerThatThrows(new TaskCanceledException());
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new ReverseRouteMilepostQuery.Handler(_computeMediator, httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -48,7 +48,7 @@ public class ReverseRouteMilepostQueryTests {
     [Fact]
     public async Task Should_handle_task_http_exceptions() {
         var handlerMock = TestHelpers.CreateHttpMessageHandlerThatThrows(new HttpRequestException());
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new ReverseRouteMilepostQuery.Handler(_computeMediator, httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -65,7 +65,7 @@ public class ReverseRouteMilepostQueryTests {
     [Fact]
     public async Task Should_handle_content_reading_errors() {
         var handlerMock = TestHelpers.CreateHttpMessageHandler(new StringContent("not json"));
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new ReverseRouteMilepostQuery.Handler(_computeMediator, httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -82,7 +82,7 @@ public class ReverseRouteMilepostQueryTests {
     [Fact]
     public async Task Should_handle_error_response_content() {
         var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(new GeometryToMeasure.ResponseContract(null, new(400, "missing required parameter", null))));
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new ReverseRouteMilepostQuery.Handler(_computeMediator, httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -99,7 +99,7 @@ public class ReverseRouteMilepostQueryTests {
     [Fact]
     public async Task Should_returns_404_when_there_are_no_locations() {
         var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(new GeometryToMeasure.ResponseContract(null, null)));
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new ReverseRouteMilepostQuery.Handler(_computeMediator, httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -115,19 +115,19 @@ public class ReverseRouteMilepostQueryTests {
     }
     [Fact]
     public async Task Should_returns_404_when_status_is_not_ok() {
-        var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(new GeometryToMeasure.ResponseContract(new[] {
+        var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(new GeometryToMeasure.ResponseContract([
             new GeometryToMeasure.ResponseLocation {
                 Status = GeometryToMeasure.Status.esriLocatingCannotFindRoute,
-                Results = new []{
+                Results = [
                     new GeometryToMeasure.ResponseLocation{
                         RouteId = "0015PM",
                         Measure = 123.456789,
                         Geometry = new Point(1, 2)
                     }
-                }
+                ]
             },
-        }, null)));
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        ], null)));
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new ReverseRouteMilepostQuery.Handler(_computeMediator, httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -144,10 +144,10 @@ public class ReverseRouteMilepostQueryTests {
     [Fact]
     public async Task Should_returns_first_dominant_location() {
         var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(
-            new GeometryToMeasure.ResponseContract(new[] {
+            new GeometryToMeasure.ResponseContract([
                 new GeometryToMeasure.ResponseLocation {
                     Status = GeometryToMeasure.Status.esriLocatingOK,
-                    Results = new []{
+                    Results = [
                         new GeometryToMeasure.ResponseLocation{
                             RouteId = "12TVK22729954_GREENOAKS_DR",
                             Measure = 987.654321,
@@ -158,11 +158,11 @@ public class ReverseRouteMilepostQueryTests {
                             Measure = 300,
                             Geometry = new Point(1, 2)
                         },
-                    }
+                    ]
                 },
-            }, null))
+            ], null))
         );
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new ReverseRouteMilepostQuery.Handler(_computeMediator, httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -187,10 +187,10 @@ public class ReverseRouteMilepostQueryTests {
     [Fact]
     public async Task Should_handle_multiple_locations() {
         var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(
-            new GeometryToMeasure.ResponseContract(new[] {
+            new GeometryToMeasure.ResponseContract([
                 new GeometryToMeasure.ResponseLocation {
                     Status = GeometryToMeasure.Status.esriLocatingMultipleLocation,
-                    Results = new []{
+                    Results = [
                         new GeometryToMeasure.ResponseLocation{
                             RouteId = "0015PM",
                             Measure = 300,
@@ -202,11 +202,11 @@ public class ReverseRouteMilepostQueryTests {
                             Measure = 987.654321,
                             Geometry = new Point(3, 4)
                         }
-                    }
+                    ]
                 },
-            }, null))
+            ], null))
         );
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new ReverseRouteMilepostQuery.Handler(_computeMediator, httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;

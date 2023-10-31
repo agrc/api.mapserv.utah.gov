@@ -8,9 +8,9 @@ public class GeometryToMeasureTests {
     public void Should_create_valid_query_string() {
         // create new GeometryToMeasureTests.RequestContract with a RequestLocation
         var model = new GeometryToMeasure.RequestContract {
-            Locations = new[] {
+            Locations = [
                 new GeometryToMeasure.RequestLocation(new Point(1, 2))
-            },
+            ],
             Tolerance = 1,
             OutSr = 102100
         };
@@ -22,10 +22,10 @@ public class GeometryToMeasureTests {
     public void Should_create_valid_query_string_with_multiple_locations() {
         // create new GeometryToMeasure.RequestContract with a RequestLocation
         var model = new GeometryToMeasure.RequestContract {
-            Locations = new[] {
+            Locations = [
                new GeometryToMeasure.RequestLocation(new Point(1, 2)),
                new GeometryToMeasure.RequestLocation(new Point(3, 4))
-            },
+            ],
             Tolerance = 1
         };
 

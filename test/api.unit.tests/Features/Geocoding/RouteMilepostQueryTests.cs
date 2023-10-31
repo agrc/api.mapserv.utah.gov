@@ -8,7 +8,7 @@ namespace api.tests.Features.Geocoding;
 public class RouteMilepostQueryTests {
     private readonly ILogger _logger;
     private readonly ApiVersion _version;
-    private readonly Uri _expectedUri = new("""https://maps.udot.utah.gov/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/measureToGeometry?f=json&locations=%5B{"routeId"%3A"0015PM","measure"%3A"80"}%5D&outSR=26912""");
+    private readonly Uri _expectedUri = new("""https://roads.udot.utah.gov/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1/measureToGeometry?f=json&locations=%5B{"routeId"%3A"0015PM","measure"%3A"80"}%5D&outSR=26912""");
     private readonly RouteMilepostQuery.Query _query;
     public RouteMilepostQueryTests() {
         _logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock }.Object;
@@ -18,7 +18,7 @@ public class RouteMilepostQueryTests {
     [Fact]
     public async Task Should_handle_task_canceled_exceptions() {
         var handlerMock = TestHelpers.CreateHttpMessageHandlerThatThrows(new TaskCanceledException());
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
         var handler = new RouteMilepostQuery.Handler(httpClientFactory.Object, _logger);
 
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -35,7 +35,7 @@ public class RouteMilepostQueryTests {
     [Fact]
     public async Task Should_handle_task_http_exceptions() {
         var handlerMock = TestHelpers.CreateHttpMessageHandlerThatThrows(new HttpRequestException());
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new RouteMilepostQuery.Handler(httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -52,7 +52,7 @@ public class RouteMilepostQueryTests {
     [Fact]
     public async Task Should_handle_content_reading_errors() {
         var handlerMock = TestHelpers.CreateHttpMessageHandler(new StringContent("not json"));
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new RouteMilepostQuery.Handler(httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -71,7 +71,7 @@ public class RouteMilepostQueryTests {
         var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(
             new MeasureToGeometry.ResponseContract(null, null, new(400, "missing required parameter", null)))
         );
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new RouteMilepostQuery.Handler(httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -90,7 +90,7 @@ public class RouteMilepostQueryTests {
         var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(
             new MeasureToGeometry.ResponseContract(null, null, null))
         );
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new RouteMilepostQuery.Handler(httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -107,10 +107,10 @@ public class RouteMilepostQueryTests {
     [Fact]
     public async Task Should_returns_404_when_status_is_not_ok() {
         var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(
-            new MeasureToGeometry.ResponseContract(new[] {
+            new MeasureToGeometry.ResponseContract([
                 new MeasureToGeometry.ResponseLocation(MeasureToGeometry.Status.esriLocatingCannotFindRoute, null, null, GeometryType.esriGeometryPoint, null),
-            }, null, null)));
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+            ], null, null)));
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new RouteMilepostQuery.Handler(httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;
@@ -126,11 +126,11 @@ public class RouteMilepostQueryTests {
     }
     [Fact]
     public async Task Should_returns_first_location() {
-        var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(new MeasureToGeometry.ResponseContract(new[] {
+        var handlerMock = TestHelpers.CreateHttpMessageHandler(JsonContent.Create(new MeasureToGeometry.ResponseContract([
                 new MeasureToGeometry.ResponseLocation(MeasureToGeometry.Status.esriLocatingOK, null, "0015PM", GeometryType.esriGeometryPoint, new MeasureToGeometry.MeasurePoint(1, 2, 80)),
                 new MeasureToGeometry.ResponseLocation(MeasureToGeometry.Status.esriLocatingOK, null, "0015PM", GeometryType.esriGeometryPoint, new MeasureToGeometry.MeasurePoint(3, 4, 5))
-               }, null, null)));
-        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://maps.udot.utah.gov/");
+               ], null, null)));
+        var httpClientFactory = TestHelpers.CreateHttpClientFactory("udot", handlerMock.Object, "https://roads.udot.utah.gov/");
 
         var handler = new RouteMilepostQuery.Handler(httpClientFactory.Object, _logger);
         var result = await handler.Handle(_query, CancellationToken.None) as ApiResponseContract;

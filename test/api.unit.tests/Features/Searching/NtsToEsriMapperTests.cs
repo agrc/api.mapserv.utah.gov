@@ -46,10 +46,10 @@ public class NtsToEsriMapperTests {
 
     [Fact]
     public async Task Should_convert_multipoint_to_esri_geometry() {
-        var geometry = new MultiPoint(new[] {
+        var geometry = new MultiPoint([
             new Point(new Coordinate(1, 0)),
             new Point(new Coordinate(11, 10))
-        });
+        ]);
 
         var computation = new NtsToEsriMapper.Computation(geometry);
 
@@ -70,13 +70,13 @@ public class NtsToEsriMapperTests {
     [Fact]
     public async Task Should_convert_polyline_to_esri_geometry() {
         var geometry = new LineString(
-            new[] {
+            [
                 new Coordinate(0, 0),
                 new Coordinate(1, 0),
                 new Coordinate(1, 1),
                 new Coordinate(0, 1),
                 new Coordinate(0, 0),
-            }
+            ]
         );
 
         var computation = new NtsToEsriMapper.Computation(geometry);
@@ -101,21 +101,21 @@ public class NtsToEsriMapperTests {
 
     [Fact]
     public async Task Should_convert_multiline_to_esri_geometry() {
-        var geometry = new MultiLineString(new[] {
-            new LineString(new[] {
+        var geometry = new MultiLineString([
+            new LineString([
                 new Coordinate(0, 0),
                 new Coordinate(1, 0),
                 new Coordinate(1, 1),
                 new Coordinate(0, 1),
                 new Coordinate(0, 0),
-            }),
-            new LineString(new[] {
+            ]),
+            new LineString([
                 new Coordinate(10, 10),
                 new Coordinate(11, 10),
                 new Coordinate(11, 11),
                 new Coordinate(10, 11),
-            }),
-        });
+            ]),
+        ]);
 
         var computation = new NtsToEsriMapper.Computation(geometry);
 
@@ -140,13 +140,13 @@ public class NtsToEsriMapperTests {
     [Fact]
     public async Task Should_convert_polygon_to_esri_geometry() {
         var geometry = new Polygon(
-            new LinearRing(new[] {
+            new LinearRing([
                 new Coordinate(0, 0),
                 new Coordinate(1, 0),
                 new Coordinate(1, 1),
                 new Coordinate(0, 1),
                 new Coordinate(0, 0),
-            })
+            ])
         );
 
         var computation = new NtsToEsriMapper.Computation(geometry);
@@ -172,20 +172,20 @@ public class NtsToEsriMapperTests {
     [Fact]
     public async Task Should_convert_polygon_with_holes_to_esri_geometry() {
         var geometry = new Polygon(
-            new LinearRing(new[] {
+            new LinearRing([
                 new Coordinate(0, 0),
                 new Coordinate(1, 0),
                 new Coordinate(1, 1),
                 new Coordinate(0, 1),
                 new Coordinate(0, 0),
-            }), new[] {
-                new LinearRing(new [] {
+            ]), [
+                new LinearRing([
                     new Coordinate(.5,.5),
                     new Coordinate(.6, .6),
                     new Coordinate(.4,.6),
                     new Coordinate(.5, .5)
-                })
-            }
+                ])
+            ]
         );
 
         var computation = new NtsToEsriMapper.Computation(geometry);
@@ -219,19 +219,19 @@ public class NtsToEsriMapperTests {
     [Fact]
     public async Task Should_convert_multipolygon_to_esri_geometry() {
         var geometry = new MultiPolygon(
-            new[] {new Polygon(new LinearRing(new[] {
+            [new Polygon(new LinearRing([
                 new Coordinate(0, 0),
                 new Coordinate(1, 0),
                 new Coordinate(1, 1),
                 new Coordinate(0, 1),
                 new Coordinate(0, 0),
-            })), new Polygon(new LinearRing(new [] {
+            ])), new Polygon(new LinearRing([
                 new Coordinate(.5,.5),
                 new Coordinate(.6, .6),
                 new Coordinate(.4,.6),
                 new Coordinate(.5, .5)
-            }))
-            }
+            ]))
+            ]
         );
 
         var computation = new NtsToEsriMapper.Computation(geometry);

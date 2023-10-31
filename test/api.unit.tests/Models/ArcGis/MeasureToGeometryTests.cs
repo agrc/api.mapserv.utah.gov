@@ -7,9 +7,9 @@ public class MeasureToGeometryTests {
     public void Should_create_valid_query_string() {
         // create new MeasureToGeometry.RequestContract with a RequestLocation
         var model = new MeasureToGeometry.RequestContract {
-            Locations = new[] {
+            Locations = [
                 new MeasureToGeometry.RequestLocation("300", "0015PM"),
-            },
+            ],
             OutSr = 102100
         };
 
@@ -20,10 +20,10 @@ public class MeasureToGeometryTests {
     public void Should_create_valid_query_string_with_multiple_locations() {
         // create new MeasureToGeometry.RequestContract with a RequestLocation
         var model = new MeasureToGeometry.RequestContract {
-            Locations = new[] {
+            Locations = [
                 new MeasureToGeometry.RequestLocation("300", "0015PM"),
                 new MeasureToGeometry.RequestLocation("1", "0015PM"),
-            },
+            ],
             OutSr = 102100
         };
 

@@ -21,13 +21,13 @@ public static class DominantRouteResolverTests {
                 }
             };
 
-            var response = new Concurrencies.ResponseContract(new[] {
-                    new Concurrencies.ResponseLocations(new [] {
+            var response = new Concurrencies.ResponseContract([
+                    new Concurrencies.ResponseLocations([
                             new Concurrencies.ConcurrencyLocations(true,"1", -1, 1)
-                        }, "1", -1, 1),
+                        ], "1", -1, 1),
                     new Concurrencies.ResponseLocations(Array.Empty<Concurrencies.ConcurrencyLocations>(), "2", -1, 1),
                     new Concurrencies.ResponseLocations(Array.Empty<Concurrencies.ConcurrencyLocations>(), "3", -1, 1)
-            }, null);
+            ], null);
 
             var computation = new DominantRouteResolver.Computation(locations, null, 0);
 

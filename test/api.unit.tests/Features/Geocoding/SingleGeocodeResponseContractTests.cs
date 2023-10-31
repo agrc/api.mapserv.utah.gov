@@ -112,7 +112,7 @@ public class SingleGeocodeResponseContractTests {
                 point.Y.ShouldBe(2);
             }
 
-            feature.Attributes.GetNames().ShouldBe(new[] { "Location", "Score", "Locator", "MatchAddress", "InputAddress", "AddressGrid", "ScoreDifference", "Wkid", "Candidates" });
+            feature.Attributes.GetNames().ShouldBe(["Location", "Score", "Locator", "MatchAddress", "InputAddress", "AddressGrid", "ScoreDifference", "Wkid", "Candidates"]);
             feature.Attributes["Location"].ShouldNotBeNull();
             feature.Attributes["Score"].ShouldBe(score);
             feature.Attributes["Locator"].ShouldBe(locatorType.ToString());
@@ -189,7 +189,7 @@ public class SingleGeocodeResponseContractTests {
                 point.Y.ShouldBe(2);
             }
 
-            feature.Attributes.GetNames().ShouldBe(new[] { "srid", "score", "locator", "matchAddress", "inputAddress", "addressGrid" });
+            feature.Attributes.GetNames().ShouldBe(["srid", "score", "locator", "matchAddress", "inputAddress", "addressGrid"]);
             feature.Attributes["score"].ShouldBe(score);
             feature.Attributes["locator"].ShouldBe(locatorType.ToString());
             feature.Attributes["matchAddress"].ShouldBe("Test Address");
