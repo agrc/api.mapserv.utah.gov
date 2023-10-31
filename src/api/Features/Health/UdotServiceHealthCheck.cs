@@ -7,7 +7,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace AGRC.api.Features.Health;
 public class UdotServiceHealthCheck(IHttpClientFactory factory) : IHealthCheck {
-    private const string Url = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0?f=json";
+    private const string Url = "/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1?f=json";
     private readonly HttpClient _client = factory.CreateClient("udot");
     private readonly MediaTypeFormatter[] _mediaTypes = new MediaTypeFormatter[] {
             new TextPlainResponseFormatter()

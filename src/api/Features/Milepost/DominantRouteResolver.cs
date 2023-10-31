@@ -37,7 +37,7 @@ public class DominantRouteResolver {
             };
         private readonly ILogger? _log = log?.ForContext<DominantRouteResolver>();
         private readonly IDistanceStrategy _distance = distance;
-        private const string BaseUrl = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
+        private const string BaseUrl = "/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1/";
 
         public async Task<ReverseRouteMilepostResponseContract?> Handle(Computation computation, CancellationToken cancellationToken) {
             var query = new QueryString("?f=json");

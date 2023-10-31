@@ -218,7 +218,7 @@ public static class WebApplicationBuilderExtensions {
                 });
 
         builder.Services.AddHttpClient("udot", client => {
-            client.BaseAddress = new Uri("https://maps.udot.utah.gov/");
+            client.BaseAddress = new Uri("https://roads.udot.utah.gov/");
             client.Timeout = new TimeSpan(0, 0, 15);
         }).ConfigurePrimaryHttpMessageHandler(() => {
             var handler = new HttpClientHandler();

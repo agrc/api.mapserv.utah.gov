@@ -43,7 +43,7 @@ public partial class RouteMilepostQuery {
                 new TextPlainResponseFormatter()
             };
         private readonly ILogger? _log = log?.ForContext<RouteMilepostQuery>();
-        private const string BaseUrl = "/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
+        private const string BaseUrl = "/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1/";
 
         public async Task<IApiResponse> Handle(Query request, CancellationToken cancellationToken) {
             var requestContract = new MeasureToGeometry.RequestContract {
