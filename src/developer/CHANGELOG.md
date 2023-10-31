@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.1.1...developer-v2.1.2) (2023-10-31)
+
+
+### Bug Fixes
+
+* **developer:** correct html nesting ([6bb49ab](https://github.com/agrc/api.mapserv.utah.gov/commit/6bb49ab5bb929a503b15b78211ae6728e4841558))
+
 ## [2.1.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.1.0...developer-v2.1.1) (2023-10-31)
 
 
