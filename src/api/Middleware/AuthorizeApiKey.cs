@@ -28,7 +28,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
         // key hasn't been created
         if (apiKey == null) {
             _log?.ForContext("query", context.HttpContext.Request.Query)
-                .Information("unknown api key usage attempt for {key}", apiKey);
+                .Information("unknown api key usage attempt for {key}", key);
 
             return BadRequest("Your API key does match the pattern created in the self service website. " +
                 $"Check the referrer header on the request with the pattern for the api key `{key}`"
