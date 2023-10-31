@@ -127,32 +127,36 @@ export const Component = () => {
                 </Card>
                 <Card title="Type">
                   <MetadataItem>
-                    {data?.type === 'browser' ? (
-                      <ComputerDesktopIcon className={iconStyle} />
-                    ) : (
+                    {data?.flags.server ? (
                       <CpuChipIcon className={iconStyle} />
+                    ) : (
+                      <ComputerDesktopIcon className={iconStyle} />
                     )}
-                    <Banner>{data?.type}</Banner>
+                    <Banner>{data?.flags.server ? 'server' : 'browser'}</Banner>
                   </MetadataItem>
                 </Card>
                 <Card className="min-w-[250px]" title="Status">
                   <MetadataItem>
-                    {data?.status === 'active' ? (
-                      <PlayIcon className={iconStyle} />
-                    ) : (
+                    {data?.flags.disabled ? (
                       <PauseIcon className={iconStyle} />
+                    ) : (
+                      <PlayIcon className={iconStyle} />
                     )}
-                    <Banner>{data?.status}</Banner>
+                    <Banner>
+                      {data?.flags.disabled ? 'paused' : 'active'}
+                    </Banner>
                   </MetadataItem>
                 </Card>
                 <Card className="min-w-[250px]" title="Mode">
                   <MetadataItem>
-                    {data?.mode === 'live' ? (
+                    {data?.flags.production ? (
                       <CloudIcon className={iconStyle} />
                     ) : (
                       <BeakerIcon className={iconStyle} />
                     )}
-                    <Banner>{data?.mode}</Banner>
+                    <Banner>
+                      {data?.flags.production ? 'live' : 'development'}
+                    </Banner>
                   </MetadataItem>
                 </Card>
                 <Card className="min-w-[250px]" title="Usage">

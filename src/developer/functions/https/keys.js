@@ -24,7 +24,7 @@ export const getKeys = async (uid) => {
 
   const querySnapshot = await db
     .collection('/keys')
-    .where('deleted', '!=', true)
+    .where('flags.deleted', '==', false)
     .where('accountId', '==', uid)
     .withConverter(minimalKeyConversion)
     .get();
