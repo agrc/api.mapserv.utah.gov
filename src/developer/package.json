@@ -38,11 +38,11 @@
       "prettier-plugin-packagejson",
       "prettier-plugin-tailwindcss"
     ],
+    "semi": true,
+    "singleQuote": true,
     "tailwindFunctions": [
       "clsx"
-    ],
-    "semi": true,
-    "singleQuote": true
+    ]
   },
   "eslintConfig": {
     "env": {
