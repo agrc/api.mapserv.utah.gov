@@ -11,12 +11,15 @@ import {
   PlayIcon,
   ShieldExclamationIcon,
 } from '@heroicons/react/24/outline';
-import { doc } from 'firebase/firestore';
+import { useQueryClient } from '@tanstack/react-query';
+import { doc, updateDoc } from 'firebase/firestore';
+import { httpsCallable } from 'firebase/functions';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { useFirestore, useFirestoreDocDataOnce } from 'reactfire';
+import { useLoaderData, useParams } from 'react-router-dom';
+import { useFirestore, useFirestoreDocData, useFunctions } from 'reactfire';
 import { timeSince } from '../../../functions/time';
+import EditableText from '../EditableText';
 import Button, { RouterButtonLink } from '../design-system/Button';
 import Card from '../design-system/Card';
 import Spinner from '../design-system/Spinner';
@@ -37,8 +40,30 @@ const iconStyle =
 export const Component = () => {
   const { key } = useParams();
   const keyRef = useRef(doc(useFirestore(), `/keys/${key?.toLowerCase()}`));
+  const functions = useFunctions();
+  const getKeys = httpsCallable(functions, 'keys');
+  const loaderData = useLoaderData();
+  const queryClient = useQueryClient();
 
-  const { status, data } = useFirestoreDocDataOnce(keyRef.current);
+  const prefetchKeys = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: ['my keys', loaderData.user.uid],
+      queryFn: getKeys,
+    });
+  };
+
+  const mutateNotes = async (notes) => {
+    await updateDoc(keyRef.current, {
+      notes,
+    });
+
+    await queryClient.cancelQueries();
+    queryClient.invalidateQueries({ queryKey: ['my keys'] });
+
+    prefetchKeys();
+  };
+
+  const { status, data } = useFirestoreDocData(keyRef.current);
 
   if (status === 'success' && !data) {
     return (
@@ -190,12 +215,11 @@ export const Component = () => {
       {status === 'success' && data && (
         <section className="mx-auto mb-12 max-w-5xl p-6 md:col-span-2">
           <Card title="Key Notes">
-            <div className="flex flex-col items-center gap-4 p-4 text-wavy-800 dark:text-wavy-200">
-              {data?.pattern === 'api-client.ugrc.utah.gov'
-                ? 'This API key is special and can only be used with the UGRC API Client. It enabled desktop geocoding of CSV files of addresses.'
-                : data?.notes}
-              <Button>Edit</Button>
-            </div>
+            <EditableText
+              text={data?.notes}
+              pattern={data?.pattern}
+              onChange={mutateNotes}
+            />
           </Card>
         </section>
       )}
