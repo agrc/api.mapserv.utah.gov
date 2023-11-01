@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.1.3...developer-v2.2.0) (2023-11-01)
+
+
+### Features
+
+* **developer:** allow notes to be edited after creation ([2e39741](https://github.com/agrc/api.mapserv.utah.gov/commit/2e39741194a8122cfe1c5cb833dd1d2c9cf2e7b2))
+
 ## [2.1.3](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.1.2...developer-v2.1.3) (2023-10-31)
 
 
