@@ -112,6 +112,7 @@ export function Component() {
     enabled: loaderData.user?.uid.length ?? 0 > 0 ? true : false,
     onError: () => 'We had some trouble finding your keys.',
     gcTime: Infinity,
+    staleTime: Infinity,
   });
 
   return (
