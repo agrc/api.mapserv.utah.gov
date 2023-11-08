@@ -22,7 +22,7 @@ from time import perf_counter, sleep
 from pathlib import Path
 
 import arcpy
-from data.secrets import configuration
+from data.secrets import configuration as settings
 from forklift.arcgis import LightSwitch
 from forklift.models import Crate, Pallet
 from forklift.seat import format_time
@@ -38,7 +38,7 @@ class LocatorsPallet(Pallet):
 
         self.destination_coordinate_system = 26912
 
-    def build(self, config='Production'):
+    def build(self, configuration='Production'):
         self.arcgis_services = [
             ('Geolocators/AddressPoints_AddressSystem', 'GeocodeServer'),
             ('Geolocators/Roads_AddressSystem_STREET', 'GeocodeServer')
@@ -51,8 +51,8 @@ class LocatorsPallet(Pallet):
 
         self.copy_data = [str(Path(self.staging_rack) / 'locators')]
 
-        self.secrets = configuration[config]
-        self.configuration = config
+        self.secrets = settings[configuration]
+        self.log.info('configuration: %s %s', configuration, ','.join(self.secrets.keys()))
         self.output_location = Path(self.secrets['path_to_locators'].replace('\\', '/'))
 
         self.locators = Path(self.staging_rack) / 'locators.gdb'
@@ -94,6 +94,7 @@ class LocatorsPallet(Pallet):
                 self.log.error('error removing temp locator folder: %s', e, exc_info=True)
 
     def ship(self):
+        self.log.info('%s', ','.join(self.secrets.keys()))
         servers = self.secrets['servers']
 
         if 'options' in servers.keys():
