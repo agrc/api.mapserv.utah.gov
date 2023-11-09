@@ -107,6 +107,6 @@ $RECYCLE.BIN/
 *.pyc
 .vs/
 logs/
-secrets.py
+api_secrets.py
 *.json
 *.raven-database-topology
