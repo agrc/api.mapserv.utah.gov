@@ -23,12 +23,12 @@ from shutil import copyfile, rmtree
 from time import perf_counter
 
 import arcpy
-from forklift.models import Crate, Pallet
-from forklift.seat import format_time
+from data.cloud_secrets import configuration as secrets
 from google.cloud import pubsub_v1, storage
 from google.oauth2 import service_account
 
-from data.secrets import configuration as secrets
+from forklift.models import Crate, Pallet
+from forklift.seat import format_time
 
 
 class CloudLocatorsPallet(Pallet):
@@ -91,13 +91,11 @@ class CloudLocatorsPallet(Pallet):
         with credential_file.open() as reader:
             credential_data = load(reader)
 
-        credentials = service_account.Credentials.from_service_account_info(
-            credential_data
-        )
+        credentials = service_account.Credentials.from_service_account_info(credential_data)
 
-        project_id = self.secrets["project_id"]
+        project_id = "ut-dts-agrc-web-api-dev"
         storage_client = storage.Client(project=project_id, credentials=credentials)
-        self.bucket = storage_client.bucket(self.secrets["storage_bucket"])
+        self.bucket = storage_client.bucket("ut-ugrc-locator-services")
 
         self.publisher = pubsub_v1.PublisherClient(credentials=credentials)
         self.topic = self.publisher.topic_path(project_id, "locator-data-updated")
@@ -137,9 +135,7 @@ class CloudLocatorsPallet(Pallet):
             try:
                 rmtree(rebuild_path)
             except OSError as error:
-                self.log.error(
-                    "error removing temp locator folder: %s", error, exc_info=True
-                )
+                self.log.error("error removing temp locator folder: %s", error, exc_info=True)
 
     def ship(self) -> bool:
         """Invoked whether the crates have updates or not.
@@ -180,11 +176,7 @@ class CloudLocatorsPallet(Pallet):
             "geocoderoads": "Roads_AddressSystem_STREET",
         }
 
-        return set(
-            lookup[crate.source_name.lower()]
-            for crate in self.get_crates()
-            if crate.was_updated()
-        )
+        return set(lookup[crate.source_name.lower()] for crate in self.get_crates() if crate.was_updated())
 
     def copy_locator_to(self, file_path: Path, locator: str, to_folder: Path) -> None:
         """this copies files from one folder to another folder matching the locator name
@@ -308,9 +300,7 @@ class CloudLocatorsPallet(Pallet):
         self.log.info("finished %s", format_time(perf_counter() - process_seconds))
         self.log.info("done %s", format_time(perf_counter() - start_seconds))
 
-    def update_locator_properties(
-        self, locator: arcpy.geocoding.Locator, locator_path: str
-    ) -> None:
+    def update_locator_properties(self, locator: arcpy.geocoding.Locator, locator_path: str) -> None:
         """Updates the locator instance and property file with UGRC defaults
 
         Args:
@@ -346,9 +336,7 @@ if __name__ == "__main__":
     parser.add_argument("--create", action="store_true", default=False)
     parser.add_argument("--rebuild", action="store_true", default=False)
     parser.add_argument("--ship", action="store_true", default=False)
-    parser.add_argument(
-        "--locator", nargs="?", choices=["Roads", "AddressPoints"], default="Roads"
-    )
+    parser.add_argument("--locator", nargs="?", choices=["Roads", "AddressPoints"], default="Roads")
     parser.add_argument(
         "--configuration",
         nargs="?",
