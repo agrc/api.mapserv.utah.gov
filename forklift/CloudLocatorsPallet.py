@@ -23,12 +23,11 @@ from shutil import copyfile, rmtree
 from time import perf_counter
 
 import arcpy
-from data.cloud_secrets import configuration as secrets
-from google.cloud import pubsub_v1, storage
-from google.oauth2 import service_account
-
+from cloud_data.cloud_secrets import configuration as secrets
 from forklift.models import Crate, Pallet
 from forklift.seat import format_time
+from google.cloud import pubsub_v1, storage
+from google.oauth2 import service_account
 
 
 class CloudLocatorsPallet(Pallet):

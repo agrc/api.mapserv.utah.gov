@@ -18,7 +18,7 @@ src/explorer/src/styles/tailwind.css
 src/explorer/.astro
 
 # forklift
-forklift/data/cloud_secrets.py
+forklift/cloud_data/cloud_secrets.py
 forklift/gcp_service_account.json
 forklift/.env
 __pycache__
