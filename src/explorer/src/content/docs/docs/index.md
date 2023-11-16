@@ -13,7 +13,6 @@ Geocoding allows you to get the geographic location (i.e., the geographical coor
 - Get the coordinates of a route and milepost
 - Get the address of a coordinate
 - Get the route and milepost of a coordinate
-  {.list-disc}
 
 ### Searching
 
