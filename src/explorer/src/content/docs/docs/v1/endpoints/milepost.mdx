@@ -1,0 +1,146 @@
+---
+title: "Route and Milepost Geocoding"
+description: "Everything roads, highways, and addresses"
+sidebar:
+  order: 2
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Card } from "@astrojs/starlight/components";
+import Uri from "../../../../../components/Uri.astro";
+import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
+import OutputFormat from "../../../../../components/parameters/OutputFormat.mdx";
+import Callback from "../../../../../components/parameters/Callback.mdx";
+
+Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from text. This UGRC API endpoint allows you to get the coordinates of a highway number and milepost. This endpoint uses the UDOT Roads and Highways system as its authoritative data source.
+
+### URI Format
+
+<Uri
+  verb="GET"
+  endpoint="geocode/milepost"
+  properties={["route", "milepost"]}
+/>
+
+### Parameters
+
+<Card title="Required Path parameters" icon="approve-check">
+
+##### route
+
+A Utah highway number. Omit the interstate or state route prefix.
+
+- **Type**: `number`
+- **Example**: `15`
+
+##### milepost
+
+A milepost number along the route. The precisions is 1/1000 (3 decimal places) of a mile which is approximately 5 feet.
+
+- **Type**: `number`
+- **Example**: `309.001`
+
+</Card>
+<Card title="Optional Query parameters" icon="setting">
+
+##### side
+
+Mileposts, on divided highways, have different locations when traveling along the route in the increasing or decreasing direction. When traveling in the increasing direction milepost values are getting larger and when traveling on the decreasing side of the divided highway, the milepost values are getting smaller.
+
+:::note
+Side only applies to divided highways.
+:::
+
+- **Type**: `string`
+- **Default**: `increasing`
+- **Can be one of**: `increasing`, `decreasing`
+
+##### fullRoute
+
+Advanced clients who know the full route name, e.g., `0015PC30554` as it is stored in the UDOT Roads and Highway system can enable this flag and search using the full route name.
+
+:::note
+When this option is `true` the `route` path parameter changes from a number to a string. `side` is ignored since that information is included in the full `route` string.
+:::
+
+- **Type**: `boolean`
+- **Default**: `false`
+- **Can be one of**: `true`, `false`
+
+<SpatialReference />
+
+<OutputFormat />
+
+<Callback />
+
+</Card>
+
+## Response Shapes
+
+<Tabs>
+	<TabItem label="Successful Example">
+  ```json
+{
+    "result": {
+      "source": "UDOT Roads and Highways",
+      "location": {
+        "x": 423189.63207006006,
+        "y": 4513941.741726235
+      },
+      "matchRoute": "Route 15P, Milepost 309.001"
+    },
+    "status": 200
+}
+```
+</TabItem>
+	<TabItem label="Error Example">
+  :::tip
+  Be sure to inspect the failed requests as they contain useful information. `401` status codes equates to your API key having problems. `404` equates to the route and milepost not being found. `200` is successful.
+  :::
+
+```json
+{
+  "status": 401,
+  "message": ""
+}
+```
+
+  </TabItem>
+  <TabItem label="JSON Schema">
+```json
+{
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          }
+        },
+        "matchRoute": {
+          "type": "string",
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "UDOT Roads and Highways",
+          ]
+        },
+      },
+      "status": {
+        "type": "integer"
+      }
+    }
+  }
+}
+```
+  </TabItem>
+</Tabs>

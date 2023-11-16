@@ -1,25 +1,22 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
+import Chrome from '../layouts/Chrome.astro';
 ---
-<MainLayout>
-  <section class="bg-topo p-6 border-b border-slate-400 shadow-xs">
+
+<Chrome>
+  <section class="bg-hero-topography-wavy-10 p-6 border-b border-slate-400 shadow-xs">
     <div class="text-center">
-      <h1
-        class="md:text-5xl text-4xl text-slate-800 leading-tight font-extrabold tracking-tight"
-      >
+      <h1 class="md:text-5xl text-4xl text-slate-800 leading-tight font-extrabold tracking-tight">
         Getting <span class="text-wavy-600">started</span>
       </h1>
-      <h2
-        class="md:text-3xl text-2xl block text-slate-700 font-light tracking-tight"
-      >
-        Your first <span class="font-semibold">successful</span> request in <span
-          class="text-wavy-600 font-semibold">3</span
+      <h2 class="md:text-3xl text-2xl block text-slate-700 font-light tracking-tight">
+        Your first <span class="font-semibold">successful</span> request in <span class="text-wavy-600 font-semibold"
+          >3</span
         > steps.
       </h2>
     </div>
     <section class="px-6 max-w-5xl mx-auto md:mt-3">
       <div class="mt-6 md:mt-8">
-        <ul class="md:grid md:grid-cols-2 md:gap-8 md:row-gap-10">
+        <ul class="md:grid md:grid-cols-2 md:gap-8 md:row-gap-10 list-none">
           <li>
             <div class="flex">
               <div class="flex-shrink-0 md:self-center">
@@ -31,9 +28,7 @@ import MainLayout from '../layouts/MainLayout.astro';
               </div>
               <div class="ml-4">
                 <h5 class="text-lg font-medium">
-                  Create a complimentary account<p
-                    class="text-base text-slate-500"
-                  >
+                  Create a complimentary account<p class="text-base text-slate-500">
                     Manage and view analytics for all of your API keys.
                   </p>
                 </h5>
@@ -51,9 +46,7 @@ import MainLayout from '../layouts/MainLayout.astro';
               </div>
               <div class="ml-4">
                 <h5 class="text-lg font-medium">
-                  Confirm your email<p class="text-base text-slate-500">
-                    Confirm ownership and control spam and bots.
-                  </p>
+                  Confirm your email<p class="text-base text-slate-500">Confirm ownership and control spam and bots.</p>
                 </h5>
               </div>
             </div>
@@ -91,7 +84,8 @@ import MainLayout from '../layouts/MainLayout.astro';
                     Use your favorite programming language or an UGRC tool. Maybe the <a
                       href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient"
                       class="text-mustard-900 italic font-medium active:text-mustard-500 focus:outline-none underline underline-offset-2 hover:underline-offset-4 decoration-mustard-500 active:underline-offset-8 active:decoration-mustard-600 hover:decoration-2 transition-all"
-                      >API Client</a>?
+                      >API Client</a
+                    >?
                   </p>
                 </h5>
               </div>
@@ -104,9 +98,7 @@ import MainLayout from '../layouts/MainLayout.astro';
       <aside
         class="max-w-xl w-full mt-6 md:mb-6 md:mt-10 flex sm:item-center justify-evenly flex-wrap bg-white p-5 rounded-lg border border-slate-300"
       >
-        <h2
-          class="text-2xl leading-7 font-extrabold tracking-tight sm:text-2xl sm:leading-6"
-        >
+        <h2 class="text-2xl leading-7 font-extrabold tracking-tight sm:text-2xl sm:leading-6">
           Ready to dive in?<br />
           <span class="text-wavy-600">Get your API key today.</span>
         </h2>
@@ -124,46 +116,39 @@ import MainLayout from '../layouts/MainLayout.astro';
   </section>
   <section class="p-6 border-b border-slate-400">
     <div class="md:px-6 max-w-5xl mx-auto">
-      <h2 id="key-creation" class="text-3xl font-thin mb-3 ml-2">
-        Key Creation
-      </h2>
+      <h2 id="key-creation" class="text-3xl font-thin mb-3 ml-2">Key Creation</h2>
       <p class="mt-0 text-lg">
-        Once you have an account and confirmed ownership of your email address,
-        you can <a href="https://developer.mapserv.utah.gov/secure/GenerateKey"
-          >generate API keys</a
-        >. Each key is specific to an application you have created; either a
-        browser or desktop based application. Browser based applications run in
-        a web browser. For example, the React geocoding component
-        <a href="https://github.com/agrc/kitchen-sink/tree/main/packages/dart-board" class="text-mustard-900 italic font-medium active:text-mustard-500 focus:outline-none underline underline-offset-2 hover:underline-offset-4 decoration-mustard-500 active:underline-offset-8 active:decoration-mustard-600 hover:decoration-2 transition-all">dartboard</a>, running on <a href="https://atlas.utah.gov" class="text-mustard-900 italic font-medium active:text-mustard-500 focus:outline-none underline underline-offset-2 hover:underline-offset-4 decoration-mustard-500 active:underline-offset-8 active:decoration-mustard-600 hover:decoration-2 transition-all">atlas.utah.gov</a> is a browser based application.
-        The request to the UGRC API is
-        created in javascript running inside the browser using the browser's
-        fetch API or with an XHR request. Desktop based applications run on a
-        computer or a server. For example, the <a href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient"
-          class="text-mustard-900 italic font-medium active:text-mustard-500 focus:outline-none underline underline-offset-2 hover:underline-offset-4 decoration-mustard-500 active:underline-offset-8 active:decoration-mustard-600 hover:decoration-2 transition-all">API Client</a> is running on your
-        desktop. The request to the UGRC API is called directly or indirectly from
-        a server side programming language or scripting language like Python, Java, or
-        C#.
+        Once you have an account and confirmed ownership of your email address, you can <a
+          href="https://developer.mapserv.utah.gov/secure/GenerateKey">generate API keys</a
+        >. Each key is specific to an application you have created; either a browser or desktop based application.
+        Browser based applications run in a web browser. For example, the React geocoding component
+        <a
+          href="https://github.com/agrc/kitchen-sink/tree/main/packages/dart-board"
+          class="text-mustard-900 italic font-medium active:text-mustard-500 focus:outline-none underline underline-offset-2 hover:underline-offset-4 decoration-mustard-500 active:underline-offset-8 active:decoration-mustard-600 hover:decoration-2 transition-all"
+          >dartboard</a
+        >, running on <a
+          href="https://atlas.utah.gov"
+          class="text-mustard-900 italic font-medium active:text-mustard-500 focus:outline-none underline underline-offset-2 hover:underline-offset-4 decoration-mustard-500 active:underline-offset-8 active:decoration-mustard-600 hover:decoration-2 transition-all"
+          >atlas.utah.gov</a
+        > is a browser based application. The request to the UGRC API is created in javascript running inside the
+        browser using the browser's fetch API or with an XHR request. Desktop based applications run on a computer or a
+        server. For example, the <a
+          href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient"
+          class="text-mustard-900 italic font-medium active:text-mustard-500 focus:outline-none underline underline-offset-2 hover:underline-offset-4 decoration-mustard-500 active:underline-offset-8 active:decoration-mustard-600 hover:decoration-2 transition-all"
+          >API Client</a
+        > is running on your desktop. The request to the UGRC API is called directly or indirectly from a server side
+        programming language or scripting language like Python, Java, or C#.
       </p>
     </div>
   </section>
   <section class="w-full relative">
     <div class="bg-circuit bg-wavy-600 h-64 absolute inset-0 shadow-lg"></div>
     <div class="px-6 max-w-5xl mx-auto z-10 relative">
-      <h2
-        class="text-3xl font-thin mb-3 ml-2 pt-3 md:col-span-2 text-white text-center"
-      >
-        Choosing the key type
-      </h2>
+      <h2 class="text-3xl font-thin mb-3 ml-2 pt-3 md:col-span-2 text-white text-center">Choosing the key type</h2>
       <div class="md:grid md:grid-cols-2 md:gap-10">
         <div class="bg-slate-100 shadow-md rounded-lg border border-slate-300">
-          <h3
-            class="bg-white px-5 pt-5 text-xl uppercase font-bold text-wavy-600 rounded-lg"
-          >
-            Browser
-          </h3>
-          <p class="bg-white pb-3 px-5 text-slate-600">
-            Requests are made by JavaScript running in a browser
-          </p>
+          <h3 class="bg-white px-5 pt-5 text-xl uppercase font-bold text-wavy-600 rounded-lg">Browser</h3>
+          <p class="bg-white pb-3 px-5 text-slate-600">Requests are made by JavaScript running in a browser</p>
           <div class="pt-2 pb-6 border-slate-200 border-t">
             <div class="flex flex-wrap px-5">
               <div
@@ -204,17 +189,10 @@ import MainLayout from '../layouts/MainLayout.astro';
             </div>
           </div>
         </div>
-        <div
-          class="bg-slate-100 shadow-md rounded-lg border border-slate-300 mt-6 md:mt-0"
-        >
-          <h3
-            class="bg-white px-5 pt-5 text-xl uppercase font-bold text-wavy-600 rounded-lg"
-          >
-            Desktop
-          </h3>
+        <div class="bg-slate-100 shadow-md rounded-lg border border-slate-300 mt-6 md:mt-0">
+          <h3 class="bg-white px-5 pt-5 text-xl uppercase font-bold text-wavy-600 rounded-lg">Desktop</h3>
           <p class="bg-white pb-3 px-5 text-slate-600">
-            Requests are made by code or a tool executing on a computer or a
-            server
+            Requests are made by code or a tool executing on a computer or a server
           </p>
           <div class="pt-2 pb-6 border-slate-200 border-t">
             <div class="flex flex-wrap px-5">
@@ -265,21 +243,12 @@ import MainLayout from '../layouts/MainLayout.astro';
     </div>
   </section>
   <section class="max-w-5xl mt-6 md:mx-auto md:grid md:grid-cols-2 md:gap-5">
-    <h2 id="browser-key" class="text-3xl font-thin mb-3 ml-2 px-6 col-span-2">
-      Choosing a browser key
-    </h2>
+    <h2 id="browser-key" class="text-3xl font-thin mb-3 ml-2 px-6 col-span-2 mt-0">Choosing a browser key</h2>
     <div class="md:col-span-2 text-center flex mb-6">
-      <div
-        class="p-2 bg-wavy-800 items-center text-wavy-100 lg:rounded flex lg:inline-flex"
-        role="alert"
-      >
-        <span
-          class="flex rounded-full bg-wavy-500 uppercase px-2 py-1 text-xs font-bold mr-3"
-          >tip</span
-        >
+      <div class="p-2 bg-wavy-800 items-center text-wavy-100 lg:rounded flex lg:inline-flex" role="alert">
+        <span class="flex rounded-full bg-wavy-500 uppercase px-2 py-1 text-xs font-bold mr-3">tip</span>
         <span class="font-semibold mr-2 text-left flex-auto"
-          >During local development of browser based applications, the
-          Application Status of the key needs to be set to <span
+          >During local development of browser based applications, the Application Status of the key needs to be set to <span
             class="font-semibold">Development</span
           > for requests originating from localhost or machine name urls to be successful.</span
         >
@@ -287,28 +256,22 @@ import MainLayout from '../layouts/MainLayout.astro';
     </div>
     <div class="px-6 max-w-5xl mx-auto">
       <p class="mt-0 text-lg">
-        The UGRC API collects analytics and authenticates requests with your
-        browser key. Since your application is running in a browser, the API key
-        is in public view. To ensure that the analytics are accurate, the key
-        that you create for the application will contain the url the requests
-        originate from.
+        The UGRC API collects analytics and authenticates requests with your browser key. Since your application is
+        running in a browser, the API key is in public view. To ensure that the analytics are accurate, the key that you
+        create for the application will contain the url the requests originate from.
       </p>
       <p class="text-lg mt-6">
-        For example, if your react application is running on atlas.utah.gov,
-        your key pattern will simply equal the DNS name. If your ember
-        application is running on gis.utah.gov/my-application, then your key
-        will also equal the URL.
+        For example, if your react application is running on atlas.utah.gov, your key pattern will simply equal the DNS
+        name. If your ember application is running on gis.utah.gov/my-application, then your key will also equal the
+        URL.
       </p>
       <p class="text-lg mt-6">
-        To get the URL pattern correct when creating the key, reference the
-        table for examples. Be sure to always read the response body when making
-        requests to an endpoint. Failed requests will provide helpful
-        information to correct the issue
+        To get the URL pattern correct when creating the key, reference the table for examples. Be sure to always read
+        the response body when making requests to an endpoint. Failed requests will provide helpful information to
+        correct the issue
       </p>
     </div>
-    <table
-      class="table-auto shadow-md border border-slate-300 mx-6 mt-6 md:mt-0 md:max-w-5xl md:mr-6"
-    >
+    <table class="table-auto shadow-md border border-slate-300 mx-6 mt-6 md:mt-0 md:max-w-5xl md:mr-6">
       <thead>
         <tr>
           <th
@@ -324,20 +287,12 @@ import MainLayout from '../layouts/MainLayout.astro';
       <tbody class="bg-white">
         <tr>
           <td class="border-b border-slate-200 p-2">
-            <span class="text-wavy-600 block leading-loose"
-              >www.example.com</span
-            >
-            <span class="text-wavy-600 block leading-loose"
-              >www.example.com/</span
-            >
-            <span class="text-wavy-600 block leading-loose"
-              >www.example.com/*</span
-            >
+            <span class="text-wavy-600 block leading-loose">www.example.com</span>
+            <span class="text-wavy-600 block leading-loose">www.example.com/</span>
+            <span class="text-wavy-600 block leading-loose">www.example.com/*</span>
           </td>
           <td class="border-b border-slate-200 p-2"
-            >Matches all referrers in the domain <span class="text-wavy-600"
-              >www.example.com</span
-            >
+            >Matches all referrers in the domain <span class="text-wavy-600">www.example.com</span>
           </td>
         </tr>
         <tr>
@@ -345,9 +300,7 @@ import MainLayout from '../layouts/MainLayout.astro';
             <span class="text-wavy-600">example.com/*</span>
           </td>
           <td class="border-b border-slate-200 p-2"
-            >Matches only referrers at <span class="text-wavy-600"
-              >example.com</span
-            >, but no subdomains</td
+            >Matches only referrers at <span class="text-wavy-600">example.com</span>, but no subdomains</td
           >
         </tr>
         <tr>
@@ -355,48 +308,29 @@ import MainLayout from '../layouts/MainLayout.astro';
             <span class="text-wavy-600">*.example.com</span>
           </td>
           <td class="border-b border-slate-200 p-2"
-            >Matches all referrers at all subdomains of <span
-              class="text-wavy-600">example.com</span
-            >
+            >Matches all referrers at all subdomains of <span class="text-wavy-600">example.com</span>
           </td>
         </tr>
         <tr>
           <td class="border-b border-slate-200 p-2">
-            <span class="text-wavy-600 block leading-loose"
-              >example.com/test</span
-            >
-            <span class="text-wavy-600 block leading-loose"
-              >example.com/test/</span
-            >
-            <span class="text-wavy-600 block leading-loose"
-              >example.com/test/*</span
-            >
+            <span class="text-wavy-600 block leading-loose">example.com/test</span>
+            <span class="text-wavy-600 block leading-loose">example.com/test/</span>
+            <span class="text-wavy-600 block leading-loose">example.com/test/*</span>
           </td>
           <td class="border-b border-slate-200 p-2"
-            >Matches all referrers in <span class="text-wavy-600"
-              >example.com/test/</span
-            > and all subpaths</td
+            >Matches all referrers in <span class="text-wavy-600">example.com/test/</span> and all sub paths</td
           >
         </tr>
       </tbody>
     </table>
   </section>
   <section class="max-w-5xl mx-auto mt-6">
-    <h2 id="desktop-key" class="text-3xl font-thin mb-3 ml-2 px-6 col-span-2">
-      Choosing a desktop key
-    </h2>
+    <h2 id="desktop-key" class="text-3xl font-thin mb-3 ml-2 px-6 col-span-2">Choosing a desktop key</h2>
     <div class="md:col-span-2 text-center lg:px-4 flex mb-6">
-      <div
-        class="p-2 bg-wavy-800 items-center text-wavy-100 lg:rounded flex lg:inline-flex"
-        role="alert"
-      >
-        <span
-          class="flex rounded-full bg-wavy-500 uppercase px-2 py-1 text-xs font-bold mr-3"
-          >tip</span
-        >
+      <div class="p-2 bg-wavy-800 items-center text-wavy-100 lg:rounded flex lg:inline-flex" role="alert">
+        <span class="flex rounded-full bg-wavy-500 uppercase px-2 py-1 text-xs font-bold mr-3">tip</span>
         <span class="font-semibold mr-2 text-left flex-auto"
-          >A common mistake is to use your local IP address. Check with a
-          website like <a
+          >A common mistake is to use your local IP address. Check with a website like <a
             class="hover:underline hover:text-wavy-400 text-wavy-200 transition ease-in-out duration-150 cursor-pointer"
             rel="noopener noreferrer"
             target="_blank">what is my ip</a
@@ -406,22 +340,18 @@ import MainLayout from '../layouts/MainLayout.astro';
     </div>
     <div class="px-6 max-w-5xl mx-auto">
       <p class="mt-0 text-lg">
-        The UGRC API collects analytics and authorizes requests with your
-        desktop key. To ensure that the analytics are accurate, the key that you
-        create for the application will contain the IP address the requests
-        originate from.
+        The UGRC API collects analytics and authorizes requests with your desktop key. To ensure that the analytics are
+        accurate, the key that you create for the application will contain the IP address the requests originate from.
       </p>
       <p class="text-lg mt-6">
-        For example, if you are using the UGRC Geocoding Tool in ArcGIS Pro, the
-        requests the tool creates will originate from the IP address assigned to
-        you from your internet service provider. This address is not always
+        For example, if you are using the UGRC Geocoding Tool in ArcGIS Pro, the requests the tool creates will
+        originate from the IP address assigned to you from your internet service provider. This address is not always
         static and multiple keys may need to be created over time.
       </p>
       <p class="text-lg mt-6">
-        Be sure to always read the response body when making requests to an
-        endpoint. Failed requests will provide helpful information to solve
-        the issue.
+        Be sure to always read the response body when making requests to an endpoint. Failed requests will provide
+        helpful information to solve the issue.
       </p>
     </div>
   </section>
-</MainLayout>
+</Chrome>

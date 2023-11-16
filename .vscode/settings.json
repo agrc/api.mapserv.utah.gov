@@ -13,6 +13,7 @@
     "arcpy",
     "aspnetcore",
     "astro",
+    "astrojs",
     "atlnamesaddrpnts",
     "atlnamesroads",
     "autodocs",
@@ -45,15 +46,18 @@
     "heroicons",
     "hookform",
     "immer",
+    "jquery",
     "kube",
     "kubectl",
     "kubernetes",
     "Kustomize",
     "labelledby",
+    "lcub",
     "levelname",
     "Linkables",
     "loadbalancer",
     "mapserv",
+    "mdash",
     "mediatr",
     "midvale",
     "multipoint",
@@ -61,6 +65,7 @@
     "Newtonsoft",
     "noopener",
     "noreferrer",
+    "nowrap",
     "npgsql",
     "oidc",
     "openapi",
@@ -105,6 +110,8 @@
     "tailwind",
     "tailwindcss",
     "tanstack",
+    "tbody",
+    "thead",
     "TOADDR",
     "udot",
     "UGRC",
@@ -196,5 +203,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnPaste": true
   },
-  "dotnet.defaultSolution": "api.mapserv.utah.gov.sln"
+  "dotnet.defaultSolution": "api.mapserv.utah.gov.sln",
+  "cSpell.enableFiletypes": [
+    "astro"
+  ]
 }

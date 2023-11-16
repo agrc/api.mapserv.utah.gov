@@ -1,0 +1,13 @@
+@config "../tailwind.docs.config.mjs";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  html {
+    font-family: var(--sl-font);
+  }
+  body {
+    margin: 0;
+  }
+}

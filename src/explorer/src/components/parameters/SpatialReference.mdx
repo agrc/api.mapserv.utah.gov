@@ -1,0 +1,22 @@
+##### spatialReference
+
+The spatial reference defines how the coordinates will represent a location on the earth defined by how the round earth was made flat. The well known id's (WKID) of different coordinate systems define if the coordinates will be stored as degrees of longitude and latitude, meters, feet, etc. This endpoint supports the WKIDs from the [Geographic Coordinate System](https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/pdf/geographic_coordinate_systems.pdf) reference and the [Projected Coordinate System](https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/pdf/projected_coordinate_systems.pdf) reference. UTM Zone 12 N, with the WKID of **26912**, is the default. This coordinate system is the most accurate reflection of Utah. It is recommended to use this coordinate system if length and area calculations are important as other coordinate systems will skew the truth.
+
+- **Type**: `number`
+- **Default**: `26912`
+
+:::tip[Popular Spatial Reference Ids]
+
+| WKID  | NAME                       | REASON                                                                                                                                                      |
+| ----- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 26912 | UTM Zone 12 N              | This is the State standard for all Utah spatial data. It has the least distortion for the state of Utah and the most accurate length and area calculations. |
+| 3857  | Web Mercator               | This is the standard for all data being displayed on a web map. Most base map services are using a web mercator projection.                                 |
+| 4325  | Latitude/Longitude (WGS84) | This is the ubiquitous standard for spatial data. Many systems understand this format which makes it a good for interoperability.                           |
+
+:::
+
+###### Reference Information
+
+- [What are map projections?](https://desktop.arcgis.com/en/arcmap/latest/map/projections/what-are-map-projections.htm)
+- [What are projected coordinate systems?](https://desktop.arcgis.com/en/arcmap/latest/map/projections/about-projected-coordinate-systems.htm)
+- [What are geographic coordinate systems?](https://desktop.arcgis.com/en/arcmap/latest/map/projections/about-geographic-coordinate-systems.htm)

@@ -1,0 +1,205 @@
+---
+title: "Street and Zone Geocoding"
+description: "Everything roads, highways, and addresses"
+sidebar:
+  order: 1
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Card } from "@astrojs/starlight/components";
+import Uri from "../../../../../components/Uri.astro";
+import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
+import OutputFormat from "../../../../../components/parameters/OutputFormat.mdx";
+import Callback from "../../../../../components/parameters/Callback.mdx";
+
+Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from text. This UGRC API endpoint allows you to get the coordinates of a street address and zone. You can learn so much from a house address once it has been geocoded. When you geocode data, you unlock the ability to visualize the data in a different way. And you can use our search endpoint to answer endless questions about your addresses or location.
+
+:::caution[Be aware]
+
+1. This endpoint confirms that an address **can** exist along a road, however, there may be no structure or mail delivery at the address.
+1. This endpoint should not be used to validate mailing addresses.
+1. [Reserved characters](https://www.rfc-editor.org/rfc/rfc3986#section-2.1), like ?, #, @, etc. in your data need to be escaped or the request will fail.
+1. `matchAddress` returns the name of the [address system quadrant](https://gis.utah.gov/data/location/address-data/#AddressSystemQuadrants) for the address. For example, `"matchAddress": "10420 E Little Cottonwood Canyon, Salt Lake City"` means that the address is part of the **Salt Lake City** address system. It is neither within the boundaries of Salt Lake City proper, nor is it the preferred mailing address placename.
+
+:::
+
+### URI Format
+
+<Uri verb="GET" endpoint="geocode" properties={["street", "zone"]} />
+
+### Parameters
+
+<Card title="Required Path parameters" icon="approve-check">
+
+##### street
+
+A Utah street address. A valid mailing address or structure does not need to exist at the input street to find a match. If the house number exists in the range of the street, a coordinate will be extrapolated from the road centerlines.
+
+:::tip
+For the best geocoding results, omit sub address values from your street input, e.g., <code>326 east south template st<del>, unit 1</del></code>.
+:::
+
+- **Type**: `string`
+- **Example**: `326 east south temple st`
+
+##### zone
+
+A Utah municipality name or a 5 digit zip code.
+
+- **Type**: `string` or `number`
+- **Example**: `slc`, `84111`
+
+</Card>
+<Card title="Optional Query parameters" icon="setting">
+
+##### acceptScore
+
+Every street and zone geocode will return a score for the match on a scale from 0-100. The score is a rating of how confident the system is in the choice of coordinates based on the input. For example, misspellings in a street name, omitting a street type when multiple streets with the same name exist, or omitting a street direction when the street exists in multiple address system quadrants will cause the result to lose points. Depending on your needs, you may need to limit the score the system will return. The default value of `70` will give acceptable results. If you need extra control, use the suggest and scoreDifference options
+
+- **Type**: `number`
+- **Default**: `70`
+- **Can be one of**: `0-100`
+
+##### pobox
+
+This option determines if the system should find a location for P.O. Box addresses. The default value of `true`, will return a location for a P.O. Box only when the input zone is a 5 digit zip code. The result will be where the mail is delivered. This could be a traditional post office, community post office, university, etc. When analyzing where people live, P.O. Box information will skew results since there is no correlation between where mail is delivered and where the owner of the mail resides.
+
+- **Type**: `boolean`
+- **Default**: `true`
+- **Can be one of**: `true`, `false`
+
+##### locators
+
+The locators are the search engine for address data. There are three options, The default value of `all` will use the highest score from the [address point](https://gis.utah.gov/data/location/address-data/#AddressPoints) and [road centerline](https://gis.utah.gov/data/transportation/roads-system/#RoadCenterlines) data and provide the best match rate. Address point locations are used in the event of a tie. Address points are a work in progress with the counties to map structures or places where mail is delivered. Road centerlines are a dataset with every road and the range of numbers that road segment contains.
+
+- **Type**: `string`
+- **Default**: `all`
+- **Can be one of**: `all`, `addressPoints`, `roadCenterlines`
+
+##### suggest
+
+The default value of 0 will only return the highest match. To include more address candidates, set this value between 1-5. The candidates respect the `acceptScore` option.
+
+- **Type**: `number`
+- **Default**: `0`
+- **Can be one of**: `0-5`
+
+##### scoreDifference
+
+When `suggest` is set to the default value of `0`, the difference in score between the top match and the next highest match is calculated and returned on the result object. This can help determine if there was a tie. The system will arbitrarily choose one result since they will have the same score. If the scoreDifference response value is `0`, you can repeat the geocode with `suggest` > 0 and investigate the results.
+
+:::note
+A common scenario to cause a tie is when an input address of `100 main street` is used and the same address exists in multiple address system quadrants. The two highest score matching will be `100 south main` and `100 north main` or `100 east main` and `100 west main`.
+:::
+
+- **Type**: `string`
+- **Default**: `all`
+- **Can be one of**: `all`, `addressPoints`, `roadCenterlines`
+
+<SpatialReference />
+
+<OutputFormat />
+
+<Callback />
+
+</Card>
+
+## Response Shapes
+
+<Tabs>
+	<TabItem label="Successful Example">
+  ```json
+{
+    "result": {
+      "location": {
+        "x": 425608.67349758215,
+        "y": 4513499.5088544935
+      },
+      "score": 100,
+      "locator": "AddressPoints.AddressGrid",
+      "matchAddress": "326 E SOUTH TEMPLE ST, SALT LAKE CITY",
+      "inputAddress": "326 east south temple st, slc",
+      "standardizedAddress": "326 east south temple street",
+      "addressGrid": "SALT LAKE CITY"
+    },
+    "status": 200
+}
+```
+</TabItem>
+	<TabItem label="Error Example">
+  :::tip
+  Be sure to inspect the failed requests as they contain useful information. `401` status codes equates to your API key having problems. `404` equates to the address not being found. `200` is successful.
+  :::
+
+```json
+{
+  "status": 401,
+  "message": ""
+}
+```
+
+  </TabItem>
+  <TabItem label="JSON Schema">
+```json
+{
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          }
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "locator": {
+          "type": "string",
+          "enum": [
+            "AddressPoints.AddressGrid",
+            "Centerlines.StatewideRoads",
+            "USPS Delivery Points",
+            "Post Office Point Exclusions",
+            "Post Office Point"
+          ]
+        },
+        "matchAddress": {
+          "type": "string"
+        },
+        "inputAddress": {
+          "type": "string"
+        },
+        "standardizedAddress": {
+          "type": "string"
+        },
+        "addressGrid": {
+          "type": "string"
+        },
+        "scoreDifference": {
+          "type": "integer"
+        },
+        "candidates": {
+          "type": "array",
+          "items": { "$ref": "#" }
+        }
+      },
+      "required": ["location", "score", "matchAddress", "inputAddress", "addressGrid"],
+      "status": {
+        "type": "integer"
+      }
+    }
+  }
+}
+```
+  </TabItem>
+</Tabs>

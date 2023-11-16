@@ -5,7 +5,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **explorer:** updated to a new landing page and an all new deocumentation website
+* **explorer:** updated to a new landing page and an all new documentation website
 
 ### Miscellaneous Chores
 

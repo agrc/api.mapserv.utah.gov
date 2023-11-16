@@ -1,0 +1,128 @@
+---
+title: "Reverse Geocoding"
+description: "What address is at this coordinate?"
+sidebar:
+  order: 3
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Card } from "@astrojs/starlight/components";
+import Uri from "../../../../../components/Uri.astro";
+import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
+import OutputFormat from "../../../../../components/parameters/OutputFormat.mdx";
+import Callback from "../../../../../components/parameters/Callback.mdx";
+
+Reverse geocoding allows you to get what is at the geographic location (i.e., the geographical coordinates). This UGRC API endpoint allows you to get the nearest street address from a geographic location.
+
+:::caution[Be aware]
+This endpoint returns an address along a road segment, however, there may be no structure or mail delivery at the address.
+:::
+
+### URI Format
+
+<Uri verb="GET" endpoint="geocode/reverse" properties={["x", "y"]} />
+
+### Parameters
+
+<Card title="Required Path parameters" icon="approve-check">
+
+##### x
+
+A number representing the longitude, easting, or horizontal value of a coordinate.
+
+- **Type**: `number`
+- **Example**: `374165.98`
+
+##### y
+
+A number representing the latitude, northing, or vertical value of a coordinate.
+
+- **Type**: `number`
+- **Example**: `4187089.19`
+
+</Card>
+<Card title="Optional Query parameters" icon="setting">
+
+##### distance
+
+The distance, in meters, from the input coordinate to search for a street address.
+
+- **Type**: `number`
+- **Default**: `5`
+- **Can be one of**: `0-2000`
+
+<SpatialReference />
+
+<Callback />
+
+</Card>
+
+## Response Shapes
+
+<Tabs>
+	<TabItem label="Successful Example">
+  ```json
+{
+    "result": {
+      "inputLocation": {
+        "x": 374165.5184732021,
+        "y": 4187102.574632359
+      },
+      "address": {
+        "street": "298 E Center St"
+      }
+    },
+    "status": 200
+}
+```
+</TabItem>
+	<TabItem label="Error Example">
+  :::tip
+  Be sure to inspect the failed requests as they contain useful information. `401` status codes equates to your API key having problems. `404` equates to no address not being found. `200` is successful.
+  :::
+
+```json
+{
+  "status": 401,
+  "message": ""
+}
+```
+
+  </TabItem>
+  <TabItem label="JSON Schema">
+```json
+{
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "object",
+      "properties": {
+        "inputLocation": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          }
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "status": {
+        "type": "integer"
+      }
+    }
+  }
+}
+```
+  </TabItem>
+</Tabs>

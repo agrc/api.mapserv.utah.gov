@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="215.7" class="float-left mr-2" viewBox="0 0 1142 960">
+  <defs>
+    <linearGradient id="a" x1="535.5" x2="535.5" y1="779.2" y2="104.9" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="gray" stop-opacity=".3"/>
+      <stop offset=".5" stop-color="gray" stop-opacity=".1"/>
+      <stop offset="1" stop-color="gray" stop-opacity=".1"/>
+    </linearGradient>
+    <linearGradient id="c" x1="873.2" x2="873.2" y1="742.8" y2="620.1" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-opacity=".1"/>
+      <stop offset=".6" stop-opacity=".1"/>
+      <stop offset="1" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="b">
+      <path fill="#ffba00" d="M889 735H725l-251 24-253-24V140l252 18 257-18 252 34v468l-93 93z"/>
+    </clipPath>
+  </defs>
+  <path fill="url(#a)" d="M829 753H669l-272 26-274-26V105l273 20 279-20 273 37-7 498-112 113z"/>
+  <path fill="#fff" d="M824 744H668l-267 26-268-26V113l267 20 273-20 267 37-7 484-109 110z"/>
+  <path fill="#ffba00" d="M825 727H660l-251 24-253-24V132l252 18 257-18 252 34v468l-92 93z"/>
+  <g clip-path="url(#b)">
+    <path fill="#fff" d="M1142 905 564 585 711 97l-50-19-71 236L23 0 0 55l572 317-130 434 50 20 55-183 572 317 23-55z"/>
+  </g>
+  <path fill="url(#c)" d="m813 743 2-123 118 5-120 118z"/>
+  <path fill="#fff" d="m156 389 363 161 24 50-24 25-363-173v-63zm668 354 2-113 107 4-109 109zm-175-95 151-498 61 9-170 515-42-26z"/>
+  <path d="m408 751 252-24V132l-252 18" opacity=".1"/>
+  <path fill="#ff5252" d="M639 348c0 48-87 184-87 184s-87-136-87-184a87 87 0 1 1 174 0z"/>
+  <circle cx="551.8" cy="342.4" r="26.3" fill="#fff"/>
+  <path fill="#fff" d="m785 389 132 34v64l-162-58 30-40zM279 511l-33 232 38 8 50-214v-30l-55 4zm-1-302-37 217 29 16 69-233h-61z"/>
+  <circle cx="350" cy="165.6" r="8" fill="#ff5252"/>
+  <circle cx="254" cy="579.6" r="8" fill="#ff5252"/>
+  <circle cx="246" cy="638.6" r="8" fill="#ff5252"/>
+  <circle cx="331" cy="624.6" r="8" fill="#ff5252"/>
+  <circle cx="194" cy="384.6" r="8" fill="#ff5252"/>
+  <circle cx="824" cy="376.6" r="8" fill="#ff5252"/>
+  <circle cx="755" cy="654.6" r="8" fill="#ff5252"/>
+</svg>
