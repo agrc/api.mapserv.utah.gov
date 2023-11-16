@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.0.0...explorer-v2.1.0) (2023-11-16)
+
+
+### Features
+
+* **explorer:** migrate to starlight ([23565ad](https://github.com/agrc/api.mapserv.utah.gov/commit/23565ad900a6aea6749ffa7f07d5f6d33a2dc2d9))
+
 ## [2.0.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v1.0.0...explorer-v2.0.0) (2023-09-26)
 
 
