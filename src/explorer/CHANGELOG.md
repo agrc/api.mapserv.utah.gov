@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.1.0...explorer-v2.2.0) (2023-11-17)
+
+
+### Features
+
+* **explorer:** add UDS footer ([b563742](https://github.com/agrc/api.mapserv.utah.gov/commit/b56374224bb86ee74a2d6e60fac202fb54a5d15b))
+* **explorer:** add utah header and footer ([1b9b785](https://github.com/agrc/api.mapserv.utah.gov/commit/1b9b7853502c3105dae91da5a6e27744e8ee1020))
+
 ## [2.1.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.0.0...explorer-v2.1.0) (2023-11-16)
 
 
