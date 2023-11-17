@@ -1,0 +1,59 @@
+---
+import '@utahdts/utah-design-system-header/css';
+---
+
+<style is:global>
+  .utah-design-system {
+    --primary-color: #456a7b;
+    --gray-medium-color: #364954;
+    --gray-color: #364954;
+  }
+</style>
+<script>
+  import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
+
+  setUtahHeaderSettings({
+    title: 'UGRC API',
+    domLocationTarget: {
+      cssSelector: '#utah-header-placeholder',
+    },
+    skipLinkUrl: '#main-content',
+    utahId: true,
+    logo: {
+      imageUrl: '/api.svg',
+    },
+    actionItems: [
+      {
+        actionPopupMenu: {
+          menuItems: [
+            {
+              title: 'Getting Started Guide',
+              actionUrl: {
+                url: '/getting-started',
+              },
+            },
+            {
+              title: 'Documentation',
+              actionUrl: {
+                url: '/docs',
+              },
+            },
+            {
+              title: 'Privacy Policy',
+              actionUrl: {
+                url: '/privacy',
+              },
+            },
+          ],
+          title: 'menu',
+        },
+        className: 'icon-waffle',
+        showTitle: true,
+        title: 'menu',
+        icon: '<span class="utds-icon-before-waffle" aria-hidden="true" />',
+      },
+    ],
+    footer: null,
+  });
+</script>
+<header id="utah-header-placeholder" style="height:78px"></header>

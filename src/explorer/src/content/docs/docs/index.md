@@ -9,7 +9,7 @@ The UGRC API has 7 endpoints; 4 geocoding endpoints, 2 informational endpoints, 
 
 ### Geocoding
 
-Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from an address. The UGRC API endpoints for geocoding allow you to
+Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from an address. You can learn so much from a house address once it has been geocoded. When you geocode data, you unlock the ability to visualize the data in a different way. And you can use our search endpoint to answer endless questions about your addresses. The UGRC API endpoints for geocoding allow you to
 
 - Get the coordinates of a street and zone
 - Get the coordinates of a route and milepost
@@ -18,7 +18,7 @@ Geocoding allows you to get the geographic location (i.e., the geographical coor
 
 ### Searching
 
-Searching allows you to search through more than [1,000,000 rows of spatial SGID data](https://gis.utah.gov/sgid). With over 300 layers of real-world data that you can run queries against in the SGID, you will be able to extract actionable information for your data. The UGRC API endpoint for searching allows you to
+Searching allows you to search through more than [1,000,000 rows of spatial SGID data](https://gis.utah.gov/sgid). With over **300** layers of real-world data that you can run queries against in the SGID, you will be able to extract actionable information for your data. The UGRC API endpoint for searching allows you to
 
 - Get the attributes of spatial data based on a T-SQL like query.
 - Get the attributes of spatial data based on a location (i.e., spatial intersection).

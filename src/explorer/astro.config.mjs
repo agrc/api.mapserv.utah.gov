@@ -9,7 +9,7 @@ export default defineConfig({
     starlightLinksValidator(),
     starlight({
       title: "UGRC API Documentation",
-      site: "https://ut-dts-agrc-web-api-dev.web.app",
+      // site: "https://ut-dts-agrc-web-api-dev.web.app",
       logo: {
         src: "./src/assets/api.svg",
       },
@@ -26,8 +26,14 @@ export default defineConfig({
         {
           label: "Reference",
           items: [
-            { label: "Getting Started Guide", link: "/getting-started/" },
-            { label: "Documentation Overview", link: "/docs/" },
+            {
+              label: "Getting Started Guide",
+              link: "/getting-started/",
+            },
+            {
+              label: "Documentation Overview",
+              link: "/docs/",
+            },
             {
               label: "Sample Code",
               link: "https://github.com/agrc/api.mapserv.utah.gov/tree/development/samples",
@@ -40,16 +46,23 @@ export default defineConfig({
               label: "Report a Problem",
               link: "https://github.com/agrc/api.mapserv.utah.gov/issues/new",
             },
-            { label: "Privacy Policy", link: "/privacy/" },
+            {
+              label: "Privacy Policy",
+              link: "/privacy/",
+            },
           ],
         },
         {
           label: "Endpoints (version 1)",
-          autogenerate: { directory: "/docs/v1/endpoints/" },
+          autogenerate: {
+            directory: "/docs/v1/endpoints/",
+          },
         },
       ],
       customCss: ["./src/tailwind.css"],
     }),
-    tailwind({ applyBaseStyles: true }),
+    tailwind({
+      applyBaseStyles: true,
+    }),
   ],
 });

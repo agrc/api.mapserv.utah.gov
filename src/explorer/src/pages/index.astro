@@ -1,11 +1,11 @@
 ---
 import Chrome from '../layouts/Chrome.astro';
 
+import { Image } from 'astro:assets';
 import geocoding from '../assets/map.svg';
+import screen from '../assets/screen.svg';
 import search from '../assets/search.svg';
 import thumb from '../assets/thumb.svg';
-import { Image } from 'astro:assets';
-import screen from '../assets/screen.svg';
 ---
 
 <Chrome>
@@ -92,12 +92,11 @@ import screen from '../assets/screen.svg';
           <h1 class="text-2xl font-light text-wavy-600 col-span-2">What is searching</h1>
           <p class="mt-0 text-lg ml-3">
             Searching allows you to search through more than{' '}
-            <span class="font-semibold">1,000,000</span> rows of spatial SGID data. With over <span
-              class="font-semibold">300</span
-            > layers of real-world data that you can run queries against in the SGID, the possibilities can be a little
-            overwhelming. But the searching endpoint really opens up the opportunity for serious information gathering.
-            You need a way to sift through all that information and make sense of it and our search endpoint can help
-            you do that.
+            <a href="https://gis.utah.gov/sgid" class="font-semibold">1,000,000</a> rows of spatial SGID data. With over
+            <span class="font-semibold">300</span> layers of real-world data that you can run queries against in the
+            SGID, the possibilities can be a little overwhelming. But the searching endpoint really opens up the
+            opportunity for serious information gathering. You need a way to sift through all that information and make
+            sense of it and our search endpoint can help you do that.
           </p>
         </div>
         <div>
@@ -107,7 +106,7 @@ import screen from '../assets/screen.svg';
             <span class="font-semibold">location</span> based information has increased dramatically as many disciplines
             realize the power of spatial data. A customer's address stored in a database has only so many uses. With
             this API, the door opens to many spatial opportunities from <span class="font-semibold">visually</span>
-            seeing customer locations on a map to being able to spatially analyze their relationship or patterns in
+             seeing customer locations on a map to being able to spatially analyze their relationship or patterns in
             conjunction with other events such as disease occurrences, natural disaster affected areas, and other
             location based occurrences.
           </p>
