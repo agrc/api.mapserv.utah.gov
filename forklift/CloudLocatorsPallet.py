@@ -122,7 +122,7 @@ class CloudLocatorsPallet(Pallet):
             #: copy rebuilt locator back
             self.copy_locator_to(rebuild_path, locator, path_to_locators)
 
-            for locator_part in path_to_locators.glob(locator):
+            for locator_part in path_to_locators.glob(f"{locator}*"):
                 self.log.debug("uploading %s", locator_part)
 
                 blob = self.bucket.blob(locator_part.name)
