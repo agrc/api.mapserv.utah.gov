@@ -9,6 +9,7 @@ export default defineConfig({
     starlightLinksValidator(),
     starlight({
       title: "UGRC API Documentation",
+      site: "https://ut-dts-agrc-web-api-dev.web.app",
       logo: {
         src: "./src/assets/api.svg",
       },
