@@ -20,6 +20,10 @@ export default defineConfig({
       },
       sidebar: [
         {
+          label: "Home",
+          link: "/",
+        },
+        {
           label: "Reference",
           items: [
             { label: "Getting Started Guide", link: "/getting-started/" },
