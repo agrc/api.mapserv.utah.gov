@@ -427,7 +427,7 @@ namespace WebAPI.API.Controllers.API.Version1
 
             #endregion
 
-            var baseUrl = "https://maps.udot.utah.gov/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
+            var baseUrl = "https://roads.udot.utah.gov/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1/";
 
             var point = new GeometryToMeasure.Point(x.Value, y.Value);
             var requestContract = new GeometryToMeasure.RequestContract

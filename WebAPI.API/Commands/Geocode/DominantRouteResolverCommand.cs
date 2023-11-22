@@ -43,7 +43,7 @@ namespace WebAPI.API.Commands.Geocode
         internal readonly PythagoreanDistance Caculator;
         internal readonly GeometryToMeasure.Point Point;
         internal readonly Concurrencies.RequestContract RequestContract;
-        private const string BaseUrl = "https://maps.udot.utah.gov/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/";
+        private const string BaseUrl = "https://roads.udot.utah.gov/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1/";
 
 
         public override async Task<ReverseMilepostResult> Execute()
