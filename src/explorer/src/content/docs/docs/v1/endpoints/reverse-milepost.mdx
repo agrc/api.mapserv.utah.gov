@@ -17,22 +17,22 @@ Reverse geocoding allows you to get what is at the geographic location (i.e., th
 This endpoint returns an address along a road segment, however, there may be no structure or mail delivery at the address.
 :::
 
-### URI Format
+## URI Format
 
 <Uri verb="GET" endpoint="geocode/milepost" properties={["x", "y"]} />
 
-### Parameters
+## Parameters
 
 <Card title="Required Path parameters" icon="approve-check">
 
-##### x
+### x
 
 A number representing the longitude, easting, or horizontal value of a coordinate.
 
 - **Type**: `number`
 - **Example**: `442300.87`
 
-##### y
+### y
 
 A number representing the latitude, northing, or vertical value of a coordinate.
 
@@ -42,7 +42,7 @@ A number representing the latitude, northing, or vertical value of a coordinate.
 </Card>
 <Card title="Optional Query parameters" icon="setting">
 
-##### buffer
+### buffer
 
 The buffer radius, in meters, from the input coordinate to search for a street address.
 
@@ -50,7 +50,7 @@ The buffer radius, in meters, from the input coordinate to search for a street a
 - **Default**: `100`
 - **Can be one of**: `0-200`
 
-##### includeRampSystem
+### includeRampSystem
 
 To include ramps, collectors, and federal aide routes features in a reverse route and milepost query set this to `true`.
 
@@ -58,7 +58,7 @@ To include ramps, collectors, and federal aide routes features in a reverse rout
 - **Default**: `false`
 - **Can be one of**: `true`, `false`
 
-##### suggest
+### suggest
 
 The default value of 0 will only return the closest match. To include more route and milepost candidates, set this value between 1-5. The candidates will all be within the `buffer` radius.
 
@@ -66,7 +66,11 @@ The default value of 0 will only return the closest match. To include more route
 - **Default**: `0`
 - **Can be one of**: `0-5`
 
+### spatialReference
+
 <SpatialReference />
+
+### callback
 
 <Callback />
 

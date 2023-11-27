@@ -18,22 +18,22 @@ Reverse geocoding allows you to get what is at the geographic location (i.e., th
 This endpoint returns an address along a road segment, however, there may be no structure or mail delivery at the address.
 :::
 
-### URI Format
+## URI Format
 
 <Uri verb="GET" endpoint="geocode/reverse" properties={["x", "y"]} />
 
-### Parameters
+## Parameters
 
 <Card title="Required Path parameters" icon="approve-check">
 
-##### x
+### x
 
 A number representing the longitude, easting, or horizontal value of a coordinate.
 
 - **Type**: `number`
 - **Example**: `374165.98`
 
-##### y
+### y
 
 A number representing the latitude, northing, or vertical value of a coordinate.
 
@@ -43,7 +43,7 @@ A number representing the latitude, northing, or vertical value of a coordinate.
 </Card>
 <Card title="Optional Query parameters" icon="setting">
 
-##### distance
+### distance
 
 The distance, in meters, from the input coordinate to search for a street address.
 
@@ -51,7 +51,11 @@ The distance, in meters, from the input coordinate to search for a street addres
 - **Default**: `5`
 - **Can be one of**: `0-2000`
 
+### spatialReference
+
 <SpatialReference />
+
+### callback
 
 <Callback />
 

@@ -14,7 +14,7 @@ import Callback from "../../../../../components/parameters/Callback.mdx";
 
 Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from text. This UGRC API endpoint allows you to get the coordinates of a highway number and milepost. This endpoint uses the UDOT Roads and Highways system as its authoritative data source.
 
-### URI Format
+## URI Format
 
 <Uri
   verb="GET"
@@ -22,18 +22,18 @@ Geocoding allows you to get the geographic location (i.e., the geographical coor
   properties={["route", "milepost"]}
 />
 
-### Parameters
+## Parameters
 
 <Card title="Required Path parameters" icon="approve-check">
 
-##### route
+### route
 
 A Utah highway number. Omit the interstate or state route prefix.
 
 - **Type**: `number`
 - **Example**: `15`
 
-##### milepost
+### milepost
 
 A milepost number along the route. The precisions is 1/1000 (3 decimal places) of a mile which is approximately 5 feet.
 
@@ -43,7 +43,7 @@ A milepost number along the route. The precisions is 1/1000 (3 decimal places) o
 </Card>
 <Card title="Optional Query parameters" icon="setting">
 
-##### side
+### side
 
 Mileposts, on divided highways, have different locations when traveling along the route in the increasing or decreasing direction. When traveling in the increasing direction milepost values are getting larger and when traveling on the decreasing side of the divided highway, the milepost values are getting smaller.
 
@@ -55,7 +55,7 @@ Side only applies to divided highways.
 - **Default**: `increasing`
 - **Can be one of**: `increasing`, `decreasing`
 
-##### fullRoute
+### fullRoute
 
 Advanced clients who know the full route name, e.g., `0015PC30554` as it is stored in the UDOT Roads and Highway system can enable this flag and search using the full route name.
 
@@ -67,9 +67,15 @@ When this option is `true` the `route` path parameter changes from a number to a
 - **Default**: `false`
 - **Can be one of**: `true`, `false`
 
+### spatialReference
+
 <SpatialReference />
 
+### format
+
 <OutputFormat />
+
+### callback
 
 <Callback />
 
