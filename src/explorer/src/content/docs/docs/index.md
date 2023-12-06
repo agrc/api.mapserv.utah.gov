@@ -5,11 +5,11 @@ next:
   { label: "Street and Zone Geocoding", link: "/docs/v1/endpoints/geocoding" }
 ---
 
-The UGRC API has 7 endpoints; 4 geocoding endpoints, 2 informational endpoints, and 1 searching endpoint.
+The UGRC API has 7 endpoints: 4 geocoding endpoints, 2 informational endpoints, and 1 searching endpoint.
 
 ### Geocoding
 
-Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from an address. You can learn so much from a house address once it has been geocoded. When you geocode data, you unlock the ability to visualize the data in a different way. And you can use our search endpoint to answer endless questions about your addresses. The UGRC API endpoints for geocoding allow you to:
+Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from an address. You can learn so much from a home, business, or other type of address once it has been geocoded. When you geocode data, you unlock the ability to visualize the data in a different way. And you can use our search endpoint to answer endless questions about your addresses. The UGRC API endpoints for geocoding allow you to:
 
 - Get the coordinates of a street and zone.
 - Get the coordinates of a route and milepost.
@@ -27,7 +27,7 @@ To view the SGID tables that are accessible through the search endpoint, [connec
 
 ### Meta
 
-The informational endpoints allow you to inspect and learn about SGID data. If you do not wish to connect to the OpenSGID, you can learn about the same data through the API. The UGRC API endpoints for information allow you to
+The informational endpoints allow you to inspect and learn about SGID data. If you do not wish to connect to the OpenSGID, you can learn about the same data through the API. The UGRC API endpoints for information allow you to:
 
 - Get a list of table names from our [data categories](https://gis.utah.gov/data/#data-categories).
 - Get a list of attribute names from a table.
