@@ -18,7 +18,7 @@ Geocoding allows you to get the geographic location (i.e., the geographical coor
 
 ### Searching
 
-Searching allows you to search through more than [1,000,000 rows of spatial SGID data](https://gis.utah.gov/sgid). With over **300** layers of real-world data that you can run queries against in the SGID, you will be able to extract actionable information for your data. The UGRC API endpoint for searching allows you to:
+Searching allows you to search through more than 1,000,000 rows of [State Geographic Information Datasource](https://gis.utah.gov/sgid) (SGID) data. With over **300** layers of real-world data that you can run queries against in the SGID, you will be able to extract actionable information for your data. The UGRC API endpoint for searching allows you to:
 
 - Get the attributes of spatial data based on a T-SQL like query.
 - Get the attributes of spatial data based on a location (i.e., spatial intersection).
