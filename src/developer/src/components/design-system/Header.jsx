@@ -128,7 +128,7 @@ const Flyout = () => {
           </div>
         </div>
       </div>
-      <Collapsible.Trigger>
+      <Collapsible.Trigger asChild="div">
         <button type="button" className="absolute right-2 top-2 text-white">
           <XMarkIcon className="w-7" />
           <span className="sr-only">Close official website popup</span>

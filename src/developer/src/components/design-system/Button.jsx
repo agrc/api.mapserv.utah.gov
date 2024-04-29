@@ -51,16 +51,16 @@ const TYPES = {
 };
 
 function Button({
-  appearance,
-  busy,
+  appearance = 'outlined',
+  busy = false,
   children,
   className,
-  color,
-  disabled,
+  color = 'none',
+  disabled = false,
   onClick,
-  size,
+  size = 'base',
   title,
-  type,
+  type = 'button',
 }) {
   if (busy) {
     disabled = true;
@@ -102,15 +102,6 @@ Button.propTypes = {
   title: PropTypes.string,
   type: PropTypes.oneOf(Object.keys(TYPES)),
   size: PropTypes.oneOf(Object.keys(SIZES)),
-};
-
-Button.defaultProps = {
-  appearance: 'outlined',
-  busy: false,
-  color: 'none',
-  disabled: false,
-  type: 'button',
-  size: 'base',
 };
 
 Button.Colors = createKeyLookup(COLORS);

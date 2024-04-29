@@ -9,7 +9,12 @@ const COLORS = {
     'decoration-mustard-500 dark:active:text-mustard-500 active:decoration-mustard-600 text-mustard-400/70',
 };
 
-export const TextLink = ({ href, target, children, color }) => {
+export const TextLink = ({
+  href,
+  target = '_self',
+  children,
+  color = 'primary',
+}) => {
   return (
     <a
       href={href}
@@ -30,10 +35,6 @@ TextLink.propTypes = {
   color: PropTypes.oneOf(Object.keys(COLORS)),
   target: PropTypes.oneOf(['_blank', '_self', '_parent', '_top']),
   children: PropTypes.node.isRequired,
-};
-TextLink.defaultProps = {
-  target: '_self',
-  color: 'primary',
 };
 TextLink.target = ['_blank', '_self', '_parent', '_top'];
 TextLink.Colors = createKeyLookup(COLORS);

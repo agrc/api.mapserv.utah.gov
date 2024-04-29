@@ -3,7 +3,6 @@ import { withThemeByClassName } from '@storybook/addon-styling';
 import '../src/index.css';
 
 export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     expanded: true,
     hideNoControlsWarning: true,
