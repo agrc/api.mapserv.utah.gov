@@ -6,7 +6,7 @@
 
 This is the source code for the cloud [UGRC API](https://ut-dts-agrc-web-api-dev.web.app/). This system allows users to create an account, create API keys, and geocode or interact with SGID data. Users are able to geocode addresses, reverse geocode addresses, geocode mileposts, geocode mileposts by a location, and perform spatial queries against all OpenSGID spatial data.
 
-Read the [Getting Started Guide](https://ut-dts-agrc-web-api-dev.web.app/getting-started/), view the [documentation](https://ut-dts-agrc-web-api-dev.web.app/en/documentation/), and check out the [working samples](https://github.com/agrc/api.mapserv.utah.gov/tree/development/samples) for geocoding in popular languages for an idea about how to getting started programming against the API.
+Read the [Getting Started Guide](https://ut-dts-agrc-web-api-dev.web.app/getting-started/), view the [documentation](https://ut-dts-agrc-web-api-dev.web.app/en/documentation/), and check out the [working samples](https://github.com/agrc/api.mapserv.utah.gov/tree/development/samples) for geocoding in popular languages for an idea about how to get started programming against the API.
 
 [Privacy Policy](https://ut-dts-agrc-web-api-dev.web.app/privacy-policy/)
 
@@ -43,27 +43,29 @@ Examples
 
 ### Development goals
 
-The API is designed to run in containers but Docker/Podman is not a requirement. These projects can be run entirely without Docker/Podman, but you will be in charge of maintaining the cloud resources and software dependencies. The current dependencies are ASP.NET Core, PostgreSQL, Redis, Firebase, and ArcGIS Server. ASP.NET Core, PostgreSQL, and Redis all have community maintained containers but ArcGIS Server does not. Until ArcGIS Server has a maintained container, it is recommended to be installed in a VM or locally. Alternatively, smocker can be used to mimic ArcGIS Server responses during development. Firebase has an emulator that can be used during development or it is very inexpensive or free to configure in the Google Cloud Platform.
+The API is designed to run in containers but Docker is not a requirement. These projects can be run entirely without Docker, but you will be in charge of maintaining the cloud resources and software dependencies. The current dependencies are ASP.NET, PostgreSQL, Redis, Firebase, and ArcGIS Server. ASP.NET, PostgreSQL, and Redis all have community maintained containers but ArcGIS Server does not. Until ArcGIS Server has a maintained container, it is recommended to be installed in a VM or locally. Alternatively, smocker can be used to mock ArcGIS Server responses during development. Firebase has an emulator that can be used during development and it is very inexpensive or free to configure in the Google Cloud Platform.
 
-### Running locally
+### Running the API locally
 
 #### Configuration
 
-To make the project as flexible as possible, the connection strings, urls to services, etc required by the API are read from [appsettings.json](src/api/appsettings.json) at application startup. [AppSettings](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/) files can be created for multiple environments, including Development, Staging, and Production. They work well with containers, [k8s](.kube/kube-deployment.yml), and [local development](src/api/appsettings.json). The following will describe what is required before the application will function properly.
+To make the project as flexible as possible, the connection strings, urls to services, etc required by the API are read from [appsettings.json](src/api/appsettings.json) at application startup. [AppSettings](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/) files can be created for multiple environments, including Development, Staging, and Production. They work well with containers and [local development](src/api/appsettings.json). The following will describe what is required before the application will function properly.
 
 #### Startup Routine
 
-Start the firebase emulators. Navigate to the developer project
+Start the firebase emulators from the developer project.
+
+> ![TIP]
+> If you want to work with the self service website, duplicate the `./src/developer/.env` file to `./src/developer/.env.local` and add the firebase project settings.
 
 ```sh
-cd src/developer && npm run dev
+cd src/developer && npm install && npm start
 ```
 
-Then start the cache and smocker containers from the root of the project.
+While the emulators are starting, start the cache and smocker containers from the root of the project.
 
 ```sh
-$ podman-compose -f docker-compose.yml -f docker-compose.override.yml up cache smocker --detach --force
-exit code: 0
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up cache smocker --detach
 ```
 
 Once smocker is running, you can [register mock requests](test/smocker/readme.md) by copying and executing the contents of [mocks.sh](test/smocker/mocks.sh). Run the following command from the `test/smocker` directory or for a shortcut, copy the value to your clipboard and execute them.
@@ -97,22 +99,31 @@ You can now view the [firebase emulator](http://localhost:4000/), the [smocker e
 
 #### API
 
-No containers need to be running to execute the unit tests.
+> ![TIP]
+> No containers need to be running to execute the unit tests.
 
 ```sh
 cd test/api.unit.tests && dotnet watch test --collect:"XPlat Code Coverage"
 ```
 
+### Running the documentation locally
+
+Start the astro website.
+
+```sh
+cd src/explorer && npm install && npm start
+```
+
 ## API System Parts
 
-### ASP.NET Core
+### ASP.NET
 
-The API is built using ASP.NET Core. In order to run the API locally, the .NET Core SDK and Runtime will need to be [downloaded](https://www.microsoft.com/net/download) and installed. It is possible to run the API in containers, removing the need to install the .NET Core SDK and Runtime, but the development cycle loop is slow. Currently the app is using dotnet 7.
+The API is built using ASP.NET. In order to run the API locally, the .NET Core SDK and Runtime will need to be [downloaded](https://www.microsoft.com/net/download) and installed. It is possible to run the API in containers, removing the need to install the .NET Core SDK and Runtime, but the development cycle loop is slow. Currently the app is using dotnet 8.
 
 ```json
 {
   "sdk": {
-    "version": "7.0.302"
+    "version": "8.0.4"
   }
 }
 ```
@@ -151,21 +162,21 @@ ArcGIS Server Environment Variables
 
 ## Containers
 
-It is highly recommended to use containers for this project or at least certain parts of it. The appeal of not having to install PostgreSQL or Redis and manage/configure them yourself should be persuasive enough.
+It is highly recommended to use containers for this project or at least certain parts of it.
 
 ### Building images
 
-- `podman-compose -f docker-compose.yml -f docker-compose.override.yml build`
+- `docker-compose -f docker-compose.yml -f docker-compose.override.yml build`
 
 Building images is necessary any time values in the `Dockerfile` or `docker-compose.yml` change.
 
 ### Starting containers
 
-- `podman-compose -f docker-compose.yml -f docker-compose.override.yml up`
+- `docker-compose -f docker-compose.yml -f docker-compose.override.yml up`
 
-Starting a container is like turning on the service. `podman-compose -f docker-compose.yml -f docker-compose.override.yml up` will start all the containers referenced in this projects `docker-compose.yaml`. For development purposes, we suggest running PostgreSQL and/or Redis in containers and letting Visual Studio (Code, for Mac, or Windows) run the API. PostgreSQL is required for the application to start while Redis is not required.
+Starting a container is like turning on the service. `docker-compose -f docker-compose.yml -f docker-compose.override.yml up` will start all the containers referenced in this projects `docker-compose.yaml`. For development purposes, we suggest running PostgreSQL and/or Redis in containers and letting Visual Studio (Code, for Mac, or Windows) run the API. PostgreSQL is required for the application to start while Redis is not required.
 
-- `podman-compose -f docker-compose.yml -f docker-compose.override.yml up --detach cache` _This will run redis in the background._
+- `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --detach cache` _This will run redis in the background._
 
 ## Swagger
 
