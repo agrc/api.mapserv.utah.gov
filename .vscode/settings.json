@@ -135,7 +135,7 @@
     "*.css": "tailwindcss"
   },
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true
+    "source.organizeImports": "explicit"
   },
   "editor.formatOnSave": true,
   "editor.rulers": [
