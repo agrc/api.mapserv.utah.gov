@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.1](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.15.0...api-v1.15.1) (2024-04-30)
+
+
+### Bug Fixes
+
+* **api:** update version in docker file ([76e710d](https://github.com/agrc/api.mapserv.utah.gov/commit/76e710d872007a53ef1685e37cb4d46cb847cf16))
+
 ## [1.15.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.14.0...api-v1.15.0) (2023-10-31)
 
 
