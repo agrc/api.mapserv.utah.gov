@@ -28,12 +28,12 @@ jobs:
           show-progress: false
 
       - name: 🟣️ Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "7.0.x"
+          dotnet-version: "8.0.x"
 
       - name: 💾 Cache NuGet Packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           # nuget cache files are stored in `~/.nuget/packages` on Linux/macOS
           path: ~/.nuget/packages
@@ -46,7 +46,7 @@ jobs:
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
 
       - name: 📝️ Report coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
@@ -66,7 +66,7 @@ jobs:
           show-progress: false
 
       - name: 🗝️ Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         id: auth
         with:
           create_credentials_file: true
@@ -108,14 +108,14 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: 🔍️ Set Image Name
+      - name: 🔍️ Set image name
         run: |
           IMAGE_ID=$(echo $DOCKER_METADATA_OUTPUT_TAGS | cut -d ' ' -f 1)
           echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
 
       - name: 🚀 Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v1
+        uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: api
           image: ${{ env.IMAGE_ID }}

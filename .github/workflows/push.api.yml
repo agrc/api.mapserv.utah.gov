@@ -31,12 +31,12 @@ jobs:
           show-progress: false
 
       - name: 🟣️ Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "7.0.x"
+          dotnet-version: "8.0.x"
 
       - name: 💾 Cache NuGet Packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           # nuget cache files are stored in `~/.nuget/packages` on Linux/macOS
           path: ~/.nuget/packages
@@ -49,7 +49,7 @@ jobs:
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
 
       - name: 📝️ Report coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
@@ -68,7 +68,7 @@ jobs:
           show-progress: false
 
       - name: 🗝️ Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         id: auth
         with:
           create_credentials_file: true
@@ -77,18 +77,18 @@ jobs:
           service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
 
       - name: 🐳 Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         id: builder
 
       - name: 🗝️ Authenticate Docker to Google CLoud
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: us-central1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
       - name: 🏷️ Extract tags from GitHub
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         id: meta
         with:
           images: us-central1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/images/api
@@ -99,7 +99,7 @@ jobs:
             type=raw,value=latest
 
       - name: 📦 Build and push image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           file: ./src/api/Dockerfile
           context: .
@@ -110,14 +110,14 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: 🔍️ Set Image Name
+      - name: 🔍️ Set image name
         run: |
           IMAGE_ID=$(echo $DOCKER_METADATA_OUTPUT_TAGS | cut -d ' ' -f 1)
           echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
 
       - name: 🚀 Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v1
+        uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: api
           image: ${{ env.IMAGE_ID }}
@@ -157,7 +157,7 @@ jobs:
 
       - name: 🗝️ Authenticate to Google Cloud
         id: auth
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
           service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
@@ -165,10 +165,10 @@ jobs:
 
       - name: 🐳 Set up Docker Buildx
         id: builder
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: ☁️ Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+        uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ secrets.DEV_PROJECT_ID }}
 
@@ -177,7 +177,7 @@ jobs:
           gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE
 
       - name: 🗝️ Authenticate Docker to Google Cloud
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: us-central1-docker.pkg.dev
           username: oauth2accesstoken
@@ -185,7 +185,7 @@ jobs:
 
       - name: 🏷️ Extract tags from GitHub
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: us-central1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/images/api
           tags: |
@@ -196,7 +196,7 @@ jobs:
 
       - name: 📦 Build and push image
         id: image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           file: ./src/api/Dockerfile
           builder: ${{ steps.builder.outputs.name }}
