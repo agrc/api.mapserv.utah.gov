@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.RequestOptionContracts;
+namespace ugrc.api.Models.RequestOptionContracts;
 public interface IProjectable {
     /// <summary>
     /// The spatial reference defines how the coordinates will represent a location on the earth defined by how the

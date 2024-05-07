@@ -1,6 +1,6 @@
 using MediatR.Pipeline;
 
-namespace AGRC.api.Infrastructure;
+namespace ugrc.api.Infrastructure;
 public class RequestLogger<TRequest>(ILogger log) : IRequestPreProcessor<TRequest>
     where TRequest : notnull {
     private readonly ILogger? _log = log?.ForContext<IMediator>();

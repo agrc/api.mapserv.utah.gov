@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
-using AGRC.api.Features.Converting;
-using AGRC.api.Geocoding;
+using ugrc.api.Features.Converting;
+using ugrc.api.Geocoding;
 using NetTopologySuite.IO.Converters;
 
 namespace api.tests.Converting;

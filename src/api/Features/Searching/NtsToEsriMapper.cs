@@ -1,8 +1,8 @@
-using AGRC.api.Infrastructure;
+using ugrc.api.Infrastructure;
 using EsriJson.Net;
 using NetTopologySuite.Geometries;
 
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 public class NtsToEsriMapper {
     public class Computation(Geometry geometry) : IComputation<object?> {
         internal readonly Geometry _geometry = geometry;

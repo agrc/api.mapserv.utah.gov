@@ -1,8 +1,8 @@
-using AGRC.api.Infrastructure;
-using AGRC.api.Models;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models;
 using Microsoft.Extensions.Options;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public static class ReverseGeocodePlan {
     public class Computation(PointWithSpatialReference point, double distance, int spatialReference) : IComputation<IReadOnlyCollection<LocatorProperties>> {
         public PointWithSpatialReference _point = point;

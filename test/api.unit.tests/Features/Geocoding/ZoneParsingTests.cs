@@ -1,7 +1,7 @@
-using AGRC.api.Cache;
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.Linkables;
+using ugrc.api.Cache;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.Linkables;
 
 namespace api.tests.Features.Geocoding;
 public class ZoneParsingTests {

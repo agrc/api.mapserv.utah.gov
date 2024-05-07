@@ -1,10 +1,10 @@
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using AGRC.api.Formatters;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Formatters;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.ArcGis;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public static class ReverseGeocode {
     public class Computation(LocatorProperties locator) : IComputation<ReverseGeocodeRestResponse?> {
         internal readonly LocatorProperties _locator = locator;

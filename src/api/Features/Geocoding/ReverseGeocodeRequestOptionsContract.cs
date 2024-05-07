@@ -1,7 +1,7 @@
-using AGRC.api.Models.RequestOptionContracts;
+using ugrc.api.Models.RequestOptionContracts;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class ReverseGeocodeRequestOptionsContract : IProjectable {
     private double _distance = 5;
 

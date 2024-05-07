@@ -1,11 +1,11 @@
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using AGRC.api.Formatters;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Formatters;
+using ugrc.api.Models.ArcGis;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace AGRC.api.Features.Health;
+namespace ugrc.api.Features.Health;
 public class UdotServiceHealthCheck(IHttpClientFactory factory) : IHealthCheck {
     private const string Url = "/server/rest/services/LrsEnabled/Read_Only_Public_LRS_Routes/MapServer/exts/LRServer/networkLayers/1?f=json";
     private readonly HttpClient _client = factory.CreateClient("udot");

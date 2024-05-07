@@ -1,4 +1,4 @@
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 public interface ITableMapping {
     IReadOnlyDictionary<string, string> MsSqlToPostgres { get; }
 }

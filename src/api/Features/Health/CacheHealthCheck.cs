@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using StackExchange.Redis;
 
-namespace AGRC.api.Features.Health;
+namespace ugrc.api.Features.Health;
 public class CacheHealthCheck(Lazy<IConnectionMultiplexer> redis) : IHealthCheck {
     private readonly IDatabase _db = redis.Value.GetDatabase();
 

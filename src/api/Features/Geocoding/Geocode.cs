@@ -1,12 +1,12 @@
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using AGRC.api.Exceptions;
-using AGRC.api.Formatters;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Exceptions;
+using ugrc.api.Formatters;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.ArcGis;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class Geocode {
     public class Computation(LocatorProperties locator) : IComputation<IReadOnlyCollection<Candidate>> {
         internal readonly LocatorProperties _locator = locator;

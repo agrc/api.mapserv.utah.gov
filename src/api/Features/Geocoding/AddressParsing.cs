@@ -1,9 +1,9 @@
-using AGRC.api.Cache;
-using AGRC.api.Comparers;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.Constants;
+using ugrc.api.Cache;
+using ugrc.api.Comparers;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.Constants;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public partial class AddressParsing {
     public class Computation(string street) : IComputation<Address> {
         public string Street { get; set; } = street;

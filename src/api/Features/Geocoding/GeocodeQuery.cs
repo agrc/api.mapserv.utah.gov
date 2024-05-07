@@ -1,11 +1,11 @@
-using AGRC.api.Comparers;
-using AGRC.api.Extensions;
-using AGRC.api.Features.Converting;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.ResponseContracts;
-using AGRC.api.Services;
+using ugrc.api.Comparers;
+using ugrc.api.Extensions;
+using ugrc.api.Features.Converting;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.ResponseContracts;
+using ugrc.api.Services;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class GeocodeQuery {
     public class Query(string street, string zone, SingleGeocodeRequestOptionsContract options, ApiVersion version) : IRequest<IApiResponse> {
         public string Street { get; } = street;

@@ -1,6 +1,6 @@
-using AGRC.api.Comparers;
-using AGRC.api.Models;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Comparers;
+using ugrc.api.Models;
+using ugrc.api.Models.ArcGis;
 
 namespace api.tests.Comparers;
 public class CandidateComparerTests {

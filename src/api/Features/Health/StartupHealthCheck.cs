@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace AGRC.api.Features.Health;
+namespace ugrc.api.Features.Health;
 public class StartupHealthCheck : IHealthCheck {
     private volatile bool _isReady;
 

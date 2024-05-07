@@ -1,6 +1,6 @@
 using Google.Cloud.Firestore;
 
-namespace AGRC.api.Models;
+namespace ugrc.api.Models;
 [FirestoreData]
 public class ApiKey {
     [FirestoreData(ConverterType = typeof(FirestoreEnumIgnoreCaseNameConverter<ApplicationStatus>))]

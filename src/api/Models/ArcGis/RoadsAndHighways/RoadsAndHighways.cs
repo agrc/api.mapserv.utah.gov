@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.ArcGis;
+namespace ugrc.api.Models.ArcGis;
 public enum GeometryType {
     esriGeometryPoint,
     esriGeometryPolyline,

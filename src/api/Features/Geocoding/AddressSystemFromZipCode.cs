@@ -1,8 +1,8 @@
-using AGRC.api.Cache;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.Linkables;
+using ugrc.api.Cache;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.Linkables;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class AddressSystemFromZipCode {
     public class Computation : IComputation<IReadOnlyCollection<GridLinkable>> {
         public readonly string _zip = string.Empty;

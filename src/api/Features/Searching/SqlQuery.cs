@@ -1,8 +1,8 @@
-using AGRC.api.Infrastructure;
+using ugrc.api.Infrastructure;
 using NetTopologySuite.Geometries;
 using Npgsql;
 
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 public class SqlQuery {
     public class Computation(string tableName, string returnValues, SearchOptions options) : IComputation<IReadOnlyCollection<SearchResponseContract?>?> {
         public string BuildQuery() {

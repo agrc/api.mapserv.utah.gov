@@ -1,5 +1,5 @@
 
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 public class SearchResponseContract {
     public object? Geometry { get; set; } = null;
 

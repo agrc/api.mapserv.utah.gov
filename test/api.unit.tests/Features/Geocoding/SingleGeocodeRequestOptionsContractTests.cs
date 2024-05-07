@@ -1,5 +1,5 @@
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Models.Constants;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Models.Constants;
 
 namespace api.tests.Features.Geocoding;
 public class SingleGeocodeRequestOptionsContractTests {

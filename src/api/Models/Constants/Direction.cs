@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.Constants;
+namespace ugrc.api.Models.Constants;
 public enum Direction {
     None,
     North,

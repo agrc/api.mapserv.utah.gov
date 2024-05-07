@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
-using AGRC.api.Features.Searching;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Features.Searching;
+using ugrc.api.Models.ArcGis;
 using Moq.Protected;
 
 namespace api.tests.Features.Searching;

@@ -1,5 +1,5 @@
-using AGRC.api.Features.Searching;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Features.Searching;
+using ugrc.api.Models.ResponseContracts;
 
 namespace api.tests.Features.Searching;
 public class DecodeGeometryDecoratorTests {

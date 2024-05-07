@@ -4,7 +4,7 @@
 geocoding.py
 ~~~~~~~~~~~~~
 
-This module contains logic to geocode an address with agrc's API
+This module contains logic to geocode an address with UGRC's API
 """
 #: To get the requests package visit http://docs.python-requests.org/en/latest/user/install.html
 import requests

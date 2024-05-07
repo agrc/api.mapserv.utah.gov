@@ -1,4 +1,4 @@
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 // TODO Duplicated in developer.mapserv.utah.gov
 public class SearchProviderConfiguration {
     public string Host { get; set; } = "opensgid.agrc.utah.gov";

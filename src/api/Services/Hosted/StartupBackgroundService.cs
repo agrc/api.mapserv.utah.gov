@@ -1,7 +1,7 @@
-using AGRC.api.Features.Health;
+using ugrc.api.Features.Health;
 using Microsoft.Extensions.Hosting;
 
-namespace AGRC.api.Services;
+namespace ugrc.api.Services;
 public class StartupBackgroundService(StartupHealthCheck healthCheck) : BackgroundService {
     private readonly StartupHealthCheck _healthCheck = healthCheck;
 

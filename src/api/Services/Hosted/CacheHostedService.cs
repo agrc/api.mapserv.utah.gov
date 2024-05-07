@@ -1,10 +1,10 @@
-using AGRC.api.Models.Linkables;
+using ugrc.api.Models.Linkables;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Cloud.BigQuery.V2;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
 
-namespace AGRC.api.Services;
+namespace ugrc.api.Services;
 public class CacheHostedService : BackgroundService {
     private BigQueryClient? _client;
     private BigQueryTable? _table;

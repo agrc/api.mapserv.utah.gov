@@ -1,10 +1,10 @@
-using AGRC.api.Features.Converting;
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Features.Health;
-using AGRC.api.Features.Milepost;
-using AGRC.api.Features.Searching;
-using AGRC.api.Middleware;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Features.Converting;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Features.Health;
+using ugrc.api.Features.Milepost;
+using ugrc.api.Features.Searching;
+using ugrc.api.Middleware;
+using ugrc.api.Models.ResponseContracts;
 using Asp.Versioning.Conventions;
 using CorrelationId;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace AGRC.api.Extensions;
+namespace ugrc.api.Extensions;
 public static class WebApplicationExtensions {
     public static void MapRoutes(this WebApplication app) {
         app.UseCorrelationId();

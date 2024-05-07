@@ -1,4 +1,4 @@
-namespace AGRC.api.Exceptions;
+namespace ugrc.api.Exceptions;
 public class GeocodingException : Exception {
     public GeocodingException(string message, Exception innerException)
         : base(message, innerException) {

@@ -1,17 +1,17 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using AGRC.api.Cache;
-using AGRC.api.Features.Converting;
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Features.Health;
-using AGRC.api.Features.Milepost;
-using AGRC.api.Features.Searching;
-using AGRC.api.Infrastructure;
-using AGRC.api.Middleware;
-using AGRC.api.Models.Configuration;
-using AGRC.api.Models.ResponseContracts;
-using AGRC.api.Services;
+using ugrc.api.Cache;
+using ugrc.api.Features.Converting;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Features.Health;
+using ugrc.api.Features.Milepost;
+using ugrc.api.Features.Searching;
+using ugrc.api.Infrastructure;
+using ugrc.api.Middleware;
+using ugrc.api.Models.Configuration;
+using ugrc.api.Models.ResponseContracts;
+using ugrc.api.Services;
 using api.OpenApi;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -36,7 +36,7 @@ using Serilog.Sinks.GoogleCloudLogging;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace AGRC.api.Extensions;
+namespace ugrc.api.Extensions;
 public static class WebApplicationBuilderExtensions {
     public static void ConfigureConfiguration(this WebApplicationBuilder builder) {
         builder.Configuration

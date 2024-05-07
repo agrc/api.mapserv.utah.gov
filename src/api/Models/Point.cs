@@ -1,4 +1,4 @@
-namespace AGRC.api.Models;
+namespace ugrc.api.Models;
 /// <summary>
 /// A coordinate pair collection representing a point
 /// </summary>

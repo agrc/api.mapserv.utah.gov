@@ -1,6 +1,6 @@
 using Google.Cloud.Firestore;
 
-namespace AGRC.api.Models;
+namespace ugrc.api.Models;
 public class FirestoreEnumIgnoreCaseNameConverter<T> : IFirestoreConverter<T>
         where T : struct, Enum {
     /// <inheritdoc />

@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Models.ArcGis;
 using Moq.Protected;
 
 namespace api.tests.Features.Geocoding;

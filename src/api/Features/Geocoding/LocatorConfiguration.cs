@@ -1,8 +1,8 @@
 using System.Net;
-using AGRC.api.Models.Configuration;
-using AGRC.api.Models.Constants;
+using ugrc.api.Models.Configuration;
+using ugrc.api.Models.Constants;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class LocatorConfiguration : GisServerConfigurationBase {
     public string DisplayName { get; set; } = string.Empty;
     public string ServiceName { get; set; } = string.Empty;

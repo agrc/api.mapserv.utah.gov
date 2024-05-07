@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.ArcGis;
+namespace ugrc.api.Models.ArcGis;
 // measureToGeometry?f=json&locations=[{"routeId":"I90","measure":25}]&outSR=102100
 public static class MeasureToGeometry {
     public class RequestContract : RequestContractBase<RequestLocation> {

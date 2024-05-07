@@ -1,5 +1,5 @@
-using AGRC.api.Features.Searching;
-using AGRC.api.Models.Constants;
+using ugrc.api.Features.Searching;
+using ugrc.api.Models.Constants;
 
 namespace api.tests.Features.Searching;
 public class SearchRequestOptionsContractTests {

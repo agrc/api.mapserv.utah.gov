@@ -1,9 +1,9 @@
-using AGRC.api.Features.Converting;
-using AGRC.api.Models.Constants;
-using AGRC.api.Models.RequestOptionContracts;
+using ugrc.api.Features.Converting;
+using ugrc.api.Models.Constants;
+using ugrc.api.Models.RequestOptionContracts;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace AGRC.api.Features.Milepost;
+namespace ugrc.api.Features.Milepost;
 public class RouteMilepostRequestOptionsContract : IProjectable, IOutputConvertible {
     /// <summary>
     /// The side of a divided highway.

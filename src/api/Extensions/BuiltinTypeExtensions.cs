@@ -1,4 +1,4 @@
-namespace AGRC.api.Extensions;
+namespace ugrc.api.Extensions;
 public static class BuiltinTypeExtensions {
     public static string ToCamelCase(this string source) {
         if (string.IsNullOrWhiteSpace(source)) {

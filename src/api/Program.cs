@@ -1,5 +1,5 @@
-using AGRC.api.Extensions;
-using AGRC.api.Quirks;
+using ugrc.api.Extensions;
+using ugrc.api.Quirks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;

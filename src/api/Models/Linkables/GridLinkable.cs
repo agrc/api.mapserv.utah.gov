@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.Linkables;
+namespace ugrc.api.Models.Linkables;
 public abstract class GridLinkable : IWeighable {
     protected GridLinkable(string grid, int weight) {
         Grid = grid;

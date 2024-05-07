@@ -1,4 +1,4 @@
-using AGRC.api.Extensions;
+using ugrc.api.Extensions;
 
 namespace api.tests.Extensions;
 

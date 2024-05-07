@@ -1,6 +1,6 @@
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.ResponseContracts;
 
 namespace api.tests.Features.Geocoding;
 

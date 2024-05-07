@@ -1,8 +1,8 @@
-using AGRC.api.Cache;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.Linkables;
+using ugrc.api.Cache;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.Linkables;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class AddressSystemFromPlace {
     public class Computation(string cityKey) : IComputation<IReadOnlyCollection<GridLinkable>> {
         public readonly string _cityKey = cityKey.ToLowerInvariant();

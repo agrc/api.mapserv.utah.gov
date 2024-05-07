@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.ArcGis;
+namespace ugrc.api.Models.ArcGis;
 public static class GeometryToMeasure {
     public class RequestContract : RequestContractBase<RequestLocation> {
         /// <summary>

@@ -1,6 +1,6 @@
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Models.Constants;
-using AGRC.api.Models.Linkables;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Models.Constants;
+using ugrc.api.Models.Linkables;
 
 namespace api.tests.Features.Geocoding;
 public static class AddressHelper {

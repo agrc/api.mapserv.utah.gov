@@ -1,5 +1,5 @@
-using AGRC.api.Models;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Models;
+using ugrc.api.Models.ArcGis;
 
 namespace api.tests.Models.ArcGis;
 public class CandidateTests {

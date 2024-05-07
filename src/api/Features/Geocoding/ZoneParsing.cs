@@ -1,7 +1,7 @@
-using AGRC.api.Cache;
-using AGRC.api.Infrastructure;
+using ugrc.api.Cache;
+using ugrc.api.Infrastructure;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public partial class ZoneParsing {
     public class Computation(string inputZone, Address addressModel) : IComputation<Address> {
         public string InputZone { get; set; } = inputZone;

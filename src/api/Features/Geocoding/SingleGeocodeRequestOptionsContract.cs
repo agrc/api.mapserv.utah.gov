@@ -1,9 +1,9 @@
-using AGRC.api.Features.Converting;
-using AGRC.api.Models.Constants;
-using AGRC.api.Models.RequestOptionContracts;
+using ugrc.api.Features.Converting;
+using ugrc.api.Models.Constants;
+using ugrc.api.Models.RequestOptionContracts;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 /// <summary>
 /// The options available for geocoding
 /// </summary>

@@ -1,9 +1,9 @@
-using AGRC.api.Cache;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Cache;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models;
+using ugrc.api.Models.ArcGis;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class PoBoxLocation {
     public class Computation(Address address, SingleGeocodeRequestOptionsContract options) : IComputation<Candidate?>, IHasGeocodingOptions {
         public readonly Address _address = address;

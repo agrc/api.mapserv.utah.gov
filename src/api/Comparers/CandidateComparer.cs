@@ -1,7 +1,7 @@
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Models.ArcGis;
 using Fastenshtein;
 
-namespace AGRC.api.Comparers;
+namespace ugrc.api.Comparers;
 /// <inheritdoc />
 /// <summary>
 ///     Compares address candidates by their geocode score

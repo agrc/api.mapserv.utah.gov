@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.ArcGis;
+namespace ugrc.api.Models.ArcGis;
 public static class ImageServiceIdentify {
     public record RequestContract(PointWithSpatialReference Geometry, GeometryType GeometryType) {
         public string ToQuery() =>

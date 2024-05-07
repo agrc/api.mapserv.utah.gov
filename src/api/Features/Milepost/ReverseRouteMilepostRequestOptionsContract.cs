@@ -1,7 +1,7 @@
-using AGRC.api.Models.RequestOptionContracts;
+using ugrc.api.Models.RequestOptionContracts;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace AGRC.api.Features.Milepost;
+namespace ugrc.api.Features.Milepost;
 public class ReverseRouteMilepostRequestOptionsContract : IProjectable {
     private double _buffer = 100;
     private int _suggest = 0;

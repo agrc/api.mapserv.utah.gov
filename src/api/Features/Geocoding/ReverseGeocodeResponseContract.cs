@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using AGRC.api.Models;
+using ugrc.api.Models;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class ReverseGeocodeResponseContract {
     /// <summary>
     /// The street address extracted from the Transportation.Roads dataset

@@ -1,8 +1,8 @@
-using AGRC.api.Cache;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.Constants;
+using ugrc.api.Cache;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.Constants;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class DoubleAvenuesException {
     public class Decorator(IComputationHandler<ZoneParsing.Computation, Address> decorated, IRegexCache cache, ILogger log) : IComputationHandler<ZoneParsing.Computation, Address> {
         private readonly IComputationHandler<ZoneParsing.Computation, Address> _decorated = decorated;

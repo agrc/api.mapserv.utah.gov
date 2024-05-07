@@ -1,6 +1,6 @@
-using AGRC.api.Models.Linkables;
+using ugrc.api.Models.Linkables;
 
-namespace AGRC.api.Cache;
+namespace ugrc.api.Cache;
 public interface ICacheRepository {
     Task<IReadOnlyCollection<GridLinkable>> FindGridsForPlaceAsync(string placeName);
     Task<IReadOnlyCollection<GridLinkable>> FindGridsForZipCodeAsync(string zipCode);

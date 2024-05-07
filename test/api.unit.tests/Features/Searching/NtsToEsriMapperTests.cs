@@ -1,4 +1,4 @@
-using AGRC.api.Features.Searching;
+using ugrc.api.Features.Searching;
 using NetTopologySuite.Geometries;
 
 namespace api.tests.Features.Searching;

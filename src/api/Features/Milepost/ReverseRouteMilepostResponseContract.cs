@@ -1,4 +1,4 @@
-namespace AGRC.api.Features.Milepost;
+namespace ugrc.api.Features.Milepost;
 public class ReverseRouteMilepostResponseContract {
     private string _routeName = string.Empty;
     private double _distance;

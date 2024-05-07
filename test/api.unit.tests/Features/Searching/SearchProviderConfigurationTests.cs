@@ -1,4 +1,4 @@
-using AGRC.api.Features.Searching;
+using ugrc.api.Features.Searching;
 
 namespace api.tests.Features.Searching;
 public class SearchProviderConfigurationTests {

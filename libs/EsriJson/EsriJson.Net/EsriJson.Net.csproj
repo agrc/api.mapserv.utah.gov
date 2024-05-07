@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>@steveAGRC</Authors>
-    <Company>AGRC</Company>
+    <Authors>@steve_ugrc</Authors>
+    <Company>UGRC</Company>
     <PackageLicenseUrl>MIT</PackageLicenseUrl>
     <PackageTags>esri json jsapi formatter</PackageTags>
     <Description>formats geometries into formats that can be easily digested by the esri javascript api</Description>

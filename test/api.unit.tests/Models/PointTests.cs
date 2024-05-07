@@ -1,4 +1,4 @@
-using AGRC.api.Models;
+using ugrc.api.Models;
 
 namespace api.tests.Models;
 public class PointTests {

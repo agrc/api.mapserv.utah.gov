@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.ArcGis;
+namespace ugrc.api.Models.ArcGis;
 
 public abstract class RequestContractBase<T> {
     public virtual T[] Locations { get; set; } = Array.Empty<T>();

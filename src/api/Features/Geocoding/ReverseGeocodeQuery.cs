@@ -1,9 +1,9 @@
-using AGRC.api.Extensions;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Extensions;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models;
+using ugrc.api.Models.ResponseContracts;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class ReverseGeocodeQuery {
     public class Query(double x, double y, ReverseGeocodeRequestOptionsContract options) : IRequest<IApiResponse> {
         public readonly ReverseGeocodeRequestOptionsContract _options = options;

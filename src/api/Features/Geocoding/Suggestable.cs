@@ -1,6 +1,6 @@
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Models.ArcGis;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public abstract class Suggestable {
     /// <summary>
     /// The **default** value of `0` will return the highest match. To include the other candidates, set this value

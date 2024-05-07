@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace AGRC.api.Quirks;
+namespace ugrc.api.Quirks;
 
 public class EsriJsonAttributesConverter : JsonConverter<Dictionary<string, object>> {
     public override Dictionary<string, object> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => throw new NotImplementedException();

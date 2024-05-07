@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace AGRC.api.Quirks;
+namespace ugrc.api.Quirks;
 public class JsonpMiddleware(RequestDelegate next) {
     private readonly RequestDelegate _next = next;
 

@@ -1,4 +1,4 @@
-using AGRC.api.Features.Geocoding;
+using ugrc.api.Features.Geocoding;
 
 namespace api.tests.Models.Configuration;
 public class LocatorConfigurationTests {

@@ -1,4 +1,4 @@
-namespace AGRC.api.Cache;
+namespace ugrc.api.Cache;
 public partial class RegexCache : IRegexCache {
     private readonly IAbbreviations _abbreviations;
     private readonly Dictionary<string, Regex> _regexDictionary;

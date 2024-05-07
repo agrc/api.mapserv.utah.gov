@@ -1,12 +1,12 @@
 using System.Text.Json.Serialization;
-using AGRC.api.Extensions;
-using AGRC.api.Features.Converting;
-using AGRC.api.Models.Constants;
+using ugrc.api.Extensions;
+using ugrc.api.Features.Converting;
+using ugrc.api.Models.Constants;
 using EsriJson.Net;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeocodeRequestOptionsContract> {
     private double? _scoreDifference;
 

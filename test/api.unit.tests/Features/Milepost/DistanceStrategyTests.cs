@@ -1,5 +1,5 @@
-using AGRC.api.Features.Milepost;
-using AGRC.api.Models;
+using ugrc.api.Features.Milepost;
+using ugrc.api.Models;
 
 namespace api.tests.Features.Milepost;
 public static class DistanceStrategyTests {

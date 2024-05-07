@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Google.Cloud.BigQuery.V2;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace AGRC.api.Features.Health;
+namespace ugrc.api.Features.Health;
 public class BigQueryHealthCheck : IHealthCheck {
     public string Name => nameof(BigQueryHealthCheck);
 

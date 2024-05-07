@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.ResponseContracts;
+namespace ugrc.api.Models.ResponseContracts;
 public class ApiResponseContract : IApiResponse {
     /// <summary>
     /// The result of the request. This is only populated when the status code is 200

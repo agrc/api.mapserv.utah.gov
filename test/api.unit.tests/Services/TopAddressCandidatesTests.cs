@@ -1,6 +1,6 @@
-using AGRC.api.Comparers;
-using AGRC.api.Models.ArcGis;
-using AGRC.api.Services;
+using ugrc.api.Comparers;
+using ugrc.api.Models.ArcGis;
+using ugrc.api.Services;
 
 namespace api.tests.Services;
 public class TopAddressCandidatesTests {
@@ -13,7 +13,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "GOLD",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             100
@@ -22,7 +22,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "GOLDS",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             99
@@ -31,7 +31,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "BRONZE",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             1
@@ -40,7 +40,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "SILVER",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             50
@@ -49,7 +49,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "Runner up",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             0
@@ -76,7 +76,7 @@ public class TopAddressCandidatesTests {
             new Candidate(
                 "669 W 3RD AVE",
                 "grid",
-                new AGRC.api.Models.Point(0,0),
+                new ugrc.api.Models.Point(0,0),
                 90.87,
                 "locator",
                 1
@@ -84,7 +84,7 @@ public class TopAddressCandidatesTests {
             new Candidate(
                 "669 E 3RD AVE",
                 "grid",
-                new AGRC.api.Models.Point(0,0),
+                new ugrc.api.Models.Point(0,0),
                 90.87,
                 "locator",
                 1
@@ -92,7 +92,7 @@ public class TopAddressCandidatesTests {
             new Candidate(
                 "670 W 3RD AVE",
                 "grid",
-                new AGRC.api.Models.Point(0,0),
+                new ugrc.api.Models.Point(0,0),
                 69.87,
                 "locator",
                 1
@@ -100,7 +100,7 @@ public class TopAddressCandidatesTests {
             new Candidate(
                 "670 E 3RD AVE",
                 "grid",
-                new AGRC.api.Models.Point(0,0),
+                new ugrc.api.Models.Point(0,0),
                 69.87,
                 "locator",
                 1
@@ -126,7 +126,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "GOLD",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             100
@@ -135,7 +135,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "GOLDS",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             100
@@ -144,7 +144,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "BRONZE",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             1
@@ -153,7 +153,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "SILVER",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             50
@@ -162,7 +162,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "Runner up",
             "grid",
-            new AGRC.api.Models.Point(0, 0),
+            new ugrc.api.Models.Point(0, 0),
             5,
             "locator",
             0
@@ -180,7 +180,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "GOLD",
             "grid",
-            new AGRC.api.Models.Point(1, 1),
+            new ugrc.api.Models.Point(1, 1),
             5,
             "locator",
             100
@@ -189,7 +189,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "GOLDS",
             "grid",
-            new AGRC.api.Models.Point(1, 1),
+            new ugrc.api.Models.Point(1, 1),
             5,
             "locator",
             100
@@ -198,7 +198,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "BRONZE",
             "grid",
-            new AGRC.api.Models.Point(1, 1),
+            new ugrc.api.Models.Point(1, 1),
             5,
             "locator",
             1
@@ -207,7 +207,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "SILVER",
             "grid",
-            new AGRC.api.Models.Point(1, 1),
+            new ugrc.api.Models.Point(1, 1),
             5,
             "locator",
             50
@@ -216,7 +216,7 @@ public class TopAddressCandidatesTests {
         topCandidates.Add(new Candidate(
             "Runner up",
             "grid",
-            new AGRC.api.Models.Point(1, 1),
+            new ugrc.api.Models.Point(1, 1),
             5,
             "locator",
             0

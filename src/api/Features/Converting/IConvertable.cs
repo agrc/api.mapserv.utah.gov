@@ -1,8 +1,8 @@
-using AGRC.api.Models.Constants;
+using ugrc.api.Models.Constants;
 using EsriJson.Net;
 using NetTopologySuite.Features;
 
-namespace AGRC.api.Features.Converting;
+namespace ugrc.api.Features.Converting;
 
 public interface IConvertible<TInput> {
     object Convert(TInput input, ApiVersion? version);

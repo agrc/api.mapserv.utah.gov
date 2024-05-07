@@ -1,6 +1,6 @@
-using AGRC.api.Models;
+using ugrc.api.Models;
 
-namespace AGRC.api.Services;
+namespace ugrc.api.Services;
 public interface IApiKeyRepository {
     Task<ApiKey> GetKey(string key);
 }

@@ -1,4 +1,4 @@
-namespace AGRC.api.Middleware;
+namespace ugrc.api.Middleware;
 
 public interface IKeyProvider {
     string? Get(HttpRequest request);

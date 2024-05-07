@@ -1,9 +1,9 @@
-using AGRC.api.Models;
-using AGRC.api.Models.Constants;
-using AGRC.api.Models.RequestOptionContracts;
+using ugrc.api.Models;
+using ugrc.api.Models.Constants;
+using ugrc.api.Models.RequestOptionContracts;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 public class SearchRequestOptionsContract : IProjectable {
     private double _buffer = 0;
 

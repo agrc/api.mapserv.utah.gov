@@ -1,10 +1,10 @@
 using System.Net.Http;
-using AGRC.api.Features.Converting;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Features.Converting;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.ResponseContracts;
 using Npgsql;
 
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 public class SearchQuery {
     public class Query(string tableName, string returnValues, SearchOptions options) : IRequest<IApiResponse> {
         public readonly string _tableName = tableName;

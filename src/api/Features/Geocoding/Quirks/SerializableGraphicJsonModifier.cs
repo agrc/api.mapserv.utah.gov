@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization.Metadata;
 using EsriJson.Net;
 
-namespace AGRC.api.Quirks;
+namespace ugrc.api.Quirks;
 public class SerializableGraphicJsonModifier {
     public void ModifyAttributeConverter(JsonTypeInfo typeInfo) {
         if (typeInfo.Type != typeof(SerializableGraphic)) {

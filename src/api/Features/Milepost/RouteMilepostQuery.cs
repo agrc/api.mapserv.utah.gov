@@ -1,11 +1,11 @@
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using AGRC.api.Features.Converting;
-using AGRC.api.Formatters;
-using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Features.Converting;
+using ugrc.api.Formatters;
+using ugrc.api.Models.ArcGis;
+using ugrc.api.Models.ResponseContracts;
 
-namespace AGRC.api.Features.Milepost;
+namespace ugrc.api.Features.Milepost;
 public partial class RouteMilepostQuery {
     public partial class Query : IRequest<IApiResponse> {
         public Query(string route, string milepost, RouteMilepostRequestOptionsContract options, ApiVersion version) {

@@ -1,6 +1,6 @@
-using AGRC.api.Infrastructure;
+using ugrc.api.Infrastructure;
 
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 public partial class ValidateSql {
     public class Computation(string sql) : IComputation<bool> {
         internal readonly string _sql = sql;

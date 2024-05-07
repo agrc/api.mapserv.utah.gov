@@ -2,7 +2,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace AGRC.api.Features.Health;
+namespace ugrc.api.Features.Health;
 internal static class DetailedHealthCheckResponseWriter {
     public static Task WriteDetailsJson(HttpContext httpContext, HealthReport result) {
         httpContext.Response.ContentType = "application/json";

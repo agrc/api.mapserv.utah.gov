@@ -1,7 +1,7 @@
-using AGRC.api.Models.Constants;
-using AGRC.api.Models.Linkables;
+using ugrc.api.Models.Constants;
+using ugrc.api.Models.Linkables;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public partial class Address {
     public Address(string inputAddress, int? houseNumber,
                  Direction prefixDirection, string streetName,

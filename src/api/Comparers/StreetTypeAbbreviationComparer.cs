@@ -1,4 +1,4 @@
-namespace AGRC.api.Comparers;
+namespace ugrc.api.Comparers;
 public class StreetTypeAbbreviationComparer : IEqualityComparer<string> {
     public bool Equals(string? x, string? y) {
         if (x is null && y is null) {

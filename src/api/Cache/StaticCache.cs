@@ -1,7 +1,7 @@
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Models.Linkables;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Models.Linkables;
 
-namespace AGRC.api.Cache;
+namespace ugrc.api.Cache;
 public class StaticCache : IStaticCache {
     private record ZipCorrection(int Zip, int Zip9, string Place);
 

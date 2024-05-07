@@ -1,7 +1,7 @@
-using AGRC.api.Models;
+using ugrc.api.Models;
 using Google.Cloud.Firestore;
 
-namespace AGRC.api.Services;
+namespace ugrc.api.Services;
 public class FirestoreApiKeyRepository(FirestoreDb singleton) : IApiKeyRepository {
     private readonly FirestoreDb _db = singleton;
 

@@ -1,10 +1,10 @@
-using AGRC.api.Cache;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models;
-using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.Linkables;
+using ugrc.api.Cache;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models;
+using ugrc.api.Models.ArcGis;
+using ugrc.api.Models.Linkables;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class UspsDeliveryPointLocation {
     public class Computation(Address address, SingleGeocodeRequestOptionsContract options) : IComputation<Candidate?>, IHasGeocodingOptions {
         public readonly Address _address = address;

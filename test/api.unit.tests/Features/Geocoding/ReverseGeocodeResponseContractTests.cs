@@ -1,5 +1,5 @@
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Models;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Models;
 
 namespace api.tests.Features.Geocoding;
 public class ReverseGeocodeResponseContractTests {

@@ -1,6 +1,6 @@
-using AGRC.api.Models.Constants;
+using ugrc.api.Models.Constants;
 
-namespace AGRC.api.Cache;
+namespace ugrc.api.Cache;
 public class Abbreviations : IAbbreviations {
     public Dictionary<StreetType, string> StreetTypeAbbreviations => new() {
         {

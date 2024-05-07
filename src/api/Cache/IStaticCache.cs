@@ -1,7 +1,7 @@
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Models.Linkables;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Models.Linkables;
 
-namespace AGRC.api.Cache;
+namespace ugrc.api.Cache;
 public interface IStaticCache {
     Dictionary<int, PoBoxAddress> PoBoxes { get; }
     IReadOnlyCollection<int> PoBoxZipCodesWithExclusions { get; }

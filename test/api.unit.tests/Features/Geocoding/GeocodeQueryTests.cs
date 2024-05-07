@@ -1,10 +1,10 @@
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models;
-using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.Constants;
-using AGRC.api.Models.Linkables;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models;
+using ugrc.api.Models.ArcGis;
+using ugrc.api.Models.Constants;
+using ugrc.api.Models.Linkables;
+using ugrc.api.Models.ResponseContracts;
 
 namespace api.tests.Features.Geocoding;
 public class GeocodeQueryTests {

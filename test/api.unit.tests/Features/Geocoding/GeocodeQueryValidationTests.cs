@@ -1,6 +1,6 @@
-using AGRC.api.Features.Converting;
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Features.Converting;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace api.tests.Features.Geocoding;

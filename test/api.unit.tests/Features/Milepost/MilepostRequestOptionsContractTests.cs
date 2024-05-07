@@ -1,5 +1,5 @@
-using AGRC.api.Features.Milepost;
-using AGRC.api.Models.Constants;
+using ugrc.api.Features.Milepost;
+using ugrc.api.Models.Constants;
 
 namespace api.tests.Features.Milepost;
 public class MilepostRequestOptionsContractTests {

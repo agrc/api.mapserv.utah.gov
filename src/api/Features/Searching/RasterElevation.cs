@@ -1,10 +1,10 @@
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using AGRC.api.Formatters;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Formatters;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.ArcGis;
 
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 public class RasterElevation {
     public class Computation(string returnValues, SearchOptions options) : IComputation<IReadOnlyCollection<SearchResponseContract?>?> {
         internal SearchOptions Options { get; } = options;

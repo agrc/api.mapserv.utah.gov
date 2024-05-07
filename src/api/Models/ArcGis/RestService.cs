@@ -1,2 +1,2 @@
-namespace AGRC.api.Models.ArcGis;
+namespace ugrc.api.Models.ArcGis;
 public record ServiceInformation(string ServiceDescription, RestEndpointError? Error) : RestErrorable(Error);

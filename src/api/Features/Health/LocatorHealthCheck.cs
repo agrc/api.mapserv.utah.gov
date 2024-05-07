@@ -1,13 +1,13 @@
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Formatters;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Formatters;
+using ugrc.api.Models.ArcGis;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 
-namespace AGRC.api.Features.Health;
+namespace ugrc.api.Features.Health;
 public class LocatorHealthCheck(IOptions<List<LocatorConfiguration>> options, IHttpClientFactory factory, ILogger log) : IHealthCheck {
     public string Name => nameof(LocatorHealthCheck);
 

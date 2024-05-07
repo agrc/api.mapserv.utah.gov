@@ -1,9 +1,9 @@
-using AGRC.api.Comparers;
-using AGRC.api.Extensions;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Comparers;
+using ugrc.api.Extensions;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.ArcGis;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class FilterCandidates {
     public class Computation(IList<Candidate>? candidates, SingleGeocodeRequestOptionsContract geocodeOptions,
             string street, string zone, Address geocodedAddress) : IComputation<SingleGeocodeResponseContract?> {

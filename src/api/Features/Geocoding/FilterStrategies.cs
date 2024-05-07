@@ -1,7 +1,7 @@
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Models.ArcGis;
 using Autofac;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public interface IFilterSuggestionFactory {
     IFilterSuggestionStrategy GetStrategy(int acceptScore);
 }

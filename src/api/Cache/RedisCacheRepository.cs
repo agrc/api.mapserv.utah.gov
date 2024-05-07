@@ -1,8 +1,8 @@
-using AGRC.api.Models.Linkables;
+using ugrc.api.Models.Linkables;
 using Microsoft.Extensions.Caching.Memory;
 using StackExchange.Redis;
 
-namespace AGRC.api.Cache;
+namespace ugrc.api.Cache;
 public class RedisCacheRepository : ICacheRepository {
     private readonly IDatabase _db;
     private readonly MemoryCache _placeNameCache;

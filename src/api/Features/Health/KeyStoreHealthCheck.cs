@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Google.Cloud.Firestore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace AGRC.api.Features.Health;
+namespace ugrc.api.Features.Health;
 public class KeyStoreHealthCheck(FirestoreDb singleton) : IHealthCheck {
     private readonly FirestoreDb _db = singleton;
 

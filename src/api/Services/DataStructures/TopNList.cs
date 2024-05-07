@@ -1,4 +1,4 @@
-namespace AGRC.api.Services;
+namespace ugrc.api.Services;
 /// <summary>
 ///     List that keeps a sorted amount of N items
 /// </summary>

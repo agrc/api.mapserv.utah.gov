@@ -1,4 +1,4 @@
-namespace AGRC.api.Infrastructure;
+namespace ugrc.api.Infrastructure;
 public interface IComputation<TResult> { }
 
 public interface IComputationHandler<TComputation, TResult> where TComputation : IComputation<TResult> {

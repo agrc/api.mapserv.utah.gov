@@ -1,8 +1,8 @@
-using AGRC.api.Models;
-using AGRC.api.Models.ResponseContracts;
-using AGRC.api.Services;
+using ugrc.api.Models;
+using ugrc.api.Models.ResponseContracts;
+using ugrc.api.Services;
 
-namespace AGRC.api.Middleware;
+namespace ugrc.api.Middleware;
 
 public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvider, IServerIpProvider serverIpProvider, IApiKeyRepository repo) : IEndpointFilter {
     private readonly ILogger? _log = log?.ForContext<AuthorizeApiKeyFilter>();

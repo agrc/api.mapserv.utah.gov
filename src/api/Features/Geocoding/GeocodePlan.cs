@@ -1,8 +1,8 @@
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.Constants;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.Constants;
 using Microsoft.Extensions.Options;
 
-namespace AGRC.api.Features.Geocoding;
+namespace ugrc.api.Features.Geocoding;
 public class GeocodePlan {
     public class Computation(Address address, SingleGeocodeRequestOptionsContract options) : IComputation<IReadOnlyCollection<LocatorProperties>> {
         public readonly Address _address = address;

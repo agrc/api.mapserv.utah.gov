@@ -1,7 +1,7 @@
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.Constants;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.Constants;
 
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 public static class AttributeTableKeyFormatting {
     public class Decorator(IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?> decorated) : IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?> {
         private readonly IComputationHandler<SqlQuery.Computation, IReadOnlyCollection<SearchResponseContract?>?> _decorated = decorated;

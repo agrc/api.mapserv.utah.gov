@@ -1,4 +1,4 @@
-namespace AGRC.api.Models.Configuration;
+namespace ugrc.api.Models.Configuration;
 public abstract class GisServerConfigurationBase {
     public virtual string Protocol { get; set; } = "http";
     public virtual string Host { get; set; } = "localhost";

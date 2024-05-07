@@ -1,8 +1,8 @@
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Models;
-using AGRC.api.Models.ArcGis;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Models;
+using ugrc.api.Models.ArcGis;
 
-namespace AGRC.api.Extensions;
+namespace ugrc.api.Extensions;
 public static class ConversionExtensions {
     public static SingleGeocodeResponseContract ToResponseObject(this Candidate candidate, string street, string zone) =>
         new() {

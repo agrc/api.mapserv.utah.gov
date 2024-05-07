@@ -1,7 +1,7 @@
-using AGRC.api.Models;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Models;
+using ugrc.api.Models.ResponseContracts;
 
-namespace AGRC.api.Features.Searching;
+namespace ugrc.api.Features.Searching;
 
 public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiResponse> decorated,
     ITableMapping mapping, ILogger log) : IRequestHandler<SearchQuery.Query, IApiResponse> {

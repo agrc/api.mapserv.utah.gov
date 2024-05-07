@@ -1,6 +1,6 @@
-using AGRC.api.Features.Searching;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.Constants;
+using ugrc.api.Features.Searching;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.Constants;
 
 namespace api.tests.Features.Searching;
 public class AttributeTableKeyFormattingTests {

@@ -1,8 +1,8 @@
-using AGRC.api.Features.Geocoding;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models;
-using AGRC.api.Models.ArcGis;
-using AGRC.api.Models.Linkables;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models;
+using ugrc.api.Models.ArcGis;
+using ugrc.api.Models.Linkables;
 
 namespace api.tests.Features.Geocoding;
 public static class FilterCandidateTests {

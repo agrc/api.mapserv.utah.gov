@@ -1,6 +1,6 @@
-using AGRC.api.Models;
+using ugrc.api.Models;
 
-namespace AGRC.api.Features.Milepost;
+namespace ugrc.api.Features.Milepost;
 public interface IDistanceStrategy {
     double Calculate(Point from, Point to, int fractionalDigits = -1);
 }

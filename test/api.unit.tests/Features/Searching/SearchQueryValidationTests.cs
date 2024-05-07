@@ -1,7 +1,7 @@
-using AGRC.api.Features.Converting;
-using AGRC.api.Features.Searching;
-using AGRC.api.Infrastructure;
-using AGRC.api.Models.ResponseContracts;
+using ugrc.api.Features.Converting;
+using ugrc.api.Features.Searching;
+using ugrc.api.Infrastructure;
+using ugrc.api.Models.ResponseContracts;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace api.tests.Features.Searching;

@@ -1,4 +1,4 @@
-using AGRC.api.Features.Milepost;
+using ugrc.api.Features.Milepost;
 
 namespace api.tests.Features.Milepost;
 public class ReverseRouteMilepostResponseContractTests {

@@ -1,7 +1,7 @@
-using AGRC.api.Middleware;
-using AGRC.api.Models;
-using AGRC.api.Models.ResponseContracts;
-using AGRC.api.Services;
+using ugrc.api.Middleware;
+using ugrc.api.Models;
+using ugrc.api.Models.ResponseContracts;
+using ugrc.api.Services;
 
 namespace api.tests.Filters;
 public class AuthorizeApiKeyTests {

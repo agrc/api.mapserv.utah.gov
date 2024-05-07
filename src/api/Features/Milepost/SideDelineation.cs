@@ -1,4 +1,4 @@
-namespace AGRC.api.Features.Milepost;
+namespace ugrc.api.Features.Milepost;
 /// <summary>
 /// The side of a divided highway
 /// </summary>

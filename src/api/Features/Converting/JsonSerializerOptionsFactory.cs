@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
-using AGRC.api.Geocoding;
-using AGRC.api.Quirks;
+using ugrc.api.Geocoding;
+using ugrc.api.Quirks;
 using NetTopologySuite.IO.Converters;
 
-namespace AGRC.api.Features.Converting;
+namespace ugrc.api.Features.Converting;
 
 public interface IJsonSerializerOptionsFactory {
     JsonSerializerOptions GetSerializerOptionsFor(ApiVersion version);
