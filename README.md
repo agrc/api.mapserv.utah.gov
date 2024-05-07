@@ -54,7 +54,7 @@ To make the project as flexible as possible, the connection strings, urls to ser
 
 #### Startup Routine
 
-Start the firebase emulators from the developer project. This also starts the self [service website](http://localhost:5173/).
+Start the firebase emulators from the developer project. This also starts the [self service](http://localhost:5173/) website.
 
 > [!TIP]
 > If you want to work with the self service website, duplicate the `./src/developer/.env` file to `./src/developer/.env.local` and add the firebase project settings.
