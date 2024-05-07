@@ -28,6 +28,7 @@ Please use conventional commits when committing code. This allows change log and
 - **test**: writing tests
 - **chore**: doing things not related the others
 - **ci**: continuous integration
+- **deps**: package updates
 
 With the following scopes depending on the areas of code you are modifying.
 
@@ -53,9 +54,9 @@ To make the project as flexible as possible, the connection strings, urls to ser
 
 #### Startup Routine
 
-Start the firebase emulators from the developer project.
+Start the firebase emulators from the developer project. This also starts the self [service website](http://localhost:5173/).
 
-> ![TIP]
+> [!TIP]
 > If you want to work with the self service website, duplicate the `./src/developer/.env` file to `./src/developer/.env.local` and add the firebase project settings.
 
 ```sh
@@ -93,13 +94,13 @@ Start the API in watch mode from the `src/api` directory.
 cd src/api && FIRESTORE_EMULATOR_HOST='127.0.0.1:8080' dotnet watch run
 ```
 
-You can now view the [firebase emulator](http://localhost:4000/), the [smocker emulator](http://localhost:8081/), and the [api](http://localhost:1337/) to start making requests. There is an insomnia client json file in the `test/api tool` folder you can import to get started.
+You can now view the [firebase emulator](http://localhost:4000/), the [smocker emulator](http://localhost:8081/), the [self service](http://localhost:5173/) website, and the [api](http://localhost:1337/) to start making requests. There is an insomnia client json file in the `test/api tool` folder you can import to get started.
 
 ### Testing
 
 #### API
 
-> ![TIP]
+> [!TIP]
 > No containers need to be running to execute the unit tests.
 
 ```sh
@@ -113,6 +114,8 @@ Start the astro website.
 ```sh
 cd src/explorer && npm install && npm start
 ```
+
+You can now view the [documentation](http://localhost:4321/) website.
 
 ## API System Parts
 
