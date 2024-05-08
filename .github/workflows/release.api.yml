@@ -183,7 +183,7 @@ jobs:
 
       - name: 🏷️ Extract tags from GitHub
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: us-central1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/images/api
           tags: |
