@@ -78,8 +78,8 @@ jobs:
       - name: Create function envs
         shell: bash
         run: |
-          touch ./src/developer/functions/.env
-          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> ./src/developer/functions/.env
+          touch ./functions/.env
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> ./functions/.env
 
       - name: 🚀 Firebase deploy
         shell: bash
