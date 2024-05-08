@@ -7,6 +7,8 @@ import { TextLink } from '../Link';
 import Button, { RouterButtonLink } from '../design-system/Button';
 import Spinner from '../design-system/Spinner';
 
+const numberFormat = new Intl.NumberFormat('en-US');
+
 export function Component() {
   const functions = useFunctions();
   const getKeys = httpsCallable(functions, 'keys');
@@ -32,39 +34,70 @@ export function Component() {
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">
               <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-slate-950 dark:border-mustard-400/20 dark:bg-slate-900">
-                <div className="p-6 text-center">
-                  <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
-                    2,712,908
-                  </p>
-                  <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
-                    requests to date
-                  </p>
-                </div>
-                <div className="p-6 text-center">
-                  <div className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
-                    {status === 'success' && response.data.length}
-                    {status === 'error' && (
-                      <div className="flex min-h-[32px] items-center justify-center">
-                        <span className="sr-only">
-                          We were unable to fetch your API key count
-                        </span>
-                        <ExclamationTriangleIcon className="h-6 w-6 text-mustard-500" />
-                      </div>
-                    )}
-                    {status === 'pending' && (
-                      <div className="flex min-h-[32px] items-center justify-center">
-                        <Spinner
-                          size={Spinner.Sizes.xl}
-                          className="text-wavy-800"
-                          ariaLabel="fetching API key count"
-                        />
-                      </div>
-                    )}
+                {status === 'pending' && (
+                  <div className="flex min-h-[100px] min-w-[266px] items-center justify-center">
+                    <Spinner
+                      size={Spinner.Sizes.xl}
+                      className="text-wavy-800"
+                      ariaLabel="fetching API statistics"
+                    />
                   </div>
-                  <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
-                    total keys
-                  </p>
-                </div>
+                )}
+                {status === 'success' && (
+                  <>
+                    <div className="p-6 text-center">
+                      <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
+                        {numberFormat.format(
+                          response.data.reduce(
+                            (sum, key) => sum + Number(key.count),
+                            0,
+                          ),
+                        )}
+                      </p>
+                      <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
+                        requests to date
+                      </p>
+                    </div>
+                    <div className="p-6 text-center">
+                      <div className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
+                        {response.data.length}
+                      </div>
+                      <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
+                        total keys
+                      </p>
+                    </div>
+                  </>
+                )}
+                {status === 'error' && (
+                  <>
+                    <div className="p-6 text-center">
+                      <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
+                        <div className="flex min-h-[32px] items-center justify-center">
+                          <span className="sr-only">
+                            We were unable to fetch your API key count
+                          </span>
+                          <ExclamationTriangleIcon className="h-6 w-6 text-mustard-500" />
+                        </div>
+                      </p>
+                      <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
+                        requests to date
+                      </p>
+                    </div>
+                    <div className="p-6 text-center">
+                      <div className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
+                        <div className="flex min-h-[32px] items-center justify-center">
+                          <span className="sr-only">
+                            We were unable to fetch your API key count
+                          </span>
+                          <ExclamationTriangleIcon className="h-6 w-6 text-mustard-500" />
+                        </div>
+                      </div>
+                      <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
+                        total keys
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

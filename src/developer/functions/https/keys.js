@@ -1,11 +1,13 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { debug } from 'firebase-functions/logger';
+import { Redis } from 'ioredis';
 import { safelyInitializeApp } from '../firebase.js';
 import { minimalKeyConversion } from './converters.js';
 
 safelyInitializeApp();
 const db = getFirestore();
 const empty = [];
+const redis = new Redis();
 
 /**
  * A function that returns the keys for a given user.
@@ -31,6 +33,16 @@ export const getKeys = async (uid) => {
 
   const keys = [];
   querySnapshot.forEach((doc) => keys.push(doc.data()));
+
+  let keyNames = keys.map((key) => key.key);
+  debug('getting key counts for', keyNames);
+
+  let counts = await redis.mget(...keyNames);
+
+  counts.forEach((count, index) => {
+    keys[index].count = count ?? 0;
+    debug('count', keys[index].count);
+  });
 
   return keys;
 };

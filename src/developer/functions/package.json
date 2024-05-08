@@ -12,12 +12,13 @@
     "start": "npm run shell"
   },
   "dependencies": {
-    "firebase-admin": "^11.11.0",
-    "firebase-functions": "^4.4.1",
+    "firebase-admin": "^12.1.0",
+    "firebase-functions": "^5.0.1",
+    "ioredis": "^5.4.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "firebase-functions-test": "^3.1.0"
+    "firebase-functions-test": "^3.2.0"
   },
   "engines": {
     "node": "18"
