@@ -189,7 +189,7 @@ export function Component() {
                 <Pill>Python</Pill>
                 <Pill>Java</Pill>
                 <Pill>C#</Pill>
-                <Pill>UGRC Geocoding Toolbox</Pill>
+                <Pill>Node.js</Pill>
                 <Pill>UGRC API Client</Pill>
               </div>
             </Card>
