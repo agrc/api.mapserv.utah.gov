@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.6](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.5...developer-v2.2.6) (2024-05-08)
+
+
+### Bug Fixes
+
+* **developer:** direct function traffic through connector ([87d669a](https://github.com/agrc/api.mapserv.utah.gov/commit/87d669a53caa7a4abade18f8ff4b55c504c8ca56))
+
 ## [2.2.5](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.4...developer-v2.2.5) (2024-05-08)
 
 
