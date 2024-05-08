@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.9](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.8...developer-v2.2.9) (2024-05-08)
+
+
+### Bug Fixes
+
+* **developer:** correct connection logic ([353f856](https://github.com/agrc/api.mapserv.utah.gov/commit/353f856f8492595a810165696f52ce1fd21c373e))
+
 ## [2.2.8](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.7...developer-v2.2.8) (2024-05-08)
 
 
