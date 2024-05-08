@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.3](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.2...developer-v2.2.3) (2024-05-08)
+
+
+### Bug Fixes
+
+* **developer:** dry cors ([a5cdd54](https://github.com/agrc/api.mapserv.utah.gov/commit/a5cdd54ed078298e55386cbeaba5a0b6c40c8029))
+
 ## [2.2.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.1...developer-v2.2.2) (2024-05-08)
 
 
