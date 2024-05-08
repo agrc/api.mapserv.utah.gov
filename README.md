@@ -94,7 +94,7 @@ Start the API in watch mode from the `src/api` directory.
 cd src/api && FIRESTORE_EMULATOR_HOST='127.0.0.1:8080' dotnet watch run
 ```
 
-You can now view the [firebase emulator](http://localhost:4000/), the [smocker emulator](http://localhost:8081/), the [self service](http://localhost:5173/) website, and the [api](http://localhost:1337/) to start making requests. There is an insomnia client json file in the `test/api tool` folder you can import to get started.
+You can now view the [firebase emulator](http://localhost:4000/), the [smocker emulator](http://localhost:8081/), the [self service](http://localhost:5173/) website, and the [api](http://localhost:1337/) to start making requests. Smocker will respond to requests on port 6443 over http. There is an insomnia client json file in the `test/api tool` folder you can import to get started.
 
 ### Testing
 
