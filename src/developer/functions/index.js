@@ -5,6 +5,8 @@ import { safelyInitializeApp } from './firebase.js';
 
 safelyInitializeApp();
 
+const cors = [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/, /api\.mapserv\.utah\.gov$/];
+
 /**
  * @template CallableRequestT
  * @typedef {import('firebase-functions/v2/https').CallableRequest<CallableRequestT>} CallableRequest
@@ -34,7 +36,7 @@ export const onCreateUser = auth.user().onCreate(async (user) => {
  * @returns {Promise<string>} The api key string value.
  */
 export const createKey = https.onCall(
-  { cors: [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/] },
+  { cors },
   async (request) => {
     if (request.auth === undefined) {
       debug('[https::createKey] no auth context');
@@ -64,7 +66,7 @@ export const createKey = https.onCall(
  * }[]>} an array of minimal key objects
  */
 export const keys = https.onCall(
-  { cors: [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/] },
+  { cors },
   async (request) => {
     debug('[https::keys] starting');
 
@@ -92,7 +94,7 @@ export const keys = https.onCall(
  */
 export const validateClaim = https.onCall(
   {
-    cors: [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/],
+    cors,
     secrets: ['LEGACY_PEPPER'],
   },
   async (request) => {
