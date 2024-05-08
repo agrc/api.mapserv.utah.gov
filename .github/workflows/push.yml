@@ -36,7 +36,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: 🚀 Create release
-        uses: google-github-actions/release-please-action@v3
+        uses: google-github-actions/release-please-action@v4
         id: release-please
         with:
           token: ${{ steps.app-token.outputs.token }}
