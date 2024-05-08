@@ -37,12 +37,17 @@ export const getKeys = async (uid) => {
   let keyNames = keys.map((key) => key.key);
   debug('getting key counts for', keyNames);
 
-  let counts = await redis.mget(...keyNames);
+  try {
 
-  counts.forEach((count, index) => {
-    keys[index].count = count ?? 0;
-    debug('count', keys[index].count);
-  });
+    let counts = await redis.mget(...keyNames);
+
+    counts.forEach((count, index) => {
+      keys[index].count = count ?? 0;
+      debug('count', keys[index].count);
+    });
+  } catch(error) {
+    error('redis error', error)
+  }
 
   return keys;
 };
