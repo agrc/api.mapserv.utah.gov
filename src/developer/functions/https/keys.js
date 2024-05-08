@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { debug } from 'firebase-functions/logger';
+import { debug, error } from 'firebase-functions/logger';
 import { Redis } from 'ioredis';
 import { safelyInitializeApp } from '../firebase.js';
 import { minimalKeyConversion } from './converters.js';
@@ -7,8 +7,12 @@ import { minimalKeyConversion } from './converters.js';
 safelyInitializeApp();
 const db = getFirestore();
 const empty = [];
-const redis = new Redis(process.env.REDIS_HOST);
-
+let redis = {};
+try {
+  redis = new Redis(process.env.REDIS_HOST);
+} catch (ex) {
+  error(error);
+}
 /**
  * A function that returns the keys for a given user.
  * @param {string} uid - the id of the user to get keys for
@@ -38,7 +42,6 @@ export const getKeys = async (uid) => {
   debug('getting key counts for', keyNames);
 
   try {
-
     let counts = await redis.mget(...keyNames);
 
     counts.forEach((count, index) => {
