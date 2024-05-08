@@ -4,7 +4,7 @@
     <!-- database -->
     <PackageReference Update="Dapper" Version="2.1.35" />
     <PackageReference Update="Google.Cloud.BigQuery.V2" Version="3.9.0" />
-    <PackageReference Update="Google.Cloud.Firestore" Version="3.6.0" />
+    <PackageReference Update="Google.Cloud.Firestore" Version="3.7.0" />
     <PackageReference Update="Npgsql.NetTopologySuite" Version="8.0.2" />
     <PackageReference Update="Npgsql" Version="7.0.1" />
     <PackageReference Update="StackExchange.Redis" Version="2.7.33" />
