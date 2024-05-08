@@ -72,7 +72,7 @@ public class SingleGeocodeResponseContractTests {
                 point.Y.ShouldBe(2);
             }
 
-            feature.Attributes.Keys.ShouldBe(new[] { "Location", "Score", "Locator", "MatchAddress", "InputAddress", "StandardizedAddress", "AddressGrid", "ScoreDifference", "Wkid", "Candidates" });
+            feature.Attributes.Keys.ToList().ShouldBe(["Location", "Score", "Locator", "MatchAddress", "InputAddress", "StandardizedAddress", "AddressGrid", "ScoreDifference", "Wkid", "Candidates"]);
             feature.Attributes["Location"].ShouldNotBeNull();
             feature.Attributes["Score"].ShouldBe(score);
             feature.Attributes["Locator"].ShouldBe(locatorType.ToString());

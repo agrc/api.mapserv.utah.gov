@@ -48,7 +48,7 @@ public class MeasureToGeometryTests {
     }
     [Fact]
     public void Should_strip_leading_zeros_and_trailing_m() {
-        var model = new MeasureToGeometry.ResponseLocation(MeasureToGeometry.Status.esriLocatingOK, Array.Empty<MeasureToGeometry.ResponseLocation>(), "0001PM", GeometryType.esriGeometryPoint, null);
+        var model = new MeasureToGeometry.ResponseLocation(MeasureToGeometry.Status.esriLocatingOK, [], "0001PM", GeometryType.esriGeometryPoint, null);
 
         model.RouteId.ShouldBe("1P");
     }

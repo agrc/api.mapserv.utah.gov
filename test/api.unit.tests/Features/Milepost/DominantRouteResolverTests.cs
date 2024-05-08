@@ -25,8 +25,8 @@ public static class DominantRouteResolverTests {
                     new Concurrencies.ResponseLocations([
                             new Concurrencies.ConcurrencyLocations(true,"1", -1, 1)
                         ], "1", -1, 1),
-                    new Concurrencies.ResponseLocations(Array.Empty<Concurrencies.ConcurrencyLocations>(), "2", -1, 1),
-                    new Concurrencies.ResponseLocations(Array.Empty<Concurrencies.ConcurrencyLocations>(), "3", -1, 1)
+                    new Concurrencies.ResponseLocations([], "2", -1, 1),
+                    new Concurrencies.ResponseLocations([], "3", -1, 1)
             ], null);
 
             var computation = new DominantRouteResolver.Computation(locations, null, 0);

@@ -16,7 +16,7 @@ public class ReverseGeocodeQueryTests {
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<ReverseGeocodePlan.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((ReverseGeocodePlan.Computation __, CancellationToken _) =>
-               Array.Empty<LocatorProperties>()
+               []
             );
 
         var handler = new ReverseGeocodeQuery.Handler(mediator.Object, _logger);

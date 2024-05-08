@@ -6,7 +6,7 @@ using Raven.Client.Documents;
 Console.WriteLine("Migrating RavenDB to firestore...");
 
 var store = new DocumentStore() {
-    Urls = new[] { "http://localhost:3000" },
+    Urls = ["http://localhost:3000"],
     Database = "export"
 }.Initialize();
 

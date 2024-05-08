@@ -24,9 +24,7 @@ public class DeliveryPointTests {
         const int pobox = -1;
         const int zip = 84114;
 
-        var address = Address.BuildPoBoxAddress("inputAddress", pobox, zip,
-            new[] { new ZipGridLink(84114, "grid", 0) }
-        );
+        var address = Address.BuildPoBoxAddress("inputAddress", pobox, zip, [new ZipGridLink(84114, "grid", 0)]);
 
         var geocodeOptions = new SingleGeocodeRequestOptionsContract {
             PoBox = true,

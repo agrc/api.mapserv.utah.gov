@@ -19,21 +19,21 @@ public class GeocodeQueryTests {
         var computeMediator = new Mock<IComputeMediator>();
         computeMediator.Setup(x => x.Handle(It.IsAny<AddressParsing.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((AddressParsing.Computation __, CancellationToken _) =>
-                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, new[] { new PlaceGridLink("slc", "SALT LAKE", 0) }, 0, false, false)
+                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, [new PlaceGridLink("slc", "SALT LAKE", 0)], 0, false, false)
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<ZoneParsing.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((ZoneParsing.Computation __, CancellationToken _) =>
-                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, new[] { new PlaceGridLink("slc", "SALT LAKE", 0) }, 0, false, false)
+                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, [new PlaceGridLink("slc", "SALT LAKE", 0)], 0, false, false)
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((UspsDeliveryPointLocation.Computation __, CancellationToken _) => null);
         computeMediator.Setup(x => x.Handle(It.IsAny<GeocodePlan.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((GeocodePlan.Computation __, CancellationToken _) =>
-                new[] { new LocatorProperties("http://geocoding.plan", "test", 0) }
+                [new LocatorProperties("http://geocoding.plan", "test", 0)]
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<Geocode.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Geocode.Computation __, CancellationToken _) =>
-                new[] { new Candidate("326 east south temple st", "SALT LAKE", new Point(1, 2), 100, "test", 0) }
+                [new Candidate("326 east south temple st", "SALT LAKE", new Point(1, 2), 100, "test", 0)]
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<FilterCandidates.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((FilterCandidates.Computation __, CancellationToken _) =>
@@ -63,11 +63,11 @@ public class GeocodeQueryTests {
         var computeMediator = new Mock<IComputeMediator>();
         computeMediator.Setup(x => x.Handle(It.IsAny<AddressParsing.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((AddressParsing.Computation __, CancellationToken _) =>
-                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, new[] { new PlaceGridLink("slc", "SALT LAKE", 0) }, 0, false, false)
+                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, [new PlaceGridLink("slc", "SALT LAKE", 0)], 0, false, false)
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<ZoneParsing.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((ZoneParsing.Computation __, CancellationToken _) =>
-                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, new[] { new PlaceGridLink("slc", "SALT LAKE", 0) }, 0, false, false)
+                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, [new PlaceGridLink("slc", "SALT LAKE", 0)], 0, false, false)
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((UspsDeliveryPointLocation.Computation __, CancellationToken _) => null);
@@ -77,7 +77,7 @@ public class GeocodeQueryTests {
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<Geocode.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Geocode.Computation __, CancellationToken _) =>
-                Array.Empty<Candidate>()
+                []
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<FilterCandidates.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((FilterCandidates.Computation __, CancellationToken _) =>
@@ -107,21 +107,21 @@ public class GeocodeQueryTests {
         var computeMediator = new Mock<IComputeMediator>();
         computeMediator.Setup(x => x.Handle(It.IsAny<AddressParsing.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((AddressParsing.Computation __, CancellationToken _) =>
-                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, new[] { new PlaceGridLink("slc", "SALT LAKE", 0) }, 0, false, false)
+                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, [new PlaceGridLink("slc", "SALT LAKE", 0)], 0, false, false)
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<ZoneParsing.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((ZoneParsing.Computation __, CancellationToken _) =>
-                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, new[] { new PlaceGridLink("slc", "SALT LAKE", 0) }, 0, false, false)
+                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, [new PlaceGridLink("slc", "SALT LAKE", 0)], 0, false, false)
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((UspsDeliveryPointLocation.Computation __, CancellationToken _) => null);
         computeMediator.Setup(x => x.Handle(It.IsAny<GeocodePlan.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((GeocodePlan.Computation __, CancellationToken _) =>
-                new[] { new LocatorProperties("http://geocoding.plan", "test", 0) }
+                [new LocatorProperties("http://geocoding.plan", "test", 0)]
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<Geocode.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Geocode.Computation __, CancellationToken _) =>
-                new[] { new Candidate("326 east south temple st", "SALT LAKE", new Point(1, 2), 100, "test", 0) }
+                [new Candidate("326 east south temple st", "SALT LAKE", new Point(1, 2), 100, "test", 0)]
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<FilterCandidates.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((FilterCandidates.Computation __, CancellationToken _) => null);
@@ -142,11 +142,11 @@ public class GeocodeQueryTests {
         var computeMediator = new Mock<IComputeMediator>();
         computeMediator.Setup(x => x.Handle(It.IsAny<AddressParsing.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((AddressParsing.Computation __, CancellationToken _) =>
-                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, new[] { new PlaceGridLink("slc", "SALT LAKE", 0) }, 0, false, false)
+                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, [new PlaceGridLink("slc", "SALT LAKE", 0)], 0, false, false)
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<ZoneParsing.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((ZoneParsing.Computation __, CancellationToken _) =>
-                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, new[] { new PlaceGridLink("slc", "SALT LAKE", 0) }, 0, false, false)
+                new Address("326 east south temple st", 326, Direction.East, "south temple", StreetType.Street, Direction.None, null, 0, [new PlaceGridLink("slc", "SALT LAKE", 0)], 0, false, false)
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((UspsDeliveryPointLocation.Computation __, CancellationToken _) =>
@@ -154,11 +154,11 @@ public class GeocodeQueryTests {
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<GeocodePlan.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((GeocodePlan.Computation __, CancellationToken _) =>
-                new[] { new LocatorProperties("http://geocoding.plan", "test", 0) }
+                [new LocatorProperties("http://geocoding.plan", "test", 0)]
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<Geocode.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Geocode.Computation __, CancellationToken _) =>
-                new[] { new Candidate("326 east south temple st", "SALT LAKE", new Point(1, 2), 100, "test", 0) }
+                [new Candidate("326 east south temple st", "SALT LAKE", new Point(1, 2), 100, "test", 0)]
             );
         computeMediator.Setup(x => x.Handle(It.IsAny<FilterCandidates.Computation>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((FilterCandidates.Computation __, CancellationToken _) =>

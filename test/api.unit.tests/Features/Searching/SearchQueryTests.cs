@@ -16,7 +16,7 @@ public class SearchQueryTests {
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new[] {
+                .ReturnsAsync([
                     new SearchResponseContract {
                         Geometry = new SerializableGraphic(
                             new Graphic(
@@ -27,7 +27,7 @@ public class SearchQueryTests {
                             { "key", "value"}
                         }
                     }
-                });
+                ]);
 
         var handler = new SearchQuery.Handler(mediator.Object, _logger);
         var result = await handler.Handle(query, CancellationToken.None) as IApiResponse<IReadOnlyCollection<SearchResponseContract>>;

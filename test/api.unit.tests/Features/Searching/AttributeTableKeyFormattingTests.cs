@@ -23,7 +23,7 @@ public class AttributeTableKeyFormattingTests {
 
         var mediator = new Mock<IComputeMediator>();
         mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Array.Empty<SearchResponseContract>());
+                .ReturnsAsync([]);
 
         var dbOptions = Options.Create(new SearchProviderConfiguration());
 

@@ -7,7 +7,7 @@ public class PoBoxTests {
     public PoBoxTests() {
         _poBoxes.Add(84114, new PoBoxAddress(84114, 1, 1));
         _exclusions.Add(841140001, new PoBoxAddressCorrection(84114, 841140001, 2, 2));
-        IReadOnlyCollection<int> zipExclusions = new[] { 84114 };
+        IReadOnlyCollection<int> zipExclusions = [84114];
 
         var mockCache = new Mock<IStaticCache>();
         mockCache.Setup(x => x.PoBoxes).Returns(_poBoxes);
@@ -32,7 +32,7 @@ public class PoBoxTests {
         const int zip = 84114;
 
         var address = Address.BuildPoBoxAddress("inputAddress", pobox, zip,
-            new[] { new ZipGridLink(84114, "grid", 0) }
+            [new ZipGridLink(84114, "grid", 0)]
         );
 
         var geocodeOptions = new SingleGeocodeRequestOptionsContract {
@@ -56,7 +56,7 @@ public class PoBoxTests {
         const int zip = 84114;
 
         var address = Address.BuildPoBoxAddress("inputAddress", pobox, zip,
-            new[] { new ZipGridLink(84114, "grid", 0) }
+            [new ZipGridLink(84114, "grid", 0)]
         );
 
         var geocodeOptions = new SingleGeocodeRequestOptionsContract {

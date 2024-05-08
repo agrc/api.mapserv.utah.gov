@@ -25,7 +25,9 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
         }
 
         var apiKey = await _repo.GetKey(key);
-        await _db.StringIncrementAsync(key, flags: CommandFlags.FireAndForget);
+        try {
+            await _db.StringIncrementAsync(key, flags: CommandFlags.FireAndForget);
+        } catch { }
 
         // key hasn't been created
         if (apiKey == null) {

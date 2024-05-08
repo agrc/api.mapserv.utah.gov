@@ -17,13 +17,13 @@ public class DoubleAveExceptionTests {
         mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromPlace.Computation>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((AddressSystemFromPlace.Computation g, CancellationToken _) => {
                     if (g?._cityKey == "slc") {
-                        return new[] { new PlaceGridLink("slc", "salt lake city", 1) };
+                        return [new PlaceGridLink("slc", "salt lake city", 1)];
                     }
 
-                    return Array.Empty<GridLinkable>();
+                    return [];
                 });
         mediator.Setup(x => x.Handle(It.IsAny<AddressSystemFromZipCode.Computation>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Array.Empty<GridLinkable>());
+                .ReturnsAsync([]);
 
         var regexCache = new RegexCache(new Abbreviations());
         _computationHandler = new ZoneParsing.Handler(regexCache, mediator.Object, mockLogger.Object);

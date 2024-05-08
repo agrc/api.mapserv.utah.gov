@@ -13,10 +13,10 @@ public class ZoneParsingTests {
                                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync((AddressSystemFromPlace.Computation g, CancellationToken _) => {
                     if (g._cityKey == "alta") {
-                        return new[] { new PlaceGridLink("alta", "grid", 1) };
+                        return [new PlaceGridLink("alta", "grid", 1)];
                     }
 
-                    return Array.Empty<GridLinkable>();
+                    return [];
                 });
 
         var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };

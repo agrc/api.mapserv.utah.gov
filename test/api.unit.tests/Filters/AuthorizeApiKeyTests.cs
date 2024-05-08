@@ -58,6 +58,8 @@ public class AuthorizeApiKeyTests {
     [InlineData(@"^htt(p|ps)://168\.177\.222\.22\/app\/.*", "http://168.177.222.22/app/whatever", null)]
     public async Task Should_validate_production_browser_key(string pattern, string url, object responseCode) {
         var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
 
         var keyProvider = new Mock<IBrowserKeyProvider>();
         keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
@@ -74,7 +76,7 @@ public class AuthorizeApiKeyTests {
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
@@ -134,6 +136,8 @@ public class AuthorizeApiKeyTests {
     public async Task Should_validate_production_browser_key_with_cors_header(
         string pattern, string url, object responseCode) {
         var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
 
         var keyProvider = new Mock<IBrowserKeyProvider>();
         keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
@@ -149,9 +153,9 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
-        httpContext.Request.Headers["Origin"] = url;
+        httpContext.Request.Headers.Origin = url;
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
@@ -172,6 +176,8 @@ public class AuthorizeApiKeyTests {
     [InlineData("^htt(p|ps)://machine-name", "http://machine-name/index.html", null)]
     public async Task Should_validate_dev_key(string pattern, string url, object responseCode) {
         var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
 
         var keyProvider = new Mock<IBrowserKeyProvider>();
         keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
@@ -188,7 +194,7 @@ public class AuthorizeApiKeyTests {
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
@@ -208,6 +214,8 @@ public class AuthorizeApiKeyTests {
     [InlineData(null)]
     public async Task Should_404_empty_key(string key) {
         var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
 
         var keyProvider = new Mock<IBrowserKeyProvider>();
         keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
@@ -219,7 +227,7 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
@@ -238,6 +246,8 @@ public class AuthorizeApiKeyTests {
     [InlineData(false, false)]
     public async Task Should_404_disabled_or_deleted_keys(bool deleted, bool disabled) {
         var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
 
         var keyProvider = new Mock<IBrowserKeyProvider>();
         keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
@@ -253,7 +263,7 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
@@ -272,6 +282,9 @@ public class AuthorizeApiKeyTests {
     [InlineData("1.1.1.1", "0.0.0.1", 400)]
     public async Task Should_validate_ip_based_keys(string ip, string keyIp, object responseCode) {
         var keyProvider = new Mock<IBrowserKeyProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
+
         keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
                    .Returns("key");
 
@@ -289,7 +302,7 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
@@ -306,6 +319,8 @@ public class AuthorizeApiKeyTests {
     [Fact]
     public async Task Should_404_no_key() {
         var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
 
         var keyProvider = new Mock<IBrowserKeyProvider>();
         keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
@@ -317,7 +332,7 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
@@ -334,6 +349,8 @@ public class AuthorizeApiKeyTests {
     [Fact]
     public async Task Should_pass_elevated_keys() {
         var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
 
         var keyProvider = new Mock<IBrowserKeyProvider>();
         keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
@@ -349,7 +366,7 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);

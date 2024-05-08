@@ -25,7 +25,7 @@ public class UspsDeliveryPointLocation {
 
             _staticCache.UspsDeliveryPoints.TryGetValue(request._address.Zip5.Value.ToString(), out var items);
 
-            if (items?.Count != 0) {
+            if ((items?.Count ?? 0) == 0) {
                 _log?.ForContext("zip", request._address.Zip5.Value)
                     .Debug("Delivery Point: cache miss");
 
