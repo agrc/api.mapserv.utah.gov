@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.8](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.7...developer-v2.2.8) (2024-05-08)
+
+
+### Bug Fixes
+
+* **developer:** limit firebase functions with a service account ([a0e4837](https://github.com/agrc/api.mapserv.utah.gov/commit/a0e4837802f12a8213cecbd2872481be4dbf93f5))
+
 ## [2.2.7](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.6...developer-v2.2.7) (2024-05-08)
 
 
