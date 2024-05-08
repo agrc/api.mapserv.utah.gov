@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.0...developer-v2.2.1) (2024-05-08)
+
+
+### Bug Fixes
+
+* **developer:** show real usage counts ([337db45](https://github.com/agrc/api.mapserv.utah.gov/commit/337db4582de3477eb2ca9061ace1925f84fc1f2c))
+
 ## [2.2.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.1.3...developer-v2.2.0) (2023-11-01)
 
 
