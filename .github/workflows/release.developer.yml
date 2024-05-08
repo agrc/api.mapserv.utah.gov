@@ -75,6 +75,11 @@ jobs:
           service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           create_credentials_file: true
 
+      - name: Create function envs
+        shell: bash
+        run: |
+          echo "REDIS_HOST=${{ vars.REDIS_HOST }}" >> src/developer/functions/.env
+
       - name: 🚀 Firebase deploy
         shell: bash
         run: npx firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
