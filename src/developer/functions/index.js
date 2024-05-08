@@ -4,8 +4,6 @@ import { https, setGlobalOptions } from 'firebase-functions/v2';
 import { safelyInitializeApp } from './firebase.js';
 
 safelyInitializeApp();
-const vpc = params.defineString('VPC');
-const vpcEgress = 'ALL_TRAFFIC';
 
 setGlobalOptions({
   vpcConnector: 'memorystore-connector',
