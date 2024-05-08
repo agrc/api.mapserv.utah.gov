@@ -7,7 +7,7 @@ import { minimalKeyConversion } from './converters.js';
 safelyInitializeApp();
 const db = getFirestore();
 const empty = [];
-const redis = new Redis();
+const redis = new Redis(process.env.REDIS_HOST);
 
 /**
  * A function that returns the keys for a given user.
