@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.5](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.4...developer-v2.2.5) (2024-05-08)
+
+
+### Bug Fixes
+
+* **developer:** try catch the redis creation ([6acb3f9](https://github.com/agrc/api.mapserv.utah.gov/commit/6acb3f93f550aad3e12195f280ca81ef0a42533b))
+
 ## [2.2.4](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.3...developer-v2.2.4) (2024-05-08)
 
 
