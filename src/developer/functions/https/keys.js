@@ -12,7 +12,7 @@ let redis = {};
 try {
   redis = new Redis(6379, process.env.REDIS_HOST);
 } catch (ex) {
-  error(error);
+  error(ex);
 }
 /**
  * A function that returns the keys for a given user.
@@ -49,8 +49,8 @@ export const getKeys = async (uid) => {
       keys[index].count = count ?? 0;
       debug('count', keys[index].count);
     });
-  } catch(error) {
-    error('redis error', error)
+  } catch (ex) {
+    error('redis error', ex);
   }
 
   return keys;
