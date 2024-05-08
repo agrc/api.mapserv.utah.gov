@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.1...developer-v2.2.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* **developer:** add memory store ip for redis ([bf4839c](https://github.com/agrc/api.mapserv.utah.gov/commit/bf4839c0326fe71b2b93df9d8c9c8b0951d81573))
+* **developer:** migrate to node20 ([1bae93d](https://github.com/agrc/api.mapserv.utah.gov/commit/1bae93d77084e5d4b7fa13817b83be64a8fae410))
+
 ## [2.2.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.0...developer-v2.2.1) (2024-05-08)
 
 
