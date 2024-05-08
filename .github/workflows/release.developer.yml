@@ -75,7 +75,7 @@ jobs:
           service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           create_credentials_file: true
 
-      - name: Create function envs
+      - name: 📨 Create function envs
         shell: bash
         run: |
           touch ./functions/.env
