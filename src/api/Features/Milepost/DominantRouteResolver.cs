@@ -44,7 +44,7 @@ public class DominantRouteResolver {
             var requestUri = $"{BaseUrl}concurrencies{query.Value}";
 
             _log?.ForContext("url", requestUri)
-                .Debug("request generated");
+                .Debug("Request generated");
 
             HttpResponseMessage httpResponse;
             try {

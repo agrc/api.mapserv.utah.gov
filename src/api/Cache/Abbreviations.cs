@@ -84,7 +84,7 @@ public class Abbreviations : IAbbreviations {
         }
     };
 
-    public List<Tuple<string, string, bool>> UnitAbbreviations => new() {
+    public List<Tuple<string, string, bool>> UnitAbbreviations => [
         new Tuple<string, string, bool>(nameof(SecondaryUnit.Apartment).ToLower(CultureInfo.InvariantCulture),
                                         "apt", true),
         new Tuple<string, string, bool>(nameof(SecondaryUnit.Basement).ToLower(CultureInfo.InvariantCulture),
@@ -133,5 +133,5 @@ public class Abbreviations : IAbbreviations {
                                         true),
         new Tuple<string, string, bool>(nameof(SecondaryUnit.Upper).ToLower(CultureInfo.InvariantCulture),
                                         "uppr", false)
-    };
+    ];
 }

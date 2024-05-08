@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace ugrc.api.Extensions;
@@ -58,7 +57,7 @@ public static class WebApplicationExtensions {
                 OperationId = "Geocode",
                 Summary = "Single address geocoding",
                 Description = "Extract the x, y location from a street address and zone",
-                Tags = new List<OpenApiTag> { new() { Name = "Address Geocoding" } },
+                Tags = [new() { Name = "Address Geocoding" }],
             })
             .Produces<ApiResponseContract<SingleGeocodeResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -83,7 +82,7 @@ public static class WebApplicationExtensions {
                 OperationId = "ReverseGeocode",
                 Summary = "Reverse Geocoding",
                 Description = "Extract the x, y location from a street address and zone",
-                Tags = new List<OpenApiTag> { new() { Name = "Address Geocoding" } },
+                Tags = [new() { Name = "Address Geocoding" }],
             })
             .Produces<ApiResponseContract<ReverseGeocodeResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -109,7 +108,7 @@ public static class WebApplicationExtensions {
                 OperationId = "MilepostGeocode",
                 Summary = "Milepost Geocoding",
                 Description = "Extract the x, y location from a milepost along a route",
-                Tags = new List<OpenApiTag> { new() { Name = "Milepost Geocoding" } },
+                Tags = [new() { Name = "Milepost Geocoding" }],
             })
             .Produces<ApiResponseContract<RouteMilepostResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -134,7 +133,7 @@ public static class WebApplicationExtensions {
                 OperationId = "ReverseMilepostGeocode",
                 Summary = "Reverse Milepost Geocoding",
                 Description = "Extract the x, y, and measure from a milepost (measure) along a route",
-                Tags = new List<OpenApiTag> { new() { Name = "Milepost Geocoding" } },
+                Tags = [new() { Name = "Milepost Geocoding" }],
             })
             .Produces<ApiResponseContract<RouteMilepostResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -160,7 +159,7 @@ public static class WebApplicationExtensions {
                 OperationId = "Search",
                 Summary = "Search the OpenSGID",
                 Description = "Search tables and attributes within the SGID",
-                Tags = new List<OpenApiTag> { new() { Name = "Searching" } },
+                Tags = [new() { Name = "Searching" }],
             })
             .Produces<ApiResponseContract<SearchResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)

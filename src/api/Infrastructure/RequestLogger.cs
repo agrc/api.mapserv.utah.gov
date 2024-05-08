@@ -8,7 +8,8 @@ public class RequestLogger<TRequest>(ILogger log) : IRequestPreProcessor<TReques
     public Task Process(TRequest request, CancellationToken cancellationToken) {
         var name = typeof(TRequest).FullName;
 
-        _log?.Information("processing: {name} {@request}", name, request);
+        _log?.ForContext("request", request)
+            .Information("Mediatr processing: {name}", name);
 
         return Task.CompletedTask;
     }

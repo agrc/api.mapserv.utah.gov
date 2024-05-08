@@ -17,8 +17,8 @@ public class GeocodePlan {
             Address address, int spatialReference) {
             var addressPermutations = new List<LocatorMetadata>();
 
-            if (!address.AddressGrids.Any()) {
-                return Array.Empty<LocatorMetadata>();
+            if (address.AddressGrids.Count == 0) {
+                return [];
             }
 
             foreach (var grid in address.AddressGrids) {
@@ -50,7 +50,7 @@ public class GeocodePlan {
 
             _log?.ForContext("address", address.StandardizedAddress())
                 .ForContext("urls", string.Join(",", locators.Select(x => x.Url)))
-                .Debug("geocode plan created");
+                .Debug("Geocode plan created");
 
             return locators;
         }

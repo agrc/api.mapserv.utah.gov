@@ -14,7 +14,7 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiRespon
 
         if (!table.Contains("sgid")) {
             _log?.ForContext("table", computation._tableName)
-                .Debug("open sgid query");
+                .Debug("Open sgid query");
 
             return await _decorated.Handle(computation, cancellationToken);
         }
@@ -24,7 +24,7 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiRespon
 
         if (!_mapping.MsSqlToPostgres.ContainsKey(key)) {
             _log?.ForContext("table", computation._tableName)
-                .Warning("table name not found in open sgid");
+                .Warning("Table name not found in open sgid");
         }
 
         var mutated = new SearchQuery.Query(
@@ -35,7 +35,7 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiRespon
 
         _log?.ForContext("input_table", computation._tableName)
             .ForContext("mapped_table", mutated._tableName)
-                .Warning("table name updated");
+                .Warning("Table name updated");
 
         return await _decorated.Handle(mutated, cancellationToken);
     }
@@ -51,9 +51,9 @@ public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IApiResponse
     private const string Envelope = "st_envelope(shape)";
 
     public async Task<IApiResponse> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
-        if (!computation._returnValues.ToLowerInvariant().Contains(ShapeInput)) {
+        if (!computation._returnValues.Contains(ShapeInput, StringComparison.InvariantCultureIgnoreCase)) {
             _log?.ForContext("return_values", computation._returnValues)
-                .Debug("no fields require modification");
+                .Debug("No fields require modification");
 
             return await _decorated.Handle(computation, cancellationToken);
         }
@@ -69,7 +69,7 @@ public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IApiResponse
                 };
 
                 _log?.ForContext("replaced", fields[i])
-                    .Debug("updated shape field");
+                    .Debug("Updated shape field");
             } else if (string.Equals(fields[i], EnvelopeInput, StringComparison.InvariantCultureIgnoreCase)) {
                 fields[i] = computation._options.SpatialReference switch {
                     26912 => $"{Envelope} as shape",
@@ -78,7 +78,7 @@ public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IApiResponse
                 };
 
                 _log?.ForContext("replacedAs", fields[i])
-                    .Debug("updated envelope field");
+                    .Debug("Updated envelope field");
             }
         }
 
@@ -100,7 +100,7 @@ public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IApiResp
     public async Task<IApiResponse> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
         if (string.IsNullOrEmpty(computation._options.Geometry)) {
             _log?.ForContext("search options", computation._options.Geometry)
-                .Debug("no geometry provided");
+                .Debug("No geometry provided");
 
             return await _decorated.Handle(computation, cancellationToken);
         }
@@ -141,7 +141,7 @@ public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IApiResp
                         }
                     } catch (JsonException ex) {
                         _log?.ForContext("geometry", geometry)
-                            .Information(ex, "unable to deserialize geometry");
+                            .Information(ex, "Unable to deserialize geometry");
                     }
                 }
             } else if (colon == 7) {

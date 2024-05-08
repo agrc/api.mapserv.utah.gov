@@ -1,7 +1,7 @@
 namespace ugrc.api.Models.ArcGis;
 public static class Concurrencies {
     public class RequestContract {
-        public RequestLocation[] Locations { get; set; } = Array.Empty<RequestLocation>();
+        public RequestLocation[] Locations { get; set; } = [];
 
         public override string ToString() {
             var locations = new string[Locations.Length];

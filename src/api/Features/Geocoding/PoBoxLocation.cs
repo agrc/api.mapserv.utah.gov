@@ -20,20 +20,20 @@ public class PoBoxLocation {
 
         public Task<Candidate?> Handle(Computation request, CancellationToken cancellationToken) {
             if (!request._address.Zip5.HasValue) {
-                _log?.Debug("no candidate");
+                _log?.Debug("PoBox: no candidate");
 
                 return Task.FromResult<Candidate?>(null);
             }
 
             if (_poBoxes is null) {
-                _log?.Warning("cache is empty");
+                _log?.Warning("PoBox: cache is empty");
 
                 return Task.FromResult<Candidate?>(null);
             }
 
             if (!_poBoxes.ContainsKey(request._address.Zip5.Value)) {
                 _log?.ForContext("zip", request._address.Zip5.Value)
-                    .Debug("cache miss");
+                    .Debug("PoBox: cache miss");
 
                 return Task.FromResult<Candidate?>(null);
             }
@@ -44,7 +44,7 @@ public class PoBoxLocation {
             if (_zipExclusions.Any(x => x == request._address.Zip5) &&
                 _exclusions.TryGetValue(key, out var value)) {
                 _log?.ForContext("post office exclusion", key)
-                    .Information("match");
+                    .Information("PoBox: exclusion match");
 
                 var exclusion = value;
                 candidate = new Candidate(
@@ -56,7 +56,7 @@ public class PoBoxLocation {
                      0
                 );
             } else if (_poBoxes.TryGetValue(request._address.Zip5.Value, out var result)) {
-                _log?.Information("match");
+                _log?.Information("PoBox: point match");
 
                 candidate = new Candidate(
                      request._address.StandardizedAddress(),

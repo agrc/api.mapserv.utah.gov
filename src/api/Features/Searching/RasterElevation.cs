@@ -19,7 +19,7 @@ public class RasterElevation {
         public async Task<IReadOnlyCollection<SearchResponseContract?>?> Handle(Computation computation, CancellationToken cancellationToken) {
             if (computation.Options.Point is null) {
                 _log?.ForContext("geometry", computation.Options.Geometry)
-                   .Warning("invalid elevation query geometry");
+                   .Warning("Invalid elevation query geometry");
 
                 throw new ArgumentException("The input geometry appears to be invalid.");
             }
@@ -28,7 +28,7 @@ public class RasterElevation {
             var requestUri = elevationIdentify.ToQuery();
 
             _log?.ForContext("url", requestUri)
-                 .Debug("request generated");
+                 .Debug("Request generated");
 
             HttpResponseMessage httpResponse;
             try {
@@ -40,7 +40,7 @@ public class RasterElevation {
                 throw new TaskCanceledException("The request was canceled.");
             } catch (HttpRequestException ex) {
                 _log?.ForContext("url", requestUri)
-                    .Fatal(ex, "request error");
+                    .Fatal(ex, "Request error");
 
                 throw new HttpRequestException("There was a problem handling your request.");
             }
@@ -51,7 +51,7 @@ public class RasterElevation {
             } catch (Exception ex) {
                 _log?.ForContext("url", requestUri)
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
-                    .Fatal(ex, "error reading response");
+                    .Fatal(ex, "Error reading response");
 
                 throw new Exception("There was an unexpected response from UDOT.");
             }
@@ -59,7 +59,7 @@ public class RasterElevation {
             if (!(response?.IsSuccessful ?? false)) {
                 _log?.ForContext("request", requestUri)
                     .ForContext("error", response?.Error)
-                    .Warning("invalid request");
+                    .Warning("Invalid request");
 
                 throw new ArgumentException("Your request was invalid. Check that your coordinates and spatial reference match.");
             }
@@ -79,11 +79,11 @@ public class RasterElevation {
                 attributes["meters"] = response.Value;
             }
 
-            return new[]{
+            return [
                 new SearchResponseContract {
                     Attributes = attributes
                 },
-            };
+            ];
         }
     }
 }

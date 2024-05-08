@@ -1,7 +1,7 @@
 namespace ugrc.api.Models.ArcGis;
 
 public abstract class RequestContractBase<T> {
-    public virtual T[] Locations { get; set; } = Array.Empty<T>();
+    public virtual T[] Locations { get; set; } = [];
     internal string LocationsAsQuery() {
         if (Locations.Length == 0) {
             return string.Empty;

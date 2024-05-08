@@ -29,7 +29,7 @@ public class SearchQuery {
                     );
 
                     return new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
-                        Result = result ?? Array.Empty<SearchResponseContract>(),
+                        Result = result ?? [],
                         Status = StatusCodes.Status200OK
                     };
                 } catch (TaskCanceledException ex) {
@@ -102,7 +102,7 @@ public class SearchQuery {
             } catch (Exception ex) {
                 _log?.ForContext("message", ex.Message)
                     .ForContext("request", request)
-                    .Error("unhandled search query exception", ex);
+                    .Error("Unhandled search query exception", ex);
 
                 return new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
                     Status = StatusCodes.Status400BadRequest,
@@ -111,10 +111,10 @@ public class SearchQuery {
             }
 
             _log?.ForContext("request", request)
-                     .Debug("query succeeded");
+                     .Debug("Query succeeded");
 
             return new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
-                Result = result ?? Array.Empty<SearchResponseContract>(),
+                Result = result ?? [],
                 Status = StatusCodes.Status200OK
             };
         }

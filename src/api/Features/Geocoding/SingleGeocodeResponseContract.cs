@@ -94,7 +94,7 @@ public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeo
 
             var properties = this?
                 .GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? [];
 
             if ((version?.MajorVersion ?? 1) == 1) {
                 foreach (var property in properties) {
@@ -143,7 +143,7 @@ public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeo
 
             var properties = this?
                 .GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? [];
 
             if ((version?.MajorVersion ?? 1) == 1) {
                 foreach (var property in properties) {
@@ -175,7 +175,7 @@ public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeo
 
                 attributes.Remove("location");
 
-                if (attributes.Any()) {
+                if (attributes.Count != 0) {
                     attributes.Add("srid", wkid);
                 }
 

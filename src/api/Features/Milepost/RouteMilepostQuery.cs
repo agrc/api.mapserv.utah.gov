@@ -52,14 +52,14 @@ public partial class RouteMilepostQuery {
             var requestUri = $"{BaseUrl}measureToGeometry{requestContract.QueryString}";
 
             _log?.ForContext("url", requestUri)
-                .Debug("request generated");
+                .Debug("Request generated");
 
             HttpResponseMessage httpResponse;
             try {
                 httpResponse = await _client.GetAsync(requestUri, cancellationToken);
             } catch (TaskCanceledException ex) {
                 _log?.ForContext("url", requestUri)
-                    .Fatal(ex, "failed");
+                    .Fatal(ex, "Failed");
 
                 return new ApiResponseContract {
                     Message = "The request was canceled.",
@@ -82,7 +82,7 @@ public partial class RouteMilepostQuery {
                 if (!response.IsSuccessful) {
                     _log?.ForContext("request", requestUri)
                         .ForContext("error", response.Error)
-                        .Error("invalid request");
+                        .Error("Invalid request");
 
                     return new ApiResponseContract {
                         Status = StatusCodes.Status400BadRequest,
@@ -94,7 +94,7 @@ public partial class RouteMilepostQuery {
             } catch (Exception ex) {
                 _log?.ForContext("url", requestUri)
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
-                    .Fatal(ex, "error reading response");
+                    .Fatal(ex, "Error reading response");
 
                 return new ApiResponseContract {
                     Message = "There was an unexpected response from UDOT.",
@@ -106,7 +106,7 @@ public partial class RouteMilepostQuery {
         private IApiResponse ProcessResult(MeasureToGeometry.ResponseContract response, Query query) {
             if (response.Locations?.Length != 1) {
                 _log?.ForContext("response", response)
-                    .Warning("multiple locations found");
+                    .Warning("Multiple locations found");
             }
 
             if (response.Locations is null) {
@@ -121,7 +121,7 @@ public partial class RouteMilepostQuery {
             if (location.Status != MeasureToGeometry.Status.esriLocatingOK) {
                 // we have a problem
                 _log?.ForContext("response", response)
-                    .Warning("status is not ok");
+                    .Warning("Status is not ok");
 
                 // TODO: create messages from status
                 return new ApiResponseContract {
@@ -133,7 +133,7 @@ public partial class RouteMilepostQuery {
             if (location.GeometryType != GeometryType.esriGeometryPoint) {
                 // we have another problem
                 _log?.ForContext("response", response)
-                    .Warning("geometry type is not point");
+                    .Warning("Geometry type is not point");
             }
 
             var result = new RouteMilepostResponseContract(
@@ -177,7 +177,7 @@ public partial class RouteMilepostQuery {
 
             if (errors.Length > 0) {
                 _log?.ForContext("errors", errors)
-                    .Debug("milepost validation failed");
+                    .Debug("Milepost validation failed");
 
                 var options = _factory.GetSerializerOptionsFor(_apiVersion);
 

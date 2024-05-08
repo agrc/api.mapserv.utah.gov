@@ -13,7 +13,7 @@ public static class AttributeTableKeyFormatting {
                 return null;
             }
 
-            if (!response.Any()) {
+            if (response.Count == 0) {
                 return response;
             }
 

@@ -17,7 +17,7 @@ public partial class Address {
         SuffixDirection = suffixDirection;
         Zip5 = zip5;
         Zip4 = zip4;
-        AddressGrids = addressGrids ?? Array.Empty<GridLinkable>();
+        AddressGrids = addressGrids ?? [];
         PoBox = poBox;
         IsPoBox = isPoBox;
         IsHighway = isHighway;

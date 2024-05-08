@@ -24,7 +24,7 @@ public record RouteMilepostResponseContract(string Source, Models.Point Location
 
             var properties = this?
                 .GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? [];
 
             if ((version?.MajorVersion ?? 1) == 1) {
                 attributes = properties.ToDictionary(key => key.Name, value => value.GetValue(this, null))
@@ -65,7 +65,7 @@ public record RouteMilepostResponseContract(string Source, Models.Point Location
 
             var properties = this?
                 .GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? [];
 
             if ((version?.MajorVersion ?? 1) == 1) {
                 foreach (var property in properties) {
@@ -80,7 +80,7 @@ public record RouteMilepostResponseContract(string Source, Models.Point Location
 
                 attributes.Remove("location");
 
-                if (attributes.Any()) {
+                if (attributes.Count != 0) {
                     attributes.Add("srid", wkid);
                 }
 

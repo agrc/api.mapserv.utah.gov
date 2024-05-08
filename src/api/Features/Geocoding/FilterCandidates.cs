@@ -22,7 +22,7 @@ public class FilterCandidates {
             if (request.Candidates is null || request.Candidates.Count < 1) {
                 _log?.ForContext("address", request.GeocodedAddress)
                     .ForContext("options", request.GeocodeOptions)
-                    .Debug("no candidates found");
+                    .Debug("No candidates found");
 
                 return Task.FromResult<SingleGeocodeResponseContract?>(new SingleGeocodeResponseContract {
                     InputAddress = $"{request.Street}, {request.Zone}",
@@ -30,9 +30,9 @@ public class FilterCandidates {
                 });
             }
 
-            _log?.ForContext("address grid", request.GeocodedAddress.AddressGrids)
+            _log?.ForContext("Address grid", request.GeocodedAddress.AddressGrids)
                 .ForContext("score", request.GeocodeOptions.AcceptScore)
-                .Debug("filtering candidates");
+                .Debug("Filtering candidates");
 
             var candidates = request.Candidates.ToList();
             candidates.Sort(new CandidateComparer());
@@ -44,7 +44,7 @@ public class FilterCandidates {
 
             if (topCandidate is null) {
                 _log?.ForContext("candidates", candidates)
-                    .Debug("no candidate found above accept score");
+                    .Debug("No candidate found above accept score");
 
                 return Task.FromResult<SingleGeocodeResponseContract?>(new SingleGeocodeResponseContract {
                     InputAddress = $"{request.Street}, {request.Zone}",
@@ -65,7 +65,7 @@ public class FilterCandidates {
 
             if (topCandidate.Location == null && request.GeocodeOptions.Suggest == 0) {
                 _log?.ForContext("candidate", topCandidate)
-                    .Debug("missing location");
+                    .Debug("Missing location");
 
                 return Task.FromResult<SingleGeocodeResponseContract?>(null);
             }

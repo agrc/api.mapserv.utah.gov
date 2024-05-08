@@ -20,7 +20,7 @@ public partial class ZoneParsing {
         }
 
         public async Task<Address> Handle(Computation request, CancellationToken token) {
-            _log?.Debug("parsing {zone}", request.InputZone);
+            _log?.Debug("Parsing {zone}", request.InputZone);
 
             if (string.IsNullOrEmpty(request.InputZone)) {
                 return request.AddressModel;
@@ -36,7 +36,7 @@ public partial class ZoneParsing {
                 if (zipPlusFour.Groups[1].Success) {
                     var zip5string = zipPlusFour.Groups[1].Value;
                     _log?.ForContext("zone", zip5string)
-                        .Debug("zone match");
+                        .Debug("Zone match");
 
                     zip5 = int.Parse(zip5string);
 
@@ -51,7 +51,7 @@ public partial class ZoneParsing {
                 if (zipPlusFour.Groups[2].Success) {
                     var zip4string = zipPlusFour.Groups[2].Value;
 
-                    _log?.Debug("zone has a zip + 4 {zip}", zip4string);
+                    _log?.Debug("Zone has a zip + 4 {zip}", zip4string);
 
                     zip4 = int.Parse(zip4string);
                 }
@@ -63,7 +63,7 @@ public partial class ZoneParsing {
 
             if (cityName.Success) {
                 _log?.ForContext("zone", cityName.Value)
-                    .Debug("place match");
+                    .Debug("Place match");
 
                 var cityKey = cityName.Value.ToLower();
                 cityKey = cityKey.Replace(".", string.Empty);
@@ -80,9 +80,9 @@ public partial class ZoneParsing {
                 return request.AddressModel;
             }
 
-            if (!request.AddressModel.AddressGrids.Any()) {
+            if (request.AddressModel.AddressGrids.Count == 0) {
                 _log?.ForContext("zone", request.InputZone)
-                    .Warning("no address grid");
+                    .Warning("No address grid");
             }
 
             return request.AddressModel;

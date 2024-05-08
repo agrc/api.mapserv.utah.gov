@@ -18,16 +18,16 @@ public class UspsDeliveryPointLocation {
 
         public Task<Candidate?> Handle(Computation request, CancellationToken cancellationToken) {
             if (!request._address.Zip5.HasValue) {
-                _log?.Debug("no candidate", request._address);
+                _log?.Debug("Delivery Point: no candidate", request._address);
 
                 return Task.FromResult<Candidate?>(null);
             }
 
             _staticCache.UspsDeliveryPoints.TryGetValue(request._address.Zip5.Value.ToString(), out var items);
 
-            if (items?.Any() != true) {
+            if (items?.Count != 0) {
                 _log?.ForContext("zip", request._address.Zip5.Value)
-                    .Debug("cache miss");
+                    .Debug("Delivery Point: cache miss");
 
                 return Task.FromResult<Candidate?>(null);
             }
@@ -46,7 +46,7 @@ public class UspsDeliveryPointLocation {
             );
 
             _log?.ForContext("delivery point", deliveryPoint.MatchAddress)
-                .Information("match");
+                .Information("Delivery Point: match");
 
             return Task.FromResult<Candidate?>(result);
         }

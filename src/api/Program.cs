@@ -9,7 +9,7 @@ var logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
 
-logger.Information("starting web host");
+logger.Information("Starting web host");
 
 try {
     var builder = WebApplication.CreateBuilder(args);
@@ -27,11 +27,11 @@ try {
     app.UseMiddleware<JsonpMiddleware>();
     app.MapHealthChecks();
     app.MapOpenApi();
-    logger.Information("program configuration completed");
+    logger.Information("Program configuration completed");
     app.Run();
 } catch (Exception ex) {
-    logger.Fatal(ex, "host terminated unexpectedly");
+    logger.Fatal(ex, "Host terminated unexpectedly");
 } finally {
-    logger.Information("shutting down");
+    logger.Information("Shutting down");
     Log.CloseAndFlush();
 }

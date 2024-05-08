@@ -20,7 +20,7 @@ public class Geocode {
         public async Task<IReadOnlyCollection<Candidate>> Handle(Computation request,
                                                                  CancellationToken cancellationToken) {
             _log?.ForContext("url", request._locator.Url)
-                .Debug("request generated");
+                .Debug("Request generated");
 
             HttpResponseMessage httpResponse;
             try {
@@ -29,12 +29,12 @@ public class Geocode {
                 _log?.ForContext("url", request._locator.Url)
                     .Fatal(ex, "failed");
 
-                return Array.Empty<Candidate>();
+                return [];
             } catch (HttpRequestException ex) {
                 _log?.ForContext("url", request._locator.Url)
                     .Fatal(ex, "request error");
 
-                return Array.Empty<Candidate>();
+                return [];
             }
 
             try {
@@ -47,7 +47,7 @@ public class Geocode {
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
                     .Fatal(ex, "error reading response");
 
-                return Array.Empty<Candidate>();
+                return [];
             }
         }
 
@@ -59,7 +59,7 @@ public class Geocode {
             }
 
             if (response.Candidates == null) {
-                return Array.Empty<Candidate>();
+                return [];
             }
 
             response = new(FilterOutBadProLocatorMatches(response.Candidates), response.Error);

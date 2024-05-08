@@ -17,7 +17,7 @@ public static class ReverseGeocode {
 
         public async Task<ReverseGeocodeRestResponse?> Handle(Computation request, CancellationToken cancellationToken) {
             _log?.ForContext("url", request._locator.Url)
-                .Debug("request generated");
+                .Debug("Request generated");
 
             HttpResponseMessage httpResponse;
             try {

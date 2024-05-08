@@ -38,14 +38,14 @@ public static class ReverseRouteMilepostQuery {
             var requestUri = $"{BaseUrl}geometryToMeasure{requestContract.QueryString}";
 
             _log?.ForContext("url", requestUri)
-                .Debug("request generated");
+                .Debug("Request generated");
 
             HttpResponseMessage httpResponse;
             try {
                 httpResponse = await _client.GetAsync(requestUri, cancellationToken);
             } catch (TaskCanceledException ex) {
                 _log?.ForContext("url", requestUri)
-                    .Fatal(ex, "roads and highway query failed");
+                    .Fatal(ex, "Roads and highway query failed");
 
                 return new ApiResponseContract {
                     Status = StatusCodes.Status500InternalServerError,
@@ -53,7 +53,7 @@ public static class ReverseRouteMilepostQuery {
                 };
             } catch (HttpRequestException ex) {
                 _log?.ForContext("url", requestUri)
-                    .Fatal(ex, "request error");
+                    .Fatal(ex, "Request error");
 
                 return new ApiResponseContract {
                     Status = StatusCodes.Status500InternalServerError,
@@ -70,7 +70,7 @@ public static class ReverseRouteMilepostQuery {
                 if (!response.IsSuccessful) {
                     _log?.ForContext("request", request)
                         .ForContext("error", response.Error)
-                        .Warning("invalid request");
+                        .Warning("Invalid request");
 
                     return new ApiResponseContract {
                         Status = StatusCodes.Status400BadRequest,
@@ -80,7 +80,7 @@ public static class ReverseRouteMilepostQuery {
             } catch (Exception ex) {
                 _log?.ForContext("url", requestUri)
                     .ForContext("response", await httpResponse.Content.ReadAsStringAsync(cancellationToken))
-                    .Fatal(ex, "error reading response");
+                    .Fatal(ex, "Error reading response");
 
                 return new ApiResponseContract {
                     Status = StatusCodes.Status500InternalServerError,
@@ -91,7 +91,7 @@ public static class ReverseRouteMilepostQuery {
             if (response.Locations?.Length != 1) {
                 // this should not happen
                 _log?.ForContext("response", response)
-                    .Warning("multiple locations found");
+                    .Warning("Multiple locations found");
             }
 
             if (response.Locations is null) {

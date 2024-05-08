@@ -19,15 +19,15 @@ public class AddressSystemFromZipCode {
         private readonly ICacheRepository _memoryCache = cache;
 
         public async Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
-            _log?.Debug("getting address system from zip {zip}", request._zip);
+            _log?.Debug("Getting address system from zip {zip}", request._zip);
 
             if (string.IsNullOrEmpty(request._zip)) {
-                return Array.Empty<GridLinkable>();
+                return [];
             }
 
             var result = await _memoryCache.FindGridsForZipCodeAsync(request._zip);
 
-            _log?.Debug("found {systems}", result);
+            _log?.Debug("Found {systems}", result);
 
             return result;
         }

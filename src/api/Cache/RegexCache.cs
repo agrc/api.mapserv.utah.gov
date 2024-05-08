@@ -78,7 +78,7 @@ public partial class RegexCache : IRegexCache {
         var ordinals = Enumerable.Range(1, 18)
                                  .Select(ToOrdinal)
                                  .Concat(Enumerable.Range(1, 18).Select(x => x.ToString()))
-                                 .Concat(new[] {
+                                 .Concat([
                                      "one", "first",
                                      "two", "second",
                                      "three", "third",
@@ -97,7 +97,7 @@ public partial class RegexCache : IRegexCache {
                                      "sixteen", "sixteenth",
                                      "seventeen", "seventeenth",
                                      "eighteen", "eighteenth"
-                                 });
+                                 ]);
 
         return new Regex(string.Format("^({0})$", string.Join("|", ordinals)), RegexOptions.IgnoreCase);
     }

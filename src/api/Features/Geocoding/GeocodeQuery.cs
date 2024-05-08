@@ -45,7 +45,7 @@ public class GeocodeQuery {
                     _log?.ForContext("locator", model.Locator)
                         .ForContext("score", model.Score)
                         .ForContext("difference", model.ScoreDifference)
-                        .Debug("match found");
+                        .Debug("Match found");
 
                     return new ApiResponseContract {
                         Result = model.Convert(request.Options, request.Version),
@@ -70,7 +70,7 @@ public class GeocodeQuery {
                 _log?.ForContext("locator", model.Locator)
                     .ForContext("score", model.Score)
                     .ForContext("difference", model.ScoreDifference)
-                    .Debug("match found");
+                    .Debug("Match found");
 
                 return new ApiResponseContract {
                     Result = model.Convert(request.Options, request.Version),
@@ -86,7 +86,7 @@ public class GeocodeQuery {
 
             if (plan?.Any() != true) {
                 _log?.ForContext("address", parsedAddress)
-                    .Debug("no plan generated");
+                    .Debug("No plan generated");
 
                 return new ApiResponseContract {
                     Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
@@ -112,7 +112,7 @@ public class GeocodeQuery {
                 _log?.ForContext("street", street)
                     .ForContext("zone", zone)
                     .ForContext("score", request.Options.AcceptScore)
-                    .Warning("no matches found", street, zone, request.Options.AcceptScore);
+                    .Warning("No matches found", street, zone, request.Options.AcceptScore);
 
                 return new ApiResponseContract {
                     Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
@@ -124,7 +124,7 @@ public class GeocodeQuery {
                 _log?.ForContext("street", street)
                     .ForContext("zone", zone)
                     .ForContext("score", request.Options.AcceptScore)
-                    .Warning("no matches found", street, zone, request.Options.AcceptScore);
+                    .Warning("No matches found", street, zone, request.Options.AcceptScore);
             }
 
             winner.Wkid = request.Options.SpatialReference;
@@ -132,7 +132,7 @@ public class GeocodeQuery {
             _log?.ForContext("locator", winner.Locator)
                 .ForContext("score", winner.Score)
                 .ForContext("difference", winner.ScoreDifference)
-                .Debug("match found");
+                .Debug("Match found");
 
             return new ApiResponseContract {
                 Result = winner.Convert(request.Options, request.Version),
@@ -161,7 +161,7 @@ public class GeocodeQuery {
 
             if (errors.Length > 0) {
                 _log?.ForContext("errors", errors)
-                    .Debug("geocoding validation failed");
+                    .Debug("Geocoding validation failed");
 
                 var options = _factory.GetSerializerOptionsFor(_apiVersion);
 

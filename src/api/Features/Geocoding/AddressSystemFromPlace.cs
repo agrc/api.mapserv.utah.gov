@@ -13,15 +13,15 @@ public class AddressSystemFromPlace {
         private readonly ICacheRepository _memoryCache = cache;
 
         public async Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
-            _log?.Debug("getting address system from city {city}", request._cityKey);
+            _log?.Debug("Getting address system from city {city}", request._cityKey);
 
             if (string.IsNullOrEmpty(request._cityKey)) {
-                return Array.Empty<GridLinkable>();
+                return [];
             }
 
             var result = await _memoryCache.FindGridsForPlaceAsync(request._cityKey);
 
-            _log?.Debug("found {systems}", result);
+            _log?.Debug("Found {systems}", result);
 
             return result;
         }

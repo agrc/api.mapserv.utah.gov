@@ -49,7 +49,7 @@ public static class GeometryToMeasure {
     public class ResponseLocation {
         private double _measure;
 
-        public ResponseLocation[] Results { get; set; } = Array.Empty<ResponseLocation>();
+        public ResponseLocation[] Results { get; set; } = [];
         public Status Status { get; set; }
         public string RouteId { get; set; } = string.Empty;
         public double Measure {

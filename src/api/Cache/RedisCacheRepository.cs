@@ -28,7 +28,7 @@ public class RedisCacheRepository : ICacheRepository {
     public async Task<IReadOnlyCollection<GridLinkable>> FindGridsForPlaceAsync(string placeName) {
         // if the place name is null or empty, return nothing
         if (string.IsNullOrEmpty(placeName)) {
-            return Array.Empty<GridLinkable>();
+            return [];
         }
 
         placeName = placeName.ToLowerInvariant().Trim();
@@ -38,7 +38,7 @@ public class RedisCacheRepository : ICacheRepository {
             // TODO put this in analytics
             await _db.StringIncrementAsync($"analytics:grid-hit:{placeName.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
-            return places as IReadOnlyCollection<GridLinkable> ?? Array.Empty<GridLinkable>();
+            return places as IReadOnlyCollection<GridLinkable> ?? [];
         }
 
         // the item hasn't been looked up recently so look it up in the cache
@@ -71,18 +71,18 @@ public class RedisCacheRepository : ICacheRepository {
             // TODO put this in analytics
             await _db.StringIncrementAsync($"analytics:grid-miss:{placeName.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
-            return Array.Empty<GridLinkable>();
+            return [];
         }
 
         // TODO! hydrate the cache from BigQuery
 
-        return Array.Empty<GridLinkable>();
+        return [];
     }
 
     public async Task<IReadOnlyCollection<GridLinkable>> FindGridsForZipCodeAsync(string zipCode) {
         // if the place name is null or empty, return nothing
         if (string.IsNullOrEmpty(zipCode)) {
-            return Array.Empty<GridLinkable>();
+            return [];
         }
 
         zipCode = zipCode.ToLowerInvariant().Trim();
@@ -92,7 +92,7 @@ public class RedisCacheRepository : ICacheRepository {
             // TODO put this in analytics
             await _db.StringIncrementAsync($"analytics:zip-hit:{zipCode.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
-            return places as IReadOnlyCollection<GridLinkable> ?? Array.Empty<GridLinkable>();
+            return places as IReadOnlyCollection<GridLinkable> ?? [];
         }
 
         // the item hasn't been looked up recently so look it up in the cache
@@ -123,11 +123,11 @@ public class RedisCacheRepository : ICacheRepository {
             // TODO put this in analytics
             await _db.StringIncrementAsync($"analytics:grid-miss:{zipCode.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
-            return Array.Empty<GridLinkable>();
+            return [];
         }
 
         // TODO! hydrate the cache from BigQuery
 
-        return Array.Empty<GridLinkable>();
+        return [];
     }
 }

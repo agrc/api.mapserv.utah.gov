@@ -14,33 +14,33 @@ public class DoubleAvenuesException {
 
             if (response.PrefixDirection != Direction.None ||
                 response.StreetType != StreetType.Avenue || !IsOrdinal(response.StreetName)) {
-                _log?.Debug("no candidate");
+                _log?.Debug("Double avenues: no candidate");
 
                 return response;
             }
 
             _log?.ForContext("street", response.StandardizedAddress())
                 .ForContext("zone", computation.InputZone)
-                .Debug("possible candidate");
+                .Debug("Double avenues: possible candidate");
 
             // it's in the problem area in midvale
             const int midvale = 84047;
             if ((!string.IsNullOrEmpty(computation.InputZone) &&
                 computation.InputZone.Contains("midvale", StringComparison.InvariantCultureIgnoreCase)) ||
                 (response.Zip5 == midvale)) {
-                _log?.Information("midvale avenues match");
+                _log?.Information("Double avenues: Midvale avenues match");
 
                 return response.SetPrefixDirection(Direction.West);
             }
 
             // update the slc avenues to have an east
             if (response.AddressGrids.Select(x => x.Grid.ToLowerInvariant()).Contains("salt lake city")) {
-                _log?.Information("slc avenues match");
+                _log?.Information("Double avenues: SLC avenues match");
 
                 return response.SetPrefixDirection(Direction.East);
             }
 
-            _log?.Debug("no match");
+            _log?.Debug("Double avenues: no match");
 
             return response;
         }

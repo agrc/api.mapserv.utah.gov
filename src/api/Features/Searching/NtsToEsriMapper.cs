@@ -27,7 +27,7 @@ public class NtsToEsriMapper {
                         WellKnownId = computation._geometry.SRID
                     }
                 },
-                LineString => new EsriJson.Net.Geometry.Polyline(new List<EsriJson.Net.Geometry.RingPoint[]> { ExtractLineRingPoints(computation._geometry as LineString) }) {
+                LineString => new EsriJson.Net.Geometry.Polyline([ExtractLineRingPoints(computation._geometry as LineString)]) {
                     CRS = new Crs {
                         WellKnownId = computation._geometry.SRID
                     }
@@ -52,7 +52,7 @@ public class NtsToEsriMapper {
         }
 
         private static EsriJson.Net.Geometry.RingPoint[] ExtractLineRingPoints(Geometry? lineString) =>
-            lineString?.Coordinates.Select(x => new EsriJson.Net.Geometry.RingPoint(x.X, x.Y)).ToArray() ?? Array.Empty<EsriJson.Net.Geometry.RingPoint>();
+            lineString?.Coordinates.Select(x => new EsriJson.Net.Geometry.RingPoint(x.X, x.Y)).ToArray() ?? [];
         private static EsriJson.Net.Geometry.Polyline CreateLine(MultiLineString? multiLineString) {
             if (multiLineString is null) {
                 return new EsriJson.Net.Geometry.Polyline();
@@ -71,7 +71,7 @@ public class NtsToEsriMapper {
         }
         private static List<EsriJson.Net.Geometry.RingPoint[]> ExtractRings(Polygon? polygon) {
             if (polygon is null) {
-                return new List<EsriJson.Net.Geometry.RingPoint[]>();
+                return [];
             }
 
             var ringPoints = new List<EsriJson.Net.Geometry.RingPoint[]>();

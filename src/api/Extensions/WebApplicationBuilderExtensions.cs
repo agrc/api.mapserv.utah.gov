@@ -88,12 +88,12 @@ public static class WebApplicationBuilderExtensions {
     }
     public static void ConfigureHealthChecks(this WebApplicationBuilder builder)
         => builder.Services.AddHealthChecks()
-         .AddCheck<StartupHealthCheck>("Startup", failureStatus: HealthStatus.Degraded, tags: new[] { "startup" })
-         .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
-         .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy, tags: new[] { "health" })
-         .AddCheck<UdotServiceHealthCheck>("ArcGIS:RoadsAndHighwaysService", failureStatus: HealthStatus.Degraded, tags: new[] { "health" })
-         .AddCheck<LocatorHealthCheck>("ArcGIS:LocatorServices", tags: new[] { "health" })
-         .AddCheck<BigQueryHealthCheck>("Database", tags: new[] { "health" });
+         .AddCheck<StartupHealthCheck>("Startup", failureStatus: HealthStatus.Degraded, tags: ["startup"])
+         .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded, tags: ["health"])
+         .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy, tags: ["health"])
+         .AddCheck<UdotServiceHealthCheck>("ArcGIS:RoadsAndHighwaysService", failureStatus: HealthStatus.Degraded, tags: ["health"])
+         .AddCheck<LocatorHealthCheck>("ArcGIS:LocatorServices", tags: ["health"])
+         .AddCheck<BigQueryHealthCheck>("Database", tags: ["health"]);
     public static void ConfigureDependencyInjection(this WebApplicationBuilder builder) {
         builder.Services.Configure<List<LocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
         builder.Services.Configure<List<ReverseLocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
