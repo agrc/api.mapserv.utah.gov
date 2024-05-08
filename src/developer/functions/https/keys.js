@@ -10,7 +10,7 @@ const empty = [];
 
 let redis = {};
 try {
-  redis = new Redis(process.env.REDIS_HOST);
+  redis = new Redis(6379, process.env.REDIS_HOST);
 } catch (ex) {
   error(error);
 }
