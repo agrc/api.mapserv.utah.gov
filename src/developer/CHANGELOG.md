@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.7](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.6...developer-v2.2.7) (2024-05-08)
+
+
+### Bug Fixes
+
+* **developer:** remove unused variables ([16dde35](https://github.com/agrc/api.mapserv.utah.gov/commit/16dde35c5059e5f0ef224036800170cfa6a89ceb))
+
 ## [2.2.6](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.5...developer-v2.2.6) (2024-05-08)
 
 
