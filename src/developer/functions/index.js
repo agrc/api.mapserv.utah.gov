@@ -6,11 +6,15 @@ import { safelyInitializeApp } from './firebase.js';
 safelyInitializeApp();
 
 setGlobalOptions({
+  serviceAccount: `firestore-function-sa@${process.env.GCLOUD_PROJECT}.iam.gserviceaccount.com`,
   vpcConnector: 'memorystore-connector',
-  vpcConnectorEgressSettings: 'PRIVATE_RANGES_ONLY'
+  vpcConnectorEgressSettings: 'PRIVATE_RANGES_ONLY',
 });
 
-const cors = [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/, /api\.mapserv\.utah\.gov$/];
+const cors = [
+  /ut-dts-agrc-web-api-dev-self-service\.web\.app$/,
+  /api\.mapserv\.utah\.gov$/,
+];
 
 /**
  * @template CallableRequestT
@@ -40,25 +44,22 @@ export const onCreateUser = auth.user().onCreate(async (user) => {
  * @param {CallableRequest<Object>} request - The request object containing the auth and form data.
  * @returns {Promise<string>} The api key string value.
  */
-export const createKey = https.onCall(
-  { cors },
-  async (request) => {
-    if (request.auth === undefined) {
-      debug('[https::createKey] no auth context');
+export const createKey = https.onCall({ cors }, async (request) => {
+  if (request.auth === undefined) {
+    debug('[https::createKey] no auth context');
 
-      throw new https.HttpsError('unauthenticated', 'requires authentication');
-    }
+    throw new https.HttpsError('unauthenticated', 'requires authentication');
+  }
 
-    debug('[https::createKey] importing createKey');
-    const createKey = (await import('./https/createKey.js')).createKey;
+  debug('[https::createKey] importing createKey');
+  const createKey = (await import('./https/createKey.js')).createKey;
 
-    const result = await createKey(request.data);
+  const result = await createKey(request.data);
 
-    debug('[https::createKey]', result);
+  debug('[https::createKey]', result);
 
-    return result.toUpperCase();
-  },
-);
+  return result.toUpperCase();
+});
 
 /**
  * Returns all the keys for a specific user
@@ -70,27 +71,24 @@ export const createKey = https.onCall(
  *   notes: string
  * }[]>} an array of minimal key objects
  */
-export const keys = https.onCall(
-  { cors },
-  async (request) => {
-    debug('[https::keys] starting');
+export const keys = https.onCall({ cors }, async (request) => {
+  debug('[https::keys] starting');
 
-    if (request.auth === undefined) {
-      debug('[https::keys] no auth context');
+  if (request.auth === undefined) {
+    debug('[https::keys] no auth context');
 
-      throw new https.HttpsError('unauthenticated', 'requires authentication');
-    }
+    throw new https.HttpsError('unauthenticated', 'requires authentication');
+  }
 
-    debug('[https::keys] importing getKeys');
-    const getKeys = (await import('./https/keys.js')).getKeys;
+  debug('[https::keys] importing getKeys');
+  const getKeys = (await import('./https/keys.js')).getKeys;
 
-    const result = await getKeys(request.auth.uid);
+  const result = await getKeys(request.auth.uid);
 
-    debug('[https::getKeys]', result.length);
+  debug('[https::getKeys]', result.length);
 
-    return result;
-  },
-);
+  return result;
+});
 
 /**
  * This private https function is used to validate a legacy account claim.
