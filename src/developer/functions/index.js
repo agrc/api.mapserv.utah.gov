@@ -1,9 +1,16 @@
 import { debug } from 'firebase-functions/logger';
 import { auth } from 'firebase-functions/v1'; // v2 does not support auth triggers as of july/23
-import { https } from 'firebase-functions/v2';
+import { https, setGlobalOptions } from 'firebase-functions/v2';
 import { safelyInitializeApp } from './firebase.js';
 
 safelyInitializeApp();
+const vpc = params.defineString('VPC');
+const vpcEgress = 'ALL_TRAFFIC';
+
+setGlobalOptions({
+  vpcConnector: 'memorystore-connector',
+  vpcConnectorEgressSettings: 'PRIVATE_RANGES_ONLY'
+});
 
 const cors = [/ut-dts-agrc-web-api-dev-self-service\.web\.app$/, /api\.mapserv\.utah\.gov$/];
 

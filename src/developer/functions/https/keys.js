@@ -7,6 +7,7 @@ import { minimalKeyConversion } from './converters.js';
 safelyInitializeApp();
 const db = getFirestore();
 const empty = [];
+
 let redis = {};
 try {
   redis = new Redis(process.env.REDIS_HOST);
