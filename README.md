@@ -59,8 +59,16 @@ Start the firebase emulators from the developer project. This also starts the [s
 > [!TIP]
 > If you want to work with the self service website, duplicate the `./src/developer/.env` file to `./src/developer/.env.local` and add the firebase project settings.
 
+First install the functions dependencies:
+
 ```sh
-cd src/developer && npm install && npm start
+cd src/developer/functions && npm install
+```
+
+Then install the app dependencies and start the emulators:
+
+```sh
+cd .. && npm install && npm start
 ```
 
 While the emulators are starting, start the cache and smocker containers from the root of the project.
@@ -69,23 +77,16 @@ While the emulators are starting, start the cache and smocker containers from th
 docker-compose -f docker-compose.yml -f docker-compose.override.yml up cache smocker --detach
 ```
 
-Once smocker is running, you can [register mock requests](test/smocker/readme.md) by copying and executing the contents of [mocks.sh](test/smocker/mocks.sh). Run the following command from the `test/smocker` directory or for a shortcut, copy the value to your clipboard and execute them.
+Once smocker is running, you can [register mock requests](test/smocker/readme.md) by executing [mocks.sh](test/smocker/mocks.sh). Run the following command from the `test/smocker` directory.
 
 ```sh
-cd test/smocker && cat mocks.sh | pbcopy
-```
-
-Then paste your clipboard and execute the commands.
-
-```sh
-$ curl -X POST localhost:8081/mocks --header "Content-Type: application/x-yaml" --data-binary "@AddressPoints.findAddressCandidates.yml
-{"message":"Mocks registered successfully"}
+cd test/smocker && bash mocks.sh
 ```
 
 To run the API you must authenticate with GCP.
 
 ```sh
-gcloud auth login
+gcloud auth application-default login
 ```
 
 Start the API in watch mode from the `src/api` directory.
@@ -177,7 +178,7 @@ Building images is necessary any time values in the `Dockerfile` or `docker-comp
 
 - `docker-compose -f docker-compose.yml -f docker-compose.override.yml up`
 
-Starting a container is like turning on the service. `docker-compose -f docker-compose.yml -f docker-compose.override.yml up` will start all the containers referenced in this projects `docker-compose.yaml`. For development purposes, we suggest running PostgreSQL and/or Redis in containers and letting Visual Studio (Code, for Mac, or Windows) run the API. PostgreSQL is required for the application to start while Redis is not required.
+Starting a container is like turning on the service. `docker-compose -f docker-compose.yml -f docker-compose.override.yml up` will start all the containers referenced in this project's `docker-compose.yaml`. For development purposes, we suggest running PostgreSQL and/or Redis in containers and letting Visual Studio (Code, for Mac, or Windows) run the API. PostgreSQL is required for the application to start while Redis is not required.
 
 - `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --detach cache` _This will run redis in the background._
 
