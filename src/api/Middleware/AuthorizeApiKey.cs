@@ -15,19 +15,24 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
         EndpointFilterDelegate next) {
         var key = _apiKeyProvider.Get(context.HttpContext.Request);
 
-        // key hasn't been created
+        // key wasn't provided
         if (string.IsNullOrWhiteSpace(key)) {
-            _log?.Debug("API key missing from request");
+            _log?
+            .ForContext("headers", context.HttpContext.Request.Headers)
+            .Debug("API key missing from request");
 
             return BadRequest("Your API key is missing from your request. " +
                 "Add an `apikey={key}` to the request as a query string parameter."
             );
         }
 
-        var apiKey = await _repo.GetKey(key);
+        // send analytics information
         try {
-            await _db.StringIncrementAsync("analytics:key-hit:" + key, flags: CommandFlags.FireAndForget);
+            await _db.StringIncrementAsync($"analytics:key-hit:{key}", flags: CommandFlags.FireAndForget);
+            await _db.StringSetAsync($"analytics:key-time:{key}", DateTime.UtcNow.Ticks, flags: CommandFlags.FireAndForget);
         } catch { }
+
+        var apiKey = await _repo.GetKey(key);
 
         // key hasn't been created
         if (apiKey == null) {
@@ -72,6 +77,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             }
 
             var hasOrigin = context.HttpContext.Request.Headers.Where(x => x.Key == "Origin").ToList();
+
             if (string.IsNullOrEmpty(referrer.ToString()) && hasOrigin.Count == 0) {
                 _log?.Information("Browser key without referrer: {key}", apiKey);
 
