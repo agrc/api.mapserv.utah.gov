@@ -39,7 +39,9 @@ export const getKeys = async (uid) => {
   const keys = [];
   querySnapshot.forEach((doc) => keys.push(doc.data()));
 
-  const keyNames = keys.map((key) => key.key.toLowerCase());
+  const keyNames = keys.map(
+    (key) => `analytics:key-hit:${key.key.toLowerCase()}`,
+  );
   debug('getting key counts for', keyNames);
 
   try {
