@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.11](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.10...developer-v2.2.11) (2024-05-09)
+
+
+### Bug Fixes
+
+* **developer:** prefix keys for analytics ([0375b95](https://github.com/agrc/api.mapserv.utah.gov/commit/0375b950df7095c0f4ee304ca2072254f2eb1254))
+
 ## [2.2.10](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.9...developer-v2.2.10) (2024-05-09)
 
 
