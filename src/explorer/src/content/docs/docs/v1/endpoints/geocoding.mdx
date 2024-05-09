@@ -6,12 +6,11 @@ sidebar:
   order: 1
 ---
 
-import { Tabs, TabItem } from "@astrojs/starlight/components";
-import { Card } from "@astrojs/starlight/components";
+import { Card, TabItem, Tabs } from "@astrojs/starlight/components";
 import Uri from "../../../../../components/Uri.astro";
-import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
-import OutputFormat from "../../../../../components/parameters/OutputFormat.mdx";
 import Callback from "../../../../../components/parameters/Callback.mdx";
+import OutputFormat from "../../../../../components/parameters/OutputFormat.mdx";
+import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
 
 Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from text. This UGRC API endpoint allows you to get the coordinates of a street address and zone. You can learn so much from a house, business, or other type of address once it has been geocoded. When you geocode data, you unlock the ability to visualize the data in a different way. And you can use our search endpoint to answer endless questions about your addresses or location.
 
@@ -45,7 +44,7 @@ For the best geocoding results, omit sub address values from your street input, 
 
 ### zone
 
-A Utah municipality name or a 5 digit zip code.
+A Utah municipality name or a 5 digit zip code. The word, "City", is optional. For example, both "Sandy" and "Sandy City" will return the same result. The spelling should match (case-insensitive) the values in the "Zone" column of this [spreadsheet](https://docs.google.com/spreadsheets/d/1Dc77HLVn9YXgY1JkcqqaMh1Tm0cemwXxFfyHb7dP0Cs/edit#gid=0). Have a suggestion for a new value to add to the list? [Let us know](https://github.com/agrc/api.mapserv.utah.gov/issues/new).
 
 - **Type**: `string` or `number`
 - **Example**: `slc`, `84111`
