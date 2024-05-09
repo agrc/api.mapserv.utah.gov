@@ -1,21 +1,16 @@
 ---
 title: "Reverse Route and Milepost Geocoding"
-description: "What address is at this coordinate?"
+description: "What route and milepost is at this coordinate?"
 sidebar:
   order: 4
 ---
 
-import { Tabs, TabItem } from "@astrojs/starlight/components";
-import { Card } from "@astrojs/starlight/components";
+import { Card, TabItem, Tabs } from "@astrojs/starlight/components";
 import Uri from "../../../../../components/Uri.astro";
-import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
 import Callback from "../../../../../components/parameters/Callback.mdx";
+import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
 
-Reverse geocoding allows you to get what is at the geographic location (i.e., the geographical coordinates). This UGRC API endpoint allows you to get the nearest street address from a geographic location.
-
-:::caution[Be aware]
-This endpoint returns an address along a road segment, however, there may be no structure or mail delivery at the address.
-:::
+Reverse geocoding this process of converting a geographic location (i.e., the geographical coordinates) to a human-readable address. This UGRC API endpoint allows you to get the nearest route and milepost from a geographic location.
 
 ## URI Format
 
@@ -44,7 +39,7 @@ A number representing the latitude, northing, or vertical value of a coordinate.
 
 ### buffer
 
-The buffer radius, in meters, from the input coordinate to search for a street address.
+The buffer radius, in meters, from the input coordinate to search for a route and milepost.
 
 - **Type**: `number`
 - **Default**: `100`
