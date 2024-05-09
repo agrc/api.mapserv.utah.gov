@@ -20,7 +20,7 @@ Geocoding allows you to get the geographic location (i.e., the geographical coor
 1. This endpoint confirms that an address **can** exist along a road, however, there may be no structure or mail delivery at the address.
 1. This endpoint should not be used to validate mailing addresses.
 1. [Reserved characters](https://www.rfc-editor.org/rfc/rfc3986#section-2.1), like ?, #, @, etc. in your data need to be escaped or the request will fail.
-1. `matchAddress` returns the name of the [address system quadrant](https://gis.utah.gov/data/location/address-data/#AddressSystemQuadrants) for the address. For example, `"matchAddress": "10420 E Little Cottonwood Canyon, Salt Lake City"` means that the address is part of the **Salt Lake City** address system. It is neither within the boundaries of Salt Lake City proper, nor is it the preferred mailing address placename.
+1. `matchAddress` returns the name of the [address system quadrant](https://gis.utah.gov/products/sgid/location/address-system-quadrants/) for the address. For example, `"matchAddress": "10420 E Little Cottonwood Canyon, Salt Lake City"` means that the address is part of the **Salt Lake City** address system. It is neither within the boundaries of Salt Lake City proper, nor is it the preferred mailing address placename.
 
 :::
 
@@ -71,7 +71,7 @@ This option determines if the system should find a location for P.O. Box address
 
 ### locators
 
-The locators are the search engine for address data. There are three options. The default value of `all` will use the highest score from the [address point](https://gis.utah.gov/data/location/address-data/#AddressPoints) and [road centerline](https://gis.utah.gov/data/transportation/roads-system/#RoadCenterlines) data and provide the best match rate. Address point locations are used in the event of a tie. Address points are a work in progress with the counties to map structures or places where mail is delivered. Road centerlines are a dataset with every road and the range of numbers that road segment contains.
+The locators are the search engine for address data. There are three options. The default value of `all` will use the highest score from the [address point](https://gis.utah.gov/products/sgid/location/address-points/) and [road centerline](https://gis.utah.gov/products/sgid/transportation/road-centerlines/) data and provide the best match rate. Address point locations are used in the event of a tie. Address points are a work in progress with the counties to map structures or places where mail is delivered. Road centerlines are a dataset with every road and the range of numbers that road segment contains.
 
 - **Type**: `string`
 - **Default**: `all`
