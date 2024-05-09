@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.10](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.9...developer-v2.2.10) (2024-05-09)
+
+
+### Bug Fixes
+
+* **developer:** use lowercase api keys for usage counts ([c519f24](https://github.com/agrc/api.mapserv.utah.gov/commit/c519f24f1e81405709f877a52952248ec79603c6))
+
 ## [2.2.9](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.8...developer-v2.2.9) (2024-05-08)
 
 
