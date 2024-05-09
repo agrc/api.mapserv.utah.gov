@@ -32,7 +32,7 @@ const columns = [
             🚀️ UGRC API Client. Visit{' '}
             <a
               className="text-mustard-700"
-              href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient"
+              href="https://gis.utah.gov/products/sgid/address/api-client/"
             >
               gis.utah.gov
             </a>{' '}
