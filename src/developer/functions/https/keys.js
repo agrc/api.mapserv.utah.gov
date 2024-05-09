@@ -39,17 +39,17 @@ export const getKeys = async (uid) => {
   const keys = [];
   querySnapshot.forEach((doc) => keys.push(doc.data()));
 
-  const keyNames = keys.map(
+  const usageKeys = keys.map(
     (key) => `analytics:key-hit:${key.key.toLowerCase()}`,
   );
-  debug('getting key counts for', keyNames);
+  debug('getting key usage for', usageKeys);
 
   try {
-    let counts = await redis.mget(...keyNames);
+    let usage = await redis.mget(...usageKeys);
 
-    counts.forEach((count, index) => {
-      keys[index].count = count ?? 0;
-      debug('count', keys[index].count);
+    usage.forEach((use, index) => {
+      keys[index].usage = use ?? 0;
+      debug('use', keys[index].usage);
     });
   } catch (ex) {
     error('redis error', ex);

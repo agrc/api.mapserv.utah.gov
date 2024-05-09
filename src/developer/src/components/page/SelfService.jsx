@@ -49,7 +49,7 @@ export function Component() {
                       <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
                         {numberFormat.format(
                           response.data.reduce(
-                            (sum, key) => sum + Number(key.count),
+                            (sum, key) => sum + Number(key.usage),
                             0,
                           ),
                         )}
