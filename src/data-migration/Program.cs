@@ -204,8 +204,6 @@ namespace models {
         [FirestoreProperty("elevated")] public bool Elevated { get; set; }
         [FirestoreProperty("notes")]
         public string Notes { get; set; } = string.Empty;
-        [FirestoreProperty("lastUsed")] public string LastUsed { get; set; } = "never";
-        [FirestoreProperty("usage")] public string Usage { get; set; } = "none";
         [FirestoreProperty("claimed")] public bool Claimed { get; set; }
         [FirestoreProperty("flags")]
         public Dictionary<string, bool> Flags { get; set; } = new Dictionary<string, bool>() {
