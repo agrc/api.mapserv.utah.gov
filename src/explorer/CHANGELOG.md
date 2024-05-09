@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.2.0...explorer-v2.2.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* **explorer:** update links to new website ([c8475e8](https://github.com/agrc/api.mapserv.utah.gov/commit/c8475e88df384105f83bf97e85b3eff9402b9f24))
+
 ## [2.2.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.1.0...explorer-v2.2.0) (2023-11-17)
 
 
