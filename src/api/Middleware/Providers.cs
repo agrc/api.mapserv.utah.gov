@@ -22,14 +22,14 @@ public class FirebaseClientIpProvider : IServerIpProvider {
 public class BrowserKeyProvider : IBrowserKeyProvider {
     public string? Get(HttpRequest request) {
         if (request.Query.TryGetValue("apikey", out var queryStringKey)) {
-            return queryStringKey.ToString();
+            return queryStringKey.ToString().ToLowerInvariant();
         }
 
         try {
             var formData = request.Form;
 
             if (formData.TryGetValue("apikey", out var formKey)) {
-                return formKey.ToString();
+                return formKey.ToString().ToLowerInvariant();
             }
         } catch (InvalidOperationException) {
             // ignored because it's not a form content type
