@@ -48,8 +48,6 @@ export const createKey = async (data) => {
     machineName: false,
     elevated: false,
     notes: data.notes,
-    lastUsed: 'never',
-    usage: 'none',
     claimed: true,
   };
 
