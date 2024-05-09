@@ -62,7 +62,7 @@ const Menu = () => {
                 Visit the API home page.
               </ExternalListItem>
               <ExternalListItem
-                href="https://ut-dts-agrc-web-api-dev.web.app/en/documentation"
+                href="https://ut-dts-agrc-web-api-dev.web.app/docs"
                 title="API Documentation"
               >
                 View the API documentation.
