@@ -147,7 +147,7 @@ export function Component() {
           <p className="text-wavy-800 dark:text-slate-200">
             Server based applications run on a computer or a server. For
             example, the{' '}
-            <TextLink href="https://gis.utah.gov/data/address-geocoders-locators/#OfficialClient">
+            <TextLink href="https://gis.utah.gov/products/sgid/address/api-client/">
               API Client
             </TextLink>{' '}
             is running on your desktop. The request to the UGRC API is called
