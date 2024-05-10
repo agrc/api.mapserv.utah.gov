@@ -44,7 +44,9 @@ For the best geocoding results, omit sub address values from your street input, 
 
 ### zone
 
-A Utah municipality name or a 5 digit zip code. The word, "City", is optional. For example, both "Sandy" and "Sandy City" will return the same result. The spelling should match (case-insensitive) the values in the "Zone" column of this [spreadsheet](https://docs.google.com/spreadsheets/d/1Dc77HLVn9YXgY1JkcqqaMh1Tm0cemwXxFfyHb7dP0Cs/edit#gid=0). Have a suggestion for a new value to add to the list? [Let us know](https://github.com/agrc/api.mapserv.utah.gov/issues/new).
+A Utah place name or a 5 digit zip code. The word, "City", is optional. For example, "Sandy" and "Sandy City" are equivalent. The spelling needs to match (case-insensitive) an entry in the "Zone" column of this [spreadsheet](https://docs.google.com/spreadsheets/d/1Dc77HLVn9YXgY1JkcqqaMh1Tm0cemwXxFfyHb7dP0Cs/edit#gid=0) to have a chance of matching. 
+
+If a common place name is not in our list, please suggest an addition through a [GitHub issue](https://github.com/agrc/api.mapserv.utah.gov/issues/new).
 
 - **Type**: `string` or `number`
 - **Example**: `slc`, `84111`
