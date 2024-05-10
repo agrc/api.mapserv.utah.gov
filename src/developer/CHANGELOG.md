@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.2.12](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.11...developer-v2.2.12) (2024-05-10)
+
+
+### Bug Fixes
+
+* **developer:** Correct documentation link ([090500f](https://github.com/agrc/api.mapserv.utah.gov/commit/090500fae8a0926600e313404e46cdb7e4fed062)), closes [#280](https://github.com/agrc/api.mapserv.utah.gov/issues/280)
+* **developer:** show last used date and usage count on key page ([af60ff4](https://github.com/agrc/api.mapserv.utah.gov/commit/af60ff4b90c11fe028440c9469e212148e366703)), closes [#282](https://github.com/agrc/api.mapserv.utah.gov/issues/282)
+* **developer:** update links to new website ([cf7b532](https://github.com/agrc/api.mapserv.utah.gov/commit/cf7b5323d6ed91ae94d5342a1f1847e21d8447da))
+* **explorer:** update links to new website ([c8475e8](https://github.com/agrc/api.mapserv.utah.gov/commit/c8475e88df384105f83bf97e85b3eff9402b9f24))
+
 ## [2.2.11](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.10...developer-v2.2.11) (2024-05-09)
 
 
