@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { TextLink } from './Link';
 import Button from './design-system/Button';
 import TextArea from './design-system/TextArea';
 
@@ -12,8 +13,13 @@ const EditableText = ({ text, pattern, onChange }) => {
   if (!editable) {
     return (
       <div className="flex flex-col items-center gap-4 p-4 text-wavy-800 dark:text-wavy-200">
-        This API key is special and can only be used with the UGRC API Client.
-        It enabled desktop geocoding of CSV files of addresses.
+        <p>
+          This API key is special and can only be used with the{' '}
+          <TextLink href="https://gis.utah.gov/products/sgid/address/api-client/">
+            UGRC API Client
+          </TextLink>
+          . It enables desktop geocoding of CSV files of addresses.
+        </p>
       </div>
     );
   }
