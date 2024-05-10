@@ -19,7 +19,7 @@ const columns = [
     header: () => <span>Key</span>,
     cell: (info) => {
       const value = info.getValue().toUpperCase();
-      return <Link to={`${value}`}>{value}</Link>;
+      return <Link to={`${value.toLowerCase()}`}>{value}</Link>;
     },
   }),
   columnHelper.accessor('notes', {
