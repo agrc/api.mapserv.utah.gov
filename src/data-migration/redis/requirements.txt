@@ -1,0 +1,3 @@
+rdbtools
+python-lzf
+setuptools
