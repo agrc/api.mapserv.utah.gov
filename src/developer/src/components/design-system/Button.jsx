@@ -113,9 +113,9 @@ export const RouterButtonLink = ({
   to,
   children,
   className,
-  appearance,
-  color,
-  size,
+  appearance = 'outlined',
+  color = 'none',
+  size = 'base',
 }) => {
   return (
     <Link
@@ -142,13 +142,6 @@ RouterButtonLink.propTypes = {
   color: PropTypes.oneOf(Object.keys(COLORS)),
   size: PropTypes.oneOf(Object.keys(SIZES)),
   to: PropTypes.string.isRequired,
-};
-RouterButtonLink.defaultProps = {
-  appearance: 'outlined',
-  busy: false,
-  color: 'none',
-  disabled: false,
-  size: 'base',
 };
 
 export default Button;

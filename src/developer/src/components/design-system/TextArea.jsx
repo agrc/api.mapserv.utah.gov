@@ -19,7 +19,7 @@ const TextArea = forwardRef(
       onChange,
       placeholder,
       required,
-      rows,
+      rows = 3,
       value,
     },
     ref,
@@ -105,9 +105,6 @@ TextArea.propTypes = {
   required: PropTypes.bool,
   rows: PropTypes.number,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
-TextArea.defaultProps = {
-  rows: 3,
 };
 
 export default TextArea;

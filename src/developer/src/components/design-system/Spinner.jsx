@@ -10,7 +10,7 @@ const SIZES = {
   xl: 'h-5 w-5',
   custom: null,
 };
-export default function Spinner({ className, ariaLabel, size }) {
+export default function Spinner({ className, ariaLabel, size = 'base' }) {
   return (
     <svg
       aria-live="polite"
@@ -54,10 +54,6 @@ Spinner.propTypes = {
 };
 
 Spinner.Sizes = createKeyLookup(SIZES);
-
-Spinner.defaultProps = {
-  size: 'base',
-};
 
 Spinner.sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 Spinner.minDelay = async (promise, ms = 2500) => {
