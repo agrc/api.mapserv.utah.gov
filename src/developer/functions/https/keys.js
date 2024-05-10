@@ -2,7 +2,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { debug, error } from 'firebase-functions/logger';
 import { Redis } from 'ioredis';
 import { safelyInitializeApp } from '../firebase.js';
-import { minimalKeyConversion } from './converters.js';
+import { standardKeyConversion } from './converters.js';
 
 safelyInitializeApp();
 const db = getFirestore();
@@ -33,7 +33,7 @@ export const getKeys = async (uid) => {
     .collection('/keys')
     .where('flags.deleted', '==', false)
     .where('accountId', '==', uid)
-    .withConverter(minimalKeyConversion)
+    .withConverter(standardKeyConversion)
     .get();
 
   const keys = [];
@@ -42,14 +42,23 @@ export const getKeys = async (uid) => {
   const usageKeys = keys.map(
     (key) => `analytics:key-hit:${key.key.toLowerCase()}`,
   );
-  debug('getting key usage for', usageKeys);
+  const timeKeys = keys.map(
+    (key) => `analytics:key-time:${key.key.toLowerCase()}`,
+  );
+
+  const allKeys = [...usageKeys, ...timeKeys];
+
+  debug('getting usage information for', allKeys);
 
   try {
-    let usage = await redis.mget(...usageKeys);
+    let results = await redis.mget(...allKeys);
 
-    usage.forEach((use, index) => {
-      keys[index].usage = use ?? 0;
-      debug('use', keys[index].usage);
+    results.forEach((result, index) => {
+      if (index < keys.length) {
+        keys[index].usage = result ?? 0;
+      } else {
+        keys[index - keys.length].lastUsed = result ?? -1;
+      }
     });
   } catch (ex) {
     error('redis error', ex);

@@ -8,7 +8,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   timeZone: 'MST',
 });
 
-export const minimalKeyConversion = {
+export const standardKeyConversion = {
   toFirestore(data) {
     return data;
   },
@@ -20,11 +20,13 @@ export const minimalKeyConversion = {
     }
 
     return {
-      key: data.key,
+      key: data.key.toUpperCase(),
       created: timeSince(Date.parse(data.created.toDate().toISOString())),
       createdDate: dateFormatter.format(
         Date.parse(data.created.toDate().toISOString()),
       ),
+      pattern: data.pattern,
+      flags: data.flags,
       notes: data.notes ?? 'edit this key to add notes',
     };
   },

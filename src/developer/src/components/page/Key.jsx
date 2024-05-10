@@ -6,18 +6,19 @@ import {
   CloudIcon,
   ComputerDesktopIcon,
   CpuChipIcon,
+  ExclamationCircleIcon,
   KeyIcon,
   PauseIcon,
   PlayIcon,
   ShieldExclamationIcon,
 } from '@heroicons/react/24/outline';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { doc, updateDoc } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
-import { useFirestore, useFirestoreDocData, useFunctions } from 'reactfire';
+import { useFirestore, useFunctions } from 'reactfire';
 import { timeSince } from '../../../functions/time';
 import EditableText from '../EditableText';
 import Button, { RouterButtonLink } from '../design-system/Button';
@@ -25,17 +26,16 @@ import Card from '../design-system/Card';
 import Spinner from '../design-system/Spinner';
 
 const numberFormat = new Intl.NumberFormat('en-US');
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  timeZone: 'MST',
-});
 
 const iconStyle =
   'dark:fill-wavy-500/50 dark:text-mustard-400/80 drop-shadow-md h-24 fill-mustard-500/20 text-wavy-500/80';
+
+const convertTicks = (ticks) => {
+  const ticksToMilliseconds = ticks / 10000;
+  const epochMilliseconds = ticksToMilliseconds - 62135596800000;
+
+  return new Date(epochMilliseconds);
+};
 
 export const Component = () => {
   const { key } = useParams();
@@ -44,6 +44,17 @@ export const Component = () => {
   const getKeys = httpsCallable(functions, 'keys');
   const loaderData = useLoaderData();
   const queryClient = useQueryClient();
+
+  const { status, data } = useQuery({
+    queryKey: ['my keys', loaderData.user.uid],
+    queryFn: () => Spinner.minDelay(getKeys(), 800),
+    select: (response) =>
+      response.data.find((data) => data.key === key?.toUpperCase()),
+    enabled: loaderData.user?.uid.length ?? 0 > 0 ? true : false,
+    onError: () => 'We had some trouble finding your keys.',
+    gcTime: Infinity,
+    staleTime: Infinity,
+  });
 
   const prefetchKeys = async () => {
     await queryClient.prefetchQuery({
@@ -62,8 +73,6 @@ export const Component = () => {
 
     prefetchKeys();
   };
-
-  const { status, data } = useFirestoreDocData(keyRef.current);
 
   if (status === 'success' && !data) {
     return (
@@ -105,6 +114,39 @@ export const Component = () => {
     );
   }
 
+  if (status === 'error') {
+    return (
+      <>
+        <section className="relative mb-12 w-full px-6 md:mx-auto">
+          <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
+          <div className="mx-auto w-full">
+            <div className="mt-16 flex flex-col items-center gap-2">
+              <h3 className="mt-2 text-center text-5xl font-black tracking-tight text-mustard-400 drop-shadow-md">
+                We are sorry, but
+              </h3>
+              <p className="max-w-lg text-center text-xl tracking-wide text-mustard-400 drop-shadow-md">
+                we encountered an issue while processing your request. Please
+                try again. If the problem persists, please contact our support
+                team.
+              </p>
+              <ExclamationCircleIcon className="mb-14 h-24 fill-wavy-500/70 text-mustard-400/90 drop-shadow-md" />
+            </div>
+          </div>
+        </section>
+        <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
+          <RouterButtonLink
+            to="/self-service/keys"
+            appearance={Button.Appearances.solid}
+            color={Button.Colors.primary}
+            size={Button.Sizes.xl}
+          >
+            Go back to your keys
+          </RouterButtonLink>
+        </section>
+      </>
+    );
+  }
+
   return (
     <>
       <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
@@ -124,7 +166,7 @@ export const Component = () => {
       <section className="relative mb-12 w-full px-6 md:mx-auto">
         <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
         {status === 'pending' ? (
-          <div className="flex h-full flex-1 items-center justify-center">
+          <div className="flex h-64 flex-1 items-center justify-center">
             <Spinner
               size={Spinner.Sizes.custom}
               className="w-16 text-wavy-200"
@@ -143,12 +185,7 @@ export const Component = () => {
                 <Card className="min-w-[250px]" title="Creation Date">
                   <MetadataItem>
                     <CakeIcon className={iconStyle} />
-                    <Banner>
-                      {data?.created.toDate().toISOString() &&
-                        dateFormatter.format(
-                          Date.parse(data?.created.toDate().toISOString()),
-                        )}
-                    </Banner>
+                    <Banner>{data?.createdDate}</Banner>
                   </MetadataItem>
                 </Card>
                 <Card title="Type">
@@ -189,7 +226,7 @@ export const Component = () => {
                   <MetadataItem>
                     <ChartPieIcon className={iconStyle} />
                     <Banner>
-                      {(data?.usage ?? 'none') === 'none'
+                      {(data?.usage ?? 0) === 0
                         ? 'none'
                         : numberFormat.format(data.usage)}
                     </Banner>
@@ -199,11 +236,9 @@ export const Component = () => {
                   <MetadataItem>
                     <CalendarDaysIcon className={iconStyle} />
                     <Banner>
-                      {data?.lastUsed ?? 'never' === 'never'
+                      {(data?.lastUsed ?? -1) === -1
                         ? 'never'
-                        : timeSince(
-                            Date.parse(data.lastUsed.toDate().toISOString()),
-                          )}
+                        : timeSince(convertTicks(data.lastUsed))}
                     </Banner>
                   </MetadataItem>
                 </Card>
