@@ -18,11 +18,11 @@ export const timeSince = (date) => {
   let interval = seconds / 31536000;
 
   if (interval > 1) {
-    return `${pluralize(Math.floor(interval), 'yr', 'yrs')} ago`;
+    return `${pluralize(Math.floor(interval), 'year', 'years')} ago`;
   }
   interval = seconds / 2592000;
   if (interval > 1) {
-    return `${Math.floor(interval)} mo ago`;
+    return `${Math.floor(interval)} months ago`;
   }
   interval = seconds / 86400;
   if (interval > 1) {
@@ -30,12 +30,12 @@ export const timeSince = (date) => {
   }
   interval = seconds / 3600;
   if (interval > 1) {
-    return `${pluralize(Math.floor(interval), 'hr', 'hrs')} ago`;
+    return `${pluralize(Math.floor(interval), 'hour', 'hours')} ago`;
   }
   interval = seconds / 60;
   if (interval > 1) {
-    return `${pluralize(Math.floor(interval), 'min', 'mins')} ago`;
+    return `${pluralize(Math.floor(interval), 'minute', 'minutes')} ago`;
   }
 
-  return `${Math.floor(seconds)} s ago`;
+  return `${Math.floor(seconds)} second ago`;
 };
