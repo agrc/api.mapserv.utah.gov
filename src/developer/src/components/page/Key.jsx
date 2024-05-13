@@ -1,4 +1,9 @@
 import {
+  PauseCircleIcon,
+  PlayCircleIcon,
+  TrashIcon,
+} from '@heroicons/react/20/solid';
+import {
   BeakerIcon,
   CakeIcon,
   CalendarDaysIcon,
@@ -63,15 +68,51 @@ export const Component = () => {
     });
   };
 
+  const cancelAndInvalidate = async () => {
+    await queryClient.cancelQueries();
+    queryClient.invalidateQueries({
+      queryKey: ['my keys', loaderData.user.uid],
+    });
+
+    prefetchKeys();
+  };
+
   const mutateNotes = async (notes) => {
     await updateDoc(keyRef.current, {
       notes,
     });
 
-    await queryClient.cancelQueries();
-    queryClient.invalidateQueries({ queryKey: ['my keys'] });
+    await cancelAndInvalidate();
+  };
 
-    prefetchKeys();
+  const pauseKey = async () => {
+    if (window.confirm('Are you sure you want to pause this key?')) {
+      await updateDoc(keyRef.current, {
+        'flags.disabled': true,
+      });
+
+      await cancelAndInvalidate();
+    }
+  };
+
+  const resumeKey = async () => {
+    if (window.confirm('Are you sure you want to resume this key?')) {
+      await updateDoc(keyRef.current, {
+        'flags.disabled': false,
+      });
+
+      await cancelAndInvalidate();
+    }
+  };
+
+  const deleteKey = async () => {
+    if (window.confirm('Are you sure you want to delete this key?')) {
+      await updateDoc(keyRef.current, {
+        'flags.deleted': true,
+      });
+
+      await cancelAndInvalidate();
+    }
   };
 
   if (status === 'success' && !data) {
@@ -149,18 +190,42 @@ export const Component = () => {
 
   return (
     <>
-      <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
-        <KeyIcon className="h-14 fill-mustard-500/20 text-wavy-500/80 drop-shadow-md dark:fill-wavy-500/50 dark:text-mustard-400/80" />
-        <div>
-          <h2
-            id="key-creation"
-            className="uppercase text-wavy-600 dark:text-wavy-200"
-          >
-            {key}
-          </h2>
-          <p className="text-wavy-400">
-            {status === 'pending' ? 'fetching metadata...' : data?.pattern}
-          </p>
+      <section className="mx-auto flex max-w-5xl items-center justify-between gap-4 p-6 md:col-span-2">
+        <div className="flex gap-4">
+          <KeyIcon className="h-14 fill-mustard-500/20 text-wavy-500/80 drop-shadow-md dark:fill-wavy-500/50 dark:text-mustard-400/80" />
+          <div>
+            <h2
+              id="key-creation"
+              className="uppercase text-wavy-600 dark:text-wavy-200"
+            >
+              {key}
+            </h2>
+            <p className="text-wavy-400">
+              {status === 'pending' ? 'fetching metadata...' : data?.pattern}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center">
+          {data?.flags?.disabled ? (
+            <PlayCircleIcon
+              title="resume key"
+              className="h-6 cursor-pointer text-emerald-600 hover:text-emerald-900"
+              onClick={resumeKey}
+            />
+          ) : null}
+          {!data?.flags?.disabled ? (
+            <PauseCircleIcon
+              title="pause key"
+              className="h-6 cursor-pointer text-sky-600 hover:text-sky-900"
+              onClick={pauseKey}
+            />
+          ) : null}
+          <TrashIcon
+            title="delete key"
+            aria-label="delete site"
+            className="h-6 cursor-pointer text-red-600 hover:text-red-900"
+            onClick={deleteKey}
+          />
         </div>
       </section>
       <section className="relative mb-12 w-full px-6 md:mx-auto">
