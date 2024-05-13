@@ -29,7 +29,10 @@ const wavy = {
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  content: [
+    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+    "./node_modules/@ugrc/**/*.{js,jsx}",
+  ],
   theme: {
     extend: {
       fontFamily: {
