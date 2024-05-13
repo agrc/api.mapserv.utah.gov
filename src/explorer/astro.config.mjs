@@ -3,6 +3,8 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import starlightLinksValidator from "starlight-links-validator";
 
+import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [
@@ -64,5 +66,6 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: true,
     }),
+    react(),
   ],
 });
