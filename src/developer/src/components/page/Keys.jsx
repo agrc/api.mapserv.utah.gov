@@ -1,9 +1,4 @@
-import {
-  InformationCircleIcon,
-  PauseCircleIcon,
-  PlayCircleIcon,
-  TrashIcon,
-} from '@heroicons/react/20/solid';
+import { InformationCircleIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
 import { createColumnHelper } from '@tanstack/react-table';
 import { httpsCallable } from 'firebase/functions';
@@ -62,31 +57,6 @@ const columns = [
     cell: (info) => {
       return (
         <div className="flex justify-end">
-          <TrashIcon
-            aria-label="delete site"
-            className="h-6 cursor-pointer text-red-600 hover:text-red-900"
-            onClick={(event) => {
-              event.stopPropagation();
-
-              console.log(info.row.getValue('key'));
-            }}
-          />
-          <PauseCircleIcon
-            className="h-6 cursor-pointer text-sky-600 hover:text-sky-900"
-            onClick={(event) => {
-              event.stopPropagation();
-
-              console.log(info.row.getValue('key'));
-            }}
-          />
-          <PlayCircleIcon
-            className="h-6 cursor-pointer text-emerald-600 hover:text-emerald-900"
-            onClick={(event) => {
-              event.stopPropagation();
-
-              console.log(info.row.getValue('key'));
-            }}
-          />
           <InformationCircleIcon
             className="h-6 cursor-pointer text-fuchsia-600 hover:text-fuchsia-900"
             onClick={(event) => {
