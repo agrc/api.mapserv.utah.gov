@@ -1,10 +1,10 @@
+import Header from '@ugrc/header';
 import { getAuth } from 'firebase/auth';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useSigninCheck, useUser } from 'reactfire';
 import Avatar from '../Avatar';
 import ThemeToggle from '../ThemeToggle';
 import Footer from '../design-system/Footer';
-import Header from '../design-system/Header';
 import Menu from '../design-system/Menu';
 
 const links = [

@@ -1,7 +1,7 @@
+import Popover from '@ugrc/popover';
 import clsx from 'clsx';
 import md5 from 'md5';
 import PropTypes from 'prop-types';
-import Popover from './design-system/Popover';
 import Tooltip from './design-system/Tooltip';
 
 const size = 120;
