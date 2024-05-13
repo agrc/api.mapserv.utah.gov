@@ -105,7 +105,9 @@ export function Component() {
     onSuccess: async () => {
       await queryClient.cancelQueries();
 
-      queryClient.invalidateQueries({ queryKey: ['my keys'] });
+      queryClient.invalidateQueries({
+        queryKey: ['my keys', loaderData.user.uid],
+      });
     },
   });
 
