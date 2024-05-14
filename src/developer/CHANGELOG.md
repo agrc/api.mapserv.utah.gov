@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.12...developer-v2.3.0) (2024-05-14)
+
+
+### Features
+
+* **developer:** add play, pause, and delete buttons to key page ([431d7b9](https://github.com/agrc/api.mapserv.utah.gov/commit/431d7b96370e422b4fdfc0ff5cf0994ad7442a9f)), closes [#281](https://github.com/agrc/api.mapserv.utah.gov/issues/281)
+
+
+### Bug Fixes
+
+* **developer:** use correct key for query invalidation after key creation ([aa1a561](https://github.com/agrc/api.mapserv.utah.gov/commit/aa1a56186337fa0ec5ba19ba19dd28ea3e827b5e))
+
 ## [2.2.12](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.11...developer-v2.2.12) (2024-05-10)
 
 
