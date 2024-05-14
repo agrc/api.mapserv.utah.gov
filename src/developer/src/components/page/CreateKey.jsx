@@ -94,6 +94,7 @@ export function Component() {
   const loaderData = useLoaderData();
   const functions = useFunctions();
   const createKey = httpsCallable(functions, 'createKey');
+  const getKeys = httpsCallable(functions, 'keys');
 
   const queryClient = useQueryClient();
   const {
@@ -103,10 +104,13 @@ export function Component() {
   } = useMutation({
     mutationFn: (data) => Spinner.minDelay(createKey(data)),
     onSuccess: async () => {
-      await queryClient.cancelQueries();
+      await queryClient.cancelQueries({
+        queryKey: ['my keys'],
+      });
 
-      queryClient.invalidateQueries({
-        queryKey: ['my keys', loaderData.user.uid],
+      await queryClient.refetchQueries({
+        queryKey: ['my keys'],
+        queryFn: () => getKeys(),
       });
     },
   });
