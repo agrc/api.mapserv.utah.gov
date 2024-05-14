@@ -39,12 +39,8 @@ export const getKeys = async (uid) => {
   const keys = [];
   querySnapshot.forEach((doc) => keys.push(doc.data()));
 
-  const usageKeys = keys.map(
-    (key) => `analytics:key-hit:${key.key.toLowerCase()}`,
-  );
-  const timeKeys = keys.map(
-    (key) => `analytics:key-time:${key.key.toLowerCase()}`,
-  );
+  const usageKeys = keys.map((key) => `analytics:hit:${key.key.toLowerCase()}`);
+  const timeKeys = keys.map((key) => `analytics:time:${key.key.toLowerCase()}`);
 
   const allKeys = [...usageKeys, ...timeKeys];
 
