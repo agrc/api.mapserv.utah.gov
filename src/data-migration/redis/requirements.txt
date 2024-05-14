@@ -1,3 +1,4 @@
 rdbtools
 python-lzf
 setuptools
+redis
