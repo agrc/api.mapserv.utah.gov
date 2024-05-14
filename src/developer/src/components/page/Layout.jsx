@@ -51,15 +51,20 @@ const Layout = () => {
         links={links}
       >
         <div className="flex flex-1 items-center space-x-2">
-          <img
-            src="/logo.svg"
-            alt="UGRC API"
-            className="hidden h-16 w-16 sm:block"
-            role="presentation"
-          />
-          <h1 className="text-center text-slate-700 dark:text-slate-300">
-            UGRC API
-          </h1>
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center space-x-2 rounded-md p-2"
+          >
+            <img
+              src="/logo.svg"
+              alt="UGRC API"
+              className="hidden h-16 w-16 sm:block"
+              role="presentation"
+            />
+            <h1 className="text-center text-slate-700 dark:text-slate-300">
+              UGRC API
+            </h1>
+          </button>
           <div className="inline-flex flex-grow justify-end">
             <ThemeToggle />
           </div>
