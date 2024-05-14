@@ -1,17 +1,23 @@
 import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 
-const Card = ({ title, subTitle, children }) => {
+const Card = ({ title, subTitle, children, danger = false }) => {
   return (
-    <div className="mt-6 border border-slate-300 bg-slate-100 shadow-md dark:border-slate-800 dark:bg-slate-700 md:mt-0">
+    <div
+      className={clsx('mt-6 border shadow-md  md:mt-0', {
+        'border-slate-300 dark:border-slate-800': !danger,
+        'border-red-900 dark:border-rose-700': danger,
+        'bg-slate-100 dark:bg-slate-700': !danger,
+        'bg-red-300 dark:bg-rose-950': danger,
+      })}
+    >
       {title && (
         <h4
-          className={clsx(
-            'bg-white px-5 pt-3 uppercase text-wavy-600 dark:bg-slate-600 dark:text-slate-50',
-            {
-              'pb-3': !subTitle,
-            },
-          )}
+          className={clsx('bg-white px-5 pt-3 uppercase dark:bg-slate-600 ', {
+            'pb-3': !subTitle,
+            'text-wavy-600 dark:text-slate-50': !danger,
+            'text-rose-700 dark:text-rose-200': danger,
+          })}
         >
           {title}
         </h4>
@@ -31,6 +37,7 @@ Card.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   subTitle: PropTypes.string,
+  danger: PropTypes.bool,
 };
 
 export default Card;
