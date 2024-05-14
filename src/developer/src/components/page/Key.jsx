@@ -71,7 +71,8 @@ export const Component = () => {
   const cancelAndInvalidate = async () => {
     await queryClient.cancelQueries();
     queryClient.invalidateQueries({
-      queryKey: ['my keys', loaderData.user.uid],
+      queryKey: ['my keys'],
+      refetchType: 'all',
     });
 
     prefetchKeys();
