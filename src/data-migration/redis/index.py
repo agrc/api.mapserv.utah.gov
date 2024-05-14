@@ -26,18 +26,18 @@ def parse_dump():
         continue
 
       if key not in keys:
-        keys[key] = {'total': 0, 'time': 0, 'geocode': 0, 'search': 0, 'info': 0}
+        keys[key] = {'analytics:hit': 0, 'analytics:time': 0, 'analytics:geocode': 0, 'analytics:search': 0, 'analytics:info': 0}
 
       if method == 'total':
-          keys[key]['total'] = keys[key]['total'] + int(value)
+          keys[key]['analytics:hit'] = keys[key]['analytics:hit'] + int(value)
       elif method == 'time':
-        keys[key]['time'] = max(keys[key]['time'], int(value))
+        keys[key]['analytics:time'] = max(keys[key]['analytics:time'], int(value))
       elif method == 'geocode':
-        keys[key]['geocode'] = keys[key]['geocode'] + int(value)
+        keys[key]['analytics:geocode'] = keys[key]['analytics:geocode'] + int(value)
       elif method == 'search':
-        keys[key]['search'] = keys[key]['search'] + int(value)
+        keys[key]['analytics:search'] = keys[key]['analytics:search'] + int(value)
       elif method == 'info':
-        keys[key]['info'] = keys[key]['info'] + int(value)
+        keys[key]['analytics:info'] = keys[key]['analytics:info'] + int(value)
 
 
   return keys
@@ -49,10 +49,7 @@ pipe = r.pipeline()
 
 for key, values in keys.items():
   for method, value in values.items():
-    redis_key = f"{key}:{method}"
-
-    if method == 'total':
-      redis_key = key
+    redis_key = f"{method}:{key}"
 
     if value > 0:
       pipe.set(redis_key, str(value))

@@ -28,8 +28,8 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
 
         // send analytics information
         try {
-            await _db.StringIncrementAsync($"analytics:key-hit:{key}", flags: CommandFlags.FireAndForget);
-            await _db.StringSetAsync($"analytics:key-time:{key}", DateTime.UtcNow.Ticks, flags: CommandFlags.FireAndForget);
+            await _db.StringIncrementAsync($"analytics:hit:{key}", flags: CommandFlags.FireAndForget);
+            await _db.StringSetAsync($"analytics:time:{key}", DateTime.UtcNow.Ticks, flags: CommandFlags.FireAndForget);
         } catch { }
 
         var apiKey = await _repo.GetKey(key);
