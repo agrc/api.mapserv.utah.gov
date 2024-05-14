@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.tests", "test\api.unit.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{23D069AF-D7F8-4183-9918-6999092494A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data-migration", "src\data-migration\data-migration.csproj", "{471D1DFA-D62D-40EE-A0C9-82C1CE682D32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data-migration", "src\data-migration\ravendb\data-migration.csproj", "{471D1DFA-D62D-40EE-A0C9-82C1CE682D32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
