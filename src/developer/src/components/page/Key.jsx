@@ -205,30 +205,8 @@ export const Component = () => {
             </p>
           </div>
         </div>
-        <div className="flex items-center">
-          {data?.flags?.disabled ? (
-            <PlayCircleIcon
-              title="resume key"
-              className="h-6 cursor-pointer text-emerald-600 hover:text-emerald-900"
-              onClick={resumeKey}
-            />
-          ) : null}
-          {!data?.flags?.disabled ? (
-            <PauseCircleIcon
-              title="pause key"
-              className="h-6 cursor-pointer text-sky-600 hover:text-sky-900"
-              onClick={pauseKey}
-            />
-          ) : null}
-          <TrashIcon
-            title="delete key"
-            aria-label="delete site"
-            className="h-6 cursor-pointer text-red-600 hover:text-red-900"
-            onClick={deleteKey}
-          />
-        </div>
       </section>
-      <section className="relative mb-12 w-full px-6 md:mx-auto">
+      <section className="relative mb-4 w-full px-6 md:mx-auto">
         <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
         {status === 'pending' ? (
           <div className="flex h-64 flex-1 items-center justify-center">
@@ -313,15 +291,70 @@ export const Component = () => {
         )}
       </section>
       {status === 'success' && data && (
-        <section className="mx-auto mb-12 max-w-5xl p-6 md:col-span-2">
-          <Card title="Key Notes">
-            <EditableText
-              text={data?.notes}
-              pattern={data?.pattern}
-              onChange={mutateNotes}
-            />
-          </Card>
-        </section>
+        <>
+          <section className="mx-auto max-w-5xl p-6 md:col-span-2">
+            <Card title="Key Notes">
+              <EditableText
+                text={data?.notes}
+                pattern={data?.pattern}
+                onChange={mutateNotes}
+              />
+            </Card>
+          </section>
+          <section className="mx-auto mb-4 max-w-5xl p-6 md:col-span-2">
+            <Card title="Danger Zone" danger>
+              <div className="flex justify-center gap-4 p-6">
+                {!data.flags.disabled && (
+                  <Button
+                    onClick={pauseKey}
+                    appearance={Button.Appearances.solid}
+                    color={Button.Colors.danger}
+                    size={Button.Sizes.lg}
+                    className="group"
+                  >
+                    <PauseCircleIcon
+                      title="pause key"
+                      className="mr-2 h-6 cursor-pointer text-sky-100 group-hover:text-sky-400"
+                      onClick={pauseKey}
+                    />
+                    Pause Key
+                  </Button>
+                )}
+                {data.flags.disabled && (
+                  <Button
+                    onClick={resumeKey}
+                    appearance={Button.Appearances.solid}
+                    color={Button.Colors.success}
+                    size={Button.Sizes.lg}
+                    className="group"
+                  >
+                    <PlayCircleIcon
+                      title="resume key"
+                      className="mr-2 h-6 cursor-pointer text-emerald-100 group-hover:text-emerald-400"
+                      onClick={resumeKey}
+                    />{' '}
+                    Resume Key
+                  </Button>
+                )}
+                <Button
+                  onClick={deleteKey}
+                  appearance={Button.Appearances.solid}
+                  color={Button.Colors.danger}
+                  size={Button.Sizes.lg}
+                  className="group"
+                >
+                  <TrashIcon
+                    title="delete key"
+                    aria-label="delete site"
+                    className="mr-2 h-6 cursor-pointer text-red-100 group-hover:text-red-400"
+                    onClick={deleteKey}
+                  />
+                  Delete Key
+                </Button>
+              </div>
+            </Card>
+          </section>
+        </>
       )}
     </>
   );
