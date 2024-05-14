@@ -22,7 +22,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useFirestore, useFunctions } from 'reactfire';
 import { timeSince } from '../../../functions/time';
 import EditableText from '../EditableText';
@@ -49,6 +49,7 @@ export const Component = () => {
   const getKeys = httpsCallable(functions, 'keys');
   const loaderData = useLoaderData();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { status, data } = useQuery({
     queryKey: ['my keys', loaderData.user.uid],
@@ -113,6 +114,8 @@ export const Component = () => {
       });
 
       await cancelAndInvalidate();
+
+      navigate('/self-service/keys');
     }
   };
 
