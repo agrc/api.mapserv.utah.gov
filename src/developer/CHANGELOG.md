@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.3.0...developer-v2.3.1) (2024-05-15)
+
+
+### Bug Fixes
+
+* **explorer:** disable dark mode ([8656f36](https://github.com/agrc/api.mapserv.utah.gov/commit/8656f362cdfb643468882625a5a6a14156dfecec))
+
 ## [2.3.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.2.12...developer-v2.3.0) (2024-05-14)
 
 
