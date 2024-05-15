@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.2.1...explorer-v2.2.2) (2024-05-15)
+
+
+### Bug Fixes
+
+* **explorer:** disable dark mode ([8656f36](https://github.com/agrc/api.mapserv.utah.gov/commit/8656f362cdfb643468882625a5a6a14156dfecec))
+* **explorer:** link header to home page ([6b3908e](https://github.com/agrc/api.mapserv.utah.gov/commit/6b3908eed5e455fb5e7f375aee4d399dc40d27fc))
+* **explorer:** use common header from kitchen sink ([e4c6a13](https://github.com/agrc/api.mapserv.utah.gov/commit/e4c6a136a0fdbdd0208aa17b39800a45ad6ce27a)), closes [#278](https://github.com/agrc/api.mapserv.utah.gov/issues/278) [#279](https://github.com/agrc/api.mapserv.utah.gov/issues/279)
+
 ## [2.2.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.2.0...explorer-v2.2.1) (2024-05-09)
 
 
