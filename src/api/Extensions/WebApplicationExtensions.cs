@@ -1,6 +1,7 @@
 using ugrc.api.Features.Converting;
 using ugrc.api.Features.Geocoding;
 using ugrc.api.Features.Health;
+using ugrc.api.Features.Information;
 using ugrc.api.Features.Milepost;
 using ugrc.api.Features.Searching;
 using ugrc.api.Middleware;
@@ -37,6 +38,7 @@ public static class WebApplicationExtensions {
 
         var geocode = api.MapGroup("/geocode");
         var search = api.MapGroup("/search");
+        var info = api.MapGroup("/info");
 
         geocode.MapGet("/{street}/{zone}", async (
             [FromRoute] string street,
@@ -162,6 +164,30 @@ public static class WebApplicationExtensions {
                 Tags = [new() { Name = "Searching" }],
             })
             .Produces<ApiResponseContract<SearchResponseContract>>(StatusCodes.Status200OK)
+            .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
+            .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
+            .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
+
+        info.MapGet("/featureclassnames", async (
+            InformationRequestOptionsContract options,
+            [FromServices] IMediator mediator,
+            [FromServices] IJsonSerializerOptionsFactory factory,
+            [FromServices] ApiVersion apiVersion)
+            => {
+                var result = await mediator.Send(new InformationQuery.Query(options.SgidCategory!));
+
+                return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
+            })
+            .AddEndpointFilter<InformationQuery.ValidationFilter>()
+            .HasApiVersion(1)
+            .HasApiVersion(2)
+            .WithOpenApi(operation => new(operation) {
+                OperationId = "FeatureClassNames",
+                Summary = "Get all feature classes for a SGID category",
+                Description = "Discover SGID data by viewing all available feature classes for a given category",
+                Tags = [new() { Name = "Info" }],
+            })
+            .Produces<ApiResponseContract<IReadOnlyCollection<string>>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);

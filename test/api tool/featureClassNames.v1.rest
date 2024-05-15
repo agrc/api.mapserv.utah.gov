@@ -1,0 +1,15 @@
+@hostname = localhost
+@port = 1337
+@host = {{hostname}}:{{port}}
+@apiKey = apikey=agrc-dev
+@all = http://{{host}}/api/v1/info/featureclassnames?{{apiKey}}
+
+GET {{all}}
+###
+GET {{all}}&sgidCategory=BOUNDaries
+###
+GET {{all}}&sgidCategory= TRANSPORTATION
+###
+// Validation Error
+GET {{all}}&sgidCategory=invalid
+###
