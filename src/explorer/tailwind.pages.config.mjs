@@ -88,4 +88,5 @@ export default {
       },
     }),
   ],
+  darkMode: "selector",
 };
