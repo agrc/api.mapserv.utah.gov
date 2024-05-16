@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.3.1...developer-v2.3.2) (2024-05-16)
+
+
+### Bug Fixes
+
+* **developer:** prevent spaces in key patterns and ip addresses ([be5d45c](https://github.com/agrc/api.mapserv.utah.gov/commit/be5d45c09db40ed6e54a1a8c5a8f5c6e983c686c)), closes [#103](https://github.com/agrc/api.mapserv.utah.gov/issues/103)
+* **developer:** set default ip value ([177564a](https://github.com/agrc/api.mapserv.utah.gov/commit/177564a8fdef88d0deb06cdf33e0d28fedc72fe7))
+
 ## [2.3.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.3.0...developer-v2.3.1) (2024-05-15)
 
 
