@@ -174,11 +174,11 @@ public static class WebApplicationExtensions {
             [FromServices] IJsonSerializerOptionsFactory factory,
             [FromServices] ApiVersion apiVersion)
             => {
-                var result = await mediator.Send(new InformationQuery.Query(options.SgidCategory!));
+                var result = await mediator.Send(new SqlSchemaQuery.Query(options.SgidCategory!));
 
                 return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })
-            .AddEndpointFilter<InformationQuery.ValidationFilter>()
+            .AddEndpointFilter<SqlSchemaQuery.ValidationFilter>()
             .HasApiVersion(1)
             .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
