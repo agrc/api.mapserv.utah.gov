@@ -191,6 +191,31 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
+
+        info.MapGet("/fieldnames/{featureClass}", async (
+            [FromRoute] string featureClass,
+            InformationRequestOptionsContract options,
+            [FromServices] IMediator mediator,
+            [FromServices] IJsonSerializerOptionsFactory factory,
+            [FromServices] ApiVersion apiVersion)
+            => {
+                var result = await mediator.Send(new SqlAttributeQuery.Query(featureClass.ToLowerInvariant().Trim(), options.SgidCategory!));
+
+                return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
+            })
+            .AddEndpointFilter<SqlAttributeQuery.ValidationFilter>()
+            .HasApiVersion(1)
+            .HasApiVersion(2)
+            .WithOpenApi(operation => new(operation) {
+                OperationId = "FeatureClassAttributeNames",
+                Summary = "Get all attributes for a SGID feature class",
+                Description = "Understand SGID table available fields by viewing all of the searchable attributes",
+                Tags = [new() { Name = "Info" }],
+            })
+            .Produces<ApiResponseContract<IReadOnlyCollection<string>>>(StatusCodes.Status200OK)
+            .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
+            .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
+            .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
     }
     public static void MapHealthChecks(this WebApplication app) {
         app.MapHealthChecks("/api/v1/health/details", new HealthCheckOptions {

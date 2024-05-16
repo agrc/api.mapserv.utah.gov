@@ -1,0 +1,19 @@
+@hostname = localhost
+@port = 1337
+@host = {{hostname}}:{{port}}
+@apiKey = apikey=agrc-dev
+@base = http://{{host}}/api/v1/info/fieldnames/
+
+GET {{base}}county_boundaries?{{apiKey}}
+###
+GET {{base}}county_boundaries?sgidCategory=BOUNDaries&{{apiKey}}
+### old microsoft name
+GET {{base}}counties?sgidCategory=BOUNDaries&{{apiKey}}
+### not found
+GET {{base}}counties?{{apiKey}}
+### wrong category
+GET {{base}}county_boundaries?sgidCategory=transportation&{{apiKey}}
+### Validation Error
+GET {{base}}county_boundaries?sgidCategory=invalid&{{apiKey}}
+### validation error
+GET {{base}}boundaries.county_boundaries?{{apiKey}}
