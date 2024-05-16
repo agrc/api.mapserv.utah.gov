@@ -1,9 +1,9 @@
-import { InformationCircleIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
 import { createColumnHelper } from '@tanstack/react-table';
 import { httpsCallable } from 'firebase/functions';
 import { Link, useLoaderData } from 'react-router-dom';
 import { useFunctions } from 'reactfire';
+import CopyToClipboard from '../CopyToClipboard';
 import Button, { RouterButtonLink } from '../design-system/Button';
 import Spinner from '../design-system/Spinner';
 import Table from '../design-system/Table';
@@ -54,20 +54,11 @@ const columns = [
   // }),
   columnHelper.accessor('action', {
     header: null,
-    cell: (info) => {
-      return (
-        <div className="flex justify-end">
-          <InformationCircleIcon
-            className="h-6 cursor-pointer text-fuchsia-600 hover:text-fuchsia-900"
-            onClick={(event) => {
-              event.stopPropagation();
-
-              console.log(info.row.getValue('key'));
-            }}
-          />
-        </div>
-      );
-    },
+    cell: (info) => (
+      <div className="flex justify-end">
+        <CopyToClipboard text={info.row.getValue('key')} className="h-6" />
+      </div>
+    ),
   }),
 ];
 

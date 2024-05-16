@@ -21,8 +21,8 @@ export default function CopyToClipboard({ text, className }) {
     <CopyToClipboard_lib
       text={text}
       className={twMerge(
-        className,
         'h-8 cursor-pointer hover:text-wavy-400 dark:hover:text-mustard-500',
+        className,
       )}
       onCopy={() => setCopied(true)}
     >

@@ -25,6 +25,7 @@ import { useRef } from 'react';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useFirestore, useFunctions } from 'reactfire';
 import { timeSince } from '../../../functions/time';
+import CopyToClipboard from '../CopyToClipboard';
 import EditableText from '../EditableText';
 import Button, { RouterButtonLink } from '../design-system/Button';
 import Card from '../design-system/Card';
@@ -200,9 +201,10 @@ export const Component = () => {
           <div>
             <h2
               id="key-creation"
-              className="uppercase text-wavy-600 dark:text-wavy-200"
+              className="flex items-center uppercase text-wavy-600 dark:text-wavy-200"
             >
               {key}
+              <CopyToClipboard text={key} className="ml-1 inline" />
             </h2>
             <p className="text-wavy-400">
               {status === 'pending' ? 'fetching metadata...' : data?.pattern}
