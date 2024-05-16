@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.3.2...developer-v2.4.0) (2024-05-16)
+
+
+### Features
+
+* **developer:** add copy to clipboard to keys table and key page ([04dbf92](https://github.com/agrc/api.mapserv.utah.gov/commit/04dbf92a37aa2557abd50fbaaa977fd0bb0a4676)), closes [#276](https://github.com/agrc/api.mapserv.utah.gov/issues/276)
+
+
+### Bug Fixes
+
+* **developer:** show visual cue when copying to clipboard ([4a5570a](https://github.com/agrc/api.mapserv.utah.gov/commit/4a5570ae60f15b10f38ba88eb20e1f203f3fe7d0)), closes [#275](https://github.com/agrc/api.mapserv.utah.gov/issues/275)
+
 ## [2.3.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.3.1...developer-v2.3.2) (2024-05-16)
 
 
