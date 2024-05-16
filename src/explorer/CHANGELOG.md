@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.3](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.2.2...explorer-v2.2.3) (2024-05-16)
+
+
+### Bug Fixes
+
+* **explorer:** fix footer layout issues ([c800886](https://github.com/agrc/api.mapserv.utah.gov/commit/c800886ae28deef3a3d05cfe8bf17c7e2277ca6f)), closes [#283](https://github.com/agrc/api.mapserv.utah.gov/issues/283)
+* **explorer:** remove superfluous attributes ([c4cd79c](https://github.com/agrc/api.mapserv.utah.gov/commit/c4cd79c0860936d8d3844194b6f035bb140d9579))
+
 ## [2.2.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.2.1...explorer-v2.2.2) (2024-05-15)
 
 
