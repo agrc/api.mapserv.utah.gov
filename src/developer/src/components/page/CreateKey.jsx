@@ -253,6 +253,7 @@ export function Component() {
                         error={errors.pattern?.message}
                         required
                         {...field}
+                        onChange={(value) => field.onChange(value.trim())}
                       />
                     )}
                   />
@@ -298,6 +299,7 @@ export function Component() {
                         required
                         error={errors.ip?.message}
                         {...field}
+                        onChange={(value) => field.onChange(value.trim())}
                       />
                     )}
                   />

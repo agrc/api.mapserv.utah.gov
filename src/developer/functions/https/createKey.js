@@ -43,7 +43,7 @@ export const createKey = async (data) => {
       server: data.type === 'server',
       production: data.mode === 'production',
     },
-    pattern: data.type === 'browser' ? data.pattern : data.ip,
+    pattern: data.type === 'browser' ? data.pattern.trim() : data.ip.trim(),
     regularExpression,
     machineName: false,
     elevated: false,
