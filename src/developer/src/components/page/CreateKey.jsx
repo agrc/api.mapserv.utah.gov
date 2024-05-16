@@ -1,14 +1,13 @@
-import { ClipboardIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Tabs from '@radix-ui/react-tabs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpsCallable } from 'firebase/functions';
 import { useEffect } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Controller, useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router-dom';
 import { useFunctions } from 'reactfire';
 import * as z from 'zod';
+import CopyToClipboard from '../CopyToClipboard';
 import { TextLink } from '../Link';
 import Pill from '../Pill';
 import Button from '../design-system/Button';
@@ -348,10 +347,8 @@ export function Component() {
                 {data.data}
                 <CopyToClipboard
                   text={data.data}
-                  className="absolute right-1 top-1 h-8 cursor-pointer hover:text-wavy-400 dark:hover:text-mustard-500"
-                >
-                  <ClipboardIcon title="copy to clipboard" />
-                </CopyToClipboard>
+                  className="absolute right-1 top-1"
+                />
               </div>
             )}
             {mutationStatus === 'error' && (
