@@ -71,6 +71,7 @@ const schema = z.discriminatedUnion('type', [
 ]);
 
 const defaultValues = {
+  ip: '',
   pattern: '',
   notes: '',
   mode: 'development',
