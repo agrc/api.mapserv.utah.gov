@@ -4,16 +4,20 @@
 @apiKey = apikey=agrc-dev
 @base = http://{{host}}/api/v1/info/fieldnames/
 
+
+###
+GET {{base}}county_boundaries?category=boundaries&{{apiKey}}
+###
 GET {{base}}county_boundaries?{{apiKey}}
 ###
-GET {{base}}county_boundaries?sgidCategory=BOUNDaries&{{apiKey}}
+GET {{base}}county_boundaries?category=BOUNDaries&{{apiKey}}
 ### old microsoft name
-GET {{base}}counties?sgidCategory=BOUNDaries&{{apiKey}}
+GET {{base}}counties?category=BOUNDaries&{{apiKey}}
 ### not found
 GET {{base}}counties?{{apiKey}}
 ### wrong category
-GET {{base}}county_boundaries?sgidCategory=transportation&{{apiKey}}
+GET {{base}}county_boundaries?category=transportation&{{apiKey}}
 ### Validation Error
-GET {{base}}county_boundaries?sgidCategory=invalid&{{apiKey}}
+GET {{base}}county_boundaries?category=invalid&{{apiKey}}
 ### validation error
 GET {{base}}boundaries.county_boundaries?{{apiKey}}
