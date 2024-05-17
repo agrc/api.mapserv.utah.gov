@@ -1,6 +1,4 @@
 import starlightPlugin from "@astrojs/starlight-tailwind";
-import heroPatterns from "tailwind-heropatterns";
-import colors from "tailwindcss/colors";
 
 // Generated color palettes
 const mustard = {

@@ -2,7 +2,7 @@
 title: "UGRC API"
 description: "Help for wherever you are on your geospatial journey"
 next:
-  { label: "Street and Zone Geocoding", link: "/docs/v1/endpoints/geocoding" }
+  { label: "Street and zone geocoding", link: "/docs/v1/endpoints/geocoding" }
 ---
 
 The UGRC API has 7 endpoints: 4 geocoding endpoints, 2 informational endpoints, and 1 searching endpoint.

@@ -1,9 +1,10 @@
 ---
-const {verb} = Astro.props;
-const {endpoint} = Astro.props;
-const {properties} = Astro.props;
+const { verb } = Astro.props;
+const { endpoint } = Astro.props;
+const { properties } = Astro.props;
 const propertyCount = properties.length - 1;
 ---
+
 <style>
   .verb {
     width: fit-content;
@@ -12,12 +13,28 @@ const propertyCount = properties.length - 1;
     padding: 0.2em 0.5em;
     border-radius: 0.25rem;
   }
-  </style>
+</style>
 <aside aria-label="HTTP Verb: GET" class="starlight-aside starlight-aside--note">
   <p class="starlight-aside__title verb" aria-hidden="true">HTTP {verb}</p>
-  <section class="starlight-aside__content"><p>
-    <code dir="auto" class="font-semibold">
-        <span style="color:var(--astro-code-token-punctuation)">https://api.mapserv.utah.gov/api/v1/</span><span style="color:var(--astro-code-token-keyword)">{endpoint}</span><span style="color:var(--astro-code-token-punctuation)">/</span>{properties.map((item, index) => (<>&lcub;<span style="color:var(--astro-code-token-string-expression)" class="font-black">{item}</span>&rcub;{index !== propertyCount && (<span style="color:var(--astro-code-token-punctuation)">/</span>)}</>))}<span style="color:var(--astro-code-token-punctuation)">?apikey=&lcub;<span style="color:var(--astro-code-token-string-expression)">apikey</span>&rcub;</span>
-    </code>
+  <section class="starlight-aside__content">
+    <p>
+      <code dir="auto" class="font-semibold">
+        <span style="color:var(--astro-code-token-punctuation)">https://api.mapserv.utah.gov/api/v1/</span><span
+          style="color:var(--astro-code-token-keyword)">{endpoint}</span
+        ><span style="color:var(--astro-code-token-punctuation)">/</span>{
+          properties.map((item, index) => (
+            <>
+              &lcub;
+              <span style="color:var(--astro-code-token-string-expression)" class="font-black">
+                {item}
+              </span>
+              &rcub;{index !== propertyCount && <span style="color:var(--astro-code-token-punctuation)">/</span>}
+            </>
+          ))
+        }<span style="color:var(--astro-code-token-punctuation)"
+          >?apikey=&lcub;<span style="color:var(--astro-code-token-string-expression)">apikey</span>&rcub;</span
+        >
+      </code>
+    </p>
   </section>
 </aside>
