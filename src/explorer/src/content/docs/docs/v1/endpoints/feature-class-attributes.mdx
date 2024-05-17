@@ -1,0 +1,104 @@
+---
+title: "Table attribute information"
+description: "Every attribute available in a table"
+prev: { label: "Documentation Overview", link: "/docs/" }
+sidebar:
+  order: 7
+---
+
+import { Card, TabItem, Tabs } from "@astrojs/starlight/components";
+import Uri from "../../../../../components/Uri.astro";
+import Callback from "../../../../../components/parameters/Callback.mdx";
+import OutputFormat from "../../../../../components/parameters/OutputFormat.mdx";
+import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
+
+This UGRC API endpoint returns a list of attribute names for a specific table usable by the [search](/docs/v1/endpoints/searching) endpoint's [fields](/docs/v1/endpoints/searching/#fields) parameter. Use this endpoint to discover the data points from the chosen table for your search endpoint needs.
+
+:::tip
+
+This endpoint requires the table name to exactly match a table name in the [Open SGID](https://gis.utah.gov/documentation/sgid/open-sgid). The legacy format of `SGID.category.table` will no longer function in version 2 of the API.
+
+:::
+
+## URI Format
+
+<Uri verb="GET" endpoint="info/fieldnames" properties={["tableName"]} />
+
+## Parameters
+
+<Card title="Required path parameters" icon="approve-check">
+
+### tableName
+
+The name of an OpenSGID table. Use the [table name](/docs/v1/endpoints/feature-class-names) endpoint to find a table name or read the [getting connected guide](https://gis.utah.gov/documentation/sgid/open-sgid/) to browse the OpenSGID for a table name.
+
+- **Type**: `string`
+- **Example**: `county_boundaries`
+
+</Card>
+<Card title="Optional query string parameters" icon="setting">
+
+### category
+
+Our SGID datasets are organized into categories, such as `Boundaries`, `Cadastre`, `Demographic`, or `Water` to name just a few. Each one contains related datasets to help you find what you need and discover related datasets you might not have known about. Set this property to filter the results for the specific category.
+
+- **Type**: `string`
+- **Can be one of**: `bioscience`, `boundaries`, `cadastre`, `climate`, `demographic`, `economy`, `elevation`, `energy`, `environment`, `farming`, `geoscience`, `health`, `history`, `indices`, `location`, `planning`, `political`, `public`, `recreation`, `society`, `transportation`, `utilities`, `water`
+
+### callback
+
+<Callback />
+
+</Card>
+
+## Response Shapes
+
+<Tabs>
+	<TabItem label="Successful Example">
+  ```json
+{
+    "result": [
+       "name",
+       "fips"
+    ],
+    "status": 200
+}
+```
+</TabItem>
+	<TabItem label="Error Example">
+  :::tip
+  Be sure to inspect the failed requests as they contain useful information. `401` status codes equates to your API key having problems. `404` equates to the address not being found. `200` is successful.
+  :::
+
+```json
+{
+  "status": 401,
+  "message": ""
+}
+```
+
+  </TabItem>
+  <TabItem label="JSON Schema">
+```json
+{
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
+    },
+    "status": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "result",
+    "status"
+  ]
+}
+```
+  </TabItem>
+</Tabs>
