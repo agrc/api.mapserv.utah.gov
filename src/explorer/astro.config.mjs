@@ -19,6 +19,7 @@ export default defineConfig({
         github: "https://github.com/agrc/api.mapserv.utah.gov",
         "x.com": "https://x.com/maputah",
         facebook: "https://www.facebook.com/utahagrc",
+        youtube: "https://youtube.com/@therealugrc",
       },
       sidebar: [
         {
