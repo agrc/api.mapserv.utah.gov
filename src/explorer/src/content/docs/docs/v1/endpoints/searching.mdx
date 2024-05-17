@@ -5,12 +5,11 @@ sidebar:
   order: 5
 ---
 
-import { Tabs, TabItem } from "@astrojs/starlight/components";
-import { Card } from "@astrojs/starlight/components";
+import { Card, TabItem, Tabs } from "@astrojs/starlight/components";
 import Uri from "../../../../../components/Uri.astro";
-import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
-import OutputFormat from "../../../../../components/parameters/OutputFormat.mdx";
 import Callback from "../../../../../components/parameters/Callback.mdx";
+import OutputFormat from "../../../../../components/parameters/OutputFormat.mdx";
+import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
 
 Searching allows you to find information in more than 1,000,000 rows of spatial [State Geographic Information Datasource](https://gis.utah.gov/documentation/sgid/) (SGID) data without expensive software or licensing. With over 300 tables of real-world Utah data that you can run queries against in the SGID, the possibilities can be a little overwhelming. But the searching endpoint opens the opportunity for copious information extraction. This UGRC API endpoint allows you to get geometries and attributes from any table in the [OpenSGID](https://gis.utah.gov/documentation/sgid/open-sgid/).
 
@@ -20,7 +19,7 @@ Searching allows you to find information in more than 1,000,000 rows of spatial 
 
 ## Parameters
 
-<Card title="Required Path parameters" icon="approve-check">
+<Card title="Required path parameters" icon="approve-check">
 
 ### table
 
@@ -44,7 +43,7 @@ There are a few special tokens to access geometry data.
 - **Example**: `name,fips`
 
 </Card>
-<Card title="Optional Query parameters" icon="setting">
+<Card title="Optional query string parameters" icon="setting">
 
 ### predicate
 

@@ -29,27 +29,27 @@ export default defineConfig({
           label: "Reference",
           items: [
             {
-              label: "Getting Started Guide",
+              label: "Getting started guide",
               link: "/getting-started/",
             },
             {
-              label: "Documentation Overview",
+              label: "Documentation overview",
               link: "/docs/",
             },
             {
-              label: "Sample Code",
+              label: "Sample code",
               link: "https://github.com/agrc/api.mapserv.utah.gov/tree/development/samples",
             },
             {
-              label: "Release Notes",
+              label: "Release notes",
               link: "https://github.com/agrc/api.mapserv.utah.gov/tags",
             },
             {
-              label: "Report a Problem",
+              label: "Report a problem",
               link: "https://github.com/agrc/api.mapserv.utah.gov/issues/new",
             },
             {
-              label: "Privacy Policy",
+              label: "Privacy policy",
               link: "/privacy/",
             },
           ],
