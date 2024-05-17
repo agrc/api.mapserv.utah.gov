@@ -298,31 +298,31 @@ public static class WebApplicationBuilderExtensions {
 
             c.SwaggerDoc("v1", new OpenApiInfo {
                 Version = "v1",
-                Title = "UGRC WebAPI : OpenAPI Documentation",
+                Title = "UGRC API : OpenAPI Documentation",
                 Description = "OpenAPI Documentation",
                 Contact = new OpenApiContact {
                     Name = "UGRC",
-                    Email = "sgourley@utah.gov",
+                    Email = "ugrc-developers@utah.gov",
                     Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
                 },
                 License = new OpenApiLicense {
                     Name = "MIT",
-                    Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/master/LICENSE")
+                    Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/main/LICENSE")
                 },
             });
 
             c.SwaggerDoc("v2", new OpenApiInfo {
                 Version = "v2",
-                Title = "UGRC WebAPI : OpenAPI Documentation",
+                Title = "UGRC API : OpenAPI Documentation",
                 Description = "OpenAPI Documentation",
                 Contact = new OpenApiContact {
                     Name = "UGRC",
-                    Email = "sgourley@utah.gov",
+                    Email = "ugrc-developers@utah.gov",
                     Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
                 },
                 License = new OpenApiLicense {
                     Name = "MIT",
-                    Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/master/LICENSE")
+                    Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/main/LICENSE")
                 }
             });
 
