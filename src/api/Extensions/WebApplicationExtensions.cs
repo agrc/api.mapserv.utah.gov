@@ -192,14 +192,14 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
 
-        info.MapGet("/fieldnames/{featureClass}", async (
-            [FromRoute] string featureClass,
+        info.MapGet("/fieldnames/{tableName}", async (
+            [FromRoute] string tableName,
             InformationRequestOptionsContract options,
             [FromServices] IMediator mediator,
             [FromServices] IJsonSerializerOptionsFactory factory,
             [FromServices] ApiVersion apiVersion)
             => {
-                var result = await mediator.Send(new SqlAttributeQuery.Query(featureClass.ToLowerInvariant().Trim(), options.SgidCategory!));
+                var result = await mediator.Send(new SqlAttributeQuery.Query(tableName.ToLowerInvariant().Trim(), options.SgidCategory!));
 
                 return TypedResults.Json(result, factory.GetSerializerOptionsFor(apiVersion), "application/json", result.Status);
             })

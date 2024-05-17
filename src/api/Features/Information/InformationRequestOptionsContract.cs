@@ -19,9 +19,10 @@ public class InformationRequestOptionsContract {
         var keyValueModel = QueryHelpers.ParseQuery(context.Request.QueryString.Value);
 
         keyValueModel.TryGetValue("sgidCategory", out var sgidCategory);
+        keyValueModel.TryGetValue("category", out var category);
 
         var result = new InformationRequestOptionsContract {
-            SgidCategory = sgidCategory
+            SgidCategory = !string.IsNullOrEmpty(sgidCategory) ? sgidCategory : category
         };
 
         return new ValueTask<InformationRequestOptionsContract>(result);
