@@ -7,10 +7,10 @@ sidebar:
 ---
 
 import { Card, TabItem, Tabs } from "@astrojs/starlight/components";
-import Uri from "../../../../../components/Uri.astro";
-import Callback from "../../../../../components/parameters/Callback.mdx";
-import OutputFormat from "../../../../../components/parameters/OutputFormat.mdx";
-import SpatialReference from "../../../../../components/parameters/SpatialReference.mdx";
+import Uri from "@components/Uri.astro";
+import Callback from "@components/parameters/Callback.mdx";
+import OutputFormat from "@components/parameters/OutputFormat.mdx";
+import SpatialReference from "@components/parameters/SpatialReference.mdx";
 
 This UGRC API endpoint returns a list of table names usable by the [search](/docs/v1/endpoints/searching) endpoint's [table](/docs/v1/endpoints/searching/#table) parameter. If you omit the [category](#sgidCategory) parameter, the API will return a list of all tables in the [Open SGID](https://gis.utah.gov/documentation/sgid/open-sgid). You can narrow your search by specifying a [SGID category](https://gis.utah.gov/products/sgid/categories), and see only the tables within that category.
 
