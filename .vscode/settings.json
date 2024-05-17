@@ -1,4 +1,44 @@
 {
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode",
+    "editor.wordWrapColumn": 120
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[mdx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnPaste": true
+  },
+  "coverage-gutters.highlightdark": "rgb(61, 153, 112, .05)",
+  "coverage-gutters.noHighlightDark": "rgb(255, 65, 54, .05)",
+  "coverage-gutters.partialHighlightDark": "rgb(255, 133, 27, .05)",
+  "coverage-gutters.showGutterCoverage": false,
+  "coverage-gutters.showLineCoverage": true,
+  "coverage-gutters.showRulerCoverage": false,
+  "cSpell.enableFiletypes": [
+    "astro",
+    "markdown",
+    "mdx"
+  ],
   "cSpell.words": [
     "accesstoken",
     "addnum",
@@ -24,6 +64,7 @@
     "clsx",
     "codecov",
     "Concurrencies",
+    "Datasource",
     "Errorable",
     "esrijson",
     "evenodd",
@@ -125,15 +166,7 @@
     "worknote",
     "xunit"
   ],
-  "coverage-gutters.showGutterCoverage": false,
-  "coverage-gutters.showLineCoverage": true,
-  "coverage-gutters.showRulerCoverage": false,
-  "coverage-gutters.highlightdark": "rgb(61, 153, 112, .05)",
-  "coverage-gutters.noHighlightDark": "rgb(255, 65, 54, .05)",
-  "coverage-gutters.partialHighlightDark": "rgb(255, 133, 27, .05)",
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
+  "dotnet.defaultSolution": "api.mapserv.utah.gov.sln",
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
   },
@@ -144,70 +177,44 @@
   "editor.wordWrap": "on",
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
-    "*.ts": "${capture}.js, ${capture}.typegen.ts",
+    ".editorconfig": ".codecov.yml, omnisharp.json",
+    "*.cts": "${capture}.typegen.ts",
     "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts, ${capture}.test.js",
     "*.json": "${capture}.json, ${capture}.*.json",
     "*.jsx": "${capture}.js, ${capture}.stories.jsx, ${capture}.test.jsx",
-    "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
-    "tsconfig.json": "tsconfig.*.json",
-    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
     "*.mts": "${capture}.typegen.ts",
-    "*.cts": "${capture}.typegen.ts",
+    "*.sln": "Directory.Build.props, Directory.Build.targets",
+    "*.ts": "${capture}.js, ${capture}.typegen.ts",
+    "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
     "docker-compose.yml": "docker-compose.override.yml, .dockerignore",
+    "firebase.json": ".firebaserc, firestore.indexes.json, firestore.rules, storage.rules, firebase-debug.log, firestore-debug.log, ui-debug.log",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
     "Program.cs": "Globalusings.cs",
     "README.md": "LICENSE, .gitattributes, .gitignore",
-    ".editorconfig": ".codecov.yml, omnisharp.json",
-    "*.sln": "Directory.Build.props, Directory.Build.targets",
-    "firebase.json": ".firebaserc, firestore.indexes.json, firestore.rules, storage.rules, firebase-debug.log, firestore-debug.log, ui-debug.log",
+    "release-please-config.json": ".release-please-manifest.json",
     "tailwind.config.js": "postcss.config.js",
-    "release-please-config.json": ".release-please-manifest.json"
+    "tsconfig.json": "tsconfig.*.json"
   },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "omnisharp.enableEditorConfigSupport": true,
+  "omnisharp.enableRoslynAnalyzers": true,
   "prettier.documentSelectors": [
     "*.{js,jsx,css,html,md,json}"
   ],
-  "python.linting.enabled": true,
-  "python.linting.pycodestyleEnabled": false,
   "python.formatting.provider": "none",
   "python.languageServer": "Pylance",
-  "python.testing.pytestEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.pycodestyleEnabled": false,
   "python.testing.pytestArgs": [
     "--no-cov"
   ],
-  "omnisharp.enableRoslynAnalyzers": true,
-  "omnisharp.enableEditorConfigSupport": true,
+  "python.testing.pytestEnabled": true,
   "tailwindCSS.experimental.classRegex": [
     [
       "clsx\\(([^)]*)\\)",
       "(?:'|\"|`)([^']*)(?:'|\"|`)"
     ]
-  ],
-  "[jsx]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[mdx]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
-  },
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnPaste": true
-  },
-  "dotnet.defaultSolution": "api.mapserv.utah.gov.sln",
-  "cSpell.enableFiletypes": [
-    "astro"
   ]
 }
