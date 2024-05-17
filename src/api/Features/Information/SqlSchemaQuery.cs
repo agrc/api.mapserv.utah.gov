@@ -5,6 +5,7 @@ using Npgsql;
 namespace ugrc.api.Features.Information;
 public class SqlSchemaQuery {
     public static readonly IReadOnlyCollection<string> _validSchemas = ["bioscience", "boundaries", "cadastre", "climate", "demographic", "economy", "elevation", "energy", "environment", "farming", "geoscience", "health", "history", "indices", "location", "planning", "political", "public", "recreation", "society", "transportation", "utilities", "water"];
+
     public class Query(string sgidCategory) : IRequest<IApiResponse> {
         public readonly string _schema = sgidCategory;
     }
@@ -38,7 +39,7 @@ public class SqlSchemaQuery {
                 var query = BuildQuery(request._schema);
 
                 _log?.ForContext("query", query)
-                .Debug("querying database for attributes");
+                .Debug("Table information query for schema: {schema}", string.IsNullOrEmpty(schema) ? "all" : schema);
 
                 using var cmd = new NpgsqlCommand(query, session);
                 using var reader = await cmd.ExecuteReaderAsync(cancellationToken);

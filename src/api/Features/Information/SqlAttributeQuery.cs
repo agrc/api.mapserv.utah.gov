@@ -33,6 +33,8 @@ public class SqlAttributeQuery {
         private string FormatTable(Query query) {
             var key = $"{query._schema}.{query._table}";
 
+            _log?.Debug("Attribute query input key {key}", key);
+
             _tableMapping.MsSqlToPostgres.TryGetValue(key, out var table);
 
             if (!string.IsNullOrEmpty(table) && table.Contains('.')) {
@@ -53,7 +55,7 @@ public class SqlAttributeQuery {
 
                 _log?.ForContext("table", table)
                     .ForContext("query", query)
-                    .Debug("querying database for attributes");
+                    .Debug("Attribute information query for {table}", table);
 
                 using var cmd = new NpgsqlCommand(query, session);
                 cmd.Parameters.AddWithValue("@table", table);
