@@ -1,13 +1,26 @@
 {
   "name": "@ugrc/explorer",
-  "type": "module",
   "version": "2.3.0",
+  "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
+    "astro": "astro",
     "build": "astro build",
+    "dev": "astro dev",
+    "format": "prettier --write .",
     "preview": "astro preview",
-    "astro": "astro"
+    "start": "astro dev"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-astro",
+      "prettier-plugin-packagejson",
+      "prettier-plugin-tailwindcss"
+    ],
+    "semi": true,
+    "singleQuote": true,
+    "tailwindFunctions": [
+      "clsx"
+    ]
   },
   "dependencies": {
     "@astrojs/react": "^3.3.4",
@@ -25,6 +38,10 @@
     "tailwindcss": "^3.4.3"
   },
   "devDependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "prettier-plugin-packagejson": "^2.5.0",
+    "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwind-heropatterns": "^0.0.8"
   }
 }
