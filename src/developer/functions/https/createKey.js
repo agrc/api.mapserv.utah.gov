@@ -2,6 +2,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { debug, info, warn } from 'firebase-functions/logger';
 import { safelyInitializeApp } from '../firebase.js';
 import { generateKey } from '../keys.js';
+import { getKeys } from './keys.js';
 
 safelyInitializeApp();
 const db = getFirestore();
@@ -21,6 +22,13 @@ const db = getFirestore();
 export const createKey = async (data) => {
   info('[functions::createKey] creating key for', data);
   const accountId = data.for;
+
+  const existingKeys = await getKeys(accountId, false);
+  const duplicateKey = getDuplicateKey(existingKeys, data);
+
+  if (duplicateKey) {
+    throw new Error(`Duplicate key found: ${duplicateKey}`);
+  }
 
   const key = await getUniqueKey();
 
@@ -148,4 +156,41 @@ export const generateRegexFromPattern = (inputPattern) => {
   }
 
   return pattern;
+};
+
+/**
+ * Checks to see if the account has a key with the same pattern and mode
+ * @param {[]} keys - The keys for the account
+ * @param {{
+ *  for: string,
+ *  pattern: string,
+ *  ip: string,
+ *  type: 'browser' | 'server',
+ *  mode: 'development' | 'production',
+ *  notes: string
+ * }} data - The forms data
+ * @returns {Promise<string?>} The duplicate API key or null
+ */
+export const getDuplicateKey = (keys, data) => {
+  let matchingKey = null;
+
+  if (!keys || keys?.length === 0 || !Array.isArray(keys)) {
+    return matchingKey;
+  }
+
+  for (const key of keys) {
+    // if the modes are different they are not the same key
+    if (key?.flags?.production !== (data.mode === 'production')) {
+      continue;
+    }
+
+    // if the key's pattern or ip matches
+    if (key?.pattern === (key?.flags?.server ? data.ip : data.pattern)) {
+      matchingKey = key?.key;
+
+      break;
+    }
+  }
+
+  return matchingKey;
 };

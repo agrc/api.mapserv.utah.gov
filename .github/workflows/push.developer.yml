@@ -39,5 +39,9 @@ jobs:
       - name: 📥 Download dependencies
         run: npm ci
 
+      - name: 📥 Download dependencies
+        run: npm ci
+        working-directory: src/developer/functions
+
       - name: 🧪 Run tests
         run: npm test

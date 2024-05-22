@@ -17,6 +17,7 @@ try {
 /**
  * A function that returns the keys for a given user.
  * @param {string} uid - the id of the user to get keys for
+ * @param {boolean} includeAnalytics - whether to include the analytics lookup
  * @returns {Promise<{
  *   key: string,
  *   created: string,
@@ -24,7 +25,7 @@ try {
  *   notes: string
  * }[]>} an array of keys run through the minimalKeyConversion converter
  */
-export const getKeys = async (uid) => {
+export const getKeys = async (uid, includeAnalytics = true) => {
   if (!uid) {
     return empty;
   }
@@ -39,25 +40,31 @@ export const getKeys = async (uid) => {
   const keys = [];
   querySnapshot.forEach((doc) => keys.push(doc.data()));
 
-  const usageKeys = keys.map((key) => `analytics:hit:${key.key.toLowerCase()}`);
-  const timeKeys = keys.map((key) => `analytics:time:${key.key.toLowerCase()}`);
+  if (includeAnalytics) {
+    const usageKeys = keys.map(
+      (key) => `analytics:hit:${key.key.toLowerCase()}`,
+    );
+    const timeKeys = keys.map(
+      (key) => `analytics:time:${key.key.toLowerCase()}`,
+    );
 
-  const allKeys = [...usageKeys, ...timeKeys];
+    const allKeys = [...usageKeys, ...timeKeys];
 
-  debug('getting usage information for', allKeys);
+    debug('getting usage information for', allKeys);
 
-  try {
-    let results = await redis.mget(...allKeys);
+    try {
+      let results = await redis.mget(...allKeys);
 
-    results.forEach((result, index) => {
-      if (index < keys.length) {
-        keys[index].usage = result ?? 0;
-      } else {
-        keys[index - keys.length].lastUsed = result ?? -1;
-      }
-    });
-  } catch (ex) {
-    error('redis error', ex);
+      results.forEach((result, index) => {
+        if (index < keys.length) {
+          keys[index].usage = result ?? 0;
+        } else {
+          keys[index - keys.length].lastUsed = result ?? -1;
+        }
+      });
+    } catch (ex) {
+      error('redis error', ex);
+    }
   }
 
   return keys;
