@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 import { describe, expect, it } from 'vitest';
-import { generateRegexFromPattern } from './createKey';
+import { generateRegexFromPattern, getDuplicateKey } from './createKey';
 
 describe('createKey', () => {
   it.each([null, undefined, '', '   '])(
@@ -146,5 +146,86 @@ describe('createKey', () => {
 
     var regex = new RegExp(pattern);
     expect(regex.test(url)).toEqual(expected);
+  });
+});
+
+const browserKey = {
+  for: 'me',
+  pattern: 'atlas.utah.gov',
+  ip: '',
+  type: 'browser',
+  mode: 'development',
+  notes: 'notes are ignored',
+};
+const serverKey = {
+  for: 'me',
+  pattern: '',
+  ip: '0.0.0.0',
+  type: 'server',
+  mode: 'development',
+  notes: 'notes are ignored',
+};
+
+describe('getDuplicateKey', () => {
+  it('returns null when user has no existing keys', () => {
+    expect(getDuplicateKey([], browserKey)).toEqual(null);
+    expect(getDuplicateKey([{}], browserKey)).toEqual(null);
+    expect(getDuplicateKey(null, browserKey)).toEqual(null);
+    expect(getDuplicateKey(undefined, browserKey)).toEqual(null);
+    expect(getDuplicateKey('', browserKey)).toEqual(null);
+    expect(getDuplicateKey(1, browserKey)).toEqual(null);
+  });
+  it('returns null when mode is different', () => {
+    const keys = [
+      {
+        flags: { production: true, server: false },
+        pattern: 'atlas.utah.gov',
+      },
+      {
+        flags: { production: true, server: true },
+        pattern: '0.0.0.0',
+      },
+    ];
+
+    expect(getDuplicateKey(keys, browserKey)).toEqual(null);
+    expect(getDuplicateKey(keys, serverKey)).toEqual(null);
+  });
+  it('returns a key when pattern matches', () => {
+    const keys = [
+      {
+        flags: { production: true, server: false },
+        pattern: 'atlas.utah.gov',
+        key: 'duplicateBrowser',
+      },
+      {
+        flags: { production: true, server: true },
+        pattern: '0.0.0.0',
+        key: 'duplicateServer',
+      },
+    ];
+
+    const duplicateBrowserKey = {
+      for: 'me',
+      pattern: 'atlas.utah.gov',
+      ip: '',
+      type: 'browser',
+      mode: 'production',
+      notes: 'notes are ignored',
+    };
+
+    const duplicateServerKey = {
+      for: 'me',
+      type: 'server',
+      ip: '0.0.0.0',
+      mode: 'production',
+      notes: 'notes are ignored',
+    };
+
+    expect(getDuplicateKey(keys, duplicateBrowserKey)).toEqual(
+      'duplicateBrowser',
+    );
+    expect(getDuplicateKey(keys, duplicateServerKey)).toEqual(
+      'duplicateServer',
+    );
   });
 });
