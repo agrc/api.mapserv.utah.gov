@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.4.0...developer-v2.5.0) (2024-05-22)
+
+
+### Features
+
+* **developer:** Show an error when duplicate keys are created ([e83e794](https://github.com/agrc/api.mapserv.utah.gov/commit/e83e794b844184371216bc958eb43e95b8faf869)), closes [#286](https://github.com/agrc/api.mapserv.utah.gov/issues/286)
+
 ## [2.4.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.3.2...developer-v2.4.0) (2024-05-16)
 
 
