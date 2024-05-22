@@ -153,14 +153,14 @@ export function Component() {
             fetch API or with an XHR request.
           </p>
           <p className="text-wavy-800 dark:text-slate-200">
-            Server based applications run on a computer or a server. For
+            Server based applications run on a desktop or server computer. For
             example, the{' '}
             <TextLink href="https://gis.utah.gov/products/sgid/address/api-client/">
               API Client
             </TextLink>{' '}
-            is running on your desktop. The request to the UGRC API is called
-            directly or indirectly from a server side programming language or
-            scripting language like Python, Java, or C#.
+            is running on your desktop computer. The request to the UGRC API is
+            called directly or indirectly from a server side programming
+            language or scripting language like Python, Java, or C#.
           </p>
         </div>
       </section>
@@ -391,8 +391,8 @@ export function Component() {
             </div>
           </form>
           <p className="text-wavy-800 dark:text-slate-200">
-            If you need help choosing the type or the value please visit and
-            read the{' '}
+            If you need help choosing the key type or the value associated with
+            the key, please visit and read the{' '}
             <TextLink href="https://ut-dts-agrc-web-api-dev.web.app/getting-started/">
               getting started guide
             </TextLink>
