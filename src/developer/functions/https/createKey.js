@@ -22,6 +22,13 @@ export const createKey = async (data) => {
   info('[functions::createKey] creating key for', data);
   const accountId = data.for;
 
+  const existingKeys = await getKeys(accountId, false);
+  const duplicateKey = getDuplicateKey(existingKeys, data);
+
+  if (duplicateKey) {
+    throw new Error(`Duplicate key found: ${duplicateKey}`);
+  }
+
   const key = await getUniqueKey();
 
   let regularExpression = '';
@@ -177,10 +184,8 @@ export const getDuplicateKey = (keys, data) => {
     }
 
     // if the key's pattern or ip matches
-    if (
-      (key?.flags?.server === false && key?.pattern === data.pattern) ||
-      (key?.flags?.server && key?.pattern === data.ip)
-    ) {
+    if (key?.pattern === (key?.flags?.server) ? data.ip : data.pattern) {
+    if (key?.pattern === key?.flags?.server ? data.ip : data.pattern) {
       matchingKey = key?.key;
 
       break;
