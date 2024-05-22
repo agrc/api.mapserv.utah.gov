@@ -2,6 +2,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { debug, info, warn } from 'firebase-functions/logger';
 import { safelyInitializeApp } from '../firebase.js';
 import { generateKey } from '../keys.js';
+import { getKeys } from './keys.js';
 
 safelyInitializeApp();
 const db = getFirestore();

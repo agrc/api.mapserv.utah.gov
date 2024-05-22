@@ -99,9 +99,11 @@ export function Component() {
   const queryClient = useQueryClient();
   const {
     data,
+    error,
     mutate,
     status: mutationStatus,
   } = useMutation({
+    mutationKey: ['create key', loaderData.user.uid],
     mutationFn: (data) => Spinner.minDelay(createKey(data)),
     onSuccess: async () => {
       await queryClient.cancelQueries({
@@ -351,7 +353,15 @@ export function Component() {
                 />
               </div>
             )}
-            {mutationStatus === 'error' && (
+            {mutationStatus === 'error' &&
+            error.code === 'functions/already-exists' ? (
+              <FormError>
+                <span>
+                  This key has already been created ({error.details}). Please
+                  reuse this key or create a key with unique information.
+                </span>
+              </FormError>
+            ) : (
               <FormError>
                 <span>
                   We had some trouble creating this key. Give it another try and

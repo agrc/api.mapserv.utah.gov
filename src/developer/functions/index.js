@@ -54,11 +54,25 @@ export const createKey = https.onCall({ cors }, async (request) => {
   debug('[https::createKey] importing createKey');
   const createKey = (await import('./https/createKey.js')).createKey;
 
-  const result = await createKey(request.data);
+  try {
+    const result = await createKey(request.data);
 
-  debug('[https::createKey]', result);
+    debug('[https::createKey]', result);
 
-  return result.toUpperCase();
+    return result.toUpperCase();
+  } catch (error) {
+    debug('[https::createKey]', error.message);
+
+    if (error.message.startsWith('Duplicate key found')) {
+      throw new https.HttpsError(
+        'already-exists',
+        'duplicate key',
+        error.message.split(':')[1].trim(),
+      );
+    }
+
+    throw new https.HttpsError('invalid-argument', error.message);
+  }
 });
 
 /**
