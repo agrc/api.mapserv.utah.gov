@@ -1,9 +1,8 @@
 ---
-const { verb } = Astro.props;
-const { endpoint } = Astro.props;
-const { properties } = Astro.props;
-const propertyCount = properties.length - 1;
+const { endpoint, verb } = Astro.props;
+import { Code } from '@astrojs/starlight/components';
 ---
+
 <style>
   .verb {
     width: fit-content;
@@ -15,9 +14,5 @@ const propertyCount = properties.length - 1;
 </style>
 <aside aria-label="HTTP Verb: GET" class="starlight-aside starlight-aside--note">
   <p class="starlight-aside__title verb" aria-hidden="true">HTTP {verb}</p>
-  <section class="starlight-aside__content">
-    <code dir="auto" class="font-semibold">
-      <span style="color:var(--astro-code-token-punctuation)">https://api.mapserv.utah.gov/api/v1/</span><span style="color:var(--astro-code-token-keyword)">{endpoint}</span><span style="color:var(--astro-code-token-punctuation)">/</span>{properties.map((item: string, index: number) => (<>&lcub;<span style="color:var(--astro-code-token-string-expression)" class="font-black">{item}</span>&rcub;{index !== propertyCount && (<span style="color:var(--astro-code-token-punctuation)">/</span>)}</>))}<span style="color:var(--astro-code-token-punctuation)">?apikey=&lcub;<span style="color:var(--astro-code-token-string-expression)">apikey</span>&rcub;</span>
-    </code>
-  </section>
+  <Code code={'https://api.mapserv.utah.gov/api/v1/' + endpoint + '?apikey={key}'} meta="endpoint" lang="txt" />
 </aside>
