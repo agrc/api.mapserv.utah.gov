@@ -1,21 +1,25 @@
 ---
-title: "Route and milepost geocoding"
-description: "Everything roads, highways, and addresses"
+title: 'Route and milepost geocoding'
+description: 'Everything roads, highways, and addresses'
 sidebar:
   order: 2
 ---
 
-import { Card, TabItem, Tabs } from "@astrojs/starlight/components";
-import Uri from "@components/Uri.astro";
-import Callback from "@components/parameters/Callback.mdx";
-import OutputFormat from "@components/parameters/OutputFormat.mdx";
-import SpatialReference from "@components/parameters/SpatialReference.mdx";
+import { Card, TabItem, Tabs } from '@astrojs/starlight/components';
+import Uri from '@components/Uri.astro';
+import Callback from '@components/parameters/Callback.mdx';
+import OutputFormat from '@components/parameters/OutputFormat.mdx';
+import SpatialReference from '@components/parameters/SpatialReference.mdx';
 
 Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from text. This UGRC API endpoint allows you to get the coordinates of a highway number and milepost. This endpoint uses the UDOT Roads and Highways system as its authoritative data source.
 
 ## URI Format
 
-<Uri verb="GET" endpoint="geocode/milepost/{route}/{milepost}" />
+<Uri
+  verb="GET"
+  endpoint="geocode/milepost"
+  properties={['route', 'milepost']}
+/>
 
 ## Parameters
 
@@ -144,4 +148,8 @@ When this option is `true` the `route` path parameter changes from a number to a
 }
 ```
   </TabItem>
-</Tabs>
+</Tabs>import { Card, TabItem, Tabs } from '@astrojs/starlight/components';
+import Uri from '@components/Uri.astro';
+import Callback from '@components/parameters/Callback.mdx';
+import OutputFormat from '@components/parameters/OutputFormat.mdx';
+import SpatialReference from '@components/parameters/SpatialReference.mdx';

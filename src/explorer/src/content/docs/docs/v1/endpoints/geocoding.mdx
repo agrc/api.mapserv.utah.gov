@@ -1,16 +1,16 @@
 ---
-title: "Street and zone geocoding"
-description: "Everything roads, highways, and addresses"
-prev: { label: "Documentation overview", link: "/docs/" }
+title: 'Street and zone geocoding'
+description: 'Everything roads, highways, and addresses'
+prev: { label: 'Documentation overview', link: '/docs/' }
 sidebar:
   order: 1
 ---
 
-import { Card, TabItem, Tabs } from "@astrojs/starlight/components";
-import Uri from "@components/Uri.astro";
-import Callback from "@components/parameters/Callback.mdx";
-import OutputFormat from "@components/parameters/OutputFormat.mdx";
-import SpatialReference from "@components/parameters/SpatialReference.mdx";
+import { Card, TabItem, Tabs } from '@astrojs/starlight/components';
+import Uri from '@components/Uri.astro';
+import Callback from '@components/parameters/Callback.mdx';
+import OutputFormat from '@components/parameters/OutputFormat.mdx';
+import SpatialReference from '@components/parameters/SpatialReference.mdx';
 
 Geocoding allows you to get the geographic location (i.e., the geographical coordinates) from text. This UGRC API endpoint allows you to get the coordinates of a street address and zone. You can learn so much from a house, business, or other type of address once it has been geocoded. When you geocode data, you unlock the ability to visualize the data in a different way. And you can use our search endpoint to answer endless questions about your addresses or location.
 
@@ -25,7 +25,7 @@ Geocoding allows you to get the geographic location (i.e., the geographical coor
 
 ## URI Format
 
-<Uri verb="GET" endpoint="geocode/{street}/{zone}" />
+<Uri verb="GET" endpoint="geocode" properties={['street', 'zone']} />
 
 ## Parameters
 
@@ -210,4 +210,8 @@ A common scenario to cause a tie is when an input address of `100 main street` i
 }
 ```
   </TabItem>
-</Tabs>
+</Tabs>import { Card, TabItem, Tabs } from '@astrojs/starlight/components';
+import Uri from '@components/Uri.astro';
+import Callback from '@components/parameters/Callback.mdx';
+import OutputFormat from '@components/parameters/OutputFormat.mdx';
+import SpatialReference from '@components/parameters/SpatialReference.mdx';

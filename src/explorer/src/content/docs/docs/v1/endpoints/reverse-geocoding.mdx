@@ -1,15 +1,15 @@
 ---
-title: "Reverse geocoding"
-description: "What address is at this coordinate?"
+title: 'Reverse geocoding'
+description: 'What address is at this coordinate?'
 sidebar:
   order: 3
 ---
 
-import { Card, TabItem, Tabs } from "@astrojs/starlight/components";
-import Uri from "@components/Uri.astro";
-import Callback from "@components/parameters/Callback.mdx";
-import OutputFormat from "@components/parameters/OutputFormat.mdx";
-import SpatialReference from "@components/parameters/SpatialReference.mdx";
+import { Card, TabItem, Tabs } from '@astrojs/starlight/components';
+import Uri from '@components/Uri.astro';
+import Callback from '@components/parameters/Callback.mdx';
+import OutputFormat from '@components/parameters/OutputFormat.mdx';
+import SpatialReference from '@components/parameters/SpatialReference.mdx';
 
 Reverse geocoding is the process of converting a geographic location (i.e., the geographical coordinates) to a human-readable address. This UGRC API endpoint allows you to get the nearest street address from a geographic location.
 
@@ -19,7 +19,7 @@ This endpoint returns an address along a road segment, however, there may be no 
 
 ## URI Format
 
-<Uri verb="GET" endpoint="geocode/reverse/{x}/{y}" />
+<Uri verb="GET" endpoint="geocode/reverse" properties={['x', 'y']} />
 
 ## Parameters
 
@@ -128,4 +128,8 @@ The distance, in meters, from the input coordinate to search for a street addres
 }
 ```
   </TabItem>
-</Tabs>
+</Tabs>import { Card, TabItem, Tabs } from '@astrojs/starlight/components';
+import Uri from '@components/Uri.astro';
+import Callback from '@components/parameters/Callback.mdx';
+import OutputFormat from '@components/parameters/OutputFormat.mdx';
+import SpatialReference from '@components/parameters/SpatialReference.mdx';

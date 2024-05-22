@@ -24,8 +24,20 @@ const links = [
 ---
 
 <Header client:load links={links}>
-  <a href="/" class="p-2 rounded-md flex items-center space-x-2 hover:bg-slate-200">
-    <img src="/api.svg" alt="UGRC API" class="hidden h-16 w-16 sm:block" role="presentation" />
-    <div class="text-center text-slate-700 dark:text-slate-300 text-4xl font-bold">UGRC API</div>
+  <a
+    href="/"
+    class="flex items-center space-x-2 rounded-md p-2 hover:bg-slate-200"
+  >
+    <img
+      src="/api.svg"
+      alt="UGRC API"
+      class="hidden h-16 w-16 sm:block"
+      role="presentation"
+    />
+    <div
+      class="text-center text-4xl font-bold text-slate-700 dark:text-slate-300"
+    >
+      UGRC API
+    </div>
   </a>
 </Header>
