@@ -24,6 +24,14 @@ This endpoint expects the table name to match the spelling of table names in the
 
 <Uri verb="GET" endpoint="info/featureClassNames" properties={[]} />
 
+import { Code } from "@astrojs/starlight/components";
+
+<Code
+  code="https://api.mapserv.utah.gov/api/v1/geocode/{street}/{zone}?apikey={apikey}"
+  meta="endpoint"
+  lang="js"
+/>
+
 ## Parameters
 
 <Card title="Optional query string parameters" icon="setting">
