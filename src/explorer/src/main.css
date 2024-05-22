@@ -3,3 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fancy-link {
+  @apply text-mustard-900 active:text-mustard-500 decoration-mustard-500 active:decoration-mustard-600 font-medium italic underline underline-offset-2 transition-all hover:decoration-2 hover:underline-offset-4 focus:outline-none active:underline-offset-8;
+}
