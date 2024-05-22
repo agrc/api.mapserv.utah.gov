@@ -185,7 +185,6 @@ export const getDuplicateKey = (keys, data) => {
     }
 
     // if the key's pattern or ip matches
-    if (key?.pattern === (key?.flags?.server) ? data.ip : data.pattern) {
     if (key?.pattern === key?.flags?.server ? data.ip : data.pattern) {
       matchingKey = key?.key;
 
