@@ -12,7 +12,10 @@ import { Code } from '@astrojs/starlight/components';
     border-radius: 0.25rem;
   }
 </style>
-<aside aria-label="HTTP Verb: GET" class="starlight-aside starlight-aside--note">
+<aside
+  aria-label="HTTP Verb: GET"
+  class="starlight-aside starlight-aside--note"
+>
   <p class="starlight-aside__title verb" aria-hidden="true">HTTP {verb}</p>
   <Code code={'https://api.mapserv.utah.gov/api/v1/' + endpoint + '?apikey={key}'} meta="endpoint" lang="txt" />
 </aside>
