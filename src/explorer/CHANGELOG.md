@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.2.3...explorer-v2.3.0) (2024-05-22)
+
+
+### Features
+
+* **explorer:** create endpoint highlighting plugin ([7932525](https://github.com/agrc/api.mapserv.utah.gov/commit/7932525ae8f74d1033b0e393c89683fea11ad535))
+
 ## [2.2.3](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.2.2...explorer-v2.2.3) (2024-05-16)
 
 
