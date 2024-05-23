@@ -17,5 +17,9 @@ import { Code } from '@astrojs/starlight/components';
   class="starlight-aside starlight-aside--note"
 >
   <p class="starlight-aside__title verb" aria-hidden="true">HTTP {verb}</p>
-  <Code code={'https://api.mapserv.utah.gov/api/v1/' + endpoint + '?apikey={key}'} meta="endpoint" lang="txt" />
+  <Code
+    code={'https://api.mapserv.utah.gov/api/v1/' + endpoint + '?apikey={key}'}
+    meta="endpoint"
+    lang="txt"
+  />
 </aside>
