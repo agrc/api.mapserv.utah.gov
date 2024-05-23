@@ -23,14 +23,14 @@
     ]
   },
   "dependencies": {
-    "@astrojs/react": "^3.3.4",
+    "@astrojs/react": "^3.4.0",
     "@astrojs/starlight": "^0.23.1",
-    "@astrojs/starlight-tailwind": "^2.0.2",
+    "@astrojs/starlight-tailwind": "^2.0.3",
     "@astrojs/tailwind": "^5.1.0",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
     "@ugrc/header": "^1.1.2",
-    "astro": "^4.8.6",
+    "astro": "^4.9.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sharp": "^0.33.4",
