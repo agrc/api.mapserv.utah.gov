@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.4.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.3.0...explorer-v2.4.0) (2024-05-23)
+
+
+### Features
+
+* **explorer:** add fair use paragraph ([712ae04](https://github.com/agrc/api.mapserv.utah.gov/commit/712ae048c352de6d5e8bdbc77ebd28a50ab02309))
+
+
+### Bug Fixes
+
+* **explorer:** chrome spacing ([c495f2c](https://github.com/agrc/api.mapserv.utah.gov/commit/c495f2cb474d03a9d82d8f15015f39b1c489e01c))
+* **explorer:** remove duplicate imports added to mdx files ([7a89626](https://github.com/agrc/api.mapserv.utah.gov/commit/7a89626b76a407143410057f37ee9579dfde0204))
+* **explorer:** standardize spacing ([aa8cfb5](https://github.com/agrc/api.mapserv.utah.gov/commit/aa8cfb534e990b2950a769fc090a4f6de5408654))
+* **explorer:** tailwind class typo ([b62b71d](https://github.com/agrc/api.mapserv.utah.gov/commit/b62b71d8d8b2eded5501f4027c5148c6ed277dcf))
+* **explorer:** typo in tailwind class ([d98780c](https://github.com/agrc/api.mapserv.utah.gov/commit/d98780c9739b074d8473a820a0764f3269434159))
+
 ## [2.3.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.2.3...explorer-v2.3.0) (2024-05-22)
 
 
