@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.0...explorer-v2.4.1) (2024-05-23)
+
+
+### Bug Fixes
+
+* **explorer:** Expose OpenAPI endpoints ([cbe4612](https://github.com/agrc/api.mapserv.utah.gov/commit/cbe4612a41b5aea49879c4b703b8ed84105e857b))
+
 ## [2.4.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.3.0...explorer-v2.4.0) (2024-05-23)
 
 
