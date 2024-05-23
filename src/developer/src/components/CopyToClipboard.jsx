@@ -1,4 +1,4 @@
-import { CheckIcon, ClipboardIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { CopyToClipboard as CopyToClipboard_lib } from 'react-copy-to-clipboard';
@@ -29,7 +29,7 @@ export default function CopyToClipboard({ text, className }) {
       {copied ? (
         <CheckIcon title="copied" />
       ) : (
-        <ClipboardIcon title="copy to clipboard" />
+        <DocumentDuplicateIcon title="copy to clipboard" />
       )}
     </CopyToClipboard_lib>
   );
