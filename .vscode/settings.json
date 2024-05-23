@@ -1,7 +1,6 @@
 {
   "[astro]": {
-    "editor.defaultFormatter": "astro-build.astro-vscode",
-    "editor.wordWrapColumn": 120
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -203,7 +202,7 @@
   "omnisharp.enableEditorConfigSupport": true,
   "omnisharp.enableRoslynAnalyzers": true,
   "prettier.documentSelectors": [
-    "*.{js,jsx,css,html,md,json}"
+    "**/*.{js,jsx,css,html,md,json,mdx,astro}"
   ],
   "python.formatting.provider": "none",
   "python.languageServer": "Pylance",
