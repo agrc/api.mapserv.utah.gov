@@ -172,302 +172,306 @@ import Chrome from '@layouts/Chrome.astro';
       like Python, Java, or C#.
     </div>
   </section>
-</Chrome>
-<section class="relative w-full">
-  <div class="bg-circuit bg-wavy-600 absolute inset-0 h-64 shadow-lg"></div>
-  <div class="relative z-10 mx-auto max-w-5xl px-6">
-    <h2
-      class="mb-3 ml-2 pt-3 text-center text-3xl font-thin text-white md:col-span-2"
-    >
-      Choosing the key type
-    </h2>
-    <div class="md:grid md:grid-cols-2 md:gap-10">
-      <div class="rounded-lg border border-slate-300 bg-slate-100 shadow-md">
-        <h3
-          class="text-wavy-600 rounded-lg bg-white px-5 pt-5 text-xl font-bold uppercase"
-        >
-          Browser
-        </h3>
-        <p class="bg-white px-5 pb-3 text-slate-600">
-          Requests are made by JavaScript running in a browser
-        </p>
-        <div class="border-t border-slate-200 pb-6 pt-2">
-          <div class="flex flex-wrap px-5">
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              XHR request
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              window.fetch
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              jquery.ajax
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              ArcGIS Maps SDK for JavaScript
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              vue
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              react
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              angular
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="mt-6 rounded-lg border border-slate-300 bg-slate-100 shadow-md md:mt-0"
-      >
-        <h3
-          class="text-wavy-600 rounded-lg bg-white px-5 pt-5 text-xl font-bold uppercase"
-        >
-          Desktop
-        </h3>
-        <p class="bg-white px-5 pb-3 text-slate-600">
-          Requests are made by code or a tool executing on a computer or a
-          server
-        </p>
-        <div class="border-t border-slate-200 pb-6 pt-2">
-          <div class="flex flex-wrap px-5">
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              ArcPy
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              Cloud Run
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              ArcGIS Pro
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              Python
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              Java
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              C#
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              Node.js
-            </div>
-            <div
-              class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
-            >
-              UGRC API Client
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="mt-6 max-w-5xl md:mx-auto md:grid md:grid-cols-2 md:gap-5">
-  <h2
-    id="browser-key"
-    class="col-span-2 mb-3 ml-2 mt-0 px-6 text-3xl font-thin"
-  >
-    Choosing a browser key
-  </h2>
-  <div class="mb-6 flex text-center md:col-span-2">
-    <div
-      class="bg-wavy-800 text-wavy-100 flex items-center p-2 lg:inline-flex lg:rounded"
-      role="alert"
-    >
-      <span
-        class="bg-wavy-500 mr-3 flex rounded-full px-2 py-1 text-xs font-bold uppercase"
-        >tip</span
-      >
-      <span class="mr-2 flex-auto text-left font-semibold"
-        >During local development of browser based applications, the Application
-        Status of the key needs to be set to <span class="font-semibold"
-          >Development</span
-        > for requests originating from localhost or machine name urls to be successful.</span
-      >
-    </div>
-  </div>
-  <div class="mx-auto max-w-5xl px-6">
-    <p class="mt-0 text-lg">
-      The UGRC API collects analytics and authenticates requests with your
-      browser key. Since your application is running in a browser, the API key
-      is in public view. To ensure that the analytics are accurate, the key that
-      you create for the application will contain the url the requests originate
-      from.
-    </p>
-    <p class="mt-6 text-lg">
-      For example, if your react application is running on atlas.utah.gov, your
-      key pattern will simply equal the DNS name. If your ember application is
-      running on gis.utah.gov/my-application, then your key will also equal the
-      URL.
-    </p>
-    <p class="mt-6 text-lg">
-      To get the URL pattern correct when creating the key, reference the table
-      for examples. Be sure to always read the response body when making
-      requests to an endpoint. Failed requests will provide helpful information
-      to correct the issue
-    </p>
-  </div>
-  <table
-    class="mx-6 mt-6 table-auto border border-slate-300 shadow-md md:mr-6 md:mt-0 md:max-w-5xl"
-  >
-    <thead>
-      <tr>
-        <th
-          class="border-b border-slate-400 bg-slate-200 px-6 py-3 text-left text-xs font-medium uppercase leading-4 tracking-wider text-slate-700"
-          >URL Pattern</th
-        >
-        <th
-          class="border-b border-slate-400 bg-slate-200 px-6 py-3 text-left text-xs font-medium uppercase leading-4 tracking-wider text-slate-700"
-          >Description</th
-        >
-      </tr>
-    </thead>
-    <tbody class="bg-white">
-      <tr>
-        <td class="border-b border-slate-200 p-2">
-          <span class="text-wavy-600 block leading-loose">www.example.com</span>
-          <span class="text-wavy-600 block leading-loose">www.example.com/</span
-          >
-          <span class="text-wavy-600 block leading-loose"
-            >www.example.com/*</span
-          >
-        </td>
-        <td class="border-b border-slate-200 p-2"
-          >Matches all referrers in the domain <span class="text-wavy-600"
-            >www.example.com</span
-          >
-        </td>
-      </tr>
-      <tr>
-        <td class="border-b border-slate-200 p-2">
-          <span class="text-wavy-600">example.com/*</span>
-        </td>
-        <td class="border-b border-slate-200 p-2"
-          >Matches only referrers at <span class="text-wavy-600"
-            >example.com</span
-          >, but no subdomains</td
-        >
-      </tr>
-      <tr>
-        <td class="border-b border-slate-200 p-2">
-          <span class="text-wavy-600">*.example.com</span>
-        </td>
-        <td class="border-b border-slate-200 p-2"
-          >Matches all referrers at all subdomains of <span
-            class="text-wavy-600">example.com</span
-          >
-        </td>
-      </tr>
-      <tr>
-        <td class="border-b border-slate-200 p-2">
-          <span class="text-wavy-600 block leading-loose">example.com/test</span
-          >
-          <span class="text-wavy-600 block leading-loose"
-            >example.com/test/</span
-          >
-          <span class="text-wavy-600 block leading-loose"
-            >example.com/test/*</span
-          >
-        </td>
-        <td class="border-b border-slate-200 p-2"
-          >Matches all referrers in <span class="text-wavy-600"
-            >example.com/test/</span
-          > and all sub paths</td
-        >
-      </tr>
-    </tbody>
-  </table>
-</section>
-<section class="mx-auto mt-6 max-w-5xl pb-16">
-  <h2 id="desktop-key" class="col-span-2 mb-3 ml-2 px-6 text-3xl font-thin">
-    Choosing a desktop key
-  </h2>
-  <div class="mb-6 flex text-center md:col-span-2 lg:px-4">
-    <div
-      class="bg-wavy-800 text-wavy-100 flex items-center p-2 lg:inline-flex lg:rounded"
-      role="alert"
-    >
-      <span
-        class="bg-wavy-500 mr-3 flex rounded-full px-2 py-1 text-xs font-bold uppercase"
-        >tip</span
-      >
-      <span class="mr-2 flex-auto text-left font-semibold"
-        >A common mistake is to use your local IP address. Check with a website
-        like <a
-          class="hover:text-wavy-400 text-wavy-200 cursor-pointer transition duration-150 ease-in-out hover:underline"
-          rel="noopener noreferrer"
-          target="_blank">what is my ip</a
-        > to see what your public IP address is.</span
-      >
-    </div>
-  </div>
-  <div class="mx-auto max-w-5xl px-6">
-    <p class="mt-0 text-lg">
-      The UGRC API collects analytics and authorizes requests with your desktop
-      key. To ensure that the analytics are accurate, the key that you create
-      for the application will contain the IP address the requests originate
-      from.
-    </p>
-    <p class="mt-6 text-lg">
-      For example, if you are using the UGRC Geocoding Tool in ArcGIS Pro, the
-      requests the tool creates will originate from the IP address assigned to
-      you from your internet service provider. This address is not always static
-      and multiple keys may need to be created over time.
-    </p>
-    <p class="mt-6 text-lg">
-      Be sure to always read the response body when making requests to an
-      endpoint. Failed requests will provide helpful information to solve the
-      issue.
-    </p>
-  </div>
-  <div class="flex justify-center md:my-4">
-    <aside
-      class="sm:item-center mt-6 flex w-full max-w-xl flex-wrap justify-evenly rounded-lg border border-slate-300 bg-white p-5 md:mb-6 md:mt-10"
-    >
+  <section class="relative w-full">
+    <div class="bg-circuit bg-wavy-600 absolute inset-0 h-64 shadow-lg"></div>
+    <div class="relative z-10 mx-auto max-w-5xl px-6">
       <h2
-        class="text-2xl font-extrabold leading-7 tracking-tight sm:text-2xl sm:leading-6"
+        class="mb-3 ml-2 pt-3 text-center text-3xl font-thin text-white md:col-span-2"
       >
-        Want to learn more?<br />
-        <span class="text-wavy-600">Read the docs!</span>
+        Choosing the key type
       </h2>
-      <div class="flex justify-center">
-        <div class="mt-4 flex rounded-md shadow md:mt-0">
-          <a
-            href="/docs"
-            class="border-wavy-600 bg-wavy-500 hover:border-wavy-700 hover:bg-wavy-600 focus:border-wavy-500 focus:ring-wavy-600 active:bg-wavy-700 flex h-12 min-h-[2rem] w-fit cursor-pointer items-center justify-center rounded-md border-2 px-5 py-3 font-semibold text-white shadow transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50"
-            >Let's go</a
+      <div class="md:grid md:grid-cols-2 md:gap-10">
+        <div class="rounded-lg border border-slate-300 bg-slate-100 shadow-md">
+          <h3
+            class="text-wavy-600 rounded-lg bg-white px-5 pt-5 text-xl font-bold uppercase"
           >
+            Browser
+          </h3>
+          <p class="bg-white px-5 pb-3 text-slate-600">
+            Requests are made by JavaScript running in a browser
+          </p>
+          <div class="border-t border-slate-200 pb-6 pt-2">
+            <div class="flex flex-wrap px-5">
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                XHR request
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                window.fetch
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                jquery.ajax
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                ArcGIS Maps SDK for JavaScript
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                vue
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                react
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                angular
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="mt-6 rounded-lg border border-slate-300 bg-slate-100 shadow-md md:mt-0"
+        >
+          <h3
+            class="text-wavy-600 rounded-lg bg-white px-5 pt-5 text-xl font-bold uppercase"
+          >
+            Desktop
+          </h3>
+          <p class="bg-white px-5 pb-3 text-slate-600">
+            Requests are made by code or a tool executing on a computer or a
+            server
+          </p>
+          <div class="border-t border-slate-200 pb-6 pt-2">
+            <div class="flex flex-wrap px-5">
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                ArcPy
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                Cloud Run
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                ArcGIS Pro
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                Python
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                Java
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                C#
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                Node.js
+              </div>
+              <div
+                class="mx-1 my-1 rounded-full border border-slate-400 bg-white px-3 py-1 font-semibold tracking-wide"
+              >
+                UGRC API Client
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </aside>
-  </div>
-</section>
+    </div>
+  </section>
+  <section class="mt-6 max-w-5xl md:mx-auto md:grid md:grid-cols-2 md:gap-5">
+    <h2
+      id="browser-key"
+      class="col-span-2 mb-3 ml-2 mt-0 px-6 text-3xl font-thin"
+    >
+      Choosing a browser key
+    </h2>
+    <div class="mb-6 flex text-center md:col-span-2">
+      <div
+        class="bg-wavy-800 text-wavy-100 flex items-center p-2 lg:inline-flex lg:rounded"
+        role="alert"
+      >
+        <span
+          class="bg-wavy-500 mr-3 flex rounded-full px-2 py-1 text-xs font-bold uppercase"
+          >tip</span
+        >
+        <span class="mr-2 flex-auto text-left font-semibold"
+          >During local development of browser based applications, the
+          Application Status of the key needs to be set to <span
+            class="font-semibold">Development</span
+          > for requests originating from localhost or machine name urls to be successful.</span
+        >
+      </div>
+    </div>
+    <div class="mx-auto max-w-5xl px-6">
+      <p class="mt-0 text-lg">
+        The UGRC API collects analytics and authenticates requests with your
+        browser key. Since your application is running in a browser, the API key
+        is in public view. To ensure that the analytics are accurate, the key
+        that you create for the application will contain the url the requests
+        originate from.
+      </p>
+      <p class="mt-6 text-lg">
+        For example, if your react application is running on atlas.utah.gov,
+        your key pattern will simply equal the DNS name. If your ember
+        application is running on gis.utah.gov/my-application, then your key
+        will also equal the URL.
+      </p>
+      <p class="mt-6 text-lg">
+        To get the URL pattern correct when creating the key, reference the
+        table for examples. Be sure to always read the response body when making
+        requests to an endpoint. Failed requests will provide helpful
+        information to correct the issue
+      </p>
+    </div>
+    <table
+      class="mx-6 mt-6 table-auto border border-slate-300 shadow-md md:mr-6 md:mt-0 md:max-w-5xl"
+    >
+      <thead>
+        <tr>
+          <th
+            class="border-b border-slate-400 bg-slate-200 px-6 py-3 text-left text-xs font-medium uppercase leading-4 tracking-wider text-slate-700"
+            >URL Pattern</th
+          >
+          <th
+            class="border-b border-slate-400 bg-slate-200 px-6 py-3 text-left text-xs font-medium uppercase leading-4 tracking-wider text-slate-700"
+            >Description</th
+          >
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr>
+          <td class="border-b border-slate-200 p-2">
+            <span class="text-wavy-600 block leading-loose"
+              >www.example.com</span
+            >
+            <span class="text-wavy-600 block leading-loose"
+              >www.example.com/</span
+            >
+            <span class="text-wavy-600 block leading-loose"
+              >www.example.com/*</span
+            >
+          </td>
+          <td class="border-b border-slate-200 p-2"
+            >Matches all referrers in the domain <span class="text-wavy-600"
+              >www.example.com</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td class="border-b border-slate-200 p-2">
+            <span class="text-wavy-600">example.com/*</span>
+          </td>
+          <td class="border-b border-slate-200 p-2"
+            >Matches only referrers at <span class="text-wavy-600"
+              >example.com</span
+            >, but no subdomains</td
+          >
+        </tr>
+        <tr>
+          <td class="border-b border-slate-200 p-2">
+            <span class="text-wavy-600">*.example.com</span>
+          </td>
+          <td class="border-b border-slate-200 p-2"
+            >Matches all referrers at all subdomains of <span
+              class="text-wavy-600">example.com</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td class="border-b border-slate-200 p-2">
+            <span class="text-wavy-600 block leading-loose"
+              >example.com/test</span
+            >
+            <span class="text-wavy-600 block leading-loose"
+              >example.com/test/</span
+            >
+            <span class="text-wavy-600 block leading-loose"
+              >example.com/test/*</span
+            >
+          </td>
+          <td class="border-b border-slate-200 p-2"
+            >Matches all referrers in <span class="text-wavy-600"
+              >example.com/test/</span
+            > and all sub paths</td
+          >
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section class="mx-auto mt-6 max-w-5xl pb-16">
+    <h2 id="desktop-key" class="col-span-2 mb-3 ml-2 px-6 text-3xl font-thin">
+      Choosing a desktop key
+    </h2>
+    <div class="mb-6 flex text-center md:col-span-2 lg:px-4">
+      <div
+        class="bg-wavy-800 text-wavy-100 flex items-center p-2 lg:inline-flex lg:rounded"
+        role="alert"
+      >
+        <span
+          class="bg-wavy-500 mr-3 flex rounded-full px-2 py-1 text-xs font-bold uppercase"
+          >tip</span
+        >
+        <span class="mr-2 flex-auto text-left font-semibold"
+          >A common mistake is to use your local IP address. Check with a
+          website like <a
+            class="hover:text-wavy-400 text-wavy-200 cursor-pointer transition duration-150 ease-in-out hover:underline"
+            rel="noopener noreferrer"
+            target="_blank">what is my ip</a
+          > to see what your public IP address is.</span
+        >
+      </div>
+    </div>
+    <div class="mx-auto max-w-5xl px-6">
+      <p class="mt-0 text-lg">
+        The UGRC API collects analytics and authorizes requests with your
+        desktop key. To ensure that the analytics are accurate, the key that you
+        create for the application will contain the IP address the requests
+        originate from.
+      </p>
+      <p class="mt-6 text-lg">
+        For example, if you are using the UGRC Geocoding Tool in ArcGIS Pro, the
+        requests the tool creates will originate from the IP address assigned to
+        you from your internet service provider. This address is not always
+        static and multiple keys may need to be created over time.
+      </p>
+      <p class="mt-6 text-lg">
+        Be sure to always read the response body when making requests to an
+        endpoint. Failed requests will provide helpful information to solve the
+        issue.
+      </p>
+    </div>
+    <div class="flex justify-center md:my-4">
+      <aside
+        class="sm:item-center mt-6 flex w-full max-w-xl flex-wrap justify-evenly rounded-lg border border-slate-300 bg-white p-5 md:mb-6 md:mt-10"
+      >
+        <h2
+          class="text-2xl font-extrabold leading-7 tracking-tight sm:text-2xl sm:leading-6"
+        >
+          Want to learn more?<br />
+          <span class="text-wavy-600">Read the docs!</span>
+        </h2>
+        <div class="flex justify-center">
+          <div class="mt-4 flex rounded-md shadow md:mt-0">
+            <a
+              href="/docs"
+              class="border-wavy-600 bg-wavy-500 hover:border-wavy-700 hover:bg-wavy-600 focus:border-wavy-500 focus:ring-wavy-600 active:bg-wavy-700 flex h-12 min-h-[2rem] w-fit cursor-pointer items-center justify-center rounded-md border-2 px-5 py-3 font-semibold text-white shadow transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50"
+              >Let's go</a
+            >
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Chrome>
