@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.5.0...developer-v2.6.0) (2024-05-24)
+
+
+### Features
+
+* **developer:** Automatic sign up for email marketing ([9f5267a](https://github.com/agrc/api.mapserv.utah.gov/commit/9f5267ae022542aa991f7bee46f589b3c6774256)), closes [#288](https://github.com/agrc/api.mapserv.utah.gov/issues/288)
+
 ## [2.5.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.4.0...developer-v2.5.0) (2024-05-22)
 
 
