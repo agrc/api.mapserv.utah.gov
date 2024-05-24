@@ -35,7 +35,7 @@ export const onCreateUser = auth
     debug('[auth::user::onCreate] importing createUser');
     const createUser = (await import('./auth/onCreate.js')).createUser;
 
-    const result = await createUser(user, process.env.SENDGRID_API_KEY ?? '');
+    const result = await createUser(user);
 
     debug('[auth::user::onCreate]', result);
 
