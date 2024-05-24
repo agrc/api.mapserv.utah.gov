@@ -1,6 +1,6 @@
 {
   "name": "@ugrc/developer",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "private": true,
   "description": "The API key self service website for the UGRC API",
   "type": "module",
