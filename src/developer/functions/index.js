@@ -27,16 +27,32 @@ const cors = [
  * @param {any} async(user - The user details from the OIDC flow from Utahid.
  * @returns {bool} - The true or false result of the create user method.
  */
-export const onCreateUser = auth.user().onCreate(async (user) => {
-  debug('[auth::user::onCreate] importing createUser');
-  const createUser = (await import('./auth/onCreate.js')).createUser;
+export const onCreateUser = auth
+  .user({
+    secrets: ['SENDGRID_API_KEY'],
+  })
+  .onCreate(async (user) => {
+    debug('[auth::user::onCreate] importing createUser');
+    const createUser = (await import('./auth/onCreate.js')).createUser;
 
-  const result = await createUser(user);
+    const result = await createUser(user, process.env.SENDGRID_API_KEY ?? '');
 
-  debug('[auth::user::onCreate]', result);
+    debug('[auth::user::onCreate]', result);
 
-  return result;
-});
+    debug('debug mode', process.env.NODE_ENV);
+    if (process.env.NODE_ENV !== 'development') {
+      const mailingListSignUp = (await import('./mail.js')).mailingListSignUp;
+
+      const mailListResult = await mailingListSignUp(
+        data,
+        process.env.SENDGRID_API_KEY ?? '',
+      );
+
+      debug('[auth::user::mailingListSignUp]', mailListResult);
+    }
+
+    return result;
+  });
 
 // functions
 /**
