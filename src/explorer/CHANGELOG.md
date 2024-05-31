@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.1...explorer-v2.4.2) (2024-05-31)
+
+
+### Bug Fixes
+
+* **explorer:** remove email confirmation documentation ([7100dfa](https://github.com/agrc/api.mapserv.utah.gov/commit/7100dfab44b6947280acbb53e59f7e297060e600))
+
 ## [2.4.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.0...explorer-v2.4.1) (2024-05-23)
 
 
