@@ -130,7 +130,6 @@ jobs:
             --memory=512Mi
             --timeout=1m
           env_vars: >
-            ASPNETCORE_URLS=http://+:8080,
             ASPNETCORE_ENVIRONMENT=Staging,
             GCLOUD_PROJECT=${{ secrets.PROJECT_ID }}
           secrets: |
