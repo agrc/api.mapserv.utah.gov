@@ -20,9 +20,9 @@ import Chrome from '@layouts/Chrome.astro';
         > steps.
       </h2>
     </div>
-    <section class="mx-auto max-w-5xl px-6 md:mt-3">
+    <section class="mx-auto max-w-2xl px-6 md:mt-3">
       <div class="mt-6 md:mt-8">
-        <ul class="md:row-gap-10 list-none md:grid md:grid-cols-2 md:gap-8">
+        <ul class="md:row-gap-10 list-none md:grid md:grid-cols-1 md:gap-8">
           <li>
             <div class="flex">
               <div class="flex-shrink-0 md:self-center">
@@ -54,24 +54,6 @@ import Chrome from '@layouts/Chrome.astro';
               </div>
               <div class="ml-4">
                 <h5 class="text-lg font-medium">
-                  Confirm your email<p class="text-base text-slate-500">
-                    Confirm ownership and control spam and bots.
-                  </p>
-                </h5>
-              </div>
-            </div>
-          </li>
-          <li class="mt-10 md:mt-0">
-            <div class="flex">
-              <div class="flex-shrink-0 md:self-center">
-                <div
-                  class="bg-mustard-500/75 border-mustard-600 flex h-12 w-12 items-center justify-center rounded-md border text-3xl font-black text-white drop-shadow-lg md:h-20 md:w-20 md:text-7xl"
-                >
-                  3
-                </div>
-              </div>
-              <div class="ml-4">
-                <h5 class="text-lg font-medium">
                   Generate an API key<p class="text-base text-slate-500">
                     Keep track of usage analytics and authorize requests.
                   </p>
@@ -85,7 +67,7 @@ import Chrome from '@layouts/Chrome.astro';
                 <div
                   class="bg-mustard-500/75 border-mustard-600 flex h-12 w-12 items-center justify-center rounded-md border text-3xl font-black text-white drop-shadow-lg md:h-20 md:w-20 md:text-7xl"
                 >
-                  4
+                  3
                 </div>
               </div>
               <div class="ml-4">
@@ -126,20 +108,26 @@ import Chrome from '@layouts/Chrome.astro';
       </aside>
     </div>
   </section>
-  <section class="border-b border-slate-400 p-6">
+
+  <section class="p-6">
     <div class="mx-auto max-w-5xl md:px-6">
-      <h2 id="fair-use" class="mb-3 ml-2 text-3xl font-thin">Fair use</h2>
-      This API is free to use and we ask that you use it responsibly and fairly.
-      We reserve the right to block abusive users. Currently, the API is not rate
-      limited so please be courteous to the other users. If you need more bandwidth
-      than we are able to provide, we can set up a dedicated instance for you. You
-      may contact us by emailing us at <a
+      <div
+        class="bg-wavy-800 text-wavy-100 flex items-center p-2 lg:inline-flex lg:rounded"
+        role="alert"
+      >
+        <span
+          class="bg-wavy-500 mr-3 flex rounded-full px-2 py-1 text-xs font-bold uppercase"
+          >note</span
+        >
+        <span class="mr-2 flex-auto text-left font-semibold"
+          >This API is free to use and we ask that you use it responsibly and fairly. We reserve the right to block abusive users. Currently, the API is not rate limited so please be courteous to other users. If you need more bandwidth than we are able to provide, a dedicated instance can be setup for you. Contact us by email at <a
         href="mailto:ugrc-developers@utah.gov"
-        class="fancy-link">ugrc-developers@utah.gov</a
+        class="">ugrc-developers@utah.gov</a
       > or by <a
         href="https://github.com/agrc/api.mapserv.utah.gov/issues/new"
-        class="fancy-link">opening an issue on GitHub</a
-      >.
+        class="">opening an issue on GitHub</a
+      >.</span
+        >
     </div>
   </section>
   <section class="border-b border-slate-400 p-6">
@@ -439,8 +427,8 @@ import Chrome from '@layouts/Chrome.astro';
         originate from.
       </p>
       <p class="mt-6 text-lg">
-        For example, if you are using the UGRC Geocoding Tool in ArcGIS Pro, the
-        requests the tool creates will originate from the IP address assigned to
+        For example, if you are geocoding in ArcGIS Pro, the
+        requests to the API will originate from the IP address assigned to
         you from your internet service provider. This address is not always
         static and multiple keys may need to be created over time.
       </p>
