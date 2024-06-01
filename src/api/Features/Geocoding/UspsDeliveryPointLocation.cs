@@ -32,7 +32,7 @@ public class UspsDeliveryPointLocation {
                 return Task.FromResult<Candidate?>(null);
             }
 
-            if (items.FirstOrDefault() is not UspsDeliveryPointLink deliveryPoint) {
+            if (items?.FirstOrDefault() is not UspsDeliveryPointLink deliveryPoint) {
                 return Task.FromResult<Candidate?>(null);
             }
 
