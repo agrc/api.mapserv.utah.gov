@@ -76,22 +76,22 @@ public class SearchQuery {
                 if (ex.SqlState == "42804") { // invalid predicate
                     _log?.ForContext("request", request)
                             .ForContext("predicate", request._options.Predicate)
-                            .Error("invalid predicate", ex);
+                            .Information("Invalid predicate", ex);
                     message = $"`{request._options.Predicate}` is not a valid T-SQL where clause.";
                 } else if (ex.SqlState == "42703") { // invalid fields
                     _log?.ForContext("request", request)
                            .ForContext("fields", request._returnValues)
-                           .Error("invalid fields", ex);
+                           .Information("Invalid fields", ex);
                     message = $"{ex.MessageText.Replace("\"", "`")} on `{tableName}`. {ex.Hint?.Replace("\"", "`") ?? "Check that the fields exist."}";
                 } else if (ex.SqlState == "42P01") { // invalid table
                     _log?.ForContext("table", request._tableName)
-                       .Error("table not in Open SGID", ex);
+                       .Information("Table not in Open SGID", ex);
 
                     message = $"The table `{tableName}` does not exist in the Open SGID.";
                 } else {
                     _log?.ForContext("message", ex.Message)
                         .ForContext("request", request)
-                        .Error("unhandled search query", ex);
+                        .Warning("Unhandled search query", ex);
                     message = ex.MessageText;
                 }
 
@@ -102,7 +102,7 @@ public class SearchQuery {
             } catch (Exception ex) {
                 _log?.ForContext("message", ex.Message)
                     .ForContext("request", request)
-                    .Error("Unhandled search query exception", ex);
+                    .Warning("Unhandled search query exception", ex);
 
                 return new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
                     Status = StatusCodes.Status400BadRequest,
@@ -111,7 +111,7 @@ public class SearchQuery {
             }
 
             _log?.ForContext("request", request)
-                     .Debug("Query succeeded");
+                .Debug("Query succeeded");
 
             return new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
                 Result = result ?? [],

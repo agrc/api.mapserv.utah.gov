@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ugrc.api.Middleware;
 
 var logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -24,6 +25,7 @@ try {
 
     var app = builder.Build();
     app.MapRoutes();
+    app.UseMiddleware<RequestLoggerMiddleware>();
     app.UseMiddleware<JsonpMiddleware>();
     app.MapHealthChecks();
     app.MapOpenApi();

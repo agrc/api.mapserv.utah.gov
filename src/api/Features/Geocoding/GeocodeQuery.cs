@@ -45,7 +45,7 @@ public class GeocodeQuery {
                     _log?.ForContext("locator", model.Locator)
                         .ForContext("score", model.Score)
                         .ForContext("difference", model.ScoreDifference)
-                        .Debug("Match found");
+                        .Information("Analytics:geocode-match");
 
                     return new ApiResponseContract {
                         Result = model.Convert(request.Options, request.Version),
@@ -70,7 +70,7 @@ public class GeocodeQuery {
                 _log?.ForContext("locator", model.Locator)
                     .ForContext("score", model.Score)
                     .ForContext("difference", model.ScoreDifference)
-                    .Debug("Match found");
+                     .Information("Analytics:geocode-match");
 
                 return new ApiResponseContract {
                     Result = model.Convert(request.Options, request.Version),
@@ -112,7 +112,7 @@ public class GeocodeQuery {
                 _log?.ForContext("street", street)
                     .ForContext("zone", zone)
                     .ForContext("score", request.Options.AcceptScore)
-                    .Warning("No matches found", street, zone, request.Options.AcceptScore);
+                    .Information("Analytics:no-geocode-match");
 
                 return new ApiResponseContract {
                     Message = $"No address candidates found with a score of {request.Options.AcceptScore} or better.",
@@ -124,7 +124,7 @@ public class GeocodeQuery {
                 _log?.ForContext("street", street)
                     .ForContext("zone", zone)
                     .ForContext("score", request.Options.AcceptScore)
-                    .Warning("No matches found", street, zone, request.Options.AcceptScore);
+                    .Information("Analytics:no-geocode-match");
             }
 
             winner.Wkid = request.Options.SpatialReference;
@@ -132,7 +132,7 @@ public class GeocodeQuery {
             _log?.ForContext("locator", winner.Locator)
                 .ForContext("score", winner.Score)
                 .ForContext("difference", winner.ScoreDifference)
-                .Debug("Match found");
+                .Information("Analytics:geocode-match");
 
             return new ApiResponseContract {
                 Result = winner.Convert(request.Options, request.Version),

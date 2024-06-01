@@ -9,7 +9,7 @@ public class RequestLogger<TRequest>(ILogger log) : IRequestPreProcessor<TReques
         var name = typeof(TRequest).FullName;
 
         _log?.ForContext("request", request)
-            .Information("Mediatr processing: {name}", name);
+            .Debug("Mediatr processing: {name}", name);
 
         return Task.CompletedTask;
     }

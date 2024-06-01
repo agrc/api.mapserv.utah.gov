@@ -27,7 +27,14 @@ public class AddressSystemFromZipCode {
 
             var result = await _memoryCache.FindGridsForZipCodeAsync(request._zip);
 
-            _log?.Debug("Found {systems}", result);
+            if (result.Count == 0) {
+                _log?.ForContext("zone", request._zip)
+                    .Information("Analytics:no-zone");
+            } else {
+                _log?.ForContext("zone", request._zip)
+                    .ForContext("grids", result)
+                    .Information("Analytics:zone");
+            }
 
             return result;
         }

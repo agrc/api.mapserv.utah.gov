@@ -21,7 +21,14 @@ public class AddressSystemFromPlace {
 
             var result = await _memoryCache.FindGridsForPlaceAsync(request._cityKey);
 
-            _log?.Debug("Found {systems}", result);
+            if (result.Count == 0) {
+                _log?.ForContext("place", request._cityKey)
+                    .Information("Analytics:no-place");
+            } else {
+                _log?.ForContext("place", request._cityKey)
+                .ForContext("grids", result)
+                .Information("Analytics:place");
+            }
 
             return result;
         }

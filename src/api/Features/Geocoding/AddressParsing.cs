@@ -54,7 +54,7 @@ public partial class AddressParsing {
 
             _log?.ForContext("original", OriginalStreet)
                 .ForContext("standardized", StandardStreet)
-                .Information("Address parsing complete");
+                .Debug("Address parsing complete");
 
             return Task.FromResult(new Address(OriginalStreet,
                 houseNumber, prefixDirection, streetName, streetType, suffixDirection,

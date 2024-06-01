@@ -37,24 +37,24 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
         // key hasn't been created
         if (apiKey == null) {
             _log?.ForContext("query", context.HttpContext.Request.Query)
-                .Information("Unknown api key usage attempt for {key}", key);
+                .Debug("Unknown api key usage attempt for {key}", key);
 
             return BadRequest("Your API key does match the pattern created in the self service website. " +
                 $"Check the referrer header on the request with the pattern for the api key `{key}`"
             );
         }
 
-        _log?.Debug("Request with key: {apiKey}", apiKey.Key);
-
         if (apiKey.Flags["deleted"] || apiKey.Flags["disabled"]) {
-            _log?.Information("Attempt to use deleted or disabled key {key}", apiKey);
+            _log?.Debug("Attempt to use deleted or disabled key {key}", apiKey);
 
             return BadRequest($"{key} is no longer active. It has been disabled or deleted by it's owner.");
         }
 
         if (apiKey.Elevated) {
-            _log?.ForContext("headers", context.HttpContext.Request.Headers)
-                .Information("Unrestricted key use {key} from {ip}", apiKey.Key, context.HttpContext.Request.Host);
+            var value = context.HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault() ?? string.Empty;
+            var host = value.Contains(',') ? value.Split(',').First() : value;
+
+            _log?.Debug("Unrestricted key use {key} from {ip}", apiKey.Key, host);
 
             return await next(context);
         }
@@ -79,7 +79,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             var hasOrigin = context.HttpContext.Request.Headers.Where(x => x.Key == "Origin").ToList();
 
             if (string.IsNullOrEmpty(referrer.ToString()) && hasOrigin.Count == 0) {
-                _log?.Information("Browser key without referrer: {key}", apiKey);
+                _log?.Debug("Browser key without referrer: {key}", apiKey);
 
                 return BadRequest(
                     "The http referrer header is missing. Turn off any security solutions that may remove this " +
@@ -101,7 +101,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
                 var uri = new Uri(referrer.ToString());
                 _log?.Debug("Referrer uri: {@uri}", uri);
             } catch {
-                _log?.Information("Invalid referrer uri {referrer}", referrer);
+                _log?.Debug("Invalid referrer uri {referrer}", referrer);
 
                 return BadRequest(
                     "The http referrer header is invalid. Turn off any security solutions that may remove this " +
@@ -126,11 +126,11 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             var userHostAddress = _serverIpProvider.Get(context.HttpContext.Request);
 
             if (ip != userHostAddress) {
-                _log?.Information("Invalid api key pattern match {ip} != {host} for {key}", ip, userHostAddress,
+                _log?.Debug("Invalid api key pattern match {ip} != {host} for {key}", ip, userHostAddress,
                                  apiKey);
-                log?.Information("Http context connection info: {@request}", context.HttpContext.Connection);
-                log?.Information("Request http context connection info: {@request}", context.HttpContext.Request.HttpContext.Connection);
-                log?.Information("Request headers: {@headers}", context.HttpContext.Request.Headers);
+                log?.Debug("Http context connection info: {@request}", context.HttpContext.Connection);
+                log?.Debug("Request http context connection info: {@request}", context.HttpContext.Request.HttpContext.Connection);
+                log?.Debug("Request headers: {@headers}", context.HttpContext.Request.Headers);
 
                 return BadRequest(
                     $"Your API key does match the pattern created in the self service website for key `{key}`. " +

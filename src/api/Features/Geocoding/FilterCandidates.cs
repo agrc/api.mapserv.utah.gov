@@ -29,12 +29,12 @@ public class FilterCandidates {
                     Score = -1
                 });
             }
+            var candidates = request.Candidates.ToList();
 
             _log?.ForContext("Address grid", request.GeocodedAddress.AddressGrids)
                 .ForContext("score", request.GeocodeOptions.AcceptScore)
-                .Debug("Filtering candidates");
+                .Debug("Filtering candidates: {count}", candidates.Count);
 
-            var candidates = request.Candidates.ToList();
             candidates.Sort(new CandidateComparer());
 
             var topCandidate = candidates.Find(x => x.Score >= request.GeocodeOptions.AcceptScore &&

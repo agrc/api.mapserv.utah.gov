@@ -14,7 +14,7 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiRespon
 
         if (!table.Contains("sgid")) {
             _log?.ForContext("table", computation._tableName)
-                .Debug("Open sgid query");
+                .Information("Open SGID query");
 
             return await _decorated.Handle(computation, cancellationToken);
         }
@@ -33,9 +33,10 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiRespon
             computation._options
         );
 
-        _log?.ForContext("input_table", computation._tableName)
-            .ForContext("mapped_table", mutated._tableName)
-                .Warning("Table name updated");
+        _log?.ForContext("input", computation._tableName)
+            .ForContext("legacy", true)
+            .ForContext("table", mutated._tableName)
+            .Information("Open SGID query");
 
         return await _decorated.Handle(mutated, cancellationToken);
     }
@@ -141,7 +142,7 @@ public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IApiResp
                         }
                     } catch (JsonException ex) {
                         _log?.ForContext("geometry", geometry)
-                            .Information(ex, "Unable to deserialize geometry");
+                            .Warning(ex, "Unable to deserialize geometry");
                     }
                 }
             } else if (colon == 7) {
