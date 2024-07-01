@@ -163,7 +163,7 @@ def run() -> None:
             logging.info("forklift::checking subscription for topics")
             streaming_pull_future.result(timeout=5)
         except TimeoutError:
-            logging.warn("forklift::check timeout")
+            logging.warning("forklift::check timeout")
         except NotFound:
             logging.error("forklift::subscription does not exist")
         finally:
