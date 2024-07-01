@@ -4,14 +4,14 @@
     <!-- database -->
     <PackageReference Update="Dapper" Version="2.1.35" />
     <PackageReference Update="Google.Cloud.BigQuery.V2" Version="3.10.0" />
-    <PackageReference Update="Google.Cloud.Firestore" Version="3.7.0" />
+    <PackageReference Update="Google.Cloud.Firestore" Version="3.8.0" />
     <PackageReference Update="Npgsql.NetTopologySuite" Version="8.0.3" />
     <PackageReference Update="Npgsql" Version="7.0.1" />
-    <PackageReference Update="StackExchange.Redis" Version="2.7.33" />
+    <PackageReference Update="StackExchange.Redis" Version="2.8.0" />
 
     <!-- logging -->
     <PackageReference Update="Serilog.AspNetCore" Version="8.0.1" />
-    <PackageReference Update="Serilog.Settings.Configuration" Version="8.0.0" />
+    <PackageReference Update="Serilog.Settings.Configuration" Version="8.0.1" />
     <PackageReference Update="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Update="Serilog.Sinks.GoogleCloudLogging" Version="5.0.0" />
     <PackageReference Update="CorrelationId" Version="3.0.1" />
@@ -38,10 +38,10 @@
     <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="8.0.6" />
 
     <!-- string -->
-    <PackageReference Update="Fastenshtein" Version="1.0.0.9" />
+    <PackageReference Update="Fastenshtein" Version="1.0.10" />
 
     <!-- design patterns -->
-    <PackageReference Update="MediatR" Version="12.2.0" />
+    <PackageReference Update="MediatR" Version="12.3.0" />
 
     <!-- testing -->
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.6.1" />
