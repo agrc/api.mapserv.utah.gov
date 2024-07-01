@@ -99,7 +99,7 @@ jobs:
             type=raw,value=latest
 
       - name: 📦 Build and push image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: ./src/api/Dockerfile
           context: .
@@ -195,7 +195,7 @@ jobs:
 
       - name: 📦 Build and push image
         id: image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: ./src/api/Dockerfile
           builder: ${{ steps.builder.outputs.name }}
