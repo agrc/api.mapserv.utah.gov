@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.16.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.15.0...api-v1.16.0) (2024-07-01)
+
+
+### Features
+
+* **api:** create feature class attribute endpoint ([f653f6d](https://github.com/agrc/api.mapserv.utah.gov/commit/f653f6d4e2f29fceb9b0c462139331ea74df6e1b)), closes [#298](https://github.com/agrc/api.mapserv.utah.gov/issues/298)
+* **api:** create feature class names information endpoint ([099022c](https://github.com/agrc/api.mapserv.utah.gov/commit/099022c70ed4a0d91eda4cd726b69bad664b71d8)), closes [#297](https://github.com/agrc/api.mapserv.utah.gov/issues/297)
+
+
+### Bug Fixes
+
+* **api:** update links to new website ([557e8e9](https://github.com/agrc/api.mapserv.utah.gov/commit/557e8e91ab7e38db7dd6cef9a134e9b997642f31))
+* **api:** update version in docker file ([76e710d](https://github.com/agrc/api.mapserv.utah.gov/commit/76e710d872007a53ef1685e37cb4d46cb847cf16))
+* **explorer:** update links to new website ([c8475e8](https://github.com/agrc/api.mapserv.utah.gov/commit/c8475e88df384105f83bf97e85b3eff9402b9f24))
+* **redis:** organize redis key names ([43713a9](https://github.com/agrc/api.mapserv.utah.gov/commit/43713a97f8a062129db24dcbe19d984407c572a1)), closes [#285](https://github.com/agrc/api.mapserv.utah.gov/issues/285)
+
 ## [1.15.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.14.0...api-v1.15.0) (2023-10-31)
 
 
