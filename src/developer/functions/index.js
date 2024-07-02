@@ -13,7 +13,9 @@ setGlobalOptions({
 
 const cors = [
   /ut-dts-agrc-web-api-dev-self-service\.web\.app$/,
+  /ut-dts-agrc-web-api-prod-self-service\.web\.app$/,
   /api\.mapserv\.utah\.gov$/,
+  /developer\.mapserv\.utah\.gov$/,
 ];
 
 /**
