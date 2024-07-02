@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.3](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.2...developer-v2.6.3) (2024-07-02)
+
+
+### Bug Fixes
+
+* **developer:** update cors settings for production ([96af23d](https://github.com/agrc/api.mapserv.utah.gov/commit/96af23d3ac0b1d1d97ed013f1917cb793399a96b))
+
 ## [2.6.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.1...developer-v2.6.2) (2024-07-02)
 
 
