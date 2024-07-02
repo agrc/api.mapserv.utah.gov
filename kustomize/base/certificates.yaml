@@ -1,7 +1,0 @@
-apiVersion: networking.gke.io/v1beta2
-kind: ManagedCertificate
-metadata:
-  name: agrc-api-managed-cert
-spec:
-  domains:
-    - agrc-api.dev.utah.gov
