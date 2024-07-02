@@ -9,6 +9,13 @@
           "ut-dts-agrc-web-api-dev-self-service"
         ]
       }
+    },
+    "ut-dts-agrc-web-api-prod": {
+      "hosting": {
+        "self-service": [
+          "ut-dts-agrc-web-api-prod-self-service"
+        ]
+      }
     }
   },
   "etags": {}
