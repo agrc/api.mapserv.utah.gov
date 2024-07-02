@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.3](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.2...explorer-v2.4.3) (2024-07-02)
+
+
+### Bug Fixes
+
+* **explorer:** update hosting deployment targets ([6fa14c1](https://github.com/agrc/api.mapserv.utah.gov/commit/6fa14c1a9853e07a6fac96f44ff27ccc2520fe88))
+
 ## [2.4.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.1...explorer-v2.4.2) (2024-05-31)
 
 
