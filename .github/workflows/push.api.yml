@@ -54,8 +54,8 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
 
-  deploy-cloud-run-dev:
-    name: 🚀 Deploy to GCR (dev)
+  deploy-dev:
+    name: 🚀 Deploy to staging
     runs-on: ubuntu-latest
     needs: [test-unit]
     environment:
