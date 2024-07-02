@@ -23,7 +23,7 @@ public class CacheHostedService : BackgroundService {
         _log?.Debug("Creating big query client");
 
         try {
-            _client = BigQueryClient.Create("ut-dts-agrc-web-api-dev");
+            _client = BigQueryClient.Create(Environment.GetEnvironmentVariable("GCLOUD_PROJECT") ?? "ut-dts-agrc-web-api-dev");
             table = _client.GetTable("address_grid_mapping_cache", "address_system_mapping");
         } catch (TokenResponseException ex) {
             _log?.Debug("Unable to connect to BigQuery. Cache is unavailable. " + ex.Message);

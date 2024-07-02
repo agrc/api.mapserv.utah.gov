@@ -12,7 +12,7 @@ public class BigQueryHealthCheck : IHealthCheck {
 
         try {
             // TODO! switch based on build config or something
-            client = await BigQueryClient.CreateAsync("ut-dts-agrc-web-api-dev");
+            client = await BigQueryClient.CreateAsync(Environment.GetEnvironmentVariable("GCLOUD_PROJECT") ?? "ut-dts-agrc-web-api-dev");
         } catch (Exception ex) {
             return HealthCheckResult.Unhealthy("Unable to access BigQuery", ex, new Dictionary<string, object> {
                     { "duration", stopWatch.ElapsedMilliseconds }
