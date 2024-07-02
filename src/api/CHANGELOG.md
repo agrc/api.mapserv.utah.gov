@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.1](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.0...api-v1.16.1) (2024-07-02)
+
+
+### Bug Fixes
+
+* **api:** remove hardcoded dev project names ([35c7400](https://github.com/agrc/api.mapserv.utah.gov/commit/35c740077d252d3a9eba821708bc3be82c9d6715))
+
 ## [1.16.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.15.0...api-v1.16.0) (2024-07-01)
 
 
