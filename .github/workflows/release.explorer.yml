@@ -69,3 +69,53 @@ jobs:
       - name: 🚀 Firebase deploy
         shell: bash
         run: npx firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
+
+  deploy-firebase-prod:
+    name: 🚀 Deploy to Firebase (prod)
+    if: ${{ startsWith(github.ref, 'refs/tags/explorer') }}
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+
+    steps:
+      - name: ⬇️ Set up code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: ⎔ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: src/explorer/package-lock.json
+
+      - name: 📥 Download dependencies
+        shell: bash
+        run: npm ci
+
+      - name: 🏗 Run build command
+        shell: bash
+        run: npm run build
+
+      - name: 🪣 Cache firebase
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/firebase
+          key: ${{ runner.OS }}-firebase-${{ hashFiles('**/*.cache/firebase/**') }}
+          restore-keys: |
+            ${{ runner.OS }}-firebase-
+            ${{ runner.OS }}-
+
+      - name: 🗝️ Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          access_token_scopes: "email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase"
+          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          create_credentials_file: true
+
+      - name: 🚀 Firebase deploy
+        shell: bash
+        run: npx firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
