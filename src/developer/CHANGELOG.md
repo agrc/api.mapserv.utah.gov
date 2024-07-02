@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.1...developer-v2.6.2) (2024-07-02)
+
+
+### Bug Fixes
+
+* **developer:** update deployment targets ([d1ef86e](https://github.com/agrc/api.mapserv.utah.gov/commit/d1ef86e1af90be5f93cb53cd72216d4641ba4fb2))
+
 ## [2.6.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.0...developer-v2.6.1) (2024-07-02)
 
 
