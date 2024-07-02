@@ -1,5 +1,22 @@
 {
   "projects": {
     "default": "ut-dts-agrc-web-api-dev"
-  }
+  },
+  "targets": {
+    "ut-dts-agrc-web-api-dev": {
+      "hosting": {
+        "api-explorer": [
+          "ut-dts-agrc-web-api-dev"
+        ]
+      }
+    },
+    "ut-dts-agrc-web-api-prod": {
+      "hosting": {
+        "api-explorer": [
+          "ut-dts-agrc-web-api-prod"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
