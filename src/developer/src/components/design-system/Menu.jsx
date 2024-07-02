@@ -20,7 +20,7 @@ const menuItemCss =
 const Menu = () => {
   return (
     <NavigationMenu.Root className="relative z-10 flex w-screen justify-start border-b border-dashed border-b-wavy-300 bg-wavy-200/50">
-      <NavigationMenu.List className=" flex list-none justify-center p-1">
+      <NavigationMenu.List className="flex list-none justify-center p-1">
         <NavigationMenu.Item className="rounded-full hover:bg-wavy-400/50">
           <MenuLink to="/self-service">Home</MenuLink>
         </NavigationMenu.Item>
@@ -51,7 +51,7 @@ const Menu = () => {
             </ul>
           </NavigationMenu.Content>
         </NavigationMenu.Item>
-        <NavigationMenu.Item className=" rounded-full hover:bg-wavy-400/50">
+        <NavigationMenu.Item className="rounded-full hover:bg-wavy-400/50">
           <MenuTrigger toArray={[]}>Help</MenuTrigger>
           <NavigationMenu.Content className={menuItemCss}>
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">

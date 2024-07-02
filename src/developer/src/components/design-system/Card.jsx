@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Card = ({ title, subTitle, children, danger = false }) => {
   return (
     <div
-      className={clsx('mt-6 border shadow-md  md:mt-0', {
+      className={clsx('mt-6 border shadow-md md:mt-0', {
         'border-slate-300 dark:border-slate-800': !danger,
         'border-red-900 dark:border-rose-700': danger,
         'bg-slate-100 dark:bg-slate-700': !danger,
@@ -13,7 +13,7 @@ const Card = ({ title, subTitle, children, danger = false }) => {
     >
       {title && (
         <h4
-          className={clsx('bg-white px-5 pt-3 uppercase dark:bg-slate-600 ', {
+          className={clsx('bg-white px-5 pt-3 uppercase dark:bg-slate-600', {
             'pb-3': !subTitle,
             'text-wavy-600 dark:text-slate-50': !danger,
             'text-rose-700 dark:text-rose-200': danger,

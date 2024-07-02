@@ -59,7 +59,7 @@ const RadioGroup = forwardRef(
                 >
                   <RadixRadioGroup.Item
                     className={twJoin(
-                      'flex h-4 w-4 items-center justify-center rounded-full border ',
+                      'flex h-4 w-4 items-center justify-center rounded-full border',
                       item.disabled
                         ? 'border-slate-300 bg-slate-50 data-[state=checked]:bg-slate-300 data-[state=checked]:text-white'
                         : 'border-slate-500 bg-white',
@@ -80,7 +80,7 @@ const RadioGroup = forwardRef(
                 <label
                   htmlFor={id}
                   className={twJoin(
-                    'pl-1 leading-5 ',
+                    'pl-1 leading-5',
                     item.disabled
                       ? 'cursor-not-allowed text-slate-300'
                       : 'cursor-pointer',

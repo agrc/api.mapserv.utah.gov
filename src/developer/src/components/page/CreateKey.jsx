@@ -211,7 +211,7 @@ export function Component() {
         >
           Create a key
         </h3>
-        <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 ">
+        <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="w-full border border-slate-300 bg-slate-100 shadow-md dark:bg-slate-600"
