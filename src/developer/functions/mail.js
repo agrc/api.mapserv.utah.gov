@@ -1,4 +1,5 @@
 import client from '@sendgrid/client';
+import { error } from 'firebase-functions/logger';
 
 export const mailingListSignUp = async (data, apiKey) => {
   client.setApiKey(apiKey);
