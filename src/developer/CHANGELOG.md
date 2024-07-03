@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.5](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.4...developer-v2.6.5) (2024-07-03)
+
+
+### Bug Fixes
+
+* **developer:** Correct mailing list sign up ([d06ad4c](https://github.com/agrc/api.mapserv.utah.gov/commit/d06ad4c79efa9298fd87c5247ca728ebffb66263))
+
 ## [2.6.4](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.3...developer-v2.6.4) (2024-07-03)
 
 
