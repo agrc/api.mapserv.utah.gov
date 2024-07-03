@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.4](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.3...explorer-v2.4.4) (2024-07-03)
+
+
+### Bug Fixes
+
+* **explorer:** Adjust self service url based on configuration ([2e21677](https://github.com/agrc/api.mapserv.utah.gov/commit/2e216773a981edf781700847b2c94a91fb02379b))
+* **explorer:** Correct generate key link ([ce123f3](https://github.com/agrc/api.mapserv.utah.gov/commit/ce123f380eaa69e1be6400abb4da31eaaab53158))
+
 ## [2.4.3](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.2...explorer-v2.4.3) (2024-07-02)
 
 
