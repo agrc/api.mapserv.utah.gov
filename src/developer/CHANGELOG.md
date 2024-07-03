@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.4](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.3...developer-v2.6.4) (2024-07-03)
+
+
+### Bug Fixes
+
+* **developer:** Adjust the API url for each configuration ([79a6695](https://github.com/agrc/api.mapserv.utah.gov/commit/79a66952d3bd0fe15c53276509ddfe4758c3f5ec))
+* **developer:** Correct privacy policy link ([74ec967](https://github.com/agrc/api.mapserv.utah.gov/commit/74ec9677bc8aa65e1da4751db3ad9cc32c265b7b))
+
 ## [2.6.3](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.2...developer-v2.6.3) (2024-07-02)
 
 
