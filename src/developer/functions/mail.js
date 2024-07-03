@@ -25,10 +25,15 @@ export const mailingListSignUp = async (data, apiKey) => {
       body,
     });
 
+    // if response is an array grab first element
+    if (Array.isArray(response)) {
+      response = response[0];
+    }
+
     if (response.statusCode !== 202) {
       error('[mail::mailingListSignUp] sendgrid job error', {
-        response: response.body,
-        data,
+        sendgridResponse: JSON.stringify(response),
+        sendgridData: body,
       });
 
       return false;
