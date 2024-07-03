@@ -52,6 +52,10 @@ export const getKeys = async (uid, includeAnalytics = true) => {
 
     debug('getting usage information for', allKeys);
 
+    if (allKeys.length === 0) {
+      return keys;
+    }
+
     try {
       let results = await redis.mget(...allKeys);
 
