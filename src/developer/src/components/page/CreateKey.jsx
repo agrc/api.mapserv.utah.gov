@@ -143,7 +143,7 @@ export function Component() {
             Each key is specific to an application you have created; either a
             browser or server based application. Browser based applications run
             in a web browser. For example, the React geocoding component{' '}
-            <TextLink href="https://github.com/agrc/kitchen-sink/tree/main/packages/dart-board">
+            <TextLink href="https://www.npmjs.com/package/@ugrc/dart-board">
               dartboard
             </TextLink>
             , running on{' '}
@@ -370,10 +370,7 @@ export function Component() {
                     GitHub
                   </TextLink>{' '}
                   or tweet us{' '}
-                  <TextLink href="https://twitter.com/maputah">
-                    @MapUtah
-                  </TextLink>
-                  .
+                  <TextLink href="https://x.com/maputah">@MapUtah</TextLink>.
                 </span>
               </FormError>
             )}

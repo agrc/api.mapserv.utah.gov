@@ -186,10 +186,7 @@ export function Component() {
                     GitHub
                   </TextLink>{' '}
                   or tweet us{' '}
-                  <TextLink href="https://twitter.com/maputah">
-                    @MapUtah
-                  </TextLink>
-                  .
+                  <TextLink href="https://x.com/maputah">@MapUtah</TextLink>.
                 </span>
               </FormError>
             )}
