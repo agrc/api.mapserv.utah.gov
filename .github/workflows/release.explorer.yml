@@ -47,7 +47,7 @@ jobs:
         shell: bash
         run: |
           touch ./.env
-          echo "SELF_SERVICE_URL=${{ env.SELF_SERVICE_URL }}" >> ./.env
+          echo "SELF_SERVICE_URL=${{ vars.SELF_SERVICE_URL }}" >> ./.env
 
       - name: 🏗 Run build command
         shell: bash
