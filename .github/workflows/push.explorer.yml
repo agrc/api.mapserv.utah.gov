@@ -44,18 +44,26 @@ jobs:
         shell: bash
         run: npm ci
 
+      - name: 📨 Forward environment variables
+        shell: bash
+        run: |
+          touch ./.env
+          echo "SELF_SERVICE_URL=${{ env.SELF_SERVICE_URL }}" >> ./.env
+
       - name: 🏗 Run build command
         shell: bash
         run: npm run build
+
+      - name: 🔢 Get firebase version
+        id: cache-settings
+        run: |
+          echo "firebase-tools=$(npm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')" >> GITHUB_OUTPUT
 
       - name: 🪣 Cache firebase
         uses: actions/cache@v4
         with:
           path: ~/.cache/firebase
-          key: ${{ runner.OS }}-firebase-${{ hashFiles('**/*.cache/firebase/**') }}
-          restore-keys: |
-            ${{ runner.OS }}-firebase-
-            ${{ runner.OS }}-
+          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: 🗝️ Authenticate to Google Cloud
         id: auth

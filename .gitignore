@@ -30,3 +30,4 @@ node_modules
 cra-explorer/
 csharp-developer/
 *.cache
+src/explorer/.env.local

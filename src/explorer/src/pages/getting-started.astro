@@ -1,5 +1,6 @@
 ---
 import Chrome from '@layouts/Chrome.astro';
+import { SELF_SERVICE_URL } from 'astro:env/client';
 ---
 
 <Chrome>
@@ -99,7 +100,7 @@ import Chrome from '@layouts/Chrome.astro';
         <div class="flex justify-center">
           <div class="mt-4 flex rounded-md shadow md:mt-0">
             <a
-              href="https://ut-dts-agrc-web-api-dev-self-service.web.app/self-service"
+              href={`${SELF_SERVICE_URL}/self-service`}
               class="border-wavy-600 bg-wavy-500 hover:border-wavy-700 hover:bg-wavy-600 focus:border-wavy-500 focus:ring-wavy-600 active:bg-wavy-700 flex h-12 min-h-[2rem] w-fit cursor-pointer items-center justify-center rounded-md border-2 px-5 py-3 font-semibold text-white shadow transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50"
               >Get started</a
             >

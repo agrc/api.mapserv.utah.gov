@@ -1,6 +1,6 @@
 import starlight from '@astrojs/starlight';
 import tailwind from '@astrojs/tailwind';
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import starlightLinksValidator from 'starlight-links-validator';
 
 import react from '@astrojs/react';
@@ -69,4 +69,15 @@ export default defineConfig({
     }),
     react(),
   ],
+  experimental: {
+    env: {
+      schema: {
+        SELF_SERVICE_URL: envField.string({
+          context: 'client',
+          access: 'public',
+          default: 'http://localhost:5173',
+        }),
+      },
+    },
+  },
 });
