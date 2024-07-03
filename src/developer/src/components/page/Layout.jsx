@@ -13,14 +13,14 @@ const links = [
       url: 'https://www.utah.gov/support/disclaimer.html',
       openInNewTab: true,
     },
-    title: 'Terms of Use',
+    title: 'Terms of use',
   },
   {
     actionUrl: {
       url: 'https://www.utah.gov/support/privacypolicy.html',
       openInNewTab: true,
     },
-    title: 'Privacy Policy',
+    title: 'Privacy policy',
   },
   {
     actionUrl: {
@@ -61,9 +61,9 @@ const Layout = () => {
               className="hidden h-16 w-16 sm:block"
               role="presentation"
             />
-            <h1 className="text-center text-slate-700 dark:text-slate-300">
+            <h2 className="text-center text-slate-700 dark:text-slate-300">
               UGRC API
-            </h1>
+            </h2>
           </button>
           <div className="inline-flex flex-grow justify-end">
             <ThemeToggle />

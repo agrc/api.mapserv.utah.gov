@@ -35,7 +35,7 @@ const Footer = ({ className }) => {
               target="__blank"
               rel="noreferrer"
             >
-              Terms of Use
+              Terms of use
             </a>
             <span className="border-l-2" aria-hidden></span>
             <a
@@ -43,7 +43,7 @@ const Footer = ({ className }) => {
               target="__blank"
               rel="noreferrer"
             >
-              Privacy Policy
+              Privacy policy
             </a>
             <span className="border-l-2" aria-hidden></span>
             <a

@@ -84,7 +84,7 @@ export function Component() {
             id="my-keys"
             className="text-wavy-800 dark:text-slate-200 md:col-span-2"
           >
-            Manage Keys
+            Manage keys
           </h2>
           <p className="mt-4 text-wavy-800 dark:text-slate-200">
             API keys are used to authenticate requests to the UGRC API. You can

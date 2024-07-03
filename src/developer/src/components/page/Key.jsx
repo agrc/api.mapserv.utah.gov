@@ -226,7 +226,7 @@ export const Component = () => {
           <>
             <div className="relative z-10 mx-auto max-w-5xl px-6">
               <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">
-                API Key Metadata
+                API key metadata
               </h3>
             </div>
             <div className="mx-auto w-full">

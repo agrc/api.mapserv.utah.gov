@@ -29,7 +29,7 @@ export function Component() {
         <div className="bg-circuit absolute inset-0 h-32 bg-wavy-600 shadow-lg"></div>
         <div className="relative space-y-4">
           <h3 className="mb-3 ml-2 pt-3 text-center text-white dark:text-slate-200">
-            API Key Statistics
+            API key statistics
           </h3>
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">

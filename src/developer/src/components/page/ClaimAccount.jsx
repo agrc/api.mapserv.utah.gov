@@ -99,7 +99,7 @@ export function Component() {
         <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
         <div className="relative z-10 mx-auto max-w-5xl px-6">
           <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">
-            Claim Keys From Account
+            Claim keys from non-Utahid account
           </h3>
           <form
             onSubmit={handleSubmit(onSubmit)}

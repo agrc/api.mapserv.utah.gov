@@ -34,7 +34,7 @@ const Menu = () => {
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">
               <InternalListItem
                 to="/self-service/create-key"
-                title="Create Keys"
+                title="Create keys"
               >
                 Generate a new API Key.
               </InternalListItem>
@@ -44,7 +44,7 @@ const Menu = () => {
               </InternalListItem>
               <InternalListItem
                 to="/self-service/claim-account"
-                title="Claim Keys"
+                title="Claim keys"
               >
                 Claim keys from a non-Utahid UGRC API account
               </InternalListItem>
@@ -57,13 +57,13 @@ const Menu = () => {
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">
               <ExternalListItem
                 href={import.meta.env.VITE_API_EXPLORER_URL}
-                title="API Home page"
+                title="API homepage"
               >
                 Visit the API home page.
               </ExternalListItem>
               <ExternalListItem
                 href={`${import.meta.env.VITE_API_EXPLORER_URL}/docs/`}
-                title="API Documentation"
+                title="API documentation"
               >
                 View the API documentation.
               </ExternalListItem>
