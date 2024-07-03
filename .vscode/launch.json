@@ -254,9 +254,9 @@
       "request": "launch",
       "preLaunchTask": "build data migration",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/data-migration/bin/Debug/net8.0/data-migration.dll",
+      "program": "${workspaceFolder}/src/data-migration/ravendb/bin/Debug/net8.0/data-migration.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/src/data-migration",
+      "cwd": "${workspaceFolder}/src/data-migration/ravendb",
       "stopAtEntry": false,
       "internalConsoleOptions": "openOnSessionStart",
       "env": {

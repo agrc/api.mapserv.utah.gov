@@ -63,7 +63,7 @@
         "build"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/src/data-migration"
+        "cwd": "${workspaceFolder}/src/data-migration/ravendb"
       },
       "problemMatcher": "$msCompile",
       "group": {
