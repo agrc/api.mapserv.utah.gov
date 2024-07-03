@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.6.6](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.5...developer-v2.6.6) (2024-07-03)
+
+
+### Bug Fixes
+
+* **developer:** Add missing import ([61a49ed](https://github.com/agrc/api.mapserv.utah.gov/commit/61a49ed71a62789bcbf8d9071304a77f44c521a7))
+* **developer:** Correct response type on mailing list ([7fd7e34](https://github.com/agrc/api.mapserv.utah.gov/commit/7fd7e34d419759f7d2537b5e8f2fc70fda1bba60))
+* **developer:** Skip key analytics if they are none ([4994587](https://github.com/agrc/api.mapserv.utah.gov/commit/4994587be0bb494ed2e80aaa3e62a431ade725fe))
+
 ## [2.6.5](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.4...developer-v2.6.5) (2024-07-03)
 
 
