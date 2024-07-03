@@ -10,8 +10,6 @@ var store = new DocumentStore() {
     Database = "export"
 }.Initialize();
 
-var canContinue = true;
-
 using var session = store.OpenSession();
 // query for all raven accounts
 var ravenAccounts = session.Query<RavenAccount>(null, "Accounts", false).ToList();
@@ -22,14 +20,26 @@ Console.WriteLine($"Removed {totalAccounts - ravenAccounts.Count} accounts witho
 
 // list any duplicate emails which will cause problems. only one account per email is allowed
 foreach (var duplicate in ravenAccounts.GroupBy(x => x.Email).Where(x => x.Count() > 1)) {
-    Console.WriteLine($"Duplicate email: {duplicate.Key}");
-    canContinue = false;
-}
+    // get the user with the most keys
+    var max = duplicate.OrderByDescending(x => x.KeyQuota.KeysUsed).First();
+    // get the other users
+    var others = duplicate.Where(x => x.Id != max.Id).ToList();
+    Console.WriteLine($"Duplicate email: {duplicate.Key} migrating keys to {max.Id}");
 
-if (!canContinue) {
-    Console.WriteLine("Only one account per email is allowed. remove the duplicates and try again.");
+    // loop over other users and update the keys to the max user
+    foreach (var user in others) {
+        var keys = session.Query<RavenApiKey>(null, "ApiKeys", false)
+            .Where(x => !x.Deleted && x.AccountId == user.Id).ToList();
 
-    return;
+        foreach (var key in keys) {
+            key.AccountId = max.Id;
+        }
+
+        // remove the duplicate user
+        session.Delete(user);
+    }
+
+    session.SaveChanges();
 }
 
 var client = new FirestoreDbBuilder {
@@ -38,7 +48,7 @@ var client = new FirestoreDbBuilder {
         "Release" => "ut-dts-agrc-web-api-prod",
         _ => "ut-dts-agrc-web-api-dev"
     },
-    EmulatorDetection = EmulatorDetection.EmulatorOnly
+    // EmulatorDetection = EmulatorDetection.EmulatorOnly
 }.Build();
 
 var batch = client.StartBatch();
@@ -123,7 +133,7 @@ void AddOrUpdate(string key, FirestoreApiKey value) {
     if (clientCreatedKeyMap.TryGetValue(key, out var list)) {
         list.Add(value);
     } else {
-        clientCreatedKeyMap.Add(key, new List<FirestoreApiKey> { value });
+        clientCreatedKeyMap.Add(key, [value]);
     }
 }
 
@@ -184,8 +194,6 @@ namespace models {
             MachineName = apiKey.IsMachineName;
             Elevated = elevated;
             Notes = "👻️👻️👻️ an unclaimed key 👻️👻️👻️";
-            LastUsed = "comes from redis";
-            Usage = "comes from redis";
             Claimed = false;
 
             Flags = new Dictionary<string, bool>() {
