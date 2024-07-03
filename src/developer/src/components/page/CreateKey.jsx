@@ -393,7 +393,9 @@ export function Component() {
           <p className="text-wavy-800 dark:text-slate-200">
             If you need help choosing the key type or the value associated with
             the key, please visit and read the{' '}
-            <TextLink href="https://ut-dts-agrc-web-api-dev.web.app/getting-started/">
+            <TextLink
+              href={`${import.meta.env.VITE_API_EXPLORER_URL}/getting-started/`}
+            >
               getting started guide
             </TextLink>
             .

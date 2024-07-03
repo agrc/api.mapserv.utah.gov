@@ -23,7 +23,9 @@ export function Component() {
             <p className="text-slate-700 dark:text-slate-300">
               API keys are anonymous and randomly generated. No personal
               information will be shared or made public.{' '}
-              <TextLink href="https://ut-dts-agrc-web-api-dev.web.app/privacy-policy/">
+              <TextLink
+                href={`${import.meta.env.VITE_API_EXPLORER_URL}/privacy-policy/`}
+              >
                 View our privacy policy
               </TextLink>
               .

@@ -56,13 +56,13 @@ const Menu = () => {
           <NavigationMenu.Content className={menuItemCss}>
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">
               <ExternalListItem
-                href="https://ut-dts-agrc-web-api-dev.web.app/"
+                href={import.meta.env.VITE_API_EXPLORER_URL}
                 title="API Home page"
               >
                 Visit the API home page.
               </ExternalListItem>
               <ExternalListItem
-                href="https://ut-dts-agrc-web-api-dev.web.app/docs"
+                href={`${import.meta.env.VITE_API_EXPLORER_URL}/docs/`}
                 title="API Documentation"
               >
                 View the API documentation.
