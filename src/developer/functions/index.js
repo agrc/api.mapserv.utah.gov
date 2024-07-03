@@ -46,7 +46,7 @@ export const onCreateUser = auth
       const mailingListSignUp = (await import('./mail.js')).mailingListSignUp;
 
       const mailListResult = await mailingListSignUp(
-        data,
+        { displayName: user.displayName, email: user.email },
         process.env.SENDGRID_API_KEY ?? '',
       );
 
