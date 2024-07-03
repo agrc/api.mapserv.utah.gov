@@ -51,3 +51,26 @@ Once the emulators are running, navigate to the data migration project
 ```sh
 FIRESTORE_EMULATOR_HOST='127.0.0.1:8080' dotnet run
 ```
+
+## Cloud migration
+
+To migrate to the cloud and not the emulators, set the `ASPNETCORE_ENVIRONMENT` to `Development` or `Release` and don't start the emulators.
+
+Comment out the following line
+
+```csharp
+var client = new FirestoreDbBuilder {
+    ProjectId = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") switch {
+        "Development" => "ut-dts-agrc-web-api-dev",
+        "Release" => "ut-dts-agrc-web-api-prod",
+        _ => "ut-dts-agrc-web-api-dev"
+    },
+    // EmulatorDetection = EmulatorDetection.EmulatorOnly
+}.Build();
+```
+
+```sh
+gcloud auth login --update adc
+firebase login
+ASPNETCORE_ENVIRONMENT=Release dotnet run
+```
