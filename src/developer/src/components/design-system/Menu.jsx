@@ -46,7 +46,7 @@ const Menu = () => {
                 to="/self-service/claim-account"
                 title="Claim Keys"
               >
-                Claim keys from a legacy UGRC API account
+                Claim keys from a non-Utahid UGRC API account
               </InternalListItem>
             </ul>
           </NavigationMenu.Content>

@@ -77,21 +77,21 @@ export function Component() {
           id="key-claiming"
           className="mx-auto mb-4 max-w-5xl text-wavy-800 dark:text-slate-200 md:col-span-2"
         >
-          Legacy account key claiming
+          Non-Utahid account key claiming
         </h2>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-10 md:px-6">
           <p className="text-wavy-800 dark:text-slate-200">
             The UGRC API has migrated login systems. Because of this change, you
             currently do not have access to any of the existing keys from your
-            legacy account. All of these keys will continue to function for the
-            time being. However, if you would like to manage these keys and
+            non-Utahid account. All of these keys will continue to function for
+            the time being. However, if you would like to manage these keys and
             ensure their longevity the keys will need to be claimed from the
             account that originally created them.
           </p>
           <p className="text-wavy-800 dark:text-slate-200">
             In order to do this, you will need to know the email address and
-            password of the legacy account that created the keys. You can claim
-            keys from multiple legacy accounts if necessary.
+            password of the non-Utahid account that created the keys. You can
+            claim keys from multiple non-Utahid accounts if necessary.
           </p>
         </div>
       </section>
@@ -112,7 +112,7 @@ export function Component() {
                 control={control}
                 render={({ field }) => (
                   <Input
-                    label="legacy account email"
+                    label="non-Utahid email"
                     placeholder="you@email.com"
                     type="email"
                     error={errors.email?.message}
@@ -126,7 +126,7 @@ export function Component() {
                 control={control}
                 render={({ field }) => (
                   <Input
-                    label="legacy account password"
+                    label="non-Utahid password"
                     type="password"
                     error={errors.password?.message}
                     required
@@ -139,7 +139,7 @@ export function Component() {
                 control={control}
                 render={({ field }) => (
                   <Input
-                    label="confirm"
+                    label="confirm password"
                     type="password"
                     error={errors.confirm?.message}
                     required

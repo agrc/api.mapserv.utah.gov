@@ -78,6 +78,28 @@ const defaultValues = {
   fulfilled: false,
 };
 
+const displayError = (error) => {
+  return error.code === 'functions/already-exists' ? (
+    <FormError>
+      <span>
+        This key has already been created ({error.details}). Please reuse this
+        key or create a key with unique information.
+      </span>
+    </FormError>
+  ) : (
+    <FormError>
+      <span>
+        We had some trouble creating this key. Give it another try and if it
+        fails again, create an issue in{' '}
+        <TextLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">
+          GitHub
+        </TextLink>{' '}
+        or tweet us <TextLink href="https://x.com/maputah">@MapUtah</TextLink>.
+      </span>
+    </FormError>
+  );
+};
+
 export function Component() {
   const {
     control,
@@ -353,27 +375,7 @@ export function Component() {
                 />
               </div>
             )}
-            {mutationStatus === 'error' &&
-            error.code === 'functions/already-exists' ? (
-              <FormError>
-                <span>
-                  This key has already been created ({error.details}). Please
-                  reuse this key or create a key with unique information.
-                </span>
-              </FormError>
-            ) : (
-              <FormError>
-                <span>
-                  We had some trouble creating this key. Give it another try and
-                  if it fails again, create an issue in{' '}
-                  <TextLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">
-                    GitHub
-                  </TextLink>{' '}
-                  or tweet us{' '}
-                  <TextLink href="https://x.com/maputah">@MapUtah</TextLink>.
-                </span>
-              </FormError>
-            )}
+            {mutationStatus === 'error' && displayError(error)}
             <div className="flex justify-center gap-6 pb-6">
               <Button
                 type={Button.Types.submit}

@@ -110,7 +110,7 @@ export function Component() {
             color={Button.Colors.primary}
             size={Button.Sizes.xl}
           >
-            claim a legacy key
+            claim a non-Utahid key
           </RouterButtonLink>
         </div>
       </section>

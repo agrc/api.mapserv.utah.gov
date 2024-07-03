@@ -123,9 +123,9 @@ export const keys = https.onCall({ cors }, async (request) => {
 });
 
 /**
- * This private https function is used to validate a legacy account claim.
+ * This private https function is used to validate a non-Utahid account claim.
  * @param {CallableRequest<{email: string, password: string}>} request - The request object should contain the email address and the plain text password to hash and validate.
- * @returns {Promise<string[]>} The keys transferred from the legacy account.
+ * @returns {Promise<string[]>} The keys transferred from the non-Utahid account.
  */
 export const validateClaim = https.onCall(
   {

@@ -139,7 +139,7 @@ export function Component() {
             case. You can claim keys that were created prior to the Utahid login
             by{' '}
             <TextLink href="/self-service/claim-account">
-              claiming legacy keys
+              claiming non-Utahid keys
             </TextLink>
             .
           </p>
