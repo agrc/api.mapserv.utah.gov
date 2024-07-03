@@ -24,7 +24,7 @@ export function Component() {
               API keys are anonymous and randomly generated. No personal
               information will be shared or made public.{' '}
               <TextLink
-                href={`${import.meta.env.VITE_API_EXPLORER_URL}/privacy-policy/`}
+                href={`${import.meta.env.VITE_API_EXPLORER_URL}/privacy/`}
               >
                 View our privacy policy
               </TextLink>
