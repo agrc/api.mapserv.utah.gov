@@ -199,12 +199,11 @@ export function Component() {
             >
               <div className="flex flex-wrap px-5">
                 <Pill>XHR request</Pill>
-                <Pill>window.fetch</Pill>
-                <Pill>jquery.ajax</Pill>
+                <Pill>fetch</Pill>
+                <Pill>ky</Pill>
                 <Pill>ArcGIS Maps SDK for JavaScript</Pill>
-                <Pill>vue</Pill>
-                <Pill>react</Pill>
-                <Pill>angular</Pill>
+                <Pill>AngularJS HttpClient</Pill>
+                <Pill>TanStack Query</Pill>
               </div>
             </Card>
             <Card

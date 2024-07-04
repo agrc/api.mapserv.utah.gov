@@ -133,15 +133,26 @@ export function Component() {
           </p>
           <p className="dark:text-slate-200">
             We have created your first API key for you already. This is a
-            special key and can only be used from the desktop application. If
-            you need to geocode addresses from a website or a different
-            application, you will need to create a key specific to that use
-            case. You can claim keys that were created prior to the Utahid login
-            by{' '}
+            special key and can only be used from the{' '}
+            <TextLink href="https://gis.utah.gov/products/sgid/address/api-client/">
+              UGRC API Client
+            </TextLink>
+            . If you need to geocode addresses or search SGID data from a
+            website or another application, you will need to create a key
+            specific to that use case. You can claim keys that were created
+            prior to the Utahid login by{' '}
             <TextLink href="/self-service/claim-account">
               claiming non-Utahid keys
             </TextLink>
             .
+          </p>
+          <h4 className="text-center">Fair use disclaimer</h4>
+          <p className="dark:text-slate-200">
+            This API is free to use and we ask that you use it responsibly and
+            fairly. We reserve the right to block abusive users. Currently, the
+            API is not rate limited so please be courteous to other users. If
+            you need more bandwidth than we are able to provide, we can set up a
+            dedicated instance for you.
           </p>
         </div>
       </section>
