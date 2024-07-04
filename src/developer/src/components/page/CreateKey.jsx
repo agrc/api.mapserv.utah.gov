@@ -201,6 +201,7 @@ export function Component() {
                 <Pill>XHR request</Pill>
                 <Pill>fetch</Pill>
                 <Pill>ky</Pill>
+                <Pill>Axios</Pill>
                 <Pill>ArcGIS Maps SDK for JavaScript</Pill>
                 <Pill>AngularJS HttpClient</Pill>
                 <Pill>TanStack Query</Pill>
