@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.7](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.6...developer-v2.6.7) (2024-07-10)
+
+
+### Bug Fixes
+
+* **developer:** correct tag style with UDS ([d1c762c](https://github.com/agrc/api.mapserv.utah.gov/commit/d1c762c23b9fc3d6288b920069c6d1e65b14d55e))
+* **developer:** set v1 function settings with v1 methods ([247a376](https://github.com/agrc/api.mapserv.utah.gov/commit/247a37650c26a98afffb8122240ea01172787080))
+
 ## [2.6.6](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.5...developer-v2.6.6) (2024-07-03)
 
 
