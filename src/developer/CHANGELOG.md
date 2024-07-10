@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.8](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.7...developer-v2.6.8) (2024-07-10)
+
+
+### Bug Fixes
+
+* **developer:** correct secret assignment for v1 function ([66c417a](https://github.com/agrc/api.mapserv.utah.gov/commit/66c417ad8bed241ef517e222f31c73ded30a3eda))
+
 ## [2.6.7](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.6...developer-v2.6.7) (2024-07-10)
 
 
