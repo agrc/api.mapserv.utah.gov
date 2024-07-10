@@ -1,4 +1,5 @@
 import { debug } from 'firebase-functions/logger';
+import { defineSecret } from 'firebase-functions/params';
 import { runWith } from 'firebase-functions/v1';
 import { https, setGlobalOptions } from 'firebase-functions/v2';
 import { safelyInitializeApp } from './firebase.js';
@@ -8,6 +9,7 @@ safelyInitializeApp();
 const serviceAccount = `firestore-function-sa@${process.env.GCLOUD_PROJECT}.iam.gserviceaccount.com`;
 const vpcConnector = 'memorystore-connector';
 const vpcConnectorEgressSettings = 'PRIVATE_RANGES_ONLY';
+const secret = defineSecret('SENDGRID_API_KEY');
 
 setGlobalOptions({
   serviceAccount,
@@ -37,10 +39,9 @@ export const onCreateUser = runWith({
   serviceAccount,
   vpcConnector,
   vpcConnectorEgressSettings,
+  secrets: [secret],
 })
-  .auth.user({
-    secrets: ['SENDGRID_API_KEY'],
-  })
+  .auth.user()
   .onCreate(async (user) => {
     debug('[auth::user::onCreate] importing createUser');
     const createUser = (await import('./auth/onCreate.js')).createUser;
