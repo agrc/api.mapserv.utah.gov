@@ -1,14 +1,18 @@
 import { debug } from 'firebase-functions/logger';
-import { auth } from 'firebase-functions/v1'; // v2 does not support auth triggers as of july/23
+import { runWith } from 'firebase-functions/v1';
 import { https, setGlobalOptions } from 'firebase-functions/v2';
 import { safelyInitializeApp } from './firebase.js';
 
 safelyInitializeApp();
 
+const serviceAccount = `firestore-function-sa@${process.env.GCLOUD_PROJECT}.iam.gserviceaccount.com`;
+const vpcConnector = 'memorystore-connector';
+const vpcConnectorEgressSettings = 'PRIVATE_RANGES_ONLY';
+
 setGlobalOptions({
-  serviceAccount: `firestore-function-sa@${process.env.GCLOUD_PROJECT}.iam.gserviceaccount.com`,
-  vpcConnector: 'memorystore-connector',
-  vpcConnectorEgressSettings: 'PRIVATE_RANGES_ONLY',
+  serviceAccount,
+  vpcConnector,
+  vpcConnectorEgressSettings,
 });
 
 const cors = [
@@ -29,8 +33,12 @@ const cors = [
  * @param {any} async(user - The user details from the OIDC flow from Utahid.
  * @returns {bool} - The true or false result of the create user method.
  */
-export const onCreateUser = auth
-  .user({
+export const onCreateUser = runWith({
+  serviceAccount,
+  vpcConnector,
+  vpcConnectorEgressSettings,
+})
+  .auth.user({
     secrets: ['SENDGRID_API_KEY'],
   })
   .onCreate(async (user) => {
