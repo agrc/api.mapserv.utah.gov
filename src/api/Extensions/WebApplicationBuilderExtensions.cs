@@ -59,23 +59,6 @@ public static class WebApplicationBuilderExtensions {
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .UseSerilog((context, provider) => {
                 provider.ReadFrom.Configuration(context.Configuration);
-
-                if (!context.HostingEnvironment.IsDevelopment()) {
-                    provider.WriteTo.GoogleCloudLogging(new GoogleCloudLoggingSinkOptions(
-                        context.Configuration["GoogleCloudLogging:projectId"],
-                        "global",
-                        context.Configuration["GoogleCloudLogging:logName"],
-                        new Dictionary<string, string> {
-                        { "configuration", context.HostingEnvironment.EnvironmentName }
-                        },
-                        null,
-                        false,
-                        true,
-                        null,
-                        context.Configuration["GoogleCloudLogging:serviceName"],
-                        context.Configuration["GoogleCloudLogging:serviceVersion"]
-                    ));
-                }
             });
 
         builder.Services.AddDefaultCorrelationId(options => {
