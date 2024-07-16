@@ -1,7 +1,8 @@
 # UGRC API
 
-![api](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.api.yml/badge.svg?branch=development)
-![landing page and documentation](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.explorer.yml/badge.svg?branch=development)
+![api](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.api.yml/badge.svg)
+![landing page and documentation](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.explorer.yml/badge.svg)
+![self service](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.developer.yml/badge.svg?)
 [![codecov](https://codecov.io/gh/agrc/api.mapserv.utah.gov/branch/development/graph/badge.svg)](https://codecov.io/gh/agrc/api.mapserv.utah.gov)
 
 This is the source code for the cloud [UGRC API](https://ut-dts-agrc-web-api-dev.web.app/). This system allows users to create an account, create API keys, and geocode or interact with SGID data. Users are able to geocode addresses, reverse geocode addresses, geocode mileposts, geocode mileposts by a location, and perform spatial queries against all OpenSGID spatial data.
