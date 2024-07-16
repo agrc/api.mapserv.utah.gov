@@ -2,7 +2,7 @@
 # * coding: utf8 *
 """
 LocatorPallet.py
-A module that contains a pallet definition for data to support the web api locator services and
+A module that contains a pallet definition for data to support the API locator services and
 methods to keep them current.
 
 Pre-requisites
@@ -17,18 +17,21 @@ Creating the locators
     - In arcgis pro python execute `LocatorsPallet.py`
 """
 
+from collections import namedtuple
 from json import load
 from pathlib import Path
 from shutil import copyfile, rmtree
 from time import perf_counter
 
 import arcpy
-from cloud_data.cloud_secrets import configuration as secrets
 from forklift.models import Crate, Pallet
 from forklift.seat import format_time
 from google.cloud import pubsub_v1, storage
 from google.oauth2 import service_account
 
+from cloud_data.cloud_secrets import configuration as secrets
+
+CloudService = namedtuple('CloudService', ['bucket', 'publisher', 'topic'])
 
 class CloudLocatorsPallet(Pallet):
     """A module that contains a pallet definition for data to support the
@@ -42,12 +45,13 @@ class CloudLocatorsPallet(Pallet):
         super().__init__()
 
         self.secrets: dict[str, str]
-        self.output_location: Path
-        self.locators: Path
         self.arcgis_services: list[tuple[str, str]]
-        self.bucket: storage.bucket
-        self.publisher: pubsub_v1.PublisherClient
-        self.topic: str
+        self.locators: Path
+        self.copy_data: list[str]
+        self.output_location: Path
+        self.success: tuple[bool, str]
+        self.cloud_services_dev: CloudService
+        self.cloud_services_prod: CloudService
 
     def build(self, configuration: str = "Production") -> None:
         """a method to build the pallet
@@ -82,22 +86,8 @@ class CloudLocatorsPallet(Pallet):
             },
         )
 
-        credential_file = Path(self.garage) / "api_service_account.json"
-        if not credential_file.exists():
-            raise Exception("missing service account")
-
-        credential_data = {}
-        with credential_file.open() as reader:
-            credential_data = load(reader)
-
-        credentials = service_account.Credentials.from_service_account_info(credential_data)
-
-        project_id = "ut-dts-agrc-web-api-dev"
-        storage_client = storage.Client(project=project_id, credentials=credentials)
-        self.bucket = storage_client.bucket("ut-ugrc-locator-services")
-
-        self.publisher = pubsub_v1.PublisherClient(credentials=credentials)
-        self.topic = self.publisher.topic_path(project_id, "locator-data-updated")
+        self.cloud_services_dev = CloudService(*self._get_cloud_service("ut-dts-agrc-web-api-dev"))
+        self.cloud_services_prod = CloudService(*self._get_cloud_service("ut-dts-agrc-web-api-prod"))
 
     def process(self) -> None:
         """Invoked during lift if any crates have data updates."""
@@ -106,6 +96,7 @@ class CloudLocatorsPallet(Pallet):
         self.log.info("dirty locators: %s", ",".join(dirty_locators))
 
         path_to_locators = Path(self.secrets["path_to_locators"])
+
         for locator in dirty_locators:
             #: copy current locator to a place to get rebuilt
             rebuild_path = path_to_locators / "cloud_scratch_build"
@@ -122,13 +113,11 @@ class CloudLocatorsPallet(Pallet):
             #: copy rebuilt locator back
             self.copy_locator_to(rebuild_path, locator, path_to_locators)
 
-            for locator_part in path_to_locators.glob(f"{locator}*"):
-                self.log.debug("uploading %s", locator_part)
+            #: upload them to all cloud projects
+            self._upload_locators_to_cloud_storage(list(path_to_locators.glob(f"{locator}*")))
 
-                blob = self.bucket.blob(locator_part.name)
-                blob.upload_from_filename(locator_part)
-
-            self.publisher.publish(self.topic, data=bytes(), locator=locator)
+            self.cloud_services_prod.publisher.publish(self.cloud_services_prod.topic, data=bytes(), locator=locator)
+            self.cloud_services_dev.publisher.publish(self.cloud_services_dev.topic, data=bytes(), locator=locator)
 
             #: delete scratch_build
             try:
@@ -317,15 +306,52 @@ class CloudLocatorsPallet(Pallet):
         with Path(f"{locator_path}.loc").open("a", encoding="utf-8") as file:
             file.write(f'BatchOutputFields = {", ".join(output_fields)}\n')
 
+    def _get_cloud_services(self, project_id: str) -> tuple[storage.bucket, pubsub_v1.PublisherClient, str]:
+        credential_file = Path(self.garage) / f"{project_id}-forklift-sa.json"
+
+        if not credential_file.exists():
+            raise FileNotFoundError("missing service account")
+
+        credential_data = {}
+        with credential_file.open() as reader:
+            credential_data = load(reader)
+
+        credentials = service_account.Credentials.from_service_account_info(credential_data)
+
+        storage_client = storage.Client(project=project_id, credentials=credentials)
+        bucket_name = "ut-ugrc-locator-services-prod"
+
+        if project_id == "ut-dts-agrc-web-api-dev":
+            bucket_name = "ut-ugrc-locator-services"
+
+        bucket = storage_client.bucket(bucket_name)
+        publisher = pubsub_v1.PublisherClient(credentials=credentials)
+        topic = publisher.topic_path(project_id, "locator-data-updated")
+
+        return bucket, publisher, topic
+
+    def _upload_locators_to_cloud_storage(self, locator_parts: list[Path]) -> None:
+        for part in locator_parts:
+            self.log.debug("uploading locator part: %s", part)
+
+            try:
+                blob_dev = self.cloud_services_dev.bucket.blob(part.name)
+                blob_dev.upload_from_filename(part)
+            except Exception as error:
+                self.log.error("skipping error uploading to dev: %s", error)
+
+            blob_prod = self.cloud_services_prod.bucket.blob(part.name)
+            blob_prod.upload_from_filename(part)
+
 
 if __name__ == "__main__":
     """
     Usage:
-        python LocatorPallet.py --create                                          Creates locators
+        python LocatorPallet.py --create                                         Creates locators
         python LocatorPallet.py --rebuild --locator=Roads [--configuration=Dev]   Rebuilds <locator> as Dev
         python LocatorPallet.py --ship --locator=Roads [--configuration=Dev]      Ships the <locator> as <configuration>
     Arguments:
-        locator         Roads or AddressPoints
+        locator        Roads or AddressPoints
         configuration   Dev Staging Production
     """
     import argparse
