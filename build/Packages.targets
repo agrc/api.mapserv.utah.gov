@@ -11,12 +11,12 @@
 
     <!-- logging -->
     <PackageReference Update="Serilog.AspNetCore" Version="8.0.1" />
-    <PackageReference Update="Serilog.Settings.Configuration" Version="8.0.1" />
+    <PackageReference Update="Serilog.Settings.Configuration" Version="8.0.2" />
     <PackageReference Update="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Update="CorrelationId" Version="3.0.1" />
 
     <!-- json -->
-    <PackageReference Update="System.Text.Json" Version="8.0.3" />
+    <PackageReference Update="System.Text.Json" Version="8.0.4" />
     <PackageReference Update="NetTopologySuite.IO.GeoJSON4STJ" Version="4.0.0" />
     <PackageReference Update="WebApiContrib.Core.Formatter.Jsonp" Version="2.1.0" />
 
@@ -30,11 +30,11 @@
     <!-- open api -->
     <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
     <PackageReference Update="Swashbuckle.AspNetCore" Version="6.6.2" />
-    <PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="8.0.6" />
+    <PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
 
     <!-- http -->
     <PackageReference Update="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
-    <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="8.0.6" />
+    <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="8.0.7" />
 
     <!-- string -->
     <PackageReference Update="Fastenshtein" Version="1.0.10" />
