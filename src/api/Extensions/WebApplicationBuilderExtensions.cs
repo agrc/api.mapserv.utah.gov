@@ -32,7 +32,6 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
 using Polly.Timeout;
-using Serilog.Sinks.GoogleCloudLogging;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
