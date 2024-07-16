@@ -21,7 +21,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    "editor.defaultFormatter": "charliermarsh.ruff",
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -206,10 +206,7 @@
   "prettier.documentSelectors": [
     "**/*.{js,jsx,css,html,md,json,mdx,astro}"
   ],
-  "python.formatting.provider": "none",
   "python.languageServer": "Pylance",
-  "python.linting.enabled": true,
-  "python.linting.pycodestyleEnabled": false,
   "python.testing.pytestArgs": [
     "--no-cov"
   ],
