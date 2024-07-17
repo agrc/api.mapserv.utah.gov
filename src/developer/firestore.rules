@@ -16,7 +16,7 @@ service cloud.firestore {
     }
     match /keys/{key} {
       allow read: if isAuthenticated() && (get(/databases/$(database)/documents/keys/$(key)).data.accountId == request.auth.uid);
-      allow update: if isAuthenticated() && (get(/databases/$(database)/documents/keys/$(key)).data.accountId == request.auth.uid);
+      allow update: if isAuthenticated() && (get(/databases/$(database)/documents/keys/$(key)).data.accountId == request.auth.uid) && updatingNotes();
     }
   }
 }
