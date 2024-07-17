@@ -322,7 +322,7 @@ class CloudLocatorsPallet(Pallet):
         bucket_name = "ut-ugrc-locator-services-prod"
 
         if project_id == "ut-dts-agrc-web-api-dev":
-            bucket_name = "ut-ugrc-locator-services"
+            bucket_name = "ut-ugrc-locator-services-dev"
 
         bucket = storage_client.bucket(bucket_name)
         publisher = pubsub_v1.PublisherClient(credentials=credentials)
