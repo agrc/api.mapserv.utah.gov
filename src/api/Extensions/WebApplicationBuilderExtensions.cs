@@ -15,7 +15,6 @@ using ugrc.api.Services;
 using api.OpenApi;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using CorrelationId.DependencyInjection;
 using Google.Api.Gax;
 using Google.Cloud.Firestore;
 using MediatR.Pipeline;
@@ -32,6 +31,7 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
 using Polly.Timeout;
+using Serilog.Sinks.GoogleCloudLogging;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -59,14 +59,6 @@ public static class WebApplicationBuilderExtensions {
             .UseSerilog((context, provider) => {
                 provider.ReadFrom.Configuration(context.Configuration);
             });
-
-        builder.Services.AddDefaultCorrelationId(options => {
-            options.AddToLoggingScope = true;
-            options.EnforceHeader = false;
-            options.IgnoreRequestHeader = true;
-            options.IncludeInResponse = false;
-            options.UpdateTraceIdentifier = false;
-        });
     }
     public static void ConfigureHealthChecks(this WebApplicationBuilder builder)
         => builder.Services.AddHealthChecks()

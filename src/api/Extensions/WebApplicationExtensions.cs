@@ -7,7 +7,6 @@ using ugrc.api.Features.Searching;
 using ugrc.api.Middleware;
 using ugrc.api.Models.ResponseContracts;
 using Asp.Versioning.Conventions;
-using CorrelationId;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +16,6 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 namespace ugrc.api.Extensions;
 public static class WebApplicationExtensions {
     public static void MapRoutes(this WebApplication app) {
-        app.UseCorrelationId();
-
         if (app.Environment.IsDevelopment()) {
             app.UseDeveloperExceptionPage();
         }
