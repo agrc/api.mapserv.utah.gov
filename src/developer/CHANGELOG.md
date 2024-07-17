@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.9](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.8...developer-v2.6.9) (2024-07-17)
+
+
+### Bug Fixes
+
+* **developer:** update firestore rules ([43f678c](https://github.com/agrc/api.mapserv.utah.gov/commit/43f678cd42ae3a12b123cbe296ba61261e5eadfe))
+
 ## [2.6.8](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.7...developer-v2.6.8) (2024-07-10)
 
 
