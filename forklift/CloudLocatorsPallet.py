@@ -306,7 +306,7 @@ class CloudLocatorsPallet(Pallet):
         with Path(f"{locator_path}.loc").open("a", encoding="utf-8") as file:
             file.write(f'BatchOutputFields = {", ".join(output_fields)}\n')
 
-    def _get_cloud_services(self, project_id: str) -> tuple[storage.bucket, pubsub_v1.PublisherClient, str]:
+    def _get_cloud_service(self, project_id: str) -> tuple[storage.bucket, pubsub_v1.PublisherClient, str]:
         credential_file = Path(self.garage) / f"{project_id}-forklift-sa.json"
 
         if not credential_file.exists():
