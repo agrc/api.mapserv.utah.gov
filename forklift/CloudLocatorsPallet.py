@@ -116,6 +116,7 @@ class CloudLocatorsPallet(Pallet):
             #: upload them to all cloud projects
             self._upload_locators_to_cloud_storage(list(path_to_locators.glob(f"{locator}*")))
 
+            self.log.debug('publishing topics')
             self.cloud_services_prod.publisher.publish(self.cloud_services_prod.topic, data=bytes(), locator=locator)
             self.cloud_services_dev.publisher.publish(self.cloud_services_dev.topic, data=bytes(), locator=locator)
 
@@ -331,17 +332,23 @@ class CloudLocatorsPallet(Pallet):
         return bucket, publisher, topic
 
     def _upload_locators_to_cloud_storage(self, locator_parts: list[Path]) -> None:
+        self.log.debug("locator parts", locator_parts)
+
         for part in locator_parts:
             self.log.debug("uploading locator part: %s", part)
 
             try:
                 blob_dev = self.cloud_services_dev.bucket.blob(part.name)
                 blob_dev.upload_from_filename(part)
+
+                self.log.debug('dev bucket updated')
             except Exception as error:
                 self.log.error("skipping error uploading to dev: %s", error)
 
             blob_prod = self.cloud_services_prod.bucket.blob(part.name)
             blob_prod.upload_from_filename(part)
+
+            self.log.debug('prod bucket updated')
 
 
 if __name__ == "__main__":
