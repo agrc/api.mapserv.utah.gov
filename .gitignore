@@ -2,25 +2,16 @@
 lcov.info
 coverage.xml
 
-# project secrets
-src/api/appsettings.production.json
-**/ut-dts-agrc-web-api-dev-log-writer.json
-**/log-writer.json
-
-# terraform
-.terraform
-
-# tailwind css
+# tailwindcss
 src/explorer/src/styles/tailwind.css
 
 # OSX
 .DS_Store
+
+# Astro
 src/explorer/.astro
 
-# forklift
-forklift/cloud_data/cloud_secrets.py
-forklift/gcp_service_account.json
-forklift/.env
+# python
 __pycache__
 
 # node
