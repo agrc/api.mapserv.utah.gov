@@ -4,6 +4,7 @@
 LocatorUpdate.py
 A module that runs as a scheduled task to look for pub sub topics. The callback is executed when a topic is found.
 """
+
 import logging
 from concurrent.futures import TimeoutError
 from pathlib import Path
@@ -14,7 +15,7 @@ import google.cloud.pubsub_v1
 import google.cloud.storage
 from google.api_core.exceptions import NotFound
 
-from data.secrets import configuration as secrets
+from cloud_data.secrets import configuration as secrets
 from LightSwitch import LightSwitch
 
 configuration = secrets["Production"]
@@ -35,9 +36,7 @@ SUB_CLIENT = google.cloud.pubsub_v1.SubscriberClient()
 
 LOGGING_CLIENT.setup_logging()
 
-SUBSCRIPTION = SUB_CLIENT.subscription_path(
-    configuration["project_id"], "locator-data-updated"
-)
+SUBSCRIPTION = SUB_CLIENT.subscription_path(configuration["project_id"], "locator-data-updated")
 
 
 def callback(message: google.cloud.pubsub_v1.subscriber.message.Message) -> None:
@@ -54,7 +53,9 @@ def callback(message: google.cloud.pubsub_v1.subscriber.message.Message) -> None
 
     download_locator(locator)
     publish_locator(locator)
-    message.ack()
+
+    logging.info("forklift::acknowledging the topic")
+    message.ack_with_response()
 
 
 def download_locator(locator: str) -> None:
@@ -84,16 +85,11 @@ def publish_locator(locator: str) -> bool:
             servers[key] = temp
 
     if servers is None or len(servers) == 0:
-        logging.info("skipping locator ship. no servers defined in config")
+        logging.info("forklift::skipping locator ship. no servers defined in config")
 
         return False
 
     locators_path = Path(configuration["path_to_locators"])
-
-    if locator is None:
-        logging.info("skipping locator ship. no changes found to locators.")
-
-        return False
 
     switches = [LightSwitch(server) for server in servers.items()]
 
@@ -101,10 +97,11 @@ def publish_locator(locator: str) -> bool:
     process_status = {key: False for key, value in servers.items()}
 
     for switch in switches:
+        logging.info("forklift::stopping %s", locator_lookup[locator])
         status, messages = switch.ensure_services("off", [locator_lookup[locator]])
 
         if status is False:
-            error_msg = f"{locator} did not stop, skipping copy. {messages}"
+            error_msg = f"forklift::{locator} did not stop, skipping copy. {messages}"
             logging.error(error_msg)
 
             continue
@@ -113,18 +110,18 @@ def publish_locator(locator: str) -> bool:
 
         for attempt in range(3):
             try:
+                logging.info("forklift::updating %s", locator_lookup[locator])
                 copy_locator_to(locators_path, locator, Path(ship_to))
                 process_status[switch.server_label] = True
 
                 break
             except IOError as e:
                 print(e)
-                logging.warning(
-                    f"could not copy {locator}, sleeping for {wait[attempt]}"
-                )
+                logging.warning(f"could not copy {locator}, sleeping for {wait[attempt]}")
                 sleep(wait[attempt])
                 attempt += 1
 
+        logging.info("forklift::starting %s", locator_lookup[locator])
         switch.ensure_services("on", [locator_lookup[locator]])
 
         if False in process_status.values():
@@ -143,7 +140,7 @@ def copy_locator_to(file_path: Path, locator: str, to_folder: Path) -> None:
         locator (str): the locator name
         to_folder (_type_): The destination folder path
     """
-    logging.debug("copying %s to %s", file_path / locator, to_folder)
+    logging.debug("forklift::copying %s to %s", file_path / locator, to_folder)
     for filename in file_path.glob(f"{locator}.lo*"):
         locator_with_extension = filename.name
 
@@ -163,7 +160,7 @@ def run() -> None:
             logging.info("forklift::checking subscription for topics")
             streaming_pull_future.result(timeout=5)
         except TimeoutError:
-            logging.warning("forklift::check timeout")
+            logging.info("forklift::no topics found")
         except NotFound:
             logging.error("forklift::subscription does not exist")
         finally:
