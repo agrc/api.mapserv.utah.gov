@@ -18,6 +18,6 @@
 1. Covert the redis dump to key value pairs
    - rdb --command justkeyvals ./dump.rdb | sort > dump.txt
 
-## Filter the data
-
 ## Load the data
+
+1. python index.py
