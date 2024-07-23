@@ -54,7 +54,6 @@ var client = new FirestoreDbBuilder {
 var batch = client.StartBatch();
 
 var clientCreatedKeyMap = new Dictionary<string, List<FirestoreApiKey>>();
-var elevatedAccounts = new[] { "sgourley@utah.gov", "api-explorer@utah.gov", "mpeters@utah.gov" };
 var elevatedKeys = new[] { "agrc-apiexplorer", "agrc-dev", "agrc-plssaddin", "agrc-uptime" };
 var quota = 500;
 var items = 1;
