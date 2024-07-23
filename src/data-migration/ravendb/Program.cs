@@ -96,6 +96,12 @@ foreach (var ravenAccount in ravenAccounts) {
     var unclaimed = new Client(ravenAccount);
     // create firestore document in /clients-unclaimed/email@address collection
     var document = accountCollection.Document(unclaimed.Email);
+    var snapshot = await document.GetSnapshotAsync();
+    // if key already exists skip to next key
+    if (snapshot.Exists) {
+        Console.WriteLine("    skipping " + unclaimed.Email);
+        continue;
+    }
     // add create operation to batch
     batch.Create(document, unclaimed);
     // if account has no keys skip to next account
@@ -111,6 +117,12 @@ foreach (var ravenAccount in ravenAccounts) {
         // create firestore document in /clients-unclaimed/email@address/keys/agrc-000 collection
         // get firestore document in /keys/agrc-000 collection
         var keyDocument = keyCollection.Document(key.Key);
+        var snapshot2 = await document.GetSnapshotAsync();
+        // if key already exists skip to next key
+        if (snapshot2.Exists) {
+            Console.WriteLine("    skipping " + key.Key);
+            continue;
+        }
         // submit keys if the batch size is met
         batch = await SubmitBatchIfFull(batch);
         batch.Update(keyDocument, new Dictionary<string, object> { { "accountId", ravenAccount.Email } });
