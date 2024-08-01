@@ -23,24 +23,24 @@
     ]
   },
   "dependencies": {
-    "@astrojs/react": "^3.6.0",
-    "@astrojs/starlight": "^0.24.5",
+    "@astrojs/react": "^3.6.1",
+    "@astrojs/starlight": "^0.25.3",
     "@astrojs/starlight-tailwind": "^2.0.3",
     "@astrojs/tailwind": "^5.1.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@ugrc/header": "^1.1.2",
-    "astro": "^4.11.3",
+    "astro": "^4.12.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sharp": "^0.33.4",
-    "starlight-links-validator": "^0.9.0",
-    "tailwindcss": "^3.4.4"
+    "starlight-links-validator": "^0.10.0",
+    "tailwindcss": "^3.4.7"
   },
   "devDependencies": {
-    "prettier": "^3.3.2",
-    "prettier-plugin-astro": "^0.14.0",
-    "prettier-plugin-packagejson": "^2.5.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-packagejson": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.6.5",
     "tailwind-heropatterns": "^0.0.8"
   }
