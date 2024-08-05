@@ -10,7 +10,7 @@
     <PackageReference Update="StackExchange.Redis" Version="2.8.0" />
 
     <!-- logging -->
-    <PackageReference Update="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Update="Serilog.AspNetCore" Version="8.0.2" />
     <PackageReference Update="Serilog.Settings.Configuration" Version="8.0.2" />
     <PackageReference Update="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Update="Serilog.Sinks.GoogleCloudLogging" Version="5.0.0" />
@@ -28,8 +28,8 @@
     <PackageReference Update="Autofac" Version="8.0.0" />
 
     <!-- open api -->
-    <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
-    <PackageReference Update="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.7.0" />
+    <PackageReference Update="Swashbuckle.AspNetCore" Version="6.7.0" />
     <PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
 
     <!-- http -->
@@ -40,7 +40,7 @@
     <PackageReference Update="Fastenshtein" Version="1.0.10" />
 
     <!-- design patterns -->
-    <PackageReference Update="MediatR" Version="12.3.0" />
+    <PackageReference Update="MediatR" Version="12.4.0" />
 
     <!-- testing -->
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.6.1" />
