@@ -70,7 +70,7 @@ export function Component() {
   const { status, data } = useQuery({
     queryKey: ['my keys', loaderData.user.uid],
     queryFn: () => Spinner.minDelay(getKeys()),
-    enabled: loaderData.user?.uid.length ?? 0 > 0 ? true : false,
+    enabled: (loaderData.user?.uid.length ?? 0 > 0) ? true : false,
     onError: () => 'We had some trouble finding your keys.',
     gcTime: Infinity,
     staleTime: Infinity,

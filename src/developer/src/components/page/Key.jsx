@@ -57,7 +57,7 @@ export const Component = () => {
     queryFn: () => Spinner.minDelay(getKeys(), 800),
     select: (response) =>
       response.data.find((data) => data.key === key?.toUpperCase()),
-    enabled: loaderData.user?.uid.length ?? 0 > 0 ? true : false,
+    enabled: (loaderData.user?.uid.length ?? 0 > 0) ? true : false,
     onError: () => 'We had some trouble finding your keys.',
     gcTime: Infinity,
     staleTime: Infinity,

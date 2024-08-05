@@ -10,7 +10,7 @@ export function getKeys(functions, user) {
   return {
     queryKey: ['my keys', user.uid],
     queryFn: () => httpsCallable(functions, 'keys'),
-    enabled: user.uid ?? 0 > 0 ? true : false,
+    enabled: (user.uid ?? 0 > 0) ? true : false,
     onError: () => 'We had some trouble finding your contacts.',
   };
 }
