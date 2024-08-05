@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.2](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.1...api-v1.16.2) (2024-08-05)
+
+
+### Bug Fixes
+
+* **api:** remove unused code ([58dd202](https://github.com/agrc/api.mapserv.utah.gov/commit/58dd202425a181166c61cafe9d7d8516ec6830c5))
+
 ## [1.16.1](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.0...api-v1.16.1) (2024-07-02)
 
 
