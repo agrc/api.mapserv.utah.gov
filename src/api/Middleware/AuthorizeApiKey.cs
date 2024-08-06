@@ -83,8 +83,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
 
                 return BadRequest(
                     "The http referrer header is missing. Turn off any security solutions that may remove this " +
-                    "header to use this service. If you are trying to test your query add the referrer header via a tool like postman " +
-                    "or browse to api.mapserv.utah.gov and use the api explorer."
+                    "header to use this service. If you are trying to test your query add the referrer header via a tool like postman."
                 );
             }
 
@@ -105,8 +104,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
 
                 return BadRequest(
                     "The http referrer header is invalid. Turn off any security solutions that may remove this " +
-                    "header to use this service. If you are trying to test your query add the referrer header via a tool like postman " +
-                    "or browse to api.mapserv.utah.gov and use the api explorer."
+                    "header to use this service. If you are trying to test your query add the referrer header via a tool like postman."
                 );
             }
 
