@@ -62,12 +62,6 @@ export const createKey = async (data) => {
   await db.runTransaction(async (transaction) => {
     // add key to the collection
     transaction.create(db.collection('keys').doc(apiKey.id), apiKey);
-
-    // add key to the user
-    transaction.create(
-      db.collection(`clients/${accountId}/keys`).doc(apiKey.id),
-      apiKey,
-    );
   });
 
   return apiKey.id;
