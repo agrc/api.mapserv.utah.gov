@@ -88,6 +88,11 @@ public class SearchQuery {
                        .Information("Table not in Open SGID", ex);
 
                     message = $"The table `{tableName}` does not exist in the Open SGID.";
+                } else if (ex.SqlState == "XX000" && ex.MessageText.StartsWith("transform: couldn't project")) {
+                    _log?.ForContext("geometry", request._options.Point)
+                       .Information("Coordinates and spatial reference mismatch", ex);
+
+                    message = $"There was a problem projecting {request._options.Point} to {request._options.SpatialReference}. Check that your spatial reference matches your input coordinate format.";
                 } else {
                     _log?.ForContext("message", ex.Message)
                         .ForContext("request", request)
