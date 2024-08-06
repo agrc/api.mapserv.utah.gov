@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.16.3](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.2...api-v1.16.3) (2024-08-06)
+
+
+### Bug Fixes
+
+* **api:** handle error where user provides empty point input ([ce94945](https://github.com/agrc/api.mapserv.utah.gov/commit/ce949458d167b39740a592656f7e6c0e8e8855f5))
+* **api:** handle error where user provides wrong spatial reference ([ed98b8e](https://github.com/agrc/api.mapserv.utah.gov/commit/ed98b8ea57de0aaacf615c8449f5bbfe79b9f7d2))
+
 ## [1.16.2](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.1...api-v1.16.2) (2024-08-05)
 
 
