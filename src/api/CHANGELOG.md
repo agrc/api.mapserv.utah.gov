@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.5](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.4...api-v1.16.5) (2024-08-06)
+
+
+### Bug Fixes
+
+* **api:** fix raster queries starting with `sgid10.` or odd casings ([d16139d](https://github.com/agrc/api.mapserv.utah.gov/commit/d16139d0fa6596a24d6f9d1b8f330d1e5251cb71))
+
 ## [1.16.4](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.3...api-v1.16.4) (2024-08-06)
 
 
