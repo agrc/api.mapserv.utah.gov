@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.8](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.7...api-v1.16.8) (2024-08-06)
+
+
+### Bug Fixes
+
+* **api:** don't direct users to explorer for testing ([bf785ad](https://github.com/agrc/api.mapserv.utah.gov/commit/bf785ad7136929f19e411b970695e50be98abb56))
+
 ## [1.16.7](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.6...api-v1.16.7) (2024-08-06)
 
 
