@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.6](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.5...api-v1.16.6) (2024-08-06)
+
+
+### Bug Fixes
+
+* **api:** add preserveCollapsed to preserve small geometries ([390e230](https://github.com/agrc/api.mapserv.utah.gov/commit/390e230e54ec37eff918ea761dafd1ce7dd9528c))
+
 ## [1.16.5](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.4...api-v1.16.5) (2024-08-06)
 
 
