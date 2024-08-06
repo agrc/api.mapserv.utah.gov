@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.7](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.6...api-v1.16.7) (2024-08-06)
+
+
+### Bug Fixes
+
+* **api:** correct boolean logic to remove unnecessary log statement ([bb1708d](https://github.com/agrc/api.mapserv.utah.gov/commit/bb1708d99cf77206bdc44392145ea20982d4ee0b))
+
 ## [1.16.6](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.5...api-v1.16.6) (2024-08-06)
 
 
