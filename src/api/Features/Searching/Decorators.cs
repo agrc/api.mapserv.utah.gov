@@ -21,14 +21,17 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiRespon
 
         var indexOfDot = table.IndexOf('.') + 1;
         var key = table[indexOfDot..];
+        var queryTable = key;
 
         if (!_mapping.MsSqlToPostgres.ContainsKey(key)) {
             _log?.ForContext("table", computation._tableName)
                 .Warning("Table name not found in open sgid");
+        } else {
+            queryTable = _mapping.MsSqlToPostgres[key];
         }
 
         var mutated = new SearchQuery.Query(
-            _mapping.MsSqlToPostgres[key],
+            queryTable,
             computation._returnValues,
             computation._options
         );
