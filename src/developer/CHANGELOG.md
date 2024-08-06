@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.12](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.11...developer-v2.6.12) (2024-08-06)
+
+
+### Bug Fixes
+
+* **developer:** stop creating keys in unused collection ([faa45b5](https://github.com/agrc/api.mapserv.utah.gov/commit/faa45b54062e15ba7159a0f3c0f1960562276c6a))
+
 ## [2.6.11](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.10...developer-v2.6.11) (2024-08-06)
 
 
