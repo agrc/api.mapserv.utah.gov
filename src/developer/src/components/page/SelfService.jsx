@@ -146,7 +146,9 @@ export function Component() {
             </TextLink>
             .
           </p>
-          <h4 className="text-center dark:text-slate-200">Fair use disclaimer</h4>
+          <h4 className="text-center dark:text-slate-200">
+            Fair use disclaimer
+          </h4>
           <p className="dark:text-slate-200">
             This API is free to use and we ask that you use it responsibly and
             fairly. We reserve the right to block abusive users. Currently, the
