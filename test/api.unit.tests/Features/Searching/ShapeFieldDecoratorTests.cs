@@ -36,7 +36,7 @@ public class ShapeFieldDecoratorTests {
         var _ = await decorator.Handle(computation, CancellationToken.None);
 
         _mutation._tableName.ShouldBe(computation._tableName);
-        _mutation._returnValues.ShouldBe("st_simplify(shape,10) as shape,field2");
+        _mutation._returnValues.ShouldBe("st_simplify(shape,10,true) as shape,field2");
         _mutation._options.Predicate.ShouldBe(computation._options.Predicate);
         _mutation._options.AttributeStyle.ShouldBe(computation._options.AttributeStyle);
     }

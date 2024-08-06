@@ -54,7 +54,7 @@ public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IApiResponse
     private readonly IRequestHandler<SearchQuery.Query, IApiResponse> _decorated = decorated;
     private readonly ILogger? _log = log?.ForContext<ShapeFieldDecorator>();
     private const string ShapeInput = "shape@";
-    private const string Shape = "st_simplify(shape,10)";
+    private const string Shape = "st_simplify(shape,10,true)";
     private const string EnvelopeInput = "shape@envelope";
     private const string Envelope = "st_envelope(shape)";
 
