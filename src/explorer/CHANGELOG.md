@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.5](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.4...explorer-v2.4.5) (2024-08-06)
+
+
+### Bug Fixes
+
+* **explorer:** add missing numbers ([70edd44](https://github.com/agrc/api.mapserv.utah.gov/commit/70edd447f0e143146d82bd4b3aa0c997d767a29b))
+
 ## [2.4.4](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.3...explorer-v2.4.4) (2024-07-03)
 
 
