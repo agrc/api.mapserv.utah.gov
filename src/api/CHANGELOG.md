@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.4](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.3...api-v1.16.4) (2024-08-06)
+
+
+### Bug Fixes
+
+* **api:** allow raster queries to pass through table check ([2e7db67](https://github.com/agrc/api.mapserv.utah.gov/commit/2e7db6732da0f11a2f32bf1ba4bd1a58b3adca77))
+
 ## [1.16.3](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.2...api-v1.16.3) (2024-08-06)
 
 
