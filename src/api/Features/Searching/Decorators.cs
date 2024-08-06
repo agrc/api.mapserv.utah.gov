@@ -20,12 +20,16 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiRespon
         }
 
         var indexOfDot = table.IndexOf('.') + 1;
-        var key = table[indexOfDot..];
-        var queryTable = key;
+        var key = table[indexOfDot..].ToLowerInvariant();
 
-        if (!_mapping.MsSqlToPostgres.ContainsKey(key)) {
+        if (!_mapping.MsSqlToPostgres.ContainsKey(key) || !key.StartsWith("raster.")) {
             _log?.ForContext("table", computation._tableName)
                 .Warning("Table name not found in open sgid");
+        }
+
+        string? queryTable;
+        if (key.StartsWith("raster.")) {
+            queryTable = key;
         } else {
             queryTable = _mapping.MsSqlToPostgres[key];
         }

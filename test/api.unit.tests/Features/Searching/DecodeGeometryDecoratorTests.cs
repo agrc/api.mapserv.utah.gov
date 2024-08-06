@@ -39,6 +39,22 @@ public class DecodeGeometryDecoratorTests {
     }
 
     [Fact]
+    public async Task Should_handle_empty_geometry() {
+        const string table = "table";
+        const string returnFields = "field1,field2";
+
+        var options = new SearchOptions(new SearchRequestOptionsContract {
+            Geometry = "point:[,]",
+        });
+
+        var computation = new SearchQuery.Query(table, returnFields, options);
+        var decorator = new DecodeGeometryDecorator(_computationHandler, _logger);
+        var _ = await decorator.Handle(computation, CancellationToken.None);
+
+        _mutation._options.Point.ToPostGis().ShouldBe("st_pointfromtext('POINT(0 0)',26912)");
+    }
+
+    [Fact]
     public async Task Should_decode_esri_geometry() {
         const string table = "table";
         const string returnFields = "field1,field2";

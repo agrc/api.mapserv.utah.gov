@@ -20,7 +20,7 @@ public class SearchQuery {
             var tableName = request._tableName.ToLowerInvariant();
             IReadOnlyCollection<SearchResponseContract?>? result;
 
-            if (request._tableName.Contains("raster.")) {
+            if (tableName.Contains("raster.")) {
                 // raster query
                 try {
                     result = await _computeMediator.Handle(
