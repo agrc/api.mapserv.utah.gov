@@ -98,6 +98,16 @@ public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IApiResp
     private readonly IRequestHandler<SearchQuery.Query, IApiResponse> _decorated = decorated;
     private readonly ILogger? _log = log?.ForContext<DecodeGeometryDecorator>();
 
+    private string[] ReplaceEmptyWithZero(string[] coordinates) {
+        for (var i = 0; i < coordinates.Length; i++) {
+            if (string.IsNullOrEmpty(coordinates[i])) {
+                coordinates[i] = "0";
+            }
+        }
+
+        return coordinates;
+    }
+
     public async Task<IApiResponse> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
         if (string.IsNullOrEmpty(computation._options.Geometry)) {
             _log?.ForContext("search options", computation._options.Geometry)
@@ -123,7 +133,7 @@ public class DecodeGeometryDecorator(IRequestHandler<SearchQuery.Query, IApiResp
                     var start = colon + 2;
                     var distance = geometry.Length - start - 1;
 
-                    var coordinates = geometry.Substring(start, distance).Split(',');
+                    var coordinates = ReplaceEmptyWithZero(geometry.Substring(start, distance).Split(','));
 
                     computation._options.Point = new PointWithSpatialReference(
                         double.Parse(coordinates[0]),
