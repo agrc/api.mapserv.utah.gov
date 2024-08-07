@@ -40,7 +40,23 @@ public class ShapeFieldDecoratorTests {
         _mutation._options.Predicate.ShouldBe(computation._options.Predicate);
         _mutation._options.AttributeStyle.ShouldBe(computation._options.AttributeStyle);
     }
+    [Fact]
+    public async Task Should_modify_default_shape_field() {
+        var options = new SearchOptions(new SearchRequestOptionsContract {
+            Predicate = "query",
+            AttributeStyle = AttributeStyle.Lower
+        });
+        var computation = new SearchQuery.Query("table", "shape,field2", options);
 
+        var decorator = new ShapeFieldDecorator(_computationHandler, _logger);
+
+        var _ = await decorator.Handle(computation, CancellationToken.None);
+
+        _mutation._tableName.ShouldBe(computation._tableName);
+        _mutation._returnValues.ShouldBe("st_simplify(shape,10,true) as shape,field2");
+        _mutation._options.Predicate.ShouldBe(computation._options.Predicate);
+        _mutation._options.AttributeStyle.ShouldBe(computation._options.AttributeStyle);
+    }
     [Fact]
     public async Task Should_modify_envelope_token() {
         var options = new SearchOptions(new SearchRequestOptionsContract {

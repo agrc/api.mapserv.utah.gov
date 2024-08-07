@@ -1,0 +1,7 @@
+@hostname = localhost
+@port = 1337
+@host = {{hostname}}:{{port}}
+@apiKey = apikey=agrc-dev
+@request = http://{{host}}/api/v1/search/cadastre.davis_county_parcels/parcel_id,parcel_add,parcel_city,parcel_zip,parcelscur,parcelnotes,shape?spatialReference=4326&predicate=UPPER(parcel_id)%20=%20UPPER(%27030680007%27)&attributeStyle=identical&{{apiKey}}
+
+GET {{request}}
