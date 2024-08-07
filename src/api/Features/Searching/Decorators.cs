@@ -53,13 +53,14 @@ public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IApiResponse
     ILogger log) : IRequestHandler<SearchQuery.Query, IApiResponse> {
     private readonly IRequestHandler<SearchQuery.Query, IApiResponse> _decorated = decorated;
     private readonly ILogger? _log = log?.ForContext<ShapeFieldDecorator>();
-    private const string ShapeInput = "shape@";
+    private const string ShapeToken = "shape@";
+    private const string DefaultShape = "shape";
     private const string Shape = "st_simplify(shape,10,true)";
     private const string EnvelopeInput = "shape@envelope";
     private const string Envelope = "st_envelope(shape)";
 
     public async Task<IApiResponse> Handle(SearchQuery.Query computation, CancellationToken cancellationToken) {
-        if (!computation._returnValues.Contains(ShapeInput, StringComparison.InvariantCultureIgnoreCase)) {
+        if (!computation._returnValues.Contains(DefaultShape, StringComparison.InvariantCultureIgnoreCase)) {
             _log?.ForContext("return_values", computation._returnValues)
                 .Debug("No fields require modification");
 
@@ -69,7 +70,7 @@ public class ShapeFieldDecorator(IRequestHandler<SearchQuery.Query, IApiResponse
         var fields = computation._returnValues.Split(',');
 
         for (var i = 0; i < fields.Length; i++) {
-            if (string.Equals(fields[i], ShapeInput, StringComparison.InvariantCultureIgnoreCase)) {
+            if (string.Equals(fields[i], ShapeToken, StringComparison.InvariantCultureIgnoreCase) || string.Equals(fields[i], DefaultShape, StringComparison.InvariantCulture)) {
                 fields[i] = computation._options.SpatialReference switch {
                     26912 => $"{Shape} as shape",
                     _ when computation._options.SpatialReference != 26912 => $"st_transform({Shape}, {computation._options.SpatialReference}) as shape",
