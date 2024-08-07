@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.9](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.8...api-v1.16.9) (2024-08-07)
+
+
+### Bug Fixes
+
+* **api:** spatial reference variable applies to shape and shape@ token ([b5f4b74](https://github.com/agrc/api.mapserv.utah.gov/commit/b5f4b74fdc22a5178b17102142197021613a1ced)), closes [#363](https://github.com/agrc/api.mapserv.utah.gov/issues/363)
+
 ## [1.16.8](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.7...api-v1.16.8) (2024-08-06)
 
 
