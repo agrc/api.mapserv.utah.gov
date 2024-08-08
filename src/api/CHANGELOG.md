@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.10](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.9...api-v1.16.10) (2024-08-08)
+
+
+### Bug Fixes
+
+* **api:** Correct search endpoint analytics token ([a43b9bb](https://github.com/agrc/api.mapserv.utah.gov/commit/a43b9bbf2d8064ed8444881febc2f1d1cc6f705e))
+
 ## [1.16.9](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.8...api-v1.16.9) (2024-08-07)
 
 
