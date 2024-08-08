@@ -28,7 +28,13 @@ public static class AttributeTableKeyFormatting {
                         break;
                     }
                 case AttributeStyle.Input: {
-                        return response;
+                        var fields = computation.ReturnValues.Split(',');
+                        formatterFunction = x => {
+                            var field = fields.FirstOrDefault(f => f.Trim().Equals(x, StringComparison.OrdinalIgnoreCase));
+
+                            return field ?? x;
+                        };
+                        break;
                     }
             }
 
