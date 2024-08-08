@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.11](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.10...api-v1.16.11) (2024-08-08)
+
+
+### Bug Fixes
+
+* **api:** implement input attributerStyle property ([bc198d0](https://github.com/agrc/api.mapserv.utah.gov/commit/bc198d0e456f753ab86ec7e84018edb40e03b708))
+
 ## [1.16.10](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.9...api-v1.16.10) (2024-08-08)
 
 
