@@ -175,7 +175,6 @@ public class ReverseRouteMilepostQueryTests {
         response.Milepost.ShouldBe(300);
         response.Route.ShouldBe("15P");
         response.OffsetMeters.ShouldBe(0);
-        // TODO! current production has this incorrect (https://github.com/agrc/api.mapserv.utah.gov/issues/187)
         response.Side.ShouldBe("increasing");
         response.Dominant.ShouldBe(true);
 

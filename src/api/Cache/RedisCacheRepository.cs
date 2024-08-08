@@ -35,7 +35,6 @@ public class RedisCacheRepository : ICacheRepository {
 
         // if the place name result is in memory already return it
         if (_placeNameCache.TryGetValue(placeName, out var places)) {
-            // TODO put this in analytics
             await _db.StringIncrementAsync($"analytics:grid-hit:{placeName.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
             return places as IReadOnlyCollection<GridLinkable> ?? [];
@@ -46,7 +45,6 @@ public class RedisCacheRepository : ICacheRepository {
 
         // if the place name is not found, add it to the not found cache but check if the cache is full
         if (!place.IsNullOrEmpty) {
-            // TODO put this in analytics
             var placeGridLinks = new List<PlaceGridLink>();
 
             foreach (var meta in place.ToString().Split(';')) {
@@ -68,7 +66,6 @@ public class RedisCacheRepository : ICacheRepository {
 
         // if the cache has a value then the place isn't in our list
         if (count != RedisValue.Null) {
-            // TODO put this in analytics
             await _db.StringIncrementAsync($"analytics:grid-miss:{placeName.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
             return [];
@@ -89,7 +86,6 @@ public class RedisCacheRepository : ICacheRepository {
 
         // if the place name result is in memory already return it
         if (_zipCodeCache.TryGetValue(zipCode, out var places)) {
-            // TODO put this in analytics
             await _db.StringIncrementAsync($"analytics:zip-hit:{zipCode.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
             return places as IReadOnlyCollection<GridLinkable> ?? [];
@@ -100,7 +96,6 @@ public class RedisCacheRepository : ICacheRepository {
 
         // if the place name is not found, add it to the not found cache but check if the cache is full
         if (!zip.IsNullOrEmpty) {
-            // TODO put this in analytics
             var zipGridLinks = new List<ZipGridLink>();
 
             foreach (var meta in zip.ToString().Split(';')) {
@@ -120,7 +115,6 @@ public class RedisCacheRepository : ICacheRepository {
 
         // if the cache has a value then the place isn't in our list
         if (count != RedisValue.Null) {
-            // TODO put this in analytics
             await _db.StringIncrementAsync($"analytics:grid-miss:{zipCode.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
 
             return [];
