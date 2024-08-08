@@ -14,7 +14,7 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiRespon
 
         if (!table.Contains("sgid")) {
             _log?.ForContext("table", computation._tableName)
-                .Information("Open SGID query");
+                .Information("Analytics:open-sgid-query");
 
             return await _decorated.Handle(computation, cancellationToken);
         }
@@ -43,7 +43,7 @@ public class TableMappingDecorator(IRequestHandler<SearchQuery.Query, IApiRespon
         _log?.ForContext("input", computation._tableName)
             .ForContext("legacy", true)
             .ForContext("table", mutated._tableName)
-            .Information("Open SGID query");
+            .Information("Analytics:open-sgid-query");
 
         return await _decorated.Handle(mutated, cancellationToken);
     }
