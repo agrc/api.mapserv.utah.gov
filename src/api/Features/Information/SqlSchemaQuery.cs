@@ -58,7 +58,7 @@ public class SqlSchemaQuery {
 
                 return new ApiResponseContract<IReadOnlyCollection<string?>> {
                     Status = StatusCodes.Status400BadRequest,
-                    Message = $"The SGID category `{schema}` does not exist in the SGID. Connect to the OpenSGID (https://gis.utah.gov/documentation/sgid/open-sgid/) to verify the category exists."
+                    Message = $"The SGID category `{schema}` does not exist in the SGID. Connect to the Open SGID (https://gis.utah.gov/documentation/sgid/open-sgid/) to verify the category exists."
                 };
             } catch (PostgresException ex) {
                 string message;

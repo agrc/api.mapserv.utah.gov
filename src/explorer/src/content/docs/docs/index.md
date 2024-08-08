@@ -23,11 +23,11 @@ Searching allows you to search through more than 1,000,000 rows of [State Geogra
 - Get the attributes of spatial data based on a T-SQL like query.
 - Get the attributes of spatial data based on a location (i.e., spatial intersection).
 
-To view the SGID tables that are accessible through the search endpoint, [connect to the OpenSGID](https://gis.utah.gov/documentation/sgid/open-sgid/). You can then browse everything that UGRC has to offer for the State of Utah.
+To view the SGID tables that are accessible through the search endpoint, [connect to the Open SGID](https://gis.utah.gov/documentation/sgid/open-sgid/). You can then browse everything that UGRC has to offer for the State of Utah.
 
 ### Meta
 
-The informational endpoints allow you to inspect and learn about SGID data. If you do not wish to connect to the OpenSGID, you can learn about the same data through the API. The UGRC API endpoints for information allow you to:
+The informational endpoints allow you to inspect and learn about SGID data. If you do not wish to connect to the Open SGID, you can learn about the same data through the API. The UGRC API endpoints for information allow you to:
 
 - Get a list of table names from our [data categories](https://gis.utah.gov/products/sgid/categories/).
 - Get a list of attribute names from a table.

@@ -156,7 +156,7 @@ public static class WebApplicationExtensions {
             .HasApiVersion(2)
             .WithOpenApi(operation => new(operation) {
                 OperationId = "Search",
-                Summary = "Search the OpenSGID",
+                Summary = "Search the Open SGID",
                 Description = "Search tables and attributes within the SGID",
                 Tags = [new() { Name = "Searching" }],
             })

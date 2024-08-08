@@ -5,7 +5,7 @@
 ![self service](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.developer.yml/badge.svg?)
 [![codecov](https://codecov.io/gh/agrc/api.mapserv.utah.gov/branch/development/graph/badge.svg)](https://codecov.io/gh/agrc/api.mapserv.utah.gov)
 
-This is the source code for the cloud [UGRC API](https://ut-dts-agrc-web-api-dev.web.app/). This system allows users to create an account, create API keys, and geocode or interact with SGID data. Users are able to geocode addresses, reverse geocode addresses, geocode mileposts, geocode mileposts by a location, and perform spatial queries against all OpenSGID spatial data.
+This is the source code for the cloud [UGRC API](https://ut-dts-agrc-web-api-dev.web.app/). This system allows users to create an account, create API keys, and geocode or interact with SGID data. Users are able to geocode addresses, reverse geocode addresses, geocode mileposts, geocode mileposts by a location, and perform spatial queries against all Open SGID spatial data.
 
 Read the [Getting Started Guide](https://ut-dts-agrc-web-api-dev.web.app/getting-started/), view the [documentation](https://ut-dts-agrc-web-api-dev.web.app/en/documentation/), and check out the [working samples](https://github.com/agrc/api.mapserv.utah.gov/tree/development/samples) for geocoding in popular languages for an idea about how to get started programming against the API.
 

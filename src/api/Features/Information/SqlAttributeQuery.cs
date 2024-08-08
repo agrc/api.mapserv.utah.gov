@@ -126,7 +126,7 @@ public class SqlAttributeQuery {
             }
 
             if (!string.IsNullOrEmpty(options.SgidCategory) && !SqlSchemaQuery._validSchemas.Contains(options.SgidCategory, StringComparer.OrdinalIgnoreCase)) {
-                errors += $"The SGID category `{options.SgidCategory}` does not exist in the SGID. Connect to the OpenSGID (https://gis.utah.gov/documentation/sgid/open-sgid/) to verify the category exists.";
+                errors += $"The SGID category `{options.SgidCategory}` does not exist in the SGID. Connect to the Open SGID (https://gis.utah.gov/documentation/sgid/open-sgid/) to verify the category exists.";
             }
 
             if (errors.Length > 0) {

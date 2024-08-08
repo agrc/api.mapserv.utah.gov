@@ -49,7 +49,7 @@ public class SearchQueryTests {
 
         result.Status.ShouldBe(400);
         result.Result.ShouldBeAssignableTo<IApiResponse>();
-        result.Message.ShouldBe("The table `table_not_found` does not exist in the SGID. Connect to the OpenSGID (https://gis.utah.gov/documentation/sgid/open-sgid/) to verify the table exists. Please read https://gis.utah.gov/blog/2019-11-12-sgid-product-relaunch-update/#static-sgid-data-layers for more information.");
+        result.Message.ShouldBe("The table `table_not_found` does not exist in the SGID. Connect to the Open SGID (https://gis.utah.gov/documentation/sgid/open-sgid/) to verify the table exists. Please read https://gis.utah.gov/blog/2019-11-12-sgid-product-relaunch-update/#static-sgid-data-layers for more information.");
     }
 
     [Fact]
