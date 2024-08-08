@@ -9,7 +9,7 @@ public class AttributeTableKeyFormattingTests {
     private readonly AttributeTableKeyFormatting.Decorator _decorator;
 
     public AttributeTableKeyFormattingTests() {
-        _data = new List<SearchResponseContract>{
+        _data = [
             new SearchResponseContract {
                 Attributes = new Dictionary<string, object>() {
                     { "UPPER", 0 },
@@ -17,7 +17,7 @@ public class AttributeTableKeyFormattingTests {
                     { "lower", 0 }
                 }
             }
-        };
+        ];
 
         var mockLogger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
@@ -41,7 +41,7 @@ public class AttributeTableKeyFormattingTests {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Lower
         });
-        var command = new SqlQuery.Computation("tablename", "attributes", options);
+        var command = new SqlQuery.Computation("tablename", "UPPER,MixeD,lower", options);
 
         var result = await _decorator.Handle(command, CancellationToken.None);
 
@@ -55,7 +55,7 @@ public class AttributeTableKeyFormattingTests {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Upper
         });
-        var command = new SqlQuery.Computation("tablename", "attributes", options);
+        var command = new SqlQuery.Computation("tablename", "UPPER,MixeD,lower", options);
         var result = await _decorator.Handle(command, CancellationToken.None);
 
         result.First().Attributes.Count.ShouldBe(3);
@@ -68,7 +68,7 @@ public class AttributeTableKeyFormattingTests {
             Predicate = "query",
             AttributeStyle = AttributeStyle.Input
         });
-        var command = new SqlQuery.Computation("tablename", "attributes", options);
+        var command = new SqlQuery.Computation("tablename", "UPPER,MixeD,lower", options);
         var result = await _decorator.Handle(command, CancellationToken.None);
 
         result.First().Attributes.Count.ShouldBe(3);
