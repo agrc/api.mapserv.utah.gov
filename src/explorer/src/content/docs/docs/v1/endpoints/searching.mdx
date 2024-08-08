@@ -68,6 +68,31 @@ A distance in meters to buffer the input geometry. 2000 meters is the maximum bu
 - **Default**: `0`
 - **Example**: `10`
 
+### attributeStyle
+
+The format the input field name keys are returned as in the `result` array `attributes` dictionary. This is useful for having consistent access to the response data keys in code.
+
+- **Type**: `string`
+- **Default**: `lower`
+- **Can be one of**: `lower`, `upper`, `input`
+- **Example (lower)**:
+
+  ```json
+  [{ "attributes": { "name": "SALT LAKE" } }]
+  ```
+
+- **Example (upper)**:
+
+  ```json
+  [{ "attributes": { "NAME": "SALT LAKE" } }]
+  ```
+
+- **Example (input)**: where the `fields` input is `Name`
+
+  ```json
+  [{ "attributes": { "Name": "SALT LAKE" } }]
+  ```
+
 ### spatialReference
 
 <SpatialReference />
