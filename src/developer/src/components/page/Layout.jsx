@@ -1,7 +1,9 @@
 import Header from '@ugrc/header';
+import { logEvent } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useSigninCheck, useUser } from 'reactfire';
+import { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAnalytics, useSigninCheck, useUser } from 'reactfire';
 import Avatar from '../Avatar';
 import ThemeToggle from '../ThemeToggle';
 import Footer from '../design-system/Footer';
@@ -85,8 +87,22 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer className="w-full bg-wavy-800" />
+      <PageViewLogger />
     </>
   );
 };
+
+function PageViewLogger() {
+  const analytics = useAnalytics();
+  const location = useLocation();
+
+  useEffect(() => {
+    logEvent(analytics, 'page_view', {
+      page_location: location.pathname + location.search,
+    });
+  }, [location, analytics]);
+
+  return null;
+}
 
 export default Layout;
