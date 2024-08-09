@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.13](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.12...developer-v2.6.13) (2024-08-09)
+
+
+### Bug Fixes
+
+* **developer:** add warning when 0 keys are claimed ([b4df0a3](https://github.com/agrc/api.mapserv.utah.gov/commit/b4df0a3f86a9723672730abd04796fea39c32278))
+* **developer:** remove full page refresh on internal link click ([17eeade](https://github.com/agrc/api.mapserv.utah.gov/commit/17eeade2a45ce807ebe6dc7f728096d8fd2783d2))
+
 ## [2.6.12](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.11...developer-v2.6.12) (2024-08-06)
 
 
