@@ -2,7 +2,7 @@
   "name": "@ugrc/developer",
   "version": "2.6.14",
   "private": true,
-  "description": "The API key self service website for the UGRC API",
+  "description": "The API key self service website for the UGRC API.",
   "type": "module",
   "scripts": {
     "build": "vite build",
