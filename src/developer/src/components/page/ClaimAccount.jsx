@@ -162,22 +162,32 @@ export function Component() {
               </div>
             )}
             {mutationStatus === 'success' && (
-              <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-2 border border-x-0 border-wavy-400/70 bg-slate-300/70 px-6 py-4 text-2xl font-black uppercase text-wavy-500 shadow dark:bg-slate-500 dark:text-mustard-200 md:w-3/4 md:border-x md:text-4xl">
-                <button
-                  type="button"
-                  onClick={() => resetMutation()}
-                  className="absolute right-2 top-2"
-                >
-                  <XMarkIcon className="w-7" />
-                  <span className="sr-only">Close transferred key message</span>
-                </button>
-                <span>Transferred {response.data.keys.length} keys</span>
-                <ul className="grid gap-x-16 text-base lg:grid-cols-2">
-                  {response.data.keys.map((key) => (
-                    <li key={key}>{key}</li>
-                  ))}
-                </ul>
-              </div>
+              <>
+                <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-2 border border-x-0 border-wavy-400/70 bg-slate-300/70 px-6 py-4 text-2xl font-black uppercase text-wavy-500 shadow dark:bg-slate-500 dark:text-mustard-200 md:w-3/4 md:border-x md:text-4xl">
+                  <button
+                    type="button"
+                    onClick={() => resetMutation()}
+                    className="absolute right-2 top-2"
+                  >
+                    <XMarkIcon className="w-7" />
+                    <span className="sr-only">
+                      Close transferred key message
+                    </span>
+                  </button>
+                  <span>Transferred {response.data.keys.length} keys</span>
+                  <ul className="grid gap-x-16 text-base lg:grid-cols-2">
+                    {response.data.keys.map((key) => (
+                      <li key={key}>{key}</li>
+                    ))}
+                  </ul>
+                </div>
+                {response.data.keys.length === 0 && (
+                  <div className="mx-auto rounded border border-red-900 bg-red-300 px-2 py-3 text-center text-rose-700 dark:border-rose-700 dark:bg-rose-950 dark:text-rose-200">
+                    If this number does not look correct, your username and
+                    password values are incorrect.
+                  </div>
+                )}
+              </>
             )}
             {mutationStatus === 'error' && (
               <FormError>
