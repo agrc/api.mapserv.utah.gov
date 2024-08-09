@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.14](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.13...developer-v2.6.14) (2024-08-09)
+
+
+### Bug Fixes
+
+* **developer:** update package lock ([cdd75e3](https://github.com/agrc/api.mapserv.utah.gov/commit/cdd75e3d75e0bdd282e91cd9cb7d67c62a636e47))
+* **developer:** update packages ([811e7e0](https://github.com/agrc/api.mapserv.utah.gov/commit/811e7e0d5186b9ddb6a26f38e734819f164d4b4c))
+
 ## [2.6.13](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.12...developer-v2.6.13) (2024-08-09)
 
 
