@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.15](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.14...developer-v2.6.15) (2024-08-09)
+
+
+### Bug Fixes
+
+* **developer:** force deployment ([da3da14](https://github.com/agrc/api.mapserv.utah.gov/commit/da3da14ddf9c5df3498196c1f03b489e5e0a0f20))
+
 ## [2.6.14](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.13...developer-v2.6.14) (2024-08-09)
 
 
