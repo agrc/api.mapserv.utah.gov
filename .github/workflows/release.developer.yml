@@ -74,7 +74,7 @@ jobs:
         shell: bash
         run: npm run build
         env:
-          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}}
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
           VITE_API_EXPLORER_URL: ${{ vars.API_EXPLORER_URL }}
 
       - name: 🔢 Get firebase version
