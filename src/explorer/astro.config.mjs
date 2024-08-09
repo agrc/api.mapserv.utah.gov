@@ -2,6 +2,7 @@ import starlight from '@astrojs/starlight';
 import tailwind from '@astrojs/tailwind';
 import { defineConfig, envField } from 'astro/config';
 import starlightLinksValidator from 'starlight-links-validator';
+import partytown from '@astrojs/partytown';
 
 import react from '@astrojs/react';
 
@@ -11,7 +12,6 @@ export default defineConfig({
     starlightLinksValidator(),
     starlight({
       title: 'UGRC API Documentation',
-      // site: "https://ut-dts-agrc-web-api-dev.web.app",
       logo: {
         src: './src/assets/api.svg',
       },
@@ -68,6 +68,7 @@ export default defineConfig({
       applyBaseStyles: true,
     }),
     react(),
+    partytown(),
   ],
   experimental: {
     env: {

@@ -1,6 +1,8 @@
 ---
 import Footer from '@components/Footer.astro';
+import GoogleAnalytics from '@components/GoogleAnalytics.astro';
 import Header from '@components/Header.astro';
+
 import '../main.css';
 ---
 
@@ -36,6 +38,12 @@ import '../main.css';
       href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      @view-transition {
+        navigation: auto; /* enabled! */
+      }
+    </style>
+    {import.meta.env.PROD && <GoogleAnalytics id="G-09QK4MXDGT" />}
   </head>
   <body>
     <main id="main-content" class="text-slate-700">
