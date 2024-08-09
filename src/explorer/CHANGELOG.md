@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.7](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.6...explorer-v2.4.7) (2024-08-09)
+
+
+### Bug Fixes
+
+* **explorer:** add page view analtyics ([f0b7b31](https://github.com/agrc/api.mapserv.utah.gov/commit/f0b7b310d9de8858caad68a774bbffbaf80e8e18)), closes [#370](https://github.com/agrc/api.mapserv.utah.gov/issues/370)
+
 ## [2.4.6](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.5...explorer-v2.4.6) (2024-08-08)
 
 
