@@ -1,7 +1,7 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
 import { httpsCallable } from 'firebase/functions';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { useFunctions } from 'reactfire';
 import { TextLink } from '../Link';
 import Button, { RouterButtonLink } from '../design-system/Button';
@@ -141,9 +141,12 @@ export function Component() {
             website or another application, you will need to create a key
             specific to that use case. You can claim keys that were created
             prior to the Utahid login by{' '}
-            <TextLink href="/self-service/claim-account">
+            <Link
+              to="/self-service/claim-account"
+              className="font-medium italic text-mustard-900 underline decoration-mustard-500 underline-offset-2 transition-all hover:decoration-2 hover:underline-offset-4 focus:outline-none active:text-mustard-500 active:decoration-mustard-600 active:underline-offset-8 dark:text-mustard-400/70"
+            >
               claiming non-Utahid keys
-            </TextLink>
+            </Link>
             .
           </p>
           <h4 className="text-center dark:text-slate-200">
