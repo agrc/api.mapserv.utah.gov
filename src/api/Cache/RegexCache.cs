@@ -37,6 +37,8 @@ public partial class RegexCache : IRegexCache {
             }, {
                 "stripCitySuffix", stripCitySuffix()
             }, {
+                "stripStateSuffix", stripStateSuffix()
+            }, {
                 "avesOrdinal", BuildOrdinalRegex()
             }
         };
@@ -142,6 +144,8 @@ public partial class RegexCache : IRegexCache {
     private static partial Regex cityName();
     [GeneratedRegex("(?:city|town)(?: of)", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
     private static partial Regex cityTownCruft();
-    [GeneratedRegex("(?:cty|city)$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    [GeneratedRegex("\\b(?:cty|city)$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
     private static partial Regex stripCitySuffix();
+    [GeneratedRegex("\\b(?:utah|ut)$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex stripStateSuffix();
 }
