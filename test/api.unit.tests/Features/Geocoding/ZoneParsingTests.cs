@@ -14,7 +14,10 @@ public class ZoneParsingTests {
                 .ReturnsAsync((AddressSystemFromPlace.Computation g, CancellationToken _) => {
                     if (g._cityKey == "alta") {
                         return [new PlaceGridLink("alta", "grid", 1)];
+                    } else if (g._cityKey == "hideout") {
+                        return [new PlaceGridLink("heber city", "grid", 1)];
                     }
+
 
                     return [];
                 });
@@ -57,6 +60,21 @@ public class ZoneParsingTests {
     [InlineData("Alta City")]
     [InlineData("Alta Cty")]
     public async Task Should_remove_city_suffix(string input) {
+        var address = AddressHelper.CreateEmptyAddress();
+        var request = new ZoneParsing.Computation(input, address);
+
+        var result = await _handler.Handle(request, new CancellationToken());
+        result.AddressGrids.ShouldHaveSingleItem();
+        result.AddressGrids.First().Grid.ShouldBe("grid");
+    }
+
+    [Theory]
+    [InlineData("Alta Utah")]
+    [InlineData("Alta Ut")]
+    [InlineData("Alta City Ut")]
+    [InlineData("City of Alta. Ut")]
+    [InlineData("Hideout")]
+    public async Task Should_remove_state_suffix(string input) {
         var address = AddressHelper.CreateEmptyAddress();
         var request = new ZoneParsing.Computation(input, address);
 
