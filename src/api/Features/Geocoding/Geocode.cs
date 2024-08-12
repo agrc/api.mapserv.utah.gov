@@ -53,7 +53,7 @@ public class Geocode {
 
         private IReadOnlyCollection<Candidate> ProcessResult(LocatorResponse response, LocatorProperties locator) {
             if (response.Error?.Code == 500) {
-                _log?.Fatal("geocoder down {locator.Name}. message: {error.Message}", locator.Name, response.Error.Message);
+                _log?.Fatal("geocoder down {Name}. message: {Message}", locator.Name, response.Error.Message);
 
                 throw new GeocodingException($"{locator.Name} geocoder is not started. {@response.Error}");
             }

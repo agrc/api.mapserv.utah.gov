@@ -15,7 +15,7 @@ public class PerformanceLogger<TRequest, TResponse>(ILogger log) : IPipelineBeha
         if (_timer.ElapsedMilliseconds > 500) {
             var name = typeof(TRequest).Name;
 
-            _log?.Warning("Long running request: {Name} ({ElapsedMilliseconds} ms) {@Request}", name, _timer.ElapsedMilliseconds, request);
+            _log?.Information("Long running request: {Name} ({ElapsedMilliseconds} ms) {@Request}", name, _timer.ElapsedMilliseconds, request);
         }
 
         return response;
