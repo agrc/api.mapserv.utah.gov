@@ -43,6 +43,7 @@ public class ZoneParsingTests {
     [InlineData("City of Alta.")]
     [InlineData("Town of     Alta")]
     [InlineData("Alta ")]
+    [InlineData("Alta City")]
     public async Task Should_find_grid_from_place(string input) {
         var address = AddressHelper.CreateEmptyAddress();
         var request = new ZoneParsing.Computation(input, address);
