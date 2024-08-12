@@ -70,6 +70,7 @@ public partial class ZoneParsing {
                 cityKey = invisibleCharacters().Replace(cityKey, " ");
 
                 cityKey = _regex.Get("cityTownCruft").Replace(cityKey, string.Empty).Trim();
+                cityKey = _regex.Get("stripCitySuffix").Replace(cityKey, string.Empty).Trim();
 
                 var getAddressSystemFromCityComputation = new AddressSystemFromPlace.Computation(cityKey);
 
