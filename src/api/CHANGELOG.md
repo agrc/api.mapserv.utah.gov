@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.16.12](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.11...api-v1.16.12) (2024-08-12)
+
+
+### Bug Fixes
+
+* **api:** Strip city from zone ([6055cb7](https://github.com/agrc/api.mapserv.utah.gov/commit/6055cb7a868d435acc02c2321fa9c89a1c43f3f4))
+* **api:** update logging level and message ([8ea2ccc](https://github.com/agrc/api.mapserv.utah.gov/commit/8ea2cccd80d3acdd39f0aa042ba56ef6c34db424))
+
 ## [1.16.11](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.10...api-v1.16.11) (2024-08-08)
 
 
