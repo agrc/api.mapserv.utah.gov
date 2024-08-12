@@ -138,6 +138,6 @@ public partial class RegexCache : IRegexCache {
     private static partial Regex zipPlusFour();
     [GeneratedRegex("^[ a-z\\.]+", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
     private static partial Regex cityName();
-    [GeneratedRegex("(?:city|town)(?: of)", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    [GeneratedRegex("(?:city|town)(?: of)?", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
     private static partial Regex cityTownCruft();
 }
