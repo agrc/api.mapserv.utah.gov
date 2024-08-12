@@ -1,13 +1,8 @@
 namespace ugrc.api.Models.Linkables;
-public abstract class GridLinkable : IWeighable {
-    protected GridLinkable(string grid, int weight) {
-        Grid = grid;
-        Weight = weight;
-    }
-
+public abstract class GridLinkable(string grid, int weight) : IWeighable {
     public abstract string Key { get; }
-    public string Grid { get; set; }
-    public int Weight { get; set; }
+    public string Grid { get; set; } = grid;
+    public int Weight { get; set; } = weight;
 
     public override string ToString() => $"{Grid},{Weight}";
 }

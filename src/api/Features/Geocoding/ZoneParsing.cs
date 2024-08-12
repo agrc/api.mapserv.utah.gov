@@ -8,16 +8,10 @@ public partial class ZoneParsing {
         public Address AddressModel { get; set; } = addressModel;
     }
 
-    public partial class Handler : IComputationHandler<Computation, Address> {
-        private readonly ILogger? _log;
-        private readonly IComputeMediator _mediator;
-        private readonly IRegexCache _regex;
-
-        public Handler(IRegexCache regex, IComputeMediator mediator, ILogger log) {
-            _regex = regex;
-            _mediator = mediator;
-            _log = log?.ForContext<ZoneParsing>();
-        }
+    public partial class Handler(IRegexCache regex, IComputeMediator mediator, ILogger log) : IComputationHandler<Computation, Address> {
+        private readonly ILogger? _log = log?.ForContext<ZoneParsing>();
+        private readonly IComputeMediator _mediator = mediator;
+        private readonly IRegexCache _regex = regex;
 
         public async Task<Address> Handle(Computation request, CancellationToken token) {
             _log?.Debug("Parsing {zone}", request.InputZone);
@@ -69,6 +63,7 @@ public partial class ZoneParsing {
                 cityKey = cityKey.Replace(".", string.Empty);
                 cityKey = invisibleCharacters().Replace(cityKey, " ");
 
+                cityKey = _regex.Get("stripStateSuffix").Replace(cityKey, string.Empty).Trim();
                 cityKey = _regex.Get("cityTownCruft").Replace(cityKey, string.Empty).Trim();
                 cityKey = _regex.Get("stripCitySuffix").Replace(cityKey, string.Empty).Trim();
 

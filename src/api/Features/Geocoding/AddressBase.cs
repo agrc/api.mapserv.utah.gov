@@ -2,43 +2,28 @@ using ugrc.api.Models.Constants;
 using ugrc.api.Models.Linkables;
 
 namespace ugrc.api.Features.Geocoding;
-public partial class Address {
-    public Address(string inputAddress, int? houseNumber,
-                 Direction prefixDirection, string streetName,
-                 StreetType streetType, Direction suffixDirection,
-                 int? zip5, int zip4,
-                 IReadOnlyCollection<GridLinkable>? addressGrids,
-                 int poBox, bool isPoBox, bool isHighway) {
-        InputAddress = inputAddress;
-        HouseNumber = houseNumber;
-        PrefixDirection = prefixDirection;
-        StreetName = streetName;
-        StreetType = streetType;
-        SuffixDirection = suffixDirection;
-        Zip5 = zip5;
-        Zip4 = zip4;
-        AddressGrids = addressGrids ?? [];
-        PoBox = poBox;
-        IsPoBox = isPoBox;
-        IsHighway = isHighway;
-    }
+public partial class Address(string inputAddress, int? houseNumber,
+             Direction prefixDirection, string streetName,
+             StreetType streetType, Direction suffixDirection,
+             int? zip5, int zip4,
+             IReadOnlyCollection<GridLinkable>? addressGrids,
+             int poBox, bool isPoBox, bool isHighway) {
+    public string InputAddress { get; } = inputAddress;
 
-    public string InputAddress { get; }
+    public int? HouseNumber { get; } = houseNumber;
+    public Direction PrefixDirection { get; } = prefixDirection;
+    public string StreetName { get; } = streetName;
+    public StreetType StreetType { get; } = streetType;
+    public Direction SuffixDirection { get; } = suffixDirection;
 
-    public int? HouseNumber { get; }
-    public Direction PrefixDirection { get; }
-    public string StreetName { get; }
-    public StreetType StreetType { get; }
-    public Direction SuffixDirection { get; }
+    public int PoBox { get; } = poBox;
+    public int Zip4 { get; } = zip4;
+    public int? Zip5 { get; } = zip5;
 
-    public int PoBox { get; }
-    public int Zip4 { get; }
-    public int? Zip5 { get; }
+    public IReadOnlyCollection<GridLinkable> AddressGrids { get; } = addressGrids ?? [];
 
-    public IReadOnlyCollection<GridLinkable> AddressGrids { get; }
-
-    public bool IsHighway { get; }
-    public bool IsPoBox { get; }
+    public bool IsHighway { get; } = isHighway;
+    public bool IsPoBox { get; } = isPoBox;
 
     public static Address BuildPoBoxAddress(string inputAddress, int poBox, int zip5, IReadOnlyCollection<GridLinkable>? grids = null) =>
          new(inputAddress, null, Direction.None, "P.O. Box", StreetType.None,

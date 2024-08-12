@@ -3,15 +3,10 @@ namespace ugrc.api.Services;
 ///     List that keeps a sorted amount of N items
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public abstract class TopNList<T> {
-    private readonly SortedSet<T> _items;
+public abstract class TopNList<T>(int nItems, IComparer<T> comparer) {
+    private readonly SortedSet<T> _items = new SortedSet<T>(comparer);
 
-    protected TopNList(int nItems, IComparer<T> comparer) {
-        Size = nItems;
-        _items = new SortedSet<T>(comparer);
-    }
-
-    private int Size { get; }
+    private int Size { get; } = nItems;
 
     public virtual void Add(T candidate) {
         _items.Add(candidate);

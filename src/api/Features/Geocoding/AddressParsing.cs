@@ -9,23 +9,13 @@ public partial class AddressParsing {
         public string Street { get; set; } = street;
     }
 
-    public partial class Handler : IComputationHandler<Computation, Address> {
-        private readonly IAbbreviations _abbreviations;
-        private readonly ILogger? _log;
-        private readonly IRegexCache _regexCache;
-        private string Street { get; set; }
-        private string OriginalStreet { get; set; }
-        private string StandardStreet { get; set; }
-
-        public Handler(IRegexCache regexCache, IAbbreviations abbreviations, ILogger? log) {
-            _regexCache = regexCache;
-            _abbreviations = abbreviations;
-            _log = log?.ForContext<AddressParsing>();
-
-            Street = string.Empty;
-            OriginalStreet = string.Empty;
-            StandardStreet = string.Empty;
-        }
+    public partial class Handler(IRegexCache regexCache, IAbbreviations abbreviations, ILogger? log) : IComputationHandler<Computation, Address> {
+        private readonly IAbbreviations _abbreviations = abbreviations;
+        private readonly ILogger? _log = log?.ForContext<AddressParsing>();
+        private readonly IRegexCache _regexCache = regexCache;
+        private string Street { get; set; } = string.Empty;
+        private string OriginalStreet { get; set; } = string.Empty;
+        private string StandardStreet { get; set; } = string.Empty;
 
         public Task<Address> Handle(Computation request, CancellationToken cancellationToken) {
             OriginalStreet = request.Street;
