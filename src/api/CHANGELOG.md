@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.16.13](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.12...api-v1.16.13) (2024-08-12)
+
+
+### Bug Fixes
+
+* **api:** improve city suffix removal for zone parsing ([bd6d6e8](https://github.com/agrc/api.mapserv.utah.gov/commit/bd6d6e8964bd65e2ae3a4738f20ddada5840b708))
+* **api:** strip state out of zone ([ac4faf1](https://github.com/agrc/api.mapserv.utah.gov/commit/ac4faf1af2c58ad32d8ec35ff58e6813206001b4)), closes [#371](https://github.com/agrc/api.mapserv.utah.gov/issues/371)
+
 ## [1.16.12](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.11...api-v1.16.12) (2024-08-12)
 
 
