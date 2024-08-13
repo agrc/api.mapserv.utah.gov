@@ -39,7 +39,7 @@ export default defineConfig({
             },
             {
               label: 'Sample code',
-              link: 'https://github.com/agrc/api.mapserv.utah.gov/tree/development/samples',
+              link: 'https://github.com/agrc/api.mapserv.utah.gov/tree/main/samples',
             },
             {
               label: 'Release notes',
