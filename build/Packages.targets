@@ -30,11 +30,11 @@
     <!-- open api -->
     <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.7.0" />
     <PackageReference Update="Swashbuckle.AspNetCore" Version="6.7.0" />
-    <PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
+    <PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
 
     <!-- http -->
     <PackageReference Update="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
-    <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="8.0.7" />
+    <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="8.0.8" />
 
     <!-- string -->
     <PackageReference Update="Fastenshtein" Version="1.0.10" />
