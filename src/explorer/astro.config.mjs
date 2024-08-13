@@ -1,8 +1,8 @@
+import partytown from '@astrojs/partytown';
 import starlight from '@astrojs/starlight';
 import tailwind from '@astrojs/tailwind';
 import { defineConfig, envField } from 'astro/config';
 import starlightLinksValidator from 'starlight-links-validator';
-import partytown from '@astrojs/partytown';
 
 import react from '@astrojs/react';
 

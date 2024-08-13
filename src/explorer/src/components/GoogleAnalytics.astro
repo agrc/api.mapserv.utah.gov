@@ -6,7 +6,11 @@ type Props = {
 const { id } = Astro.props;
 ---
 
-<script type="text/partytown" is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${id}`}></script>
+<script
+  type="text/partytown"
+  is:inline
+  async
+  src={`https://www.googletagmanager.com/gtag/js?id=${id}`}></script>
 <script type="text/partytown" is:inline define:vars={{ id }}>
   window.dataLayer = window.dataLayer || [];
 
