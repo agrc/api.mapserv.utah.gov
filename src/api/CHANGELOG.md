@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.14](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.13...api-v1.16.14) (2024-08-13)
+
+
+### Bug Fixes
+
+* **api:** Always rebuild address system mapping on system start ([eab7a6e](https://github.com/agrc/api.mapserv.utah.gov/commit/eab7a6eb280ca3adbd93f15d51fa10a99354864c))
+
 ## [1.16.13](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.12...api-v1.16.13) (2024-08-12)
 
 
