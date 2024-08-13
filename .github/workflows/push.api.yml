@@ -6,9 +6,10 @@ on:
       - main
     paths:
       - "src/api/**"
-      - "test/api.unit.tests/**"
+      - "build/Packages.targets"
       - "libs/**"
       - ".github/workflows/push.api.yml"
+      - "test/api.unit.tests/**"
 
 permissions:
   contents: write
