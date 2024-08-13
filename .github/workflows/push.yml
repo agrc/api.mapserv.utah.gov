@@ -3,7 +3,7 @@ name: Push Events
 on:
   push:
     branches:
-      - development
+      - main
 
 permissions:
   contents: write
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   release:
-    name: Create Release
+    name: Release PR
     runs-on: ubuntu-latest
 
     steps:

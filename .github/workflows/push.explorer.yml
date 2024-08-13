@@ -3,7 +3,7 @@ name: Push Events (Explorer)
 on:
   push:
     branches:
-      - development
+      - main
     paths:
       - "src/explorer/**"
       - ".github/workflows/push.explorer.yml"
@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   deploy-dev:
-    name: 🚀 Deploy to staging
+    name: 🚀 Staging deployment
     runs-on: ubuntu-latest
     environment:
       name: dev

@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   deploy-prod:
-    name: 🚀 Deploy to production
+    name: 🚀 Production deployment
     if: ${{ startsWith(github.ref, 'refs/tags/explorer') }}
     runs-on: ubuntu-latest
     environment:

@@ -3,7 +3,7 @@ name: Push Events (Developer)
 on:
   push:
     branches:
-      - development
+      - main
     paths:
       - "src/developer/**"
       - ".github/workflows/push.developer.yml"
@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   test-unit:
-    name: Unit tests
+    name: 🧪 Unit tests
     runs-on: ubuntu-latest
 
     steps:
@@ -48,7 +48,7 @@ jobs:
         run: npm test
 
   deploy-dev:
-    name: 🚀 Deploy to staging
+    name: 🚀 Staging deployment
     runs-on: ubuntu-latest
     needs: [test-unit]
     environment:
