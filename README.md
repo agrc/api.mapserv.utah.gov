@@ -5,11 +5,11 @@
 ![self service](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.developer.yml/badge.svg?)
 [![codecov](https://codecov.io/gh/agrc/api.mapserv.utah.gov/branch/main/graph/badge.svg)](https://codecov.io/gh/agrc/api.mapserv.utah.gov)
 
-This is the source code for the cloud [UGRC API](https://ut-dts-agrc-web-api-dev.web.app/). This system allows users to create an account, create API keys, and geocode or interact with SGID data. Users are able to geocode addresses, reverse geocode addresses, geocode mileposts, geocode mileposts by a location, and perform spatial queries against all Open SGID spatial data.
+This is the source code for the [UGRC API](https://api.mapserv.utah.gov/). This system allows users to login to a self service website with Utahid, create API keys, and make http requests to geocode or interact with SGID data. The API endpoints are address geocoding, reverse address geocoding, milepost geocoding, reverse milepose geocoding, and search against all Open SGID spatial data.
 
-Read the [Getting Started Guide](https://ut-dts-agrc-web-api-dev.web.app/getting-started/), view the [documentation](https://ut-dts-agrc-web-api-dev.web.app/en/documentation/), and check out the [working samples](https://github.com/agrc/api.mapserv.utah.gov/tree/main/samples) for geocoding in popular languages for an idea about how to get started programming against the API.
+Read the [Getting Started Guide](https://api.mapserv.utah.gov/getting-started/), view the [documentation](https://api.mapserv.utah.gov/docs/), and check out the [working samples](https://github.com/agrc/api.mapserv.utah.gov/tree/main/samples) for geocoding in popular languages for an idea about how to get started programming against the API.
 
-[Privacy Policy](https://ut-dts-agrc-web-api-dev.web.app/privacy-policy/)
+[Privacy Policy](https://api.mapserv.utah.gov/privacy/)
 
 ## Contributions
 
@@ -63,13 +63,13 @@ Start the firebase emulators from the developer project. This also starts the [s
 First install the self service functions dependencies:
 
 ```sh
-cd src/developer/functions && npm install
+cd src/developer/functions && npm install && cd ..
 ```
 
 Then install the self service dependencies and start the emulators:
 
 ```sh
-cd .. && npm install && npm start
+npm install && npm start
 ```
 
 While the emulators are starting, start the cache and smocker containers from the root of the project.
@@ -81,7 +81,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up cache smo
 Once smocker is running, you can [register mock requests](test/smocker/readme.md) by executing [mocks.sh](test/smocker/mocks.sh). Run the following command from the `test/smocker` directory.
 
 ```sh
-cd test/smocker && bash mocks.sh
+cd test/smocker && bash mocks.sh && cd ../..
 ```
 
 To run the API you must authenticate with GCP.
@@ -124,14 +124,6 @@ You can now view the [documentation](http://localhost:4321/) website.
 ### ASP.NET
 
 The API is built using ASP.NET. In order to run the API locally, the .NET Core SDK and Runtime will need to be [downloaded](https://www.microsoft.com/net/download) and installed. It is possible to run the API in containers, removing the need to install the .NET Core SDK and Runtime, but the development cycle loop is slow. Currently the app is using dotnet 8.
-
-```json
-{
-  "sdk": {
-    "version": "8.0.4"
-  }
-}
-```
 
 ### Firestore
 
