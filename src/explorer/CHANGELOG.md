@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.8](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.7...explorer-v2.4.8) (2024-08-13)
+
+
+### Bug Fixes
+
+* **explorer:** update to main branch ([c949e69](https://github.com/agrc/api.mapserv.utah.gov/commit/c949e69bc6bfaa75246a46686d49be26412e4f64))
+
 ## [2.4.7](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.6...explorer-v2.4.7) (2024-08-09)
 
 
