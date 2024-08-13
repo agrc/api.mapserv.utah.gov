@@ -51,15 +51,9 @@ public class CacheHostedService : BackgroundService {
         }
 
         try {
-            var keys = await _db.KeyExistsAsync(["places", "zips"]);
+            _log?.Warning("Rebuilding cache from bigquery.");
 
-            if (keys != 2) {
-                _log?.Warning("Redis cache is missing keys. rebuilding cache from bigquery.");
-
-                await HydrateCacheFromBigQueryAsync(_db, token);
-            } else {
-                _log?.Debug("Redis cache is ready.");
-            }
+            await HydrateCacheFromBigQueryAsync(_db, token);
         } catch (Exception ex) {
             _log?
                 .ForContext("db", _db)
