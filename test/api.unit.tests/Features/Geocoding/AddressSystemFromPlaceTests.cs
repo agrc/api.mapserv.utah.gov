@@ -7,7 +7,7 @@ namespace api.tests.Features.Geocoding;
 public class AddressSystemFromPlaceTests {
     public AddressSystemFromPlaceTests() {
         var mockDb = new Mock<IDatabase>();
-        mockDb.Setup(x => x.StringGetAsync(It.Is<RedisKey>(p => p.Equals(new RedisKey("place"))), CommandFlags.None))
+        mockDb.Setup(x => x.StringGetAsync(It.Is<RedisKey>(p => p.Equals(new RedisKey("map/place/key"))), CommandFlags.None))
               .ReturnsAsync(new RedisValue("grid,0"));
 
         var mockConnection = new Mock<IConnectionMultiplexer>();
@@ -32,7 +32,7 @@ public class AddressSystemFromPlaceTests {
 
     [Fact]
     public async Task Should_return_empty_when_zip_not_found() {
-        var request = new AddressSystemFromPlace.Computation("other place");
+        var request = new AddressSystemFromPlace.Computation("key-not-found");
         var result = await _handler.Handle(request, CancellationToken.None);
 
         result.ShouldBeEmpty();
@@ -40,7 +40,7 @@ public class AddressSystemFromPlaceTests {
 
     [Fact]
     public async Task Should_return_grid_from_place() {
-        var request = new AddressSystemFromPlace.Computation("place");
+        var request = new AddressSystemFromPlace.Computation("key");
         var result = await _handler.Handle(request, CancellationToken.None);
 
         result.Count.ShouldBe(1);
