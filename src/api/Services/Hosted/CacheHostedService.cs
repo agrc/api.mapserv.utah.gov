@@ -86,7 +86,7 @@ public class CacheHostedService : BackgroundService {
 
                 if (type == "place") {
                     var zone = row["Zone"] as string ?? string.Empty;
-                    var item = new PlaceGridLink(zone, addressSystem, weight);
+                    var item = new PlaceGridLink(zone.ToLowerInvariant(), addressSystem, weight);
 
                     if (places.TryGetValue(item.Key, out var value)) {
                         value.Add(item);
@@ -120,11 +120,11 @@ public class CacheHostedService : BackgroundService {
         }
 
         foreach (var (key, value) in places) {
-            await db.StringSetAsync(key, string.Join(';', value));
+            await db.StringSetAsync($"map/place/{key}", string.Join(';', value));
         }
 
         foreach (var (key, value) in zips) {
-            await db.StringSetAsync(key, string.Join(';', value));
+            await db.StringSetAsync($"map/zip/{key}", string.Join(';', value));
         }
 
         if (places.Count == 0 || zips.Count == 0) {
@@ -133,7 +133,7 @@ public class CacheHostedService : BackgroundService {
         }
 
         Console.WriteLine("Setting key values places: " + places.Count + " zips: " + zips.Count);
-        await db.StringSetAsync("places", places.Count);
-        await db.StringSetAsync("zips", zips.Count);
+        await db.StringSetAsync("map/places", DateTime.Now.ToString());
+        await db.StringSetAsync("map/zips", DateTime.Now.ToString());
     }
 }

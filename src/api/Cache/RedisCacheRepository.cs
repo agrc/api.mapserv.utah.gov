@@ -32,16 +32,15 @@ public class RedisCacheRepository : ICacheRepository {
         }
 
         placeName = placeName.ToLowerInvariant().Trim();
+        var path = $"map/place/{placeName}";
 
         // if the place name result is in memory already return it
-        if (_placeNameCache.TryGetValue(placeName, out var places)) {
-            await _db.StringIncrementAsync($"analytics:grid-hit:{placeName.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
-
+        if (_placeNameCache.TryGetValue(path, out var places)) {
             return places as IReadOnlyCollection<GridLinkable> ?? [];
         }
 
         // the item hasn't been looked up recently so look it up in the cache
-        var place = await _db.StringGetAsync(placeName.ToLowerInvariant());
+        var place = await _db.StringGetAsync(path);
 
         // if the place name is not found, add it to the not found cache but check if the cache is full
         if (!place.IsNullOrEmpty) {
@@ -52,23 +51,11 @@ public class RedisCacheRepository : ICacheRepository {
                 placeGridLinks.Add(new PlaceGridLink(placeName, parts[0], Convert.ToInt32(parts[1])));
             }
 
-            _placeNameCache.Set(placeName, placeGridLinks, new MemoryCacheEntryOptions()
+            _placeNameCache.Set(path, placeGridLinks, new MemoryCacheEntryOptions()
                 .SetPriority(CacheItemPriority.NeverRemove)
                 .SetSize(1));
 
-            await _db.StringIncrementAsync($"analytics:grid-hit:{placeName.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
-
             return placeGridLinks;
-        }
-
-        // check to see if the cache is full
-        var count = await _db.StringGetAsync("places");
-
-        // if the cache has a value then the place isn't in our list
-        if (count != RedisValue.Null) {
-            await _db.StringIncrementAsync($"analytics:grid-miss:{placeName.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
-
-            return [];
         }
 
         // TODO! hydrate the cache from BigQuery
@@ -83,16 +70,15 @@ public class RedisCacheRepository : ICacheRepository {
         }
 
         zipCode = zipCode.ToLowerInvariant().Trim();
+        var path = $"map/zip/{zipCode}";
 
         // if the place name result is in memory already return it
-        if (_zipCodeCache.TryGetValue(zipCode, out var places)) {
-            await _db.StringIncrementAsync($"analytics:zip-hit:{zipCode.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
-
+        if (_zipCodeCache.TryGetValue(path, out var places)) {
             return places as IReadOnlyCollection<GridLinkable> ?? [];
         }
 
         // the item hasn't been looked up recently so look it up in the cache
-        var zip = await _db.StringGetAsync(zipCode.ToLowerInvariant());
+        var zip = await _db.StringGetAsync(zipCode);
 
         // if the place name is not found, add it to the not found cache but check if the cache is full
         if (!zip.IsNullOrEmpty) {
@@ -103,21 +89,11 @@ public class RedisCacheRepository : ICacheRepository {
                 zipGridLinks.Add(new ZipGridLink(Convert.ToInt32(zipCode), parts[0], Convert.ToInt32(parts[1])));
             }
 
-            _zipCodeCache.Set(zipCode, zipGridLinks, new MemoryCacheEntryOptions()
+            _zipCodeCache.Set(path, zipGridLinks, new MemoryCacheEntryOptions()
                 .SetPriority(CacheItemPriority.NeverRemove)
                 .SetSize(1));
 
             return zipGridLinks;
-        }
-
-        // check to see if the cache is full
-        var count = await _db.StringGetAsync("zips");
-
-        // if the cache has a value then the place isn't in our list
-        if (count != RedisValue.Null) {
-            await _db.StringIncrementAsync($"analytics:grid-miss:{zipCode.ToLowerInvariant()}", 1, CommandFlags.FireAndForget);
-
-            return [];
         }
 
         // TODO! hydrate the cache from BigQuery
