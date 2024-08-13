@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.15](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.14...api-v1.16.15) (2024-08-13)
+
+
+### Bug Fixes
+
+* **api:** lower case all zone values ([a3188cd](https://github.com/agrc/api.mapserv.utah.gov/commit/a3188cd3dd4e5171d03f186745130c115773f24c))
+
 ## [1.16.14](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.13...api-v1.16.14) (2024-08-13)
 
 
