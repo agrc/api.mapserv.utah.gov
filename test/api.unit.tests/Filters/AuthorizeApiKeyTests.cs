@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+using ugrc.api.Features.Converting;
 using ugrc.api.Middleware;
 using ugrc.api.Models;
 using ugrc.api.Models.ResponseContracts;
@@ -6,11 +8,17 @@ using ugrc.api.Services;
 namespace api.tests.Filters;
 public class AuthorizeApiKeyTests {
     private readonly ILogger _log;
+    private readonly IJsonSerializerOptionsFactory _jsonFactory;
 
     public AuthorizeApiKeyTests() {
         var logger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
         _log = logger.Object;
+
+        var jsonFactory = new Mock<IJsonSerializerOptionsFactory>();
+        jsonFactory.Setup(x => x.GetSerializerOptionsFor(It.IsAny<ApiVersion>())).Returns(new JsonSerializerOptions());
+
+        _jsonFactory = jsonFactory.Object;
     }
 
     [Theory]
@@ -76,15 +84,16 @@ public class AuthorizeApiKeyTests {
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
         var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
 
-        if (result is ApiResponseContract contract) {
-            contract.Status.ShouldBe(responseCode);
+        if (result is JsonHttpResult<ApiResponseContract> contract) {
+            contract.StatusCode.ShouldBe(responseCode);
+            contract.Value.Status.ShouldBe(responseCode);
         } else {
             result.ShouldBe(responseCode);
         }
@@ -155,15 +164,16 @@ public class AuthorizeApiKeyTests {
         httpContext.Request.Headers["Referrer"] = url;
         httpContext.Request.Headers.Origin = url;
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
         var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
 
-        if (result is ApiResponseContract contract) {
-            contract.Status.ShouldBe(responseCode);
+        if (result is JsonHttpResult<ApiResponseContract> contract) {
+            contract.StatusCode.ShouldBe(responseCode);
+            contract.Value.Status.ShouldBe(responseCode);
         } else {
             result.ShouldBe(responseCode);
         }
@@ -194,15 +204,16 @@ public class AuthorizeApiKeyTests {
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["Referrer"] = url;
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
         var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
 
-        if (result is ApiResponseContract contract) {
-            contract.Status.ShouldBe(responseCode);
+        if (result is JsonHttpResult<ApiResponseContract> contract) {
+            contract.StatusCode.ShouldBe(responseCode);
+            contract.Value.Status.ShouldBe(responseCode);
         } else {
             result.ShouldBe(responseCode);
         }
@@ -227,15 +238,16 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
         var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
 
-        if (result is ApiResponseContract contract) {
-            contract.Status.ShouldBe(400);
+        if (result is JsonHttpResult<ApiResponseContract> contract) {
+            contract.StatusCode.ShouldBe(400);
+            contract.Value.Status.ShouldBe(400);
         } else {
             result.ShouldBe(false);
         }
@@ -263,15 +275,16 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
         var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
 
-        if (result is ApiResponseContract contract) {
-            contract.Status.ShouldBe(400);
+        if (result is JsonHttpResult<ApiResponseContract> contract) {
+            contract.StatusCode.ShouldBe(400);
+            contract.Value.Status.ShouldBe(400);
         } else {
             result.ShouldBe(false);
         }
@@ -302,15 +315,16 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
         var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
 
-        if (result is ApiResponseContract contract) {
-            contract.Status.ShouldBe(responseCode);
+        if (result is JsonHttpResult<ApiResponseContract> contract) {
+            contract.StatusCode.ShouldBe(responseCode);
+            contract.Value.Status.ShouldBe(responseCode);
         } else {
             result.ShouldBe(responseCode);
         }
@@ -332,15 +346,16 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
         var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
 
-        if (result is ApiResponseContract contract) {
-            contract.Status.ShouldBe(400);
+        if (result is JsonHttpResult<ApiResponseContract> contract) {
+            contract.StatusCode.ShouldBe(400);
+            contract.Value.Status.ShouldBe(400);
         } else {
             result.ShouldBe(false);
         }
@@ -366,7 +381,7 @@ public class AuthorizeApiKeyTests {
 
         var httpContext = new DefaultHttpContext();
 
-        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider);
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
 
         var contextMock = new Mock<EndpointFilterInvocationContext>();
         contextMock.Setup(x => x.HttpContext).Returns(httpContext);
