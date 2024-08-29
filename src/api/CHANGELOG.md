@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.16](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.15...api-v1.16.16) (2024-08-29)
+
+
+### Bug Fixes
+
+* return 400 for bad requests instead of 200 ([f47a822](https://github.com/agrc/api.mapserv.utah.gov/commit/f47a8221cbef7e7e98f39bcef9f4d107bab2f1ae)), closes [#386](https://github.com/agrc/api.mapserv.utah.gov/issues/386)
+
 ## [1.16.15](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.14...api-v1.16.15) (2024-08-13)
 
 
