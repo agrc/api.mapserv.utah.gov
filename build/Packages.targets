@@ -28,8 +28,8 @@
     <PackageReference Update="Autofac" Version="8.0.0" />
 
     <!-- open api -->
-    <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.7.0" />
-    <PackageReference Update="Swashbuckle.AspNetCore" Version="6.7.0" />
+    <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.7.3" />
+    <PackageReference Update="Swashbuckle.AspNetCore" Version="6.7.3" />
     <PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
 
     <!-- http -->
