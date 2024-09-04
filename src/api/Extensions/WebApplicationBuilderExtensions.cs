@@ -70,6 +70,7 @@ public static class WebApplicationBuilderExtensions {
     public static void ConfigureDependencyInjection(this WebApplicationBuilder builder) {
         builder.Services.Configure<List<LocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
         builder.Services.Configure<List<ReverseLocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
+        builder.Services.Configure<GeometryServiceConfiguration>(builder.Configuration.GetSection("webapi:geometryService"));
         builder.Services.Configure<DatabaseConfiguration>(builder.Configuration.GetSection("webapi:redis"));
 
         builder.Services.AddHttpContextAccessor();
