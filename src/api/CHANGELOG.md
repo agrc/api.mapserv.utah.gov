@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.18](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.17...api-v1.16.18) (2024-09-04)
+
+
+### Bug Fixes
+
+* **api:** temporarily remove delivery point results ([4813546](https://github.com/agrc/api.mapserv.utah.gov/commit/481354672d0cf72d4c24f04f19d6874ea4f69e95))
+
 ## [1.16.17](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.16...api-v1.16.17) (2024-09-04)
 
 
