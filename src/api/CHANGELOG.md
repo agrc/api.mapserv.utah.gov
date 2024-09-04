@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.17](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.16...api-v1.16.17) (2024-09-04)
+
+
+### Bug Fixes
+
+* **api:** project po box and delivery point addresses ([1726dfd](https://github.com/agrc/api.mapserv.utah.gov/commit/1726dfd3e7857ccf579e3da8a4d35e64fae71980)), closes [#394](https://github.com/agrc/api.mapserv.utah.gov/issues/394)
+
 ## [1.16.16](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.15...api-v1.16.16) (2024-08-29)
 
 
