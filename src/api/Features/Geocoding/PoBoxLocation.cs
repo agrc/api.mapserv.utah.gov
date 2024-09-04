@@ -11,31 +11,32 @@ public class PoBoxLocation {
         public SingleGeocodeRequestOptionsContract Options { get; } = options;
     }
 
-    public class Handler(IStaticCache cache, ILogger log) : IComputationHandler<Computation, Candidate?> {
+    public class Handler(IStaticCache cache, IComputeMediator computeMediator, ILogger log) : IComputationHandler<Computation, Candidate?> {
         private readonly IDictionary<int, PoBoxAddressCorrection> _exclusions = cache.PoBoxExclusions;
+        private readonly IComputeMediator _computeMediator = computeMediator;
         private readonly ILogger? _log = log?.ForContext<PoBoxLocation>();
         private readonly IDictionary<int, PoBoxAddress> _poBoxes = cache.PoBoxes;
         private readonly IReadOnlyCollection<int> _zipExclusions
          = cache.PoBoxZipCodesWithExclusions;
 
-        public Task<Candidate?> Handle(Computation request, CancellationToken cancellationToken) {
+        public async Task<Candidate?> Handle(Computation request, CancellationToken cancellationToken) {
             if (!request._address.Zip5.HasValue) {
                 _log?.Debug("PoBox: no candidate");
 
-                return Task.FromResult<Candidate?>(null);
+                return null;
             }
 
             if (_poBoxes is null) {
                 _log?.Warning("PoBox: cache is empty");
 
-                return Task.FromResult<Candidate?>(null);
+                return null;
             }
 
             if (!_poBoxes.ContainsKey(request._address.Zip5.Value)) {
                 _log?.ForContext("zip", request._address.Zip5.Value)
                     .Debug("PoBox: cache miss");
 
-                return Task.FromResult<Candidate?>(null);
+                return null;
             }
 
             Candidate candidate;
@@ -67,10 +68,17 @@ public class PoBoxLocation {
                      0
                 );
             } else {
-                return Task.FromResult<Candidate?>(null);
+                return null;
             }
 
-            return Task.FromResult<Candidate?>(candidate);
+            if (request.Options.SpatialReference == 26912) {
+                return candidate;
+            }
+
+            var projectedCandidate = await _computeMediator.Handle(
+                new ProjectQuery.Computation(candidate, request.Options.SpatialReference), cancellationToken);
+
+            return projectedCandidate;
         }
     }
 }

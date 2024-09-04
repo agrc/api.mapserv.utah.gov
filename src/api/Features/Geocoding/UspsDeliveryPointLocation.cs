@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using ugrc.api.Cache;
 using ugrc.api.Infrastructure;
 using ugrc.api.Models;
@@ -12,15 +13,16 @@ public class UspsDeliveryPointLocation {
         public SingleGeocodeRequestOptionsContract Options { get; } = options;
     }
 
-    public class Handler(IStaticCache staticCache, ILogger log) : IComputationHandler<Computation, Candidate?> {
+    public class Handler(IStaticCache staticCache, IComputeMediator computeMediator, ILogger log) : IComputationHandler<Computation, Candidate?> {
         private readonly IStaticCache _staticCache = staticCache;
+        private readonly IComputeMediator _computeMediator = computeMediator;
         private readonly ILogger? _log = log?.ForContext<UspsDeliveryPointLocation>();
 
-        public Task<Candidate?> Handle(Computation request, CancellationToken cancellationToken) {
+        public async Task<Candidate?> Handle(Computation request, CancellationToken cancellationToken) {
             if (!request._address.Zip5.HasValue) {
                 _log?.Debug("Delivery Point: no candidate", request._address);
 
-                return Task.FromResult<Candidate?>(null);
+                return null;
             }
 
             _staticCache.UspsDeliveryPoints.TryGetValue(request._address.Zip5.Value.ToString(), out var items);
@@ -29,14 +31,14 @@ public class UspsDeliveryPointLocation {
                 _log?.ForContext("zip", request._address.Zip5.Value)
                     .Debug("Delivery Point: cache miss");
 
-                return Task.FromResult<Candidate?>(null);
+                return null;
             }
 
             if (items?.FirstOrDefault() is not UspsDeliveryPointLink deliveryPoint) {
-                return Task.FromResult<Candidate?>(null);
+                return null;
             }
 
-            var result = new Candidate(
+            var candidate = new Candidate(
                 deliveryPoint.MatchAddress,
                 deliveryPoint.Grid,
                 new Point(deliveryPoint.X, deliveryPoint.Y),
@@ -48,7 +50,14 @@ public class UspsDeliveryPointLocation {
             _log?.ForContext("delivery point", deliveryPoint.MatchAddress)
                 .Information("Delivery Point: match");
 
-            return Task.FromResult<Candidate?>(result);
+            if (request.Options.SpatialReference == 26912) {
+                return candidate;
+            }
+
+            var projectedCandidate = await _computeMediator.Handle(
+                new ProjectQuery.Computation(candidate, request.Options.SpatialReference), cancellationToken);
+
+            return projectedCandidate;
         }
     }
 }
