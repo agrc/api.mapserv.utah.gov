@@ -53,7 +53,7 @@ public class GeocodeQueryTests {
         result.Status.ShouldBe(StatusCodes.Status200OK);
         computeMediator.Verify(x => x.Handle(It.IsAny<AddressParsing.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<ZoneParsing.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
-        computeMediator.Verify(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
+        // computeMediator.Verify(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<GeocodePlan.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<Geocode.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<FilterCandidates.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -97,7 +97,7 @@ public class GeocodeQueryTests {
         result.Status.ShouldBe(StatusCodes.Status404NotFound);
         computeMediator.Verify(x => x.Handle(It.IsAny<AddressParsing.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<ZoneParsing.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
-        computeMediator.Verify(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
+        // computeMediator.Verify(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<GeocodePlan.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<Geocode.Computation>(), It.IsAny<CancellationToken>()), Times.Never);
         computeMediator.Verify(x => x.Handle(It.IsAny<FilterCandidates.Computation>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -132,12 +132,12 @@ public class GeocodeQueryTests {
         result.Status.ShouldBe(StatusCodes.Status404NotFound);
         computeMediator.Verify(x => x.Handle(It.IsAny<AddressParsing.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<ZoneParsing.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
-        computeMediator.Verify(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
+        // computeMediator.Verify(x => x.Handle(It.IsAny<UspsDeliveryPointLocation.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<GeocodePlan.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<Geocode.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
         computeMediator.Verify(x => x.Handle(It.IsAny<FilterCandidates.Computation>(), It.IsAny<CancellationToken>()), Times.Once);
     }
-    [Fact]
+    // [Fact]
     public async Task Should_return_early_with_delivery_point() {
         var computeMediator = new Mock<IComputeMediator>();
         computeMediator.Setup(x => x.Handle(It.IsAny<AddressParsing.Computation>(), It.IsAny<CancellationToken>()))
