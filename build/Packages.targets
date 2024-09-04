@@ -7,7 +7,7 @@
     <PackageReference Update="Google.Cloud.Firestore" Version="3.8.0" />
     <PackageReference Update="Npgsql.NetTopologySuite" Version="8.0.3" />
     <PackageReference Update="Npgsql" Version="7.0.1" />
-    <PackageReference Update="StackExchange.Redis" Version="2.8.0" />
+    <PackageReference Update="StackExchange.Redis" Version="2.8.12" />
 
     <!-- logging -->
     <PackageReference Update="Serilog.AspNetCore" Version="8.0.2" />
@@ -24,12 +24,12 @@
     <PackageReference Update="Asp.Versioning.Http" Version="8.1.0" />
 
     <!-- DI -->
-    <PackageReference Update="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
-    <PackageReference Update="Autofac" Version="8.0.0" />
+    <PackageReference Update="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
+    <PackageReference Update="Autofac" Version="8.1.0" />
 
     <!-- open api -->
-    <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.7.0" />
-    <PackageReference Update="Swashbuckle.AspNetCore" Version="6.7.0" />
+    <PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.7.3" />
+    <PackageReference Update="Swashbuckle.AspNetCore" Version="6.7.3" />
     <PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
 
     <!-- http -->
