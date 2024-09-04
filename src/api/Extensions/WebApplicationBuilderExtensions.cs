@@ -63,6 +63,7 @@ public static class WebApplicationBuilderExtensions {
         => builder.Services.AddHealthChecks()
          .AddCheck<StartupHealthCheck>("Startup", failureStatus: HealthStatus.Degraded, tags: ["startup"])
          .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded, tags: ["health"])
+         .AddCheck<GeometryServiceHealthCheck>("ArcGIS:GeometryService", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy, tags: ["health"])
          .AddCheck<UdotServiceHealthCheck>("ArcGIS:RoadsAndHighwaysService", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<LocatorHealthCheck>("ArcGIS:LocatorServices", tags: ["health"])
