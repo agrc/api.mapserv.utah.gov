@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using ugrc.api.Cache;
 using ugrc.api.Infrastructure;
 using ugrc.api.Models;
