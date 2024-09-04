@@ -1,0 +1,10 @@
+- request:
+    matcher: ShouldStartWith
+    path: >-
+      /arcgis/rest/services/Utilities/Geometry/GeometryServer/project/
+    method: GET
+  response:
+    status: 200
+    body: '{"geometries":[{"x":-11636226.372620886,"y":4128604.0773999505}]}'
+    headers:
+      Content-Type: application/json

@@ -1,0 +1,10 @@
+- request:
+    matcher: ShouldStartWith
+    path: >-
+      /arcgis/rest/services/Utilities/Geometry/GeometryServer
+    method: GET
+  response:
+    status: 200
+    body: '{"serviceDescription":"The Geometry service is used by application developers to perform geometric calculations and web editing   "}'
+    headers:
+      Content-Type: application/json
