@@ -1,5 +1,6 @@
 using ugrc.api.Cache;
 using ugrc.api.Features.Geocoding;
+using ugrc.api.Infrastructure;
 using ugrc.api.Models.Linkables;
 
 namespace api.tests.Features.Geocoding;
@@ -15,8 +16,9 @@ public class PoBoxTests {
         mockCache.Setup(x => x.PoBoxZipCodesWithExclusions).Returns(zipExclusions);
 
         var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
+        var computeMediator = new Mock<IComputeMediator>();
 
-        _handler = new PoBoxLocation.Handler(mockCache.Object, mock.Object);
+        _handler = new PoBoxLocation.Handler(mockCache.Object, computeMediator.Object, mock.Object);
     }
 
     private readonly Dictionary<int, PoBoxAddress> _poBoxes = new(1);

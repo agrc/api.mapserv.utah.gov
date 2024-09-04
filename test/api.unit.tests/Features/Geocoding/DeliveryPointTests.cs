@@ -1,19 +1,20 @@
 using ugrc.api.Cache;
 using ugrc.api.Features.Geocoding;
+using ugrc.api.Infrastructure;
 using ugrc.api.Models.Linkables;
 
 namespace api.tests.Features.Geocoding;
 public class DeliveryPointTests {
     public DeliveryPointTests() {
-        _deliveryPoints.Add("84114",
-                            new GridLinkable[] { new UspsDeliveryPointLink(84114, "grid", "place", 1, 1) }.ToList());
+        _deliveryPoints.Add("84114", [new UspsDeliveryPointLink(84114, "grid", "place", 1, 1)]);
 
         var mockCache = new Mock<IStaticCache>();
         mockCache.Setup(x => x.UspsDeliveryPoints).Returns(_deliveryPoints);
 
         var mock = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
+        var computeMediator = new Mock<IComputeMediator>();
 
-        _handler = new UspsDeliveryPointLocation.Handler(mockCache.Object, mock.Object);
+        _handler = new UspsDeliveryPointLocation.Handler(mockCache.Object, computeMediator.Object, mock.Object);
     }
 
     private readonly Dictionary<string, List<GridLinkable>> _deliveryPoints = new(1);
