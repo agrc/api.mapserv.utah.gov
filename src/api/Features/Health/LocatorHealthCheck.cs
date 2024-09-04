@@ -27,7 +27,7 @@ public class LocatorHealthCheck(IOptions<List<LocatorConfiguration>> options, IH
 
                 if (!result.IsSuccessful) {
                     _log?.ForContext("locator", locator)
-                        .Warning("unsuccessful health check {service}", locator.ServiceName);
+                        .Warning("Unable to access {service} locator", locator.ServiceName);
 
                     results.Add(locator.ServiceName, HealthCheckResult.Degraded("unable to access geocode service", null, new Dictionary<string, object> {
                         { "duration", stopWatch.ElapsedMilliseconds }

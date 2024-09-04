@@ -72,7 +72,7 @@ public class SqlQuery {
 
                     if (string.Equals(key, "shape", StringComparison.InvariantCultureIgnoreCase)) {
                         if (reader.GetValue(i) is not Geometry ntsGeometry) {
-                            _log?.Warning("shape field is null for {table}", computation.TableName);
+                            _log?.Warning("Shape field is null for {table}", computation.TableName);
 
                             continue;
                         }
