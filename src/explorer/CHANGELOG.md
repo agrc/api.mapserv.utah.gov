@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.9](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.8...explorer-v2.4.9) (2024-09-05)
+
+
+### Bug Fixes
+
+* **explorer:** correct lat long wkid ([87345db](https://github.com/agrc/api.mapserv.utah.gov/commit/87345dbac38b90fdb0bc37fdb7b25ecf3ba8fae0))
+
 ## [2.4.8](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.7...explorer-v2.4.8) (2024-08-13)
 
 
