@@ -54,29 +54,29 @@ public class GeocodeQuery {
                 }
             }
 
-            // var deliveryPointComputation = new UspsDeliveryPointLocation.Computation(parsedAddress, request.Options);
-            // var uspsPoint = await _computeMediator.Handle(deliveryPointComputation, cancellationToken);
+            var deliveryPointComputation = new UspsDeliveryPointLocation.Computation(parsedAddress, request.Options);
+            var uspsPoint = await _computeMediator.Handle(deliveryPointComputation, cancellationToken);
 
-            // if (uspsPoint != null) {
-            //     var model = uspsPoint.ToResponseObject(street, zone);
+            if (uspsPoint != null) {
+                var model = uspsPoint.ToResponseObject(street, zone);
 
-            //     var standard = parsedAddress.StandardizedAddress().ToLowerInvariant();
-            //     var input = street?.ToLowerInvariant();
+                var standard = parsedAddress.StandardizedAddress().ToLowerInvariant();
+                var input = street?.ToLowerInvariant();
 
-            //     if (input != standard) {
-            //         model.StandardizedAddress = standard;
-            //     }
+                if (input != standard) {
+                    model.StandardizedAddress = standard;
+                }
 
-            //     _log?.ForContext("locator", model.Locator)
-            //         .ForContext("score", model.Score)
-            //         .ForContext("difference", model.ScoreDifference)
-            //          .Information("Analytics:geocode-match");
+                _log?.ForContext("locator", model.Locator)
+                    .ForContext("score", model.Score)
+                    .ForContext("difference", model.ScoreDifference)
+                     .Information("Analytics:geocode-match");
 
-            //     return new ApiResponseContract {
-            //         Result = model.Convert(request.Options, request.Version),
-            //         Status = StatusCodes.Status200OK
-            //     };
-            // }
+                return new ApiResponseContract {
+                    Result = model.Convert(request.Options, request.Version),
+                    Status = StatusCodes.Status200OK
+                };
+            }
 
             var topCandidates = new TopAddressCandidates(request.Options.Suggest,
                 new CandidateComparer(parsedAddress.StandardizedAddress().ToUpperInvariant()));
