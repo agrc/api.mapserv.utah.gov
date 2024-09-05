@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.16.19](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.18...api-v1.16.19) (2024-09-05)
+
+
+### Bug Fixes
+
+* **api:** add delivery points back into the geocode plan ([c5386a6](https://github.com/agrc/api.mapserv.utah.gov/commit/c5386a6a2800fc605f49cb1e499682eb50ac9edd))
+* **api:** Always rebuild address system mapping on system start ([eab7a6e](https://github.com/agrc/api.mapserv.utah.gov/commit/eab7a6eb280ca3adbd93f15d51fa10a99354864c))
+* **api:** correct delivery point zip codes ([cd0245e](https://github.com/agrc/api.mapserv.utah.gov/commit/cd0245ec8124a922ff1b685bf04997f66acd5ae8))
+* **api:** improve city suffix removal for zone parsing ([bd6d6e8](https://github.com/agrc/api.mapserv.utah.gov/commit/bd6d6e8964bd65e2ae3a4738f20ddada5840b708))
+* **api:** lower case all zone values ([a3188cd](https://github.com/agrc/api.mapserv.utah.gov/commit/a3188cd3dd4e5171d03f186745130c115773f24c))
+* **api:** project po box and delivery point addresses ([1726dfd](https://github.com/agrc/api.mapserv.utah.gov/commit/1726dfd3e7857ccf579e3da8a4d35e64fae71980)), closes [#394](https://github.com/agrc/api.mapserv.utah.gov/issues/394)
+* **api:** Strip city from zone ([6055cb7](https://github.com/agrc/api.mapserv.utah.gov/commit/6055cb7a868d435acc02c2321fa9c89a1c43f3f4))
+* **api:** strip state out of zone ([ac4faf1](https://github.com/agrc/api.mapserv.utah.gov/commit/ac4faf1af2c58ad32d8ec35ff58e6813206001b4)), closes [#371](https://github.com/agrc/api.mapserv.utah.gov/issues/371)
+* **api:** temporarily remove delivery point results ([4813546](https://github.com/agrc/api.mapserv.utah.gov/commit/481354672d0cf72d4c24f04f19d6874ea4f69e95))
+* **api:** update logging level and message ([8ea2ccc](https://github.com/agrc/api.mapserv.utah.gov/commit/8ea2cccd80d3acdd39f0aa042ba56ef6c34db424))
+* return 400 for bad requests instead of 200 ([f47a822](https://github.com/agrc/api.mapserv.utah.gov/commit/f47a8221cbef7e7e98f39bcef9f4d107bab2f1ae)), closes [#386](https://github.com/agrc/api.mapserv.utah.gov/issues/386)
+
 ## [1.16.18](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.17...api-v1.16.18) (2024-09-04)
 
 
