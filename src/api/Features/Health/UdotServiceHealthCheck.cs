@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ugrc.api.Formatters;
 using ugrc.api.Models.ArcGis;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace ugrc.api.Features.Health;
 public class UdotServiceHealthCheck(IHttpClientFactory factory, ILogger log) : IHealthCheck {

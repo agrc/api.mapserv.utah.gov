@@ -1,10 +1,10 @@
-using ugrc.api.Extensions;
-using ugrc.api.Quirks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ugrc.api.Extensions;
 using ugrc.api.Middleware;
+using ugrc.api.Quirks;
 
 var logger = new LoggerConfiguration()
     .WriteTo.Console()

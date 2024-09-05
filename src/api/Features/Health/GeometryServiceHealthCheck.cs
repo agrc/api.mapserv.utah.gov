@@ -1,11 +1,11 @@
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using ugrc.api.Formatters;
-using ugrc.api.Models.ArcGis;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using ugrc.api.Features.Geocoding;
+using ugrc.api.Formatters;
+using ugrc.api.Models.ArcGis;
 
 namespace ugrc.api.Features.Health;
 public class GeometryServiceHealthCheck(IHttpClientFactory factory, IOptions<GeometryServiceConfiguration> options, ILogger log) : IHealthCheck {

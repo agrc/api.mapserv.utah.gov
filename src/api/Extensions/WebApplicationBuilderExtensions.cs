@@ -1,17 +1,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using ugrc.api.Cache;
-using ugrc.api.Features.Converting;
-using ugrc.api.Features.Geocoding;
-using ugrc.api.Features.Health;
-using ugrc.api.Features.Milepost;
-using ugrc.api.Features.Searching;
-using ugrc.api.Infrastructure;
-using ugrc.api.Middleware;
-using ugrc.api.Models.Configuration;
-using ugrc.api.Models.ResponseContracts;
-using ugrc.api.Services;
 using api.OpenApi;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -33,6 +22,17 @@ using Polly.Retry;
 using Polly.Timeout;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using ugrc.api.Cache;
+using ugrc.api.Features.Converting;
+using ugrc.api.Features.Geocoding;
+using ugrc.api.Features.Health;
+using ugrc.api.Features.Milepost;
+using ugrc.api.Features.Searching;
+using ugrc.api.Infrastructure;
+using ugrc.api.Middleware;
+using ugrc.api.Models.Configuration;
+using ugrc.api.Models.ResponseContracts;
+using ugrc.api.Services;
 
 namespace ugrc.api.Extensions;
 public static class WebApplicationBuilderExtensions {

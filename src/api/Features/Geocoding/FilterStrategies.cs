@@ -1,5 +1,5 @@
-using ugrc.api.Models.ArcGis;
 using Autofac;
+using ugrc.api.Models.ArcGis;
 
 namespace ugrc.api.Features.Geocoding;
 public interface IFilterSuggestionFactory {

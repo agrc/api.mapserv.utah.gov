@@ -1,8 +1,8 @@
 using System.Net.Http;
+using Npgsql;
 using ugrc.api.Features.Converting;
 using ugrc.api.Infrastructure;
 using ugrc.api.Models.ResponseContracts;
-using Npgsql;
 
 namespace ugrc.api.Features.Searching;
 public class SearchQuery {

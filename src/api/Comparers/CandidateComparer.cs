@@ -1,5 +1,5 @@
-using ugrc.api.Models.ArcGis;
 using Fastenshtein;
+using ugrc.api.Models.ArcGis;
 
 namespace ugrc.api.Comparers;
 /// <inheritdoc />

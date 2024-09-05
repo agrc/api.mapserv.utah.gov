@@ -1,6 +1,6 @@
+using Npgsql;
 using ugrc.api.Features.Converting;
 using ugrc.api.Models.ResponseContracts;
-using Npgsql;
 
 namespace ugrc.api.Features.Information;
 public class SqlSchemaQuery {

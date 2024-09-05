@@ -1,6 +1,6 @@
-using ugrc.api.Models.Linkables;
 using Microsoft.Extensions.Caching.Memory;
 using StackExchange.Redis;
+using ugrc.api.Models.Linkables;
 
 namespace ugrc.api.Cache;
 public class RedisCacheRepository : ICacheRepository {

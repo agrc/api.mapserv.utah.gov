@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
-using ugrc.api.Extensions;
-using ugrc.api.Features.Converting;
-using ugrc.api.Models.Constants;
 using EsriJson.Net;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
+using ugrc.api.Extensions;
+using ugrc.api.Features.Converting;
+using ugrc.api.Models.Constants;
 
 namespace ugrc.api.Features.Geocoding;
 public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeocodeRequestOptionsContract> {

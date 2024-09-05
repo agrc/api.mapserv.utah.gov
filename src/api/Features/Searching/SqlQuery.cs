@@ -1,6 +1,6 @@
-using ugrc.api.Infrastructure;
 using NetTopologySuite.Geometries;
 using Npgsql;
+using ugrc.api.Infrastructure;
 
 namespace ugrc.api.Features.Searching;
 public class SqlQuery {

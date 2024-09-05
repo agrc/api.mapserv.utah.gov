@@ -1,7 +1,7 @@
-using ugrc.api.Models.ResponseContracts;
 using Npgsql;
 using ugrc.api.Features.Converting;
 using ugrc.api.Features.Searching;
+using ugrc.api.Models.ResponseContracts;
 
 namespace ugrc.api.Features.Information;
 public class SqlAttributeQuery {

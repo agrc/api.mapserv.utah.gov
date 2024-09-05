@@ -1,5 +1,5 @@
-using ugrc.api.Features.Health;
 using Microsoft.Extensions.Hosting;
+using ugrc.api.Features.Health;
 
 namespace ugrc.api.Services;
 public class StartupBackgroundService(StartupHealthCheck healthCheck) : BackgroundService {

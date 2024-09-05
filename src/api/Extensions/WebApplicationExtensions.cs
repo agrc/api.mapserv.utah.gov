@@ -1,3 +1,9 @@
+using Asp.Versioning.Conventions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using ugrc.api.Features.Converting;
 using ugrc.api.Features.Geocoding;
 using ugrc.api.Features.Health;
@@ -6,12 +12,6 @@ using ugrc.api.Features.Milepost;
 using ugrc.api.Features.Searching;
 using ugrc.api.Middleware;
 using ugrc.api.Models.ResponseContracts;
-using Asp.Versioning.Conventions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace ugrc.api.Extensions;
 public static class WebApplicationExtensions {

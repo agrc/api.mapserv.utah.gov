@@ -1,6 +1,6 @@
+using Microsoft.Extensions.Options;
 using ugrc.api.Infrastructure;
 using ugrc.api.Models;
-using Microsoft.Extensions.Options;
 
 namespace ugrc.api.Features.Geocoding;
 public static class ReverseGeocodePlan {

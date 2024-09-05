@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using NetTopologySuite.IO.Converters;
 using ugrc.api.Geocoding;
 using ugrc.api.Quirks;
-using NetTopologySuite.IO.Converters;
 
 namespace ugrc.api.Features.Converting;
 

@@ -1,8 +1,8 @@
-using ugrc.api.Models.Linkables;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Cloud.BigQuery.V2;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
+using ugrc.api.Models.Linkables;
 
 namespace ugrc.api.Services;
 public class CacheHostedService : BackgroundService {

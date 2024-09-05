@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.WebUtilities;
 using ugrc.api.Models;
 using ugrc.api.Models.Constants;
 using ugrc.api.Models.RequestOptionContracts;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace ugrc.api.Features.Searching;
 public class SearchRequestOptionsContract : IProjectable {

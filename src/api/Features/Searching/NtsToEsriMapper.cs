@@ -1,6 +1,6 @@
-using ugrc.api.Infrastructure;
 using EsriJson.Net;
 using NetTopologySuite.Geometries;
+using ugrc.api.Infrastructure;
 
 namespace ugrc.api.Features.Searching;
 public class NtsToEsriMapper {

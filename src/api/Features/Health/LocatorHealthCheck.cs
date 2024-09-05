@@ -1,11 +1,11 @@
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Options;
 using ugrc.api.Features.Geocoding;
 using ugrc.api.Formatters;
 using ugrc.api.Models.ArcGis;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Options;
 
 namespace ugrc.api.Features.Health;
 public class LocatorHealthCheck(IOptions<List<LocatorConfiguration>> options, IHttpClientFactory factory, ILogger log) : IHealthCheck {
