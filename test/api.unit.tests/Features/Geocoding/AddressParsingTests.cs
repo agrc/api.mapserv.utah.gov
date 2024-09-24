@@ -442,16 +442,14 @@ public class AddressParsingTests {
         var request = new AddressParsing.Computation(input.InputAddress);
         var result = await _handler.Handle(request, CancellationToken.None);
 
-        // yield return new object[] {
-        //     new Address("455 E APPLE BLOSSOM LN E",
-        //         HouseNumber = 455,
-        //         PrefixDirection = Direction.East,
-        //         StreetName = "APPLE BLOSSOM",
-        //         SuffixDirection = Direction.East,
-        //         StreetType = StreetType.Lane
-        //     },
-        //     "455 east apple blossom lane east"
-        // };
+        result.PoBox.ShouldBe(0);
+        result.HouseNumber.ShouldBe(input.HouseNumber);
+        result.PrefixDirection.ShouldBe(input.PrefixDirection);
+        result.StreetName.ShouldBe(input.StreetName);
+        result.StreetType.ShouldBe(input.StreetType);
+        result.SuffixDirection.ShouldBe(input.SuffixDirection);
+        result.StandardizedAddress().ToLowerInvariant().ShouldBe(standardAddress);
+        result.IsPoBox.ShouldBeFalse();
     }
 
     [Theory]
