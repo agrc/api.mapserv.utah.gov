@@ -422,6 +422,25 @@ public class AddressParsingTests {
             new Address("180 N STATE ST", 180, Direction.North, "STATE", StreetType.Street, Direction.None, null, 0, null, 0, false, false),
             "180 north state street"
         };
+    }
+
+    public static IEnumerable<object[]> EmailFeedback() {
+        yield return new object[] {
+            new Address("264 N PIER LANE", 264, Direction.North, "PIER", StreetType.Lane, Direction.None, null, 0, null, 0, false, false),
+            "264 north pier lane"
+        };
+
+        yield return new object[] {
+            new Address("264 N PIER LN", 264, Direction.North, "PIER", StreetType.Lane, Direction.None, null, 0, null, 0, false, false),
+            "264 north pier lane"
+        };
+    }
+
+    [Theory]
+    [MemberData(nameof(EmailFeedback))]
+    public async Task Should_parse_email_feedback(Address input, string standardAddress) {
+        var request = new AddressParsing.Computation(input.InputAddress);
+        var result = await _handler.Handle(request, CancellationToken.None);
 
         // yield return new object[] {
         //     new Address("455 E APPLE BLOSSOM LN E",
