@@ -69,11 +69,11 @@ public partial class AddressParsing {
         private static string ReplaceUnitTypes(string street, Regex unitTypeRegex, Regex unitTypeBehindRegex, List<Tuple<string, string, bool>> unitAbbreviations) {
             var matches = unitTypeRegex.Matches(street);
 
-            //probably a secondary address
+            // probably a secondary address
             if (street.Contains('#')) {
                 var indexOfValue = "#";
 
-                //check to see if the # is preceded by a secondary address unit type
+                // check to see if the # is preceded by a secondary address unit type
                 var unitMatches = unitTypeBehindRegex.Matches(street);
                 if (unitMatches.Count > 0) {
                     indexOfValue = unitMatches[0].Value;
@@ -87,7 +87,7 @@ public partial class AddressParsing {
                 return street;
             }
 
-            //get last match since street name could be in there?
+            // get last match since street name could be in there?
             var match = matches[^1].Value.ToLower();
 
             var unitType = unitAbbreviations.Single(x => x.Item1 == match || x.Item2 == match);
