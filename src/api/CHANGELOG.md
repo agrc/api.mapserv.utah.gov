@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.20](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.19...api-v1.16.20) (2024-09-24)
+
+
+### Bug Fixes
+
+* **api:** update secondary address parsing for types that require a number ([bebbbea](https://github.com/agrc/api.mapserv.utah.gov/commit/bebbbea02677dda4cd4a55557437f00de9cf53ea))
+
 ## [1.16.19](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.18...api-v1.16.19) (2024-09-05)
 
 
