@@ -105,20 +105,16 @@ public partial class AddressParsing {
                 return string.Concat(street.AsSpan(0, index), street.AsSpan(index + match.Length)).Trim();
             }
 
-            //make sure address has a number after it since it's required.
-            var regex = new Regex(string.Format(@"{0}(?:\s|.)?([a-z]?(?:\d)*[a-z]?)", match),
-                                  RegexOptions.IgnoreCase);
-            var moreMatches = regex.Matches(street);
+            // make sure address has a number after it since it's required.
+            var regex = new Regex(@"(?:\s|.)?(?:\d)", RegexOptions.IgnoreCase);
+            var possibleSecondary = street[(matches[^1].Index + matches[^1].Length)..];
+            var moreMatches = regex.Matches(possibleSecondary);
 
-            if (moreMatches.Count > 0 &&
-                street.EndsWith(moreMatches[^1].Value, StringComparison.OrdinalIgnoreCase)) {
-                var theMatch = moreMatches[^1];
-                var index = street.LastIndexOf(theMatch.Value, StringComparison.OrdinalIgnoreCase);
-
-                return string.Concat(street.AsSpan(0, index), street.AsSpan(index + theMatch.Length)).Trim();
-            }
-
-            return street.Trim();
+            return (moreMatches.Count > 0, possibleSecondary.Trim().Length == 1) switch {
+                (true, _) => street[..matches[^1].Index].Trim(),
+                (false, true) => street[..matches[^1].Index].Trim(),
+                _ => street.Trim()
+            };
         }
         private static string ReplaceDirections(string street, Regex directionSubstitutionsRegex) {
             var match = directionSubstitutionsRegex.Match(street);
