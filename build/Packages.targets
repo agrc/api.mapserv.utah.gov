@@ -6,7 +6,7 @@
     <PackageReference Update="Google.Cloud.BigQuery.V2" Version="3.10.0" />
     <PackageReference Update="Google.Cloud.Firestore" Version="3.8.0" />
     <PackageReference Update="Npgsql.NetTopologySuite" Version="8.0.3" />
-    <PackageReference Update="Npgsql" Version="7.0.1" />
+    <PackageReference Update="Npgsql" Version="8.0.4" />
     <PackageReference Update="StackExchange.Redis" Version="2.8.12" />
 
     <!-- logging -->
