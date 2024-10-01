@@ -4,7 +4,6 @@ import { TextLink } from './Link';
 import Button from './design-system/Button';
 import TextArea from './design-system/TextArea';
 
-// eslint-disable-next-line no-unused-vars
 const EditableText = ({ text, pattern, onChange }) => {
   const [editing, setEditing] = useState(false);
   const [note, setNote] = useState(text);

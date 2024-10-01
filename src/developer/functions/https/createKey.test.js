@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 import { describe, expect, it } from 'vitest';
 import { generateRegexFromPattern, getDuplicateKey } from './createKey';
 

@@ -1,6 +1,7 @@
 import { LockClosedIcon } from '@heroicons/react/24/solid';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { useNavigate, useRouteError } from 'react-router-dom';
+import { Link, useNavigate, useRouteError } from 'react-router-dom';
 
 export const RouterErrorPage = ({ error }) => {
   const routeError = useRouteError();
@@ -11,6 +12,9 @@ export const RouterErrorPage = ({ error }) => {
   }
 
   return <UnhandledException error={error} routeError={routeError} />;
+};
+RouterErrorPage.propTypes = {
+  error: PropTypes.object,
 };
 
 const UnauthorizedRoute = ({ routeError }) => {
@@ -23,13 +27,6 @@ const UnauthorizedRoute = ({ routeError }) => {
       });
     }
   }, [routeError]);
-
-  const codes = rules.map((x) => x.code);
-  if (codes.includes('S03')) {
-    return <IncompleteSiteWarning />;
-  } else if (codes.includes('I03')) {
-    return <IncompleteInventoryWarning />;
-  }
 
   return (
     <section>
@@ -66,6 +63,9 @@ const UnauthorizedRoute = ({ routeError }) => {
       </div>
     </section>
   );
+};
+UnauthorizedRoute.propTypes = {
+  routeError: PropTypes.object,
 };
 
 const UnhandledException = ({ error, routeError }) => {
@@ -127,4 +127,8 @@ const UnhandledException = ({ error, routeError }) => {
       </details>
     </section>
   );
+};
+UnhandledException.propTypes = {
+  error: PropTypes.object,
+  routeError: PropTypes.object,
 };
