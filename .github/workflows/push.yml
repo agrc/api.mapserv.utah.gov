@@ -36,18 +36,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: 🚀 Create release
-        uses: googleapis/release-please-action@v3
+        uses: googleapis/release-please-action@v4
         id: release-please
         with:
           token: ${{ steps.app-token.outputs.token }}
-          changelog-types: >
-            [{"type":"feat","section":"🚀 Features","hidden":false},
-            {"type":"fix","section":"🐛 Bug Fixes","hidden":false},
-            {"type":"deps","section":"🌲 Dependencies","hidden":false},
-            {"type":"docs","section":"📖 Documentation Improvements","hidden":false},
-            {"type":"style","section":"🎨 Design Improvements","hidden":false},
-            {"type":"ci","section":"⚙️ Continuous Integration Changes","hidden":true},
-            {"type":"chore","section":"🧰 Maintenance","hidden":true}]
-          default-branch: ${{ github.ref_name }}
-          monorepo-tags: true
-          command: manifest
