@@ -34,6 +34,7 @@ jobs:
         with:
           node-version: lts/*
           cache: npm
+          cache-dependency-path: src/developer/package-lock.json
 
       - name: 📥 Download dependencies
         run: npm ci
