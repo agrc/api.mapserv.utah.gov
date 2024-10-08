@@ -25,7 +25,9 @@ updates:
       prefix: deps
       prefix-development: deps(dev)
   - package-ecosystem: npm
-    directory: /
+    directories:
+      - src/developer
+      - src/explorer
     schedule:
       interval: monthly
     groups:
