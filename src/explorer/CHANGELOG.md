@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.11](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.10...explorer-v2.4.11) (2024-10-08)
+
+
+### 🌲 Dependencies
+
+* bump the npm_and_yarn group in /src/explorer with 2 updates ([201726a](https://github.com/agrc/api.mapserv.utah.gov/commit/201726a64e015b87be6c83239dd9a0ef91c25ce9))
+
 ## [2.4.10](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.9...explorer-v2.4.10) (2024-10-01)
 
 
