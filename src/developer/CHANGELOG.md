@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.18](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.17...developer-v2.6.18) (2024-10-09)
+
+
+### 🌲 Dependencies
+
+* bump the safe-dependencies group across 2 directories with 2 updates ([4db3757](https://github.com/agrc/api.mapserv.utah.gov/commit/4db3757ddbbb1b297aa50d2a6e13bd8cea01d9e7))
+
 ## [2.6.17](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.16...developer-v2.6.17) (2024-10-08)
 
 
