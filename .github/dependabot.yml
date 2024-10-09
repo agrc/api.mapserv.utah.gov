@@ -1,7 +1,11 @@
 version: 2
 updates:
   - package-ecosystem: nuget
-    directory: /src/api
+    directories:
+      - /src/api/
+      - /test/api.unit.tests/
+      - /libs/EsriJson/EsriJson.Net
+      - /libs/EsriJson/EsriJson.Net.Tests
     schedule:
       interval: monthly
     groups:
