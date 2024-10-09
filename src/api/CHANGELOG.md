@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.16.21](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.20...api-v1.16.21) (2024-10-09)
+
+
+### 🐛 Bug Fixes
+
+* **api:** remove directory targets ([1d9fc91](https://github.com/agrc/api.mapserv.utah.gov/commit/1d9fc919b09935315d8c633c49ec08f6b9968b8b))
+
+
+### 🌲 Dependencies
+
+* **api:** update more deps ([c331df2](https://github.com/agrc/api.mapserv.utah.gov/commit/c331df2e259823596d2953a58f91339470ab090f))
+* bump the nuget group across 2 directories with 1 update ([2465122](https://github.com/agrc/api.mapserv.utah.gov/commit/24651220c60211895b0b8f153d83a686e1312f79))
+
 ## [1.16.20](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.19...api-v1.16.20) (2024-09-24)
 
 
