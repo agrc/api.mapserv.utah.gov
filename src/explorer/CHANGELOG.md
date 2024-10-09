@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.13](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.12...explorer-v2.4.13) (2024-10-09)
+
+
+### 🌲 Dependencies
+
+* bump the safe-dependencies group across 2 directories with 2 updates ([4db3757](https://github.com/agrc/api.mapserv.utah.gov/commit/4db3757ddbbb1b297aa50d2a6e13bd8cea01d9e7))
+
 ## [2.4.12](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.11...explorer-v2.4.12) (2024-10-08)
 
 
