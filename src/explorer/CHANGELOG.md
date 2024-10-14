@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.14](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.13...explorer-v2.4.14) (2024-10-14)
+
+
+### 🌲 Dependencies
+
+* bump astro ([#432](https://github.com/agrc/api.mapserv.utah.gov/issues/432)) ([5819143](https://github.com/agrc/api.mapserv.utah.gov/commit/58191432be6c73167bd02eff95f6515fd9032829))
+
 ## [2.4.13](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.12...explorer-v2.4.13) (2024-10-09)
 
 
