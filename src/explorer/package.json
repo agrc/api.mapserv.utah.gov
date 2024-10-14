@@ -31,7 +31,7 @@
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "@ugrc/header": "^1.1.2",
-    "astro": "^4.15.12",
+    "astro": "^4.16.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sharp": "^0.33.5",
