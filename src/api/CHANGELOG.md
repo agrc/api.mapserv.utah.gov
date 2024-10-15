@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.22](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.21...api-v1.16.22) (2024-10-15)
+
+
+### 🐛 Bug Fixes
+
+* **api:** protect from error being thrown by unit numbers ([8ae5180](https://github.com/agrc/api.mapserv.utah.gov/commit/8ae51809dfa4b731a2c196eb75c871146c09dc08))
+
 ## [1.16.21](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.20...api-v1.16.21) (2024-10-09)
 
 
