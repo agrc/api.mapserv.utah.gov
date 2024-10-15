@@ -173,6 +173,11 @@ public class AddressParsingTests {
             new Address("1387 W 699 S Ste B150", 1387, Direction.West, "699", StreetType.None, Direction.South, null, 0, null, 0, false, false),
             "1387 west 699 south"
         };
+
+        yield return new object[] {
+            new Address("2398 W 2000 S Trailer #11", 2398, Direction.West, "2000", StreetType.None, Direction.South, null, 0, null, 0, false, false),
+            "2398 west 2000 south"
+        };
     }
 
     public static IEnumerable<object[]> Concatenations() {

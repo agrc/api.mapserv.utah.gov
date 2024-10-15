@@ -107,7 +107,13 @@ public partial class AddressParsing {
 
             // make sure address has a number after it since it's required.
             var regex = new Regex(@"(?:\s|.)?(?:\d)", RegexOptions.IgnoreCase);
-            var possibleSecondary = street[(matches[^1].Index + matches[^1].Length)..];
+            var matchIndex = (matches[^1].Index + matches[^1].Length);
+            var possibleSecondary = string.Empty;
+
+            if (matchIndex <= street.Length) {
+                possibleSecondary = street[matchIndex..];
+            }
+
             var moreMatches = regex.Matches(possibleSecondary);
 
             return (moreMatches.Count > 0, possibleSecondary.Trim().Length == 1) switch {
