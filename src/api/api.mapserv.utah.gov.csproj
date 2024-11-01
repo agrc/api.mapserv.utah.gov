@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
-    <PackageReference Include="Autofac" Version="8.1.0" />
+    <PackageReference Include="Autofac" Version="8.1.1" />
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Fastenshtein" Version="1.0.10" />
     <PackageReference Include="Google.Cloud.BigQuery.V2" Version="3.10.0" />
@@ -25,14 +25,14 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.0.10" />
     <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="4.0.0" />
-    <PackageReference Include="Npgsql.NetTopologySuite" Version="8.0.4" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.3" />
+    <PackageReference Include="Npgsql.NetTopologySuite" Version="8.0.5" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.GoogleCloudLogging" Version="5.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.8.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
     <PackageReference Include="WebApiContrib.Core.Formatter.Jsonp" Version="2.1.0" />
   </ItemGroup>
