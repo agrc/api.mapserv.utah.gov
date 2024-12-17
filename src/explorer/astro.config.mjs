@@ -70,15 +70,13 @@ export default defineConfig({
     react(),
     partytown(),
   ],
-  experimental: {
-    env: {
-      schema: {
-        SELF_SERVICE_URL: envField.string({
-          context: 'client',
-          access: 'public',
-          default: 'http://localhost:5173',
-        }),
-      },
+  env: {
+    schema: {
+      SELF_SERVICE_URL: envField.string({
+        context: 'client',
+        access: 'public',
+        default: 'http://localhost:5173',
+      }),
     },
   },
 });
