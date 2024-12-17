@@ -91,23 +91,17 @@ export function pluginEndpointHighlight() {
           return;
         }
 
-        console.log('language', context.codeBlock.language);
-        console.log('meta', context.codeBlock.meta);
-
         const line = context.codeBlock.getLine(0);
 
         if (!line?.text) {
           return;
         }
 
-        console.log('code block', line.text);
-
         const version = getVersion(line.text);
         const paths = getPaths(line.text);
         const parameters = getParameters(line.text);
         const options = getOptionalParameters(line.text);
 
-        console.log('adding bold annotation', version.start, version.end);
         line.addAnnotation(
           new InlineStyleAnnotation({
             inlineRange: {
@@ -130,8 +124,6 @@ export function pluginEndpointHighlight() {
         );
 
         paths.forEach((data) => {
-          console.log('adding color annotation', data.start, data.end);
-
           line.addAnnotation(
             new InlineStyleAnnotation({
               inlineRange: {
@@ -158,7 +150,6 @@ export function pluginEndpointHighlight() {
         });
 
         parameters.forEach((data) => {
-          console.log('adding color annotation', data.start, data.end);
           line.addAnnotation(
             new InlineStyleAnnotation({
               inlineRange: {
@@ -184,7 +175,6 @@ export function pluginEndpointHighlight() {
         });
 
         options.forEach((data) => {
-          console.log('adding color annotation', data.start, data.end);
           line.addAnnotation(
             new InlineStyleAnnotation({
               inlineRange: {
