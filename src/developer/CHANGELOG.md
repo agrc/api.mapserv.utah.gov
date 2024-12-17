@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.19](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.18...developer-v2.6.19) (2024-12-17)
+
+
+### 🌲 Dependencies
+
+* **developer:** update packages ([a71470c](https://github.com/agrc/api.mapserv.utah.gov/commit/a71470cb37b093729b7c66b37eb8a151620bfc8c))
+
 ## [2.6.18](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.17...developer-v2.6.18) (2024-10-09)
 
 
