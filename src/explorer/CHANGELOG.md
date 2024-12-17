@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.15](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.14...explorer-v2.4.15) (2024-12-17)
+
+
+### 🐛 Bug Fixes
+
+* **explorer:** correct html and add blog post link ([bae1427](https://github.com/agrc/api.mapserv.utah.gov/commit/bae1427762b5462b8326948536484ea14a34fdc4))
+
+
+### 🌲 Dependencies
+
+* **explorer:** update packages ([7221163](https://github.com/agrc/api.mapserv.utah.gov/commit/7221163ce20103581715c3b9400b514a35490bb1))
+
 ## [2.4.14](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.13...explorer-v2.4.14) (2024-10-14)
 
 
