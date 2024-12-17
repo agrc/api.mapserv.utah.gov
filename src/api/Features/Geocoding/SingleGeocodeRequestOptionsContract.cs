@@ -8,8 +8,6 @@ namespace ugrc.api.Features.Geocoding;
 /// The options available for geocoding
 /// </summary>
 public class SingleGeocodeRequestOptionsContract : IProjectable, IOutputConvertible {
-    private int _acceptScore = 70;
-    private int _suggest = 0;
 
     /// <summary>
     /// Every street zone geocode will return a score for the match on a scale from 0-100. The score is a rating of
@@ -21,15 +19,15 @@ public class SingleGeocodeRequestOptionsContract : IProjectable, IOutputConverti
     /// </summary>
     [DefaultValue(70)]
     public int AcceptScore {
-        get => _acceptScore;
+        get;
         set {
-            _acceptScore = Math.Abs(value);
+            field = Math.Abs(value);
 
-            if (_acceptScore > 100) {
-                _acceptScore = 100;
+            if (field > 100) {
+                field = 100;
             }
         }
-    }
+    } = 70;
 
     /// <summary>
     /// The **default** value of `0` will return the highest match. To include the other candidates, set this value
@@ -40,14 +38,14 @@ public class SingleGeocodeRequestOptionsContract : IProjectable, IOutputConverti
     /// </example>
     [DefaultValue(0)]
     public int Suggest {
-        get => _suggest;
+        get;
         set {
-            _suggest = Math.Abs(value);
-            if (_suggest > 5) {
-                _suggest = 5;
+            field = Math.Abs(value);
+            if (field > 5) {
+                field = 5;
             }
         }
-    }
+    } = 0;
 
     /// <summary>
     /// The locators are the search engine for address data. There are three options, The **default** value of `all`

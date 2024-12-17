@@ -1,8 +1,6 @@
 namespace ugrc.api.Features.Milepost;
 public class ReverseRouteMilepostResponseContract {
     private string _routeName = string.Empty;
-    private double _distance;
-    private double _milepost;
 
     /// <summary>
     /// Gets or sets the name of the route.
@@ -28,8 +26,8 @@ public class ReverseRouteMilepostResponseContract {
     ///     The distance away from the input point in meters. -1 for not found. Rounded to two decimal places
     /// </value>
     public double OffsetMeters {
-        get => Math.Round(_distance, 2);
-        set => _distance = value;
+        get => Math.Round(field, 2);
+        set;
     }
 
     /// <summary>
@@ -39,8 +37,8 @@ public class ReverseRouteMilepostResponseContract {
     ///     The closest milepost value rounded to three decimal places.
     /// </value>
     public double Milepost {
-        get => Math.Round(_milepost, 3);
-        set => _milepost = value;
+        get => Math.Round(field, 3);
+        set;
     }
 
     /// <summary>

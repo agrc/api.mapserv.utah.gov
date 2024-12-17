@@ -5,7 +5,6 @@ using ugrc.api.Models.RequestOptionContracts;
 
 namespace ugrc.api.Features.Searching;
 public class SearchRequestOptionsContract : IProjectable {
-    private double _buffer = 0;
 
     /// <summary>
     /// The where clause to be evaluated
@@ -31,17 +30,17 @@ public class SearchRequestOptionsContract : IProjectable {
     /// 500
     /// </example>
     public double Buffer {
-        get => _buffer;
+        get;
         set {
-            _buffer = Math.Abs(value);
+            field = Math.Abs(value);
 
-            if (_buffer > 2000) {
-                _buffer = 2000;
+            if (field > 2000) {
+                field = 2000;
 
                 return;
             }
         }
-    }
+    } = 0;
 
     /// <summary>
     ///     Determines how attributes will be formatted in the response.

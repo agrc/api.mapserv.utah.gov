@@ -3,8 +3,6 @@ using ugrc.api.Models.RequestOptionContracts;
 
 namespace ugrc.api.Features.Milepost;
 public class ReverseRouteMilepostRequestOptionsContract : IProjectable {
-    private double _buffer = 100;
-    private int _suggest = 0;
 
     /// <summary>
     /// The radius around the input location in meters.
@@ -14,17 +12,17 @@ public class ReverseRouteMilepostRequestOptionsContract : IProjectable {
     /// </example>
     [DefaultValue(100)]
     public double Buffer {
-        get => _buffer;
+        get;
         set {
-            _buffer = Math.Abs(value);
+            field = Math.Abs(value);
 
-            if (_buffer > 200) {
-                _buffer = 200;
+            if (field > 200) {
+                field = 200;
 
                 return;
             }
         }
-    }
+    } = 100;
 
     /// <summary>
     /// Include ramps in the results
@@ -43,14 +41,14 @@ public class ReverseRouteMilepostRequestOptionsContract : IProjectable {
     /// </example>
     [DefaultValue(0)]
     public int Suggest {
-        get => _suggest;
+        get;
         set {
-            _suggest = Math.Abs(value);
-            if (_suggest > 5) {
-                _suggest = 5;
+            field = Math.Abs(value);
+            if (field > 5) {
+                field = 5;
             }
         }
-    }
+    } = 0;
     public int SpatialReference { get; set; } = 26912;
 
     public static ValueTask<ReverseRouteMilepostRequestOptionsContract> BindAsync(HttpContext context) {

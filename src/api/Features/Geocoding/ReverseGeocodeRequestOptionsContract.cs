@@ -3,8 +3,6 @@ using ugrc.api.Models.RequestOptionContracts;
 
 namespace ugrc.api.Features.Geocoding;
 public class ReverseGeocodeRequestOptionsContract : IProjectable {
-    private double _distance = 5;
-
     /// <summary>
     /// The distance in meters from the input location to look for an address. Max value is 2000.
     /// </summary>
@@ -13,17 +11,17 @@ public class ReverseGeocodeRequestOptionsContract : IProjectable {
     /// </example>
     [DefaultValue(5)]
     public double Distance {
-        get => _distance;
+        get;
         set {
-            _distance = Math.Abs(value);
+            field = Math.Abs(value);
 
-            if (_distance > 2000) {
-                _distance = 2000;
+            if (field > 2000) {
+                field = 2000;
 
                 return;
             }
         }
-    }
+    } = 5;
 
     public int SpatialReference { get; set; } = 26912;
 
