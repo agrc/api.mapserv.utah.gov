@@ -16,10 +16,10 @@ Geocoding allows you to get the geographic location (i.e., the geographical coor
 
 :::caution[Be aware]
 
-1. 1. This endpoint confirms that an address **can** exist along a road, however, there may be no structure or mail delivery at the address.
-1. 2. This endpoint should not be used to validate mailing addresses.
-1. 3. [Reserved characters](https://www.rfc-editor.org/rfc/rfc3986#section-2.1), like ?, #, @, etc. in your data need to be escaped or the request will fail.
-1. 4. `matchAddress` returns the name of the [address system quadrant](https://gis.utah.gov/products/sgid/location/address-system-quadrants/) for the address. For example, `"matchAddress": "10420 E Little Cottonwood Canyon, Salt Lake City"` means that the address is part of the **Salt Lake City** address system. It is neither within the boundaries of Salt Lake City proper, nor is it the preferred mailing address placename.
+- This endpoint confirms that an address **can** exist along a road, however, there may be no structure or mail delivery at the address.
+- This endpoint should not be used to validate mailing addresses. Read the blog post to [understand our geocoding endpoint](https://gis.utah.gov/blog/2024-08-22-understanding-the-ugrc-api-for-address-locating/).
+- [Reserved characters](https://www.rfc-editor.org/rfc/rfc3986#section-2.1), like ?, #, @, etc. in your data need to be escaped or the request will fail.
+- `matchAddress` returns the name of the [address system quadrant](https://gis.utah.gov/products/sgid/location/address-system-quadrants/) for the address. For example, `"matchAddress": "10420 E Little Cottonwood Canyon, Salt Lake City"` means that the address is part of the **Salt Lake City** address system. It is neither within the boundaries of Salt Lake City proper, nor is it the preferred mailing address placename.
 
 :::
 
