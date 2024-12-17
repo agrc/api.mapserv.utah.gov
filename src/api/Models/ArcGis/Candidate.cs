@@ -2,9 +2,6 @@ using System.Text.Json.Serialization;
 
 namespace ugrc.api.Models.ArcGis;
 public class Candidate {
-    private string _address = string.Empty;
-    private string _addressGrid = string.Empty;
-
     public Candidate(string address, string grid, Point location, double score, string locator, int weight) {
         Address = address;
         AddressGrid = grid;
@@ -35,24 +32,24 @@ public class Candidate {
 
     // TODO: figure out what is going on with the splitting
     public string Address {
-        get => _address;
+        get;
         set {
-            _address = value;
+            field = value;
 
-            if (string.IsNullOrEmpty(_address)) {
+            if (string.IsNullOrEmpty(field)) {
                 return;
             }
 
-            var parts = _address.Split([',']);
+            var parts = field.Split([',']);
 
             if (parts.Length != 3) {
                 return;
             }
 
             AddressGrid = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parts[1].Trim().ToLowerInvariant());
-            _address = string.Join(",", parts[0], parts[2]).Trim();
+            field = string.Join(",", parts[0], parts[2]).Trim();
         }
-    }
+    } = string.Empty;
 
     public Point Location { get; set; } = default!;
 
@@ -62,7 +59,7 @@ public class Candidate {
 
     public string Locator { get; set; }
 
-    public string AddressGrid { get => _addressGrid; set => _addressGrid = value.ToUpperInvariant(); }
+    public string AddressGrid { get; set => field = value.ToUpperInvariant(); } = string.Empty;
 
     [JsonIgnore]
     public int Weight { get; set; }

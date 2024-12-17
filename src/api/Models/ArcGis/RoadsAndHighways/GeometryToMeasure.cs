@@ -47,17 +47,15 @@ public static class GeometryToMeasure {
         : RestErrorable(Error);
 
     public class ResponseLocation {
-        private double _measure;
-
         public ResponseLocation[] Results { get; set; } = [];
         public Status Status { get; set; }
         public string RouteId { get; set; } = string.Empty;
         public double Measure {
-            get => _measure;
+            get;
             set {
-                _measure = Math.Round(value, 4);
-                if (_measure <= 0) {
-                    _measure = 0.001D;
+                field = Math.Round(value, 4);
+                if (field <= 0) {
+                    field = 0.001D;
                 }
             }
         }

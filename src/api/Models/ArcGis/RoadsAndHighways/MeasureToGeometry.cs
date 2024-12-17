@@ -22,11 +22,10 @@ public static class MeasureToGeometry {
     }
 
     public record ResponseLocation(Status Status, ResponseLocation[] Results, string InputRouteId, GeometryType GeometryType, MeasurePoint? Geometry) {
-        private string _routeId = InputRouteId;
         public string RouteId {
-            get => string.IsNullOrEmpty(_routeId) ? "" : _routeId.TrimStart('0').TrimEnd('M');
-            set => _routeId = value;
-        }
+            get => string.IsNullOrEmpty(field) ? "" : field.TrimStart('0').TrimEnd('M');
+            set;
+        } = InputRouteId;
     }
 
     public record MeasurePoint(double X, double Y, double M);

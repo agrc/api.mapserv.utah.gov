@@ -3,8 +3,6 @@ using Google.Cloud.Firestore;
 namespace ugrc.api.Models;
 [FirestoreData]
 public class ApiKey {
-    private string _key = string.Empty;
-
     [FirestoreData(ConverterType = typeof(FirestoreEnumIgnoreCaseNameConverter<ApplicationStatus>))]
     public enum ApplicationStatus {
         Development,
@@ -34,7 +32,7 @@ public class ApiKey {
 
     public string Id { get; set; } = string.Empty;
     [FirestoreProperty("accountId")] public string AccountId { get; set; } = string.Empty;
-    [FirestoreProperty("key")] public string Key { get => _key.ToLowerInvariant(); set => _key = value; }
+    [FirestoreProperty("key")] public string Key { get => field.ToLowerInvariant(); set; } = string.Empty;
     public long CreatedAtTicks { get; set; }
     [FirestoreProperty("created")] public DateTime CreatedAt => new DateTime(CreatedAtTicks).ToUniversalTime();
     [FirestoreProperty("pattern")] public string? Pattern { get; set; }

@@ -8,7 +8,6 @@ using ugrc.api.Models.Constants;
 
 namespace ugrc.api.Features.Geocoding;
 public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeocodeRequestOptionsContract> {
-    private double? _scoreDifference;
 
     /// <summary>
     /// The geographic coordinates for where the system thinks the input address exists.
@@ -66,8 +65,8 @@ public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeo
     /// the same score.
     /// </summary>
     public double? ScoreDifference {
-        get => _scoreDifference;
-        set => _scoreDifference = value.HasValue ? Math.Round(value.Value, 2) : null;
+        get;
+        set => field = value.HasValue ? Math.Round(value.Value, 2) : null;
     }
 
     [JsonIgnore]
