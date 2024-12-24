@@ -8,6 +8,7 @@ using Google.Api.Gax;
 using Google.Cloud.Firestore;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -33,6 +34,8 @@ using ugrc.api.Middleware;
 using ugrc.api.Models.Configuration;
 using ugrc.api.Models.ResponseContracts;
 using ugrc.api.Services;
+using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 namespace ugrc.api.Extensions;
 public static class WebApplicationBuilderExtensions {
@@ -80,6 +83,55 @@ public static class WebApplicationBuilderExtensions {
             "Staging" or "Production" => EmulatorDetection.None,
             _ => EmulatorDetection.EmulatorOnly,
         };
+
+        // TODO! this might be a hack
+        var config = new DatabaseConfiguration {
+            Host = builder.Configuration.GetSection("webapi:redis").GetValue<string>("host") ?? string.Empty,
+        };
+        ArgumentNullException.ThrowIfNull(config);
+
+        builder.Services.AddMemoryCache();
+        builder.Services.AddFusionCache("places")
+            .WithOptions(options => {
+                options.DistributedCacheCircuitBreakerDuration = TimeSpan.FromSeconds(3);
+            })
+            .WithDefaultEntryOptions(new FusionCacheEntryOptions {
+                IsFailSafeEnabled = true,
+                Duration = TimeSpan.FromDays(7),
+
+                FailSafeMaxDuration = TimeSpan.FromHours(1),
+                FailSafeThrottleDuration = TimeSpan.FromSeconds(30),
+
+                FactorySoftTimeout = TimeSpan.FromSeconds(3),
+                FactoryHardTimeout = TimeSpan.FromSeconds(15),
+            })
+            .WithSerializer(
+                new FusionCacheSystemTextJsonSerializer(new JsonSerializerOptions {
+                    IncludeFields = true,
+                })
+            )
+            .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
+        );
+
+        builder.Services.AddFusionCache("firestore")
+            .WithOptions(options => {
+                options.DistributedCacheCircuitBreakerDuration = TimeSpan.FromSeconds(3);
+            })
+            .WithSerializer(
+                new FusionCacheSystemTextJsonSerializer()
+            )
+            .WithDefaultEntryOptions(new FusionCacheEntryOptions {
+                IsFailSafeEnabled = true,
+                Duration = TimeSpan.FromMinutes(5),
+
+                FailSafeMaxDuration = TimeSpan.FromHours(1),
+                FailSafeThrottleDuration = TimeSpan.FromSeconds(30),
+
+                FactorySoftTimeout = TimeSpan.FromSeconds(3),
+                FactoryHardTimeout = TimeSpan.FromSeconds(15),
+            })
+            .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
+        );
 
         // Singletons - same for every request
         // This throws in dev but not prod if the database is not running
