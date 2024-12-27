@@ -21,7 +21,6 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
 using Polly.Timeout;
-using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using ugrc.api.Cache;
 using ugrc.api.Features.Converting;
@@ -65,12 +64,10 @@ public static class WebApplicationBuilderExtensions {
     public static void ConfigureHealthChecks(this WebApplicationBuilder builder)
         => builder.Services.AddHealthChecks()
          .AddCheck<StartupHealthCheck>("Startup", failureStatus: HealthStatus.Degraded, tags: ["startup"])
-         .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<GeometryServiceHealthCheck>("ArcGIS:GeometryService", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy, tags: ["health"])
          .AddCheck<UdotServiceHealthCheck>("ArcGIS:RoadsAndHighwaysService", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<LocatorHealthCheck>("ArcGIS:LocatorServices", tags: ["health"])
-         .AddCheck<BigQueryHealthCheck>("Database", tags: ["health"]);
          .AddCheck<BigQueryHealthCheck>("Database", tags: ["health"])
          .AddCheck<GridMappingHealthCheck>("GridMapping", tags: ["health"]);
     public static void ConfigureDependencyInjection(this WebApplicationBuilder builder) {
@@ -145,19 +142,12 @@ public static class WebApplicationBuilderExtensions {
         builder.Services.AddSingleton<IAbbreviations, Abbreviations>();
         builder.Services.AddSingleton<IRegexCache, RegexCache>();
         builder.Services.AddSingleton<IApiKeyRepository, FirestoreApiKeyRepository>();
-        builder.Services.AddSingleton<ICacheRepository, RedisCacheRepository>();
         builder.Services.AddSingleton<IStaticCache, StaticCache>();
         builder.Services.AddSingleton<IBrowserKeyProvider, BrowserKeyProvider>();
         builder.Services.AddSingleton<IServerIpProvider, FirebaseClientIpProvider>();
         builder.Services.AddSingleton<IDistanceStrategy, PythagoreanDistance>();
         builder.Services.AddSingleton<ITableMapping, TableMapping>();
         builder.Services.AddSingleton<StartupHealthCheck>();
-        builder.Services.AddSingleton((provider) => {
-            var options = provider.GetService<IOptions<DatabaseConfiguration>>();
-            ArgumentNullException.ThrowIfNull(options);
-
-            return new Lazy<IConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options.Value.ConnectionString));
-        });
         builder.Services.AddSingleton((provider) => {
             var options = provider.GetService<IOptions<SearchProviderConfiguration>>();
             ArgumentNullException.ThrowIfNull(options);
