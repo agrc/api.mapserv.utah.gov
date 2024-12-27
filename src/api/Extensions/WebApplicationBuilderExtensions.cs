@@ -8,6 +8,7 @@ using Google.Api.Gax;
 using Google.Cloud.Firestore;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -20,7 +21,6 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
 using Polly.Timeout;
-using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using ugrc.api.Cache;
 using ugrc.api.Features.Converting;
@@ -33,6 +33,8 @@ using ugrc.api.Middleware;
 using ugrc.api.Models.Configuration;
 using ugrc.api.Models.ResponseContracts;
 using ugrc.api.Services;
+using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 namespace ugrc.api.Extensions;
 public static class WebApplicationBuilderExtensions {
@@ -62,12 +64,12 @@ public static class WebApplicationBuilderExtensions {
     public static void ConfigureHealthChecks(this WebApplicationBuilder builder)
         => builder.Services.AddHealthChecks()
          .AddCheck<StartupHealthCheck>("Startup", failureStatus: HealthStatus.Degraded, tags: ["startup"])
-         .AddCheck<CacheHealthCheck>("Cache", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<GeometryServiceHealthCheck>("ArcGIS:GeometryService", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy, tags: ["health"])
          .AddCheck<UdotServiceHealthCheck>("ArcGIS:RoadsAndHighwaysService", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<LocatorHealthCheck>("ArcGIS:LocatorServices", tags: ["health"])
-         .AddCheck<BigQueryHealthCheck>("Database", tags: ["health"]);
+         .AddCheck<BigQueryHealthCheck>("Database", tags: ["health"])
+         .AddCheck<GridMappingHealthCheck>("GridMapping", tags: ["health"]);
     public static void ConfigureDependencyInjection(this WebApplicationBuilder builder) {
         builder.Services.Configure<List<LocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
         builder.Services.Configure<List<ReverseLocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
@@ -81,6 +83,59 @@ public static class WebApplicationBuilderExtensions {
             _ => EmulatorDetection.EmulatorOnly,
         };
 
+        // TODO! this might be a hack
+        var config = new DatabaseConfiguration {
+            Host = builder.Configuration.GetSection("webapi:redis").GetValue<string>("host") ?? string.Empty,
+        };
+        ArgumentNullException.ThrowIfNull(config);
+
+        builder.Services.AddMemoryCache();
+        builder.Services.AddFusionCache("places")
+            .WithOptions(options => {
+                options.DistributedCacheCircuitBreakerDuration = TimeSpan.FromSeconds(3);
+            })
+            .WithDefaultEntryOptions(new FusionCacheEntryOptions {
+                IsFailSafeEnabled = true,
+                Duration = TimeSpan.FromDays(7),
+
+                FailSafeMaxDuration = TimeSpan.FromHours(1),
+                FailSafeThrottleDuration = TimeSpan.FromSeconds(30),
+
+                FactorySoftTimeout = TimeSpan.FromSeconds(3),
+                FactoryHardTimeout = TimeSpan.FromSeconds(15),
+            })
+            .WithSerializer(
+                new FusionCacheSystemTextJsonSerializer(new JsonSerializerOptions {
+                    IncludeFields = true,
+                })
+            )
+            .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
+        );
+
+        builder.Services.AddFusionCache("firestore")
+            .WithOptions(options => {
+                options.DistributedCacheCircuitBreakerDuration = TimeSpan.FromSeconds(3);
+            })
+            .WithSerializer(
+                new FusionCacheSystemTextJsonSerializer()
+            )
+            .WithDefaultEntryOptions(new FusionCacheEntryOptions {
+                IsFailSafeEnabled = true,
+                Duration = TimeSpan.FromMinutes(5),
+
+                FailSafeMaxDuration = TimeSpan.FromHours(1),
+                FailSafeThrottleDuration = TimeSpan.FromSeconds(30),
+
+                FactorySoftTimeout = TimeSpan.FromSeconds(3),
+                FactoryHardTimeout = TimeSpan.FromSeconds(5),
+            })
+            .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
+        );
+
+            })
+            .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
+        );
+
         // Singletons - same for every request
         // This throws in dev but not prod if the database is not running
         builder.Services.AddSingleton(new FirestoreDbBuilder {
@@ -91,19 +146,12 @@ public static class WebApplicationBuilderExtensions {
         builder.Services.AddSingleton<IAbbreviations, Abbreviations>();
         builder.Services.AddSingleton<IRegexCache, RegexCache>();
         builder.Services.AddSingleton<IApiKeyRepository, FirestoreApiKeyRepository>();
-        builder.Services.AddSingleton<ICacheRepository, RedisCacheRepository>();
         builder.Services.AddSingleton<IStaticCache, StaticCache>();
         builder.Services.AddSingleton<IBrowserKeyProvider, BrowserKeyProvider>();
         builder.Services.AddSingleton<IServerIpProvider, FirebaseClientIpProvider>();
         builder.Services.AddSingleton<IDistanceStrategy, PythagoreanDistance>();
         builder.Services.AddSingleton<ITableMapping, TableMapping>();
         builder.Services.AddSingleton<StartupHealthCheck>();
-        builder.Services.AddSingleton((provider) => {
-            var options = provider.GetService<IOptions<DatabaseConfiguration>>();
-            ArgumentNullException.ThrowIfNull(options);
-
-            return new Lazy<IConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options.Value.ConnectionString));
-        });
         builder.Services.AddSingleton((provider) => {
             var options = provider.GetService<IOptions<SearchProviderConfiguration>>();
             ArgumentNullException.ThrowIfNull(options);
