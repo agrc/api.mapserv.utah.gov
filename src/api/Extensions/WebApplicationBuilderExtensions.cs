@@ -127,7 +127,11 @@ public static class WebApplicationBuilderExtensions {
                 FailSafeThrottleDuration = TimeSpan.FromSeconds(30),
 
                 FactorySoftTimeout = TimeSpan.FromSeconds(3),
-                FactoryHardTimeout = TimeSpan.FromSeconds(15),
+                FactoryHardTimeout = TimeSpan.FromSeconds(5),
+            })
+            .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
+        );
+
             })
             .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
         );
