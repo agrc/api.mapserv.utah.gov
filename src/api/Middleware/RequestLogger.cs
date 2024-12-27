@@ -16,7 +16,7 @@ public class RequestLoggerMiddleware(RequestDelegate next, ILogger log, IBrowser
     }
 
     private static string ParseEndpoint(string? path) {
-        if (string.IsNullOrEmpty(path)) {
+        if (string.IsNullOrEmpty(path) || path.Length <= 1) {
             return "-";
         }
 
