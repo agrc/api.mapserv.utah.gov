@@ -71,6 +71,8 @@ public static class WebApplicationBuilderExtensions {
          .AddCheck<UdotServiceHealthCheck>("ArcGIS:RoadsAndHighwaysService", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<LocatorHealthCheck>("ArcGIS:LocatorServices", tags: ["health"])
          .AddCheck<BigQueryHealthCheck>("Database", tags: ["health"]);
+         .AddCheck<BigQueryHealthCheck>("Database", tags: ["health"])
+         .AddCheck<GridMappingHealthCheck>("GridMapping", tags: ["health"]);
     public static void ConfigureDependencyInjection(this WebApplicationBuilder builder) {
         builder.Services.Configure<List<LocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
         builder.Services.Configure<List<ReverseLocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
