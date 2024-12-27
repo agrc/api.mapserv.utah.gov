@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Caching.Memory;
-using ugrc.api.Cache;
 using ugrc.api.Infrastructure;
 using ugrc.api.Models.Linkables;
 
@@ -19,11 +18,11 @@ public class AddressSystemFromZipCode {
         private readonly ILogger? _log = log?.ForContext<AddressSystemFromZipCode>();
         private readonly IMemoryCache _memoryCache = cache;
 
-        public async Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
+        public Task<IReadOnlyCollection<GridLinkable>> Handle(Computation request, CancellationToken cancellationToken) {
             _log?.Debug("Getting address system from zip {zip}", request._zip);
 
             if (string.IsNullOrEmpty(request._zip)) {
-                return (IReadOnlyCollection<GridLinkable>)Task.FromResult(Array.Empty<GridLinkable>());
+                return Task.FromResult((IReadOnlyCollection<GridLinkable>)Task.FromResult(Array.Empty<GridLinkable>()));
             }
 
             var result = _memoryCache.Get<List<GridLinkable>>($"mapping/zip/{request._zip}");
@@ -37,7 +36,7 @@ public class AddressSystemFromZipCode {
                     .Information("Analytics:zone");
             }
 
-            return result ?? [];
+            return Task.FromResult<IReadOnlyCollection<GridLinkable>>(result ?? []);
         }
     }
 }
