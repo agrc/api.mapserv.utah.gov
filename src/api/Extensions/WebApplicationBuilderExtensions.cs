@@ -87,16 +87,28 @@ public static class WebApplicationBuilderExtensions {
         builder.Services.AddFusionCache("places")
             .WithOptions(options => {
                 options.DistributedCacheCircuitBreakerDuration = TimeSpan.FromSeconds(3);
+
+                options.FactoryErrorsLogLevel = LogLevel.Error;
+                options.DistributedCacheErrorsLogLevel = LogLevel.Error;
+                options.SerializationErrorsLogLevel = LogLevel.Warning;
+                options.FailSafeActivationLogLevel = LogLevel.Debug;
+                options.DistributedCacheSyntheticTimeoutsLogLevel = LogLevel.Debug;
+                options.FactorySyntheticTimeoutsLogLevel = LogLevel.Debug;
             })
             .WithDefaultEntryOptions(new FusionCacheEntryOptions {
                 IsFailSafeEnabled = true,
+                AllowBackgroundDistributedCacheOperations = true,
+
                 Duration = TimeSpan.FromDays(7),
 
                 FailSafeMaxDuration = TimeSpan.FromHours(1),
                 FailSafeThrottleDuration = TimeSpan.FromSeconds(30),
 
-                FactorySoftTimeout = TimeSpan.FromSeconds(3),
+                FactorySoftTimeout = TimeSpan.FromMilliseconds(100),
                 FactoryHardTimeout = TimeSpan.FromSeconds(15),
+
+                DistributedCacheSoftTimeout = TimeSpan.FromSeconds(1),
+                DistributedCacheHardTimeout = TimeSpan.FromSeconds(3),
             })
             .WithSerializer(
                 new FusionCacheSystemTextJsonSerializer(new JsonSerializerOptions {
@@ -115,23 +127,31 @@ public static class WebApplicationBuilderExtensions {
         builder.Services.AddFusionCache("firestore")
             .WithOptions(options => {
                 options.DistributedCacheCircuitBreakerDuration = TimeSpan.FromSeconds(3);
+
+                options.FactoryErrorsLogLevel = LogLevel.Error;
+                options.DistributedCacheErrorsLogLevel = LogLevel.Error;
+                options.SerializationErrorsLogLevel = LogLevel.Warning;
+                options.FailSafeActivationLogLevel = LogLevel.Debug;
+                options.DistributedCacheSyntheticTimeoutsLogLevel = LogLevel.Debug;
+                options.FactorySyntheticTimeoutsLogLevel = LogLevel.Debug;
             })
             .WithSerializer(
                 new FusionCacheSystemTextJsonSerializer()
             )
             .WithDefaultEntryOptions(new FusionCacheEntryOptions {
                 IsFailSafeEnabled = true,
+                AllowBackgroundDistributedCacheOperations = true,
+
                 Duration = TimeSpan.FromMinutes(5),
 
                 FailSafeMaxDuration = TimeSpan.FromHours(1),
                 FailSafeThrottleDuration = TimeSpan.FromSeconds(30),
 
-                FactorySoftTimeout = TimeSpan.FromSeconds(3),
-                FactoryHardTimeout = TimeSpan.FromSeconds(5),
-            })
-            .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
-        );
+                FactorySoftTimeout = TimeSpan.FromMilliseconds(100),
+                FactoryHardTimeout = TimeSpan.FromSeconds(10),
 
+                DistributedCacheSoftTimeout = TimeSpan.FromSeconds(1),
+                DistributedCacheHardTimeout = TimeSpan.FromSeconds(3),
             })
             .WithRegisteredMemoryCache()
             .WithDistributedCache((provider) => {
