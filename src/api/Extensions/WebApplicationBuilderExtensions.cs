@@ -101,7 +101,7 @@ public static class WebApplicationBuilderExtensions {
 
                 Duration = TimeSpan.FromDays(7),
 
-                FailSafeMaxDuration = TimeSpan.FromHours(1),
+                FailSafeMaxDuration = TimeSpan.FromDays(8),
                 FailSafeThrottleDuration = TimeSpan.FromSeconds(30),
 
                 FactorySoftTimeout = TimeSpan.FromMilliseconds(100),
