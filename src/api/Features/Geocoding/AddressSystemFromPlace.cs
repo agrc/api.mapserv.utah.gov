@@ -57,7 +57,11 @@ public class AddressSystemFromPlace {
         private async Task<(bool success, List<GridLinkable> result)> IsFuzzyMatchAsync(string key, CancellationToken token) {
             var result = await _fusionCache.GetOrDefaultAsync<List<GridLinkable>>($"mapping/place/{key}", defaultValue: [], token: token);
 
-            if (result!.Count > 0) {
+            if (result is null) {
+                return (false, []);
+            }
+
+            if (result.Count > 0) {
                 LogCacheHit(key, "fusion");
 
                 return (true, result);

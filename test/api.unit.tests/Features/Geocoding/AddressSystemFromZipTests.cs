@@ -1,4 +1,4 @@
-using ugrc.api.Cache;
+using Microsoft.Extensions.Caching.Memory;
 using ugrc.api.Features.Geocoding;
 using ugrc.api.Infrastructure;
 using ugrc.api.Models.Linkables;
@@ -8,17 +8,12 @@ public class AddressSystemFromZipTests {
     internal static IComputationHandler<AddressSystemFromZipCode.Computation, IReadOnlyCollection<GridLinkable>> _handler;
 
     public AddressSystemFromZipTests() {
-        var mockDb = new Mock<IDatabase>();
-        mockDb.Setup(x => x.StringGetAsync(It.Is<RedisKey>(p => p.Equals(new RedisKey("1"))), CommandFlags.None))
-              .ReturnsAsync(new RedisValue("grid,1"));
+        var memoryCache = new MemoryCache(new MemoryCacheOptions());
+        memoryCache.Set("mapping/zip/1", new List<GridLinkable> { new ZipGridLink(1, "grid", 0) });
 
-        var mockConnection = new Mock<IConnectionMultiplexer>();
-        mockConnection.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(mockDb.Object);
-
-        var redisCache = new RedisCacheRepository(new Lazy<IConnectionMultiplexer>(() => mockConnection.Object));
         var mockLogger = new Mock<ILogger>() { DefaultValue = DefaultValue.Mock };
 
-        _handler = new AddressSystemFromZipCode.Handler(redisCache, mockLogger.Object);
+        _handler = new AddressSystemFromZipCode.Handler(memoryCache, mockLogger.Object);
     }
 
     [Fact]

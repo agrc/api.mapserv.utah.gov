@@ -22,7 +22,7 @@ public class AddressSystemFromZipCode {
             _log?.Debug("Getting address system from zip {zip}", request._zip);
 
             if (string.IsNullOrEmpty(request._zip)) {
-                return Task.FromResult((IReadOnlyCollection<GridLinkable>)Task.FromResult(Array.Empty<GridLinkable>()));
+                return Task.FromResult((IReadOnlyCollection<GridLinkable>)[]);
             }
 
             var result = _memoryCache.Get<List<GridLinkable>>($"mapping/zip/{request._zip}");
