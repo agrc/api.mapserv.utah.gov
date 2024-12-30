@@ -83,12 +83,6 @@ public static class WebApplicationBuilderExtensions {
             _ => EmulatorDetection.EmulatorOnly,
         };
 
-        // TODO! this might be a hack
-        var config = new DatabaseConfiguration {
-            Host = builder.Configuration.GetSection("webapi:redis").GetValue<string>("host") ?? string.Empty,
-        };
-        ArgumentNullException.ThrowIfNull(config);
-
         builder.Services.AddMemoryCache();
         builder.Services.AddFusionCache("places")
             .WithOptions(options => {
@@ -109,7 +103,13 @@ public static class WebApplicationBuilderExtensions {
                     IncludeFields = true,
                 })
             )
-            .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
+            .WithRegisteredMemoryCache()
+            .WithDistributedCache((provider) => {
+                var options = provider.GetService<IOptions<DatabaseConfiguration>>();
+                ArgumentNullException.ThrowIfNull(options);
+
+                return new RedisCache(new RedisCacheOptions() { Configuration = options.Value.ConnectionString });
+            }
         );
 
         builder.Services.AddFusionCache("firestore")
@@ -133,7 +133,13 @@ public static class WebApplicationBuilderExtensions {
         );
 
             })
-            .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = config.ConnectionString })
+            .WithRegisteredMemoryCache()
+            .WithDistributedCache((provider) => {
+                var options = provider.GetService<IOptions<DatabaseConfiguration>>();
+                ArgumentNullException.ThrowIfNull(options);
+
+                return new RedisCache(new RedisCacheOptions() { Configuration = options.Value.ConnectionString });
+            }
         );
 
         // Singletons - same for every request
