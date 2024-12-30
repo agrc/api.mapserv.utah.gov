@@ -21,6 +21,7 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
 using Polly.Timeout;
+using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using ugrc.api.Cache;
 using ugrc.api.Features.Converting;
@@ -75,7 +76,12 @@ public static class WebApplicationBuilderExtensions {
         builder.Services.Configure<List<ReverseLocatorConfiguration>>(builder.Configuration.GetSection("webapi:locators"));
         builder.Services.Configure<GeometryServiceConfiguration>(builder.Configuration.GetSection("webapi:geometryService"));
         builder.Services.Configure<DatabaseConfiguration>(builder.Configuration.GetSection("webapi:redis"));
+        builder.Services.AddSingleton((provider) => {
+            var options = provider.GetService<IOptions<DatabaseConfiguration>>();
+            ArgumentNullException.ThrowIfNull(options);
 
+            return new Lazy<IConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options.Value.ConnectionString));
+        });
         builder.Services.AddHttpContextAccessor();
 
         var emulator = builder.Environment.EnvironmentName switch {
