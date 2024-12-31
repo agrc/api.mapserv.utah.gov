@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.16](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.15...explorer-v2.4.16) (2024-12-31)
+
+
+### 🐛 Bug Fixes
+
+* **explorer:** correct documentation types for scoreDifference ([101b7cf](https://github.com/agrc/api.mapserv.utah.gov/commit/101b7cf7e68f6fb42ce8d570e80ed9cfe5e88898))
+
 ## [2.4.15](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.14...explorer-v2.4.15) (2024-12-17)
 
 
