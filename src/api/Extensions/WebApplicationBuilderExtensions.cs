@@ -8,6 +8,7 @@ using Google.Api.Gax;
 using Google.Cloud.Firestore;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -121,7 +122,7 @@ public static class WebApplicationBuilderExtensions {
                     IncludeFields = true,
                 })
             )
-            .WithRegisteredMemoryCache()
+            .WithMemoryCache(x => new MemoryCache(new MemoryCacheOptions()))
             .WithDistributedCache((provider) => {
                 var options = provider.GetService<IOptions<DatabaseConfiguration>>();
                 ArgumentNullException.ThrowIfNull(options);
