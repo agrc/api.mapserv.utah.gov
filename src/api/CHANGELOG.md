@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.17.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.24...api-v1.17.0) (2025-01-01)
+
+
+### 🚀 Features
+
+* **api:** improve caching and place name matching ([#451](https://github.com/agrc/api.mapserv.utah.gov/issues/451)) ([1e6dabd](https://github.com/agrc/api.mapserv.utah.gov/commit/1e6dabd43adde3feb25ffd4f1fca493860687827))
+
+
+### 🌲 Dependencies
+
+* bump the safe-dependencies group across 3 directories with 4 updates ([b6504a3](https://github.com/agrc/api.mapserv.utah.gov/commit/b6504a387bd90a54f367e51f77af50faf2b2cd5a))
+
 ## [1.16.24](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.23...api-v1.16.24) (2024-12-17)
 
 
