@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.0...api-v1.17.1) (2025-01-02)
+
+
+### 🐛 Bug Fixes
+
+* **api:** update connection string to enable L2 ([439d7fc](https://github.com/agrc/api.mapserv.utah.gov/commit/439d7fc1bd9f2b7c52d63bf81bc9a2aa34b2dc04))
+
 ## [1.17.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.16.24...api-v1.17.0) (2025-01-01)
 
 
