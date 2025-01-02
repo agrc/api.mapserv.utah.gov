@@ -127,7 +127,7 @@ public static class WebApplicationBuilderExtensions {
                 var options = provider.GetService<IOptions<DatabaseConfiguration>>();
                 ArgumentNullException.ThrowIfNull(options);
 
-                return new RedisCache(new RedisCacheOptions() { Configuration = $"{options.Value.Host}:{options.Value.Port}" });
+                return new RedisCache(new RedisCacheOptions() { Configuration = options.Value.ConnectionString });
             }
         );
 
@@ -165,7 +165,7 @@ public static class WebApplicationBuilderExtensions {
                 var options = provider.GetService<IOptions<DatabaseConfiguration>>();
                 ArgumentNullException.ThrowIfNull(options);
 
-                return new RedisCache(new RedisCacheOptions() { Configuration = $"{options.Value.Host}:{options.Value.Port}" });
+                return new RedisCache(new RedisCacheOptions() { Configuration = options.Value.ConnectionString });
             }
         );
 
