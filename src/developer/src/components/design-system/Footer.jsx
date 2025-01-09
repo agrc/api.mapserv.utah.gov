@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const Footer = ({ className }) => {
   return (
     <footer className={className}>
-      <div className="relative flex flex-col flex-wrap items-center justify-between border-t border-dashed border-t-mustard-300 p-8 lg:flex-row">
+      <div className="relative flex flex-col flex-wrap items-center justify-between border-t border-dashed border-t-secondary-300 p-8 lg:flex-row">
         <div className="flex flex-col items-center gap-4 text-center lg:h-8 lg:flex-row lg:divide-x lg:text-left">
           <div className="h-full" id="utah-logo-svg">
             <svg

@@ -4,9 +4,9 @@ import { createKeyLookup } from './design-system';
 
 const COLORS = {
   primary:
-    'decoration-mustard-500 active:text-mustard-500 active:decoration-mustard-600 dark:text-mustard-400/70',
+    'decoration-secondary-500 active:text-secondary-500 active:decoration-secondary-600 dark:text-secondary-400/70',
   secondary:
-    'decoration-mustard-500 dark:active:text-mustard-500 active:decoration-mustard-600 text-mustard-400/70',
+    'decoration-secondary-500 dark:active:text-secondary-500 active:decoration-secondary-600 text-secondary-400/70',
 };
 
 export const TextLink = ({
@@ -20,7 +20,7 @@ export const TextLink = ({
       href={href}
       target={target}
       className={twMerge(
-        'font-medium italic text-mustard-900 underline underline-offset-2 transition-all hover:decoration-2 hover:underline-offset-4 focus:outline-none active:underline-offset-8',
+        'font-medium italic text-secondary-900 underline underline-offset-2 transition-all hover:decoration-2 hover:underline-offset-4 focus:outline-none active:underline-offset-8',
         COLORS[color],
       )}
       rel={target === '_blank' ? 'noopener noreferrer' : undefined}

@@ -15,7 +15,7 @@ const Card = ({ title, subTitle, children, danger = false }) => {
         <h4
           className={clsx('bg-white px-5 pt-3 uppercase dark:bg-slate-600', {
             'pb-3': !subTitle,
-            'text-wavy-600 dark:text-slate-50': !danger,
+            'text-primary-600 dark:text-slate-50': !danger,
             'text-rose-700 dark:text-rose-200': danger,
           })}
         >

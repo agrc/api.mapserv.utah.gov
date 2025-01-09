@@ -57,7 +57,7 @@ const TextArea = forwardRef(
             <textarea
               ref={ref}
               className={twMerge(
-                'w-full resize-none rounded-md border-slate-400 px-2 py-1 text-slate-700 shadow-sm transition-all duration-200 ease-in-out placeholder:text-slate-400 focus:border-mustard-500 focus:outline-none focus:ring focus:ring-mustard-600 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm',
+                'w-full resize-none rounded-md border-slate-400 px-2 py-1 text-slate-700 shadow-sm transition-all duration-200 ease-in-out placeholder:text-slate-400 focus:border-secondary-500 focus:outline-none focus:ring focus:ring-secondary-600 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm',
                 !inline && 'w-full',
                 invalid &&
                   'border-2 border-fuchsia-500 focus:border-fuchsia-500 focus:ring-fuchsia-600',

@@ -43,7 +43,7 @@ const Table = forwardRef(function Table(
       <div className="h-full overflow-y-auto" ref={parentRef} tabIndex={0}>
         <table className="w-full table-fixed border-collapse">
           <caption className="sr-only">{caption}</caption>
-          <thead className="sticky top-0 bg-wavy-300 text-base text-wavy-800 dark:bg-slate-950/70 dark:text-wavy-300">
+          <thead className="sticky top-0 bg-primary-300 text-base text-primary-800 dark:bg-slate-950/70 dark:text-primary-300">
             {getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -63,7 +63,7 @@ const Table = forwardRef(function Table(
                           header.column.getCanSort() &&
                             'flex cursor-pointer select-none items-center justify-between',
                           header.column.getIsSorted() &&
-                            'before:absolute before:-bottom-1 before:left-0 before:z-10 before:block before:h-2 before:w-full before:rounded-full before:bg-mustard-500',
+                            'before:absolute before:-bottom-1 before:left-0 before:z-10 before:block before:h-2 before:w-full before:rounded-full before:bg-secondary-500',
                         )}
                         onClick={header.column.getToggleSortingHandler()}
                       >
@@ -91,11 +91,11 @@ const Table = forwardRef(function Table(
                 <tr
                   key={row.id}
                   className={clsx(
-                    'border-y border-y-wavy-200 dark:border-y-wavy-700',
+                    'border-y border-y-primary-200 dark:border-y-primary-700',
                     {
-                      'bg-slate-50 text-wavy-900 dark:bg-slate-800 dark:text-wavy-300':
+                      'bg-slate-50 text-primary-900 dark:bg-slate-800 dark:text-primary-300':
                         even,
-                      'bg-wavy-100 text-wavy-800 dark:bg-slate-700 dark:text-wavy-300':
+                      'bg-primary-100 text-primary-800 dark:bg-slate-700 dark:text-primary-300':
                         odd,
                     },
                   )}

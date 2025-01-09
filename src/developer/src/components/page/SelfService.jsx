@@ -26,19 +26,19 @@ export function Component() {
   return (
     <article>
       <section className="relative mb-12 w-full px-6 md:mx-auto">
-        <div className="bg-circuit absolute inset-0 h-32 bg-wavy-600 shadow-lg"></div>
+        <div className="bg-circuit absolute inset-0 h-32 bg-primary-600 shadow-lg"></div>
         <div className="relative space-y-4">
           <h3 className="mb-3 ml-2 pt-3 text-center text-white dark:text-slate-200">
             API key statistics
           </h3>
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">
-              <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-slate-950 dark:border-mustard-400/20 dark:bg-slate-900">
+              <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-slate-950 dark:border-secondary-400/20 dark:bg-slate-900">
                 {status === 'pending' && (
                   <div className="flex min-h-[100px] min-w-[266px] items-center justify-center">
                     <Spinner
                       size={Spinner.Sizes.xl}
-                      className="text-wavy-800"
+                      className="text-primary-800"
                       ariaLabel="fetching API statistics"
                     />
                   </div>
@@ -46,7 +46,7 @@ export function Component() {
                 {status === 'success' && (
                   <>
                     <div className="p-6 text-center">
-                      <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
+                      <p className="text-2xl font-semibold text-primary-800 dark:text-slate-200">
                         {numberFormat.format(
                           response.data.reduce(
                             (sum, key) => sum + Number(key.usage ?? 0),
@@ -54,15 +54,15 @@ export function Component() {
                           ),
                         )}
                       </p>
-                      <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
+                      <p className="text-sm text-primary-500 dark:text-secondary-500/60">
                         requests to date
                       </p>
                     </div>
                     <div className="p-6 text-center">
-                      <div className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
+                      <div className="text-2xl font-semibold text-primary-800 dark:text-slate-200">
                         {response.data.length}
                       </div>
-                      <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
+                      <p className="text-sm text-primary-500 dark:text-secondary-500/60">
                         total keys
                       </p>
                     </div>
@@ -71,28 +71,28 @@ export function Component() {
                 {status === 'error' && (
                   <>
                     <div className="p-6 text-center">
-                      <p className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
+                      <p className="text-2xl font-semibold text-primary-800 dark:text-slate-200">
                         <div className="flex min-h-[32px] items-center justify-center">
                           <span className="sr-only">
                             We were unable to fetch your API key count
                           </span>
-                          <ExclamationTriangleIcon className="h-6 w-6 text-mustard-500" />
+                          <ExclamationTriangleIcon className="h-6 w-6 text-secondary-500" />
                         </div>
                       </p>
-                      <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
+                      <p className="text-sm text-primary-500 dark:text-secondary-500/60">
                         requests to date
                       </p>
                     </div>
                     <div className="p-6 text-center">
-                      <div className="text-2xl font-semibold text-wavy-800 dark:text-slate-200">
+                      <div className="text-2xl font-semibold text-primary-800 dark:text-slate-200">
                         <div className="flex min-h-[32px] items-center justify-center">
                           <span className="sr-only">
                             We were unable to fetch your API key count
                           </span>
-                          <ExclamationTriangleIcon className="h-6 w-6 text-mustard-500" />
+                          <ExclamationTriangleIcon className="h-6 w-6 text-secondary-500" />
                         </div>
                       </div>
-                      <p className="text-sm text-wavy-500 dark:text-mustard-500/60">
+                      <p className="text-sm text-primary-500 dark:text-secondary-500/60">
                         total keys
                       </p>
                     </div>
@@ -143,7 +143,7 @@ export function Component() {
             prior to the Utahid login by{' '}
             <Link
               to="/self-service/claim-account"
-              className="font-medium italic text-mustard-900 underline decoration-mustard-500 underline-offset-2 transition-all hover:decoration-2 hover:underline-offset-4 focus:outline-none active:text-mustard-500 active:decoration-mustard-600 active:underline-offset-8 dark:text-mustard-400/70"
+              className="font-medium italic text-secondary-900 underline decoration-secondary-500 underline-offset-2 transition-all hover:decoration-2 hover:underline-offset-4 focus:outline-none active:text-secondary-500 active:decoration-secondary-600 active:underline-offset-8 dark:text-secondary-400/70"
             >
               claiming non-Utahid keys
             </Link>

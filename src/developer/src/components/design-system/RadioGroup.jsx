@@ -54,7 +54,7 @@ const RadioGroup = forwardRef(
                   className={twJoin(
                     'rounded-full p-1',
                     !item.disabled &&
-                      'group-hover:bg-mustard-200 group-focus:bg-mustard-200 group-active:bg-mustard-200',
+                      'group-hover:bg-secondary-200 group-focus:bg-secondary-200 group-active:bg-secondary-200',
                   )}
                 >
                   <RadixRadioGroup.Item
@@ -72,7 +72,7 @@ const RadioGroup = forwardRef(
                       className={twJoin(
                         'after:block after:h-4 after:w-4',
                         'after:rounded-full after:content-[""]',
-                        'after:border-4 after:border-mustard-500',
+                        'after:border-4 after:border-secondary-500',
                       )}
                     />
                   </RadixRadioGroup.Item>

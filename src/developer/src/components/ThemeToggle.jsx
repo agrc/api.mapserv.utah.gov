@@ -29,7 +29,7 @@ const ThemeToggle = () => {
   }, [theme]);
 
   return (
-    <div className="inline-flex items-center gap-2 rounded-full bg-wavy-500 px-3 py-2">
+    <div className="inline-flex items-center gap-2 rounded-full bg-primary-500 px-3 py-2">
       {themes.map((t, i) => {
         const icon = icons[i];
         const checked = t === theme;

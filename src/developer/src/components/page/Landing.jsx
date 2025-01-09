@@ -8,7 +8,7 @@ export function Component() {
       <div className="flex flex-wrap">
         <div className="lg:flex-basis-auto min-h-[480px] w-full max-w-full py-10 lg:min-h-[980px] lg:w-1/2 lg:shrink-0 lg:grow-0 lg:py-[114px]">
           <div className="mx-auto grid w-full max-w-[480px] gap-6">
-            <h2 className="text-wavy-800 dark:text-slate-100">
+            <h2 className="text-primary-800 dark:text-slate-100">
               Access your keys
             </h2>
             <p className="text-slate-700 dark:text-slate-300">
@@ -42,7 +42,7 @@ export function Component() {
             </div>
           </div>
         </div>
-        <div className="lg:flex-basis-auto relative hidden flex-col items-center justify-center bg-gradient-to-b from-wavy-700 via-wavy-400 to-mustard-400 lg:block lg:w-1/2 lg:shrink-0 lg:grow-0">
+        <div className="lg:flex-basis-auto relative hidden flex-col items-center justify-center bg-gradient-to-b from-primary-700 via-primary-400 to-secondary-400 lg:block lg:w-1/2 lg:shrink-0 lg:grow-0">
           <img
             className="absolute left-0 top-0 h-full w-full"
             src="/sparkles.png"

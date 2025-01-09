@@ -13,15 +13,15 @@ const COLORS = {
   },
   primary: {
     outlined:
-      'border-wavy-500 text-wavy-500 focus:border-wavy-500 focus:ring-wavy-500 hover:border-wavy-500 hover:bg-wavy-500',
+      'border-primary-500 text-primary-500 focus:border-primary-500 focus:ring-primary-500 hover:border-primary-500 hover:bg-primary-500',
     solid:
-      'border-wavy-600 bg-wavy-500 text-mustard-100 focus:border-wavy-700 focus:ring-wavy-700 hover:border-wavy-600 hover:bg-wavy-700 border border-2 dark:border-mustard-600/50',
+      'border-primary-600 bg-primary-500 text-secondary-100 focus:border-primary-700 focus:ring-primary-700 hover:border-primary-600 hover:bg-primary-700 border border-2 dark:border-secondary-600/50',
   },
   secondary: {
     outlined:
-      'bg-white/75 dark:bg-transparent border-mustard-600 text-mustard-500 dark:text-mustard-100 focus:border-mustard-400 focus:ring-mustard-400 dark:hover:text-slate-600 dark:hover:bg-mustard-400 hover:text-slate-600 hover:bg-mustard-400',
+      'bg-white/75 dark:bg-transparent border-secondary-600 text-secondary-500 dark:text-secondary-100 focus:border-secondary-400 focus:ring-secondary-400 dark:hover:text-slate-600 dark:hover:bg-secondary-400 hover:text-slate-600 hover:bg-secondary-400',
     solid:
-      'bg-mustard-500/75 border-mustard-600 text-white focus:border-mustard-400 focus:ring-mustard-400 hover:text-slate-600 hover:border-mustard-400 hover:bg-mustard-400',
+      'bg-secondary-500/75 border-secondary-600 text-white focus:border-secondary-400 focus:ring-secondary-400 hover:text-slate-600 hover:border-secondary-400 hover:bg-secondary-400',
   },
   accent: {
     outlined:
