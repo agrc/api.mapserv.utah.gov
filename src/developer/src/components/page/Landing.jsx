@@ -1,5 +1,5 @@
+import { UtahIdLogin } from '@ugrc/utah-design-system';
 import { TextLink } from '../Link';
-import UtahIdLogin from '../UtahIdLogin';
 import product from './product.png';
 
 export function Component() {

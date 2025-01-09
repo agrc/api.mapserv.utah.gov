@@ -1,31 +1,25 @@
-import { getAnalytics } from 'firebase/analytics';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getFunctions } from 'firebase/functions';
-import PropTypes from 'prop-types';
 import {
-  AnalyticsProvider,
-  AuthProvider,
+  FirebaseAnalyticsProvider,
+  FirebaseAuthProvider,
+  FirebaseFunctionsProvider,
   FirestoreProvider,
-  FunctionsProvider,
-  useFirebaseApp,
-} from 'reactfire';
+} from '@ugrc/utah-design-system';
+import { OAuthProvider } from 'firebase/auth';
+import PropTypes from 'prop-types';
+
+const provider = new OAuthProvider('oidc.utah-id');
+provider.addScope('profile');
+provider.addScope('email');
 
 const FirebaseContainer = ({ children }) => {
-  const app = useFirebaseApp();
-  const auth = getAuth(app);
-  const functions = getFunctions(app);
-  const firestore = getFirestore(app);
-  const analytics = getAnalytics(app);
-
   return (
-    <AuthProvider sdk={auth}>
-      <AnalyticsProvider sdk={analytics}>
-        <FirestoreProvider sdk={firestore}>
-          <FunctionsProvider sdk={functions}>{children}</FunctionsProvider>
+    <FirebaseAuthProvider provider={provider}>
+      <FirebaseAnalyticsProvider>
+        <FirestoreProvider>
+          <FirebaseFunctionsProvider>{children}</FirebaseFunctionsProvider>
         </FirestoreProvider>
-      </AnalyticsProvider>
-    </AuthProvider>
+      </FirebaseAnalyticsProvider>
+    </FirebaseAuthProvider>
   );
 };
 FirebaseContainer.propTypes = {

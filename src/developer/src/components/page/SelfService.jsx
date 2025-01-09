@@ -1,8 +1,8 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
+import { useFirebaseFunctions } from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
 import { Link, useLoaderData } from 'react-router-dom';
-import { useFunctions } from 'reactfire';
 import { TextLink } from '../Link';
 import Button, { RouterButtonLink } from '../design-system/Button';
 import Spinner from '../design-system/Spinner';
@@ -10,14 +10,14 @@ import Spinner from '../design-system/Spinner';
 const numberFormat = new Intl.NumberFormat('en-US');
 
 export function Component() {
-  const functions = useFunctions();
+  const { functions } = useFirebaseFunctions();
   const getKeys = httpsCallable(functions, 'keys');
   const loaderData = useLoaderData();
 
   const { status, data: response } = useQuery({
-    queryKey: ['my keys', loaderData.user.uid],
+    queryKey: ['my keys', loaderData.uid],
     queryFn: () => Spinner.minDelay(getKeys()),
-    enabled: (loaderData.user?.uid.length ?? 0 > 0) ? true : false,
+    enabled: (loaderData?.uid.length ?? 0 > 0) ? true : false,
     onError: () => 'We had some trouble finding your keys.',
     gcTime: Infinity,
     staleTime: Infinity,
