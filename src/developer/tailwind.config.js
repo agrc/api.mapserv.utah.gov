@@ -2,14 +2,13 @@
 export default {
   content: [
     './index.html',
-    './src/**/*.{js,jsx}',
-    './node_modules/@ugrc/**/*.{js,jsx}',
+    './src/**/*.{tsx,jsx,js}',
+    './node_modules/@ugrc/**/*.{tsx,jsx,js}',
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        wavy: {
+        primary: {
           50: '#f3f7f8',
           100: '#dfebee',
           200: '#c3d8de',
@@ -21,7 +20,7 @@ export default {
           800: '#364954',
           900: '#313f48',
         },
-        mustard: {
+        secondary: {
           50: '#fdfced',
           100: '#f7f4ce',
           200: '#efe898',
@@ -34,7 +33,35 @@ export default {
           900: '#6b411c',
         },
       },
+      fontFamily: {
+        utah: [
+          '"Source Sans 3"',
+          '"Source Sans Pro"',
+          'Helvetica',
+          'Arial',
+          'sans-serif',
+        ],
+      },
+      animation: {
+        'gradient-x': 'gradient-x 4s ease infinite',
+      },
+      keyframes: {
+        'gradient-x': {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center',
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center',
+          },
+        },
+      },
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-react-aria-components'),
+    require('@tailwindcss/forms'),
+    require('tailwindcss-animate'),
+  ],
 };

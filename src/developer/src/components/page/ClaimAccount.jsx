@@ -75,12 +75,12 @@ export function Component() {
       <section className="border-b border-slate-400 p-6">
         <h2
           id="key-claiming"
-          className="mx-auto mb-4 max-w-5xl text-wavy-800 dark:text-slate-200 md:col-span-2"
+          className="mx-auto mb-4 max-w-5xl text-primary-800 md:col-span-2 dark:text-slate-200"
         >
           Non-Utahid account key claiming
         </h2>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-10 md:px-6">
-          <p className="text-wavy-800 dark:text-slate-200">
+          <p className="text-primary-800 dark:text-slate-200">
             The UGRC API has migrated login systems. Due to this change, you
             currently do not have access to the keys created by your non-Utahid
             account. However, all of these keys will continue to function for
@@ -88,7 +88,7 @@ export function Component() {
             will need to claim them from the account that originally created
             them.
           </p>
-          <p className="text-wavy-800 dark:text-slate-200">
+          <p className="text-primary-800 dark:text-slate-200">
             In order to do this, you will need to know the email address and
             password of the non-Utahid account that created the keys. The
             non-Utahid email address may even be the same as the Utahid account!
@@ -98,7 +98,7 @@ export function Component() {
         </div>
       </section>
       <section className="relative w-full">
-        <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
+        <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
         <div className="relative z-10 mx-auto max-w-5xl px-6">
           <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">
             Claim keys from non-Utahid account
@@ -152,7 +152,7 @@ export function Component() {
             </div>
 
             {mutationStatus === 'pending' && (
-              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow dark:bg-slate-500 dark:text-mustard-200 md:w-3/4 md:border-x md:text-4xl">
+              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow md:w-3/4 md:border-x md:text-4xl dark:bg-slate-500 dark:text-secondary-200">
                 <Spinner
                   size={Spinner.Sizes.custom}
                   className="h-8"
@@ -163,7 +163,7 @@ export function Component() {
             )}
             {mutationStatus === 'success' && (
               <>
-                <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-2 border border-x-0 border-wavy-400/70 bg-slate-300/70 px-6 py-4 text-2xl font-black uppercase text-wavy-500 shadow dark:bg-slate-500 dark:text-mustard-200 md:w-3/4 md:border-x md:text-4xl">
+                <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-2 border border-x-0 border-primary-400/70 bg-slate-300/70 px-6 py-4 text-2xl font-black uppercase text-primary-500 shadow md:w-3/4 md:border-x md:text-4xl dark:bg-slate-500 dark:text-secondary-200">
                   <button
                     type="button"
                     onClick={() => resetMutation()}

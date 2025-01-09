@@ -34,7 +34,7 @@ import Spinner from '../design-system/Spinner';
 const numberFormat = new Intl.NumberFormat('en-US');
 
 const iconStyle =
-  'dark:fill-wavy-500/50 dark:text-mustard-400/80 drop-shadow-md h-24 fill-mustard-500/20 text-wavy-500/80';
+  'dark:fill-primary-500/50 dark:text-secondary-400/80 drop-shadow-md h-24 fill-secondary-500/20 text-primary-500/80';
 
 const convertTicks = (ticks) => {
   const ticksToMilliseconds = ticks / 10000;
@@ -124,25 +124,25 @@ export const Component = () => {
     return (
       <>
         <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
-          <KeyIcon className="h-14 fill-mustard-500/20 text-wavy-500/80 drop-shadow-md dark:fill-wavy-500/50 dark:text-mustard-400/80" />
+          <KeyIcon className="h-14 fill-secondary-500/20 text-primary-500/80 drop-shadow-md dark:fill-primary-500/50 dark:text-secondary-400/80" />
           <div>
             <h2
               id="key-creation"
-              className="uppercase text-wavy-600 dark:text-wavy-200"
+              className="uppercase text-primary-600 dark:text-primary-200"
             >
               {key}
             </h2>
-            <p className="text-wavy-400">key does not exist</p>
+            <p className="text-primary-400">key does not exist</p>
           </div>
         </section>
         <section className="relative mb-12 w-full px-6 md:mx-auto">
-          <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
+          <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
           <div className="mx-auto w-full">
             <div className="mt-16 flex flex-col items-center gap-2">
-              <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-mustard-400 drop-shadow-md">
+              <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
                 This key does not exist!
               </h3>
-              <ShieldExclamationIcon className="mb-14 h-24 fill-wavy-500/70 text-mustard-400/90 drop-shadow-md" />
+              <ShieldExclamationIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
             </div>
           </div>
         </section>
@@ -164,18 +164,18 @@ export const Component = () => {
     return (
       <>
         <section className="relative mb-12 w-full px-6 md:mx-auto">
-          <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
+          <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
           <div className="mx-auto w-full">
             <div className="mt-16 flex flex-col items-center gap-2">
-              <h3 className="mt-2 text-center text-5xl font-black tracking-tight text-mustard-400 drop-shadow-md">
+              <h3 className="mt-2 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
                 We are sorry, but
               </h3>
-              <p className="max-w-lg text-center text-xl tracking-wide text-mustard-400 drop-shadow-md">
+              <p className="max-w-lg text-center text-xl tracking-wide text-secondary-400 drop-shadow-md">
                 we encountered an issue while processing your request. Please
                 try again. If the problem persists, please contact our support
                 team.
               </p>
-              <ExclamationCircleIcon className="mb-14 h-24 fill-wavy-500/70 text-mustard-400/90 drop-shadow-md" />
+              <ExclamationCircleIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
             </div>
           </div>
         </section>
@@ -197,28 +197,28 @@ export const Component = () => {
     <>
       <section className="mx-auto flex max-w-5xl items-center justify-between gap-4 p-6 md:col-span-2">
         <div className="flex gap-4">
-          <KeyIcon className="h-14 fill-mustard-500/20 text-wavy-500/80 drop-shadow-md dark:fill-wavy-500/50 dark:text-mustard-400/80" />
+          <KeyIcon className="h-14 fill-secondary-500/20 text-primary-500/80 drop-shadow-md dark:fill-primary-500/50 dark:text-secondary-400/80" />
           <div>
             <h2
               id="key-creation"
-              className="flex items-center uppercase text-wavy-600 dark:text-wavy-200"
+              className="flex items-center uppercase text-primary-600 dark:text-primary-200"
             >
               {key}
               <CopyToClipboard text={key} className="ml-1 inline" />
             </h2>
-            <p className="text-wavy-400">
+            <p className="text-primary-400">
               {status === 'pending' ? 'fetching metadata...' : data?.pattern}
             </p>
           </div>
         </div>
       </section>
       <section className="relative mb-4 w-full px-6 md:mx-auto">
-        <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
+        <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
         {status === 'pending' ? (
           <div className="flex h-64 flex-1 items-center justify-center">
             <Spinner
               size={Spinner.Sizes.custom}
-              className="w-16 text-wavy-200"
+              className="w-16 text-primary-200"
               ariaLabel="fetching API key metadata"
             />
           </div>
@@ -373,25 +373,25 @@ export const ErrorBoundary = () => {
   return (
     <>
       <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
-        <KeyIcon className="h-14 fill-mustard-500/20 text-wavy-500/80 drop-shadow-md dark:fill-wavy-500/50 dark:text-mustard-400/80" />
+        <KeyIcon className="h-14 fill-secondary-500/20 text-primary-500/80 drop-shadow-md dark:fill-primary-500/50 dark:text-secondary-400/80" />
         <div>
           <h2
             id="key-creation"
-            className="uppercase text-wavy-600 dark:text-wavy-200"
+            className="uppercase text-primary-600 dark:text-primary-200"
           >
             {key}
           </h2>
-          <p className="text-wavy-400">key does not exist</p>
+          <p className="text-primary-400">key does not exist</p>
         </div>
       </section>
       <section className="relative mb-12 w-full px-6 md:mx-auto">
-        <div className="bg-circuit absolute inset-0 h-64 bg-wavy-600 shadow-lg"></div>
+        <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
         <div className="mx-auto w-full">
           <div className="mt-16 flex flex-col items-center gap-2">
-            <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-mustard-400 drop-shadow-md">
+            <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
               This key does not exist!
             </h3>
-            <ShieldExclamationIcon className="mb-14 h-24 fill-wavy-500/70 text-mustard-400/90 drop-shadow-md" />
+            <ShieldExclamationIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
           </div>
         </div>
       </section>
@@ -418,7 +418,7 @@ MetadataItem.propTypes = {
 };
 
 const Banner = ({ children }) => (
-  <div className="flex h-12 w-[250px] items-center justify-center border-y border-y-slate-300 bg-slate-200 px-2 dark:border-y-slate-500/50 dark:bg-slate-600 dark:text-wavy-100">
+  <div className="flex h-12 w-[250px] items-center justify-center border-y border-y-slate-300 bg-slate-200 px-2 dark:border-y-slate-500/50 dark:bg-slate-600 dark:text-primary-100">
     <p className="overflow-hidden text-ellipsis">{children}</p>
   </div>
 );

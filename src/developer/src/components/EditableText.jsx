@@ -11,7 +11,7 @@ const EditableText = ({ text, pattern, onChange }) => {
 
   if (!editable) {
     return (
-      <div className="flex flex-col items-center gap-4 p-4 text-wavy-800 dark:text-wavy-200">
+      <div className="flex flex-col items-center gap-4 p-4 text-primary-800 dark:text-primary-200">
         <p>
           This API key is special and can only be used with the{' '}
           <TextLink href="https://gis.utah.gov/products/sgid/address/api-client/">
@@ -23,7 +23,7 @@ const EditableText = ({ text, pattern, onChange }) => {
     );
   }
   return (
-    <div className="flex flex-col items-center gap-4 p-4 text-wavy-800 dark:text-wavy-200">
+    <div className="flex flex-col items-center gap-4 p-4 text-primary-800 dark:text-primary-200">
       {!editing ? (
         note
       ) : (

@@ -32,7 +32,7 @@ const Avatar = ({
       trigger={
         <div className="flex w-full cursor-pointer flex-col items-center gap-6">
           <span className="relative">
-            <span className="mr-2 inline-block h-16 w-16 overflow-hidden rounded-full border-2 border-wavy-500 bg-wavy-500 shadow-lg">
+            <span className="mr-2 inline-block h-16 w-16 overflow-hidden rounded-full border-2 border-primary-500 bg-primary-500 shadow-lg">
               <Gravatar email={user.email} name={user.displayName} />
             </span>
             <Tooltip trigger={gravatarIcon} delayDuration={300}>
