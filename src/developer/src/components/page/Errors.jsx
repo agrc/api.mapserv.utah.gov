@@ -1,7 +1,7 @@
 import { LockClosedIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useRouteError } from 'react-router-dom';
+import { Link, useNavigate, useRouteError } from 'react-router';
 
 export const RouterErrorPage = ({ error }) => {
   const routeError = useRouteError();

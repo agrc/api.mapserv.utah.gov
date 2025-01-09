@@ -2,11 +2,11 @@ import Header from '@ugrc/header';
 import { logEvent } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
 import { useEffect } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAnalytics, useSigninCheck, useUser } from 'reactfire';
 import Avatar from '../Avatar';
 import ThemeToggle from '../ThemeToggle';
 import Footer from '../design-system/Footer';
+import { Outlet, useLocation } from 'react-router';
 import Menu from '../design-system/Menu';
 
 const links = [

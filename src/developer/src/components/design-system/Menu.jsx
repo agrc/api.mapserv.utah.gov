@@ -3,7 +3,7 @@ import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 const menuTextCss = (isActive) =>
   clsx(
