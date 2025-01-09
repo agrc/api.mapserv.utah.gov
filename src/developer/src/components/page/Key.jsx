@@ -18,13 +18,14 @@ import {
   ShieldExclamationIcon,
 } from '@heroicons/react/24/outline';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useFirebaseFunctions, useFirestore } from '@ugrc/utah-design-system';
 import { doc, updateDoc } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
-import { useFirestore, useFunctions } from 'reactfire';
 import { useLoaderData, useNavigate, useParams } from 'react-router';
 import { timeSince } from '../../../functions/time';
+
 import CopyToClipboard from '../CopyToClipboard';
 import EditableText from '../EditableText';
 import Button, { RouterButtonLink } from '../design-system/Button';
@@ -45,19 +46,20 @@ const convertTicks = (ticks) => {
 
 export const Component = () => {
   const { key } = useParams();
-  const keyRef = useRef(doc(useFirestore(), `/keys/${key?.toLowerCase()}`));
-  const functions = useFunctions();
+  const { firestore } = useFirestore();
+  const keyRef = useRef(doc(firestore, `/keys/${key?.toLowerCase()}`));
+  const { functions } = useFirebaseFunctions();
   const getKeys = httpsCallable(functions, 'keys');
   const loaderData = useLoaderData();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const { status, data } = useQuery({
-    queryKey: ['my keys', loaderData.user.uid],
+    queryKey: ['my keys', loaderData.uid],
     queryFn: () => Spinner.minDelay(getKeys(), 800),
     select: (response) =>
       response.data.find((data) => data.key === key?.toUpperCase()),
-    enabled: (loaderData.user?.uid.length ?? 0 > 0) ? true : false,
+    enabled: (loaderData?.uid.length ?? 0 > 0) ? true : false,
     onError: () => 'We had some trouble finding your keys.',
     gcTime: Infinity,
     staleTime: Infinity,
@@ -65,7 +67,7 @@ export const Component = () => {
 
   const prefetchKeys = async () => {
     await queryClient.prefetchQuery({
-      queryKey: ['my keys', loaderData.user.uid],
+      queryKey: ['my keys', loaderData.uid],
       queryFn: getKeys,
     });
   };

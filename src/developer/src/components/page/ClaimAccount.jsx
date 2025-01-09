@@ -1,9 +1,9 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useFirebaseFunctions } from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
 import { Controller, useForm } from 'react-hook-form';
-import { useFunctions } from 'reactfire';
 import * as z from 'zod';
 import { TextLink } from '../Link';
 import Button, { RouterButtonLink } from '../design-system/Button';
@@ -41,7 +41,7 @@ export function Component() {
     defaultValues,
   });
 
-  const functions = useFunctions();
+  const { functions } = useFirebaseFunctions();
   const validateClaim = httpsCallable(functions, 'validateClaim');
 
   const queryClient = useQueryClient();

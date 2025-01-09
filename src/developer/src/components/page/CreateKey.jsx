@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Tabs from '@radix-ui/react-tabs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useFirebaseFunctions } from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useLoaderData } from 'react-router-dom';
-import { useFunctions } from 'reactfire';
+import { useLoaderData } from 'react-router';
 import * as z from 'zod';
 import CopyToClipboard from '../CopyToClipboard';
 import { TextLink } from '../Link';
@@ -114,7 +114,7 @@ export function Component() {
   });
 
   const loaderData = useLoaderData();
-  const functions = useFunctions();
+  const { functions } = useFirebaseFunctions();
   const createKey = httpsCallable(functions, 'createKey');
   const getKeys = httpsCallable(functions, 'keys');
 
@@ -125,7 +125,7 @@ export function Component() {
     mutate,
     status: mutationStatus,
   } = useMutation({
-    mutationKey: ['create key', loaderData.user.uid],
+    mutationKey: ['create key', loaderData.uid],
     mutationFn: (data) => Spinner.minDelay(createKey(data)),
     onSuccess: async () => {
       await queryClient.cancelQueries({
@@ -148,7 +148,7 @@ export function Component() {
   const onSubmit = (data) =>
     mutate({
       ...data,
-      for: loaderData.user.uid,
+      for: loaderData.uid,
     });
 
   return (

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { createColumnHelper } from '@tanstack/react-table';
+import { useFirebaseFunctions } from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
-import { useFunctions } from 'reactfire';
 import { Link, useLoaderData } from 'react-router';
 import CopyToClipboard from '../CopyToClipboard';
 import Button, { RouterButtonLink } from '../design-system/Button';
@@ -63,14 +63,14 @@ const columns = [
 ];
 
 export function Component() {
-  const functions = useFunctions();
+  const { functions } = useFirebaseFunctions();
   const getKeys = httpsCallable(functions, 'keys');
   const loaderData = useLoaderData();
 
   const { status, data } = useQuery({
-    queryKey: ['my keys', loaderData.user.uid],
+    queryKey: ['my keys', loaderData.uid],
     queryFn: () => Spinner.minDelay(getKeys()),
-    enabled: (loaderData.user?.uid.length ?? 0 > 0) ? true : false,
+    enabled: (loaderData?.uid.length ?? 0 > 0) ? true : false,
     onError: () => 'We had some trouble finding your keys.',
     gcTime: Infinity,
     staleTime: Infinity,
