@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { twMerge } from 'tailwind-merge';
 import { createKeyLookup } from '.';
 import Spinner from './Spinner';

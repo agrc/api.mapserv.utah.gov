@@ -22,8 +22,8 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
-import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useFirestore, useFunctions } from 'reactfire';
+import { useLoaderData, useNavigate, useParams } from 'react-router';
 import { timeSince } from '../../../functions/time';
 import CopyToClipboard from '../CopyToClipboard';
 import EditableText from '../EditableText';
@@ -116,7 +116,7 @@ export const Component = () => {
 
       await cancelAndInvalidate();
 
-      navigate('/self-service/keys');
+      await navigate('/self-service/keys');
     }
   };
 

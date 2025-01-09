@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { createColumnHelper } from '@tanstack/react-table';
 import { httpsCallable } from 'firebase/functions';
-import { Link, useLoaderData } from 'react-router-dom';
 import { useFunctions } from 'reactfire';
+import { Link, useLoaderData } from 'react-router';
 import CopyToClipboard from '../CopyToClipboard';
 import Button, { RouterButtonLink } from '../design-system/Button';
 import Spinner from '../design-system/Spinner';
