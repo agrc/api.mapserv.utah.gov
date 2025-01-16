@@ -13,7 +13,7 @@ import Layout from './components/page/Layout';
 const App = () => {
   const { currentUser } = useFirebaseAuth();
 
-  const anonymous = !currentUser ?? false;
+  const anonymous = !currentUser;
 
   const router = createBrowserRouter(
     createRoutesFromElements(
