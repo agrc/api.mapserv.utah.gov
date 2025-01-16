@@ -1,3 +1,7 @@
+import forms from '@tailwindcss/forms';
+import ugrcPreset from '@ugrc/tailwind-preset';
+import animate from 'tailwindcss-animate';
+import rac from 'tailwindcss-react-aria-components';
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -59,9 +63,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require('tailwindcss-react-aria-components'),
-    require('@tailwindcss/forms'),
-    require('tailwindcss-animate'),
-  ],
+  plugins: [rac, forms, animate],
 };
