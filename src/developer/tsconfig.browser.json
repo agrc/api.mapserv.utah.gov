@@ -1,0 +1,6 @@
+{
+  "extends": "@ugrc/tsconfigs/browser",
+  "include": [
+    "src"
+  ]
+}
