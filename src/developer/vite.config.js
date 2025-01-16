@@ -8,4 +8,8 @@ export default defineConfig({
     env: 'node',
     provider: 'v8',
   },
+  resolve: {
+    // this is only applicable when pnpm-linking the utah-design-package
+    dedupe: ['firebase', 'react'],
+  },
 });
