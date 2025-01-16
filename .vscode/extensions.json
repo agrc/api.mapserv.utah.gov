@@ -10,7 +10,6 @@
     "aaron-bond.better-comments",
     "josefpihrt-vscode.roslynator",
     "njpwerner.autodocstring",
-    "ms-python.black-formatter",
     "ms-python.vscode-pylance",
     "ms-python.python",
     "donjayamanne.python-environment-manager",
