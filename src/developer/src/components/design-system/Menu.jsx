@@ -19,7 +19,7 @@ const menuItemCss =
 
 const Menu = () => {
   return (
-    <NavigationMenu.Root className="relative z-10 flex w-screen justify-start border-b border-dashed border-b-primary-300 bg-primary-200/50">
+    <NavigationMenu.Root className="relative z-10 flex justify-start border-b border-dashed border-b-primary-300 bg-primary-200/50">
       <NavigationMenu.List className="flex list-none justify-center p-1">
         <NavigationMenu.Item className="rounded-full hover:bg-primary-400/50">
           <MenuLink to="/self-service">Home</MenuLink>
