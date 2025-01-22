@@ -7,6 +7,7 @@ import {
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import Menu from '../design-system/Menu';
+import ThemeToggle from '../ThemeToggle';
 
 const links = [
   {
@@ -43,7 +44,7 @@ const Layout = () => {
   const { currentUser, logout } = useFirebaseAuth();
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header links={links} currentUser={currentUser} logout={logout}>
         <div className="flex h-full grow items-center gap-3">
           <img
@@ -55,15 +56,62 @@ const Layout = () => {
           <h2 className="font-heading text-3xl font-black text-zinc-600 sm:text-5xl dark:text-zinc-100">
             UGRC API
           </h2>
+          <span class="mr-6 flex grow justify-end">
+            <ThemeToggle />
+          </span>
         </div>
       </Header>
       <Menu />
       <main className="flex-1">
         <Outlet />
       </main>
-      <Footer />
+      <Footer
+        columnOne={{
+          title: 'Main menu',
+          links: [
+            {
+              url: '/',
+              title: 'Home',
+            },
+            {
+              url: '/self-service/create-key',
+              title: 'Create a key',
+            },
+            {
+              url: '/self-service/keys',
+              title: 'Manage keys',
+            },
+            {
+              url: '/self-service/claim-account',
+              title: 'Claim keys',
+            },
+          ],
+        }}
+        columnTwo={{
+          title: 'Helpful links',
+          links: [
+            {
+              url: `${import.meta.env.VITE_API_EXPLORER_URL}/`,
+              title: 'UGRC API homepage',
+            },
+            {
+              url: `${import.meta.env.VITE_API_EXPLORER_URL}/docs/`,
+              title: 'UGRC API documentation',
+            },
+          ],
+        }}
+        columnThree={{
+          title: 'Website information',
+          links: [
+            {
+              url: 'https://github.com/agrc/api.mapserv.utah.gov/issues/new',
+              title: 'Report an issue',
+            },
+          ],
+        }}
+      />
       <PageViewLogger />
-    </>
+    </div>
   );
 };
 

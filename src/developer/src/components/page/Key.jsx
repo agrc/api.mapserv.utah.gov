@@ -18,19 +18,22 @@ import {
   ShieldExclamationIcon,
 } from '@heroicons/react/24/outline';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useFirebaseFunctions, useFirestore } from '@ugrc/utah-design-system';
+import {
+  Button,
+  Spinner,
+  useFirebaseFunctions,
+  useFirestore,
+} from '@ugrc/utah-design-system';
 import { doc, updateDoc } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { useLoaderData, useNavigate, useParams } from 'react-router';
-import { timeSince } from '../../../functions/time';
 
+import { timeSince } from '../../../functions/time';
 import CopyToClipboard from '../CopyToClipboard';
 import EditableText from '../EditableText';
-import Button, { RouterButtonLink } from '../design-system/Button';
 import Card from '../design-system/Card';
-import Spinner from '../design-system/Spinner';
 
 const numberFormat = new Intl.NumberFormat('en-US');
 
@@ -47,9 +50,11 @@ const convertTicks = (ticks) => {
 export const Component = () => {
   const { key } = useParams();
   const { firestore } = useFirestore();
-  const keyRef = useRef(doc(firestore, `/keys/${key?.toLowerCase()}`));
   const { functions } = useFirebaseFunctions();
+
+  const keyRef = useRef(doc(firestore, `/keys/${key?.toLowerCase()}`));
   const getKeys = httpsCallable(functions, 'keys');
+
   const loaderData = useLoaderData();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -149,14 +154,9 @@ export const Component = () => {
           </div>
         </section>
         <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
-          <RouterButtonLink
-            to="/self-service/keys"
-            appearance={Button.Appearances.solid}
-            color={Button.Colors.primary}
-            size={Button.Sizes.xl}
-          >
+          <Button onPress={navigate('/self-service/keys')} size="extraLarge">
             Go back to your keys
-          </RouterButtonLink>
+          </Button>
         </section>
       </>
     );
@@ -169,27 +169,25 @@ export const Component = () => {
           <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
           <div className="mx-auto w-full">
             <div className="mt-16 flex flex-col items-center gap-2">
-              <h3 className="mt-2 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
+              <h3 className="mt-2 text-center text-5xl font-black tracking-tight text-accent-400 drop-shadow-md">
                 We are sorry, but
               </h3>
-              <p className="max-w-lg text-center text-xl tracking-wide text-secondary-400 drop-shadow-md">
+              <p className="max-w-lg text-center text-xl tracking-wide text-accent-400 drop-shadow-md">
                 we encountered an issue while processing your request. Please
                 try again. If the problem persists, please contact our support
                 team.
               </p>
-              <ExclamationCircleIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
+              <ExclamationCircleIcon className="mb-14 h-24 fill-primary-500/70 text-accent-400/90 drop-shadow-md" />
             </div>
           </div>
         </section>
         <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
-          <RouterButtonLink
-            to="/self-service/keys"
-            appearance={Button.Appearances.solid}
-            color={Button.Colors.primary}
-            size={Button.Sizes.xl}
+          <Button
+            onPress={() => navigate('/self-service/keys')}
+            size="extraLarge"
           >
             Go back to your keys
-          </RouterButtonLink>
+          </Button>
         </section>
       </>
     );
@@ -218,11 +216,9 @@ export const Component = () => {
         <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
         {status === 'pending' ? (
           <div className="flex h-64 flex-1 items-center justify-center">
-            <Spinner
-              size={Spinner.Sizes.custom}
-              className="w-16 text-primary-200"
-              ariaLabel="fetching API key metadata"
-            />
+            <span className="size-16 text-primary-200">
+              <Spinner ariaLabel="fetching API key metadata" />
+            </span>
           </div>
         ) : (
           <>
@@ -313,51 +309,39 @@ export const Component = () => {
             <Card title="Danger Zone" danger>
               <div className="flex justify-center gap-4 p-6">
                 {!data.flags.disabled && (
-                  <Button
-                    onClick={pauseKey}
-                    appearance={Button.Appearances.solid}
-                    color={Button.Colors.danger}
-                    size={Button.Sizes.lg}
-                    className="group"
-                  >
-                    <PauseCircleIcon
-                      title="pause key"
-                      className="mr-2 h-6 cursor-pointer text-sky-100 group-hover:text-sky-400"
-                      onClick={pauseKey}
-                    />
-                    Pause Key
+                  <Button onPress={pauseKey}>
+                    <div className="flex px-2 py-1">
+                      <PauseCircleIcon
+                        title="pause key"
+                        className="mr-2 h-6 cursor-pointer text-sky-100 group-hover:text-sky-400"
+                        onClick={pauseKey}
+                      />
+                      Pause Key
+                    </div>
                   </Button>
                 )}
                 {data.flags.disabled && (
-                  <Button
-                    onClick={resumeKey}
-                    appearance={Button.Appearances.solid}
-                    color={Button.Colors.success}
-                    size={Button.Sizes.lg}
-                    className="group"
-                  >
-                    <PlayCircleIcon
-                      title="resume key"
-                      className="mr-2 h-6 cursor-pointer text-emerald-100 group-hover:text-emerald-400"
-                      onClick={resumeKey}
-                    />{' '}
-                    Resume Key
+                  <Button onPress={resumeKey}>
+                    <div className="flex px-2 py-1">
+                      <PlayCircleIcon
+                        title="resume key"
+                        className="mr-2 h-6 cursor-pointer text-emerald-100 group-hover:text-emerald-400"
+                        onClick={resumeKey}
+                      />
+                      Resume Key
+                    </div>
                   </Button>
                 )}
-                <Button
-                  onClick={deleteKey}
-                  appearance={Button.Appearances.solid}
-                  color={Button.Colors.danger}
-                  size={Button.Sizes.lg}
-                  className="group"
-                >
-                  <TrashIcon
-                    title="delete key"
-                    aria-label="delete site"
-                    className="mr-2 h-6 cursor-pointer text-red-100 group-hover:text-red-400"
-                    onClick={deleteKey}
-                  />
-                  Delete Key
+                <Button onPress={deleteKey}>
+                  <div className="flex px-2 py-1">
+                    <TrashIcon
+                      title="delete key"
+                      aria-label="delete site"
+                      className="mr-2 h-6 cursor-pointer text-red-100 group-hover:text-red-400"
+                      onClick={deleteKey}
+                    />
+                    Delete Key
+                  </div>
                 </Button>
               </div>
             </Card>
@@ -371,6 +355,7 @@ Component.displayName = 'Key';
 
 export const ErrorBoundary = () => {
   const { key } = useParams();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -398,14 +383,14 @@ export const ErrorBoundary = () => {
         </div>
       </section>
       <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
-        <RouterButtonLink
-          to="/self-service/keys"
+        <Button
+          onPress={() => navigate('/self-service/keys')}
           appearance={Button.Appearances.solid}
           color={Button.Colors.primary}
-          size={Button.Sizes.xl}
+          size="extraLarge"
         >
           Go back to your keys
-        </RouterButtonLink>
+        </Button>
       </section>
     </>
   );

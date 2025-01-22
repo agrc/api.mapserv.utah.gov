@@ -1,7 +1,6 @@
-import { Button, ExternalLink } from '@ugrc/utah-design-system';
+import { Button, ExternalLink, TextArea } from '@ugrc/utah-design-system';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import TextArea from './design-system/TextArea';
 
 const EditableText = ({ text, pattern, onChange }) => {
   const [editing, setEditing] = useState(false);

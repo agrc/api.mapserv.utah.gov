@@ -1,5 +1,4 @@
-import { UtahIdLogin } from '@ugrc/utah-design-system';
-import { TextLink } from '../Link';
+import { ExternalLink, UtahIdLogin } from '@ugrc/utah-design-system';
 import product from './product.png';
 
 export function Component() {
@@ -23,11 +22,11 @@ export function Component() {
             <p className="text-slate-700 dark:text-slate-300">
               API keys are anonymous and randomly generated. No personal
               information will be shared or made public.{' '}
-              <TextLink
+              <ExternalLink
                 href={`${import.meta.env.VITE_API_EXPLORER_URL}/privacy/`}
               >
                 View our privacy policy
-              </TextLink>
+              </ExternalLink>
               .
             </p>
             <div className="mx-3 my-3 flex items-center text-slate-500">
@@ -38,7 +37,7 @@ export function Component() {
               <span className="h-px flex-1 bg-slate-200"></span>
             </div>
             <div className="flex justify-center">
-              <UtahIdLogin />
+              <UtahIdLogin size="medium" />
             </div>
           </div>
         </div>

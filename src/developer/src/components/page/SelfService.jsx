@@ -1,18 +1,24 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
-import { useFirebaseFunctions } from '@ugrc/utah-design-system';
+import {
+  Button,
+  ExternalLink,
+  Link,
+  Spinner,
+  useFirebaseFunctions,
+} from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
-import { Link, useLoaderData } from 'react-router-dom';
-import { TextLink } from '../Link';
-import Button, { RouterButtonLink } from '../design-system/Button';
-import Spinner from '../design-system/Spinner';
+import { useLoaderData, useNavigate } from 'react-router';
 
 const numberFormat = new Intl.NumberFormat('en-US');
 
 export function Component() {
+  const loaderData = useLoaderData();
+
   const { functions } = useFirebaseFunctions();
   const getKeys = httpsCallable(functions, 'keys');
-  const loaderData = useLoaderData();
+
+  const navigate = useNavigate();
 
   const { status, data: response } = useQuery({
     queryKey: ['my keys', loaderData.uid],
@@ -28,19 +34,17 @@ export function Component() {
       <section className="relative mb-12 w-full px-6 md:mx-auto">
         <div className="bg-circuit absolute inset-0 h-32 bg-primary-600 shadow-lg"></div>
         <div className="relative space-y-4">
-          <h3 className="mb-3 ml-2 pt-3 text-center text-white dark:text-slate-200">
+          <h2 className="mb-3 ml-2 pt-3 text-center text-white dark:text-slate-200">
             API key statistics
-          </h3>
+          </h2>
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">
               <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-slate-950 dark:border-secondary-400/20 dark:bg-slate-900">
                 {status === 'pending' && (
                   <div className="flex min-h-[100px] min-w-[266px] items-center justify-center">
-                    <Spinner
-                      size={Spinner.Sizes.xl}
-                      className="text-primary-800"
-                      ariaLabel="fetching API statistics"
-                    />
+                    <span className="size-6 text-primary-800">
+                      <Spinner ariaLabel="fetching API statistics" />
+                    </span>
                   </div>
                 )}
                 {status === 'success' && (
@@ -104,22 +108,12 @@ export function Component() {
         </div>
       </section>
       <section className="mb-6 flex justify-center gap-6">
-        <RouterButtonLink
-          to="create-key"
-          appearance={Button.Appearances.solid}
-          color={Button.Colors.primary}
-          size={Button.Sizes.xl}
-        >
+        <Button onPress={() => navigate('create-key')} size="extraLarge">
           create a new key
-        </RouterButtonLink>
-        <RouterButtonLink
-          to="keys"
-          appearance={Button.Appearances.solid}
-          color={Button.Colors.primary}
-          size={Button.Sizes.xl}
-        >
+        </Button>
+        <Button onPress={() => navigate('keys')} size="extraLarge">
           manage keys
-        </RouterButtonLink>
+        </Button>
       </section>
       <section className="mx-auto max-w-prose justify-center space-y-4 p-6">
         <div className="flex flex-col justify-center gap-6">
@@ -134,24 +128,21 @@ export function Component() {
           <p className="dark:text-slate-200">
             We have created your first API key for you already. This is a
             special key and can only be used from the{' '}
-            <TextLink href="https://gis.utah.gov/products/sgid/address/api-client/">
+            <ExternalLink href="https://gis.utah.gov/products/sgid/address/api-client/">
               UGRC API Client
-            </TextLink>
+            </ExternalLink>
             . If you need to geocode addresses or search SGID data from a
             website or another application, you will need to create a key
             specific to that use case. You can claim keys that were created
             prior to the Utahid login by{' '}
-            <Link
-              to="/self-service/claim-account"
-              className="font-medium italic text-secondary-900 underline decoration-secondary-500 underline-offset-2 transition-all hover:decoration-2 hover:underline-offset-4 focus:outline-none active:text-secondary-500 active:decoration-secondary-600 active:underline-offset-8 dark:text-secondary-400/70"
-            >
+            <Link href="/self-service/claim-account">
               claiming non-Utahid keys
             </Link>
             .
           </p>
-          <h4 className="text-center dark:text-slate-200">
+          <h3 className="text-center dark:text-slate-200">
             Fair use disclaimer
-          </h4>
+          </h3>
           <p className="dark:text-slate-200">
             This API is free to use and we ask that you use it responsibly and
             fairly. We reserve the right to block abusive users. Currently, the
