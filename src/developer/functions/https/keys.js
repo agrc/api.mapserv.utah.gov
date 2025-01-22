@@ -41,12 +41,8 @@ export const getKeys = async (uid, includeAnalytics = true) => {
   querySnapshot.forEach((doc) => keys.push(doc.data()));
 
   if (includeAnalytics) {
-    const usageKeys = keys.map(
-      (key) => `analytics:hit:${key.key.toLowerCase()}`,
-    );
-    const timeKeys = keys.map(
-      (key) => `analytics:time:${key.key.toLowerCase()}`,
-    );
+    const usageKeys = keys.map((key) => `analytics:hit:${key.key.toLowerCase()}`);
+    const timeKeys = keys.map((key) => `analytics:time:${key.key.toLowerCase()}`);
 
     const allKeys = [...usageKeys, ...timeKeys];
 
@@ -87,10 +83,7 @@ export const transferKeys = async (from, to) => {
 
   const batch = db.batch();
 
-  const keys = await db
-    .collection('/keys')
-    .where('accountId', '==', from)
-    .get();
+  const keys = await db.collection('/keys').where('accountId', '==', from).get();
   debug('[functions::transferKeys] collected keys:', keys.size);
 
   const claimedKeys = [];
@@ -113,11 +106,7 @@ export const transferKeys = async (from, to) => {
   batch.set(db.collection(`/clients/${to}/claimedAccounts`).doc(from), {
     email: from,
   });
-  debug(
-    '[functions::transferKeys] added new claimed account to new client',
-    from,
-    `/clients/${to}/claimedAccounts`,
-  );
+  debug('[functions::transferKeys] added new claimed account to new client', from, `/clients/${to}/claimedAccounts`);
   // remove unclaimed account as it's no longer needed
   batch.delete(db.collection('/clients-unclaimed').doc(from));
   debug('[functions::transferKeys] removed unclaimed account', from);

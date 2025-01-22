@@ -1,20 +1,12 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-import {
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { forwardRef, useRef, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 
 // note: I tried v3 beta of react-virtual but it didn't quite work
-const Table = forwardRef(function Table(
-  { columns, data, className, caption, ...props },
-  forwardedRef,
-) {
+const Table = forwardRef(function Table({ columns, data, className, caption, ...props }, forwardedRef) {
   const [sorting, setSorting] = useState(props?.initialState?.sorting ?? []);
   const [columnVisibility] = useState(props?.visibility ?? {});
 
@@ -34,10 +26,7 @@ const Table = forwardRef(function Table(
   const parentRef = useRef();
 
   return (
-    <div
-      ref={forwardedRef}
-      className={twMerge('relative flex flex-col', className)}
-    >
+    <div ref={forwardedRef} className={twMerge('relative flex flex-col', className)}>
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <div className="h-full overflow-y-auto" ref={parentRef} tabIndex={0}>
         <table className="w-full table-fixed border-collapse">
@@ -59,17 +48,13 @@ const Table = forwardRef(function Table(
                       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                       <div
                         className={twJoin(
-                          header.column.getCanSort() &&
-                            'flex cursor-pointer select-none items-center justify-between',
+                          header.column.getCanSort() && 'flex cursor-pointer select-none items-center justify-between',
                           header.column.getIsSorted() &&
                             'before:absolute before:-bottom-1 before:left-0 before:z-10 before:block before:h-2 before:w-full before:rounded-full before:bg-secondary-500',
                         )}
                         onClick={header.column.getToggleSortingHandler()}
                       >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                        {flexRender(header.column.columnDef.header, header.getContext())}
                         {{
                           asc: <ChevronUpIcon className="h-4" />,
                           desc: <ChevronDownIcon className="h-4" />,
@@ -89,26 +74,14 @@ const Table = forwardRef(function Table(
               return (
                 <tr
                   key={row.id}
-                  className={clsx(
-                    'border-y border-y-primary-200 dark:border-y-primary-700',
-                    {
-                      'bg-slate-50 text-primary-900 dark:bg-slate-800 dark:text-primary-300':
-                        even,
-                      'bg-primary-100 text-primary-800 dark:bg-slate-700 dark:text-primary-300':
-                        odd,
-                    },
-                  )}
+                  className={clsx('border-y border-y-primary-200 dark:border-y-primary-700', {
+                    'bg-slate-50 text-primary-900 dark:bg-slate-800 dark:text-primary-300': even,
+                    'bg-primary-100 text-primary-800 dark:bg-slate-700 dark:text-primary-300': odd,
+                  })}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="truncate p-2"
-                      title={cell.getValue()}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                    <td key={cell.id} className="truncate p-2" title={cell.getValue()}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
                 </tr>

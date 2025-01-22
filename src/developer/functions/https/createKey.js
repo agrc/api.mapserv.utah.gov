@@ -140,13 +140,10 @@ export const generateRegexFromPattern = (inputPattern) => {
   try {
     new RegExp(pattern);
   } catch {
-    warn(
-      '[functions::createKey::generateRegexFromPattern] invalid regex from pattern',
-      {
-        inputPattern,
-        pattern,
-      },
-    );
+    warn('[functions::createKey::generateRegexFromPattern] invalid regex from pattern', {
+      inputPattern,
+      pattern,
+    });
   }
 
   return pattern;

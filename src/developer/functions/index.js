@@ -91,11 +91,7 @@ export const createKey = https.onCall({ cors }, async (request) => {
     debug('[https::createKey]', error.message);
 
     if (error.message.startsWith('Duplicate key found')) {
-      throw new https.HttpsError(
-        'already-exists',
-        'duplicate key',
-        error.message.split(':')[1].trim(),
-      );
+      throw new https.HttpsError('already-exists', 'duplicate key', error.message.split(':')[1].trim());
     }
 
     throw new https.HttpsError('invalid-argument', error.message);
@@ -160,11 +156,7 @@ export const validateClaim = https.onCall(
 
     request.data.email = request.data.email.toLowerCase().trim();
 
-    const result = await validateClaim(
-      request.data.email,
-      request.data.password,
-      process.env.LEGACY_PEPPER ?? '',
-    );
+    const result = await validateClaim(request.data.email, request.data.password, process.env.LEGACY_PEPPER ?? '');
 
     debug('[https::validateClaim]', result);
 

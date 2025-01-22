@@ -22,9 +22,7 @@ export const standardKeyConversion = {
     return {
       key: data.key.toUpperCase(),
       created: timeSince(Date.parse(data.created.toDate().toISOString())),
-      createdDate: dateFormatter.format(
-        Date.parse(data.created.toDate().toISOString()),
-      ),
+      createdDate: dateFormatter.format(Date.parse(data.created.toDate().toISOString())),
       pattern: data.pattern,
       flags: data.flags,
       notes: data.notes ?? 'edit this key to add notes',

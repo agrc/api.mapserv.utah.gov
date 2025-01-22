@@ -12,10 +12,8 @@ const EditableText = ({ text, pattern, onChange }) => {
       <div className="flex flex-col items-center gap-4 p-4 text-primary-800 dark:text-primary-200">
         <p>
           This API key is special and can only be used with the{' '}
-          <ExternalLink href="https://gis.utah.gov/products/sgid/address/api-client/">
-            UGRC API Client
-          </ExternalLink>
-          . It enables desktop geocoding of CSV files of addresses.
+          <ExternalLink href="https://gis.utah.gov/products/sgid/address/api-client/">UGRC API Client</ExternalLink>. It
+          enables desktop geocoding of CSV files of addresses.
         </p>
       </div>
     );
@@ -25,12 +23,7 @@ const EditableText = ({ text, pattern, onChange }) => {
       {!editing ? (
         note
       ) : (
-        <TextArea
-          className="w-full md:max-w-lg"
-          label="Update note"
-          value={note}
-          onChange={setNote}
-        />
+        <TextArea className="w-full md:max-w-lg" label="Update note" value={note} onChange={setNote} />
       )}
 
       <div className="flex flex-row justify-between gap-2">

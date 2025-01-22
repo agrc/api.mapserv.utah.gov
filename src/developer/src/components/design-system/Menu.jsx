@@ -25,27 +25,16 @@ const Menu = () => {
           <MenuLink to="/self-service">Home</MenuLink>
         </NavigationMenu.Item>
         <NavigationMenu.Item className="rounded-full hover:bg-primary-400/50">
-          <MenuTrigger
-            toArray={['/self-service/create-key', '/self-service/keys']}
-          >
-            Keys
-          </MenuTrigger>
+          <MenuTrigger toArray={['/self-service/create-key', '/self-service/keys']}>Keys</MenuTrigger>
           <NavigationMenu.Content className={menuItemCss}>
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">
-              <InternalListItem
-                to="/self-service/create-key"
-                title="Create keys"
-              >
+              <InternalListItem to="/self-service/create-key" title="Create keys">
                 Generate a new API Key.
               </InternalListItem>
               <InternalListItem to="/self-service/keys" title="Manage Keys">
-                Pause, resume, or delete your API Keys and access analytics for
-                the key.
+                Pause, resume, or delete your API Keys and access analytics for the key.
               </InternalListItem>
-              <InternalListItem
-                to="/self-service/claim-account"
-                title="Claim keys"
-              >
+              <InternalListItem to="/self-service/claim-account" title="Claim keys">
                 Claim keys from a non-Utahid UGRC API account
               </InternalListItem>
             </ul>
@@ -55,16 +44,10 @@ const Menu = () => {
           <MenuTrigger toArray={[]}>Help</MenuTrigger>
           <NavigationMenu.Content className={menuItemCss}>
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">
-              <ExternalListItem
-                href={import.meta.env.VITE_API_EXPLORER_URL}
-                title="API homepage"
-              >
+              <ExternalListItem href={import.meta.env.VITE_API_EXPLORER_URL} title="API homepage">
                 Visit the API home page.
               </ExternalListItem>
-              <ExternalListItem
-                href={`${import.meta.env.VITE_API_EXPLORER_URL}/docs/`}
-                title="API documentation"
-              >
+              <ExternalListItem href={`${import.meta.env.VITE_API_EXPLORER_URL}/docs/`} title="API documentation">
                 View the API documentation.
               </ExternalListItem>
             </ul>
@@ -74,7 +57,7 @@ const Menu = () => {
       </NavigationMenu.List>
 
       <div className="absolute left-2 top-full flex w-full justify-start">
-        <NavigationMenu.Viewport className="relative mt-2 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded border bg-white shadow data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out data-[state=open]:zoom-in sm:w-[var(--radix-navigation-menu-viewport-width)] dark:border-secondary-500/30 dark:bg-slate-900" />
+        <NavigationMenu.Viewport className="relative mt-2 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded border bg-white shadow data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out data-[state=open]:zoom-in dark:border-secondary-500/30 dark:bg-slate-900 sm:w-[var(--radix-navigation-menu-viewport-width)]" />
       </div>
     </NavigationMenu.Root>
   );
@@ -112,29 +95,23 @@ MenuTrigger.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const InternalListItem = forwardRef(
-  ({ className, children, title, ...props }, forwardedRef) => (
-    <li className="leading-[.5em]">
-      <NavigationMenu.Link asChild>
-        <Link
-          className={clsx(
-            'block select-none rounded p-3 text-base no-underline outline-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-secondary-400 dark:hover:bg-slate-700/50',
-            className,
-          )}
-          {...props}
-          ref={forwardedRef}
-        >
-          <div className="font-medium text-primary-700 dark:text-secondary-600">
-            {title}
-          </div>
-          <p className="text-sm text-primary-500 dark:text-secondary-100/50">
-            {children}
-          </p>
-        </Link>
-      </NavigationMenu.Link>
-    </li>
-  ),
-);
+const InternalListItem = forwardRef(({ className, children, title, ...props }, forwardedRef) => (
+  <li className="leading-[.5em]">
+    <NavigationMenu.Link asChild>
+      <Link
+        className={clsx(
+          'block select-none rounded p-3 text-base no-underline outline-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-secondary-400 dark:hover:bg-slate-700/50',
+          className,
+        )}
+        {...props}
+        ref={forwardedRef}
+      >
+        <div className="font-medium text-primary-700 dark:text-secondary-600">{title}</div>
+        <p className="text-sm text-primary-500 dark:text-secondary-100/50">{children}</p>
+      </Link>
+    </NavigationMenu.Link>
+  </li>
+));
 InternalListItem.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
@@ -142,29 +119,23 @@ InternalListItem.propTypes = {
 };
 InternalListItem.displayName = 'InternalListItem';
 
-const ExternalListItem = forwardRef(
-  ({ className, children, title, ...props }, forwardedRef) => (
-    <li className="leading-[.5em]">
-      <NavigationMenu.Link asChild>
-        <a
-          className={clsx(
-            'block select-none rounded p-3 text-base no-underline outline-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-secondary-400 dark:hover:bg-slate-700/50',
-            className,
-          )}
-          {...props}
-          ref={forwardedRef}
-        >
-          <div className="font-medium text-primary-700 dark:text-secondary-600">
-            {title}
-          </div>
-          <p className="text-sm text-primary-500 dark:text-secondary-100/50">
-            {children}
-          </p>
-        </a>
-      </NavigationMenu.Link>
-    </li>
-  ),
-);
+const ExternalListItem = forwardRef(({ className, children, title, ...props }, forwardedRef) => (
+  <li className="leading-[.5em]">
+    <NavigationMenu.Link asChild>
+      <a
+        className={clsx(
+          'block select-none rounded p-3 text-base no-underline outline-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-secondary-400 dark:hover:bg-slate-700/50',
+          className,
+        )}
+        {...props}
+        ref={forwardedRef}
+      >
+        <div className="font-medium text-primary-700 dark:text-secondary-600">{title}</div>
+        <p className="text-sm text-primary-500 dark:text-secondary-100/50">{children}</p>
+      </a>
+    </NavigationMenu.Link>
+  </li>
+));
 ExternalListItem.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,

@@ -20,17 +20,10 @@ export default function CopyToClipboard({ text, className }) {
   return (
     <CopyToClipboard_lib
       text={text}
-      className={twMerge(
-        'h-8 cursor-pointer hover:text-primary-400 dark:hover:text-secondary-500',
-        className,
-      )}
+      className={twMerge('h-8 cursor-pointer hover:text-primary-400 dark:hover:text-secondary-500', className)}
       onCopy={() => setCopied(true)}
     >
-      {copied ? (
-        <CheckIcon title="copied" />
-      ) : (
-        <DocumentDuplicateIcon title="copy to clipboard" />
-      )}
+      {copied ? <CheckIcon title="copied" /> : <DocumentDuplicateIcon title="copy to clipboard" />}
     </CopyToClipboard_lib>
   );
 }

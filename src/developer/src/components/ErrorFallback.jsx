@@ -6,10 +6,7 @@ export const MainErrorFallback = ({ error, resetErrorBoundary }) => {
       <div className="flex-col items-center">
         <h1>Something went wrong</h1>
         <pre className="text-red-500">{error.message}</pre>
-        <button
-          className="w-full rounded-full border p-1"
-          onClick={resetErrorBoundary}
-        >
+        <button className="w-full rounded-full border p-1" onClick={resetErrorBoundary}>
           Try again
         </button>
       </div>
