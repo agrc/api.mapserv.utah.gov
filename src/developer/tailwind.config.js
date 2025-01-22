@@ -1,7 +1,8 @@
-import forms from '@tailwindcss/forms';
 import ugrcPreset from '@ugrc/tailwind-preset';
 import animate from 'tailwindcss-animate';
 import rac from 'tailwindcss-react-aria-components';
+import colors from 'tailwindcss/colors';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -9,6 +10,8 @@ export default {
     './src/**/*.{tsx,jsx,js}',
     './node_modules/@ugrc/**/*.{tsx,jsx,js}',
   ],
+  darkMode: 'class',
+  presets: [ugrcPreset],
   theme: {
     extend: {
       colors: {
@@ -24,7 +27,7 @@ export default {
           800: '#364954',
           900: '#313f48',
         },
-        secondary: {
+        mustard: {
           50: '#fdfced',
           100: '#f7f4ce',
           200: '#efe898',
@@ -36,6 +39,7 @@ export default {
           800: '#824f1e',
           900: '#6b411c',
         },
+        warning: colors.fuchsia,
       },
       fontFamily: {
         utah: [
@@ -63,5 +67,5 @@ export default {
       },
     },
   },
-  plugins: [rac, forms, animate],
+  plugins: [rac, animate],
 };

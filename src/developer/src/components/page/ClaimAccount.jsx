@@ -1,21 +1,25 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useFirebaseFunctions } from '@ugrc/utah-design-system';
+import {
+  Button,
+  ExternalLink,
+  FormError,
+  FormErrors,
+  Spinner,
+  TextField,
+  useFirebaseFunctions,
+} from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 import * as z from 'zod';
-import { TextLink } from '../Link';
-import Button, { RouterButtonLink } from '../design-system/Button';
-import { FormError, FormErrors } from '../design-system/Form';
-import Input from '../design-system/Input';
-import Spinner from '../design-system/Spinner';
 
 const schema = z
   .object({
-    email: z.string().email(),
-    password: z.string(),
-    confirm: z.string(),
+    email: z.string().nonempty().email(),
+    password: z.string().nonempty(),
+    confirm: z.string().nonempty(),
   })
   .refine((data) => data.password === data.confirm, {
     message: "Passwords don't match",
@@ -30,6 +34,7 @@ const defaultValues = {
 };
 
 export function Component() {
+  const navigate = useNavigate();
   const {
     control,
     formState: { errors },
@@ -113,12 +118,12 @@ export function Component() {
                 name="email"
                 control={control}
                 render={({ field }) => (
-                  <Input
-                    label="non-Utahid email"
+                  <TextField
+                    label="Non-Utahid email"
                     placeholder="you@email.com"
+                    description="This is the email address of the non-Utahid account that created the keys."
                     type="email"
-                    error={errors.email?.message}
-                    required
+                    isRequired
                     {...field}
                   />
                 )}
@@ -127,11 +132,10 @@ export function Component() {
                 name="password"
                 control={control}
                 render={({ field }) => (
-                  <Input
-                    label="non-Utahid password"
+                  <TextField
+                    label="Non-Utahid password"
                     type="password"
-                    error={errors.password?.message}
-                    required
+                    isRequired
                     {...field}
                   />
                 )}
@@ -140,11 +144,10 @@ export function Component() {
                 name="confirm"
                 control={control}
                 render={({ field }) => (
-                  <Input
-                    label="confirm password"
+                  <TextField
+                    label="Confirm password"
                     type="password"
-                    error={errors.confirm?.message}
-                    required
+                    isRequired
                     {...field}
                   />
                 )}
@@ -153,11 +156,6 @@ export function Component() {
 
             {mutationStatus === 'pending' && (
               <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow md:w-3/4 md:border-x md:text-4xl dark:bg-slate-500 dark:text-secondary-200">
-                <Spinner
-                  size={Spinner.Sizes.custom}
-                  className="h-8"
-                  ariaLabel="waiting to claim account"
-                />{' '}
                 Claiming keys from account...
               </div>
             )}
@@ -194,33 +192,32 @@ export function Component() {
                 <span>
                   We had some trouble claiming this account. Give it another try
                   and if it fails again, create an issue in{' '}
-                  <TextLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">
+                  <ExternalLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">
                     GitHub
-                  </TextLink>{' '}
+                  </ExternalLink>{' '}
                   or tweet us{' '}
-                  <TextLink href="https://x.com/maputah">@MapUtah</TextLink>.
+                  <ExternalLink href="https://x.com/maputah">
+                    @MapUtah
+                  </ExternalLink>
+                  .
                 </span>
               </FormError>
             )}
             <div className="flex justify-center gap-6">
               <Button
-                type={Button.Types.submit}
-                appearance={Button.Appearances.solid}
-                color={Button.Colors.primary}
-                size={Button.Sizes.xl}
-                disabled={mutationStatus === 'pending'}
-                busy={mutationStatus === 'pending'}
+                type="submit"
+                size="extraLarge"
+                isPending={mutationStatus === 'pending'}
               >
                 claim account
               </Button>
-              <RouterButtonLink
-                to="/self-service/keys"
-                appearance={Button.Appearances.outline}
-                color={Button.Colors.secondary}
-                size={Button.Sizes.xl}
+              <Button
+                onPress={() => navigate('/self-service/keys')}
+                variant="secondary"
+                size="extraLarge"
               >
                 manage keys
-              </RouterButtonLink>
+              </Button>
             </div>
           </form>
         </div>

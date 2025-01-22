@@ -1,30 +1,29 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as Tabs from '@radix-ui/react-tabs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useFirebaseFunctions } from '@ugrc/utah-design-system';
+import {
+  Button,
+  ExternalLink,
+  FormError,
+  FormErrors,
+  Radio,
+  RadioGroup,
+  Spinner,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+  TextArea,
+  TextField,
+  useFirebaseFunctions,
+} from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
 import * as z from 'zod';
 import CopyToClipboard from '../CopyToClipboard';
-import { TextLink } from '../Link';
-import Pill from '../Pill';
-import Button from '../design-system/Button';
 import Card from '../design-system/Card';
-import { FormError, FormErrors } from '../design-system/Form';
-import Input from '../design-system/Input';
-import RadioGroup from '../design-system/RadioGroup';
-import Spinner from '../design-system/Spinner';
-import TextArea from '../design-system/TextArea';
-
-const items = [
-  { label: 'Production', value: 'production' },
-  {
-    label: 'Development',
-    value: 'development',
-  },
-];
+import Pill from '../Pill';
 
 const base = z.object({
   mode: z.enum(['development', 'production']),
@@ -64,7 +63,7 @@ const schema = z.discriminatedUnion('type', [
   z
     .object({
       type: z.literal('browser'),
-      pattern: z.string(),
+      pattern: z.string().nonempty('A URL pattern is required'),
     })
     .merge(base),
 ]);
@@ -91,10 +90,11 @@ const displayError = (error) => {
       <span>
         We had some trouble creating this key. Give it another try and if it
         fails again, create an issue in{' '}
-        <TextLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">
+        <ExternalLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">
           GitHub
-        </TextLink>{' '}
-        or tweet us <TextLink href="https://x.com/maputah">@MapUtah</TextLink>.
+        </ExternalLink>{' '}
+        or tweet us{' '}
+        <ExternalLink href="https://x.com/maputah">@MapUtah</ExternalLink>.
       </span>
     </FormError>
   );
@@ -164,22 +164,25 @@ export function Component() {
           <p className="text-primary-800 dark:text-slate-200">
             Each key is specific to an application you have created; either a
             browser or server based application. Browser based applications run
-            in a web browser. For example, the React geocoding component{' '}
-            <TextLink href="https://www.npmjs.com/package/@ugrc/dart-board">
-              dartboard
-            </TextLink>
-            , running on{' '}
-            <TextLink href="https://atlas.utah.gov">atlas.utah.gov</TextLink> is
-            a browser based application. The request to the UGRC API is created
-            in javascript running inside the browser using the browser&apos;s
-            fetch API or with an XHR request.
+            in a web browser. For example, the React Geocoding component from
+            the{' '}
+            <ExternalLink href="https://www.npmjs.com/package/@ugrc/utah-design-system/">
+              Utah Design System
+            </ExternalLink>
+            , running in{' '}
+            <ExternalLink href="https://atlas.utah.gov">
+              atlas.utah.gov
+            </ExternalLink>{' '}
+            is a browser based application. The request to the UGRC API is
+            created in javascript running inside the browser using the
+            browser&apos;s fetch API or with an XHR request.
           </p>
           <p className="text-primary-800 dark:text-slate-200">
             Server based applications run on a desktop or server computer. For
             example, the{' '}
-            <TextLink href="https://gis.utah.gov/products/sgid/address/api-client/">
+            <ExternalLink href="https://gis.utah.gov/products/sgid/address/api-client/">
               API Client
-            </TextLink>{' '}
+            </ExternalLink>{' '}
             is running on your desktop computer. The request to the UGRC API is
             called directly or indirectly from a server side programming
             language or scripting language like Python, Java, or C#.
@@ -238,131 +241,116 @@ export function Component() {
             onSubmit={handleSubmit(onSubmit)}
             className="w-full border border-slate-300 bg-slate-100 shadow-md dark:bg-slate-600"
           >
-            <Tabs.Root
-              defaultValue="browser"
-              onValueChange={(type) => setValue('type', type)}
+            <FormErrors errors={errors} />
+            <Tabs
+              className="grid-grid-cols-2 p-2"
+              onSelectionChange={(value) => {
+                setValue('type', value);
+              }}
             >
-              <Tabs.List className="grid h-10 w-full grid-cols-2 items-center justify-center p-1">
-                <Tabs.Trigger
-                  className="relative border-slate-400 py-2 text-lg font-bold after:absolute after:left-0 after:block after:w-full after:rounded-full data-[state=active]:text-primary-600 data-[state=inactive]:text-slate-500 data-[state=inactive]:after:bottom-1 data-[state=active]:after:h-2 data-[state=inactive]:after:h-px data-[state=active]:after:bg-primary-400 data-[state=inactive]:after:bg-slate-400 dark:text-slate-200 data-[state=active]:dark:text-secondary-400 data-[state=active]:after:dark:bg-secondary-400 data-[state=inactive]:after:dark:bg-slate-400"
-                  value="browser"
-                >
-                  <div className="mb-2">
-                    <span className="rounded-full px-3 py-1 uppercase hover:bg-white hover:dark:bg-slate-500">
-                      Browser
-                    </span>
-                  </div>
-                </Tabs.Trigger>
-                <Tabs.Trigger
-                  className="relative border-slate-400 py-2 text-lg font-bold after:absolute after:left-0 after:block after:w-full after:rounded-full data-[state=active]:text-primary-600 data-[state=inactive]:text-slate-500 data-[state=inactive]:after:bottom-1 data-[state=active]:after:h-2 data-[state=inactive]:after:h-px data-[state=active]:after:bg-primary-400 data-[state=inactive]:after:bg-slate-400 dark:text-slate-200 data-[state=active]:dark:text-secondary-400 data-[state=active]:after:dark:bg-secondary-400 data-[state=inactive]:after:dark:bg-slate-400"
-                  value="server"
-                >
-                  <div className="mb-2">
-                    <span className="rounded-full px-3 py-1 uppercase hover:bg-white hover:dark:bg-slate-500">
-                      Server
-                    </span>
-                  </div>
-                </Tabs.Trigger>
-              </Tabs.List>
-              <Tabs.Content className="p-8" value="browser">
-                <div className="grid grid-cols-2 items-start gap-8 dark:text-slate-200">
-                  <Controller
-                    name="pattern"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        label="URL Pattern"
-                        placeholder="*.example.com/*"
-                        error={errors.pattern?.message}
-                        required
-                        {...field}
-                        onChange={(value) => field.onChange(value.trim())}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="mode"
-                    control={control}
-                    render={({ field }) => (
-                      <RadioGroup
-                        label="Key environment configuration"
-                        ariaLabel="Key environment configuration"
-                        required
-                        items={items}
-                        defaultValue="development"
-                        {...field}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="notes"
-                    control={control}
-                    render={({ field }) => (
-                      <TextArea
-                        className="col-span-2"
-                        label="Notes"
-                        error={errors.notes?.message}
-                        placeholder="This key will be used for..."
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-              </Tabs.Content>
-              <Tabs.Content className="p-8" value="server">
-                <FormErrors errors={errors} />
-                <div className="grid grid-cols-2 items-start gap-8 dark:text-slate-200">
-                  <Controller
-                    name="ip"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        label="IP Address"
-                        placeholder="10.0.0.1"
-                        required
-                        error={errors.ip?.message}
-                        {...field}
-                        onChange={(value) => field.onChange(value.trim())}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="mode"
-                    control={control}
-                    render={({ field }) => (
-                      <RadioGroup
-                        label="Key environment configuration"
-                        ariaLabel="Key environment configuration"
-                        required
-                        items={items}
-                        defaultValue="development"
-                        {...field}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="notes"
-                    control={control}
-                    render={({ field }) => (
-                      <TextArea
-                        className="col-span-2"
-                        label="Notes"
-                        error={errors.notes?.message}
-                        placeholder="This key will be used for..."
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-              </Tabs.Content>
-            </Tabs.Root>
-            {mutationStatus === 'loading' && (
+              <TabList aria-label="Key type" className="justify-around">
+                <Tab id="browser" className="justify-center uppercase">
+                  Browser
+                </Tab>
+                <Tab id="server" className="justify-center uppercase">
+                  Server
+                </Tab>
+              </TabList>
+              <TabPanel
+                className="grid grid-cols-2 items-start gap-8 p-8 dark:text-slate-200"
+                id="browser"
+              >
+                <Controller
+                  name="pattern"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      label="URL Pattern"
+                      placeholder="*.example.com/*"
+                      isRequired
+                      {...field}
+                      onChange={(value) => field.onChange(value.trim())}
+                    />
+                  )}
+                />
+                <Controller
+                  name="mode"
+                  control={control}
+                  render={({ field: { value, onBlur, onChange } }) => (
+                    <RadioGroup
+                      label="Key environment configuration"
+                      value={value}
+                      orientation="horizontal"
+                      onBlur={onBlur}
+                      onChange={onChange}
+                    >
+                      <Radio value="development">Development</Radio>
+                      <Radio value="production">Production</Radio>
+                    </RadioGroup>
+                  )}
+                />
+                <Controller
+                  name="notes"
+                  control={control}
+                  render={({ field }) => (
+                    <TextArea
+                      className="col-span-2"
+                      label="Notes"
+                      placeholder="This key will be used for..."
+                      {...field}
+                    />
+                  )}
+                />
+              </TabPanel>
+              <TabPanel
+                className="grid grid-cols-2 items-start gap-8 p-8 dark:text-slate-200"
+                id="server"
+              >
+                <Controller
+                  name="ip"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      label="IP Address"
+                      placeholder="10.0.0.1"
+                      isRequired
+                      {...field}
+                      onChange={(value) => field.onChange(value.trim())}
+                    />
+                  )}
+                />
+                <Controller
+                  name="mode"
+                  control={control}
+                  render={({ field: { value, onBlur, onChange } }) => (
+                    <RadioGroup
+                      label="Key environment configuration"
+                      orientation="horizontal"
+                      value={value}
+                      onBlur={onBlur}
+                      onChange={onChange}
+                    >
+                      <Radio value="development">Development</Radio>
+                      <Radio value="production">Production</Radio>
+                    </RadioGroup>
+                  )}
+                />
+                <Controller
+                  name="notes"
+                  control={control}
+                  render={({ field }) => (
+                    <TextArea
+                      className="col-span-2"
+                      label="Notes"
+                      placeholder="This key will be used for..."
+                      {...field}
+                    />
+                  )}
+                />
+              </TabPanel>
+            </Tabs>
+            {mutationStatus === 'pending' && (
               <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow md:w-3/4 md:border-x md:text-4xl dark:bg-slate-500 dark:text-secondary-200">
-                <Spinner
-                  size={Spinner.Sizes.custom}
-                  className="h-8"
-                  ariaLabel="waiting to generate key"
-                />{' '}
                 Creating key...
               </div>
             )}
@@ -378,12 +366,9 @@ export function Component() {
             {mutationStatus === 'error' && displayError(error)}
             <div className="flex justify-center gap-6 pb-6">
               <Button
-                type={Button.Types.submit}
-                appearance={Button.Appearances.solid}
-                color={Button.Colors.primary}
-                size={Button.Sizes.xl}
-                disabled={mutationStatus === 'pending'}
-                busy={mutationStatus === 'pending'}
+                type="submit"
+                size="extraLarge"
+                isPending={mutationStatus === 'pending'}
               >
                 create key
               </Button>
@@ -392,11 +377,11 @@ export function Component() {
           <p className="text-primary-800 dark:text-slate-200">
             If you need help choosing the key type or the value associated with
             the key, please visit and read the{' '}
-            <TextLink
+            <ExternalLink
               href={`${import.meta.env.VITE_API_EXPLORER_URL}/getting-started/`}
             >
               getting started guide
-            </TextLink>
+            </ExternalLink>
             .
           </p>
         </div>

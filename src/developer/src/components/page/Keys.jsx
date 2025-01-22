@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { createColumnHelper } from '@tanstack/react-table';
-import { useFirebaseFunctions } from '@ugrc/utah-design-system';
+import {
+  Button,
+  Spinner,
+  useFirebaseFunctions,
+} from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
-import { Link, useLoaderData } from 'react-router';
+import { Link, useLoaderData, useNavigate } from 'react-router';
 import CopyToClipboard from '../CopyToClipboard';
-import Button, { RouterButtonLink } from '../design-system/Button';
-import Spinner from '../design-system/Spinner';
 import Table from '../design-system/Table';
 
 const columnHelper = createColumnHelper({ enableHiding: true });
@@ -66,6 +68,7 @@ export function Component() {
   const { functions } = useFirebaseFunctions();
   const getKeys = httpsCallable(functions, 'keys');
   const loaderData = useLoaderData();
+  const navigate = useNavigate();
 
   const { status, data } = useQuery({
     queryKey: ['my keys', loaderData.uid],
@@ -96,22 +99,18 @@ export function Component() {
           </p>
         </div>
         <div className="mt-6 flex justify-center gap-6">
-          <RouterButtonLink
-            to="/self-service/create-key"
-            appearance={Button.Appearances.solid}
-            color={Button.Colors.primary}
-            size={Button.Sizes.xl}
+          <Button
+            onPress={() => navigate('/self-service/create-key')}
+            size="extraLarge"
           >
             create a new key
-          </RouterButtonLink>
-          <RouterButtonLink
-            to="/self-service/claim-account"
-            appearance={Button.Appearances.solid}
-            color={Button.Colors.primary}
-            size={Button.Sizes.xl}
+          </Button>
+          <Button
+            onPress={() => navigate('/self-service/claim-account')}
+            size="extraLarge"
           >
             claim a non-Utahid key
-          </RouterButtonLink>
+          </Button>
         </div>
       </section>
       <section className="relative mb-12 w-full px-6 md:mx-auto">
@@ -119,11 +118,9 @@ export function Component() {
         <div className="pt-12"></div>
         {status === 'pending' ? (
           <div className="relative mx-auto flex min-h-[250px] max-w-5xl flex-col items-center justify-center border-2 border-b border-primary-500/50 border-b-slate-300 bg-white shadow-md dark:border-slate-500/50 dark:bg-slate-800">
-            <Spinner
-              size={Spinner.Sizes.custom}
-              className="h-16 text-primary-400"
-              ariaLabel="fetching API keys"
-            />
+            <span className="size-16 text-primary-400">
+              <Spinner ariaLabel="fetching API keys" />
+            </span>
           </div>
         ) : (
           <Table
