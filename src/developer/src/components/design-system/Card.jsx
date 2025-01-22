@@ -23,13 +23,9 @@ const Card = ({ title, subTitle, children, danger = false }) => {
         </h4>
       )}
       {subTitle && (
-        <p className="bg-white px-5 pb-3 text-slate-600 dark:bg-slate-600 dark:text-slate-200">
-          {subTitle}
-        </p>
+        <p className="bg-white px-5 pb-3 text-slate-600 dark:bg-slate-600 dark:text-slate-200">{subTitle}</p>
       )}
-      <div className="border-t border-slate-200 pb-6 pt-3 dark:border-slate-800">
-        {children}
-      </div>
+      <div className="border-t border-slate-200 pb-6 pt-3 dark:border-slate-800">{children}</div>
     </div>
   );
 };

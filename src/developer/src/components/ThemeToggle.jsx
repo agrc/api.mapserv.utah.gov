@@ -36,12 +36,9 @@ const ThemeToggle = () => {
         return (
           <label
             key={i}
-            className={clsx(
-              'relative flex cursor-pointer items-center justify-center opacity-60',
-              {
-                'text-white': checked,
-              },
-            )}
+            className={clsx('relative flex cursor-pointer items-center justify-center opacity-60', {
+              'text-white': checked,
+            })}
           >
             {icon}
             <input

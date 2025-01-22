@@ -1,8 +1,4 @@
-import {
-  PauseCircleIcon,
-  PlayCircleIcon,
-  TrashIcon,
-} from '@heroicons/react/20/solid';
+import { PauseCircleIcon, PlayCircleIcon, TrashIcon } from '@heroicons/react/20/solid';
 import {
   BeakerIcon,
   CakeIcon,
@@ -18,12 +14,7 @@ import {
   ShieldExclamationIcon,
 } from '@heroicons/react/24/outline';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  Button,
-  Spinner,
-  useFirebaseFunctions,
-  useFirestore,
-} from '@ugrc/utah-design-system';
+import { Button, Spinner, useFirebaseFunctions, useFirestore } from '@ugrc/utah-design-system';
 import { doc, updateDoc } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import PropTypes from 'prop-types';
@@ -62,8 +53,7 @@ export const Component = () => {
   const { status, data } = useQuery({
     queryKey: ['my keys', loaderData.uid],
     queryFn: () => Spinner.minDelay(getKeys(), 800),
-    select: (response) =>
-      response.data.find((data) => data.key === key?.toUpperCase()),
+    select: (response) => response.data.find((data) => data.key === key?.toUpperCase()),
     enabled: (loaderData?.uid.length ?? 0 > 0) ? true : false,
     onError: () => 'We had some trouble finding your keys.',
     gcTime: Infinity,
@@ -133,10 +123,7 @@ export const Component = () => {
         <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
           <KeyIcon className="h-14 fill-secondary-500/20 text-primary-500/80 drop-shadow-md dark:fill-primary-500/50 dark:text-secondary-400/80" />
           <div>
-            <h2
-              id="key-creation"
-              className="uppercase text-primary-600 dark:text-primary-200"
-            >
+            <h2 id="key-creation" className="uppercase text-primary-600 dark:text-primary-200">
               {key}
             </h2>
             <p className="text-primary-400">key does not exist</p>
@@ -173,19 +160,15 @@ export const Component = () => {
                 We are sorry, but
               </h3>
               <p className="max-w-lg text-center text-xl tracking-wide text-accent-400 drop-shadow-md">
-                we encountered an issue while processing your request. Please
-                try again. If the problem persists, please contact our support
-                team.
+                we encountered an issue while processing your request. Please try again. If the problem persists, please
+                contact our support team.
               </p>
               <ExclamationCircleIcon className="mb-14 h-24 fill-primary-500/70 text-accent-400/90 drop-shadow-md" />
             </div>
           </div>
         </section>
         <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
-          <Button
-            onPress={() => navigate('/self-service/keys')}
-            size="extraLarge"
-          >
+          <Button onPress={() => navigate('/self-service/keys')} size="extraLarge">
             Go back to your keys
           </Button>
         </section>
@@ -199,16 +182,11 @@ export const Component = () => {
         <div className="flex gap-4">
           <KeyIcon className="h-14 fill-secondary-500/20 text-primary-500/80 drop-shadow-md dark:fill-primary-500/50 dark:text-secondary-400/80" />
           <div>
-            <h2
-              id="key-creation"
-              className="flex items-center uppercase text-primary-600 dark:text-primary-200"
-            >
+            <h2 id="key-creation" className="flex items-center uppercase text-primary-600 dark:text-primary-200">
               {key}
               <CopyToClipboard text={key} className="ml-1 inline" />
             </h2>
-            <p className="text-primary-400">
-              {status === 'pending' ? 'fetching metadata...' : data?.pattern}
-            </p>
+            <p className="text-primary-400">{status === 'pending' ? 'fetching metadata...' : data?.pattern}</p>
           </div>
         </div>
       </section>
@@ -223,9 +201,7 @@ export const Component = () => {
         ) : (
           <>
             <div className="relative z-10 mx-auto max-w-5xl px-6">
-              <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">
-                API key metadata
-              </h3>
+              <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">API key metadata</h3>
             </div>
             <div className="mx-auto w-full">
               <div className="relative mx-auto flex max-w-7xl flex-1 flex-wrap justify-around gap-2 px-6 sm:gap-8 lg:gap-12">
@@ -247,14 +223,8 @@ export const Component = () => {
                 </Card>
                 <Card className="min-w-[250px]" title="Status">
                   <MetadataItem>
-                    {data?.flags.disabled ? (
-                      <PauseIcon className={iconStyle} />
-                    ) : (
-                      <PlayIcon className={iconStyle} />
-                    )}
-                    <Banner>
-                      {data?.flags.disabled ? 'paused' : 'active'}
-                    </Banner>
+                    {data?.flags.disabled ? <PauseIcon className={iconStyle} /> : <PlayIcon className={iconStyle} />}
+                    <Banner>{data?.flags.disabled ? 'paused' : 'active'}</Banner>
                   </MetadataItem>
                 </Card>
                 <Card className="min-w-[250px]" title="Mode">
@@ -264,29 +234,19 @@ export const Component = () => {
                     ) : (
                       <BeakerIcon className={iconStyle} />
                     )}
-                    <Banner>
-                      {data?.flags.production ? 'live' : 'development'}
-                    </Banner>
+                    <Banner>{data?.flags.production ? 'live' : 'development'}</Banner>
                   </MetadataItem>
                 </Card>
                 <Card className="min-w-[250px]" title="Usage">
                   <MetadataItem>
                     <ChartPieIcon className={iconStyle} />
-                    <Banner>
-                      {(data?.usage ?? 0) === 0
-                        ? 'none'
-                        : numberFormat.format(data.usage)}
-                    </Banner>
+                    <Banner>{(data?.usage ?? 0) === 0 ? 'none' : numberFormat.format(data.usage)}</Banner>
                   </MetadataItem>
                 </Card>
                 <Card className="min-w-[250px]" title="Last Used">
                   <MetadataItem>
                     <CalendarDaysIcon className={iconStyle} />
-                    <Banner>
-                      {(data?.lastUsed ?? -1) === -1
-                        ? 'never'
-                        : timeSince(convertTicks(data.lastUsed))}
-                    </Banner>
+                    <Banner>{(data?.lastUsed ?? -1) === -1 ? 'never' : timeSince(convertTicks(data.lastUsed))}</Banner>
                   </MetadataItem>
                 </Card>
               </div>
@@ -298,11 +258,7 @@ export const Component = () => {
         <>
           <section className="mx-auto max-w-5xl p-6 md:col-span-2">
             <Card title="Key Notes">
-              <EditableText
-                text={data?.notes}
-                pattern={data?.pattern}
-                onChange={mutateNotes}
-              />
+              <EditableText text={data?.notes} pattern={data?.pattern} onChange={mutateNotes} />
             </Card>
           </section>
           <section className="mx-auto mb-4 max-w-5xl p-6 md:col-span-2">
@@ -362,10 +318,7 @@ export const ErrorBoundary = () => {
       <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
         <KeyIcon className="h-14 fill-secondary-500/20 text-primary-500/80 drop-shadow-md dark:fill-primary-500/50 dark:text-secondary-400/80" />
         <div>
-          <h2
-            id="key-creation"
-            className="uppercase text-primary-600 dark:text-primary-200"
-          >
+          <h2 id="key-creation" className="uppercase text-primary-600 dark:text-primary-200">
             {key}
           </h2>
           <p className="text-primary-400">key does not exist</p>
@@ -397,9 +350,7 @@ export const ErrorBoundary = () => {
 };
 ErrorBoundary.displayName = 'KeyErrorBoundary';
 
-const MetadataItem = ({ children }) => (
-  <div className="flex w-[250px] flex-col justify-center gap-4">{children}</div>
-);
+const MetadataItem = ({ children }) => <div className="flex w-[250px] flex-col justify-center gap-4">{children}</div>;
 MetadataItem.propTypes = {
   children: PropTypes.node.isRequired,
 };

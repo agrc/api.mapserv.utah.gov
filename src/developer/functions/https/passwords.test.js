@@ -10,16 +10,12 @@ describe('passwords', () => {
   it('generates the proper key', () => {
     const { key } = createKeyGen(password + salt, pepper);
 
-    expect(Buffer.from(key).toString('base64')).toEqual(
-      'TE/QSjrXPsCszWGNwcnguCzh99O5MY3THfu0AvEcfLo=',
-    );
+    expect(Buffer.from(key).toString('base64')).toEqual('TE/QSjrXPsCszWGNwcnguCzh99O5MY3THfu0AvEcfLo=');
   });
   it('generates the proper iv', () => {
     const { iv } = createKeyGen(password + salt, pepper);
 
-    expect(Buffer.from(iv).toString('base64')).toEqual(
-      '1Rsly6J+7ptFukSfwBxXXA==',
-    );
+    expect(Buffer.from(iv).toString('base64')).toEqual('1Rsly6J+7ptFukSfwBxXXA==');
   });
   it('generates the proper hash', async () => {
     expect(encryptPassword(password, salt, pepper)).toEqual(dotnetHash);

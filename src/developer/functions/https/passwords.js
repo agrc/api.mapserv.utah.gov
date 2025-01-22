@@ -18,13 +18,7 @@ export const createKeyGen = (password, pepper) => {
   const iterations = 1000;
   const length = 32 + 16;
   const digest = 'sha1';
-  const keyPlusIv = crypto.pbkdf2Sync(
-    password,
-    pepperBytes,
-    iterations,
-    length,
-    digest,
-  );
+  const keyPlusIv = crypto.pbkdf2Sync(password, pepperBytes, iterations, length, digest);
 
   return {
     key: keyPlusIv.subarray(0, 32),
@@ -47,9 +41,7 @@ export const encryptPassword = (password, salt, pepper) => {
 
   if (!pepper) {
     pepper = '';
-    warn(
-      '[functions::hashPassword] no pepper provided to hashPassword function',
-    );
+    warn('[functions::hashPassword] no pepper provided to hashPassword function');
   }
 
   const outputEncoding = 'utf8';
@@ -75,10 +67,7 @@ export const validateClaim = async (email, password, pepper) => {
   email = email.toLowerCase();
   debug('[functions::validateClaim] email:', email);
 
-  const unclaimedAccountSnap = await db
-    .collection('clients-unclaimed')
-    .doc(email)
-    .get();
+  const unclaimedAccountSnap = await db.collection('clients-unclaimed').doc(email).get();
   // check firestore that email exists if not, return false
   if (!unclaimedAccountSnap.exists) {
     debug('[functions::validateClaim] email not found in firestore');

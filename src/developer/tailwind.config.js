@@ -5,11 +5,7 @@ import colors from 'tailwindcss/colors';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    './index.html',
-    './src/**/*.{tsx,jsx,js}',
-    './node_modules/@ugrc/**/*.{tsx,jsx,js}',
-  ],
+  content: ['./index.html', './src/**/*.{tsx,jsx,js}', './node_modules/@ugrc/**/*.{tsx,jsx,js}'],
   darkMode: 'class',
   presets: [ugrcPreset],
   theme: {
@@ -42,13 +38,7 @@ export default {
         warning: colors.fuchsia,
       },
       fontFamily: {
-        utah: [
-          '"Source Sans 3"',
-          '"Source Sans Pro"',
-          'Helvetica',
-          'Arial',
-          'sans-serif',
-        ],
+        utah: ['"Source Sans 3"', '"Source Sans Pro"', 'Helvetica', 'Arial', 'sans-serif'],
       },
       animation: {
         'gradient-x': 'gradient-x 4s ease infinite',

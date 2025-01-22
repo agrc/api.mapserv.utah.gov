@@ -1,10 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { createColumnHelper } from '@tanstack/react-table';
-import {
-  Button,
-  Spinner,
-  useFirebaseFunctions,
-} from '@ugrc/utah-design-system';
+import { Button, Spinner, useFirebaseFunctions } from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
 import { Link, useLoaderData, useNavigate } from 'react-router';
 import CopyToClipboard from '../CopyToClipboard';
@@ -27,10 +23,7 @@ const columns = [
         return (
           <>
             🚀️ UGRC API Client. Visit{' '}
-            <a
-              className="text-secondary-700"
-              href="https://gis.utah.gov/products/sgid/address/api-client/"
-            >
+            <a className="text-secondary-700" href="https://gis.utah.gov/products/sgid/address/api-client/">
               gis.utah.gov
             </a>{' '}
             to get started! 🚀️
@@ -83,32 +76,21 @@ export function Component() {
     <>
       <section className="border-b border-slate-400 p-6">
         <div className="mx-auto max-w-5xl md:px-6">
-          <h2
-            id="my-keys"
-            className="text-primary-800 md:col-span-2 dark:text-slate-200"
-          >
+          <h2 id="my-keys" className="text-primary-800 dark:text-slate-200 md:col-span-2">
             Manage keys
           </h2>
           <p className="mt-4 text-primary-800 dark:text-slate-200">
-            API keys are used to authenticate requests to the UGRC API. You can
-            create as many keys as you need and each key is associated with an
-            application or a process. Here you can manage your keys by deleting
-            or pausing them. You can add notes to help you remember what they
-            are used for. And you can see analytics about how much they are
-            used.
+            API keys are used to authenticate requests to the UGRC API. You can create as many keys as you need and each
+            key is associated with an application or a process. Here you can manage your keys by deleting or pausing
+            them. You can add notes to help you remember what they are used for. And you can see analytics about how
+            much they are used.
           </p>
         </div>
         <div className="mt-6 flex justify-center gap-6">
-          <Button
-            onPress={() => navigate('/self-service/create-key')}
-            size="extraLarge"
-          >
+          <Button onPress={() => navigate('/self-service/create-key')} size="extraLarge">
             create a new key
           </Button>
-          <Button
-            onPress={() => navigate('/self-service/claim-account')}
-            size="extraLarge"
-          >
+          <Button onPress={() => navigate('/self-service/claim-account')} size="extraLarge">
             claim a non-Utahid key
           </Button>
         </div>

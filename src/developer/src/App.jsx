@@ -1,13 +1,6 @@
 import { useFirebaseAuth } from '@ugrc/utah-design-system';
 import { Suspense } from 'react';
-import {
-  Outlet,
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-  redirect,
-} from 'react-router';
+import { Outlet, Route, RouterProvider, createBrowserRouter, createRoutesFromElements, redirect } from 'react-router';
 import Layout from './components/page/Layout';
 
 const App = () => {
@@ -18,11 +11,7 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route element={<Layout />}>
-        <Route
-          index
-          loader={() => promotableRoute(anonymous)}
-          lazy={() => import('./components/page/Landing')}
-        />
+        <Route index loader={() => promotableRoute(anonymous)} lazy={() => import('./components/page/Landing')} />
         <Route path="/self-service" Component={Outlet}>
           <Route
             index

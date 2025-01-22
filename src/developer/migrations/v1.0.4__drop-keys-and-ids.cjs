@@ -12,9 +12,7 @@ module.exports.migrate = async ({ firestore, FieldValue }) => {
       keyIds: FieldValue.delete(),
     });
 
-    const keys = await firestore
-      .collection(`clients/${doc.id}/keys`)
-      .listDocuments();
+    const keys = await firestore.collection(`clients/${doc.id}/keys`).listDocuments();
 
     for (const keyDoc of keys) {
       size += 1;

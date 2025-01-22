@@ -1,7 +1,5 @@
 module.exports.migrate = async ({ firestore }) => {
-  const generateRegexFromPattern = (
-    await import('../functions/https/createKey.js')
-  ).generateRegexFromPattern;
+  const generateRegexFromPattern = (await import('../functions/https/createKey.js')).generateRegexFromPattern;
 
   const keysSnapshot = await firestore.collectionGroup('keys').get();
 

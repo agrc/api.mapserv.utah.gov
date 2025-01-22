@@ -25,10 +25,7 @@ if (import.meta.env.VITE_FIREBASE_CONFIG) {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ErrorBoundary
-      FallbackComponent={MainErrorFallback}
-      onReset={() => window.location.reload()}
-    >
+    <ErrorBoundary FallbackComponent={MainErrorFallback} onReset={() => window.location.reload()}>
       <QueryClientProvider
         client={
           new QueryClient({
