@@ -34,62 +34,6 @@
       "last 1 safari version"
     ]
   },
-  "prettier": {
-    "plugins": [
-      "prettier-plugin-organize-imports",
-      "prettier-plugin-packagejson",
-      "prettier-plugin-tailwindcss"
-    ],
-    "semi": true,
-    "singleQuote": true,
-    "tailwindFunctions": [
-      "clsx"
-    ]
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "es2021": true,
-      "jest": true,
-      "node": true
-    },
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": 2022,
-      "sourceType": "module"
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "plugins": [
-      "react",
-      "jsx-a11y",
-      "react-hooks",
-      "react-refresh",
-      "prettier"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "plugin:react/jsx-runtime",
-      "plugin:react-hooks/recommended",
-      "plugin:jsx-a11y/recommended",
-      "plugin:storybook/recommended",
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "error"
-      ],
-      "react-refresh/only-export-components": [
-        "warn"
-      ]
-    }
-  },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
