@@ -1,6 +1,6 @@
 import { Footer, Header, useFirebaseAnalytics, useFirebaseAuth } from '@ugrc/utah-design-system';
 import { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router';
+import { Outlet, ScrollRestoration, useLocation } from 'react-router';
 import Menu from '../design-system/Menu';
 import ThemeToggle from '../ThemeToggle';
 
@@ -51,6 +51,7 @@ const Layout = () => {
       </Header>
       <Menu />
       <main className="flex-1">
+        <ScrollRestoration />
         <Outlet />
       </main>
       <Footer
