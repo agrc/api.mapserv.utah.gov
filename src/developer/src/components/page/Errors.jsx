@@ -37,7 +37,7 @@ const UnauthorizedRoute = ({ routeError }) => {
 
       <div className="mx-auto max-w-prose">
         <p>
-          This page is not accessible to you for your UIC inventory submission process. If normal usage has brought you
+          This page is not accessible to you. If normal usage has brought you
           here, please click the{' '}
           <Link data-style="link" to="contact">
             Contact us
