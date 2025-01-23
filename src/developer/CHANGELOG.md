@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.7.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.19...developer-v2.7.0) (2025-01-23)
+
+
+### 🚀 Features
+
+* **developer:** add button to view key after creation ([56168a6](https://github.com/agrc/api.mapserv.utah.gov/commit/56168a6753ba73d50d127b60ca6115fe64b5bd5f))
+
+
+### 🐛 Bug Fixes
+
+* **developer:** correct menu width ([eaa69f4](https://github.com/agrc/api.mapserv.utah.gov/commit/eaa69f42b0238832f98fa5ed9abd40451be6d338))
+
+
+### 🌲 Dependencies
+
+* bump the safe-dependencies group across 2 directories with 13 updates ([fcaa71e](https://github.com/agrc/api.mapserv.utah.gov/commit/fcaa71ede64103c4a34678dd1e4d55a6608dd87b))
+* **developer:** update packages ([4de83dd](https://github.com/agrc/api.mapserv.utah.gov/commit/4de83dd9053fef3d4b4103fbab7d30a35f32a4a3))
+* **developer:** update packages ([9e8309e](https://github.com/agrc/api.mapserv.utah.gov/commit/9e8309e9844e56a3cfed3b9a79773a7d0b217dab))
+* **developer:** update packages to get new uds packages ([5284281](https://github.com/agrc/api.mapserv.utah.gov/commit/5284281034e3eaa026b485eb2285b51e8dd0f3c2))
+* update and remove no longer necessary packages ([48f5673](https://github.com/agrc/api.mapserv.utah.gov/commit/48f567352247b39352600687d20cda536e57ca01))
+
+
+### 🎨 Design Improvements
+
+* **developer:** update colors and improve contrast ([348d613](https://github.com/agrc/api.mapserv.utah.gov/commit/348d6136f18dc6ebf4f644568d35bf1e5864a9ab))
+
 ## [2.6.19](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.18...developer-v2.6.19) (2024-12-17)
 
 
