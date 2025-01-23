@@ -36,8 +36,9 @@ const ThemeToggle = () => {
         return (
           <label
             key={i}
-            className={clsx('relative flex cursor-pointer items-center justify-center opacity-60', {
-              'text-white': checked,
+            className={clsx('relative flex items-center justify-center rounded-full hover:bg-white/30', {
+              'text-white hover:text-white/90': checked,
+              'dark:text-primary-800': !checked,
             })}
           >
             {icon}

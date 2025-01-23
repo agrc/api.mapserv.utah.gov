@@ -78,17 +78,17 @@ export function Component() {
   return (
     <>
       <section className="border-b border-slate-400 p-6">
-        <h2 id="key-claiming" className="mx-auto mb-4 max-w-5xl text-primary-800 dark:text-slate-200 md:col-span-2">
+        <h2 id="key-claiming" className="mx-auto mb-4 max-w-5xl text-primary-800 dark:text-slate-100 md:col-span-2">
           Non-Utahid account key claiming
         </h2>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-10 md:px-6">
-          <p className="text-primary-800 dark:text-slate-200">
+          <p className="text-primary-900 dark:text-slate-100">
             The UGRC API has migrated login systems. Due to this change, you currently do not have access to the keys
             created by your non-Utahid account. However, all of these keys will continue to function for the time being.
             To manage these keys and ensure their longevity, you will need to claim them from the account that
             originally created them.
           </p>
-          <p className="text-primary-800 dark:text-slate-200">
+          <p className="text-primary-900 dark:text-slate-100">
             In order to do this, you will need to know the email address and password of the non-Utahid account that
             created the keys. The non-Utahid email address may even be the same as the Utahid account! And you can claim
             keys from multiple non-Utahid accounts if you have credentials for them.
@@ -101,10 +101,10 @@ export function Component() {
           <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">Claim keys from non-Utahid account</h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="mb-12 grid w-full gap-6 border border-slate-300 bg-slate-100 p-8 shadow-md dark:bg-slate-600"
+            className="mb-12 grid w-full gap-6 border border-slate-300 bg-slate-100 p-8 shadow-md dark:border-zinc-950 dark:bg-zinc-800"
           >
             <FormErrors errors={errors} />
-            <div className="grid grid-cols-1 items-start gap-8 dark:text-slate-200">
+            <div className="grid grid-cols-1 items-start gap-8 dark:text-slate-100">
               <Controller
                 name="email"
                 control={control}

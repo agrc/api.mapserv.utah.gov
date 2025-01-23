@@ -76,10 +76,10 @@ export function Component() {
     <>
       <section className="border-b border-slate-400 p-6">
         <div className="mx-auto max-w-5xl md:px-6">
-          <h2 id="my-keys" className="text-primary-800 dark:text-slate-200 md:col-span-2">
+          <h2 id="my-keys" className="text-primary-800 dark:text-slate-100 md:col-span-2">
             Manage keys
           </h2>
-          <p className="mt-4 text-primary-800 dark:text-slate-200">
+          <p className="mt-4 text-primary-900 dark:text-slate-100">
             API keys are used to authenticate requests to the UGRC API. You can create as many keys as you need and each
             key is associated with an application or a process. Here you can manage your keys by deleting or pausing
             them. You can add notes to help you remember what they are used for. And you can see analytics about how

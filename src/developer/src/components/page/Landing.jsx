@@ -8,22 +8,22 @@ export function Component() {
         <div className="lg:flex-basis-auto min-h-[480px] w-full max-w-full py-10 lg:min-h-[980px] lg:w-1/2 lg:shrink-0 lg:grow-0 lg:py-[114px]">
           <div className="mx-auto grid w-full max-w-[480px] gap-6">
             <h2 className="text-primary-800 dark:text-slate-100">Access your keys</h2>
-            <p className="text-slate-700 dark:text-slate-300">
+            <p className="text-primary-900 dark:text-slate-100">
               The UGRC API requires a UtahID account to create and manage API keys. Your name and email address will be
               shared with this application.
             </p>
-            <p className="text-slate-700 dark:text-slate-300">
+            <p className="text-primary-900 dark:text-slate-100">
               You will be able to claim your existing API keys by linking your prior account to your UtahId account
               after signing in.
             </p>
-            <p className="text-slate-700 dark:text-slate-300">
+            <p className="text-primary-900 dark:text-slate-100">
               API keys are anonymous and randomly generated. No personal information will be shared or made public.{' '}
               <ExternalLink href={`${import.meta.env.VITE_API_EXPLORER_URL}/privacy/`}>
                 View our privacy policy
               </ExternalLink>
               .
             </p>
-            <div className="mx-3 my-3 flex items-center text-slate-500">
+            <div className="mx-3 my-3 flex items-center text-slate-500 dark:text-slate-300">
               <span className="h-px flex-1 bg-slate-200"></span>
               <span className="mx-3 text-xs uppercase tracking-wide">continue with</span>
               <span className="h-px flex-1 bg-slate-200"></span>

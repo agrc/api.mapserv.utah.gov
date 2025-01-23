@@ -152,7 +152,7 @@ export function Component() {
           Key creation
         </h2>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-10 md:px-6">
-          <p className="text-primary-800 dark:text-slate-200">
+          <p className="text-primary-900 dark:text-slate-100">
             Each key is specific to an application you have created; either a browser or server based application.
             Browser based applications run in a web browser. For example, the React Geocoding component from the{' '}
             <ExternalLink href="https://www.npmjs.com/package/@ugrc/utah-design-system/">
@@ -162,7 +162,7 @@ export function Component() {
             application. The request to the UGRC API is created in javascript running inside the browser using the
             browser&apos;s fetch API or with an XHR request.
           </p>
-          <p className="text-primary-800 dark:text-slate-200">
+          <p className="text-primary-900 dark:text-slate-100">
             Server based applications run on a desktop or server computer. For example, the{' '}
             <ExternalLink href="https://gis.utah.gov/products/sgid/address/api-client/">API Client</ExternalLink> is
             running on your desktop computer. The request to the UGRC API is called directly or indirectly from a server
@@ -212,7 +212,7 @@ export function Component() {
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full border border-slate-300 bg-slate-100 shadow-md dark:bg-slate-600"
+            className="w-full border border-slate-300 bg-slate-100 shadow-md dark:border-slate-800 dark:bg-slate-700"
           >
             <FormErrors errors={errors} />
             <Tabs
@@ -340,9 +340,12 @@ export function Component() {
               <Button type="submit" size="extraLarge" isPending={mutationStatus === 'pending'}>
                 create key
               </Button>
+              <Button onPress={() => navigate('/self-service/keys')} variant="secondary" size="extraLarge">
+                manage keys
+              </Button>
             </div>
           </form>
-          <p className="text-primary-800 dark:text-slate-200">
+          <p className="text-primary-900 dark:text-slate-100">
             If you need help choosing the key type or the value associated with the key, please visit and read the{' '}
             <ExternalLink href={`${import.meta.env.VITE_API_EXPLORER_URL}/getting-started/`}>
               getting started guide

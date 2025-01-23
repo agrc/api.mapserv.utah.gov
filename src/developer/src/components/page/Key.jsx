@@ -269,7 +269,7 @@ export const Component = () => {
                     <div className="flex px-2 py-1">
                       <PauseCircleIcon
                         title="pause key"
-                        className="mr-2 h-6 cursor-pointer text-sky-100 group-hover:text-sky-400"
+                        className="mr-2 h-6 text-sky-100 group-hover:text-sky-400"
                         onClick={pauseKey}
                       />
                       Pause Key
@@ -281,7 +281,7 @@ export const Component = () => {
                     <div className="flex px-2 py-1">
                       <PlayCircleIcon
                         title="resume key"
-                        className="mr-2 h-6 cursor-pointer text-emerald-100 group-hover:text-emerald-400"
+                        className="mr-2 h-6 text-emerald-100 group-hover:text-emerald-400"
                         onClick={resumeKey}
                       />
                       Resume Key
@@ -293,7 +293,7 @@ export const Component = () => {
                     <TrashIcon
                       title="delete key"
                       aria-label="delete site"
-                      className="mr-2 h-6 cursor-pointer text-red-100 group-hover:text-red-400"
+                      className="mr-2 h-6 text-red-100 group-hover:text-red-400"
                       onClick={deleteKey}
                     />
                     Delete Key
