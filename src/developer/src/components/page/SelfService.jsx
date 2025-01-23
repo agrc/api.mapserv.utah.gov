@@ -31,10 +31,10 @@ export function Component() {
           <h2 className="mb-3 ml-2 pt-3 text-center text-white dark:text-slate-200">API key statistics</h2>
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">
-              <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-slate-950 dark:border-secondary-400/20 dark:bg-slate-900">
+              <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-secondary-500/10 dark:border-secondary-500/30 dark:bg-zinc-800">
                 {status === 'pending' && (
                   <div className="flex min-h-[100px] min-w-[266px] items-center justify-center">
-                    <span className="size-6 text-primary-800">
+                    <span className="size-6 dark:text-secondary-300">
                       <Spinner ariaLabel="fetching API statistics" />
                     </span>
                   </div>
@@ -42,38 +42,38 @@ export function Component() {
                 {status === 'success' && (
                   <>
                     <div className="p-6 text-center">
-                      <p className="text-2xl font-semibold text-primary-800 dark:text-slate-200">
+                      <p className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
                         {numberFormat.format(response.data.reduce((sum, key) => sum + Number(key.usage ?? 0), 0))}
                       </p>
-                      <p className="text-sm text-primary-500 dark:text-secondary-500/60">requests to date</p>
+                      <p className="text-sm text-primary-500 dark:text-secondary-500">requests to date</p>
                     </div>
                     <div className="p-6 text-center">
-                      <div className="text-2xl font-semibold text-primary-800 dark:text-slate-200">
+                      <div className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
                         {response.data.length}
                       </div>
-                      <p className="text-sm text-primary-500 dark:text-secondary-500/60">total keys</p>
+                      <p className="text-sm text-primary-500 dark:text-secondary-500">total keys</p>
                     </div>
                   </>
                 )}
                 {status === 'error' && (
                   <>
                     <div className="p-6 text-center">
-                      <p className="text-2xl font-semibold text-primary-800 dark:text-slate-200">
+                      <p className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
                         <div className="flex min-h-[32px] items-center justify-center">
                           <span className="sr-only">We were unable to fetch your API key count</span>
                           <ExclamationTriangleIcon className="h-6 w-6 text-secondary-500" />
                         </div>
                       </p>
-                      <p className="text-sm text-primary-500 dark:text-secondary-500/60">requests to date</p>
+                      <p className="text-sm text-primary-500 dark:text-secondary-500">requests to date</p>
                     </div>
                     <div className="p-6 text-center">
-                      <div className="text-2xl font-semibold text-primary-800 dark:text-slate-200">
+                      <div className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
                         <div className="flex min-h-[32px] items-center justify-center">
                           <span className="sr-only">We were unable to fetch your API key count</span>
                           <ExclamationTriangleIcon className="h-6 w-6 text-secondary-500" />
                         </div>
                       </div>
-                      <p className="text-sm text-primary-500 dark:text-secondary-500/60">total keys</p>
+                      <p className="text-sm text-primary-500 dark:text-secondary-500">total keys</p>
                     </div>
                   </>
                 )}
