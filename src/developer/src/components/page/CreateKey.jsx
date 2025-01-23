@@ -19,7 +19,7 @@ import {
 import { httpsCallable } from 'firebase/functions';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import * as z from 'zod';
 import CopyToClipboard from '../CopyToClipboard';
 import Card from '../design-system/Card';
@@ -107,6 +107,7 @@ export function Component() {
   });
 
   const loaderData = useLoaderData();
+  const navigate = useNavigate();
   const { functions } = useFirebaseFunctions();
   const createKey = httpsCallable(functions, 'createKey');
   const getKeys = httpsCallable(functions, 'keys');
@@ -316,12 +317,20 @@ export function Component() {
               </TabPanel>
             </Tabs>
             {mutationStatus === 'pending' && (
-              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow dark:bg-slate-500 dark:text-secondary-200 md:w-3/4 md:border-x md:text-4xl">
+              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black text-primary-500 shadow dark:bg-slate-500 dark:text-secondary-200 md:w-3/4 md:border-x md:text-4xl">
                 Creating key...
               </div>
             )}
             {mutationStatus === 'success' && (
               <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 border-primary-400/70 bg-slate-300/70 py-4 text-2xl font-black uppercase text-primary-500 shadow dark:bg-slate-500 dark:text-secondary-200 md:w-3/4 md:border-x md:text-4xl">
+                <Button
+                  onPress={() => navigate(`/self-service/keys/${data.data}`)}
+                  className="absolute left-1 top-1 font-normal"
+                  size="extraSmall"
+                  variant="accent"
+                >
+                  details
+                </Button>
                 {data.data}
                 <CopyToClipboard text={data.data} className="absolute right-1 top-1" />
               </div>
