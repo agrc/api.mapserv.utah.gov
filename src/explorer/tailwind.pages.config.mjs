@@ -1,38 +1,14 @@
+import ugrcPreset from '@ugrc/tailwind-preset';
 import heroPatterns from 'tailwind-heropatterns';
 import colors from 'tailwindcss/colors';
-
-// Generated color palettes
-const mustard = {
-  50: '#fdfced',
-  100: '#f7f4ce',
-  200: '#efe898',
-  300: '#e7d762',
-  400: '#e3c949',
-  500: '#d9ab27',
-  600: '#c0871f',
-  700: '#a0641d',
-  800: '#824f1e',
-  900: '#6b411c',
-};
-const wavy = {
-  50: '#f3f7f8',
-  100: '#dfebee',
-  200: '#c3d8de',
-  300: '#9abcc6',
-  400: '#6998a7',
-  500: '#4d7b8d',
-  600: '#456a7b',
-  700: '#3b5563',
-  800: '#364954',
-  900: '#313f48',
-};
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-    './node_modules/@ugrc/**/*.{js,jsx}',
+    './src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}',
+    './node_modules/@ugrc/**/*.{js,jsx,ts,tsx}',
   ],
+  presets: [ugrcPreset],
   theme: {
     extend: {
       fontFamily: {
@@ -69,10 +45,6 @@ export default {
           'monospace',
         ],
       },
-      colors: {
-        wavy,
-        mustard,
-      },
     },
   },
   plugins: [
@@ -81,12 +53,12 @@ export default {
       opacity: {
         default: '0.04',
         10: '0.05',
+        20: '0.15',
       },
       colors: {
         default: colors.slate[200],
-        wavy: '#5A67D8',
+        secondary: '#5A67D8',
       },
     }),
   ],
-  darkMode: 'selector',
 };
