@@ -21,6 +21,7 @@ concurrency:
 jobs:
   test-unit:
     name: 🧪 Unit tests
+    if: ${{ startsWith(github.ref, 'refs/tags/developer') }}
     runs-on: ubuntu-latest
 
     steps:
