@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.5.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.17...explorer-v2.5.0) (2025-03-26)
+
+
+### 🚀 Features
+
+* **explorer:** add instagram link ([3125c4b](https://github.com/agrc/api.mapserv.utah.gov/commit/3125c4b714b453683ac6ccedae78c9a22f4d2800))
+* **explorer:** replace header with utah design system component ([bb0706c](https://github.com/agrc/api.mapserv.utah.gov/commit/bb0706cf030b49e54be1b4969ee3723d9a46a9e2))
+* **explorer:** replace header with utah design system component ([a49e85a](https://github.com/agrc/api.mapserv.utah.gov/commit/a49e85a1f032c74040ab49dafe254c6444a8e1c7))
+
+
+### 🌲 Dependencies
+
+* **explorer:** update packages ([8561caf](https://github.com/agrc/api.mapserv.utah.gov/commit/8561caf9da7decf54cc542d76df628e34fed3b6b))
+
+
+### 🎨 Design Improvements
+
+* **explorer:** refactor to ugrc tailwind preset with dark mode ([7bfc07e](https://github.com/agrc/api.mapserv.utah.gov/commit/7bfc07eaf885931751d4cbd03a8c3c487fd63f2d))
+
 ## [2.4.17](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.16...explorer-v2.4.17) (2025-01-02)
 
 
