@@ -80,4 +80,14 @@ export default defineConfig({
       }),
     },
   },
+  vite: {
+    resolve: {
+      alias: [
+        {
+          find: 'use-sync-external-store/shim/index.js',
+          replacement: 'react',
+        },
+      ],
+    },
+  },
 });

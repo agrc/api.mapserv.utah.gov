@@ -10,6 +10,22 @@
   body {
     margin: 0;
   }
+  @font-face {
+    font-family: 'SourceSansPro-Regular';
+    src: url('/fonts/SourceSans3-Regular.otf.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SourceSansPro-Black';
+    src: url('/fonts/SourceSans3-Black.otf.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+}
 @layer components {
   .fancy-link {
     @apply text-accent-700 active:text-accent-500 decoration-accent-500 active:decoration-accent-600 font-medium italic underline underline-offset-2 transition-all hover:decoration-2 hover:underline-offset-4 focus:outline-none active:underline-offset-8;
