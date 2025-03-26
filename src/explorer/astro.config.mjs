@@ -20,6 +20,7 @@ export default defineConfig({
         'x.com': 'https://x.com/maputah',
         facebook: 'https://www.facebook.com/utahagrc',
         youtube: 'https://youtube.com/@therealugrc',
+        instagram: 'https://instagram.com/ugrc.gis',
       },
       sidebar: [
         {
