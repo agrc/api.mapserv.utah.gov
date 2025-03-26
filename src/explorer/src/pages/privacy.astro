@@ -3,17 +3,19 @@ import Chrome from '@layouts/Chrome.astro';
 ---
 
 <Chrome>
-  <section class="bg-topo h-screen text-slate-700">
+  <section
+    class="bg-hero-topography dark:bg-hero-topography-secondary-20 h-screen text-slate-700"
+  >
     <header class="mx-auto max-w-3xl p-6 text-center">
       <h1
-        class="text-3xl font-extrabold leading-tight tracking-tight text-slate-800 md:text-5xl"
+        class="text-3xl font-extrabold leading-tight tracking-tight text-slate-800 md:text-5xl dark:text-white"
       >
-        <span class="text-wavy-600">Privacy</span> policy
+        <span class="text-secondary-600 dark:text-secondary-300">Privacy</span> policy
       </h1>
     </header>
     <section class="max-w-5xl pt-10 md:mx-auto md:grid md:grid-cols-3 md:gap-5">
       <div
-        class="border-wavy-600 max-w-prose rounded-md border bg-white p-6 text-lg md:col-span-2"
+        class="border-secondary-600 max-w-prose rounded-md border bg-white p-6 text-lg md:col-span-2 dark:bg-zinc-900 dark:text-slate-100"
       >
         Input parameter values submitted in requests to the UGRC API may be
         temporarily retained by UGRC exclusively for the purpose of overall

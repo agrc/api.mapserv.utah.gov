@@ -45,7 +45,9 @@ import '../main.css';
     </style>
     {import.meta.env.PROD && <GoogleAnalytics id="G-09QK4MXDGT" />}
   </head>
-  <body>
+  <body
+    class="bg-white text-zinc-700 subpixel-antialiased dark:bg-zinc-800 dark:text-zinc-50"
+  >
     <main id="main-content" class="text-slate-700">
       <Header />
       <slot />
