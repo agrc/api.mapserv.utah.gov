@@ -15,13 +15,29 @@ export default defineConfig({
       logo: {
         src: './src/assets/api.svg',
       },
-      social: {
-        github: 'https://github.com/agrc/api.mapserv.utah.gov',
-        'x.com': 'https://x.com/maputah',
-        facebook: 'https://www.facebook.com/utahagrc',
-        youtube: 'https://youtube.com/@therealugrc',
-        instagram: 'https://instagram.com/ugrc.gis',
-      },
+      social: [
+        {
+          icon: 'github',
+          label: 'GitHub',
+          href: 'https://github.com/agrc/api.mapserv.utah.gov',
+        },
+        { icon: 'x.com', label: 'X', href: 'https://x.com/maputah' },
+        {
+          icon: 'facebook',
+          label: 'Facebook',
+          href: 'https://www.facebook.com/utahagrc',
+        },
+        {
+          icon: 'youtube',
+          label: 'YouTube',
+          href: 'https://youtube.com/@therealugrc',
+        },
+        {
+          icon: 'instagram',
+          label: 'Instagram',
+          href: 'https://instagram.com/ugrc.gis',
+        },
+      ],
       sidebar: [
         {
           label: 'Home',
