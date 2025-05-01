@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.0...explorer-v2.5.1) (2025-05-01)
+
+
+### 🌲 Dependencies
+
+* **explorer:** fy25q4 package updates ([a7556b3](https://github.com/agrc/api.mapserv.utah.gov/commit/a7556b33fba5d55e90ffcd1c1f63777f87094e59))
+
 ## [2.5.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.4.17...explorer-v2.5.0) (2025-03-26)
 
 
