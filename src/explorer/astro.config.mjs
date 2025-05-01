@@ -81,9 +81,7 @@ export default defineConfig({
       ],
       customCss: ['./src/tailwind.css'],
     }),
-    tailwind({
-      applyBaseStyles: true,
-    }),
+    tailwind(),
     react(),
     partytown(),
   ],
