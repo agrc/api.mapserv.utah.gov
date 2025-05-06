@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports.migrate = async ({ firestore, FieldValue }) => {
   const collectionSnapshot = await firestore.collectionGroup('keys').get();
 

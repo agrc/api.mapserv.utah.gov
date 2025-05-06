@@ -44,7 +44,7 @@ const Layout = () => {
         <div className="flex h-full grow items-center gap-3">
           <img src="/logo.svg" alt="UGRC API" className="hidden h-16 w-16 sm:block" role="presentation" />
           <h2 className="font-heading text-3xl font-black text-zinc-600 dark:text-zinc-100 sm:text-5xl">UGRC API</h2>
-          <span class="mr-6 flex grow justify-end">
+          <span className="mr-6 flex grow justify-end">
             <ThemeToggle />
           </span>
         </div>

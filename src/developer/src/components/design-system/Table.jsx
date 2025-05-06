@@ -111,4 +111,7 @@ Table.propTypes = {
    * All other props are passed to the useReactTable hook
    */
   visibility: PropTypes.object,
+  initialState: PropTypes.shape({
+    sorting: PropTypes.array,
+  }),
 };
