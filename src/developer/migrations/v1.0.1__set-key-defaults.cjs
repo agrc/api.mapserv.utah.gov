@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports.migrate = async ({ firestore }) => {
   const clientKeysSnapshot = await firestore.collection('clients').get();
 

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports.migrate = async ({ firestore }) => {
   const generateRegexFromPattern = (await import('../functions/https/createKey.js')).generateRegexFromPattern;
 

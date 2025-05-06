@@ -113,6 +113,11 @@ const InternalListItem = forwardRef(({ className, children, title, ...props }, f
   </li>
 ));
 InternalListItem.displayName = 'InternalListItem';
+InternalListItem.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 const ExternalListItem = forwardRef(({ className, children, title, ...props }, forwardedRef) => (
   <li className="leading-[.5em]">
