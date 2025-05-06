@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.7.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.0...developer-v2.7.1) (2025-05-06)
+
+
+### 🌲 Dependencies
+
+* **developer:** fy25q4 package updates ([4900850](https://github.com/agrc/api.mapserv.utah.gov/commit/4900850c0fc54a945a945eafe9c39c5269fb7cd0))
+* **developer:** update api packages ([3d81f19](https://github.com/agrc/api.mapserv.utah.gov/commit/3d81f199186fec39f31c8b7c551dadbe3738bd70))
+
 ## [2.7.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.6.19...developer-v2.7.0) (2025-01-23)
 
 
