@@ -1,7 +1,7 @@
 import { CheckIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { CopyToClipboard as CopyToClipboard_lib } from 'react-copy-to-clipboard';
+import { CopyToClipboard as CopyToClipboard_lib } from 'react-copy-to-clipboard-ts';
 import { twMerge } from 'tailwind-merge';
 
 export default function CopyToClipboard({ text, className }) {
