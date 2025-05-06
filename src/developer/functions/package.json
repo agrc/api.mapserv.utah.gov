@@ -13,14 +13,14 @@
     "start": "npm run shell"
   },
   "dependencies": {
-    "@sendgrid/client": "^8.1.4",
-    "firebase-admin": "^12.6.0",
-    "firebase-functions": "^6.1.2",
-    "ioredis": "^5.4.1",
-    "uuid": "^11.0.3"
+    "@sendgrid/client": "^8.1.5",
+    "firebase-admin": "^13.3.0",
+    "firebase-functions": "^6.3.2",
+    "ioredis": "^5.6.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "firebase-functions-test": "^3.3.0"
+    "firebase-functions-test": "^3.4.1"
   },
   "engines": {
     "node": "20"
