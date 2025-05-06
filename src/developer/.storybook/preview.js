@@ -1,5 +1,5 @@
 /** @type { import('@storybook/react').Preview } */
-import { withThemeByClassName } from '@storybook/addon-styling';
+import { withThemeByClassName } from '@storybook/addon-themes';
 import '../src/index.css';
 
 export const parameters = {
