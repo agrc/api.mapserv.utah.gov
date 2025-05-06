@@ -1,4 +1,4 @@
-import { ExternalLink, UtahIdLogin } from '@ugrc/utah-design-system';
+import { Banner, ExternalLink, UtahIdLogin } from '@ugrc/utah-design-system';
 import product from './product.png';
 
 export function Component() {
@@ -23,14 +23,16 @@ export function Component() {
               </ExternalLink>
               .
             </p>
-            <div className="mx-3 my-3 flex items-center text-slate-500 dark:text-slate-300">
-              <span className="h-px flex-1 bg-slate-200"></span>
-              <span className="mx-3 text-xs uppercase tracking-wide">continue with</span>
-              <span className="h-px flex-1 bg-slate-200"></span>
-            </div>
-            <div className="flex justify-center">
-              <UtahIdLogin size="medium" />
-            </div>
+            <UtahIdLogin
+              size="extraLarge"
+              errorRenderer={(error) => {
+                return (
+                  <Banner>
+                    <div className="grid gap-4">{error}</div>
+                  </Banner>
+                );
+              }}
+            />
           </div>
         </div>
         <div className="lg:flex-basis-auto relative hidden flex-col items-center justify-center bg-gradient-to-b from-primary-700 via-primary-400 to-secondary-400 lg:block lg:w-1/2 lg:shrink-0 lg:grow-0">
