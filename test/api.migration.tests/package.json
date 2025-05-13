@@ -9,9 +9,9 @@
   "author": "steve gourley",
   "license": "MIT",
   "devDependencies": {
-    "@vitest/ui": "^0.29.5",
-    "got": "^12.6.0",
-    "vite": "^4.5.5",
-    "vitest": "^0.29.5"
+    "@vitest/ui": "^3.1.3",
+    "got": "^14.4.7",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.3"
   }
 }
