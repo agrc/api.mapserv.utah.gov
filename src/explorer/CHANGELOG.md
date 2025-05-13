@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.5.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.1...explorer-v2.5.2) (2025-05-13)
+
+
+### 🌲 Dependencies
+
+* bump vite ([3f1eea5](https://github.com/agrc/api.mapserv.utah.gov/commit/3f1eea594c29dd73ef800303719c1a4734101f02))
+* **explorer:** fy25q4 second update ([0cc410f](https://github.com/agrc/api.mapserv.utah.gov/commit/0cc410fa1756d63a477441f22b5c9239549c381b))
+
 ## [2.5.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.0...explorer-v2.5.1) (2025-05-01)
 
 
