@@ -5,7 +5,7 @@
 ![self service](https://github.com/agrc/api.mapserv.utah.gov/actions/workflows/push.developer.yml/badge.svg?)
 [![codecov](https://codecov.io/gh/agrc/api.mapserv.utah.gov/branch/main/graph/badge.svg)](https://codecov.io/gh/agrc/api.mapserv.utah.gov)
 
-This is the source code for the [UGRC API](https://api.mapserv.utah.gov/). This system allows users to login to a self service website with Utahid, create API keys, and make http requests to geocode or interact with SGID data. The API endpoints are address geocoding, reverse address geocoding, milepost geocoding, reverse milepose geocoding, and search against all Open SGID spatial data.
+This is the source code for the [UGRC API](https://api.mapserv.utah.gov/). This system allows users to login to a self service website with Utahid, create API keys, and make http requests to geocode or interact with SGID data. The API endpoints are address geocoding, reverse address geocoding, milepost geocoding, reverse milepost geocoding, and search against all Open SGID spatial data.
 
 Read the [Getting Started Guide](https://api.mapserv.utah.gov/getting-started/), view the [documentation](https://api.mapserv.utah.gov/docs/), and check out the [working samples](https://github.com/agrc/api.mapserv.utah.gov/tree/main/samples) for geocoding in popular languages for an idea about how to get started programming against the API.
 
