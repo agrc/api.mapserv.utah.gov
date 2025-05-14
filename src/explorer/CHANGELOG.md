@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.3](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.2...explorer-v2.5.3) (2025-05-14)
+
+
+### 🌲 Dependencies
+
+* **explorer:** update deps to address build failure ([ad411ba](https://github.com/agrc/api.mapserv.utah.gov/commit/ad411bafb5eb1f1e8ab2d055268f1bc10a612148))
+
 ## [2.5.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.1...explorer-v2.5.2) (2025-05-13)
 
 
