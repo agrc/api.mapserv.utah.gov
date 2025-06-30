@@ -25,13 +25,14 @@ from time import perf_counter
 
 import arcpy
 from forklift.models import Crate, Pallet
-from forklift.seat import format_time
+from forklift.seat import format_time, map_network_drive
 from google.cloud import pubsub_v1, storage
 from google.oauth2 import service_account
 
 from cloud_data.cloud_secrets import configuration as secrets
 
-CloudService = namedtuple('CloudService', ['bucket', 'publisher', 'topic'])
+CloudService = namedtuple("CloudService", ["bucket", "publisher", "topic"])
+
 
 class CloudLocatorsPallet(Pallet):
     """A module that contains a pallet definition for data to support the
@@ -59,6 +60,7 @@ class CloudLocatorsPallet(Pallet):
         Args:
             configuration (str, optional): the configuration of the pallet. Defaults to "Production".
         """
+        map_network_drive("agrc", "L")
         self.arcgis_services = [
             ("Geolocators/AddressPoints_AddressSystem", "GeocodeServer"),
             ("Geolocators/Roads_AddressSystem_STREET", "GeocodeServer"),
@@ -116,7 +118,7 @@ class CloudLocatorsPallet(Pallet):
             #: upload them to all cloud projects
             self._upload_locators_to_cloud_storage(list(path_to_locators.glob(f"{locator}*")))
 
-            self.log.debug('publishing topics')
+            self.log.debug("publishing topics")
             self.cloud_services_prod.publisher.publish(self.cloud_services_prod.topic, data=bytes(), locator=locator)
             self.cloud_services_dev.publisher.publish(self.cloud_services_dev.topic, data=bytes(), locator=locator)
 
@@ -147,7 +149,7 @@ class CloudLocatorsPallet(Pallet):
         self.log.info("dirty locators: %s", ",".join(dirty_locators))
         self.success = (
             True,
-            f'{", ".join(dirty_locators)} were notified for deployment',
+            f"{', '.join(dirty_locators)} were notified for deployment",
         )
 
         return True
@@ -220,11 +222,11 @@ class CloudLocatorsPallet(Pallet):
             output_location = str(self.output_location / "AddressPoints_AddressSystem")
             arcpy.geocoding.CreateLocator(
                 country_code="USA",
-                primary_reference_data=f'{self.locators / "AddressPoints"} PointAddress',
+                primary_reference_data=f"{self.locators / 'AddressPoints'} PointAddress",
                 field_mapping=";".join(primary_fields),
                 out_locator=output_location,
                 language_code="ENG",
-                alternatename_tables=f'{self.locators / "AtlNamesAddrPnts"} AlternateHouseNumber;{self.locators / "AtlNamesAddrPnts"} AlternateStreetName',
+                alternatename_tables=f"{self.locators / 'AtlNamesAddrPnts'} AlternateHouseNumber;{self.locators / 'AtlNamesAddrPnts'} AlternateStreetName",
                 alternate_field_mapping=";".join(alt_fields),
             )
 
@@ -267,11 +269,11 @@ class CloudLocatorsPallet(Pallet):
             output_location = str(self.output_location / "Roads_AddressSystem_STREET")
             arcpy.geocoding.CreateLocator(
                 country_code="USA",
-                primary_reference_data=f'{self.locators / "GeocodeRoads"} StreetAddress',
+                primary_reference_data=f"{self.locators / 'GeocodeRoads'} StreetAddress",
                 field_mapping=";".join(primary_fields),
                 out_locator=output_location,
                 language_code="ENG",
-                alternatename_tables=f'{self.locators / "AtlNamesRoads"} AlternateStreetName',
+                alternatename_tables=f"{self.locators / 'AtlNamesRoads'} AlternateStreetName",
                 alternate_field_mapping=";".join(alt_fields),
             )
 
@@ -305,7 +307,7 @@ class CloudLocatorsPallet(Pallet):
 
         output_fields = ["Shape", "Status", "Score", "Match_addr", "City", "X", "Y"]
         with Path(f"{locator_path}.loc").open("a", encoding="utf-8") as file:
-            file.write(f'BatchOutputFields = {", ".join(output_fields)}\n')
+            file.write(f"BatchOutputFields = {', '.join(output_fields)}\n")
 
     def _get_cloud_service(self, project_id: str) -> tuple[storage.bucket, pubsub_v1.PublisherClient, str]:
         credential_file = Path(self.garage) / f"{project_id}-forklift-sa.json"
@@ -341,14 +343,14 @@ class CloudLocatorsPallet(Pallet):
                 blob_dev = self.cloud_services_dev.bucket.blob(part.name)
                 blob_dev.upload_from_filename(part)
 
-                self.log.debug('dev bucket updated')
+                self.log.debug("dev bucket updated")
             except Exception as error:
                 self.log.error("skipping error uploading to dev: %s", error)
 
             blob_prod = self.cloud_services_prod.bucket.blob(part.name)
             blob_prod.upload_from_filename(part)
 
-            self.log.debug('prod bucket updated')
+            self.log.debug("prod bucket updated")
 
 
 if __name__ == "__main__":
