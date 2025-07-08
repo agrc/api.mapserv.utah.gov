@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.1...developer-v2.7.2) (2025-07-08)
+
+
+### 🌲 Dependencies
+
+* **developer:** fix firebase deploy with additional roles ([1fdab27](https://github.com/agrc/api.mapserv.utah.gov/commit/1fdab27f0a6db496da62eae2b7a2555a44da680a))
+
 ## [2.7.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.0...developer-v2.7.1) (2025-05-06)
 
 
