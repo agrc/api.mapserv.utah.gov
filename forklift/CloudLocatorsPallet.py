@@ -24,12 +24,12 @@ from shutil import copyfile, rmtree
 from time import perf_counter
 
 import arcpy
-from forklift.models import Crate, Pallet
-from forklift.seat import format_time, map_network_drive
+from cloud_data.cloud_secrets import configuration as secrets
 from google.cloud import pubsub_v1, storage
 from google.oauth2 import service_account
 
-from cloud_data.cloud_secrets import configuration as secrets
+from forklift.models import Crate, Pallet
+from forklift.seat import format_time, map_network_drive
 
 CloudService = namedtuple("CloudService", ["bucket", "publisher", "topic"])
 
@@ -334,7 +334,7 @@ class CloudLocatorsPallet(Pallet):
         return bucket, publisher, topic
 
     def _upload_locators_to_cloud_storage(self, locator_parts: list[Path]) -> None:
-        self.log.debug("locator parts", locator_parts)
+        self.log.debug("number of locator parts: %d", len(locator_parts))
 
         for part in locator_parts:
             self.log.debug("uploading locator part: %s", part)
