@@ -25,8 +25,8 @@
   "dependencies": {
     "@astrojs/react": "^4.2.7",
     "@astrojs/starlight": "^0.34.3",
-    "@astrojs/starlight-tailwind": "^3.0.1",
-    "@astrojs/tailwind": "^5.1.4",
+    "@astrojs/starlight-tailwind": "^4.0.1",
+    "@astrojs/tailwind": "^6.0.2",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
     "@ugrc/utah-design-system": "^1.27.0",
