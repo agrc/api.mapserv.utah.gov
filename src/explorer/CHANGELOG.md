@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.5.4](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.3...explorer-v2.5.4) (2025-08-01)
+
+
+### 🌲 Dependencies
+
+* bump the major-dependencies group across 1 directory with 2 updates ([d1d18be](https://github.com/agrc/api.mapserv.utah.gov/commit/d1d18bec4d5cfcb86540e631809a53d9f5fe6b9c))
+* bump the safe-dependencies group across 1 directory with 3 updates ([5206ff5](https://github.com/agrc/api.mapserv.utah.gov/commit/5206ff5d620032ea493e7a9431224b357879c2a3))
+* bump the safe-dependencies group across 2 directories with 39 updates ([8224c76](https://github.com/agrc/api.mapserv.utah.gov/commit/8224c7693eb305953caa79c88e9bdd711aa5c2ba))
+* upgrade storybook and [@ugrc](https://github.com/ugrc) packages ([c1bd530](https://github.com/agrc/api.mapserv.utah.gov/commit/c1bd530b323739e3ad4f774e2d5f559aa51586b0))
+
 ## [2.5.3](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.2...explorer-v2.5.3) (2025-05-14)
 
 
