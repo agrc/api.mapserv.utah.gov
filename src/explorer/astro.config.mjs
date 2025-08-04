@@ -14,6 +14,7 @@ export default defineConfig({
       title: 'UGRC API Documentation',
       logo: {
         src: './src/assets/api.svg',
+        replacesTitle: false,
       },
       social: [
         {
