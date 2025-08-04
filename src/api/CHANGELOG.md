@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.3](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.2...api-v1.17.3) (2025-08-04)
+
+
+### 🌲 Dependencies
+
+* Bump Microsoft.AspNetCore.OpenApi and 8 others ([ed95a8a](https://github.com/agrc/api.mapserv.utah.gov/commit/ed95a8a805368ad1b597daeda9d8eb6a79a61e0a))
+
 ## [1.17.2](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.1...api-v1.17.2) (2025-05-13)
 
 
