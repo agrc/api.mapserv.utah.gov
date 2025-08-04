@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.5](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.4...explorer-v2.5.5) (2025-08-04)
+
+
+### 🌲 Dependencies
+
+* downgrade starlight tailwind ([48d5f94](https://github.com/agrc/api.mapserv.utah.gov/commit/48d5f94ef196ca0610f6e1db050c2102f0bec02a))
+
 ## [2.5.4](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.3...explorer-v2.5.4) (2025-08-01)
 
 
