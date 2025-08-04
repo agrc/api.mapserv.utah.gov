@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.1...developer-v2.7.2) (2025-08-04)
+
+
+### 🌲 Dependencies
+
+* bump the safe-dependencies group across 2 directories with 39 updates ([8224c76](https://github.com/agrc/api.mapserv.utah.gov/commit/8224c7693eb305953caa79c88e9bdd711aa5c2ba))
+* **developer:** fix firebase deploy with additional roles ([1fdab27](https://github.com/agrc/api.mapserv.utah.gov/commit/1fdab27f0a6db496da62eae2b7a2555a44da680a))
+* upgrade storybook and [@ugrc](https://github.com/ugrc) packages ([c1bd530](https://github.com/agrc/api.mapserv.utah.gov/commit/c1bd530b323739e3ad4f774e2d5f559aa51586b0))
+
 ## [2.7.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.0...developer-v2.7.1) (2025-05-06)
 
 
