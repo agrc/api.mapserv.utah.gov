@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.6](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.5...explorer-v2.5.6) (2025-08-04)
+
+
+### 🐛 Bug Fixes
+
+* **explorer:** constrain header image size ([fe1c2cd](https://github.com/agrc/api.mapserv.utah.gov/commit/fe1c2cded0e8f68da7b1dd4f8d9c1477fcd5f50a))
+
 ## [2.5.5](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.4...explorer-v2.5.5) (2025-08-04)
 
 
