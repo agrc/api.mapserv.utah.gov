@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.7.5](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.4...developer-v2.7.5) (2025-08-05)
+
+
+### 🐛 Bug Fixes
+
+* **developer:** remove replaced user create function ([de2e88e](https://github.com/agrc/api.mapserv.utah.gov/commit/de2e88edba9fc2e65e1633633f1ad271712a0532))
+* **developer:** update to node 22 ([62aa7e5](https://github.com/agrc/api.mapserv.utah.gov/commit/62aa7e5da9029159dd3f276f6eb6c93418da05bf))
+
+
+### 🌲 Dependencies
+
+* bump the safe-dependencies group across 1 directory with 2 updates ([0f5a777](https://github.com/agrc/api.mapserv.utah.gov/commit/0f5a77716ebcc19184bca8c0f568d8f317cec7d0))
+
 ## [2.7.4](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.3...developer-v2.7.4) (2025-08-05)
 
 
