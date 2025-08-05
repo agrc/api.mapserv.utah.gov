@@ -82,3 +82,15 @@ updates:
       default-days: 10
       exclude:
         - agrc/*
+  - package-ecosystem: docker
+    directory: /src/api
+    schedule:
+      interval: monthly
+    groups:
+      docker-dependencies:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: deps(docker)
+    cooldown:
+      default-days: 10
