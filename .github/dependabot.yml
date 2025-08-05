@@ -7,7 +7,7 @@ updates:
       - /libs/EsriJson/EsriJson.Net
       - /libs/EsriJson/EsriJson.Net.Tests
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       safe-dependencies:
         update-types:
@@ -27,7 +27,7 @@ updates:
   - package-ecosystem: pip
     directory: /forklift
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       safe-dependencies:
         update-types:
@@ -53,7 +53,7 @@ updates:
       - src/developer/functions
       - src/explorer
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       safe-dependencies:
         update-types:
@@ -75,7 +75,7 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       ci-dependencies:
         dependency-type: production
@@ -86,7 +86,7 @@ updates:
   - package-ecosystem: docker
     directory: /src/api
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       docker-dependencies:
         patterns:
@@ -96,7 +96,7 @@ updates:
   - package-ecosystem: docker-compose
     directory: /
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       docker-dependencies:
         patterns:
