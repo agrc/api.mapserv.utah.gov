@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.4](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.3...developer-v2.7.4) (2025-08-05)
+
+
+### 🐛 Bug Fixes
+
+* **developer:** migrate to v2 function ([1146182](https://github.com/agrc/api.mapserv.utah.gov/commit/1146182f9e99eab820ead864beab97b54bb187ce))
+
 ## [2.7.3](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.2...developer-v2.7.3) (2025-08-05)
 
 
