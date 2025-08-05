@@ -1,6 +1,5 @@
 import { debug } from 'firebase-functions/logger';
 import { defineSecret } from 'firebase-functions/params';
-import { runWith } from 'firebase-functions/v1';
 import { https, identity, setGlobalOptions } from 'firebase-functions/v2';
 import { safelyInitializeApp } from './firebase.js';
 
@@ -28,42 +27,6 @@ const cors = [
  * @template CallableRequestT
  * @typedef {import('firebase-functions/v2/https').CallableRequest<CallableRequestT>} CallableRequest
  */
-
-// auth
-/**
- * This private function creates a user in firestore when someone creates an account with firebase auth.
- * @param {any} async(user - The user details from the OIDC flow from Utahid.
- * @returns {bool} - The true or false result of the create user method.
- */
-export const onCreateUser = runWith({
-  serviceAccount,
-  vpcConnector,
-  vpcConnectorEgressSettings,
-  secrets: [secret],
-})
-  .auth.user()
-  .onCreate(async (user) => {
-    debug('[auth::user::onCreate] importing createUser');
-    const createUser = (await import('./auth/onCreate.js')).createUser;
-
-    const result = await createUser(user);
-
-    debug('[auth::user::onCreate]', result);
-
-    debug('debug mode', process.env.NODE_ENV);
-    if (process.env.NODE_ENV !== 'development') {
-      const mailingListSignUp = (await import('./mail.js')).mailingListSignUp;
-
-      const mailListResult = await mailingListSignUp(
-        { displayName: user.displayName, email: user.email },
-        process.env.SENDGRID_API_KEY ?? '',
-      );
-
-      debug('[auth::user::mailingListSignUp]', mailListResult);
-    }
-
-    return result;
-  });
 
 /**
  * This private function creates a user in firestore when someone creates an account with firebase auth. (v2)
