@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.3](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.2...developer-v2.7.3) (2025-08-05)
+
+
+### 🐛 Bug Fixes
+
+* **developer:** update functions to node 22 ([153baa8](https://github.com/agrc/api.mapserv.utah.gov/commit/153baa812e92101826e6755eaac3d75330245e7c))
+
 ## [2.7.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.1...developer-v2.7.2) (2025-08-04)
 
 
