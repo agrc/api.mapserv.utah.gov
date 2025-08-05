@@ -50,6 +50,7 @@ updates:
   - package-ecosystem: npm
     directories:
       - src/developer
+      - src/developer/functions
       - src/explorer
     schedule:
       interval: monthly
@@ -92,5 +93,13 @@ updates:
           - "*"
     commit-message:
       prefix: deps(docker)
-    cooldown:
-      default-days: 10
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      docker-dependencies:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: deps(docker)

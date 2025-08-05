@@ -6,25 +6,5 @@ services:
       dockerfile: ./src/api/Dockerfile
     image: webapi/api
 
-  developer:
-    build:
-      context: ./src/developer
-      dockerfile: Dockerfile
-    image: webapi/developer
-
-  explorer:
-    build:
-      context: ./src/explorer
-      dockerfile: Dockerfile
-    image: webapi/explorer
-
   cache:
     image: redis:6.0-alpine
-
-  raven:
-    image: ravendb/ravendb:ubuntu-latest-lts
-    build:
-     context: .
-     dockerfile: data/ravendb/Dockerfile
-    ports:
-      - '3000:8080'
