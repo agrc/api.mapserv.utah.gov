@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.7](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.6...explorer-v2.5.7) (2025-08-05)
+
+
+### 🐛 Bug Fixes
+
+* **explorer:** downgrade starlight to version before layers ([30d4a73](https://github.com/agrc/api.mapserv.utah.gov/commit/30d4a73da24819a46a4b298bc7003e918e0f5ffd))
+
 ## [2.5.6](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.5...explorer-v2.5.6) (2025-08-04)
 
 
