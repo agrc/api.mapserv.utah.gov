@@ -44,7 +44,7 @@ For the best geocoding results, omit sub address values from your street input, 
 
 ### zone
 
-A Utah place name or a 5 digit zip code. The word, "City", is optional. For example, "Sandy" and "Sandy City" are equivalent. The spelling needs to match (case-insensitive) an entry in the "Zone" column of this [spreadsheet](https://docs.google.com/spreadsheets/d/1Dc77HLVn9YXgY1JkcqqaMh1Tm0cemwXxFfyHb7dP0Cs/edit#gid=0) to have a chance of matching.
+A Utah place name or a 5 digit ZIP code. The word, "City", is optional. For example, "Sandy" and "Sandy City" are equivalent. The spelling needs to match (case-insensitive) an entry in the "Zone" column of this [spreadsheet](https://docs.google.com/spreadsheets/d/1Dc77HLVn9YXgY1JkcqqaMh1Tm0cemwXxFfyHb7dP0Cs/edit#gid=0) to have a chance of matching.
 
 If a common place name is not in our list, please suggest an addition through a [GitHub issue](https://github.com/agrc/api.mapserv.utah.gov/issues/new).
 
@@ -64,10 +64,10 @@ Every street and zone geocode will return a score for the match on a scale from 
 
 ### pobox
 
-This option determines if the system should find a location for P.O. Box addresses. The default value of `true`, will return a location for a P.O. Box only when the input zone is a 5 digit zip code. The result will be where the mail is delivered. This could be a traditional post office, community post office, university, etc. When analyzing where people live, P.O. Box information will skew results since there is no correlation between where mail is delivered and where the owner of the mail resides.
+This option determines if the system should find a location for P.O. Box addresses. When `true`, the system will try to return a location for a P.O. Box **only when** the input zone is a 5 digit ZIP code. The result will be where the mail is delivered. This could be a traditional post office, community post office, university, etc. When analyzing where people live, P.O. Box information will skew results since there is no correlation between where mail is delivered and where the owner of the mail resides.
 
 - **Type**: `boolean`
-- **Default**: `true`
+- **Default**: `false`
 - **Can be one of**: `true`, `false`
 
 ### locators
