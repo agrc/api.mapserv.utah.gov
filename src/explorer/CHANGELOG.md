@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.8](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.7...explorer-v2.5.8) (2025-08-13)
+
+
+### 📖 Documentation Improvements
+
+* **api:** correct v1 pobox default value ([2be2878](https://github.com/agrc/api.mapserv.utah.gov/commit/2be28786be86cb440fa1c09cf29b01b25cd9089d))
+
 ## [2.5.7](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.6...explorer-v2.5.7) (2025-08-05)
 
 
