@@ -77,7 +77,7 @@
       "serverReadyAction": {
         "action": "openExternally",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
-        "uriFormat": "%s/api/v1/search/boundaries.muniCIPALITIES_CARTO/NaMe?apikey=agrc-dev&attributeStyle=lower&geometry=point:[426553,%204511970]"
+        "uriFormat": "%s/api/v1/search/boundaries.municipal_boundaries/NaMe?apikey=agrc-dev&attributeStyle=lower&geometry=point:[426553,%204511970]"
       },
       "env": {
         "FIRESTORE_EMULATOR_HOST": "127.0.0.1:8080",
