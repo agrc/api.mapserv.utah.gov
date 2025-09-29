@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.4](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.3...api-v1.17.4) (2025-09-29)
+
+
+### 🐛 Bug Fixes
+
+* **api:** correct null value handling in search endpoint ([dccba1c](https://github.com/agrc/api.mapserv.utah.gov/commit/dccba1c4fa02512d7de09bdf8bf95e60ee65bc05)), closes [#551](https://github.com/agrc/api.mapserv.utah.gov/issues/551)
+
 ## [1.17.3](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.2...api-v1.17.3) (2025-08-04)
 
 
