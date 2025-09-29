@@ -1,0 +1,7 @@
+@hostname = localhost
+@port = 1337
+@host = {{hostname}}:{{port}}
+@apiKey = apikey=agrc-dev
+@request = http://{{host}}/api/v1/search/political.vista_ballot_areas/VistaID,PrecinctID,Comments,CountyID?geometry=point%3A%5B424110.890052985,4498731.43266879%5D&{{apiKey}}
+
+GET {{request}}
