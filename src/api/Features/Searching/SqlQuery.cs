@@ -3,6 +3,7 @@ using Npgsql;
 using ugrc.api.Infrastructure;
 
 namespace ugrc.api.Features.Searching;
+
 public class SqlQuery {
     public class Computation(string tableName, string returnValues, SearchOptions options) : IComputation<IReadOnlyCollection<SearchResponseContract?>?> {
         public string BuildQuery() {
@@ -83,7 +84,9 @@ public class SqlQuery {
                         continue;
                     }
 
-                    attributes[key] = reader.GetValue(i);
+                    var value = reader.GetValue(i);
+                    // Convert DBNull to null so it serializes properly as JSON null
+                    attributes[key] = value == DBNull.Value ? null! : value;
                 }
 
                 results.Add(response);
