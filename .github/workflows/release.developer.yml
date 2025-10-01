@@ -26,12 +26,12 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
 
       - name: ⎔ Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: lts/*
           cache: npm
@@ -57,12 +57,12 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
 
       - name: ⎔ Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: lts/*
           cache: npm
@@ -92,7 +92,7 @@ jobs:
 
       - name: 🗝️ Authenticate to Google Cloud
         id: auth
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v3
         with:
           access_token_scopes: "email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase"
           workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
