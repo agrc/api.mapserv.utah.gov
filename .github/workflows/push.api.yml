@@ -27,12 +27,12 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
 
       - name: 🟣️ Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.0.x"
 
@@ -64,12 +64,12 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
 
       - name: 🗝️ Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v3
         id: auth
         with:
           create_credentials_file: true
@@ -118,7 +118,7 @@ jobs:
 
       - name: 🚀 Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v2
+        uses: google-github-actions/deploy-cloudrun@v3
         with:
           service: api
           image: ${{ env.IMAGE_ID }}
