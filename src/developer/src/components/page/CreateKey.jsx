@@ -31,38 +31,24 @@ const base = z.object({
 });
 
 const privateIps = ['10', '127', '192.168'];
+
 const schema = z.discriminatedUnion('type', [
-  z
-    .object({
-      type: z.literal('server'),
-      ip: z
-        .string()
-        .ip({ version: 'v4' })
-        .superRefine((val, ctx) => {
-          const firstOctet = val.indexOf('.');
+  z.object({
+    type: z.literal('server'),
+    ip: z.ipv4().superRefine((val, ctx) => {
+      const firstOctet = val.slice(0, val.indexOf('.'));
 
-          if (firstOctet === -1) {
-            return;
-          }
-
-          const value = val.slice(0, firstOctet);
-
-          if (privateIps.includes(value)) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: 'This is a private address. Use a public address.',
-            });
-          }
-        }),
-    })
-
-    .merge(base),
-  z
-    .object({
-      type: z.literal('browser'),
-      pattern: z.string().nonempty('A URL pattern is required'),
-    })
-    .merge(base),
+      if (privateIps.includes(firstOctet)) {
+        ctx.addIssue({
+          message: 'This is a private address. Use a public address.',
+        });
+      }
+    }),
+  }),
+  z.object({
+    type: z.literal('browser'),
+    pattern: z.string().min(1, 'A URL pattern is required'),
+  }),
 ]);
 
 const defaultValues = {
@@ -104,6 +90,7 @@ export function Component() {
     resolver: zodResolver(schema),
     mode: 'onBlur',
     defaultValues,
+    shouldUnregister: true,
   });
 
   const loaderData = useLoaderData();
@@ -279,7 +266,7 @@ export function Component() {
                   render={({ field }) => (
                     <TextField
                       label="IP Address"
-                      placeholder="10.0.0.1"
+                      placeholder="198.51.100.1"
                       isRequired
                       {...field}
                       onChange={(value) => field.onChange(value.trim())}
