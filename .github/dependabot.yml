@@ -17,7 +17,7 @@ updates:
         update-types:
           - major
     commit-message:
-      prefix: deps
+      prefix: deps(api)
       prefix-development: deps(dev)
     cooldown:
       default-days: 10
@@ -37,7 +37,7 @@ updates:
         update-types:
           - major
     commit-message:
-      prefix: deps
+      prefix: deps(forklift)
       prefix-development: deps(dev)
     cooldown:
       default-days: 10
@@ -63,7 +63,7 @@ updates:
         update-types:
           - major
     commit-message:
-      prefix: deps
+      prefix: deps(web)
       prefix-development: deps(dev)
     cooldown:
       default-days: 10
@@ -83,6 +83,8 @@ updates:
       default-days: 10
       exclude:
         - agrc/*
+    commit-message:
+      prefix: chore(ci-deps)
   - package-ecosystem: docker
     directory: /src/api
     schedule:
@@ -92,7 +94,7 @@ updates:
         patterns:
           - "*"
     commit-message:
-      prefix: deps(docker)
+      prefix: chore(docker-deps)
   - package-ecosystem: docker-compose
     directory: /
     schedule:
@@ -102,4 +104,4 @@ updates:
         patterns:
           - "*"
     commit-message:
-      prefix: deps(docker)
+      prefix: chore(docker-deps)
