@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.7.6](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.5...developer-v2.7.6) (2025-11-06)
+
+
+### 🌲 Dependencies
+
+* **dev:** bump vite from 7.1.4 to 7.2.0 in /src/developer ([7f3e243](https://github.com/agrc/api.mapserv.utah.gov/commit/7f3e243871c98ed2020b40d55286e8bae2d55bde))
+* **developer:** FY26 Q2 package updates ([e101500](https://github.com/agrc/api.mapserv.utah.gov/commit/e101500d10446b1059697a0c31fbda514375e914))
+* **web:** bump the major-dependencies group across 1 directory with 3 updates ([f23c1c6](https://github.com/agrc/api.mapserv.utah.gov/commit/f23c1c6628cb30752234e3422c30c5c7aeddce9d))
+* **web:** bump the safe-dependencies group across 3 directories with 34 updates ([f31a9ee](https://github.com/agrc/api.mapserv.utah.gov/commit/f31a9ee394dfe25d116d808b5e47ea38bbff2789))
+
 ## [2.7.5](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.4...developer-v2.7.5) (2025-08-05)
 
 
