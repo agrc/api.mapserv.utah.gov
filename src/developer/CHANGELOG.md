@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.7](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.6...developer-v2.7.7) (2025-11-10)
+
+
+### 🐛 Bug Fixes
+
+* **app:** correct validation schema ([31ee405](https://github.com/agrc/api.mapserv.utah.gov/commit/31ee4059649bd885db248c070f59385f639d73cc)), closes [#586](https://github.com/agrc/api.mapserv.utah.gov/issues/586)
+
 ## [2.7.6](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.5...developer-v2.7.6) (2025-11-06)
 
 
