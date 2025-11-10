@@ -17,7 +17,6 @@ import {
   useFirebaseFunctions,
 } from '@ugrc/utah-design-system';
 import { httpsCallable } from 'firebase/functions';
-import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLoaderData, useNavigate } from 'react-router';
 import * as z from 'zod';
@@ -35,6 +34,7 @@ const privateIps = ['10', '127', '192.168'];
 const schema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('server'),
+    ...base.shape,
     ip: z.ipv4().superRefine((val, ctx) => {
       const firstOctet = val.slice(0, val.indexOf('.'));
 
@@ -47,6 +47,7 @@ const schema = z.discriminatedUnion('type', [
   }),
   z.object({
     type: z.literal('browser'),
+    ...base.shape,
     pattern: z.string().min(1, 'A URL pattern is required'),
   }),
 ]);
@@ -57,7 +58,6 @@ const defaultValues = {
   notes: '',
   mode: 'development',
   type: 'browser',
-  fulfilled: false,
 };
 
 const displayError = (error) => {
@@ -82,7 +82,7 @@ const displayError = (error) => {
 export function Component() {
   const {
     control,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
     reset,
     setValue,
@@ -109,6 +109,8 @@ export function Component() {
     mutationKey: ['create key', loaderData.uid],
     mutationFn: (data) => Spinner.minDelay(createKey(data)),
     onSuccess: async () => {
+      reset(defaultValues);
+
       await queryClient.cancelQueries({
         queryKey: ['my keys'],
       });
@@ -119,12 +121,6 @@ export function Component() {
       });
     },
   });
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset(defaultValues);
-    }
-  }, [isSubmitSuccessful, reset]);
 
   const onSubmit = (data) =>
     mutate({

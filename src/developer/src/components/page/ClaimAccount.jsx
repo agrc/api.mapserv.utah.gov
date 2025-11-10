@@ -30,7 +30,6 @@ const defaultValues = {
   email: '',
   password: '',
   confirm: '',
-  fulfilled: false,
 };
 
 export function Component() {
@@ -65,6 +64,7 @@ export function Component() {
       await queryClient.cancelQueries();
 
       queryClient.invalidateQueries({ queryKey: ['my keys'] });
+
       reset(defaultValues);
     },
   });
