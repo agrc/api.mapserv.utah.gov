@@ -15,7 +15,7 @@ import google.cloud.pubsub_v1
 import google.cloud.storage
 from google.api_core.exceptions import NotFound
 
-from cloud_data.secrets import configuration as secrets
+from cloud_data.cloud_secrets import configuration as secrets
 from LightSwitch import LightSwitch
 
 configuration = secrets["Production"]
