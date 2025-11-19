@@ -64,13 +64,14 @@ def download_locator(locator: str) -> None:
     bucket = storage_client.bucket(configuration["storage_bucket"])
     blobs = bucket.list_blobs(prefix=locator)
 
-    scratch = Path("./scratch")
+    scratch = Path(configuration["path_to_locators"])
+
     if not scratch.exists():
         scratch.mkdir()
 
     for blob in blobs:
         logging.info("forklift::downloading %s.", blob.name)
-        blob.download_to_filename(f"{scratch}/{blob.name}")
+        blob.download_to_filename(f"{scratch}\\{blob.name}")
 
 
 def publish_locator(locator: str) -> bool:
@@ -91,6 +92,7 @@ def publish_locator(locator: str) -> bool:
 
     locators_path = Path(configuration["path_to_locators"])
 
+    logging.captureWarnings(True)
     switches = [LightSwitch(server) for server in servers.items()]
 
     wait = [1, 3, 5]
