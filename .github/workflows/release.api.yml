@@ -122,7 +122,7 @@ jobs:
           flags: |
             --service-account=cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
             --max-instances=5
-            --concurrency=250
+            --concurrency=150
             --cpu=1
             --memory=512Mi
             --timeout=1m
