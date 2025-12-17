@@ -3,6 +3,7 @@ using ugrc.api.Models.Configuration;
 using ugrc.api.Models.Constants;
 
 namespace ugrc.api.Features.Geocoding;
+
 public class LocatorConfiguration : GisServerConfigurationBase {
     public string DisplayName { get; set; } = string.Empty;
     public string ServiceName { get; set; } = string.Empty;
@@ -24,7 +25,7 @@ public class LocatorConfiguration : GisServerConfigurationBase {
     }
 
     public LocatorProperties ToLocatorProperty(LocatorMetadata address, Func<LocatorMetadata, string> addressResolver) =>
-        ToLocatorPropertyBase(Template, address.Weight, ServiceName, WebUtility.UrlEncode(addressResolver(address)), address.Grid, address.WkId);
+        ToLocatorPropertyBase(Template, Weight + address.Weight, ServiceName, WebUtility.UrlEncode(addressResolver(address)), address.Grid, address.WkId);
 
     private LocatorProperties ToLocatorPropertyBase(string template, int weight, params object[] args) {
         var url = Url();
