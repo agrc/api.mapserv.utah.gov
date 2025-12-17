@@ -6,6 +6,7 @@ using ugrc.api.Models.ResponseContracts;
 using ugrc.api.Services;
 
 namespace ugrc.api.Features.Geocoding;
+
 public class GeocodeQuery {
     public class Query(string street, string zone, SingleGeocodeRequestOptionsContract options, ApiVersion version) : IRequest<IApiResponse> {
         public string Street { get; } = street;
@@ -84,7 +85,7 @@ public class GeocodeQuery {
             var createGeocodePlanComputation = new GeocodePlan.Computation(parsedAddress, request.Options);
             var plan = await _computeMediator.Handle(createGeocodePlanComputation, cancellationToken);
 
-            if (plan?.Any() != true) {
+            if (plan == null || plan.Count == 0) {
                 _log?.ForContext("address", parsedAddress)
                     .Debug("No plan generated");
 
