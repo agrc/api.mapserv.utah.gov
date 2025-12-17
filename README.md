@@ -178,3 +178,7 @@ Starting a container is like turning on the service. `docker-compose -f docker-c
 ## Swagger
 
 - openapi/v1/api.json
+
+## Attribution
+
+This project was developed with the assistance of [GitHub Copilot](https://github.com/features/copilot).
