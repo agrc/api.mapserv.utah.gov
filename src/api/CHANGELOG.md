@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.6](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.5...api-v1.17.6) (2025-12-17)
+
+
+### 🐛 Bug Fixes
+
+* **api:** correct weights with locators and address grids ([ba23854](https://github.com/agrc/api.mapserv.utah.gov/commit/ba2385466d0c47936c1721b37a090efb4ec55b03)), closes [#607](https://github.com/agrc/api.mapserv.utah.gov/issues/607)
+
 ## [1.17.5](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.4...api-v1.17.5) (2025-11-05)
 
 
