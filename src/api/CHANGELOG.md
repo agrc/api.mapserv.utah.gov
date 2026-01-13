@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.17.7](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.6...api-v1.17.7) (2026-01-13)
+
+
+### 🐛 Bug Fixes
+
+* **api:** evict corrupt cache keys ([dbfb5ea](https://github.com/agrc/api.mapserv.utah.gov/commit/dbfb5eabc2c930d6fb149b80143413a62be35c08))
+
+
+### 🌲 Dependencies
+
+* **api:** Bump the safe-dependencies group with 6 updates ([8568161](https://github.com/agrc/api.mapserv.utah.gov/commit/85681614024996047b69d902aacd63157463d4e3))
+
 ## [1.17.6](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.5...api-v1.17.6) (2025-12-17)
 
 
