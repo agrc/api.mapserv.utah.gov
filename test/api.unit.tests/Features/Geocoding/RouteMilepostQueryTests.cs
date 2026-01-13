@@ -1,8 +1,8 @@
 using System.Net.Http.Json;
+using Moq.Protected;
 using ugrc.api.Features.Milepost;
 using ugrc.api.Models.ArcGis;
 using ugrc.api.Models.ResponseContracts;
-using Moq.Protected;
 
 namespace api.tests.Features.Geocoding;
 public class RouteMilepostQueryTests {

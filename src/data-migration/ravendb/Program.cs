@@ -1,4 +1,3 @@
-﻿using Google.Api.Gax;
 using Google.Cloud.Firestore;
 using models;
 using Raven.Client.Documents;

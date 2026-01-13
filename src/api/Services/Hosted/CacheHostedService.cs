@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using ugrc.api.Models.Linkables;
 
 namespace ugrc.api.Services;
+
 public class CacheHostedService(IMemoryCache cache, ILogger log) : BackgroundService {
     private BigQueryClient? _client;
     private BigQueryTable? _table;

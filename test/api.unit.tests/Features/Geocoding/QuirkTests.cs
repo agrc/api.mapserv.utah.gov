@@ -1,9 +1,9 @@
 using System.IO;
 using System.Text;
 using System.Text.Json.Serialization;
+using NetTopologySuite.IO.Converters;
 using ugrc.api.Geocoding;
 using ugrc.api.Quirks;
-using NetTopologySuite.IO.Converters;
 
 namespace api.tests.Features.Geocoding;
 

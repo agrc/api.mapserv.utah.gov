@@ -1,5 +1,5 @@
-using ugrc.api.Features.Searching;
 using NetTopologySuite.Geometries;
+using ugrc.api.Features.Searching;
 
 namespace api.tests.Features.Searching;
 public class NtsToEsriMapperTests {

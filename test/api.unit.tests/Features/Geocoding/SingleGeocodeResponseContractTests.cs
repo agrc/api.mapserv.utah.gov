@@ -1,9 +1,9 @@
+using EsriJson.Net;
+using NetTopologySuite.Features;
 using ugrc.api.Features.Geocoding;
 using ugrc.api.Models;
 using ugrc.api.Models.ArcGis;
 using ugrc.api.Models.Constants;
-using EsriJson.Net;
-using NetTopologySuite.Features;
 
 namespace api.tests.Features.Geocoding;
 public class SingleGeocodeResponseContractTests {
