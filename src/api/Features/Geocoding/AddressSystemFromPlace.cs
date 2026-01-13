@@ -55,19 +55,35 @@ public class AddressSystemFromPlace {
             return false;
         }
         private async Task<(bool success, List<GridLinkable> result)> IsFuzzyMatchAsync(string key, CancellationToken token) {
-            var result = await _fusionCache.GetOrDefaultAsync<List<GridLinkable>>($"mapping/place/{key}", defaultValue: [], token: token);
+            try {
+                var result = await _fusionCache.GetOrDefaultAsync<List<GridLinkable>>($"mapping/place/{key}", defaultValue: [], token: token);
 
-            if (result is null) {
+                if (result is null) {
+                    return (false, []);
+                }
+
+                if (result.Count > 0) {
+                    LogCacheHit(key, "fusion");
+
+                    return (true, result);
+                }
+
+                return (false, result);
+            } catch (FusionCacheSerializationException ex) {
+                _log?.Warning(ex, "Failed to deserialize cache entry for key {Key}. Evicting corrupted entry.", $"mapping/place/{key}");
+
+                // Evict the corrupted cache entry to prevent future failures
+                try {
+                    await _fusionCache.RemoveAsync($"mapping/place/{key}", token: token);
+                } catch (Exception evictEx) {
+                    _log?.Error(evictEx, "Failed to evict corrupted cache entry for key {Key}", $"mapping/place/{key}");
+                }
+
+                return (false, []);
+            } catch (Exception ex) {
+                _log?.Error(ex, "Unexpected error retrieving cache entry for key {Key}", $"mapping/place/{key}");
                 return (false, []);
             }
-
-            if (result.Count > 0) {
-                LogCacheHit(key, "fusion");
-
-                return (true, result);
-            }
-
-            return (false, result);
         }
         private async Task<(bool success, List<GridLinkable> fuzzyResult)> GetAndSetFuzzyMatchAsync(string key, CancellationToken token) {
             // Try get all the keys to levenshtein
