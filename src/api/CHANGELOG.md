@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.8](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.7...api-v1.17.8) (2026-01-29)
+
+
+### 🌲 Dependencies
+
+* **api:** Bump the safe-dependencies group with 8 updates ([5cdc7ee](https://github.com/agrc/api.mapserv.utah.gov/commit/5cdc7eea55937fd4a5cd8986e380c0003b173a0f))
+
 ## [1.17.7](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.6...api-v1.17.7) (2026-01-13)
 
 
