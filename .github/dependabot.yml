@@ -39,14 +39,14 @@ updates:
     commit-message:
       prefix: deps(forklift)
       prefix-development: deps(dev)
+    ignore:
+      - dependency-name: "ugrc-*"
+      - dependency-name: "agrc-*"
     cooldown:
       default-days: 10
       semver-major-days: 60
       semver-minor-days: 14
       semver-patch-days: 7
-      exclude:
-        - ugrc-*
-        - agrc-*
   - package-ecosystem: npm
     directories:
       - src/developer
@@ -65,13 +65,13 @@ updates:
     commit-message:
       prefix: deps(web)
       prefix-development: deps(dev)
+    ignore:
+      - dependency-name: "@ugrc/*"
     cooldown:
       default-days: 10
       semver-major-days: 60
       semver-minor-days: 14
       semver-patch-days: 7
-      exclude:
-        - '@ugrc/*'
   - package-ecosystem: github-actions
     directory: /
     schedule:
@@ -79,10 +79,10 @@ updates:
     groups:
       ci-dependencies:
         dependency-type: production
+    ignore:
+      - dependency-name: "agrc/*"
     cooldown:
       default-days: 10
-      exclude:
-        - agrc/*
     commit-message:
       prefix: chore(ci-deps)
   - package-ecosystem: docker
