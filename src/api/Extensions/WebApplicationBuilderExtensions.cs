@@ -119,6 +119,7 @@ public static class WebApplicationBuilderExtensions {
             .WithSerializer(
                 new FusionCacheSystemTextJsonSerializer(new JsonSerializerOptions {
                     IncludeFields = true,
+                    Converters = { new GridLinkableJsonConverter() }
                 })
             )
             .WithMemoryCache(x => new MemoryCache(new MemoryCacheOptions()))
