@@ -10,7 +10,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -27,7 +27,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -44,7 +44,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -69,7 +69,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -94,7 +94,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -116,7 +116,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -138,7 +138,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -160,7 +160,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -182,7 +182,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -204,7 +204,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -226,7 +226,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/api/bin/Debug/net9.0/api.mapserv.utah.gov.dll",
+      "program": "${workspaceFolder}/src/api/bin/Debug/net10.0/api.mapserv.utah.gov.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/api",
       "stopAtEntry": false,
@@ -254,7 +254,7 @@
       "request": "launch",
       "preLaunchTask": "build data migration",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/data-migration/ravendb/bin/Debug/net9.0/data-migration.dll",
+      "program": "${workspaceFolder}/src/data-migration/ravendb/bin/Debug/net10.0/data-migration.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/data-migration/ravendb",
       "stopAtEntry": false,
