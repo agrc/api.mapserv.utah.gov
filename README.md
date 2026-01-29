@@ -123,7 +123,7 @@ You can now view the [documentation](http://localhost:4321/) website.
 
 ### ASP.NET
 
-The API is built using ASP.NET. In order to run the API locally, the .NET Core SDK and Runtime will need to be [downloaded](https://www.microsoft.com/net/download) and installed. It is possible to run the API in containers, removing the need to install the .NET Core SDK and Runtime, but the development cycle loop is slow. Currently the app is using dotnet 8.
+The API is built using ASP.NET. In order to run the API locally, the .NET Core SDK and Runtime will need to be [downloaded](https://www.microsoft.com/net/download) and installed. It is possible to run the API in containers, removing the need to install the .NET Core SDK and Runtime, but the development cycle loop is slow. Currently the app is using dotnet 10.
 
 ### Firestore
 
