@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using Swashbuckle.AspNetCore.SwaggerUI;
 using ugrc.api.Features.Converting;
 using ugrc.api.Features.Geocoding;
 using ugrc.api.Features.Health;
@@ -12,8 +11,10 @@ using ugrc.api.Features.Milepost;
 using ugrc.api.Features.Searching;
 using ugrc.api.Middleware;
 using ugrc.api.Models.ResponseContracts;
+using Microsoft.OpenApi;
 
 namespace ugrc.api.Extensions;
+
 public static class WebApplicationExtensions {
     public static void MapRoutes(this WebApplication app) {
         if (app.Environment.IsDevelopment()) {
@@ -52,11 +53,15 @@ public static class WebApplicationExtensions {
             .AddEndpointFilter<GeocodeQuery.ValidationFilter>()
             .HasApiVersion(1)
             .HasApiVersion(2)
-            .WithOpenApi(operation => new(operation) {
-                OperationId = "Geocode",
-                Summary = "Single address geocoding",
-                Description = "Extract the x, y location from a street address and zone",
-                Tags = [new() { Name = "Address Geocoding" }],
+            .AddOpenApiOperationTransformer((operation, context, ct) => {
+                operation.OperationId = "Geocode";
+                operation.Summary = "Single address geocoding";
+                operation.Description = "Extract the x, y location from a street address and zone";
+                operation.Tags = new HashSet<OpenApiTagReference> {
+                    new("Address Geocoding")
+                };
+
+                return Task.CompletedTask;
             })
             .Produces<ApiResponseContract<SingleGeocodeResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -77,11 +82,15 @@ public static class WebApplicationExtensions {
             })
             .HasApiVersion(1)
             .HasApiVersion(2)
-            .WithOpenApi(operation => new(operation) {
-                OperationId = "ReverseGeocode",
-                Summary = "Reverse Geocoding",
-                Description = "Extract the x, y location from a street address and zone",
-                Tags = [new() { Name = "Address Geocoding" }],
+            .AddOpenApiOperationTransformer((operation, context, ct) => {
+                operation.OperationId = "ReverseGeocode";
+                operation.Summary = "Reverse Geocoding";
+                operation.Description = "Extract the x, y location from a street address and zone";
+                operation.Tags = new HashSet<OpenApiTagReference> {
+                    new("Address Geocoding")
+                };
+
+                return Task.CompletedTask;
             })
             .Produces<ApiResponseContract<ReverseGeocodeResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -103,11 +112,15 @@ public static class WebApplicationExtensions {
             .AddEndpointFilter<RouteMilepostQuery.ValidationFilter>()
             .HasApiVersion(1)
             .HasApiVersion(2)
-            .WithOpenApi(operation => new(operation) {
-                OperationId = "MilepostGeocode",
-                Summary = "Milepost Geocoding",
-                Description = "Extract the x, y location from a milepost along a route",
-                Tags = [new() { Name = "Milepost Geocoding" }],
+            .AddOpenApiOperationTransformer((operation, context, ct) => {
+                operation.OperationId = "MilepostGeocode";
+                operation.Summary = "Milepost Geocoding";
+                operation.Description = "Extract the x, y location from a milepost along a route";
+                operation.Tags = new HashSet<OpenApiTagReference> {
+                    new("Milepost Geocoding")
+                };
+
+                return Task.CompletedTask;
             })
             .Produces<ApiResponseContract<RouteMilepostResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -128,11 +141,15 @@ public static class WebApplicationExtensions {
             })
             .HasApiVersion(1)
             .HasApiVersion(2)
-            .WithOpenApi(operation => new(operation) {
-                OperationId = "ReverseMilepostGeocode",
-                Summary = "Reverse Milepost Geocoding",
-                Description = "Extract the x, y, and measure from a milepost (measure) along a route",
-                Tags = [new() { Name = "Milepost Geocoding" }],
+            .AddOpenApiOperationTransformer((operation, context, ct) => {
+                operation.OperationId = "ReverseMilepostGeocode";
+                operation.Summary = "Reverse Milepost Geocoding";
+                operation.Description = "Extract the x, y, and measure from a milepost (measure) along a route";
+                operation.Tags = new HashSet<OpenApiTagReference> {
+                    new("Milepost Geocoding")
+                };
+
+                return Task.CompletedTask;
             })
             .Produces<ApiResponseContract<RouteMilepostResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -154,18 +171,22 @@ public static class WebApplicationExtensions {
             .AddEndpointFilter<SearchQuery.ValidationFilter>()
             .HasApiVersion(1)
             .HasApiVersion(2)
-            .WithOpenApi(operation => new(operation) {
-                OperationId = "Search",
-                Summary = "Search the Open SGID",
-                Description = "Search tables and attributes within the SGID",
-                Tags = [new() { Name = "Searching" }],
+            .AddOpenApiOperationTransformer((operation, context, ct) => {
+                operation.OperationId = "Search";
+                operation.Summary = "Search the Open SGID";
+                operation.Description = "Search tables and attributes within the SGID";
+                operation.Tags = new HashSet<OpenApiTagReference> {
+                    new("Searching")
+                };
+
+                return Task.CompletedTask;
             })
             .Produces<ApiResponseContract<SearchResponseContract>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
             .Produces<ApiResponseContract>(StatusCodes.Status404NotFound)
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
 
-        info.MapGet("/featureclassnames", async (
+        _ = info.MapGet("/featureclassnames", async (
             InformationRequestOptionsContract options,
             [FromServices] IMediator mediator,
             [FromServices] IJsonSerializerOptionsFactory factory,
@@ -178,11 +199,15 @@ public static class WebApplicationExtensions {
             .AddEndpointFilter<SqlSchemaQuery.ValidationFilter>()
             .HasApiVersion(1)
             .HasApiVersion(2)
-            .WithOpenApi(operation => new(operation) {
-                OperationId = "FeatureClassNames",
-                Summary = "Get all feature classes for a SGID category",
-                Description = "Discover SGID data by viewing all available feature classes for a given category",
-                Tags = [new() { Name = "Info" }],
+            .AddOpenApiOperationTransformer((operation, context, ct) => {
+                operation.OperationId = "FeatureClassNames";
+                operation.Summary = "Get all feature classes for a SGID category";
+                operation.Description = "Discover SGID data by viewing all available feature classes for a given category";
+                operation.Tags = new HashSet<OpenApiTagReference> {
+                    new("Info")
+                };
+
+                return Task.CompletedTask;
             })
             .Produces<ApiResponseContract<IReadOnlyCollection<string>>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -203,11 +228,15 @@ public static class WebApplicationExtensions {
             .AddEndpointFilter<SqlAttributeQuery.ValidationFilter>()
             .HasApiVersion(1)
             .HasApiVersion(2)
-            .WithOpenApi(operation => new(operation) {
-                OperationId = "FeatureClassAttributeNames",
-                Summary = "Get all attributes for a SGID feature class",
-                Description = "Understand SGID table available fields by viewing all of the searchable attributes",
-                Tags = [new() { Name = "Info" }],
+            .AddOpenApiOperationTransformer((operation, context, ct) => {
+                operation.OperationId = "FeatureClassAttributeNames";
+                operation.Summary = "Get all attributes for a SGID feature class";
+                operation.Description = "Understand SGID table available fields by viewing all of the searchable attributes";
+                operation.Tags = new HashSet<OpenApiTagReference> {
+                    new("Info")
+                };
+
+                return Task.CompletedTask;
             })
             .Produces<ApiResponseContract<IReadOnlyCollection<string>>>(StatusCodes.Status200OK)
             .Produces<ApiResponseContract>(StatusCodes.Status400BadRequest)
@@ -229,16 +258,6 @@ public static class WebApplicationExtensions {
             ResponseWriter = StartupHealthCheckResponseWriter.WriteText
         });
     }
-    public static void MapOpenApi(this WebApplication app) {
-        app.UseSwagger(c => c.RouteTemplate = "openapi/{documentName}/api.json");
-        app.UseSwaggerUI(c => {
-            c.DocumentTitle = "UGRC API OpenAPI Documentation";
-            c.RoutePrefix = "openapi";
-            c.SwaggerEndpoint("/openapi/v1/api.json", "v1");
-            c.SwaggerEndpoint("/openapi/v2/api.json", "v2");
-            c.SupportedSubmitMethods();
-            c.EnableDeepLinking();
-            c.DocExpansion(DocExpansion.List);
-        });
-    }
+    public static void MapOpenApi(this WebApplication app)
+        => app.MapOpenApi("/openapi/{documentName}/api.json");
 }

@@ -1,7 +1,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using api.OpenApi;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Google.Api.Gax;
@@ -16,14 +15,13 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Npgsql;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
 using Polly.Timeout;
 using StackExchange.Redis;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using ugrc.api.Cache;
 using ugrc.api.Features.Converting;
 using ugrc.api.Features.Geocoding;
@@ -39,6 +37,7 @@ using ZiggyCreatures.Caching.Fusion;
 using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 namespace ugrc.api.Extensions;
+
 public static class WebApplicationBuilderExtensions {
     public static void ConfigureConfiguration(this WebApplicationBuilder builder) {
         builder.Configuration
@@ -319,73 +318,112 @@ public static class WebApplicationBuilderExtensions {
         }
     }
     public static void ConfigureOpenApi(this WebApplicationBuilder builder) {
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(c => {
-            c.EnableAnnotations();
-            c.DescribeAllParametersInCamelCase();
+        builder.Services.AddOpenApi("v1", options => {
+            options.AddDocumentTransformer((document, _, _) => {
+                document.Info = new() {
+                    Version = "v1",
+                    Title = "UGRC API : OpenAPI Documentation",
+                    Description = "OpenAPI Documentation",
+                    Contact = new OpenApiContact {
+                        Name = "UGRC",
+                        Email = "ugrc-developers@utah.gov",
+                        Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
+                    },
+                    License = new OpenApiLicense {
+                        Name = "MIT",
+                        Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/main/LICENSE")
+                    }
+                };
 
-            c.DocumentFilter<TrimUrlOperationFilter>();
-            c.CustomOperationIds(apiDesc => apiDesc.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null);
+                document.Servers = [
+                    new() {
+                        Url = "https://api.mapserv.utah.gov/api/v1",
+                        Description = "Base url for the version 1 API"
+                    }
+                ];
 
-            c.AddSecurityDefinition("apikey", new OpenApiSecurityScheme {
-                Type = SecuritySchemeType.ApiKey,
-                In = ParameterLocation.Query,
-                Name = "apiKey",
-                Description = "A key gathered from developer.mapserv.utah.gov"
-            });
-
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-            {
-                new OpenApiSecurityScheme {
-                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "apikey" },
+                var securityScheme = new OpenApiSecurityScheme {
                     Type = SecuritySchemeType.ApiKey,
                     In = ParameterLocation.Query,
                     Name = "apiKey",
-                    Description = "A key acquired from developer.mapserv.utah.gov"
-                },
-                Array.Empty<string>()
-            }
+                    Description = "A key gathered from developer.mapserv.utah.gov"
+                };
+
+                document.Components ??= new OpenApiComponents();
+                document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+                document.Components.SecuritySchemes!.Add("apikey", securityScheme);
+
+                var securitySchemeReference = new OpenApiSecuritySchemeReference("apikey", document);
+
+                document.Security = [
+                    new() {
+                        { securitySchemeReference, [] }
+                    }
+                ];
+
+                document.Tags = new HashSet<OpenApiTag> {
+                    new() { Name = "Address Geocoding", Description = "Endpoints for finding a location from an address" },
+                    new() { Name = "Milepost Geocoding", Description = "Endpoints for finding a location from a milepost" },
+                    new() { Name = "Searching", Description = "Endpoints for searching the Open SGID" },
+                    new() { Name = "Info", Description = "Endpoints for getting information about the SGID" }
+                };
+
+                return Task.CompletedTask;
+            });
         });
 
-            c.AddServer(new OpenApiServer {
-                Url = "https://api.mapserv.utah.gov/api/v1",
-                Description = "Base url for the version 1 API"
+        builder.Services.AddOpenApi("v2", options => {
+            options.AddDocumentTransformer((document, _, _) => {
+                document.Info = new() {
+                    Version = "v2",
+                    Title = "UGRC API : OpenAPI Documentation",
+                    Description = "OpenAPI Documentation",
+                    Contact = new OpenApiContact {
+                        Name = "UGRC",
+                        Email = "ugrc-developers@utah.gov",
+                        Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
+                    },
+                    License = new OpenApiLicense {
+                        Name = "MIT",
+                        Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/main/LICENSE")
+                    }
+                };
+
+                document.Servers = [
+                    new() {
+                        Url = "https://api.mapserv.utah.gov/api/v2",
+                        Description = "Base url for the version 2 API"
+                    }
+                ];
+
+                var securityScheme = new OpenApiSecurityScheme {
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Query,
+                    Name = "apiKey",
+                    Description = "A key gathered from developer.mapserv.utah.gov"
+                };
+
+                document.Components ??= new OpenApiComponents();
+                document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+                document.Components.SecuritySchemes!.Add("apikey", securityScheme);
+
+                var securitySchemeReference = new OpenApiSecuritySchemeReference("apikey", document);
+
+                document.Security = [
+                    new() {
+                        { securitySchemeReference, [] }
+                    }
+                ];
+
+                document.Tags = new HashSet<OpenApiTag> {
+                    new() { Name = "Address Geocoding", Description = "Endpoints for finding a location from an address" },
+                    new() { Name = "Milepost Geocoding", Description = "Endpoints for finding a location from a milepost" },
+                    new() { Name = "Searching", Description = "Endpoints for searching the Open SGID" },
+                    new() { Name = "Info", Description = "Endpoints for getting information about the SGID" }
+                };
+
+                return Task.CompletedTask;
             });
-
-            c.SwaggerDoc("v1", new OpenApiInfo {
-                Version = "v1",
-                Title = "UGRC API : OpenAPI Documentation",
-                Description = "OpenAPI Documentation",
-                Contact = new OpenApiContact {
-                    Name = "UGRC",
-                    Email = "ugrc-developers@utah.gov",
-                    Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
-                },
-                License = new OpenApiLicense {
-                    Name = "MIT",
-                    Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/main/LICENSE")
-                },
-            });
-
-            c.SwaggerDoc("v2", new OpenApiInfo {
-                Version = "v2",
-                Title = "UGRC API : OpenAPI Documentation",
-                Description = "OpenAPI Documentation",
-                Contact = new OpenApiContact {
-                    Name = "UGRC",
-                    Email = "ugrc-developers@utah.gov",
-                    Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov")
-                },
-                License = new OpenApiLicense {
-                    Name = "MIT",
-                    Url = new Uri("https://github.com/agrc/api.mapserv.utah.gov/blob/main/LICENSE")
-                }
-            });
-
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-            c.IncludeXmlComments(xmlPath);
         });
     }
     public static void ConfigureVersioning(this WebApplicationBuilder builder)
