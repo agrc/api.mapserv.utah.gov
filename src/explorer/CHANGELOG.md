@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.10](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.9...explorer-v2.5.10) (2026-01-30)
+
+
+### 🌲 Dependencies
+
+* **web:** bump the safe-dependencies group across 3 directories with 31 updates ([c734eaf](https://github.com/agrc/api.mapserv.utah.gov/commit/c734eaf8ab9785dd32e1996f7a5849460ccbb901))
+
 ## [2.5.9](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.8...explorer-v2.5.9) (2025-11-05)
 
 
