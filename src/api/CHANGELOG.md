@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.9](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.8...api-v1.17.9) (2026-01-30)
+
+
+### 🐛 Bug Fixes
+
+* **api:** correct warnings from fusion cache ([7b93b3c](https://github.com/agrc/api.mapserv.utah.gov/commit/7b93b3cc41fdf1cc0386aeeca7085cb39fc6f99e))
+
 ## [1.17.8](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.7...api-v1.17.8) (2026-01-29)
 
 
