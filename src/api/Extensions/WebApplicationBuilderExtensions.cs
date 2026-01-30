@@ -92,6 +92,7 @@ public static class WebApplicationBuilderExtensions {
         builder.Services.AddMemoryCache();
         builder.Services.AddFusionCache("places")
             .WithOptions(options => {
+                options.CacheKeyPrefix = "places/";
                 options.DistributedCacheCircuitBreakerDuration = TimeSpan.FromSeconds(3);
 
                 options.FactoryErrorsLogLevel = LogLevel.Error;
@@ -100,6 +101,7 @@ public static class WebApplicationBuilderExtensions {
                 options.FailSafeActivationLogLevel = LogLevel.Debug;
                 options.DistributedCacheSyntheticTimeoutsLogLevel = LogLevel.Debug;
                 options.FactorySyntheticTimeoutsLogLevel = LogLevel.Debug;
+                options.IncoherentOptionsNormalizationLogLevel = LogLevel.None;
             })
             .WithDefaultEntryOptions(new FusionCacheEntryOptions {
                 IsFailSafeEnabled = true,
@@ -133,6 +135,7 @@ public static class WebApplicationBuilderExtensions {
 
         builder.Services.AddFusionCache("firestore")
             .WithOptions(options => {
+                options.CacheKeyPrefix = "firestore/";
                 options.DistributedCacheCircuitBreakerDuration = TimeSpan.FromSeconds(3);
 
                 options.FactoryErrorsLogLevel = LogLevel.Error;
@@ -141,6 +144,7 @@ public static class WebApplicationBuilderExtensions {
                 options.FailSafeActivationLogLevel = LogLevel.Debug;
                 options.DistributedCacheSyntheticTimeoutsLogLevel = LogLevel.Debug;
                 options.FactorySyntheticTimeoutsLogLevel = LogLevel.Debug;
+                options.IncoherentOptionsNormalizationLogLevel = LogLevel.None;
             })
             .WithSerializer(
                 new FusionCacheSystemTextJsonSerializer()

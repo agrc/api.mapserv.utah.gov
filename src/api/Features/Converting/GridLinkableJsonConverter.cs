@@ -28,7 +28,7 @@ public class GridLinkableJsonConverter : JsonConverter<GridLinkable> {
             return JsonSerializer.Deserialize<PlaceGridLink>(root.GetRawText(), options);
         }
 
-        throw new JsonException($"Unable to determine GridLinkable concrete type from JSON");
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, GridLinkable value, JsonSerializerOptions options) =>
