@@ -1,6 +1,6 @@
 {
   "name": "@ugrc/explorer",
-  "version": "2.5.9",
+  "version": "2.6.0",
   "type": "module",
   "scripts": {
     "astro": "astro",
