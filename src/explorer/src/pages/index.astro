@@ -6,6 +6,7 @@ import screen from '@assets/screen.svg';
 import search from '@assets/search.svg';
 import thumb from '@assets/thumb.svg';
 
+import Button from '@components/Button.astro';
 import { Image } from 'astro:assets';
 ---
 
@@ -56,12 +57,7 @@ import { Image } from 'astro:assets';
           </h2>
           <div class="flex justify-center">
             <div class="mt-4 flex md:mt-0">
-              <a
-                href="/getting-started"
-                class="border-secondary-600 bg-secondary-500 hover:border-secondary-700 hover:bg-secondary-600 focus:border-secondary-500 focus:ring-secondary-600 active:bg-secondary-700 flex h-12 min-h-[2rem] w-fit cursor-pointer items-center justify-center rounded-md border-2 px-5 py-3 font-semibold text-white shadow transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Get started
-              </a>
+              <Button href="/getting-started" text="Get started" />
             </div>
           </div>
         </aside>
@@ -161,8 +157,8 @@ import { Image } from 'astro:assets';
               class="font-semibold">visually</span
             >
             seeing customer locations on a map to being able to spatially analyze
-            their relationship or patterns in conjunction with other events such
-            as disease occurrences, natural disaster affected areas, and other location
+            their relationship or patterns in conjunction with other events such as
+            disease occurrences, natural disaster affected areas, and other location
             based occurrences.
           </p>
         </div>

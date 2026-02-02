@@ -1,5 +1,10 @@
 ---
+import Button from '@components/Button.astro';
+import Note from '@components/Note.astro';
+import Referrer from '@components/Referrer.astro';
+
 import Chrome from '@layouts/Chrome.astro';
+
 import { SELF_SERVICE_URL } from 'astro:env/client';
 ---
 
@@ -31,19 +36,19 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
             <div class="flex">
               <div class="flex-shrink-0 md:self-center">
                 <div
-                  class="bg-accent-500/90 border-accent-700 flex h-12 w-12 items-center justify-center rounded-md border text-3xl font-black text-white drop-shadow-lg md:h-20 md:w-20 md:text-7xl"
+                  class="bg-secondary-600 border-secondary-800 user-select-none flex h-12 w-12 items-center justify-center rounded-md border text-3xl font-black text-white drop-shadow-lg md:h-20 md:w-20 md:text-7xl"
                 >
                   1
                 </div>
               </div>
               <div class="ml-4">
-                <h5 class="dark:text-secondary-300 text-lg font-medium">
+                <h3 class="dark:text-secondary-300 text-lg font-medium">
                   Create a complimentary account<p
                     class="text-base text-slate-500 dark:text-slate-200"
                   >
                     Manage and view analytics for all of your API keys.
                   </p>
-                </h5>
+                </h3>
               </div>
             </div>
           </li>
@@ -51,19 +56,19 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
             <div class="flex">
               <div class="flex-shrink-0 md:self-center">
                 <div
-                  class="bg-accent-500/90 border-accent-700 flex h-12 w-12 items-center justify-center rounded-md border text-3xl font-black text-white drop-shadow-lg md:h-20 md:w-20 md:text-7xl"
+                  class="bg-secondary-600 border-secondary-800 user-select-none flex h-12 w-12 items-center justify-center rounded-md border text-3xl font-black text-white drop-shadow-lg md:h-20 md:w-20 md:text-7xl"
                 >
                   2
                 </div>
               </div>
               <div class="ml-4">
-                <h5 class="dark:text-secondary-300 text-lg font-medium">
+                <h3 class="dark:text-secondary-300 text-lg font-medium">
                   Generate an API key<p
                     class="text-base text-slate-500 dark:text-slate-200"
                   >
                     Keep track of usage analytics and authorize requests.
                   </p>
-                </h5>
+                </h3>
               </div>
             </div>
           </li>
@@ -71,13 +76,13 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
             <div class="flex">
               <div class="flex-shrink-0 md:self-center">
                 <div
-                  class="bg-accent-500/90 border-accent-700 flex h-12 w-12 items-center justify-center rounded-md border text-3xl font-black text-white drop-shadow-lg md:h-20 md:w-20 md:text-7xl"
+                  class="bg-secondary-600 border-secondary-800 user-select-none flex h-12 w-12 items-center justify-center rounded-md border text-3xl font-black text-white drop-shadow-lg md:h-20 md:w-20 md:text-7xl"
                 >
                   3
                 </div>
               </div>
               <div class="ml-4">
-                <h5 class="dark:text-secondary-300 text-lg font-medium">
+                <h3 class="dark:text-secondary-300 text-lg font-medium">
                   Make a request<p
                     class="text-base text-slate-500 dark:text-slate-200"
                   >
@@ -87,7 +92,7 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
                       class="fancy-link">API Client</a
                     >?
                   </p>
-                </h5>
+                </h3>
               </div>
             </div>
           </li>
@@ -108,11 +113,10 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
         </h2>
         <div class="flex justify-center">
           <div class="mt-4 flex rounded-md shadow md:mt-0">
-            <a
+            <Button
               href={`${SELF_SERVICE_URL}/self-service`}
-              class="border-secondary-700 bg-secondary-600 hover:border-secondary-800 hover:bg-secondary-700 focus:border-secondary-500 focus:ring-secondary-600 active:bg-secondary-800 flex h-12 min-h-[2rem] w-fit cursor-pointer items-center justify-center rounded-md border-2 px-5 py-3 font-semibold text-white shadow transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50"
-              >Get started</a
-            >
+              text="Get started"
+            />
           </div>
         </div>
       </aside>
@@ -125,10 +129,7 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
         class="bg-secondary-800 text-secondary-100 flex items-center p-2 lg:inline-flex lg:rounded"
         role="alert"
       >
-        <span
-          class="bg-secondary-500 mr-3 flex rounded-full px-2 py-1 text-xs font-bold uppercase"
-          >note</span
-        >
+        <Note>note</Note>
         <span class="mr-2 flex-auto text-left font-semibold"
           >This API is free to use and we ask that you use it responsibly and
           fairly. We reserve the right to block abusive users. Currently, the
@@ -309,16 +310,12 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
           class="bg-secondary-800 text-secondary-100 flex items-center p-2 lg:inline-flex lg:rounded"
           role="alert"
         >
-          <span
-            class="bg-secondary-500 mr-3 flex rounded-full px-2 py-1 text-xs font-bold uppercase"
-            >tip</span
-          >
+          <Note>tip</Note>
           <span class="mr-2 flex-auto text-left font-semibold"
             >During local development of browser based applications, the
             Application Status of the key needs to be set to <span
               class="font-semibold">Development</span
-            > for requests originating from localhost or machine name urls to be
-            successful.</span
+            > for requests originating from localhost or machine name urls to be successful.</span
           >
         </div>
       </div>
@@ -361,72 +358,44 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
         <tbody class="bg-white dark:bg-zinc-950/60 dark:text-slate-100">
           <tr>
             <td class="border-b border-slate-200 p-2 dark:border-white/30">
-              <span
-                class="text-secondary-600 dark:text-secondary-300 block leading-loose"
-                >www.example.com</span
-              >
-              <span
-                class="text-secondary-600 dark:text-secondary-300 block leading-loose"
-                >www.example.com/</span
-              >
-              <span
-                class="text-secondary-600 dark:text-secondary-300 block leading-loose"
-                >www.example.com/*</span
-              >
+              <Referrer block>www.example.com</Referrer>
+              <Referrer block>www.example.com/</Referrer>
+              <Referrer block>www.example.com/*</Referrer>
             </td>
             <td class="border-b border-slate-200 p-2 dark:border-white/30"
-              >Matches all referrers in the domain <span
-                class="text-secondary-600 dark:text-secondary-300"
-                >www.example.com</span
+              >Matches all referrers in the domain <Referrer
+                >www.example.com</Referrer
               >
             </td>
           </tr>
           <tr>
             <td class="border-b border-slate-200 p-2 dark:border-white/30">
-              <span class="text-secondary-600 dark:text-secondary-300"
-                >example.com/*</span
-              >
+              <Referrer block>example.com/*</Referrer>
             </td>
             <td class="border-b border-slate-200 p-2 dark:border-white/30"
-              >Matches only referrers at <span
-                class="text-secondary-600 dark:text-secondary-300"
-                >example.com</span
-              >, but no subdomains</td
+              >Matches only referrers at <Referrer>example.com</Referrer>, but
+              no subdomains</td
             >
           </tr>
           <tr>
             <td class="border-b border-slate-200 p-2 dark:border-white/30">
-              <span class="text-secondary-600 dark:text-secondary-300"
-                >*.example.com</span
-              >
+              <Referrer block>*.example.com</Referrer>
             </td>
             <td class="border-b border-slate-200 p-2 dark:border-white/30"
-              >Matches all referrers at all subdomains of <span
-                class="text-secondary-600 dark:text-secondary-300"
-                >example.com</span
+              >Matches all referrers at all subdomains of <Referrer
+                >example.com</Referrer
               >
             </td>
           </tr>
           <tr>
             <td class="border-b border-slate-200 p-2 dark:border-white/30">
-              <span
-                class="text-secondary-600 dark:text-secondary-300 block leading-loose"
-                >example.com/test</span
-              >
-              <span
-                class="text-secondary-600 dark:text-secondary-300 block leading-loose"
-                >example.com/test/</span
-              >
-              <span
-                class="text-secondary-600 dark:text-secondary-300 block leading-loose"
-                >example.com/test/*</span
-              >
+              <Referrer block>example.com/test</Referrer>
+              <Referrer block>example.com/test/</Referrer>
+              <Referrer block>example.com/test/*</Referrer>
             </td>
             <td class="border-b border-slate-200 p-2 dark:border-white/30"
-              >Matches all referrers in <span
-                class="text-secondary-600 dark:text-secondary-300"
-                >example.com/test/</span
-              > and all sub paths</td
+              >Matches all referrers in <Referrer>example.com/test/</Referrer> and
+              all sub paths</td
             >
           </tr>
         </tbody>
@@ -444,14 +413,11 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
           class="bg-secondary-800 text-secondary-100 flex items-center p-2 lg:inline-flex lg:rounded"
           role="alert"
         >
-          <span
-            class="bg-secondary-500 mr-3 flex rounded-full px-2 py-1 text-xs font-bold uppercase"
-            >tip</span
-          >
+          <Note>tip</Note>
           <span class="mr-2 flex-auto text-left font-semibold"
             >A common mistake is to use your local IP address. Check with a
             website like <a
-              class="hover:text-secondary-400 text-secondary-200 cursor-pointer transition duration-150 ease-in-out hover:underline"
+              class="hover:text-accent-400 text-accent-200 cursor-pointer transition duration-150 ease-in-out hover:underline"
               rel="noopener noreferrer"
               target="_blank">what is my ip</a
             > to see what your public IP address is.</span
@@ -491,11 +457,7 @@ import { SELF_SERVICE_URL } from 'astro:env/client';
           </h2>
           <div class="flex justify-center">
             <div class="mt-4 flex rounded-md shadow md:mt-0">
-              <a
-                href="/docs"
-                class="border-secondary-700 bg-secondary-600 hover:border-secondary-800 hover:bg-secondary-700 focus:border-secondary-500 focus:ring-secondary-600 active:bg-secondary-800 flex h-12 min-h-[2rem] w-fit cursor-pointer items-center justify-center rounded-md border-2 px-5 py-3 font-semibold text-white shadow transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50"
-                >Let's go</a
-              >
+              <Button href="/docs" text="Let's go" />
             </div>
           </div>
         </aside>

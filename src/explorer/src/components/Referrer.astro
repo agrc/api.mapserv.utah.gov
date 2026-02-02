@@ -1,0 +1,13 @@
+---
+export interface Props {
+  block?: boolean;
+}
+const { block = false } = Astro.props;
+---
+
+<span
+  class:list={[
+    'text-secondary-700 dark:text-secondary-300 font-medium leading-loose',
+    { block: block },
+  ]}><slot /></span
+>

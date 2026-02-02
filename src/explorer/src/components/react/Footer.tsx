@@ -1,4 +1,4 @@
-import { Footer as UDSFooter } from '@ugrc/utah-design-system/src/components/Footer';
+import { Footer as UDSFooter } from '@ugrc/utah-design-system/src/components/Footer.tsx';
 import govOpsLogo from '../../assets/govops-logo.webp';
 
 import { SELF_SERVICE_URL } from 'astro:env/client';
