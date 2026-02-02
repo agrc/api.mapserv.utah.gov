@@ -44,6 +44,11 @@ jobs:
         shell: bash
         run: npm ci
 
+      - name: 📃 Configure 3rd party notice
+        uses: agrc/third-party-notice-composite-action@v1
+        with:
+          working-directory: src/explorer
+
       - name: 📨 Forward environment variables
         shell: bash
         run: |
