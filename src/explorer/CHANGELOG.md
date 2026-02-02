@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.6.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.9...explorer-v2.6.0) (2026-02-02)
+
+
+### 🚀 Features
+
+* **explorer:** add 3rd party notices ([c4306f8](https://github.com/agrc/api.mapserv.utah.gov/commit/c4306f88fc67d7ef5422825c5e2d25b590951265))
+
+
+### 🌲 Dependencies
+
+* **explorer:** update ugrc package with astro ([6d091bf](https://github.com/agrc/api.mapserv.utah.gov/commit/6d091bf9ddb3d68cf9712ecb9427cc4fbd7c0986))
+* **web:** bump the safe-dependencies group across 3 directories with 31 updates ([c734eaf](https://github.com/agrc/api.mapserv.utah.gov/commit/c734eaf8ab9785dd32e1996f7a5849460ccbb901))
+
+
+### 🎨 Design Improvements
+
+* **explorer:** fix a11y alerts and errors ([2151e00](https://github.com/agrc/api.mapserv.utah.gov/commit/2151e00d48e729f275787a8d0682086d7baf86a1))
+
 ## [2.5.9](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.8...explorer-v2.5.9) (2025-11-05)
 
 
