@@ -9,7 +9,7 @@ const menuTextCss = (isActive) =>
   clsx(
     'group relative flex select-none items-center justify-between gap-1 px-3 py-2 font-bold leading-none text-primary-100 outline-none',
     {
-      'before:absolute before:-top-1.5 before:left-0 before:z-10 before:block before:h-1 before:w-full before:rounded-full before:bg-secondary-500':
+      'before:absolute before:-top-1.5 before:left-0 before:z-10 before:block before:h-1 before:w-full before:rounded-full before:bg-secondary-400':
         isActive,
     },
   );

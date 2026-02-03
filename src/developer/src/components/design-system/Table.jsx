@@ -31,7 +31,7 @@ const Table = forwardRef(function Table({ columns, data, className, caption, ...
       <div className="h-full overflow-y-auto" ref={parentRef} tabIndex={0}>
         <table className="w-full table-fixed border-collapse">
           <caption className="sr-only">{caption}</caption>
-          <thead className="sticky top-0 bg-primary-300 text-base text-primary-800 dark:bg-slate-950/70 dark:text-primary-300">
+          <thead className="sticky top-0 bg-primary-100 text-base text-primary-800 dark:bg-slate-950/70 dark:text-primary-300">
             {getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (

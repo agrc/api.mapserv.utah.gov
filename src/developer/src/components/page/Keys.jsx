@@ -23,7 +23,7 @@ const columns = [
         return (
           <>
             🚀️ UGRC API Client. Visit{' '}
-            <a className="text-secondary-700" href="https://gis.utah.gov/products/sgid/address/api-client/">
+            <a className="text-secondary-800 dark:text-secondary-300" href="https://gis.utah.gov/products/sgid/address/api-client/">
               gis.utah.gov
             </a>{' '}
             to get started! 🚀️

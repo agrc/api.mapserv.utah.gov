@@ -45,13 +45,13 @@ export function Component() {
                       <p className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
                         {numberFormat.format(response.data.reduce((sum, key) => sum + Number(key.usage ?? 0), 0))}
                       </p>
-                      <p className="text-sm text-primary-500 dark:text-secondary-500">requests to date</p>
+                      <p className="text-sm text-primary-500 dark:text-secondary-400">requests to date</p>
                     </div>
                     <div className="p-6 text-center">
                       <div className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
                         {response.data.length}
                       </div>
-                      <p className="text-sm text-primary-500 dark:text-secondary-500">total keys</p>
+                      <p className="text-sm text-primary-500 dark:text-secondary-400">total keys</p>
                     </div>
                   </>
                 )}

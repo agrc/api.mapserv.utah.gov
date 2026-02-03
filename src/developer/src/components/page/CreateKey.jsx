@@ -195,7 +195,7 @@ export function Component() {
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full border border-slate-300 bg-slate-100 shadow-md dark:border-slate-800 dark:bg-slate-700"
+            className="w-full border border-slate-300 bg-slate-50 shadow-md dark:border-slate-800 dark:bg-slate-700"
           >
             <FormErrors errors={errors} />
             <Tabs

@@ -186,7 +186,7 @@ export const Component = () => {
               {key}
               <CopyToClipboard text={key} className="ml-1 inline" />
             </h2>
-            <p className="text-primary-400">{status === 'pending' ? 'fetching metadata...' : data?.pattern}</p>
+            <p className="text-primary-700 dark:text-primary-200">{status === 'pending' ? 'fetching metadata...' : data?.pattern}</p>
           </div>
         </div>
       </section>
@@ -356,7 +356,7 @@ MetadataItem.propTypes = {
 };
 
 const Banner = ({ children }) => (
-  <div className="flex h-12 w-[250px] items-center justify-center border-y border-y-slate-300 bg-slate-200 px-2 dark:border-y-slate-500/50 dark:bg-slate-600 dark:text-primary-100">
+  <div className="flex h-12 w-[250px] items-center justify-center border-y border-y-slate-300 bg-slate-200 px-2 dark:border-y-slate-500/50 dark:bg-slate-600 dark:text-primary-50">
     <p className="overflow-hidden text-ellipsis">{children}</p>
   </div>
 );
