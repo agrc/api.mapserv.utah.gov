@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.10](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.9...api-v1.17.10) (2026-02-03)
+
+
+### 🐛 Bug Fixes
+
+* **api:** correct highway address detection ([136bac0](https://github.com/agrc/api.mapserv.utah.gov/commit/136bac04d7c08a105aea44584dd0e4ee810b7bc5))
+
 ## [1.17.9](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.8...api-v1.17.9) (2026-01-30)
 
 
