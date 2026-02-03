@@ -33,6 +33,10 @@ const links = [
     },
     key: 'Translate',
   },
+  {
+    action: { url: '/ThirdPartyNotices.txt' },
+    key: 'Third-party notices',
+  },
 ];
 
 const Layout = () => {

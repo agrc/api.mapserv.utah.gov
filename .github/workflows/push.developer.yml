@@ -72,6 +72,11 @@ jobs:
         shell: bash
         run: npm ci
 
+      - name: 📃 Configure 3rd party notice
+        uses: agrc/third-party-notice-composite-action@v1
+        with:
+          working-directory: src/developer
+
       - name: 🏗 Run build command
         shell: bash
         run: npm run build
