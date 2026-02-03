@@ -74,6 +74,11 @@ public class AddressParsingTests {
             new Address("401 N U.S. 89", 401, Direction.North, "Highway 89", StreetType.Highway, Direction.None, null, 0, null, 0, false, true),
             "401 north highway 89"
         };
+
+        yield return new object[] {
+            new Address("401 N Highway 68", 401, Direction.North, "Highway 68", StreetType.Highway, Direction.None, null, 0, null, 0, false, true),
+            "401 north highway 68"
+        };
     }
 
     public static IEnumerable<object[]> EnumsInStreetName() {

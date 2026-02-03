@@ -1,4 +1,5 @@
 namespace ugrc.api.Cache;
+
 public partial class RegexCache : IRegexCache {
     private readonly IAbbreviations _abbreviations;
     private readonly Dictionary<string, Regex> _regexDictionary;
@@ -20,6 +21,8 @@ public partial class RegexCache : IRegexCache {
                           RegexOptions.IgnoreCase | RegexOptions.Compiled)
             }, {
                 "highway", highway()
+            }, {
+                "isHighway", isHighway()
             }, {
                 "separateNameAndDirection", separateNameAndDirection()
             }, {
@@ -146,8 +149,10 @@ public partial class RegexCache : IRegexCache {
     private static partial Regex direction();
     [GeneratedRegex("\\b((so|sou|sth)|(no|nor|nrt)|(ea|eas|est)|(we|wst|wes))(?=\\s|\\.|$)", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
     private static partial Regex directionSubstitutions();
-    [GeneratedRegex("\\b(sr|state route|us|Highway|hwy|u.s\\.?)(?!\\w)", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    [GeneratedRegex("\\b(sr|state route|us|highway|hwy)(?!\\w)", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
     private static partial Regex highway();
+    [GeneratedRegex("\\b(highway)\\s?(\\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex isHighway();
     [GeneratedRegex("\\b(\\d+)(s|south|e|east|n|north|w|west)\\b", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
     private static partial Regex separateNameAndDirection();
     [GeneratedRegex("\\b(?<!-#)(\\d+)", RegexOptions.Compiled)]

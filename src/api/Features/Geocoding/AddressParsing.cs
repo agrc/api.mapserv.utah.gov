@@ -4,6 +4,7 @@ using ugrc.api.Infrastructure;
 using ugrc.api.Models.Constants;
 
 namespace ugrc.api.Features.Geocoding;
+
 public partial class AddressParsing {
     public class Computation(string street) : IComputation<Address> {
         public string Street { get; set; } = street;
@@ -22,7 +23,7 @@ public partial class AddressParsing {
             Street = request.Street;
 
             Street = ReplaceExtraCharacters(Street);
-            Street = ReplaceHighway(Street, _regexCache.Get("highway"), out var isHighway);
+            Street = ReplaceHighway(Street, _regexCache.Get("highway"), _regexCache.Get("isHighway"), out var isHighway);
             Street = ReplaceUnitTypes(Street, _regexCache.Get("unitType"), _regexCache.Get("unitTypeLookBehind"), _abbreviations.UnitAbbreviations);
             Street = ReplaceDirections(Street, _regexCache.Get("directionSubstitutions"));
             Street = SplitNumbersAndLetters(Street, _regexCache.Get("separateNameAndDirection"));
@@ -59,10 +60,11 @@ public partial class AddressParsing {
         //make space between 500west = 500 west
         private static string SplitNumbersAndLetters(string street, Regex numbersAndLetters) =>
             numbersAndLetters.Replace(street, "$1 $2");
-        private static string ReplaceHighway(string street, Regex highwayRegex, out bool isHighway) {
+        private static string ReplaceHighway(string street, Regex highwayRegex, Regex isHighwayRegex, out bool isHighway) {
             var original = street;
             street = highwayRegex.Replace(original, "Highway");
-            isHighway = street != original;
+
+            isHighway = isHighwayRegex.IsMatch(street);
 
             return street.Trim();
         }
