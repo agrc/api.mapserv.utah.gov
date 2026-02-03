@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.8.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.7...developer-v2.8.0) (2026-02-03)
+
+
+### 🚀 Features
+
+* **developer:** add 3rd party notices ([6b1ec8c](https://github.com/agrc/api.mapserv.utah.gov/commit/6b1ec8c5fb7cdbb2f652f84f46193413db8ea874))
+
+
+### 🐛 Bug Fixes
+
+* **developer:** update colors to improve contrast ([b285e57](https://github.com/agrc/api.mapserv.utah.gov/commit/b285e578dfbc86e25e2eb7f11adf4b32112b54e4))
+
+
+### 🌲 Dependencies
+
+* **developer:** package audit fix ([aa3bc4d](https://github.com/agrc/api.mapserv.utah.gov/commit/aa3bc4dd6de5e6744e2435024c2139b8fd3804c6))
+* **developer:** update utah design system ([622d77a](https://github.com/agrc/api.mapserv.utah.gov/commit/622d77abd4e6de68fe978498c9f75e569ee2f2ca))
+* **web:** bump the major-dependencies group ([543cb4f](https://github.com/agrc/api.mapserv.utah.gov/commit/543cb4f75d85e9624b6ca8900f84a0c6161ba093))
+* **web:** bump the major-dependencies group across 1 directory with 1 update ([29905aa](https://github.com/agrc/api.mapserv.utah.gov/commit/29905aa445a3fbb5d4a1a543ee18d07fd0cc3b7b))
+* **web:** bump the safe-dependencies group across 3 directories with 31 updates ([c734eaf](https://github.com/agrc/api.mapserv.utah.gov/commit/c734eaf8ab9785dd32e1996f7a5849460ccbb901))
+
 ## [2.7.7](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.6...developer-v2.7.7) (2025-11-10)
 
 
