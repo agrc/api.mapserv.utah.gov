@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.8.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.0...developer-v2.8.1) (2026-02-18)
+
+
+### 🌲 Dependencies
+
+* **dev:** bump @modelcontextprotocol/sdk in /src/developer ([54fb372](https://github.com/agrc/api.mapserv.utah.gov/commit/54fb3724a0c904f0d5b8978b07c73658869ff85d))
+* **web:** bump axios from 1.13.2 to 1.13.5 in /src/developer/functions ([085a534](https://github.com/agrc/api.mapserv.utah.gov/commit/085a534622936bc7be89501c0fa62e9f0097b391))
+* **web:** bump fast-xml-parser and @google-cloud/storage ([6f04f67](https://github.com/agrc/api.mapserv.utah.gov/commit/6f04f67a75d8ce97c2ff7f5741bb80c279a4fe75))
+* **web:** bump qs from 6.14.1 to 6.14.2 in /src/developer ([7af6463](https://github.com/agrc/api.mapserv.utah.gov/commit/7af6463513b9e0dfc0397e6c72468994f8d3f0de))
+* **web:** bump qs from 6.14.1 to 6.14.2 in /src/developer/functions ([3f6ef8f](https://github.com/agrc/api.mapserv.utah.gov/commit/3f6ef8f81432b9186d6fc02fe5d9c5c6b5e1551f))
+
 ## [2.8.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.7.7...developer-v2.8.0) (2026-02-03)
 
 
