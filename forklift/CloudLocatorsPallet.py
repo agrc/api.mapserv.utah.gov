@@ -66,7 +66,9 @@ class CloudLocatorsPallet(Pallet):
             ("Geolocators/Roads_AddressSystem_STREET", "GeocodeServer"),
         ]
 
-        self.copy_data = [str(Path(self.staging_rack) / "locators")]
+        locators_folder = Path(self.staging_rack) / "locators"
+        locators_folder.mkdir(parents=True, exist_ok=True)
+        self.copy_data = [str(locators_folder)]
 
         self.secrets = secrets[configuration]
         self.output_location = Path(self.secrets["path_to_locators"].replace("\\", "/"))
