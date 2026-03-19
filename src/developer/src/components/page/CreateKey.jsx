@@ -153,10 +153,13 @@ export function Component() {
           </p>
         </div>
       </section>
-      <section className="relative w-full">
-        <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
-        <div className="relative z-10 mx-auto max-w-5xl px-6">
-          <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">Choosing the key type</h3>
+      <section className="w-full">
+        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+          <div className="px-6 pb-12 pt-3 text-center text-white">
+            <h3>Choosing the key type</h3>
+          </div>
+        </div>
+        <div className="mx-auto -mt-8 max-w-5xl px-6">
           <div className="md:grid md:grid-cols-2 md:gap-10">
             <Card title="Browser" subTitle="Requests are made by JavaScript running in a browser">
               <div className="flex flex-wrap px-5">

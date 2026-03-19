@@ -95,10 +95,13 @@ export function Component() {
           </p>
         </div>
       </section>
-      <section className="relative w-full">
-        <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
-        <div className="relative z-10 mx-auto max-w-5xl px-6">
-          <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">Claim keys from non-Utahid account</h3>
+      <section className="w-full">
+        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+          <div className="px-6 pb-12 pt-3 text-center text-white">
+            <h3>Claim keys from non-Utahid account</h3>
+          </div>
+        </div>
+        <div className="mx-auto -mt-8 max-w-5xl px-6">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="mb-12 grid w-full gap-6 border border-slate-300 bg-slate-100 p-8 shadow-md dark:border-zinc-950 dark:bg-zinc-800"

@@ -129,14 +129,15 @@ export const Component = () => {
             <p className="text-primary-400">key does not exist</p>
           </div>
         </section>
-        <section className="relative mb-12 w-full px-6 md:mx-auto">
-          <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
-          <div className="mx-auto w-full">
-            <div className="mt-16 flex flex-col items-center gap-2">
-              <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
-                This key does not exist!
-              </h3>
-              <ShieldExclamationIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
+        <section className="mb-12 w-full">
+          <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+            <div className="mx-auto w-full px-6 py-16">
+              <div className="flex flex-col items-center gap-2">
+                <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
+                  This key does not exist!
+                </h3>
+                <ShieldExclamationIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
+              </div>
             </div>
           </div>
         </section>
@@ -152,18 +153,19 @@ export const Component = () => {
   if (status === 'error') {
     return (
       <>
-        <section className="relative mb-12 w-full px-6 md:mx-auto">
-          <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
-          <div className="mx-auto w-full">
-            <div className="mt-16 flex flex-col items-center gap-2">
-              <h3 className="mt-2 text-center text-5xl font-black tracking-tight text-accent-400 drop-shadow-md">
-                We are sorry, but
-              </h3>
-              <p className="max-w-lg text-center text-xl tracking-wide text-accent-400 drop-shadow-md">
-                we encountered an issue while processing your request. Please try again. If the problem persists, please
-                contact our support team.
-              </p>
-              <ExclamationCircleIcon className="mb-14 h-24 fill-primary-500/70 text-accent-400/90 drop-shadow-md" />
+        <section className="mb-12 w-full">
+          <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+            <div className="mx-auto w-full px-6 py-16">
+              <div className="flex flex-col items-center gap-2">
+                <h3 className="mt-2 text-center text-5xl font-black tracking-tight text-accent-400 drop-shadow-md">
+                  We are sorry, but
+                </h3>
+                <p className="max-w-lg text-center text-xl tracking-wide text-accent-400 drop-shadow-md">
+                  we encountered an issue while processing your request. Please try again. If the problem persists,
+                  please contact our support team.
+                </p>
+                <ExclamationCircleIcon className="mb-14 h-24 fill-primary-500/70 text-accent-400/90 drop-shadow-md" />
+              </div>
             </div>
           </div>
         </section>
@@ -186,24 +188,27 @@ export const Component = () => {
               {key}
               <CopyToClipboard text={key} className="ml-1 inline" />
             </h2>
-            <p className="text-primary-700 dark:text-primary-200">{status === 'pending' ? 'fetching metadata...' : data?.pattern}</p>
+            <p className="text-primary-700 dark:text-primary-200">
+              {status === 'pending' ? 'fetching metadata...' : data?.pattern}
+            </p>
           </div>
         </div>
       </section>
-      <section className="relative mb-4 w-full px-6 md:mx-auto">
-        <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
+      <section className="mb-4 w-full">
+        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+          <div className="px-6 pb-12 pt-3 text-center text-white">
+            <h3>API key metadata</h3>
+          </div>
+        </div>
         {status === 'pending' ? (
-          <div className="flex h-64 flex-1 items-center justify-center">
+          <div className="-mt-8 flex h-64 flex-1 items-center justify-center px-6">
             <span className="size-16 text-primary-200">
               <Spinner ariaLabel="fetching API key metadata" />
             </span>
           </div>
         ) : (
           <>
-            <div className="relative z-10 mx-auto max-w-5xl px-6">
-              <h3 className="mb-3 ml-2 pt-3 text-center text-white md:col-span-2">API key metadata</h3>
-            </div>
-            <div className="mx-auto w-full">
+            <div className="mx-auto -mt-8 w-full">
               <div className="relative mx-auto flex max-w-7xl flex-1 flex-wrap justify-around gap-2 px-6 sm:gap-8 lg:gap-12">
                 <Card className="min-w-[250px]" title="Creation Date">
                   <MetadataItem>
@@ -324,14 +329,15 @@ export const ErrorBoundary = () => {
           <p className="text-primary-400">key does not exist</p>
         </div>
       </section>
-      <section className="relative mb-12 w-full px-6 md:mx-auto">
-        <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
-        <div className="mx-auto w-full">
-          <div className="mt-16 flex flex-col items-center gap-2">
-            <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
-              This key does not exist!
-            </h3>
-            <ShieldExclamationIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
+      <section className="mb-12 w-full">
+        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+          <div className="mx-auto w-full px-6 py-16">
+            <div className="flex flex-col items-center gap-2">
+              <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
+                This key does not exist!
+              </h3>
+              <ShieldExclamationIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
+            </div>
           </div>
         </div>
       </section>

@@ -80,7 +80,7 @@ const Table = forwardRef(function Table({ columns, data, className, caption, ...
                   })}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="truncate p-2" title={cell.getValue()}>
+                    <td key={cell.id} className="truncate p-2">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}

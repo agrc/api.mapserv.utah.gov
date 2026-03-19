@@ -23,7 +23,10 @@ const columns = [
         return (
           <>
             🚀️ UGRC API Client. Visit{' '}
-            <a className="text-secondary-800 dark:text-secondary-300" href="https://gis.utah.gov/products/sgid/address/api-client/">
+            <a
+              className="text-secondary-800 dark:text-secondary-300"
+              href="https://gis.utah.gov/products/sgid/address/api-client/"
+            >
               gis.utah.gov
             </a>{' '}
             to get started! 🚀️
@@ -48,7 +51,7 @@ const columns = [
   //   cell: (info) => info.getValue(),
   // }),
   columnHelper.accessor('action', {
-    header: null,
+    header: () => <span className="sr-only">Actions</span>,
     cell: (info) => (
       <div className="flex justify-end">
         <CopyToClipboard text={info.row.getValue('key')} className="h-6" />
@@ -95,11 +98,12 @@ export function Component() {
           </Button>
         </div>
       </section>
-      <section className="relative mb-12 w-full px-6 md:mx-auto">
-        <div className="bg-circuit absolute inset-0 h-64 bg-primary-600 shadow-lg"></div>
-        <div className="pt-12"></div>
+      <section className="mb-12 w-full">
+        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+          <div className="px-6 pb-12 pt-12"></div>
+        </div>
         {status === 'pending' ? (
-          <div className="relative mx-auto flex min-h-[250px] max-w-5xl flex-col items-center justify-center border-2 border-b border-primary-500/50 border-b-slate-300 bg-white shadow-md dark:border-slate-500/50 dark:bg-slate-800">
+          <div className="relative mx-auto -mt-8 flex min-h-[250px] max-w-5xl flex-col items-center justify-center border-2 border-b border-primary-500/50 border-b-slate-300 bg-white px-6 shadow-md dark:border-slate-500/50 dark:bg-slate-800">
             <span className="size-16 text-primary-400">
               <Spinner ariaLabel="fetching API keys" />
             </span>
@@ -109,7 +113,7 @@ export function Component() {
             columns={columns}
             data={data?.data ?? []}
             visibility={{ createdDate: false }}
-            className="mx-auto min-h-[250px] max-w-5xl border-2 border-primary-500/50 bg-white text-sm shadow-md dark:border dark:border-secondary-500/30 dark:bg-slate-800"
+            className="mx-auto -mt-8 min-h-[250px] max-w-5xl border-2 border-primary-500/50 bg-white text-sm shadow-md dark:border dark:border-secondary-500/30 dark:bg-slate-800"
             caption="Your API keys"
           />
         )}
