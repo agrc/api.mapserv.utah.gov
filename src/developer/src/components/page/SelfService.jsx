@@ -25,10 +25,13 @@ export function Component() {
 
   return (
     <article>
-      <section className="relative mb-12 w-full px-6 md:mx-auto">
-        <div className="bg-circuit absolute inset-0 h-32 bg-primary-600 shadow-lg"></div>
-        <div className="relative space-y-4">
-          <h2 className="mb-3 ml-2 pt-3 text-center text-white dark:text-slate-200">API key statistics</h2>
+      <section className="mb-12 w-full">
+        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+          <div className="px-6 pb-12 pt-3 text-center text-white dark:text-slate-200">
+            <h2>API key statistics</h2>
+          </div>
+        </div>
+        <div className="-mt-8 px-6 md:mx-auto">
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">
               <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-secondary-500/10 dark:border-secondary-500/30 dark:bg-zinc-800">
@@ -42,16 +45,16 @@ export function Component() {
                 {status === 'success' && (
                   <>
                     <div className="p-6 text-center">
-                      <p className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
+                      <span className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
                         {numberFormat.format(response.data.reduce((sum, key) => sum + Number(key.usage ?? 0), 0))}
-                      </p>
-                      <p className="text-sm text-primary-500 dark:text-secondary-400">requests to date</p>
+                      </span>
+                      <p className="text-sm text-primary-600 dark:text-secondary-400">requests to date</p>
                     </div>
                     <div className="p-6 text-center">
-                      <div className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
+                      <span className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
                         {response.data.length}
-                      </div>
-                      <p className="text-sm text-primary-500 dark:text-secondary-400">total keys</p>
+                      </span>
+                      <p className="text-sm text-primary-600 dark:text-secondary-400">total keys</p>
                     </div>
                   </>
                 )}
