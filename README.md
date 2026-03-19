@@ -75,7 +75,7 @@ npm install && npm start
 While the emulators are starting, start the cache and smocker containers from the root of the project.
 
 ```sh
-docker-compose -f docker-compose.yml -f docker-compose.override.yml up cache smocker --detach
+docker compose -f docker-compose.yml -f docker-compose.override.yml up cache smocker --detach
 ```
 
 Once smocker is running, you can [register mock requests](test/smocker/readme.md) by executing [mocks.sh](test/smocker/mocks.sh). Run the following command from the `test/smocker` directory.
@@ -163,17 +163,17 @@ It is highly recommended to use containers for this project or at least certain 
 
 ### Building images
 
-- `docker-compose -f docker-compose.yml -f docker-compose.override.yml build`
+- `docker compose -f docker-compose.yml -f docker-compose.override.yml build`
 
 Building images is necessary any time values in the `Dockerfile` or `docker-compose.yml` change.
 
 ### Starting containers
 
-- `docker-compose -f docker-compose.yml -f docker-compose.override.yml up`
+- `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
 
-Starting a container is like turning on the service. `docker-compose -f docker-compose.yml -f docker-compose.override.yml up` will start all the containers referenced in this project's `docker-compose.yaml`. For development purposes, we suggest running PostgreSQL and/or Redis in containers and letting Visual Studio (Code, for Mac, or Windows) run the API. PostgreSQL is required for the application to start while Redis is not required.
+Starting a container is like turning on the service. `docker compose -f docker-compose.yml -f docker-compose.override.yml up` will start all the containers referenced in this project's `docker-compose.yaml`. For development purposes, we suggest running PostgreSQL and/or Redis in containers and letting Visual Studio (Code, for Mac, or Windows) run the API. PostgreSQL is required for the application to start while Redis is not required.
 
-- `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --detach cache` _This will run redis in the background._
+- `docker compose -f docker-compose.yml -f docker-compose.override.yml up --detach cache` _This will run redis in the background._
 
 ## Swagger
 

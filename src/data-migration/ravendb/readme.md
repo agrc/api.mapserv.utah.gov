@@ -6,7 +6,7 @@ This tool connects to a RavenDB running on port 3000, accessing a database named
 
 Using the `ravendb:ubuntu-latest-lts` docker image the database can be started.
 
-`docker-compose up --detach raven`
+`docker compose up --detach raven`
 
 Browsing to the [wizard](http://localhost:3000/) will allow you to create a database and load a backup.
 
