@@ -8,7 +8,7 @@
     "build": "vite build",
     "build:storybook": "storybook build --output-dir ./dist/storybook",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run dev:firebase\" \"wait-on http://127.0.0.1:4000 && npm run dev:vite\"",
-    "dev:firebase": "./scripts/start-emulators.sh",
+    "dev:firebase": "bash ./scripts/start-emulators.sh",
     "dev:vite": "vite",
     "firebase:migrate:dev": "fireway migrate --projectId ut-dts-agrc-web-api-dev",
     "firebase:migrate:local": "FIRESTORE_EMULATOR_HOST='127.0.0.1:8080' fireway migrate --projectId ut-dts-agrc-web-api-dev",
