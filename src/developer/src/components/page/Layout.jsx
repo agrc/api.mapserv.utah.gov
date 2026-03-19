@@ -46,7 +46,7 @@ const Layout = () => {
     <div className="flex min-h-screen flex-col">
       <Header links={links} currentUser={currentUser} logout={logout}>
         <div className="flex h-full grow items-center gap-3">
-          <img src="/logo.svg" alt="UGRC logo" className="hidden h-16 w-16 sm:block" role="presentation" />
+          <img src="/logo.svg" alt="" className="hidden h-16 w-16 sm:block" role="presentation" aria-hidden="true" />
           <h1 className="font-heading text-3xl font-black text-zinc-600 dark:text-zinc-100 sm:text-5xl">UGRC API</h1>
           <span className="mr-6 flex grow justify-end">
             <ThemeToggle />
