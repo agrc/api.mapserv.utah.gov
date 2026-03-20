@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.1...developer-v2.8.2) (2026-03-20)
+
+
+### 🐛 Bug Fixes
+
+* **developer:** accessibility improvements ([25cbb06](https://github.com/agrc/api.mapserv.utah.gov/commit/25cbb0666dfeba3385d745e1168c5023dd221e38))
+
 ## [2.8.1](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.0...developer-v2.8.1) (2026-02-18)
 
 
