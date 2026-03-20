@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.0...explorer-v2.6.1) (2026-03-20)
+
+
+### 🐛 Bug Fixes
+
+* **explorer:** accessibility improvements ([4744590](https://github.com/agrc/api.mapserv.utah.gov/commit/47445906cb3d457da8026f5927a2eed75fc1eba9))
+
 ## [2.6.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.5.9...explorer-v2.6.0) (2026-02-02)
 
 
