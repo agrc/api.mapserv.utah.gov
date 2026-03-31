@@ -75,7 +75,7 @@ npm install && npm start
 While the emulators are starting, start the cache and smocker containers from the root of the project.
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose.override.yml up cache smocker --detach
+docker compose -f docker-compose.yml -f docker-compose.override.yml up cache smocker
 ```
 
 Once smocker is running, you can [register mock requests](test/smocker/readme.md) by executing [mocks.sh](test/smocker/mocks.sh). Run the following command from the `test/smocker` directory.
@@ -90,11 +90,7 @@ To run the API you must authenticate with GCP.
 gcloud auth application-default login
 ```
 
-Start the API in watch mode from the `src/api` directory.
-
-```sh
-cd src/api && FIRESTORE_EMULATOR_HOST='127.0.0.1:8080' dotnet watch run
-```
+Start the API by running the "api - no launch" debug configuration in VS Code.
 
 You can now view the [firebase emulator](http://localhost:4000/), the [smocker emulator](http://localhost:8081/), the [self service](http://localhost:5173/) website, and the [api](http://localhost:1337/) to start making requests. Smocker will respond to requests on port 6443 over http. There is an insomnia client json file in the `test/api tool` folder you can import to get started.
 
