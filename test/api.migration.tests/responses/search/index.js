@@ -19,10 +19,6 @@ module.exports = {
       result: [{ attributes: { grid1mil: "12T", grid100k: "VL" } }],
       status: 200,
     },
-    raster: {
-      result: [{ attributes: { feet: "4529.527704", value: "1380.6" } }],
-      status: 200,
-    },
   },
   deq: {
     county: {
