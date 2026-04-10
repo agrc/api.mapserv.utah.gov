@@ -1,10 +1,10 @@
-using System.Net.Http;
 using Npgsql;
 using ugrc.api.Features.Converting;
 using ugrc.api.Infrastructure;
 using ugrc.api.Models.ResponseContracts;
 
 namespace ugrc.api.Features.Searching;
+
 public class SearchQuery {
     public class Query(string tableName, string returnValues, SearchOptions options) : IRequest<IApiResponse> {
         public readonly string _tableName = tableName;
@@ -19,42 +19,6 @@ public class SearchQuery {
         public async Task<IApiResponse> Handle(Query request, CancellationToken cancellationToken) {
             var tableName = request._tableName.ToLowerInvariant();
             IReadOnlyCollection<SearchResponseContract?>? result;
-
-            if (tableName.Contains("raster.")) {
-                // raster query
-                try {
-                    result = await _computeMediator.Handle(
-                        new RasterElevation.Computation(request._returnValues, request._options),
-                        cancellationToken
-                    );
-
-                    return new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
-                        Result = result ?? [],
-                        Status = StatusCodes.Status200OK
-                    };
-                } catch (TaskCanceledException ex) {
-                    _log?.ForContext("url", "")
-                        .Fatal(ex, "elevation query failed");
-
-                    return new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
-                        Status = StatusCodes.Status500InternalServerError,
-                        Message = "The request was canceled."
-                    };
-                } catch (HttpRequestException ex) {
-                    _log?.ForContext("url", "")
-                        .Fatal(ex, "request error");
-
-                    return new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
-                        Status = StatusCodes.Status500InternalServerError,
-                        Message = "I'm sorry, it seems as though the request had issues."
-                    };
-                } catch (ArgumentException ex) {
-                    return new ApiResponseContract<IReadOnlyCollection<SearchResponseContract?>> {
-                        Status = StatusCodes.Status500InternalServerError,
-                        Message = ex.Message
-                    };
-                }
-            }
 
             try {
                 result = await _computeMediator.Handle(

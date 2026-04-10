@@ -4,6 +4,7 @@ using ugrc.api.Infrastructure;
 using ugrc.api.Models.ResponseContracts;
 
 namespace api.tests.Features.Searching;
+
 public class SearchQueryTests {
     private readonly ILogger _logger;
     public SearchQueryTests() {
@@ -34,6 +35,24 @@ public class SearchQueryTests {
 
         result.Status.ShouldBe(200);
         result.Result.Count.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task Should_treat_raster_tables_like_standard_sql_queries() {
+        var query = new SearchQuery.Query("raster.elevation", "feet,value", new(new()));
+
+        var mediator = new Mock<IComputeMediator>();
+        mediator.Setup(x => x.Handle(It.IsAny<SqlQuery.Computation>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
+
+        var handler = new SearchQuery.Handler(mediator.Object, _logger);
+        var result = await handler.Handle(query, CancellationToken.None);
+
+        result.Status.ShouldBe(200);
+        mediator.Verify(x => x.Handle(
+            It.Is<SqlQuery.Computation>(computation => computation.TableName == "raster.elevation" && computation.ReturnValues == "feet,value"),
+            It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Fact]

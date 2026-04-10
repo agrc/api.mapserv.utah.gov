@@ -289,19 +289,6 @@ public static class WebApplicationBuilderExtensions {
             return handler;
         }).AddPolicyHandler(retryPolicy)
           .AddPolicyHandler(timeoutPolicy);
-
-        builder.Services.AddHttpClient("national-map", client => {
-            client.BaseAddress = new Uri("https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/identify");
-            client.Timeout = new TimeSpan(0, 0, 5);
-        }).ConfigurePrimaryHttpMessageHandler(() => {
-            var handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression) {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            }
-
-            return handler;
-        }).AddPolicyHandler(retryPolicy)
-          .AddPolicyHandler(timeoutPolicy);
     }
     private static void AddArcGisClient(IServiceCollection services, AsyncRetryPolicy<HttpResponseMessage> retryPolicy, AsyncTimeoutPolicy<HttpResponseMessage> timeoutPolicy, bool isProduction) {
         var builder = services.AddHttpClient("arcgis", client => client.Timeout = new TimeSpan(0, 0, 15))

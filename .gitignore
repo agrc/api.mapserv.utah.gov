@@ -22,3 +22,6 @@ cra-explorer/
 csharp-developer/
 *.cache
 src/explorer/.env.local
+
+# Added by ggshield
+.cache_ggshield
