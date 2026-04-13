@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.11](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.10...api-v1.17.11) (2026-04-13)
+
+
+### 🐛 Bug Fixes
+
+* **api:** remove undocumented elevation queries ([e4f91a0](https://github.com/agrc/api.mapserv.utah.gov/commit/e4f91a05b2c80dd1a58b8ec2cd08758990bf1b34)), closes [#754](https://github.com/agrc/api.mapserv.utah.gov/issues/754)
+
 ## [1.17.10](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.9...api-v1.17.10) (2026-02-03)
 
 
