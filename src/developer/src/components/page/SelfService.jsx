@@ -111,8 +111,7 @@ export function Component() {
           <h3 className="text-center dark:text-slate-200">Fair use disclaimer</h3>
           <p className="dark:text-slate-200">
             This API is free to use and we ask that you use it responsibly and fairly. We reserve the right to block
-            abusive users. Currently, the API is not rate limited so please be courteous to other users. If you need
-            more bandwidth than we are able to provide, we can set up a dedicated instance for you.
+            abusive users. Currently, the API is not rate limited so please be courteous to other users.
           </p>
         </div>
       </section>
