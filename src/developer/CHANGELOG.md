@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.3](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.2...developer-v2.8.3) (2026-05-13)
+
+
+### 🐛 Bug Fixes
+
+* remove offer to create dedicated api instances ([23fbe4a](https://github.com/agrc/api.mapserv.utah.gov/commit/23fbe4a496c5ff1072c93a7592281617f2a99684))
+
 ## [2.8.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.1...developer-v2.8.2) (2026-03-20)
 
 
