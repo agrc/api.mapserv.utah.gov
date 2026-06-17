@@ -72,16 +72,16 @@ public class SingleGeocodeResponseContractTests {
                 point.Y.ShouldBe(2);
             }
 
-            feature.Attributes.Keys.ToList().ShouldBe(["Location", "Score", "Locator", "MatchAddress", "InputAddress", "StandardizedAddress", "AddressGrid", "ScoreDifference", "Wkid", "Candidates"]);
-            feature.Attributes["Location"].ShouldNotBeNull();
-            feature.Attributes["Score"].ShouldBe(score);
-            feature.Attributes["Locator"].ShouldBe(locatorType.ToString());
-            feature.Attributes["MatchAddress"].ShouldBe("Test Address");
-            feature.Attributes["InputAddress"].ShouldBe("Test Address");
-            feature.Attributes["AddressGrid"].ShouldBe("Grid");
-            feature.Attributes["ScoreDifference"].ShouldBe(2);
-            feature.Attributes["Wkid"].ShouldBe(wkid);
-            feature.Attributes["Candidates"].ShouldBeNull();
+            feature.Attributes.Keys.ToList().ShouldBe(["location", "score", "locator", "matchAddress", "inputAddress", "standardizedAddress", "addressGrid", "scoreDifference", "wkid", "candidates"]);
+            feature.Attributes["location"].ShouldNotBeNull();
+            feature.Attributes["score"].ShouldBe(score);
+            feature.Attributes["locator"].ShouldBe(locatorType.ToString());
+            feature.Attributes["matchAddress"].ShouldBe("Test Address");
+            feature.Attributes["inputAddress"].ShouldBe("Test Address");
+            feature.Attributes["addressGrid"].ShouldBe("Grid");
+            feature.Attributes["scoreDifference"].ShouldBe(2);
+            feature.Attributes["wkid"].ShouldBe(wkid);
+            feature.Attributes["candidates"].ShouldBeNull();
         }
     }
     [Fact]

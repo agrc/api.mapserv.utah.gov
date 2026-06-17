@@ -103,7 +103,7 @@ public class SingleGeocodeResponseContract : Suggestable, IConvertible<SingleGeo
                         value = wkid;
                     }
 
-                    attributes.Add(property.Name, value);
+                    attributes.Add(property.Name.ToCamelCase(), value);
                 }
             } else {
                 attributes = properties
