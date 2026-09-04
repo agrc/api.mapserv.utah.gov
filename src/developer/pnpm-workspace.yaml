@@ -4,6 +4,7 @@ minimumReleaseAge: 10080
 minimumReleaseAgeStrict: true
 minimumReleaseAgeExclude:
   - '@ugrc/*'
+  - qs@6.16.0
 allowBuilds:
   '@firebase/util': true
   '@parcel/watcher': true
