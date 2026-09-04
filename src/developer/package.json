@@ -7,7 +7,7 @@
   "scripts": {
     "build": "vite build",
     "build:storybook": "storybook build --output-dir ./dist/storybook",
-    "dev": "cross-env NODE_ENV=development concurrently \"npm run dev:firebase\" \"wait-on http://127.0.0.1:4000 && npm run dev:vite\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"pnpm dev:firebase\" \"wait-on http://127.0.0.1:4000 && pnpm dev:vite\"",
     "dev:firebase": "bash ./scripts/start-emulators.sh",
     "dev:vite": "vite",
     "firebase:migrate:dev": "fireway migrate --projectId ut-dts-agrc-web-api-dev",
@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint ./ --ext .js,.jsx --quiet --fix --ignore-path ./.eslintignore",
     "preview": "vite preview",
-    "start": "npm run dev",
+    "start": "pnpm dev",
     "storybook": "storybook dev -p 6006",
     "test": "vitest --silent --coverage --ui --open"
   },

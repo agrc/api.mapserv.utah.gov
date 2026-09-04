@@ -1,0 +1,15 @@
+packages:
+  - 'functions'
+minimumReleaseAge: 10080
+minimumReleaseAgeStrict: true
+minimumReleaseAgeExclude:
+  - '@ugrc/*'
+allowBuilds:
+  '@firebase/util': true
+  '@parcel/watcher': true
+  '@swc/core': true
+  '@vaadin/vaadin-usage-statistics': true
+  esbuild: true
+  protobufjs: true
+  re2: true
+  unrs-resolver: true
