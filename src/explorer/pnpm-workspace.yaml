@@ -1,0 +1,16 @@
+packages:
+  - '.'
+minimumReleaseAge: 10080
+minimumReleaseAgeStrict: true
+minimumReleaseAgeExclude:
+  - '@ugrc/*'
+overrides:
+  astro: 5.17.1
+  '@astrojs/sitemap': 3.4.2
+allowBuilds:
+  '@firebase/util': true
+  '@parcel/watcher': true
+  '@vaadin/vaadin-usage-statistics': true
+  esbuild: true
+  protobufjs: true
+  sharp: true

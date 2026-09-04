@@ -33,16 +33,21 @@ jobs:
         with:
           show-progress: false
 
+      - name: 📦 Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          cache: npm
-          cache-dependency-path: src/explorer/package-lock.json
+          cache: pnpm
+          cache-dependency-path: src/explorer/pnpm-lock.yaml
 
       - name: 📥 Download dependencies
         shell: bash
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: 📃 Configure 3rd party notice
         uses: agrc/third-party-notice-composite-action@v1
@@ -57,12 +62,12 @@ jobs:
 
       - name: 🏗 Run build command
         shell: bash
-        run: npm run build
+        run: pnpm build
 
       - name: 🔢 Get firebase version
         id: cache-settings
         run: |
-          echo "firebase-tools=$(npm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')" >> GITHUB_OUTPUT
+          echo "firebase-tools=$(pnpm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')" >> GITHUB_OUTPUT
 
       - name: 🪣 Cache firebase
         uses: actions/cache@v5
@@ -81,4 +86,4 @@ jobs:
 
       - name: 🚀 Firebase deploy
         shell: bash
-        run: npx firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
+        run: pnpm exec firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
