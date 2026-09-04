@@ -31,22 +31,23 @@ jobs:
         with:
           show-progress: false
 
+      - name: 📦 Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          cache: npm
-          cache-dependency-path: src/developer/package-lock.json
+          cache: pnpm
+          cache-dependency-path: src/developer/pnpm-lock.yaml
 
       - name: 📥 Download dependencies
-        run: npm ci
-
-      - name: 📥 Download dependencies
-        run: npm ci
-        working-directory: src/developer/functions
+        run: pnpm install --frozen-lockfile
 
       - name: 🧪 Run tests
-        run: npm test
+        run: pnpm test
 
   deploy-dev:
     name: 🚀 Staging deployment
@@ -61,16 +62,21 @@ jobs:
         with:
           show-progress: false
 
+      - name: 📦 Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          cache: npm
-          cache-dependency-path: src/developer/package-lock.json
+          cache: pnpm
+          cache-dependency-path: src/developer/pnpm-lock.yaml
 
       - name: 📥 Download dependencies
         shell: bash
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: 📃 Configure 3rd party notice
         uses: agrc/third-party-notice-composite-action@v1
@@ -79,7 +85,7 @@ jobs:
 
       - name: 🏗 Run build command
         shell: bash
-        run: npm run build
+        run: pnpm build
         env:
           VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
           VITE_API_EXPLORER_URL: ${{ vars.API_EXPLORER_URL }}
@@ -87,7 +93,7 @@ jobs:
       - name: 🔢 Get firebase version
         id: cache-settings
         run: |
-          echo "firebase-tools=$(npm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')" >> GITHUB_OUTPUT
+          echo "firebase-tools=$(pnpm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')" >> GITHUB_OUTPUT
 
       - name: 🪣 Cache firebase
         uses: actions/cache@v5
@@ -112,4 +118,4 @@ jobs:
 
       - name: 🚀 Firebase deploy
         shell: bash
-        run: npx firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
+        run: pnpm exec firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
