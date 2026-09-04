@@ -14,13 +14,13 @@
   },
   "dependencies": {
     "@sendgrid/client": "^8.1.6",
-    "firebase-admin": "^13.6.0",
-    "firebase-functions": "^7.0.0",
-    "ioredis": "^5.9.1",
-    "uuid": "^13.0.0"
+    "firebase-admin": "^14.3.0",
+    "firebase-functions": "^7.3.2",
+    "ioredis": "^6.0.0",
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
-    "firebase-functions-test": "^3.4.1"
+    "firebase-functions-test": "^3.5.0"
   },
   "engines": {
     "node": "22"
