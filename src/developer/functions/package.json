@@ -10,7 +10,7 @@
     "logs": "firebase functions:log",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
-    "start": "npm run shell"
+    "start": "pnpm shell"
   },
   "dependencies": {
     "@sendgrid/client": "^8.1.6",

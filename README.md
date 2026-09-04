@@ -74,16 +74,10 @@ Start the firebase emulators from the developer project. This also starts the [s
 > [!TIP]
 > If you want to work with the self service website, duplicate the `./src/developer/.env` file to `./src/developer/.env.local` and add the firebase project settings.
 
-First install the self service functions dependencies:
+Install the self service dependencies and start the emulators (from the `src/developer` directory):
 
 ```sh
-cd src/developer/functions && npm install && cd ..
-```
-
-Then install the self service dependencies and start the emulators:
-
-```sh
-npm install && npm start
+pnpm install && pnpm start
 ```
 
 While the emulators are starting, start the cache and smocker containers from the root of the project.
