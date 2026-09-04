@@ -17,6 +17,20 @@ Any and all contributions are welcome! Please open an issue to discuss the featu
 
 ## Development
 
+### URLs
+
+#### Staging
+
+<https://ut-dts-agrc-web-api-dev-self-service.web.app/> (explorer)
+
+#### Production
+
+<https://api.mapserv.utah.gov/> (explorer)
+
+<https://developer.mapserv.utah.gov/self-service/> (self service/developer)
+
+<https://api.mapserv.utah.gov/api> (API)
+
 ### Conventional Commits
 
 Please use conventional commits when committing code. This allows change log and semantic versioning to be automated. Therefore, write your commit messages as you would want them to show up in the changelog.
