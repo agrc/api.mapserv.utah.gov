@@ -118,7 +118,7 @@ cd test/api.unit.tests && dotnet watch test --collect:"XPlat Code Coverage"
 Start the astro website.
 
 ```sh
-cd src/explorer && npm install && npm start
+cd src/explorer && pnpm install && pnpm start
 ```
 
 You can now view the [documentation](http://localhost:4321/) website.
