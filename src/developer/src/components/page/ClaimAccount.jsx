@@ -1,15 +1,12 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  Button,
-  ExternalLink,
-  FormError,
-  FormErrors,
-  Spinner,
-  TextField,
-  useFirebaseFunctions,
-} from '@ugrc/utah-design-system';
+import { Button } from '@ugrc/utah-design-system/components/Button';
+import { FormError, FormErrors } from '@ugrc/utah-design-system/components/FormErrors';
+import { ExternalLink } from '@ugrc/utah-design-system/components/Link';
+import { Spinner } from '@ugrc/utah-design-system/components/Spinner';
+import { TextField } from '@ugrc/utah-design-system/components/TextField';
+import { useFirebaseFunctions } from '@ugrc/utah-design-system/contexts/FirebaseFunctionsProvider';
 import { httpsCallable } from 'firebase/functions';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
@@ -78,7 +75,7 @@ export function Component() {
   return (
     <>
       <section className="border-b border-slate-400 p-6">
-        <h2 id="key-claiming" className="mx-auto mb-4 max-w-5xl text-primary-800 dark:text-slate-100 md:col-span-2">
+        <h2 id="key-claiming" className="text-primary-800 mx-auto mb-4 max-w-5xl md:col-span-2 dark:text-slate-100">
           Non-Utahid account key claiming
         </h2>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-10 md:px-6">
@@ -96,8 +93,8 @@ export function Component() {
         </div>
       </section>
       <section className="w-full">
-        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
-          <div className="px-6 pb-12 pt-3 text-center text-white">
+        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+          <div className="px-6 pt-3 pb-12 text-center text-white">
             <h3>Claim keys from non-Utahid account</h3>
           </div>
         </div>
@@ -135,17 +132,22 @@ export function Component() {
             </div>
 
             {mutationStatus === 'pending' && (
-              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow dark:bg-slate-500 dark:text-secondary-200 md:w-3/4 md:border-x md:text-4xl">
+              <div className="dark:text-secondary-200 relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow md:w-3/4 md:border-x md:text-4xl dark:bg-slate-500">
                 Claiming keys from account...
               </div>
             )}
             {mutationStatus === 'success' && (
               <>
-                <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-2 border border-x-0 border-primary-400/70 bg-slate-300/70 px-6 py-4 text-2xl font-black uppercase text-primary-500 shadow dark:bg-slate-500 dark:text-secondary-200 md:w-3/4 md:border-x md:text-4xl">
-                  <button type="button" onClick={() => resetMutation()} className="absolute right-2 top-2">
+                <div className="border-primary-400/70 text-primary-500 dark:text-secondary-200 relative mx-auto flex w-full flex-col items-center justify-center gap-2 border border-x-0 bg-slate-300/70 px-6 py-4 text-2xl font-black uppercase shadow md:w-3/4 md:border-x md:text-4xl dark:bg-slate-500">
+                  <Button
+                    type="button"
+                    variant="icon"
+                    className="absolute top-2 right-2"
+                    aria-label="Close transferred key message"
+                    onPress={() => resetMutation()}
+                  >
                     <XMarkIcon className="w-7" />
-                    <span className="sr-only">Close transferred key message</span>
-                  </button>
+                  </Button>
                   <span>Transferred {response.data.keys.length} keys</span>
                   <ul className="grid gap-x-16 text-base lg:grid-cols-2">
                     {response.data.keys.map((key) => (
@@ -170,10 +172,10 @@ export function Component() {
               </FormError>
             )}
             <div className="flex justify-center gap-6">
-              <Button type="submit" size="extraLarge" isPending={mutationStatus === 'pending'}>
+              <Button type="submit" size="large" isPending={mutationStatus === 'pending'}>
                 claim account
               </Button>
-              <Button onPress={() => navigate('/self-service/keys')} variant="secondary" size="extraLarge">
+              <Button onPress={() => navigate('/self-service/keys')} variant="secondary" size="large">
                 manage keys
               </Button>
             </div>
