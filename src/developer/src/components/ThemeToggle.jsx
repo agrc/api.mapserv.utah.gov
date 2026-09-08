@@ -1,5 +1,5 @@
 import { MoonIcon, SunIcon } from '@heroicons/react/20/solid';
-import { clsx } from 'clsx';
+import { Button } from '@ugrc/utah-design-system/components/Button';
 import { useEffect, useState } from 'react';
 
 const themes = ['light', 'dark'];
@@ -36,7 +36,7 @@ const ThemeToggle = () => {
 
   return (
     <div
-      className="inline-flex items-center gap-2 rounded-full bg-primary-500 px-3 py-2"
+      className="bg-primary-500 inline-flex items-center gap-2 rounded-full px-3 py-2"
       role="group"
       aria-label="Theme"
     >
@@ -44,20 +44,17 @@ const ThemeToggle = () => {
         const icon = icons[i];
         const checked = t === theme;
         return (
-          <button
+          <Button
             key={i}
-            type="button"
-            className={clsx('relative flex items-center justify-center rounded-full hover:bg-white/30', {
-              'text-white hover:text-white/90': checked,
-              'dark:text-primary-800': !checked,
-            })}
+            variant="icon"
+            className={checked ? 'bg-white/30 text-white hover:bg-white/40 dark:text-white' : 'text-primary-900'}
             aria-label={`${t} theme`}
             aria-pressed={checked}
             title={`${t} theme`}
-            onClick={() => updateTheme(t)}
+            onPress={() => updateTheme(t)}
           >
             <span aria-hidden="true">{icon}</span>
-          </button>
+          </Button>
         );
       })}
     </div>

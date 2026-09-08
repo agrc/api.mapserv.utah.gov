@@ -1,4 +1,7 @@
-import { Footer, Header, useFirebaseAnalytics, useFirebaseAuth } from '@ugrc/utah-design-system';
+import { Footer } from '@ugrc/utah-design-system/components/Footer';
+import { Header } from '@ugrc/utah-design-system/components/Header';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
+import { useFirebaseAuth } from '@ugrc/utah-design-system/contexts/FirebaseAuthProvider';
 import { useEffect } from 'react';
 import { Outlet, ScrollRestoration, useLocation } from 'react-router';
 import Menu from '../design-system/Menu';
@@ -47,7 +50,7 @@ const Layout = () => {
       <Header links={links} currentUser={currentUser} logout={logout}>
         <div className="flex h-full grow items-center gap-3">
           <img src="/logo.svg" alt="" className="hidden h-16 w-16 sm:block" role="presentation" aria-hidden="true" />
-          <h1 className="font-heading text-3xl font-black text-zinc-600 dark:text-zinc-100 sm:text-5xl">UGRC API</h1>
+          <h1 className="font-heading text-3xl font-black text-zinc-600 sm:text-5xl dark:text-zinc-100">UGRC API</h1>
           <span className="mr-6 flex grow justify-end">
             <ThemeToggle />
           </span>

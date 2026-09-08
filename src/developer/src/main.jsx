@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { FirebaseAppProvider } from '@ugrc/utah-design-system';
+import { FirebaseAppProvider } from '@ugrc/utah-design-system/contexts/FirebaseAppProvider';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';

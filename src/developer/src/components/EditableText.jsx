@@ -1,4 +1,6 @@
-import { Button, ExternalLink, TextArea } from '@ugrc/utah-design-system';
+import { Button } from '@ugrc/utah-design-system/components/Button';
+import { ExternalLink } from '@ugrc/utah-design-system/components/Link';
+import { TextArea } from '@ugrc/utah-design-system/components/TextArea';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
@@ -9,7 +11,7 @@ const EditableText = ({ text, pattern, onChange }) => {
 
   if (!editable) {
     return (
-      <div className="flex flex-col items-center gap-4 p-4 text-primary-800 dark:text-primary-200">
+      <div className="text-primary-800 dark:text-primary-200 flex flex-col items-center gap-4 p-4">
         <p>
           This API key is special and can only be used with the{' '}
           <ExternalLink href="https://gis.utah.gov/products/sgid/address/api-client/">UGRC API Client</ExternalLink>. It
@@ -19,7 +21,7 @@ const EditableText = ({ text, pattern, onChange }) => {
     );
   }
   return (
-    <div className="flex flex-col items-center gap-4 p-4 text-primary-800 dark:text-primary-200">
+    <div className="text-primary-800 dark:text-primary-200 flex flex-col items-center gap-4 p-4">
       {!editing ? (
         note
       ) : (

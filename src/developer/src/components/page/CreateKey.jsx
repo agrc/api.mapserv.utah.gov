@@ -1,21 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  Button,
-  ExternalLink,
-  FormError,
-  FormErrors,
-  Radio,
-  RadioGroup,
-  Spinner,
-  Tab,
-  TabList,
-  TabPanel,
-  Tabs,
-  TextArea,
-  TextField,
-  useFirebaseFunctions,
-} from '@ugrc/utah-design-system';
+import { Button } from '@ugrc/utah-design-system/components/Button';
+import { FormError, FormErrors } from '@ugrc/utah-design-system/components/FormErrors';
+import { ExternalLink } from '@ugrc/utah-design-system/components/Link';
+import { Radio, RadioGroup } from '@ugrc/utah-design-system/components/Radio';
+import { Spinner } from '@ugrc/utah-design-system/components/Spinner';
+import { Tab, TabList, TabPanel, Tabs } from '@ugrc/utah-design-system/components/Tabs';
+import { TextArea } from '@ugrc/utah-design-system/components/TextArea';
+import { TextField } from '@ugrc/utah-design-system/components/TextField';
+import { useFirebaseFunctions } from '@ugrc/utah-design-system/contexts/FirebaseFunctionsProvider';
 import { httpsCallable } from 'firebase/functions';
 import { Controller, useForm } from 'react-hook-form';
 import { useLoaderData, useNavigate } from 'react-router';
@@ -131,7 +124,7 @@ export function Component() {
   return (
     <>
       <section className="border-b border-slate-400 p-6">
-        <h2 id="key-creation" className="mx-auto mb-4 max-w-5xl text-primary-800 dark:text-slate-200 md:col-span-2">
+        <h2 id="key-creation" className="text-primary-800 mx-auto mb-4 max-w-5xl md:col-span-2 dark:text-slate-200">
           Key creation
         </h2>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-10 md:px-6">
@@ -154,8 +147,8 @@ export function Component() {
         </div>
       </section>
       <section className="w-full">
-        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
-          <div className="px-6 pb-12 pt-3 text-center text-white">
+        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+          <div className="px-6 pt-3 pb-12 text-center text-white">
             <h3>Choosing the key type</h3>
           </div>
         </div>
@@ -191,8 +184,8 @@ export function Component() {
           </div>
         </div>
       </section>
-      <section className="mb-12 mt-6 max-w-5xl md:mx-auto">
-        <h3 id="create-key" className="col-span-2 mb-3 ml-2 px-6 text-center text-primary-800 dark:text-slate-200">
+      <section className="mt-6 mb-12 max-w-5xl md:mx-auto">
+        <h3 id="create-key" className="text-primary-800 col-span-2 mb-3 ml-2 px-6 text-center dark:text-slate-200">
           Create a key
         </h3>
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6">
@@ -303,30 +296,30 @@ export function Component() {
               </TabPanel>
             </Tabs>
             {mutationStatus === 'pending' && (
-              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black text-primary-500 shadow dark:bg-slate-500 dark:text-secondary-200 md:w-3/4 md:border-x md:text-4xl">
+              <div className="text-primary-500 dark:text-secondary-200 relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 py-4 text-2xl font-black shadow md:w-3/4 md:border-x md:text-4xl dark:bg-slate-500">
                 Creating key...
               </div>
             )}
             {mutationStatus === 'success' && (
-              <div className="relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 border-primary-400/70 bg-slate-300/70 py-4 text-2xl font-black uppercase text-primary-500 shadow dark:bg-slate-500 dark:text-secondary-200 md:w-3/4 md:border-x md:text-4xl">
+              <div className="border-primary-400/70 text-primary-500 dark:text-secondary-200 relative mx-auto mb-12 flex w-full items-center justify-center gap-6 border border-x-0 bg-slate-300/70 py-4 text-2xl font-black uppercase shadow md:w-3/4 md:border-x md:text-4xl dark:bg-slate-500">
                 <Button
                   onPress={() => navigate(`/self-service/keys/${data.data}`)}
-                  className="absolute left-1 top-1 font-normal"
+                  className="absolute top-1 left-1 font-normal"
                   size="extraSmall"
                   variant="accent"
                 >
                   details
                 </Button>
                 {data.data}
-                <CopyToClipboard text={data.data} className="absolute right-1 top-1" />
+                <CopyToClipboard text={data.data} className="absolute top-1 right-1" />
               </div>
             )}
             {mutationStatus === 'error' && displayError(error)}
             <div className="flex justify-center gap-6 pb-6">
-              <Button type="submit" size="extraLarge" isPending={mutationStatus === 'pending'}>
+              <Button type="submit" size="large" isPending={mutationStatus === 'pending'}>
                 create key
               </Button>
-              <Button onPress={() => navigate('/self-service/keys')} variant="secondary" size="extraLarge">
+              <Button onPress={() => navigate('/self-service/keys')} variant="secondary" size="large">
                 manage keys
               </Button>
             </div>

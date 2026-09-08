@@ -14,7 +14,10 @@ import {
   ShieldExclamationIcon,
 } from '@heroicons/react/24/outline';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, Spinner, useFirebaseFunctions, useFirestore } from '@ugrc/utah-design-system';
+import { Button } from '@ugrc/utah-design-system/components/Button';
+import { Spinner } from '@ugrc/utah-design-system/components/Spinner';
+import { useFirebaseFunctions } from '@ugrc/utah-design-system/contexts/FirebaseFunctionsProvider';
+import { useFirestore } from '@ugrc/utah-design-system/contexts/FirestoreProvider';
 import { doc, updateDoc } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import PropTypes from 'prop-types';
@@ -121,28 +124,28 @@ export const Component = () => {
     return (
       <>
         <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
-          <KeyIcon className="h-14 fill-secondary-500/20 text-primary-500/80 drop-shadow-md dark:fill-primary-500/50 dark:text-secondary-400/80" />
+          <KeyIcon className="fill-secondary-500/20 text-primary-500/80 dark:fill-primary-500/50 dark:text-secondary-400/80 h-14 drop-shadow-md" />
           <div>
-            <h2 id="key-creation" className="uppercase text-primary-600 dark:text-primary-200">
+            <h2 id="key-creation" className="text-primary-600 dark:text-primary-200 uppercase">
               {key}
             </h2>
             <p className="text-primary-400">key does not exist</p>
           </div>
         </section>
         <section className="mb-12 w-full">
-          <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+          <div className="bg-circuit bg-primary-600 w-full shadow-lg">
             <div className="mx-auto w-full px-6 py-16">
               <div className="flex flex-col items-center gap-2">
-                <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
+                <h3 className="text-secondary-400 mt-16 text-center text-5xl font-black tracking-tight drop-shadow-md">
                   This key does not exist!
                 </h3>
-                <ShieldExclamationIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
+                <ShieldExclamationIcon className="fill-primary-500/70 text-secondary-400/90 mb-14 h-24 drop-shadow-md" />
               </div>
             </div>
           </div>
         </section>
         <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
-          <Button onPress={navigate('/self-service/keys')} size="extraLarge">
+          <Button onPress={() => navigate('/self-service/keys')} size="large">
             Go back to your keys
           </Button>
         </section>
@@ -154,23 +157,23 @@ export const Component = () => {
     return (
       <>
         <section className="mb-12 w-full">
-          <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+          <div className="bg-circuit bg-primary-600 w-full shadow-lg">
             <div className="mx-auto w-full px-6 py-16">
               <div className="flex flex-col items-center gap-2">
-                <h3 className="mt-2 text-center text-5xl font-black tracking-tight text-accent-400 drop-shadow-md">
+                <h3 className="text-accent-400 mt-2 text-center text-5xl font-black tracking-tight drop-shadow-md">
                   We are sorry, but
                 </h3>
-                <p className="max-w-lg text-center text-xl tracking-wide text-accent-400 drop-shadow-md">
+                <p className="text-accent-400 max-w-lg text-center text-xl tracking-wide drop-shadow-md">
                   we encountered an issue while processing your request. Please try again. If the problem persists,
                   please contact our support team.
                 </p>
-                <ExclamationCircleIcon className="mb-14 h-24 fill-primary-500/70 text-accent-400/90 drop-shadow-md" />
+                <ExclamationCircleIcon className="fill-primary-500/70 text-accent-400/90 mb-14 h-24 drop-shadow-md" />
               </div>
             </div>
           </div>
         </section>
         <section className="mx-auto flex max-w-5xl justify-center gap-4 p-6">
-          <Button onPress={() => navigate('/self-service/keys')} size="extraLarge">
+          <Button onPress={() => navigate('/self-service/keys')} size="large">
             Go back to your keys
           </Button>
         </section>
@@ -182,9 +185,9 @@ export const Component = () => {
     <>
       <section className="mx-auto flex max-w-5xl items-center justify-between gap-4 p-6 md:col-span-2">
         <div className="flex gap-4">
-          <KeyIcon className="h-14 fill-secondary-500/20 text-primary-500/80 drop-shadow-md dark:fill-primary-500/50 dark:text-secondary-400/80" />
+          <KeyIcon className="fill-secondary-500/20 text-primary-500/80 dark:fill-primary-500/50 dark:text-secondary-400/80 h-14 drop-shadow-md" />
           <div>
-            <h2 id="key-creation" className="flex items-center uppercase text-primary-600 dark:text-primary-200">
+            <h2 id="key-creation" className="text-primary-600 dark:text-primary-200 flex items-center uppercase">
               {key}
               <CopyToClipboard text={key} className="ml-1 inline" />
             </h2>
@@ -195,14 +198,14 @@ export const Component = () => {
         </div>
       </section>
       <section className="mb-4 w-full">
-        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
-          <div className="px-6 pb-12 pt-3 text-center text-white">
+        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+          <div className="px-6 pt-3 pb-12 text-center text-white">
             <h3>API key metadata</h3>
           </div>
         </div>
         {status === 'pending' ? (
           <div className="-mt-8 flex h-64 flex-1 items-center justify-center px-6">
-            <span className="size-16 text-primary-200">
+            <span className="text-primary-200 size-16">
               <Spinner ariaLabel="fetching API key metadata" />
             </span>
           </div>
@@ -210,7 +213,7 @@ export const Component = () => {
           <>
             <div className="mx-auto -mt-8 w-full">
               <div className="relative mx-auto flex max-w-7xl flex-1 flex-wrap justify-around gap-2 px-6 sm:gap-8 lg:gap-12">
-                <Card className="min-w-[250px]" title="Creation Date">
+                <Card className="min-w-62.5" title="Creation Date">
                   <MetadataItem>
                     <CakeIcon className={iconStyle} />
                     <Banner>{data?.createdDate}</Banner>
@@ -226,13 +229,13 @@ export const Component = () => {
                     <Banner>{data?.flags.server ? 'server' : 'browser'}</Banner>
                   </MetadataItem>
                 </Card>
-                <Card className="min-w-[250px]" title="Status">
+                <Card className="min-w-62.5" title="Status">
                   <MetadataItem>
                     {data?.flags.disabled ? <PauseIcon className={iconStyle} /> : <PlayIcon className={iconStyle} />}
                     <Banner>{data?.flags.disabled ? 'paused' : 'active'}</Banner>
                   </MetadataItem>
                 </Card>
-                <Card className="min-w-[250px]" title="Mode">
+                <Card className="min-w-62.5" title="Mode">
                   <MetadataItem>
                     {data?.flags.production ? (
                       <CloudIcon className={iconStyle} />
@@ -242,13 +245,13 @@ export const Component = () => {
                     <Banner>{data?.flags.production ? 'live' : 'development'}</Banner>
                   </MetadataItem>
                 </Card>
-                <Card className="min-w-[250px]" title="Usage">
+                <Card className="min-w-62.5" title="Usage">
                   <MetadataItem>
                     <ChartPieIcon className={iconStyle} />
                     <Banner>{(data?.usage ?? 0) === 0 ? 'none' : numberFormat.format(data.usage)}</Banner>
                   </MetadataItem>
                 </Card>
-                <Card className="min-w-[250px]" title="Last Used">
+                <Card className="min-w-62.5" title="Last Used">
                   <MetadataItem>
                     <CalendarDaysIcon className={iconStyle} />
                     <Banner>{(data?.lastUsed ?? -1) === -1 ? 'never' : timeSince(convertTicks(data.lastUsed))}</Banner>
@@ -321,22 +324,22 @@ export const ErrorBoundary = () => {
   return (
     <>
       <section className="mx-auto flex max-w-5xl gap-4 p-6 md:col-span-2">
-        <KeyIcon className="h-14 fill-secondary-500/20 text-primary-500/80 drop-shadow-md dark:fill-primary-500/50 dark:text-secondary-400/80" />
+        <KeyIcon className="fill-secondary-500/20 text-primary-500/80 dark:fill-primary-500/50 dark:text-secondary-400/80 h-14 drop-shadow-md" />
         <div>
-          <h2 id="key-creation" className="uppercase text-primary-600 dark:text-primary-200">
+          <h2 id="key-creation" className="text-primary-600 dark:text-primary-200 uppercase">
             {key}
           </h2>
           <p className="text-primary-400">key does not exist</p>
         </div>
       </section>
       <section className="mb-12 w-full">
-        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
+        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
           <div className="mx-auto w-full px-6 py-16">
             <div className="flex flex-col items-center gap-2">
-              <h3 className="mt-16 text-center text-5xl font-black tracking-tight text-secondary-400 drop-shadow-md">
+              <h3 className="text-secondary-400 mt-16 text-center text-5xl font-black tracking-tight drop-shadow-md">
                 This key does not exist!
               </h3>
-              <ShieldExclamationIcon className="mb-14 h-24 fill-primary-500/70 text-secondary-400/90 drop-shadow-md" />
+              <ShieldExclamationIcon className="fill-primary-500/70 text-secondary-400/90 mb-14 h-24 drop-shadow-md" />
             </div>
           </div>
         </div>
@@ -346,7 +349,7 @@ export const ErrorBoundary = () => {
           onPress={() => navigate('/self-service/keys')}
           appearance={Button.Appearances.solid}
           color={Button.Colors.primary}
-          size="extraLarge"
+          size="large"
         >
           Go back to your keys
         </Button>
@@ -356,13 +359,13 @@ export const ErrorBoundary = () => {
 };
 ErrorBoundary.displayName = 'KeyErrorBoundary';
 
-const MetadataItem = ({ children }) => <div className="flex w-[250px] flex-col justify-center gap-4">{children}</div>;
+const MetadataItem = ({ children }) => <div className="flex w-62.5 flex-col justify-center gap-4">{children}</div>;
 MetadataItem.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
 const Banner = ({ children }) => (
-  <div className="flex h-12 w-[250px] items-center justify-center border-y border-y-slate-300 bg-slate-200 px-2 dark:border-y-slate-500/50 dark:bg-slate-600 dark:text-primary-50">
+  <div className="dark:text-primary-50 flex h-12 w-62.5 items-center justify-center border-y border-y-slate-300 bg-slate-200 px-2 dark:border-y-slate-500/50 dark:bg-slate-600">
     <p className="overflow-hidden text-ellipsis">{children}</p>
   </div>
 );

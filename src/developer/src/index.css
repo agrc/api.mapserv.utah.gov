@@ -1,12 +1,62 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import '@ugrc/tailwind-preset';
+@source '../node_modules/@ugrc/utah-design-system/src';
+
+@theme {
+  --color-primary-50: #f2f9f9;
+  --color-primary-100: #ddeef0;
+  --color-primary-200: #bedce3;
+  --color-primary-300: #91c3cf;
+  --color-primary-400: #5da1b3;
+  --color-primary-500: #428698;
+  --color-primary-600: #396e81;
+  --color-primary-700: #345b6a;
+  --color-primary-800: #33505d;
+  --color-primary-900: #2c424d;
+  --color-primary-950: #192933;
+
+  --color-secondary-50: #fdfced;
+  --color-secondary-100: #f7f4ce;
+  --color-secondary-200: #efe898;
+  --color-secondary-300: #e7d762;
+  --color-secondary-400: #e3c949;
+  --color-secondary-500: #7a5e14;
+  --color-secondary-600: #6f5113;
+  --color-secondary-700: #644617;
+  --color-secondary-800: #6d421a;
+  --color-secondary-900: #5a3617;
+
+  --color-warning-50: var(--color-fuchsia-50);
+  --color-warning-100: var(--color-fuchsia-100);
+  --color-warning-200: var(--color-fuchsia-200);
+  --color-warning-300: var(--color-fuchsia-300);
+  --color-warning-400: var(--color-fuchsia-400);
+  --color-warning-500: var(--color-fuchsia-500);
+  --color-warning-600: var(--color-fuchsia-600);
+  --color-warning-700: var(--color-fuchsia-700);
+  --color-warning-800: var(--color-fuchsia-800);
+  --color-warning-900: var(--color-fuchsia-900);
+  --color-warning-950: var(--color-fuchsia-950);
+
+  --font-utah: 'Source Sans 3', 'Source Sans Pro', Helvetica, Arial, sans-serif;
+  --animate-gradient-x: gradient-x 4s ease infinite;
+
+  @keyframes gradient-x {
+    0%,
+    100% {
+      background-size: 200% 200%;
+      background-position: left center;
+    }
+    50% {
+      background-size: 200% 200%;
+      background-position: right center;
+    }
+  }
+}
 
 @layer base {
   body {
-    font-family:
-      -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-      'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: var(--font-utah);
   }
 
   html,
@@ -66,5 +116,5 @@
 
 /* overwrite calcite fonts */
 :root {
-  font-family: theme('fontFamily.sans');
+  font-family: var(--font-sans);
 }
