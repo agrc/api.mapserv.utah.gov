@@ -1,6 +1,9 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
-import { Button, ExternalLink, Link, Spinner, useFirebaseFunctions } from '@ugrc/utah-design-system';
+import { Button } from '@ugrc/utah-design-system/components/Button';
+import { ExternalLink, Link } from '@ugrc/utah-design-system/components/Link';
+import { Spinner } from '@ugrc/utah-design-system/components/Spinner';
+import { useFirebaseFunctions } from '@ugrc/utah-design-system/contexts/FirebaseFunctionsProvider';
 import { httpsCallable } from 'firebase/functions';
 import { useLoaderData, useNavigate } from 'react-router';
 
@@ -26,18 +29,18 @@ export function Component() {
   return (
     <article>
       <section className="mb-12 w-full">
-        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
-          <div className="px-6 pb-12 pt-3 text-center text-white dark:text-slate-200">
+        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+          <div className="px-6 pt-3 pb-12 text-center text-white dark:text-slate-200">
             <h2>API key statistics</h2>
           </div>
         </div>
         <div className="-mt-8 px-6 md:mx-auto">
           <div className="flex flex-1 justify-center">
             <div className="max-w-fit">
-              <div className="flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:divide-secondary-500/10 dark:border-secondary-500/30 dark:bg-zinc-800">
+              <div className="dark:divide-secondary-500/10 dark:border-secondary-500/30 flex flex-1 divide-x rounded-lg border bg-white shadow-lg dark:bg-zinc-800">
                 {status === 'pending' && (
-                  <div className="flex min-h-[100px] min-w-[266px] items-center justify-center">
-                    <span className="size-6 dark:text-secondary-300">
+                  <div className="flex min-h-25 min-w-66.5 items-center justify-center">
+                    <span className="dark:text-secondary-300 size-6">
                       <Spinner ariaLabel="fetching API statistics" />
                     </span>
                   </div>
@@ -45,38 +48,38 @@ export function Component() {
                 {status === 'success' && (
                   <>
                     <div className="p-6 text-center">
-                      <span className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
+                      <span className="text-primary-900 text-2xl font-semibold dark:text-slate-100">
                         {numberFormat.format(response.data.reduce((sum, key) => sum + Number(key.usage ?? 0), 0))}
                       </span>
-                      <p className="text-sm text-primary-600 dark:text-secondary-400">requests to date</p>
+                      <p className="text-primary-600 dark:text-secondary-400 text-sm">requests to date</p>
                     </div>
                     <div className="p-6 text-center">
-                      <span className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
+                      <span className="text-primary-900 text-2xl font-semibold dark:text-slate-100">
                         {response.data.length}
                       </span>
-                      <p className="text-sm text-primary-600 dark:text-secondary-400">total keys</p>
+                      <p className="text-primary-600 dark:text-secondary-400 text-sm">total keys</p>
                     </div>
                   </>
                 )}
                 {status === 'error' && (
                   <>
                     <div className="p-6 text-center">
-                      <p className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
-                        <div className="flex min-h-[32px] items-center justify-center">
+                      <p className="text-primary-900 text-2xl font-semibold dark:text-slate-100">
+                        <div className="flex min-h-8 items-center justify-center">
                           <span className="sr-only">We were unable to fetch your API key count</span>
-                          <ExclamationTriangleIcon className="h-6 w-6 text-secondary-500" />
+                          <ExclamationTriangleIcon className="text-secondary-500 h-6 w-6" />
                         </div>
                       </p>
-                      <p className="text-sm text-primary-500 dark:text-secondary-500">requests to date</p>
+                      <p className="text-primary-500 dark:text-secondary-500 text-sm">requests to date</p>
                     </div>
                     <div className="p-6 text-center">
-                      <div className="text-2xl font-semibold text-primary-900 dark:text-slate-100">
-                        <div className="flex min-h-[32px] items-center justify-center">
+                      <div className="text-primary-900 text-2xl font-semibold dark:text-slate-100">
+                        <div className="flex min-h-8 items-center justify-center">
                           <span className="sr-only">We were unable to fetch your API key count</span>
-                          <ExclamationTriangleIcon className="h-6 w-6 text-secondary-500" />
+                          <ExclamationTriangleIcon className="text-secondary-500 h-6 w-6" />
                         </div>
                       </div>
-                      <p className="text-sm text-primary-500 dark:text-secondary-500">total keys</p>
+                      <p className="text-primary-500 dark:text-secondary-500 text-sm">total keys</p>
                     </div>
                   </>
                 )}
@@ -86,10 +89,10 @@ export function Component() {
         </div>
       </section>
       <section className="mb-6 flex justify-center gap-6">
-        <Button onPress={() => navigate('create-key')} size="extraLarge">
+        <Button onPress={() => navigate('create-key')} size="large">
           create a new key
         </Button>
-        <Button onPress={() => navigate('keys')} size="extraLarge">
+        <Button onPress={() => navigate('keys')} size="large">
           manage keys
         </Button>
       </section>

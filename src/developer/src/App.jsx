@@ -1,4 +1,4 @@
-import { useFirebaseAuth } from '@ugrc/utah-design-system';
+import { useFirebaseAuth } from '@ugrc/utah-design-system/contexts/FirebaseAuthProvider';
 import { Suspense } from 'react';
 import { Outlet, Route, RouterProvider, createBrowserRouter, createRoutesFromElements, redirect } from 'react-router';
 import Layout from './components/page/Layout';

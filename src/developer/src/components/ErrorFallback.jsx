@@ -1,3 +1,4 @@
+import { Button } from '@ugrc/utah-design-system/components/Button';
 import PropTypes from 'prop-types';
 
 export const MainErrorFallback = ({ error, resetErrorBoundary }) => {
@@ -6,9 +7,9 @@ export const MainErrorFallback = ({ error, resetErrorBoundary }) => {
       <div className="flex-col items-center">
         <h1>Something went wrong</h1>
         <pre className="text-red-500">{error.message}</pre>
-        <button className="w-full rounded-full border p-1" onClick={resetErrorBoundary}>
+        <Button className="w-full" onPress={resetErrorBoundary}>
           Try again
-        </button>
+        </Button>
       </div>
     </div>
   );
