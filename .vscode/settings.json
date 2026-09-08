@@ -1,6 +1,6 @@
 {
   "[astro]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -21,7 +21,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -155,6 +155,7 @@
     "utahdts",
     "Utahid",
     "VITE",
+    "vitest",
     "webapi",
     "Weighable",
     "wkid",
@@ -169,15 +170,10 @@
   "editor.formatOnSave": true,
   "omnisharp.enableEditorConfigSupport": true,
   "python.languageServer": "Pylance",
-  "python.testing.pytestArgs": [
-    "--no-cov"
-  ],
+  "python.testing.pytestArgs": ["--no-cov"],
   "python.testing.pytestEnabled": true,
   "tailwindCSS.experimental.classRegex": [
-    [
-      "clsx\\(([^)]*)\\)",
-      "(?:'|\"|`)([^']*)(?:'|\"|`)"
-    ]
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
   "chat.tools.terminal.autoApprove": {
     "dotnet build": true,
