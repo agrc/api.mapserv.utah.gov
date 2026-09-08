@@ -25,16 +25,18 @@ export function Component() {
               </ExternalLink>
               .
             </p>
-            <UtahIdLogin
-              size="extraLarge"
-              errorRenderer={(error) => {
-                return (
-                  <Banner>
-                    <div className="grid gap-4">{error}</div>
-                  </Banner>
-                );
-              }}
-            />
+            <div className="utah-id-login">
+              <UtahIdLogin
+                size="extraLarge"
+                errorRenderer={(error) => {
+                  return (
+                    <Banner>
+                      <div className="grid gap-4">{error}</div>
+                    </Banner>
+                  );
+                }}
+              />
+            </div>
           </div>
         </div>
         <div className="lg:flex-basis-auto from-primary-700 via-primary-400 to-secondary-400 relative hidden flex-col items-center justify-center bg-gradient-to-b lg:block lg:w-1/2 lg:shrink-0 lg:grow-0">

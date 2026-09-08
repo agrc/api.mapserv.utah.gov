@@ -8,6 +8,7 @@ import App from './App.jsx';
 import { MainErrorFallback } from './components/ErrorFallback.jsx';
 import FirebaseContainer from './FirebaseContainer.jsx';
 import './index.css';
+import '@utahdts/utah-design-system-header/css';
 
 let firebaseConfig = {
   apiKey: '',

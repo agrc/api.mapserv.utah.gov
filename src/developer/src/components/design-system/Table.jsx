@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import { forwardRef, useRef, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
@@ -31,7 +31,7 @@ const Table = forwardRef(function Table({ columns, data, className, caption, ...
       <div className="h-full overflow-y-auto" ref={parentRef} tabIndex={0}>
         <table className="w-full table-fixed border-collapse">
           <caption className="sr-only">{caption}</caption>
-          <thead className="sticky top-0 bg-primary-100 text-base text-primary-800 dark:bg-slate-950/70 dark:text-primary-300">
+          <thead className="bg-primary-100 text-primary-800 dark:text-primary-300 sticky top-0 text-base dark:bg-slate-950/70">
             {getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -48,9 +48,9 @@ const Table = forwardRef(function Table({ columns, data, className, caption, ...
                       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                       <div
                         className={twJoin(
-                          header.column.getCanSort() && 'flex cursor-pointer select-none items-center justify-between',
+                          header.column.getCanSort() && 'flex cursor-pointer items-center justify-between select-none',
                           header.column.getIsSorted() &&
-                            'before:absolute before:-bottom-1 before:left-0 before:z-10 before:block before:h-2 before:w-full before:rounded-full before:bg-secondary-500',
+                            'before:bg-secondary-500 before:absolute before:-bottom-1 before:left-0 before:z-10 before:block before:h-2 before:w-full before:rounded-full',
                         )}
                         onClick={header.column.getToggleSortingHandler()}
                       >
@@ -74,9 +74,9 @@ const Table = forwardRef(function Table({ columns, data, className, caption, ...
               return (
                 <tr
                   key={row.id}
-                  className={clsx('border-y border-y-primary-200 dark:border-y-primary-700', {
-                    'bg-slate-50 text-primary-900 dark:bg-slate-800 dark:text-primary-300': even,
-                    'bg-primary-100 text-primary-800 dark:bg-slate-700 dark:text-primary-300': odd,
+                  className={clsx('border-y-primary-200 dark:border-y-primary-700 border-y', {
+                    'text-primary-900 dark:text-primary-300 bg-slate-50 dark:bg-slate-800': even,
+                    'bg-primary-100 text-primary-800 dark:text-primary-300 dark:bg-slate-700': odd,
                   })}
                 >
                   {row.getVisibleCells().map((cell) => (
