@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.1...explorer-v2.6.2) (2026-09-08)
+
+
+### Bug Fixes
+
+* **explorer:** add missing dev dep ([dcc0fb6](https://github.com/agrc/api.mapserv.utah.gov/commit/dcc0fb67b810482b47fee6aeea42f2d9e525cbba))
+* remove offer to create dedicated api instances ([23fbe4a](https://github.com/agrc/api.mapserv.utah.gov/commit/23fbe4a496c5ff1072c93a7592281617f2a99684))
+
 ## [2.6.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.0...explorer-v2.6.1) (2026-03-20)
 
 
