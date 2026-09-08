@@ -26,6 +26,9 @@ importers:
       '@ugrc/utah-design-system':
         specifier: ^4.1.0
         version: 4.1.0(@arcgis/core@5.1.21)(@arcgis/map-components@5.1.21(@arcgis/core@5.1.21)(@esri/calcite-components@5.1.2))(@esri/calcite-components@5.1.2)(firebase@12.18.0)(react-aria-components@1.20.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-aria@3.51.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react-stately@3.49.0(react@19.2.8))(react@19.2.8)(tailwindcss@4.3.3)
+      '@utahdts/utah-design-system-header':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@vitejs/plugin-react':
         specifier: ^6.1.1
         version: 6.1.1(vite@8.2.2(@types/node@26.4.0)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.0))
@@ -3102,6 +3105,9 @@ packages:
     resolution: {integrity: sha512-nAB74NfSNKknqQ1RrYj6uz8FcXEomu/MATJZxh/x+BArzN2U3JbOYC0APYzUIGhVY3m5hRxA8VPNdPBoG8txlA==}
     cpu: [x64]
     os: [win32]
+
+  '@utahdts/utah-design-system-header@5.3.0':
+    resolution: {integrity: sha512-3m6acuBXppbvBEtK0qR6CHgetS+9OHJ7D9V/ixfJvL/npW1ZYkRr4eXjPj0yLrw2Z2hQu/Jh96N+LPHPx8rg8w==}
 
   '@vaadin/a11y-base@25.1.12':
     resolution: {integrity: sha512-L59lS337nX/t5RFyIaqwCS7A9fFxlcHJYDJm2hIrkwY2Uc3cBEOYrpz2EY/Bn5wOlP3ReRa0UMZioU/clAsqnw==}
@@ -10905,6 +10911,10 @@ snapshots:
 
   '@unrs/resolver-binding-win32-x64-msvc@1.12.2':
     optional: true
+
+  '@utahdts/utah-design-system-header@5.3.0':
+    dependencies:
+      '@floating-ui/dom': 1.8.0
 
   '@vaadin/a11y-base@25.1.12':
     dependencies:

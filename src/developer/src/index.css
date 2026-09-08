@@ -114,6 +114,14 @@
   }
 }
 
+.utah-id-login button svg {
+  width: 116px;
+}
+
+.utah-id-login button {
+  background-color: var(--color-primary-900);
+}
+
 /* overwrite calcite fonts */
 :root {
   font-family: var(--font-sans);

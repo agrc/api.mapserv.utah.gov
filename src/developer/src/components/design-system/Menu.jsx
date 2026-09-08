@@ -1,15 +1,15 @@
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { Link, useLocation } from 'react-router';
 
 const menuTextCss = (isActive) =>
   clsx(
-    'group relative flex select-none items-center justify-between gap-1 px-3 py-2 font-bold leading-none text-primary-100 outline-none',
+    'group text-primary-100 relative flex items-center justify-between gap-1 px-3 py-2 leading-none font-bold outline-none select-none',
     {
-      'before:absolute before:-top-1.5 before:left-0 before:z-10 before:block before:h-1 before:w-full before:rounded-full before:bg-secondary-400':
+      'before:bg-secondary-400 before:absolute before:-top-1.5 before:left-0 before:z-10 before:block before:h-1 before:w-full before:rounded-full':
         isActive,
     },
   );
@@ -19,12 +19,12 @@ const menuItemCss =
 
 const Menu = () => {
   return (
-    <NavigationMenu.Root className="relative z-10 flex justify-start border-b border-dashed border-b-primary-300 bg-primary-800 dark:bg-slate-700">
+    <NavigationMenu.Root className="border-b-primary-300 bg-primary-800 relative z-10 flex justify-start border-b border-dashed dark:bg-slate-700">
       <NavigationMenu.List className="flex list-none justify-center p-1">
-        <NavigationMenu.Item className="rounded-full hover:bg-primary-400/50">
+        <NavigationMenu.Item className="hover:bg-primary-400/50 rounded-full">
           <MenuLink to="/self-service">Home</MenuLink>
         </NavigationMenu.Item>
-        <NavigationMenu.Item className="rounded-full hover:bg-primary-400/50">
+        <NavigationMenu.Item className="hover:bg-primary-400/50 rounded-full">
           <MenuTrigger toArray={['/self-service/create-key', '/self-service/keys']}>Keys</MenuTrigger>
           <NavigationMenu.Content className={menuItemCss}>
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">
@@ -40,7 +40,7 @@ const Menu = () => {
             </ul>
           </NavigationMenu.Content>
         </NavigationMenu.Item>
-        <NavigationMenu.Item className="rounded-full hover:bg-primary-400/50">
+        <NavigationMenu.Item className="hover:bg-primary-400/50 rounded-full">
           <MenuTrigger toArray={[]}>Help</MenuTrigger>
           <NavigationMenu.Content className={menuItemCss}>
             <ul className="one m-0 grid list-none p-5 sm:w-[300px]">
@@ -53,11 +53,11 @@ const Menu = () => {
             </ul>
           </NavigationMenu.Content>
         </NavigationMenu.Item>
-        <NavigationMenu.Indicator className="top-full z-10 flex h-1 items-end justify-center overflow-hidden bg-secondary-400 transition-all data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in" />
+        <NavigationMenu.Indicator className="bg-secondary-400 data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-10 flex h-1 items-end justify-center overflow-hidden transition-all" />
       </NavigationMenu.List>
 
-      <div className="absolute left-2 top-full flex w-full justify-start">
-        <NavigationMenu.Viewport className="relative mt-2 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded border bg-white shadow data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out data-[state=open]:zoom-in dark:border-slate-900 dark:bg-slate-700 sm:w-[var(--radix-navigation-menu-viewport-width)]" />
+      <div className="absolute top-full left-2 flex w-full justify-start">
+        <NavigationMenu.Viewport className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out data-[state=open]:zoom-in relative mt-2 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded border bg-white shadow sm:w-[var(--radix-navigation-menu-viewport-width)] dark:border-slate-900 dark:bg-slate-700" />
       </div>
     </NavigationMenu.Root>
   );
@@ -100,14 +100,14 @@ const InternalListItem = forwardRef(({ className, children, title, ...props }, f
     <NavigationMenu.Link asChild>
       <Link
         className={clsx(
-          'block select-none rounded p-3 text-base no-underline outline-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-secondary-400 dark:hover:bg-slate-600/50',
+          'focus:shadow-secondary-400 block rounded p-3 text-base no-underline outline-none select-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] dark:hover:bg-slate-600/50',
           className,
         )}
         {...props}
         ref={forwardedRef}
       >
-        <div className="font-medium text-primary-700 dark:text-accent-500">{title}</div>
-        <p className="text-sm text-primary-500 dark:text-secondary-50">{children}</p>
+        <div className="text-primary-700 dark:text-accent-500 font-medium">{title}</div>
+        <p className="text-primary-500 dark:text-secondary-50 text-sm">{children}</p>
       </Link>
     </NavigationMenu.Link>
   </li>
@@ -124,14 +124,14 @@ const ExternalListItem = forwardRef(({ className, children, title, ...props }, f
     <NavigationMenu.Link asChild>
       <a
         className={clsx(
-          'block select-none rounded p-3 text-base no-underline outline-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] focus:shadow-secondary-400 dark:hover:bg-slate-600/50',
+          'focus:shadow-secondary-400 block rounded p-3 text-base no-underline outline-none select-none hover:bg-slate-100 focus:shadow-[0_0_0_2px] dark:hover:bg-slate-600/50',
           className,
         )}
         {...props}
         ref={forwardedRef}
       >
-        <div className="font-medium text-primary-700 dark:text-accent-500">{title}</div>
-        <p className="text-sm text-primary-500 dark:text-secondary-50">{children}</p>
+        <div className="text-primary-700 dark:text-accent-500 font-medium">{title}</div>
+        <p className="text-primary-500 dark:text-secondary-50 text-sm">{children}</p>
       </a>
     </NavigationMenu.Link>
   </li>
