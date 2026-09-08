@@ -41,6 +41,7 @@
     "@arcgis/core": "^4.34.8",
     "@astrojs/check": "^0.9.6",
     "@astrojs/partytown": "^2.1.4",
+    "@expressive-code/core": "^0.44.2",
     "@ugrc/tailwind-preset": "^1.2.0",
     "prettier": "^3.8.0",
     "prettier-plugin-astro": "^0.14.1",
