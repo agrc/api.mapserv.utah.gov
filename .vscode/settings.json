@@ -1,6 +1,6 @@
 {
   "[astro]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -21,7 +21,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -33,11 +33,7 @@
   "coverage-gutters.showGutterCoverage": false,
   "coverage-gutters.showLineCoverage": true,
   "coverage-gutters.showRulerCoverage": false,
-  "cSpell.enableFiletypes": [
-    "astro",
-    "markdown",
-    "mdx"
-  ],
+  "cSpell.enableFiletypes": ["astro", "markdown", "mdx"],
   "cSpell.words": [
     "accesstoken",
     "addnum",
@@ -166,6 +162,7 @@
     "utahdts",
     "Utahid",
     "VITE",
+    "vitest",
     "webapi",
     "Weighable",
     "wkid",
@@ -178,9 +175,7 @@
     "source.organizeImports": "explicit"
   },
   "editor.formatOnSave": true,
-  "editor.rulers": [
-    120
-  ],
+  "editor.rulers": [120],
   "editor.wordWrap": "on",
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
@@ -207,19 +202,12 @@
   },
   "omnisharp.enableEditorConfigSupport": true,
   "omnisharp.enableRoslynAnalyzers": true,
-  "prettier.documentSelectors": [
-    "**/*.{js,jsx,css,html,md,json,mdx,astro}"
-  ],
+  "prettier.documentSelectors": ["**/*.{js,jsx,css,html,md,json,mdx,astro}"],
   "python.languageServer": "Pylance",
-  "python.testing.pytestArgs": [
-    "--no-cov"
-  ],
+  "python.testing.pytestArgs": ["--no-cov"],
   "python.testing.pytestEnabled": true,
   "tailwindCSS.experimental.classRegex": [
-    [
-      "clsx\\(([^)]*)\\)",
-      "(?:'|\"|`)([^']*)(?:'|\"|`)"
-    ]
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
   "chat.tools.terminal.autoApprove": {
     "dotnet build": true,
