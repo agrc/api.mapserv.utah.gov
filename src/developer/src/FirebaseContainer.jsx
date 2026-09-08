@@ -1,9 +1,7 @@
-import {
-  FirebaseAnalyticsProvider,
-  FirebaseAuthProvider,
-  FirebaseFunctionsProvider,
-  FirestoreProvider,
-} from '@ugrc/utah-design-system';
+import { FirebaseAnalyticsProvider } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
+import { FirebaseAuthProvider } from '@ugrc/utah-design-system/contexts/FirebaseAuthProvider';
+import { FirebaseFunctionsProvider } from '@ugrc/utah-design-system/contexts/FirebaseFunctionsProvider';
+import { FirestoreProvider } from '@ugrc/utah-design-system/contexts/FirestoreProvider';
 import { OAuthProvider } from 'firebase/auth';
 import PropTypes from 'prop-types';
 

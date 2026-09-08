@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { createColumnHelper } from '@tanstack/react-table';
-import { Button, Spinner, useFirebaseFunctions } from '@ugrc/utah-design-system';
+import { Button } from '@ugrc/utah-design-system/components/Button';
+import { Spinner } from '@ugrc/utah-design-system/components/Spinner';
+import { useFirebaseFunctions } from '@ugrc/utah-design-system/contexts/FirebaseFunctionsProvider';
 import { httpsCallable } from 'firebase/functions';
 import { Link, useLoaderData, useNavigate } from 'react-router';
 import CopyToClipboard from '../CopyToClipboard';
@@ -79,10 +81,10 @@ export function Component() {
     <>
       <section className="border-b border-slate-400 p-6">
         <div className="mx-auto max-w-5xl md:px-6">
-          <h2 id="my-keys" className="text-primary-800 dark:text-slate-100 md:col-span-2">
+          <h2 id="my-keys" className="text-primary-800 md:col-span-2 dark:text-slate-100">
             Manage keys
           </h2>
-          <p className="mt-4 text-primary-900 dark:text-slate-100">
+          <p className="text-primary-900 mt-4 dark:text-slate-100">
             API keys are used to authenticate requests to the UGRC API. You can create as many keys as you need and each
             key is associated with an application or a process. Here you can manage your keys by deleting or pausing
             them. You can add notes to help you remember what they are used for. And you can see analytics about how
@@ -90,21 +92,21 @@ export function Component() {
           </p>
         </div>
         <div className="mt-6 flex justify-center gap-6">
-          <Button onPress={() => navigate('/self-service/create-key')} size="extraLarge">
+          <Button onPress={() => navigate('/self-service/create-key')} size="large">
             create a new key
           </Button>
-          <Button onPress={() => navigate('/self-service/claim-account')} size="extraLarge">
+          <Button onPress={() => navigate('/self-service/claim-account')} size="large">
             claim a non-Utahid key
           </Button>
         </div>
       </section>
       <section className="mb-12 w-full">
-        <div className="bg-circuit w-full bg-primary-600 shadow-lg">
-          <div className="px-6 pb-12 pt-12"></div>
+        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+          <div className="px-6 pt-12 pb-12"></div>
         </div>
         {status === 'pending' ? (
-          <div className="relative mx-auto -mt-8 flex min-h-[250px] max-w-5xl flex-col items-center justify-center border-2 border-b border-primary-500/50 border-b-slate-300 bg-white px-6 shadow-md dark:border-slate-500/50 dark:bg-slate-800">
-            <span className="size-16 text-primary-400">
+          <div className="border-primary-500/50 relative mx-auto -mt-8 flex min-h-62.5 max-w-5xl flex-col items-center justify-center border-2 border-b border-b-slate-300 bg-white px-6 shadow-md dark:border-slate-500/50 dark:bg-slate-800">
+            <span className="text-primary-400 size-16">
               <Spinner ariaLabel="fetching API keys" />
             </span>
           </div>
@@ -113,7 +115,7 @@ export function Component() {
             columns={columns}
             data={data?.data ?? []}
             visibility={{ createdDate: false }}
-            className="mx-auto -mt-8 min-h-[250px] max-w-5xl border-2 border-primary-500/50 bg-white text-sm shadow-md dark:border dark:border-secondary-500/30 dark:bg-slate-800"
+            className="border-primary-500/50 dark:border-secondary-500/30 mx-auto -mt-8 min-h-62.5 max-w-5xl border-2 bg-white text-sm shadow-md dark:border dark:bg-slate-800"
             caption="Your API keys"
           />
         )}
