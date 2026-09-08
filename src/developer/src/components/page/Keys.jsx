@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { createColumnHelper } from '@tanstack/react-table';
+import { legacyCreateColumnHelper } from '@tanstack/react-table/legacy';
 import { Button } from '@ugrc/utah-design-system/components/Button';
 import { Spinner } from '@ugrc/utah-design-system/components/Spinner';
 import { useFirebaseFunctions } from '@ugrc/utah-design-system/contexts/FirebaseFunctionsProvider';
@@ -8,7 +8,7 @@ import { Link, useLoaderData, useNavigate } from 'react-router';
 import CopyToClipboard from '../CopyToClipboard';
 import Table from '../design-system/Table';
 
-const columnHelper = createColumnHelper({ enableHiding: true });
+const columnHelper = legacyCreateColumnHelper();
 const columns = [
   columnHelper.accessor('key', {
     header: () => <span>Key</span>,
