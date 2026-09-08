@@ -19,12 +19,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy-prod:
-    name: 🚀 Production deployment
+  deploy:
+    name: 🚀 ${{ github.event.release.prerelease && 'Development' || 'Production' }} deployment
     if: ${{ startsWith(github.ref, 'refs/tags/explorer') }}
     runs-on: ubuntu-latest
     environment:
-      name: prod
+      name: ${{ github.event.release.prerelease && 'dev' || 'prod' }}
 
     steps:
       - name: ⬇️ Set up code

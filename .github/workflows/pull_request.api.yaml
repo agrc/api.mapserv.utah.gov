@@ -1,0 +1,51 @@
+name: Pull Request Events (API)
+
+on:
+  pull_request:
+    paths:
+      - "src/api/**"
+      - "build/Packages.targets"
+      - "libs/**"
+      - "test/api.unit.tests/**"
+      - ".github/workflows/pull_request.api.yaml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up code
+        uses: actions/checkout@v6
+        with:
+          show-progress: false
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+
+      - name: Cache NuGet Packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.OS }}-nuget-${{ hashFiles('**/Packages.targets') }}
+          restore-keys: |
+            ${{ runner.OS }}-nuget-
+            ${{ runner.OS }}
+
+      - name: Run tests
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
+
+      - name: Report coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
