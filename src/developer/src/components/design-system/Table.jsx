@@ -1,5 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { flexRender } from '@tanstack/react-table';
+import { getCoreRowModel, getSortedRowModel, useLegacyTable } from '@tanstack/react-table/legacy';
 import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import { forwardRef, useRef, useState } from 'react';
@@ -10,7 +11,7 @@ const Table = forwardRef(function Table({ columns, data, className, caption, ...
   const [sorting, setSorting] = useState(props?.initialState?.sorting ?? []);
   const [columnVisibility] = useState(props?.visibility ?? {});
 
-  const { getHeaderGroups, getRowModel } = useReactTable({
+  const { getHeaderGroups, getRowModel } = useLegacyTable({
     columns,
     data,
     getCoreRowModel: getCoreRowModel(),
