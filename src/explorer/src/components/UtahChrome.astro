@@ -1,0 +1,59 @@
+<div id="utah-header"></div>
+
+<script>
+  import {
+    setUtahFooterSettings,
+    setUtahHeaderSettings,
+  } from '@utahdts/utah-design-system-header';
+
+  const links = [
+    {
+      actionUrl: { url: '/getting-started' },
+      title: 'Getting started guide',
+    },
+    {
+      actionUrl: { url: '/docs' },
+      title: 'Documentation',
+    },
+    {
+      actionUrl: { url: '/privacy' },
+      title: 'Privacy policy',
+    },
+    {
+      actionUrl: { url: '/ThirdPartyNotices.txt' },
+      title: 'Third-party notices',
+    },
+  ];
+
+  setUtahHeaderSettings({
+    applicationType: 'custom application',
+    title: 'UGRC API',
+    titleUrl: '/',
+    skipLinkUrl: '#main-content',
+    showTitle: true,
+    size: 'MEDIUM',
+    mainMenu: false,
+    utahId: false,
+    onSearch: false,
+    logo: { imageUrl: '/logo.svg' },
+    domLocationTarget: { cssSelector: '#utah-header' },
+    actionItems: [
+      {
+        icon: '<span class="utds-icon-before-waffle" aria-hidden="true" />',
+        showTitle: false,
+        title: 'More links',
+        actionPopupMenu: {
+          title: 'More links',
+          menuItems: links,
+        },
+      },
+    ],
+  });
+
+  setUtahFooterSettings({
+    domLocationTarget: { cssSelector: '#utah-footer' },
+    linkPrivacyPolicy: '/privacy',
+    linkTermsOfUse: 'https://www.utah.gov/support/disclaimer.html',
+    showHorizontalRule: false,
+  });
+</script>
