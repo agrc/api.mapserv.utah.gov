@@ -101,7 +101,7 @@ export function Component() {
         </div>
       </section>
       <section className="mb-12 w-full">
-        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+        <div className="pattern-circuitboard-slate-200/20 bg-primary-600 w-full shadow-lg">
           <div className="px-6 pt-12 pb-12"></div>
         </div>
         {status === 'pending' ? (

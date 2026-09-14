@@ -17,6 +17,9 @@ importers:
       '@radix-ui/react-navigation-menu':
         specifier: ^1.2.22
         version: 1.2.22(@types/react-dom@19.2.5(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@rozsazoltan/tailwindcss-patterns':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@tanstack/react-query':
         specifier: ^5.102.8
         version: 5.102.8(react@19.2.8)
@@ -207,15 +210,18 @@ packages:
 
   '@arcgis/common-components@5.1.21':
     resolution: {integrity: sha512-h2cV4B94+JfMOKWmqFAzZlxTcUEujc/xaRNDlDu80bPqm0ulUoXK/wX+7ZnJaAdcCOPCTzlkm9DsRrh6BYZy5Q==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@arcgis/core': ^5.1.0
       '@esri/calcite-components': ^5.1.1
 
   '@arcgis/core@5.1.21':
     resolution: {integrity: sha512-v3AQRPyHQFBVmf0b7NHBxeQZCGMM79GvX38kmEN+Fr4eUb2Zr8WN6QGy4MjeWtAUFvRw6HAw2kZCRZfCm5Y89w==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@arcgis/lumina@5.1.21':
     resolution: {integrity: sha512-HKTWGN+veN0SPVI99t00KgfsO0YqJnfg33qH/YHR8+V7ddA4xLSjcb7/vbrUI03kEnKQIR5+8rnKwKR6M9d60g==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@lit/context': ^1.1.6
       lit: ^3.3.0
@@ -225,12 +231,14 @@ packages:
 
   '@arcgis/map-components@5.1.21':
     resolution: {integrity: sha512-pWvwA4pYHISY2TLctVWNAyPXA6g1pyGFdK6tGTrpYPl6Z+t/k9zVeGn6gVLHnlRDk1/s7yh155U0tovNRjqcVg==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@arcgis/core': ^5.1.0
       '@esri/calcite-components': ^5.1.1
 
   '@arcgis/toolkit@5.1.21':
     resolution: {integrity: sha512-rWRnN+oskrM6VF950IsULC9aNZJ0HgL32+k2wMjzEU73081Wawg2xmd8FzuBN2CirvBQyT7xIniFfcsfKnr3Yw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -2319,6 +2327,9 @@ packages:
     resolution: {integrity: sha512-at8QVep6S3h5Y6gSbdGU06bRY5WJkf6WUduM9YtvYMbYhB1MOFfUgc6kehitQXzOtMSaT70q7f9ydPhpqu821w==}
     cpu: [x64]
     os: [win32]
+
+  '@rozsazoltan/tailwindcss-patterns@1.0.1':
+    resolution: {integrity: sha512-QNitjfcDq98UMtma4KJFxede8WK3dE8ZP/1NjTjiGvWHmIwm/WnfX/DDx/+vl7DOMoEc+LctKT41yoqJ+D3/JQ==}
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
@@ -10045,6 +10056,8 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.63.1':
     optional: true
+
+  '@rozsazoltan/tailwindcss-patterns@1.0.1': {}
 
   '@rtsao/scc@1.1.0': {}
 
