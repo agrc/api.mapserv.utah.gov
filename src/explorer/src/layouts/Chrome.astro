@@ -1,8 +1,8 @@
 ---
-import Footer from '@components/Footer.astro';
 import GoogleAnalytics from '@components/GoogleAnalytics.astro';
-import Header from '@components/Header.astro';
+import UtahChrome from '@components/UtahChrome.astro';
 
+import '@utahdts/utah-design-system-header/css';
 import '../main.css';
 ---
 
@@ -48,10 +48,12 @@ import '../main.css';
   <body
     class="bg-white text-zinc-700 subpixel-antialiased dark:bg-zinc-800 dark:text-zinc-50"
   >
-    <main id="main-content" class="text-slate-700">
-      <Header />
-      <slot />
-      <Footer />
+    <main id="main-content" class="flex min-h-screen flex-col text-slate-700">
+      <UtahChrome />
+      <div class="min-h-0 flex-1 overflow-auto">
+        <slot />
+      </div>
+      <div id="utah-footer"></div>
     </main>
   </body>
 </html>
