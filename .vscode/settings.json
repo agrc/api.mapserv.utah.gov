@@ -27,17 +27,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnPaste": true
   },
-  "coverage-gutters.highlightdark": "rgb(61, 153, 112, .05)",
-  "coverage-gutters.noHighlightDark": "rgb(255, 65, 54, .05)",
-  "coverage-gutters.partialHighlightDark": "rgb(255, 133, 27, .05)",
-  "coverage-gutters.showGutterCoverage": false,
-  "coverage-gutters.showLineCoverage": true,
-  "coverage-gutters.showRulerCoverage": false,
-  "cSpell.enableFiletypes": [
-    "astro",
-    "markdown",
-    "mdx"
-  ],
   "cSpell.words": [
     "accesstoken",
     "addnum",
@@ -178,38 +167,7 @@
     "source.organizeImports": "explicit"
   },
   "editor.formatOnSave": true,
-  "editor.rulers": [
-    120
-  ],
-  "editor.wordWrap": "on",
-  "explorer.fileNesting.enabled": true,
-  "explorer.fileNesting.patterns": {
-    ".editorconfig": ".codecov.yml, omnisharp.json",
-    "*.cts": "${capture}.typegen.ts",
-    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts, ${capture}.test.js",
-    "*.json": "${capture}.json, ${capture}.*.json",
-    "*.jsx": "${capture}.js, ${capture}.stories.jsx, ${capture}.test.jsx",
-    "*.mts": "${capture}.typegen.ts",
-    "*.sln": "Directory.Build.props, Directory.Build.targets",
-    "*.ts": "${capture}.js, ${capture}.typegen.ts",
-    "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
-    "docker-compose.yml": "docker-compose.override.yml, .dockerignore",
-    "firebase.json": ".firebaserc, firestore.indexes.json, firestore.rules, storage.rules, firebase-debug.log, firestore-debug.log, ui-debug.log",
-    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
-    "Program.cs": "Globalusings.cs",
-    "README.md": "LICENSE, .gitattributes, .gitignore",
-    "release-please-config.json": ".release-please-manifest.json",
-    "tailwind.config.js": "postcss.config.js",
-    "tsconfig.json": "tsconfig.*.json"
-  },
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
   "omnisharp.enableEditorConfigSupport": true,
-  "omnisharp.enableRoslynAnalyzers": true,
-  "prettier.documentSelectors": [
-    "**/*.{js,jsx,css,html,md,json,mdx,astro}"
-  ],
   "python.languageServer": "Pylance",
   "python.testing.pytestArgs": [
     "--no-cov"
