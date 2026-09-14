@@ -75,9 +75,13 @@ export default defineConfig({
         },
         {
           label: 'Endpoints (version 1)',
-          autogenerate: {
-            directory: '/docs/v1/endpoints/',
-          },
+          items: [
+            {
+              autogenerate: {
+                directory: '/docs/v1/endpoints/',
+              },
+            },
+          ],
         },
       ],
       customCss: ['./src/tailwind.css'],
