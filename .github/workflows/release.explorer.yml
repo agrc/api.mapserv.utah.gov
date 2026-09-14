@@ -1,4 +1,4 @@
-name: Release Events (Self Service)
+name: Release Events (Explorer)
 
 on:
   release:
