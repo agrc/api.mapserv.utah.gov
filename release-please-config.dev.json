@@ -22,21 +22,21 @@
   ],
   "packages": {
     "src/developer": {
-      "package-name": "developer",
+      "package-name": "developer-dev",
       "component": "developer",
       "release-type": "node",
       "pull-request-header": ":robot: A new pre-release is ready :rocket:",
       "pull-request-title-pattern": "chore:${component} pre-release v${version}"
     },
     "src/explorer": {
-      "package-name": "explorer",
+      "package-name": "explorer-dev",
       "component": "explorer",
       "release-type": "node",
       "pull-request-header": ":robot: A new pre-release is ready :rocket:",
       "pull-request-title-pattern": "chore:${component} pre-release v${version}"
     },
     "src/api": {
-      "package-name": "api",
+      "package-name": "api-dev",
       "component": "api",
       "release-type": "simple",
       "pull-request-header": ":robot: A new pre-release is ready :rocket:",
