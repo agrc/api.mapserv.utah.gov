@@ -30,7 +30,7 @@
     "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
     "@ugrc/utah-design-system": "^1.34.1",
-    "astro": "^5.17.1",
+    "astro": "^6.1.10",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "sharp": "^0.34.5",
