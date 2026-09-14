@@ -5,7 +5,6 @@ minimumReleaseAgeStrict: true
 minimumReleaseAgeExclude:
   - '@ugrc/*'
 overrides:
-  astro: 5.17.1
   '@astrojs/sitemap': 3.4.2
 allowBuilds:
   '@firebase/util': true

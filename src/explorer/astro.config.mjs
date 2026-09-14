@@ -13,7 +13,7 @@ export default defineConfig({
     starlight({
       title: 'UGRC API Documentation',
       logo: {
-        src: './src/assets/api.svg',
+        src: './public/logo.svg',
         replacesTitle: false,
       },
       social: [
