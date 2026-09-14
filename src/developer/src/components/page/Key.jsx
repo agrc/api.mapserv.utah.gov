@@ -133,7 +133,7 @@ export const Component = () => {
           </div>
         </section>
         <section className="mb-12 w-full">
-          <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+          <div className="pattern-circuitboard-slate-200/20 bg-primary-600 w-full shadow-lg">
             <div className="mx-auto w-full px-6 py-16">
               <div className="flex flex-col items-center gap-2">
                 <h3 className="text-secondary-400 mt-16 text-center text-5xl font-black tracking-tight drop-shadow-md">
@@ -157,7 +157,7 @@ export const Component = () => {
     return (
       <>
         <section className="mb-12 w-full">
-          <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+          <div className="pattern-circuitboard-slate-200/20 bg-primary-600 w-full shadow-lg">
             <div className="mx-auto w-full px-6 py-16">
               <div className="flex flex-col items-center gap-2">
                 <h3 className="text-accent-400 mt-2 text-center text-5xl font-black tracking-tight drop-shadow-md">
@@ -198,7 +198,7 @@ export const Component = () => {
         </div>
       </section>
       <section className="mb-4 w-full">
-        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+        <div className="pattern-circuitboard-slate-200/20 bg-primary-600 w-full shadow-lg">
           <div className="px-6 pt-3 pb-12 text-center text-white">
             <h3>API key metadata</h3>
           </div>
@@ -333,7 +333,7 @@ export const ErrorBoundary = () => {
         </div>
       </section>
       <section className="mb-12 w-full">
-        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+        <div className="pattern-circuitboard-slate-200/20 bg-primary-600 w-full shadow-lg">
           <div className="mx-auto w-full px-6 py-16">
             <div className="flex flex-col items-center gap-2">
               <h3 className="text-secondary-400 mt-16 text-center text-5xl font-black tracking-tight drop-shadow-md">

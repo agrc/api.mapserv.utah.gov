@@ -93,7 +93,7 @@ export function Component() {
         </div>
       </section>
       <section className="w-full">
-        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+        <div className="pattern-circuitboard-slate-200/20 bg-primary-600 w-full shadow-lg">
           <div className="px-6 pt-3 pb-12 text-center text-white">
             <h3>Claim keys from non-Utahid account</h3>
           </div>

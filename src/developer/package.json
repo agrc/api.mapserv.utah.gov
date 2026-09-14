@@ -38,6 +38,7 @@
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.9.1",
     "@radix-ui/react-navigation-menu": "^1.2.22",
+    "@rozsazoltan/tailwindcss-patterns": "^1.0.1",
     "@tanstack/react-query": "^5.102.8",
     "@tanstack/react-table": "^9.2.4",
     "@ugrc/utah-design-system": "^4.1.0",
