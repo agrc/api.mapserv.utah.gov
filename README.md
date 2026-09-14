@@ -72,6 +72,14 @@ Then install the self service dependencies and start the emulators:
 npm install && npm start
 ```
 
+Make sure that you have the dotnet CLI installed:
+
+```sh
+brew install --cask dotnet-sdk
+```
+
+Additionally, make sure that rancher is running on your computer with kubernetes disabled to prevent it from conflicting with the 6443 port.
+
 While the emulators are starting, start the cache and smocker containers from the root of the project.
 
 ```sh
