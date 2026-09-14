@@ -22,26 +22,22 @@ jobs:
 
     steps:
       - name: 🪙 Convert token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         id: app-token
         with:
-          owner: ${{ github.repository_owner }}
-          repositories: "api.mapserv.utah.gov"
-          app-id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
+          client-id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
           private-key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
 
       - name: ⬇️ Set up code
         uses: actions/checkout@v6
-        with:
-          show-progress: false
-          fetch-depth: 0
-          token: ${{ steps.app-token.outputs.token }}
 
       - name: 🚀 Create release
-        uses: googleapis/release-please-action@v4
+        uses: googleapis/release-please-action@v5
         id: release-please
         with:
           token: ${{ steps.app-token.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
   release-dev:
     name: Pre-release PR (dev)
@@ -50,23 +46,17 @@ jobs:
 
     steps:
       - name: 🪙 Convert token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         id: app-token
         with:
-          owner: ${{ github.repository_owner }}
-          repositories: "api.mapserv.utah.gov"
-          app-id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
+          client-id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
           private-key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
 
       - name: ⬇️ Set up code
         uses: actions/checkout@v6
-        with:
-          show-progress: false
-          fetch-depth: 0
-          token: ${{ steps.app-token.outputs.token }}
 
       - name: 🚀 Create pre-release
-        uses: googleapis/release-please-action@v4
+        uses: googleapis/release-please-action@v5
         id: release-please
         with:
           token: ${{ steps.app-token.outputs.token }}
