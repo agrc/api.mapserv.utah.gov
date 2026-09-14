@@ -1,5 +1,3 @@
-import starlightPlugin from '@astrojs/starlight-tailwind';
-
 // Generated color palettes
 const mustard = {
   50: '#fdfced',
@@ -72,5 +70,4 @@ export default {
       },
     },
   },
-  plugins: [starlightPlugin()],
 };

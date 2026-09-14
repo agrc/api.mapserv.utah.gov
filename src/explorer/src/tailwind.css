@@ -1,8 +1,6 @@
 @config "../tailwind.docs.config.mjs";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "@astrojs/starlight-tailwind";
 
 @layer base {
   html {

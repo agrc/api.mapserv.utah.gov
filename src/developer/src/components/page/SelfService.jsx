@@ -29,7 +29,7 @@ export function Component() {
   return (
     <article>
       <section className="mb-12 w-full">
-        <div className="bg-circuit bg-primary-600 w-full shadow-lg">
+        <div className="pattern-circuitboard-slate-200/20 bg-primary-600 w-full shadow-lg">
           <div className="px-6 pt-3 pb-12 text-center text-white dark:text-slate-200">
             <h2>API key statistics</h2>
           </div>

@@ -1,14 +1,9 @@
-import ugrcPreset from '@ugrc/tailwind-preset';
-import heroPatterns from 'tailwind-heropatterns';
-import colors from 'tailwindcss/colors';
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     './src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}',
     './node_modules/@ugrc/**/*.{js,jsx,ts,tsx}',
   ],
-  presets: [ugrcPreset],
   theme: {
     extend: {
       fontFamily: {
@@ -47,18 +42,4 @@ export default {
       },
     },
   },
-  plugins: [
-    heroPatterns({
-      patterns: ['topography', 'circuit-board'],
-      opacity: {
-        default: '0.04',
-        10: '0.05',
-        20: '0.15',
-      },
-      colors: {
-        default: colors.slate[200],
-        secondary: '#5A67D8',
-      },
-    }),
-  ],
 };
