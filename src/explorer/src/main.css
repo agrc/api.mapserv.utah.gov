@@ -1,5 +1,4 @@
-@config "../tailwind.pages.config.mjs";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config '../tailwind.pages.config.mjs';
+@import 'tailwindcss';
+@import '@ugrc/tailwind-preset';
+@plugin '@rozsazoltan/tailwindcss-patterns';
