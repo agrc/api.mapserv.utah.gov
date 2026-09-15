@@ -13,7 +13,7 @@ Trust this file and the referenced project scripts first. Search only when these
 - `src/api/`: ASP.NET Core API (`net10.0`). Feature areas are under `Features/` (Geocoding, Milepost, Searching, Information, Converting, Health); shared behavior is in `Cache/`, `Services/`, `Infrastructure/`, `Models/`, `Middleware/`, and `Formatters/`.
 - `test/api.unit.tests/`: xUnit unit tests for the API. `api.mapserv.utah.gov.sln` is the main .NET solution. `libs/EsriJson/` is a referenced geometry/Esri JSON library with NUnit tests.
 - `src/developer/`: React 19/Vite self-service app, Firebase Functions, Firestore rules/indexes, migrations, and emulator scripts. `src/developer/package.json` owns its scripts and PNPM workspace.
-- `src/explorer/`: Astro 5/Starlight documentation site with React and Tailwind. Documentation content is in `src/content/docs/`; site configuration is `astro.config.mjs`.
+- `src/explorer/`: Astro 7/Starlight documentation site with React and Tailwind.
 - `src/data-migration/ravendb/`: .NET RavenDB-to-Firestore migration. `src/data-migration/redis/`: Python Redis RDB tooling.
 - `forklift/`: Python ArcGIS locator automation; credentials are external and must not be committed. `samples/` contains C#, VB, JavaScript, PHP, Python, Ruby, and Rust clients.
 - `test/smocker/`: committed YAML mocks and `mocks.sh`; `test/api.migration.tests/` is a separate Vitest/npm project comparing old and new response shapes.
