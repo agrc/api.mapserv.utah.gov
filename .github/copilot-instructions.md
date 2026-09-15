@@ -62,6 +62,6 @@ From `test/api.migration.tests`, run `npm install` followed by `npx vitest --run
 
 ## CI and safety notes
 
-`.github/workflows/push.api.yml` runs the .NET solution test/coverage gate and then builds/deploys `src/api/Dockerfile`. `push.developer.yml` installs with PNPM 11, runs the developer tests, builds with secret/config environment values, and deploys Firebase. `push.explorer.yml` installs/builds/deploys the docs site. Release workflows repeat these checks for API, developer, and explorer tags; `push.yml` runs Release Please on `main`. Do not attempt cloud deploys locally.
+`.github/workflows/push.yml` runs Release Please on `main` and `dev`; the pull request workflows run validation, and the release workflows deploy API, developer, and explorer tags. Do not attempt cloud deploys locally.
 
 Do not commit secrets, `.env.local`, generated `dist/`, `bin/`, `obj/`, emulator state, or credentials. Existing TODOs include development BigQuery/Redis priming and planned v2 contract changes; check nearby code before altering those behaviors. The API project intentionally overrides a vulnerable transitive dependency, so do not remove that package reference or warning suppression casually.
