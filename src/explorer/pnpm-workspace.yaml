@@ -12,4 +12,5 @@ allowBuilds:
   '@vaadin/vaadin-usage-statistics': true
   esbuild: true
   protobufjs: true
+  re2: true
   sharp: true
