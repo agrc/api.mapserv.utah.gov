@@ -1,6 +1,6 @@
 import partytown from '@astrojs/partytown';
 import starlight from '@astrojs/starlight';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, envField } from 'astro/config';
 import starlightLinksValidator from 'starlight-links-validator';
 
@@ -13,7 +13,7 @@ export default defineConfig({
     starlight({
       title: 'UGRC API Documentation',
       logo: {
-        src: './src/assets/api.svg',
+        src: './public/logo.svg',
         replacesTitle: false,
       },
       social: [
@@ -75,14 +75,17 @@ export default defineConfig({
         },
         {
           label: 'Endpoints (version 1)',
-          autogenerate: {
-            directory: '/docs/v1/endpoints/',
-          },
+          items: [
+            {
+              autogenerate: {
+                directory: '/docs/v1/endpoints/',
+              },
+            },
+          ],
         },
       ],
       customCss: ['./src/tailwind.css'],
     }),
-    tailwind(),
     react(),
     partytown(),
   ],
@@ -96,6 +99,7 @@ export default defineConfig({
     },
   },
   vite: {
+    plugins: [tailwindcss()],
     resolve: {
       alias: [
         {

@@ -35,7 +35,7 @@ A comma separated string of fields to return from the Open SGID table.
 :::tip
 There are a few special tokens to access geometry data.
 
-- `shape@` provides a simplified geometry
+- `shape@` provides a geometry simplified with a tolerance of 10 meters. The search endpoint is intended for map extents and general data extraction, so this geometry may not preserve every detail of the source feature. For more precise geometry or access to additional geometry features, use the feature services available in [SGID on ArcGIS](https://opendata.gis.utah.gov/).
 - `shape@envelope` provides the minimum bounding box around the geometry.
   :::
 
