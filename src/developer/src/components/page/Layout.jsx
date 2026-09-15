@@ -7,15 +7,15 @@ import UtahChrome from './UtahChrome';
 const Layout = () => {
   return (
     <>
-      <div className="flex flex-none flex-col">
+      <div className="flex flex-col">
         <UtahChrome />
         <Menu />
         <main id="main-content" className="min-h-0 flex-1">
           <ScrollRestoration />
           <Outlet />
         </main>
+        <div id="utah-footer" />
       </div>
-      <div id="utah-footer" />
       <PageViewLogger />
     </>
   );
