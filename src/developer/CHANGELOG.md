@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.8.3](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.2...developer-v2.8.3) (2026-09-16)
+
+
+### 🐛 Bug Fixes
+
+* **developer:** switch to official dts header and footer with auth ([af2fe1e](https://github.com/agrc/api.mapserv.utah.gov/commit/af2fe1eafc9484e048f423cbe11b72c1c24acbee))
+* remove offer to create dedicated api instances ([23fbe4a](https://github.com/agrc/api.mapserv.utah.gov/commit/23fbe4a496c5ff1072c93a7592281617f2a99684))
+
+
+### 🌲 Dependencies
+
+* **developer:** bump NPM dependencies 🌲 ([f738d30](https://github.com/agrc/api.mapserv.utah.gov/commit/f738d30c1cbe1a2c8c1b4a21f9f6bc187b5cdf60))
+* **developer:** major bump some NPM dependencies 🌲 ([9fabb9a](https://github.com/agrc/api.mapserv.utah.gov/commit/9fabb9a528c9f514e6069d8a880ae5b6a0f95e0b))
+* **developer:** tailwind v3 -&gt; v4 ([01aab78](https://github.com/agrc/api.mapserv.utah.gov/commit/01aab78ea469838800751c21cdb20b11a4a6f265))
+* **explorer:** Tailwind v3 -&gt; v4 ([f25607c](https://github.com/agrc/api.mapserv.utah.gov/commit/f25607c89079b03abfeec48beade0104edaaa961))
+
 ## [2.8.2](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.1...developer-v2.8.2) (2026-03-20)
 
 
