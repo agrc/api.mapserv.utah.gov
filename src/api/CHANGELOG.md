@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.12](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.11...api-v1.17.12) (2026-09-16)
+
+
+### 🌲 Dependencies
+
+* **api:** Bump Autofac and 14 others ([bee07e3](https://github.com/agrc/api.mapserv.utah.gov/commit/bee07e37eb4097e5485865f34a8982f592c1dc42))
+
 ## [1.17.11](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.10...api-v1.17.11) (2026-04-13)
 
 
