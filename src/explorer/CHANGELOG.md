@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.6.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.1...explorer-v2.6.2) (2026-09-16)
+
+
+### 🐛 Bug Fixes
+
+* **explorer:** add missing dev dep ([0dd6b64](https://github.com/agrc/api.mapserv.utah.gov/commit/0dd6b644b9d4320b21a7555d82cfc828bf3cdd10))
+* **explorer:** switch to official DTS header and footer ([c82d711](https://github.com/agrc/api.mapserv.utah.gov/commit/c82d7117f05ebb7045aafc397e5320ab6b73869a))
+* remove offer to create dedicated api instances ([23fbe4a](https://github.com/agrc/api.mapserv.utah.gov/commit/23fbe4a496c5ff1072c93a7592281617f2a99684))
+
+
+### 🌲 Dependencies
+
+* **explorer:** astro v5 -&gt; v7 ([585ef3f](https://github.com/agrc/api.mapserv.utah.gov/commit/585ef3f476d9fb60208ac91a998adc2d16bbf125))
+* **explorer:** bump NPM dependencies 🌲 ([35979c8](https://github.com/agrc/api.mapserv.utah.gov/commit/35979c804f08cea638ef936e31c75d0ea14d783d))
+* **explorer:** Tailwind v3 -&gt; v4 ([f25607c](https://github.com/agrc/api.mapserv.utah.gov/commit/f25607c89079b03abfeec48beade0104edaaa961))
+* **explorer:** TypeScript v5 -&gt; v6 ([7029a33](https://github.com/agrc/api.mapserv.utah.gov/commit/7029a33ecc1ce9cdd6208696626e41a8f1160197))
+
+
+### 📖 Documentation Improvements
+
+* **explorer:** add note about simplification of returned search geometries ([37a3932](https://github.com/agrc/api.mapserv.utah.gov/commit/37a39323543b671162b0fe0e97e38b3da835334e)), closes [#585](https://github.com/agrc/api.mapserv.utah.gov/issues/585)
+
 ## [2.6.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.0...explorer-v2.6.1) (2026-03-20)
 
 
