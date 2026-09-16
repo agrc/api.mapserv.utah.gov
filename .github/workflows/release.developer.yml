@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           show-progress: false
 
@@ -36,7 +36,7 @@ jobs:
           version: 12
 
       - name: ⎔ Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: lts/*
           cache: pnpm
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           show-progress: false
 
@@ -68,7 +68,7 @@ jobs:
           version: 12
 
       - name: ⎔ Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: lts/*
           cache: pnpm
@@ -96,7 +96,7 @@ jobs:
           echo "firebase-tools=$(pnpm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')" >> GITHUB_OUTPUT
 
       - name: 🪣 Cache firebase
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/firebase
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
