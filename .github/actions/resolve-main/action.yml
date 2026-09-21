@@ -1,0 +1,38 @@
+name: Resolve Main
+
+description: Resolve and record one immutable main commit for a deployment
+
+inputs:
+  project:
+    description: Project name for the deployment summary
+    required: true
+
+outputs:
+  sha:
+    description: Resolved main commit SHA
+    value: ${{ steps.main.outputs.sha }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up code
+      uses: actions/checkout@v7
+      with:
+        ref: main
+        show-progress: false
+
+    - name: Resolve main commit
+      id: main
+      shell: bash
+      working-directory: .
+      run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+    - name: Record deployment commit
+      shell: bash
+      working-directory: .
+      run: |
+        {
+          echo "### Manual ${{ inputs.project }} deployment"
+          echo ""
+          echo "Deploying main at commit \`${{ steps.main.outputs.sha }}\`."
+        } >> "$GITHUB_STEP_SUMMARY"

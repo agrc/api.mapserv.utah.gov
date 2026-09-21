@@ -1,0 +1,58 @@
+name: Manual Release (Explorer)
+
+# Manually deploys the current main commit after an Explorer release workflow failure.
+# A release-workflow rerun stays pinned to its published tag and cannot include
+# fixes merged to main afterward. This workflow builds and deploys one resolved
+# main SHA through the protected production environment.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: manual-release-explorer-production
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: src/explorer
+
+jobs:
+  # Pin one main commit so the built code is exactly what gets deployed.
+  resolve:
+    name: Resolve main
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.main.outputs.sha }}
+
+    steps:
+      - name: Resolve main commit
+        id: main
+        uses: ./.github/actions/resolve-main
+        with:
+          project: Explorer
+
+  deploy:
+    name: Production deployment
+    needs: resolve
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+
+    steps:
+      - name: Set up code
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          show-progress: false
+
+      - name: Deploy Explorer application
+        uses: ./.github/actions/deploy-explorer
+        with:
+          self_service_url: ${{ vars.SELF_SERVICE_URL }}
+          identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project_id: ${{ secrets.PROJECT_ID }}

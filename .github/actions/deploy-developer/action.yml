@@ -1,0 +1,89 @@
+name: Deploy Developer
+
+description: Build and deploy the developer application to Firebase
+
+inputs:
+  firebase_config:
+    description: Firebase client configuration
+    required: true
+  api_explorer_url:
+    description: API Explorer URL
+    required: true
+  redis_host:
+    description: Redis host for Firebase Functions
+    required: true
+  identity_provider:
+    description: Google Cloud Workload Identity provider
+    required: true
+  service_account_email:
+    description: Google Cloud service account email
+    required: true
+  project_id:
+    description: Firebase project ID
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v6
+      with:
+        version: 12
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: lts/*
+        cache: pnpm
+        cache-dependency-path: src/developer/pnpm-lock.yaml
+
+    - name: Download dependencies
+      shell: bash
+      working-directory: src/developer
+      run: pnpm install --frozen-lockfile
+
+    - name: Configure 3rd party notice
+      uses: agrc/third-party-notice-composite-action@v1
+      with:
+        working-directory: src/developer
+
+    - name: Run build command
+      shell: bash
+      working-directory: src/developer
+      run: pnpm build
+      env:
+        VITE_FIREBASE_CONFIG: ${{ inputs.firebase_config }}
+        VITE_API_EXPLORER_URL: ${{ inputs.api_explorer_url }}
+
+    - name: Get firebase version
+      id: cache-settings
+      shell: bash
+      working-directory: src/developer
+      run: |
+        echo "firebase-tools=$(pnpm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')" >> "$GITHUB_OUTPUT"
+
+    - name: Cache firebase
+      uses: actions/cache@v6
+      with:
+        path: ~/.cache/firebase
+        key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v3
+      with:
+        access_token_scopes: "email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase"
+        workload_identity_provider: ${{ inputs.identity_provider }}
+        service_account: ${{ inputs.service_account_email }}
+        create_credentials_file: true
+
+    - name: Create function envs
+      shell: bash
+      working-directory: src/developer
+      run: |
+        touch ./functions/.env
+        echo "REDIS_HOST=${{ inputs.redis_host }}" >> ./functions/.env
+
+    - name: Firebase deploy
+      shell: bash
+      working-directory: src/developer
+      run: pnpm exec firebase deploy --project ${{ inputs.project_id }}

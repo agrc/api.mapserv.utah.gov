@@ -1,0 +1,90 @@
+name: Manual Release (Developer)
+
+# Manually deploys the current main commit after a release workflow failure.
+# A release-workflow rerun stays pinned to its published tag and cannot include
+# fixes merged to main afterward. This workflow tests one resolved main SHA,
+# then deploys that same SHA through the protected production environment.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: manual-release-developer-production
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: src/developer
+
+jobs:
+  # Pin one main commit so the tested code is exactly what gets deployed.
+  resolve:
+    name: Resolve main
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.main.outputs.sha }}
+
+    steps:
+      - name: Resolve main commit
+        id: main
+        uses: ./.github/actions/resolve-main
+        with:
+          project: Developer
+
+  test-unit:
+    name: Unit tests
+    needs: resolve
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up code
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          show-progress: false
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v6
+        with:
+          version: 12
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: pnpm
+          cache-dependency-path: src/developer/pnpm-lock.yaml
+
+      - name: Download dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm exec vitest --run
+
+  deploy:
+    name: Production deployment
+    needs: [resolve, test-unit]
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+
+    steps:
+      - name: Set up code
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          show-progress: false
+
+      - name: Deploy developer application
+        uses: ./.github/actions/deploy-developer
+        with:
+          firebase_config: ${{ secrets.FIREBASE_CONFIG }}
+          api_explorer_url: ${{ vars.API_EXPLORER_URL }}
+          redis_host: ${{ secrets.REDIS_HOST }}
+          identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project_id: ${{ secrets.PROJECT_ID }}

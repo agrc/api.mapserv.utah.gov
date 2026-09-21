@@ -1,0 +1,85 @@
+name: Manual Release (API)
+
+# Manually deploys the current main commit after an API release workflow failure.
+# A release-workflow rerun stays pinned to its published tag and cannot include
+# fixes merged to main afterward. This workflow tests one resolved main SHA,
+# then builds and deploys that same SHA through the protected production environment.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: manual-release-api-production
+  cancel-in-progress: false
+
+jobs:
+  # Pin one main commit so the tested code is exactly what gets deployed.
+  resolve:
+    name: Resolve main
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.main.outputs.sha }}
+
+    steps:
+      - name: Resolve main commit
+        id: main
+        uses: ./.github/actions/resolve-main
+        with:
+          project: API
+
+  test-unit:
+    name: Unit tests
+    needs: resolve
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up code
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          show-progress: false
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "10.x"
+
+      - name: Cache NuGet Packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.OS }}-nuget-${{ hashFiles('**/Packages.targets') }}
+          restore-keys: |
+            ${{ runner.OS }}-nuget-
+            ${{ runner.OS }}
+
+      - name: Run tests
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
+
+  deploy:
+    name: Production deployment
+    needs: [resolve, test-unit]
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+
+    steps:
+      - name: Set up code
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          show-progress: false
+
+      - name: Deploy API application
+        uses: ./.github/actions/deploy-api
+        with:
+          project_id: ${{ secrets.PROJECT_ID }}
+          identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          image_tags: |
+            type=raw,value=manual-${{ needs.resolve.outputs.sha }}
+            type=raw,value=latest

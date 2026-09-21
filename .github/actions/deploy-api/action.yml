@@ -1,0 +1,84 @@
+name: Deploy API
+
+description: Build and deploy the API image to Cloud Run
+
+inputs:
+  project_id:
+    description: Google Cloud project ID
+    required: true
+  identity_provider:
+    description: Google Cloud Workload Identity provider
+    required: true
+  service_account_email:
+    description: Google Cloud service account email
+    required: true
+  image_tags:
+    description: Docker metadata tag definitions
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v3
+      with:
+        create_credentials_file: true
+        token_format: access_token
+        workload_identity_provider: ${{ inputs.identity_provider }}
+        service_account: ${{ inputs.service_account_email }}
+
+    - name: Set up Docker Buildx
+      id: builder
+      uses: docker/setup-buildx-action@v3
+
+    - name: Authenticate Docker to Google Cloud
+      uses: docker/login-action@v4
+      with:
+        registry: us-central1-docker.pkg.dev
+        username: oauth2accesstoken
+        password: ${{ steps.auth.outputs.access_token }}
+
+    - name: Extract tags from GitHub
+      id: meta
+      uses: docker/metadata-action@v6
+      with:
+        images: us-central1-docker.pkg.dev/${{ inputs.project_id }}/images/api
+        tags: ${{ inputs.image_tags }}
+
+    - name: Build and push image
+      uses: docker/build-push-action@v6
+      with:
+        file: ./src/api/Dockerfile
+        context: .
+        builder: ${{ steps.builder.outputs.name }}
+        tags: ${{ steps.meta.outputs.tags }}
+        push: true
+        provenance: false
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Set image name
+      id: image
+      shell: bash
+      run: |
+        echo "image=$(echo \"$DOCKER_METADATA_OUTPUT_TAGS\" | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+
+    - name: Deploy to Cloud Run
+      uses: google-github-actions/deploy-cloudrun@v3
+      with:
+        service: api
+        image: ${{ steps.image.outputs.image }}
+        region: us-central1
+        flags: |
+          --service-account=cloud-run-sa@${{ inputs.project_id }}.iam.gserviceaccount.com
+          --max-instances=5
+          --concurrency=150
+          --cpu=1
+          --memory=512Mi
+          --timeout=1m
+        env_vars: >
+          ASPNETCORE_ENVIRONMENT=Production,
+          GCLOUD_PROJECT=${{ inputs.project_id }}
+        secrets: |
+          /secrets/dotnet/appsettings.Production.json=dotnet-appsettings:latest

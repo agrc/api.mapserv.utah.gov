@@ -62,60 +62,12 @@ jobs:
         with:
           show-progress: false
 
-      - name: 📦 Setup PNPM
-        uses: pnpm/action-setup@v6
+      - name: 🚀 Deploy developer application
+        uses: ./.github/actions/deploy-developer
         with:
-          version: 12
-
-      - name: ⎔ Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: lts/*
-          cache: pnpm
-          cache-dependency-path: src/developer/pnpm-lock.yaml
-
-      - name: 📥 Download dependencies
-        shell: bash
-        run: pnpm install --frozen-lockfile
-
-      - name: 📃 Configure 3rd party notice
-        uses: agrc/third-party-notice-composite-action@v1
-        with:
-          working-directory: src/developer
-
-      - name: 🏗 Run build command
-        shell: bash
-        run: pnpm build
-        env:
-          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-          VITE_API_EXPLORER_URL: ${{ vars.API_EXPLORER_URL }}
-
-      - name: 🔢 Get firebase version
-        id: cache-settings
-        run: |
-          echo "firebase-tools=$(pnpm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')" >> GITHUB_OUTPUT
-
-      - name: 🪣 Cache firebase
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/firebase
-          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
-
-      - name: 🗝️ Authenticate to Google Cloud
-        id: auth
-        uses: google-github-actions/auth@v3
-        with:
-          access_token_scopes: "email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase"
-          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-          create_credentials_file: true
-
-      - name: 📨 Create function envs
-        shell: bash
-        run: |
-          touch ./functions/.env
-          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> ./functions/.env
-
-      - name: 🚀 Firebase deploy
-        shell: bash
-        run: pnpm exec firebase deploy --project ${{ secrets.PROJECT_ID }}
+          firebase_config: ${{ secrets.FIREBASE_CONFIG }}
+          api_explorer_url: ${{ vars.API_EXPLORER_URL }}
+          redis_host: ${{ secrets.REDIS_HOST }}
+          identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project_id: ${{ secrets.PROJECT_ID }}

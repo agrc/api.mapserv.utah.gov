@@ -24,6 +24,7 @@ updates:
       semver-major-days: 60
       semver-minor-days: 14
       semver-patch-days: 7
+
   - package-ecosystem: pip
     directory: /forklift
     schedule:
@@ -47,6 +48,7 @@ updates:
       semver-major-days: 60
       semver-minor-days: 14
       semver-patch-days: 7
+
   - package-ecosystem: npm
     directories:
       - src/developer
@@ -72,8 +74,14 @@ updates:
       semver-major-days: 60
       semver-minor-days: 14
       semver-patch-days: 7
+
   - package-ecosystem: github-actions
-    directory: /
+    directories:
+      - /
+      - /.github/actions/deploy-api
+      - /.github/actions/deploy-developer
+      - /.github/actions/deploy-explorer
+      - /.github/actions/resolve-main
     schedule:
       interval: quarterly
     groups:
@@ -85,6 +93,7 @@ updates:
       default-days: 10
     commit-message:
       prefix: chore(ci-deps)
+
   - package-ecosystem: docker
     directory: /src/api
     schedule:
@@ -95,6 +104,7 @@ updates:
           - "*"
     commit-message:
       prefix: chore(docker-deps)
+
   - package-ecosystem: docker-compose
     directory: /
     schedule:
