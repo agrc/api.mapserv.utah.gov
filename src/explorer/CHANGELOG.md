@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.6.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.1...explorer-v2.6.2) (2026-09-21)
+
+
+### 🐛 Bug Fixes
+
+* **explorer:** add missing dev dep ([a610f7a](https://github.com/agrc/api.mapserv.utah.gov/commit/a610f7af8c5f55106d6626efb7f1dcb0adccbcf4))
+* **explorer:** switch to official DTS header and footer ([5382c79](https://github.com/agrc/api.mapserv.utah.gov/commit/5382c79c407b6e8873ccee7328a5affefd33a8ab))
+* remove offer to create dedicated api instances ([23fbe4a](https://github.com/agrc/api.mapserv.utah.gov/commit/23fbe4a496c5ff1072c93a7592281617f2a99684))
+
+
+### 🌲 Dependencies
+
+* **explorer:** astro v5 -&gt; v7 ([c050595](https://github.com/agrc/api.mapserv.utah.gov/commit/c050595ba191ebf8ff1c735dca25dd0b7946cca9))
+* **explorer:** bump NPM dependencies 🌲 ([d6d5be8](https://github.com/agrc/api.mapserv.utah.gov/commit/d6d5be8eb58ba67aabfae57713bac04daa222d6a))
+* **explorer:** Tailwind v3 -&gt; v4 ([c00e035](https://github.com/agrc/api.mapserv.utah.gov/commit/c00e035276aff11139a02d63141216814960ac94))
+* **explorer:** TypeScript v5 -&gt; v6 ([13eca79](https://github.com/agrc/api.mapserv.utah.gov/commit/13eca79adced58f3c45316eb4d49268a3cc886c1))
+* **web:** bump the safe-dependencies group across 2 directories with 10 updates ([01bd669](https://github.com/agrc/api.mapserv.utah.gov/commit/01bd6696bb864ac39a74ac7738c5ad9d21763f43))
+
+
+### 📖 Documentation Improvements
+
+* **explorer:** add note about simplification of returned search geometries ([e5d32b1](https://github.com/agrc/api.mapserv.utah.gov/commit/e5d32b17861899706ac1e42f394892f113b25ee2)), closes [#585](https://github.com/agrc/api.mapserv.utah.gov/issues/585)
+
 ## [2.6.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.0...explorer-v2.6.1) (2026-03-20)
 
 
