@@ -118,4 +118,4 @@ jobs:
 
       - name: 🚀 Firebase deploy
         shell: bash
-        run: pnpm exec firebase-tools deploy --project ${{ secrets.PROJECT_ID }}
+        run: pnpm exec firebase deploy --project ${{ secrets.PROJECT_ID }}
