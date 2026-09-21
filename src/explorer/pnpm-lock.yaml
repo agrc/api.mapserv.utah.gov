@@ -49,7 +49,7 @@ importers:
         version: 19.2.8(react@19.2.8)
       react-stately:
         specifier: ^3.50.0
-        version: 3.50.0
+        version: 3.50.0(react@19.2.8)
       sharp:
         specifier: ^0.35.4
         version: 0.35.4(@types/node@26.5.0)
@@ -5989,7 +5989,7 @@ snapshots:
   '@arcgis/core@5.0.19':
     dependencies:
       '@amcharts/amcharts5': 5.15.6
-      '@arcgis/toolkit': 5.0.19
+      '@arcgis/toolkit': 5.1.22
       '@esri/arcgis-html-sanitizer': 4.1.0
       '@esri/calcite-components': 5.1.2
       '@vaadin/grid': 25.0.13
