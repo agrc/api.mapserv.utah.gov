@@ -1,5 +1,115 @@
 # Changelog
 
+## [2.7.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.2...explorer-v2.7.0) (2026-09-21)
+
+
+### 🚀 Features
+
+* **explorer:** add 3rd party notices ([c4306f8](https://github.com/agrc/api.mapserv.utah.gov/commit/c4306f88fc67d7ef5422825c5e2d25b590951265))
+* **explorer:** add instagram link ([3125c4b](https://github.com/agrc/api.mapserv.utah.gov/commit/3125c4b714b453683ac6ccedae78c9a22f4d2800))
+* **explorer:** replace header with utah design system component ([bb0706c](https://github.com/agrc/api.mapserv.utah.gov/commit/bb0706cf030b49e54be1b4969ee3723d9a46a9e2))
+* **explorer:** replace header with utah design system component ([a49e85a](https://github.com/agrc/api.mapserv.utah.gov/commit/a49e85a1f032c74040ab49dafe254c6444a8e1c7))
+
+
+### 🐛 Bug Fixes
+
+* **explorer:** accessibility improvements ([4744590](https://github.com/agrc/api.mapserv.utah.gov/commit/47445906cb3d457da8026f5927a2eed75fc1eba9))
+* **explorer:** add missing dev dep ([a610f7a](https://github.com/agrc/api.mapserv.utah.gov/commit/a610f7af8c5f55106d6626efb7f1dcb0adccbcf4))
+* **explorer:** add missing numbers ([70edd44](https://github.com/agrc/api.mapserv.utah.gov/commit/70edd447f0e143146d82bd4b3aa0c997d767a29b))
+* **explorer:** add page view analtyics ([f0b7b31](https://github.com/agrc/api.mapserv.utah.gov/commit/f0b7b310d9de8858caad68a774bbffbaf80e8e18)), closes [#370](https://github.com/agrc/api.mapserv.utah.gov/issues/370)
+* **explorer:** Adjust self service url based on configuration ([2e21677](https://github.com/agrc/api.mapserv.utah.gov/commit/2e216773a981edf781700847b2c94a91fb02379b))
+* **explorer:** constrain header image size ([fe1c2cd](https://github.com/agrc/api.mapserv.utah.gov/commit/fe1c2cded0e8f68da7b1dd4f8d9c1477fcd5f50a))
+* **explorer:** correct documentation types for scoreDifference ([101b7cf](https://github.com/agrc/api.mapserv.utah.gov/commit/101b7cf7e68f6fb42ce8d570e80ed9cfe5e88898))
+* **explorer:** Correct generate key link ([ce123f3](https://github.com/agrc/api.mapserv.utah.gov/commit/ce123f380eaa69e1be6400abb4da31eaaab53158))
+* **explorer:** correct html and add blog post link ([bae1427](https://github.com/agrc/api.mapserv.utah.gov/commit/bae1427762b5462b8326948536484ea14a34fdc4))
+* **explorer:** correct lat long wkid ([87345db](https://github.com/agrc/api.mapserv.utah.gov/commit/87345dbac38b90fdb0bc37fdb7b25ecf3ba8fae0))
+* **explorer:** documentation updates ([fb8e0d2](https://github.com/agrc/api.mapserv.utah.gov/commit/fb8e0d2003cf949e9a30382b9a5a62ef137671ba))
+* **explorer:** downgrade starlight to version before layers ([30d4a73](https://github.com/agrc/api.mapserv.utah.gov/commit/30d4a73da24819a46a4b298bc7003e918e0f5ffd))
+* **explorer:** Expose OpenAPI endpoints ([cbe4612](https://github.com/agrc/api.mapserv.utah.gov/commit/cbe4612a41b5aea49879c4b703b8ed84105e857b))
+* **explorer:** remove email confirmation documentation ([7100dfa](https://github.com/agrc/api.mapserv.utah.gov/commit/7100dfab44b6947280acbb53e59f7e297060e600))
+* **explorer:** switch to official DTS header and footer ([5382c79](https://github.com/agrc/api.mapserv.utah.gov/commit/5382c79c407b6e8873ccee7328a5affefd33a8ab))
+* **explorer:** update hosting deployment targets ([6fa14c1](https://github.com/agrc/api.mapserv.utah.gov/commit/6fa14c1a9853e07a6fac96f44ff27ccc2520fe88))
+* **explorer:** update packages ([effe030](https://github.com/agrc/api.mapserv.utah.gov/commit/effe030130cfebd15799127fc31ff9e1b10116a7))
+* **explorer:** update to main branch ([c949e69](https://github.com/agrc/api.mapserv.utah.gov/commit/c949e69bc6bfaa75246a46686d49be26412e4f64))
+* remove offer to create dedicated api instances ([23fbe4a](https://github.com/agrc/api.mapserv.utah.gov/commit/23fbe4a496c5ff1072c93a7592281617f2a99684))
+
+
+### 🌲 Dependencies
+
+* bump astro ([#432](https://github.com/agrc/api.mapserv.utah.gov/issues/432)) ([5819143](https://github.com/agrc/api.mapserv.utah.gov/commit/58191432be6c73167bd02eff95f6515fd9032829))
+* bump braces from 3.0.2 to 3.0.3 in /src/explorer ([44ae6be](https://github.com/agrc/api.mapserv.utah.gov/commit/44ae6be2341b69b11b92567513e1e51406d43e14))
+* bump dset from 3.1.3 to 3.1.4 in /src/explorer ([08cc05a](https://github.com/agrc/api.mapserv.utah.gov/commit/08cc05ae26326ca136cb0f06431c565c0bf995f3))
+* bump pagefind from 1.1.0 to 1.1.1 in /src/explorer ([7a648fe](https://github.com/agrc/api.mapserv.utah.gov/commit/7a648fe3b3d84ccb489955f2ced50dde9ed2b31b))
+* bump path-to-regexp from 6.2.2 to 6.3.0 in /src/explorer ([60e49e9](https://github.com/agrc/api.mapserv.utah.gov/commit/60e49e9c753cfe1d93e1408a7978d427feb1e4d9))
+* bump the major-dependencies group across 1 directory with 2 updates ([d1d18be](https://github.com/agrc/api.mapserv.utah.gov/commit/d1d18bec4d5cfcb86540e631809a53d9f5fe6b9c))
+* bump the npm_and_yarn group in /src/explorer with 2 updates ([201726a](https://github.com/agrc/api.mapserv.utah.gov/commit/201726a64e015b87be6c83239dd9a0ef91c25ce9))
+* bump the safe-dependencies group across 1 directory with 3 updates ([5206ff5](https://github.com/agrc/api.mapserv.utah.gov/commit/5206ff5d620032ea493e7a9431224b357879c2a3))
+* bump the safe-dependencies group across 1 directory with 8 updates ([b43c6ba](https://github.com/agrc/api.mapserv.utah.gov/commit/b43c6ba650e2289f4c3bcc7cf98cd2ad1de0066d))
+* bump the safe-dependencies group across 2 directories with 13 updates ([fcaa71e](https://github.com/agrc/api.mapserv.utah.gov/commit/fcaa71ede64103c4a34678dd1e4d55a6608dd87b))
+* bump the safe-dependencies group across 2 directories with 2 updates ([4db3757](https://github.com/agrc/api.mapserv.utah.gov/commit/4db3757ddbbb1b297aa50d2a6e13bd8cea01d9e7))
+* bump the safe-dependencies group across 2 directories with 29 updates ([3a413f5](https://github.com/agrc/api.mapserv.utah.gov/commit/3a413f5744b96d71ab8e01a5093500c18567637d))
+* bump the safe-dependencies group across 2 directories with 39 updates ([8224c76](https://github.com/agrc/api.mapserv.utah.gov/commit/8224c7693eb305953caa79c88e9bdd711aa5c2ba))
+* bump the safe-dependencies group in /src/explorer with 5 updates ([2d1ebc2](https://github.com/agrc/api.mapserv.utah.gov/commit/2d1ebc218d5319ff543aaf77b040e367ef4d6848))
+* bump the safe-dependencies group in /src/explorer with 6 updates ([0fec943](https://github.com/agrc/api.mapserv.utah.gov/commit/0fec943c684c2a04163b15b421531115f6976b83))
+* bump the safe-dependencies group in /src/explorer with 6 updates ([94a0b7b](https://github.com/agrc/api.mapserv.utah.gov/commit/94a0b7b737b877873b47c38f1032fe066dbd7fcc))
+* bump vite ([3f1eea5](https://github.com/agrc/api.mapserv.utah.gov/commit/3f1eea594c29dd73ef800303719c1a4734101f02))
+* downgrade starlight tailwind ([48d5f94](https://github.com/agrc/api.mapserv.utah.gov/commit/48d5f94ef196ca0610f6e1db050c2102f0bec02a))
+* **explorer:** astro v5 -&gt; v7 ([c050595](https://github.com/agrc/api.mapserv.utah.gov/commit/c050595ba191ebf8ff1c735dca25dd0b7946cca9))
+* **explorer:** bump NPM dependencies 🌲 ([d6d5be8](https://github.com/agrc/api.mapserv.utah.gov/commit/d6d5be8eb58ba67aabfae57713bac04daa222d6a))
+* **explorer:** fy25q4 package updates ([a7556b3](https://github.com/agrc/api.mapserv.utah.gov/commit/a7556b33fba5d55e90ffcd1c1f63777f87094e59))
+* **explorer:** fy25q4 second update ([0cc410f](https://github.com/agrc/api.mapserv.utah.gov/commit/0cc410fa1756d63a477441f22b5c9239549c381b))
+* **explorer:** FY26 Q2 package updates ([5db08cf](https://github.com/agrc/api.mapserv.utah.gov/commit/5db08cf1e3ce49d075d52f1cf4b30794249db621))
+* **explorer:** Tailwind v3 -&gt; v4 ([c00e035](https://github.com/agrc/api.mapserv.utah.gov/commit/c00e035276aff11139a02d63141216814960ac94))
+* **explorer:** TypeScript v5 -&gt; v6 ([13eca79](https://github.com/agrc/api.mapserv.utah.gov/commit/13eca79adced58f3c45316eb4d49268a3cc886c1))
+* **explorer:** update deps to address build failure ([ad411ba](https://github.com/agrc/api.mapserv.utah.gov/commit/ad411bafb5eb1f1e8ab2d055268f1bc10a612148))
+* **explorer:** update packages ([8561caf](https://github.com/agrc/api.mapserv.utah.gov/commit/8561caf9da7decf54cc542d76df628e34fed3b6b))
+* **explorer:** update packages ([7221163](https://github.com/agrc/api.mapserv.utah.gov/commit/7221163ce20103581715c3b9400b514a35490bb1))
+* **explorer:** update packages ([a5e80b3](https://github.com/agrc/api.mapserv.utah.gov/commit/a5e80b3b1a3725ade422ce7e6c29c56152779abf))
+* **explorer:** update ugrc package with astro ([6d091bf](https://github.com/agrc/api.mapserv.utah.gov/commit/6d091bf9ddb3d68cf9712ecb9427cc4fbd7c0986))
+* upgrade storybook and [@ugrc](https://github.com/ugrc) packages ([c1bd530](https://github.com/agrc/api.mapserv.utah.gov/commit/c1bd530b323739e3ad4f774e2d5f559aa51586b0))
+* **web:** bump the safe-dependencies group across 2 directories with 10 updates ([01bd669](https://github.com/agrc/api.mapserv.utah.gov/commit/01bd6696bb864ac39a74ac7738c5ad9d21763f43))
+* **web:** bump the safe-dependencies group across 3 directories with 31 updates ([c734eaf](https://github.com/agrc/api.mapserv.utah.gov/commit/c734eaf8ab9785dd32e1996f7a5849460ccbb901))
+* **web:** bump the safe-dependencies group across 3 directories with 34 updates ([f31a9ee](https://github.com/agrc/api.mapserv.utah.gov/commit/f31a9ee394dfe25d116d808b5e47ea38bbff2789))
+
+
+### 📖 Documentation Improvements
+
+* **api:** correct v1 pobox default value ([2be2878](https://github.com/agrc/api.mapserv.utah.gov/commit/2be28786be86cb440fa1c09cf29b01b25cd9089d))
+* **explorer:** Add documentation for the attributeStyle search parameter ([37ec3a1](https://github.com/agrc/api.mapserv.utah.gov/commit/37ec3a10bf7ed80a34c33f8878d761bf9e7737e8))
+* **explorer:** add note about simplification of returned search geometries ([e5d32b1](https://github.com/agrc/api.mapserv.utah.gov/commit/e5d32b17861899706ac1e42f394892f113b25ee2)), closes [#585](https://github.com/agrc/api.mapserv.utah.gov/issues/585)
+* **explorer:** denote the geometry is simplified ([8776288](https://github.com/agrc/api.mapserv.utah.gov/commit/8776288935cc1ba602447cd9ca3697b90baefd1d))
+
+
+### 🎨 Design Improvements
+
+* **explorer:** fix a11y alerts and errors ([2151e00](https://github.com/agrc/api.mapserv.utah.gov/commit/2151e00d48e729f275787a8d0682086d7baf86a1))
+* **explorer:** legacy =&gt; non-Utahid ([1b66a87](https://github.com/agrc/api.mapserv.utah.gov/commit/1b66a87ffd67b96117b6053164d3525252986b53))
+* **explorer:** refactor to ugrc tailwind preset with dark mode ([7bfc07e](https://github.com/agrc/api.mapserv.utah.gov/commit/7bfc07eaf885931751d4cbd03a8c3c487fd63f2d))
+* **explorer:** Sentence case ([47623fb](https://github.com/agrc/api.mapserv.utah.gov/commit/47623fb8b737b81819bbe40b3126f2707f5a2d8a))
+
+## [2.6.2](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.1...explorer-v2.6.2) (2026-09-21)
+
+
+### 🐛 Bug Fixes
+
+* **explorer:** add missing dev dep ([a610f7a](https://github.com/agrc/api.mapserv.utah.gov/commit/a610f7af8c5f55106d6626efb7f1dcb0adccbcf4))
+* **explorer:** switch to official DTS header and footer ([5382c79](https://github.com/agrc/api.mapserv.utah.gov/commit/5382c79c407b6e8873ccee7328a5affefd33a8ab))
+* remove offer to create dedicated api instances ([23fbe4a](https://github.com/agrc/api.mapserv.utah.gov/commit/23fbe4a496c5ff1072c93a7592281617f2a99684))
+
+
+### 🌲 Dependencies
+
+* **explorer:** astro v5 -&gt; v7 ([c050595](https://github.com/agrc/api.mapserv.utah.gov/commit/c050595ba191ebf8ff1c735dca25dd0b7946cca9))
+* **explorer:** bump NPM dependencies 🌲 ([d6d5be8](https://github.com/agrc/api.mapserv.utah.gov/commit/d6d5be8eb58ba67aabfae57713bac04daa222d6a))
+* **explorer:** Tailwind v3 -&gt; v4 ([c00e035](https://github.com/agrc/api.mapserv.utah.gov/commit/c00e035276aff11139a02d63141216814960ac94))
+* **explorer:** TypeScript v5 -&gt; v6 ([13eca79](https://github.com/agrc/api.mapserv.utah.gov/commit/13eca79adced58f3c45316eb4d49268a3cc886c1))
+* **web:** bump the safe-dependencies group across 2 directories with 10 updates ([01bd669](https://github.com/agrc/api.mapserv.utah.gov/commit/01bd6696bb864ac39a74ac7738c5ad9d21763f43))
+
+
+### 📖 Documentation Improvements
+
+* **explorer:** add note about simplification of returned search geometries ([e5d32b1](https://github.com/agrc/api.mapserv.utah.gov/commit/e5d32b17861899706ac1e42f394892f113b25ee2)), closes [#585](https://github.com/agrc/api.mapserv.utah.gov/issues/585)
+
 ## [2.6.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.0...explorer-v2.6.1) (2026-03-20)
 
 

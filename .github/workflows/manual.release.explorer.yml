@@ -29,6 +29,9 @@ jobs:
       sha: ${{ steps.main.outputs.sha }}
 
     steps:
+      - name: Set up code
+        uses: actions/checkout@v7
+
       - name: Resolve main commit
         id: main
         uses: ./.github/actions/resolve-main
