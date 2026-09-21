@@ -20,7 +20,6 @@
     "uuid": "^14.0.2"
   },
   "devDependencies": {
-    "firebase-functions-test": "^3.5.0"
   },
   "engines": {
     "node": "22"
