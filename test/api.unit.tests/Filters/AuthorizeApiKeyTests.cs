@@ -185,6 +185,12 @@ public class AuthorizeApiKeyTests {
     [InlineData(@"^htt(p|ps)://www\.example\.com\/test\/.*", "http://www.example.com/bad/test2/index.htm", 400)]
     [InlineData(@"^htt(p|ps)://machine-name\/.*", "http://machine-name/beta/index.htm", null)]
     [InlineData("^htt(p|ps)://machine-name", "http://machine-name/index.html", null)]
+    [InlineData(@"^https?:\/\/www\.example\.com", "http://localhost/", null)]
+    [InlineData(@"^https?:\/\/www\.example\.com", "http://localhost:5173/", null)]
+    [InlineData(@"^https?:\/\/www\.example\.com", "https://localhost:3000/app/index.html", null)]
+    [InlineData(@"^https?:\/\/www\.example\.com", "http://127.0.0.1:8080/", null)]
+    [InlineData(@"^https?:\/\/www\.example\.com", "http://[::1]:5173/", null)]
+    [InlineData(@"^https?:\/\/www\.example\.com", "http://localhost.example.net/", 400)]
     public async Task Should_validate_dev_key(string pattern, string url, object responseCode) {
         var ipProvider = new Mock<IServerIpProvider>();
         var mockMultiplexer = new Mock<IConnectionMultiplexer>();
