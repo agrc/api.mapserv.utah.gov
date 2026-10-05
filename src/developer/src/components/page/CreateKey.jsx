@@ -54,6 +54,17 @@ const defaultValues = {
 };
 
 const displayError = (error) => {
+  if (error.code === 'functions/invalid-argument' && error.message === 'Invalid pattern') {
+    return (
+      <FormError>
+        <span>
+          This URL pattern is not valid. Use a host name with an optional leading <code>*.</code> for any subdomain and
+          an optional trailing <code>*</code> for any path. Wildcards are not allowed anywhere else.
+        </span>
+      </FormError>
+    );
+  }
+
   return error.code === 'functions/already-exists' ? (
     <FormError>
       <span>
@@ -65,8 +76,7 @@ const displayError = (error) => {
     <FormError>
       <span>
         We had some trouble creating this key. Give it another try and if it fails again, create an issue in{' '}
-        <ExternalLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">GitHub</ExternalLink> or tweet us{' '}
-        <ExternalLink href="https://x.com/maputah">@MapUtah</ExternalLink>.
+        <ExternalLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">GitHub</ExternalLink>.
       </span>
     </FormError>
   );
@@ -216,6 +226,7 @@ export function Component() {
                     <TextField
                       label="URL Pattern"
                       placeholder="*.example.com/*"
+                      description="Use *. at the start for any subdomain and * at the end for any path. Wildcards are not allowed anywhere else."
                       isRequired
                       {...field}
                       onChange={(value) => field.onChange(value.trim())}

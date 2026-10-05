@@ -166,8 +166,7 @@ export function Component() {
               <FormError>
                 <span>
                   We had some trouble claiming this account. Give it another try and if it fails again, create an issue
-                  in <ExternalLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">GitHub</ExternalLink>{' '}
-                  or tweet us <ExternalLink href="https://x.com/maputah">@MapUtah</ExternalLink>.
+                  in <ExternalLink href="https://github.com/agrc/api.mapserv.utah.gov/issues/new">GitHub</ExternalLink>.
                 </span>
               </FormError>
             )}
