@@ -239,6 +239,11 @@ export function Component() {
                   render={({ field: { value, onBlur, onChange } }) => (
                     <RadioGroup
                       label="Key environment configuration"
+                      description={
+                        value === 'development'
+                          ? 'Development keys work automatically from localhost and 127.0.0.1 on any port. For deployed environments, enter the address of the site where you test your app, such as a staging server.'
+                          : undefined
+                      }
                       value={value}
                       orientation="horizontal"
                       onBlur={onBlur}
