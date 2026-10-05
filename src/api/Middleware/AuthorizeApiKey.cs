@@ -13,6 +13,8 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
     private readonly IApiKeyRepository _repo = repo;
     private readonly IJsonSerializerOptionsFactory _factory = factory;
     private readonly IDatabase _db = redis.Value.GetDatabase();
+    // the stored pattern is derived from user input; bound the match so a pathological pattern can not pin a worker thread
+    private static readonly TimeSpan _regexMatchTimeout = TimeSpan.FromMilliseconds(100);
 
     public virtual async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context,
         EndpointFilterDelegate next) {
@@ -65,7 +67,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
         }
 
         if (apiKey.Flags["server"] == false) {
-            if (apiKey.RegularExpression == null) {
+            if (string.IsNullOrWhiteSpace(apiKey.RegularExpression)) {
                 _log?.Warning("Key usage without regex pattern {key}", apiKey);
 
                 return BadRequest("This api key has no regex pattern. This is likely a bug. " +
@@ -74,7 +76,7 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
                 );
             }
 
-            var pattern = new Regex(apiKey.RegularExpression, RegexOptions.IgnoreCase);
+            var pattern = new Regex(apiKey.RegularExpression, RegexOptions.IgnoreCase, _regexMatchTimeout);
 
             if (!context.HttpContext.Request.Headers.TryGetValue("Referrer", out var referrer)) {
                 _log?.Debug("Missing referrer header");
@@ -155,23 +157,33 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
         Message = message
     }, options, MediaTypeNames.Application.Json, StatusCodes.Status400BadRequest);
 
-    private static bool ApiKeyPatternMatches(Regex pattern, string origin, Uri referrer) {
+    private bool ApiKeyPatternMatches(Regex pattern, string origin, Uri referrer) {
         var isOrigin = !string.IsNullOrEmpty(origin) && origin != "null";
         var isValidBasedOnReferrer = false;
         var isValidBasedOnOrigin = false;
 
-        if (referrer is not null && pattern.IsMatch(referrer.AbsoluteUri)) {
+        if (referrer is not null && IsMatch(pattern, referrer.AbsoluteUri)) {
             isValidBasedOnReferrer = true;
         }
 
         if (isOrigin) {
             var originUrl = new Uri(origin);
-            if (pattern.IsMatch(originUrl.AbsoluteUri)) {
+            if (IsMatch(pattern, originUrl.AbsoluteUri)) {
                 isValidBasedOnOrigin = true;
             }
         }
 
         return isValidBasedOnOrigin || isValidBasedOnReferrer;
+    }
+
+    private bool IsMatch(Regex pattern, string input) {
+        try {
+            return pattern.IsMatch(input);
+        } catch (RegexMatchTimeoutException) {
+            _log?.Warning("Referrer pattern match timed out for {pattern} against {input}", pattern.ToString(), input);
+
+            return false;
+        }
     }
     private static bool IsLocalDevelopment(Uri referrer, string origin) {
         var isOrigin = !string.IsNullOrEmpty(origin);
