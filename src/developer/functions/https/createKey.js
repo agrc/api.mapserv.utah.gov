@@ -90,13 +90,26 @@ const getUniqueKey = async () => {
 };
 
 const httpsRegex = /https?:\/\//i;
-const oneOrMoreOfAny = '.+';
 const empty = '';
+// the characters allowed in a host name; also used for the `*.` subdomain wildcard so it can never cross into the path
+const hostCharacters = '[a-z0-9._-]';
+const validHost = /^[a-z0-9][a-z0-9._-]*(?::\d+)?$/;
+const regexMetacharacters = /[.*+?^${}()|[\]\\/]/g;
 
 /**
- * Description
+ * Escapes every regular expression metacharacter so the value is matched literally
+ * @param {string} value - the literal text to embed in a regular expression
+ * @returns {string} the escaped text
+ */
+const escapeRegex = (value) => value.replace(regexMetacharacters, '\\$&');
+
+/**
+ * Converts the user friendly url pattern from the self service website into a regular expression.
+ * The only special character is `*`: a leading `*.` matches any subdomain and a trailing `*` matches any path.
+ * Everything else is matched literally and the host is always anchored, so `example.com` can not match
+ * `example.com.evil.net` and `*.example.com` can not match `evil.net/x.example.com`.
  * @param {string} inputPattern - the user friendly basic pattern from the self service website
- * @returns {string} the proper regular expression text
+ * @returns {string} the proper regular expression text, or an empty string when the pattern is not valid
  */
 export const generateRegexFromPattern = (inputPattern) => {
   // if no pattern, return empty
@@ -116,34 +129,67 @@ export const generateRegexFromPattern = (inputPattern) => {
   }
 
   // strip http(s)://
-  let stripped = inputPattern.replace(httpsRegex, empty);
+  const stripped = inputPattern.replace(httpsRegex, empty);
 
-  // escape periods
-  let replacements = stripped.replace(/\./g, '\\.');
+  // split the host from the path
+  const slashIndex = stripped.indexOf('/');
+  let host = slashIndex === -1 ? stripped : stripped.substring(0, slashIndex);
+  let path = slashIndex === -1 ? empty : stripped.substring(slashIndex);
 
-  // replace *\. with .+\.
-  if (replacements.startsWith('*')) {
-    if (replacements.startsWith('*\\.')) {
-      replacements = oneOrMoreOfAny + replacements.substring(1);
-    } else {
-      replacements = replacements.substring(1);
+  // a trailing * means any path: example.com/*, example.com/app/*, example.com*
+  if (path.endsWith('*')) {
+    path = path.substring(0, path.length - 1);
+  } else if (path === empty && host.endsWith('*')) {
+    host = host.substring(0, host.length - 1);
+  }
+
+  // a leading *. means any subdomain; a bare leading * is ignored
+  let anySubdomain = false;
+  if (host.startsWith('*.')) {
+    anySubdomain = true;
+    host = host.substring(2);
+  } else if (host.startsWith('*')) {
+    host = host.substring(1);
+  }
+
+  // wildcards are only supported at the start of the host and at the end of the pattern
+  if (host.includes('*') || path.includes('*')) {
+    return empty;
+  }
+
+  if (!validHost.test(host)) {
+    return empty;
+  }
+
+  let pattern = '^https?:\\/\\/';
+
+  if (anySubdomain) {
+    pattern += `${hostCharacters}+\\.`;
+  }
+
+  pattern += escapeRegex(host);
+
+  if (path === empty) {
+    // a host without a path allows any port (unless one was given) and must end at the host boundary
+    if (!host.includes(':')) {
+      pattern += '(?::\\d+)?';
     }
-  }
 
-  // replace /* with /.+
-  if (replacements.endsWith('/*')) {
-    replacements = replacements.substring(0, replacements.length - 1) + '.*';
+    pattern += '(?:[/?#]|$)';
+  } else {
+    pattern += escapeRegex(path);
   }
-
-  const pattern = '^https?:\\/\\/' + replacements;
 
   try {
     new RegExp(pattern);
-  } catch {
+  } catch (error) {
     warn('[functions::createKey::generateRegexFromPattern] invalid regex from pattern', {
       inputPattern,
       pattern,
+      error,
     });
+
+    return empty;
   }
 
   return pattern;

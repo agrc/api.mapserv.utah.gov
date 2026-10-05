@@ -9,7 +9,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('atlas.utah.gov');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov(?::\\d+)?(?:[/?#]|$)`);
     expect(regex.test('http://atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/')).toBeTruthy();
   });
@@ -17,7 +17,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('http://atlas.utah.gov');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov(?::\\d+)?(?:[/?#]|$)`);
     expect(regex.test('http://atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/')).toBeTruthy();
   });
@@ -25,7 +25,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('HttP://atlas.Utah.GOV');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov(?::\\d+)?(?:[/?#]|$)`);
     expect(regex.test('http://atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/')).toBeTruthy();
   });
@@ -33,7 +33,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('https://atlas.utah.gov');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov(?::\\d+)?(?:[/?#]|$)`);
     expect(regex.test('http://atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/')).toBeTruthy();
   });
@@ -41,7 +41,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('atlas.utah.gov/*');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov/.*`);
+    expect(pattern).toEqual(`^https?:\\/\\/atlas\\.utah\\.gov\\/`);
     expect(regex.test('http://atlas.utah.gov/slug')).toBeTruthy();
     expect(regex.test('https://atlas.utah.gov/slug')).toBeTruthy();
   });
@@ -49,7 +49,7 @@ describe('createKey', () => {
     const pattern = generateRegexFromPattern('*.atlas.utah.gov');
 
     var regex = new RegExp(pattern);
-    expect(pattern).toEqual(`^https?:\\/\\/.+\\.atlas\\.utah\\.gov`);
+    expect(pattern).toEqual(`^https?:\\/\\/[a-z0-9._-]+\\.atlas\\.utah\\.gov(?::\\d+)?(?:[/?#]|$)`);
     expect(regex.test('http://sub.atlas.utah.gov/')).toBeTruthy();
     expect(regex.test('https://sub.atlas.utah.gov/')).toBeTruthy();
   });
@@ -105,11 +105,69 @@ describe('createKey', () => {
     ['api.utlegislators.com', 'http://api.utlegislators.com', true],
     ['*168.177.222.22/app/*', 'http://168.177.222.22/app/whatever', true],
     ['sub.domain:8080', 'https://sub.domain:8080', true],
+
+    // the host must end where the pattern ends so a look-alike domain can not borrow the key
+    ['example.com', 'https://example.com.evil.net/', false],
+    ['example.com', 'https://example.community/', false],
+    ['example.com', 'https://evil.net/example.com/', false],
+    ['example.com', 'https://example.com:8443/map?x=1', true],
+    ['example.com', 'https://example.com?x=1', true],
+    ['example.com', 'https://example.com#top', true],
+    ['sub.domain:8080', 'https://sub.domain:80800/', false],
+    ['sub.domain:8080', 'https://sub.domain/', false],
+
+    // the subdomain wildcard can not cross into the port, path or query
+    ['*.example.com', 'https://a.b.example.com/', true],
+    ['*.example.com', 'https://example.com/', false],
+    ['*.example.com', 'https://a.example.com.evil.net/', false],
+    ['*.example.com', 'https://evil.net/x.example.com', false],
+    ['*.example.com', 'https://evil.net/?x=a.example.com', false],
+    ['*.example.com/*', 'https://x.example.com/anything', true],
+    ['*.example.com/*', 'https://evil.net/x.example.com/', false],
+    ['*.nedds.health.utah.gov*', 'http://www.nedds.health.utah.gov.evil.net/', false],
+    ['example.com*', 'https://example.com/anything', true],
+    ['example.com*', 'https://example.com.evil.net/', false],
+
+    // regex metacharacters in the path are matched literally
+    ['example.com/app?x=1', 'https://example.com/app?x=1', true],
+    ['example.com/app?x=1', 'https://example.com/ap', false],
+    ['example.com/a.b-c_d', 'https://example.com/a.b-c_d/index.html', true],
+    ['example.com/a.b-c_d', 'https://example.com/aXb-c_d/index.html', false],
   ])('user pattern %s with %s is %s', (input, url, expected) => {
     const pattern = generateRegexFromPattern(input);
 
     var regex = new RegExp(pattern);
     expect(regex.test(url)).toEqual(expected);
+  });
+
+  it('matches regex metacharacters in the path literally', () => {
+    const pattern = generateRegexFromPattern('example.com/(a+)+$');
+
+    expect(pattern).toEqual(`^https?:\\/\\/example\\.com\\/\\(a\\+\\)\\+\\$`);
+
+    const regex = new RegExp(pattern);
+    expect(regex.test('https://example.com/(a+)+$')).toBeTruthy();
+    expect(regex.test('https://example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/')).toBeFalsy();
+  });
+  it.each([
+    '(a+)+$',
+    '(.*)',
+    '.*',
+    'example.com|evil.net',
+    'exa(m)ple.com',
+    'example.com?',
+    'foo.*.com',
+    'exam*ple.com',
+    'example.com/*/map',
+    '**.example.com',
+    '*.',
+    '/app',
+    '-example.com',
+    'exa mple.com',
+    'example.com:',
+    '[::1]:3000',
+  ])('rejects %s because it is not a host name with optional wildcards', (input) => {
+    expect(generateRegexFromPattern(input)).toEqual('');
   });
 });
 

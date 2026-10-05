@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Http.HttpResults;
 using ugrc.api.Features.Converting;
 using ugrc.api.Middleware;
@@ -389,5 +390,128 @@ public class AuthorizeApiKeyTests {
         var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
 
         result.ShouldBeNull();
+    }
+
+    [Theory]
+    [InlineData(@"^https?:\/\/example\.com(?::\d+)?(?:[/?#]|$)", "https://example.com/", null)]
+    [InlineData(@"^https?:\/\/example\.com(?::\d+)?(?:[/?#]|$)", "https://example.com:8443/map?x=1", null)]
+    [InlineData(@"^https?:\/\/example\.com(?::\d+)?(?:[/?#]|$)", "https://example.com.evil.net/", 400)]
+    [InlineData(@"^https?:\/\/example\.com(?::\d+)?(?:[/?#]|$)", "https://example.community/", 400)]
+    [InlineData(@"^https?:\/\/example\.com(?::\d+)?(?:[/?#]|$)", "https://evil.net/example.com/", 400)]
+    [InlineData(@"^https?:\/\/[a-z0-9._-]+\.example\.com(?::\d+)?(?:[/?#]|$)", "https://a.b.example.com/", null)]
+    [InlineData(@"^https?:\/\/[a-z0-9._-]+\.example\.com(?::\d+)?(?:[/?#]|$)", "https://evil.net/x.example.com/", 400)]
+    [InlineData(@"^https?:\/\/[a-z0-9._-]+\.example\.com(?::\d+)?(?:[/?#]|$)", "https://a.example.com.evil.net/", 400)]
+    [InlineData(@"^https?:\/\/[a-z0-9._-]+\.example\.com\/", "https://x.example.com/app", null)]
+    [InlineData(@"^https?:\/\/[a-z0-9._-]+\.example\.com\/", "https://evil.net/x.example.com/", 400)]
+    public async Task Should_anchor_browser_key_to_the_host(string pattern, string url, object responseCode) {
+        var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
+
+        var keyProvider = new Mock<IBrowserKeyProvider>();
+        keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
+                   .Returns("Api-Key");
+
+        var apiRepo = new Mock<IApiKeyRepository>();
+        apiRepo.Setup(x => x.GetKey(It.Is<string>(p => p.Equals("Api-Key"))))
+               .ReturnsAsync(new ApiKey("Api-Key") {
+                   Elevated = false,
+                   Flags = new() { { "deleted", false }, { "disabled", false }, { "production", true }, { "server", false } },
+                   RegularExpression = pattern,
+               });
+
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Referrer"] = url;
+
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
+
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
+
+        var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
+
+        if (result is JsonHttpResult<ApiResponseContract> contract) {
+            contract.StatusCode.ShouldBe(responseCode);
+            contract.Value.Status.ShouldBe(responseCode);
+        } else {
+            result.ShouldBe(responseCode);
+        }
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    [InlineData(null)]
+    public async Task Should_400_browser_key_without_regex(string regex) {
+        var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
+
+        var keyProvider = new Mock<IBrowserKeyProvider>();
+        keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
+                   .Returns("key");
+
+        var apiRepo = new Mock<IApiKeyRepository>();
+        apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
+               .ReturnsAsync(new ApiKey("key") {
+                   Elevated = false,
+                   Flags = new() { { "deleted", false }, { "disabled", false }, { "production", true }, { "server", false } },
+                   RegularExpression = regex,
+               });
+
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Referrer"] = "https://example.com/";
+
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
+
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
+
+        var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
+
+        var contract = result.ShouldBeOfType<JsonHttpResult<ApiResponseContract>>();
+        contract.StatusCode.ShouldBe(400);
+        contract.Value.Status.ShouldBe(400);
+    }
+
+    [Fact]
+    public async Task Should_give_up_matching_a_pathological_pattern() {
+        // a browser key created before user patterns were escaped can hold a regex with exponential backtracking
+        var url = $"http://{new string('a', 40)}/";
+
+        var ipProvider = new Mock<IServerIpProvider>();
+        var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+        var redisProvider = new Lazy<IConnectionMultiplexer>(() => mockMultiplexer.Object);
+
+        var keyProvider = new Mock<IBrowserKeyProvider>();
+        keyProvider.Setup(x => x.Get(It.IsAny<HttpRequest>()))
+                   .Returns("key");
+
+        var apiRepo = new Mock<IApiKeyRepository>();
+        apiRepo.Setup(x => x.GetKey(It.IsAny<string>()))
+               .ReturnsAsync(new ApiKey("key") {
+                   Elevated = false,
+                   Flags = new() { { "deleted", false }, { "disabled", false }, { "production", true }, { "server", false } },
+                   RegularExpression = @"^https?:\/\/(a+)+$",
+               });
+
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Referrer"] = url;
+        httpContext.Request.Headers.Origin = url;
+
+        var filter = new AuthorizeApiKeyFilter(_log, keyProvider.Object, ipProvider.Object, apiRepo.Object, redisProvider, _jsonFactory);
+
+        var contextMock = new Mock<EndpointFilterInvocationContext>();
+        contextMock.Setup(x => x.HttpContext).Returns(httpContext);
+
+        var stopwatch = Stopwatch.StartNew();
+        var result = await filter.InvokeAsync(contextMock.Object, (_) => new ValueTask<object>());
+        stopwatch.Stop();
+
+        stopwatch.Elapsed.ShouldBeLessThan(TimeSpan.FromSeconds(5));
+
+        var contract = result.ShouldBeOfType<JsonHttpResult<ApiResponseContract>>();
+        contract.StatusCode.ShouldBe(400);
+        contract.Value.Status.ShouldBe(400);
     }
 }
