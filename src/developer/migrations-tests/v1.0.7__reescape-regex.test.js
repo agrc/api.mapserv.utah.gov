@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { migrate } from './v1.0.7__reescape-regex.cjs';
+import { migrate } from '../migrations/v1.0.7__reescape-regex.cjs';
 
 const createFirestore = (keys) => {
   const update = vi.fn();
