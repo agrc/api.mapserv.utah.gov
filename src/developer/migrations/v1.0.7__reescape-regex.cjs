@@ -7,6 +7,7 @@ module.exports.migrate = async ({ firestore }) => {
   const batches = [firestore.batch()];
   let size = 0;
   let batchIndex = 0;
+  const disabled = [];
 
   for (const doc of keysSnapshot.docs) {
     const key = doc.data();
@@ -25,6 +26,7 @@ module.exports.migrate = async ({ firestore }) => {
     // a pattern that can not be expressed safely must not match any referrer
     if (regularExpression === '') {
       update['flags.disabled'] = true;
+      disabled.push({ id: doc.id, pattern: key.pattern });
     }
 
     batches[batchIndex].update(doc.ref, update);
@@ -37,5 +39,12 @@ module.exports.migrate = async ({ firestore }) => {
 
   for (const batch of batches) {
     await batch.commit();
+  }
+
+  // eslint-disable-next-line no-undef
+  console.log(`Disabled ${disabled.length} of ${size} browser keys with patterns that can not be expressed safely`);
+  for (const { id, pattern } of disabled) {
+    // eslint-disable-next-line no-undef
+    console.log(`Disabled key ${id} with pattern ${JSON.stringify(pattern)}`);
   }
 };
