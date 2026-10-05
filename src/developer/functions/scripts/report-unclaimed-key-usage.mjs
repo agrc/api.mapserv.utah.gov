@@ -3,7 +3,7 @@
 import { applicationDefault, deleteApp, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { Redis } from 'ioredis';
-import { writeFile } from 'node:fs/promises';
+import { open } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -121,6 +121,17 @@ const batches = function* (values, size) {
   }
 };
 
+export const writeReport = async (outputPath, rows) => {
+  const file = await open(outputPath, 'w', 0o600);
+
+  try {
+    await file.chmod(0o600);
+    await file.writeFile(`${rows.join('\n')}\n`, 'utf8');
+  } finally {
+    await file.close();
+  }
+};
+
 const redisConfig = (env) => {
   if (!env.REDIS_URL && !env.REDIS_HOST) {
     throw new Error('Set REDIS_URL or REDIS_HOST to the API Redis endpoint before running this report.');
@@ -176,7 +187,7 @@ const main = async () => {
     }
 
     const outputPath = resolve(output);
-    await writeFile(outputPath, `${rows.join('\n')}\n`, 'utf8');
+    await writeReport(outputPath, rows);
     console.log(
       `Wrote ${keys.length} non-deleted key(s) from ${accountIds.length} unclaimed account(s) to ${outputPath}`,
     );
