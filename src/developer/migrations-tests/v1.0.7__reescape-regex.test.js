@@ -67,4 +67,14 @@ describe('v1.0.7 reescape regex', () => {
     expect(update).not.toHaveBeenCalled();
     expect(commit).toHaveBeenCalledTimes(1);
   });
+  it('skips elevated keys', async () => {
+    const { firestore, update } = createFirestore([
+      { pattern: '.*/beta/webapi/*', regularExpression: '', elevated: true, flags: { server: false } },
+      { pattern: '*', regularExpression: '', elevated: true, flags: { server: false } },
+    ]);
+
+    await migrate({ firestore });
+
+    expect(update).not.toHaveBeenCalled();
+  });
 });

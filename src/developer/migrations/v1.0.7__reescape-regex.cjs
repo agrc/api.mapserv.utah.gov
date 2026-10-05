@@ -17,6 +17,11 @@ module.exports.migrate = async ({ firestore }) => {
       continue;
     }
 
+    // elevated keys bypass the referrer check entirely so their pattern is never used
+    if (key.elevated === true) {
+      continue;
+    }
+
     size += 1;
 
     // regenerate the regular expression from the user pattern so every regex metacharacter is escaped and the host is anchored
