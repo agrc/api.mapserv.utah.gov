@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace ugrc.api.Middleware;
 
 public class RequestLoggerMiddleware(RequestDelegate next, ILogger log, IBrowserKeyProvider browserProvider) {
@@ -7,12 +9,50 @@ public class RequestLoggerMiddleware(RequestDelegate next, ILogger log, IBrowser
 
     public async Task InvokeAsync(HttpContext context) {
         var key = _apiKeyProvider.Get(context.Request);
+        var start = Stopwatch.GetTimestamp();
         await _next(context);
+        var duration = Stopwatch.GetElapsedTime(start);
 
         _log?.ForContext("key", key)
             .ForContext("endpoint", ParseEndpoint(context.Request.Path))
+            .ForContext("version", ParseVersion(context.Request.Path))
             .ForContext("result", context.Response.StatusCode)
+            .ForContext("duration", Math.Round(duration.TotalMilliseconds))
+            .ForContext("referer", ParseReferer(context.Request.Headers.Referer.ToString()))
+            .ForContext("origin", NullIfEmpty(context.Request.Headers.Origin.ToString()))
+            .ForContext("userAgent", NullIfEmpty(context.Request.Headers.UserAgent.ToString()))
             .Information("Analytics:request");
+    }
+
+    private static string? NullIfEmpty(string? value) => string.IsNullOrEmpty(value) ? null : value;
+
+    private static string? ParseVersion(string? path) {
+        if (string.IsNullOrEmpty(path)) {
+            return null;
+        }
+
+        var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+        if (segments.Length < 2 || !segments[0].Equals("api", StringComparison.OrdinalIgnoreCase)) {
+            return null;
+        }
+
+        var version = segments[1].ToLowerInvariant();
+
+        return version.StartsWith('v') ? version : null;
+    }
+
+    private static string? ParseReferer(string? referer) {
+        if (string.IsNullOrEmpty(referer)) {
+            return null;
+        }
+
+        // drop the query string and fragment since they can contain tokens or personal information
+        if (Uri.TryCreate(referer, UriKind.Absolute, out var uri)) {
+            return uri.GetLeftPart(UriPartial.Path);
+        }
+
+        return referer;
     }
 
     private static string ParseEndpoint(string? path) {
