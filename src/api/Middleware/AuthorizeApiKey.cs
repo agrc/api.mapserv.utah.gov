@@ -185,19 +185,12 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
             return false;
         }
     }
+    // localhost, 127.0.0.1 and ::1 on any port
     private static bool IsLocalDevelopment(Uri referrer, string origin) {
-        var isOrigin = !string.IsNullOrEmpty(origin);
-        var isLocalBasedOnReferrer = false;
-        var isLocalBasedOnOrigin = false;
-
-        if (referrer?.AbsoluteUri.StartsWith("http://localhost/", StringComparison.OrdinalIgnoreCase) == true) {
-            isLocalBasedOnReferrer = true;
+        if (referrer?.IsLoopback == true) {
+            return true;
         }
 
-        if (isOrigin && origin.StartsWith("http://localhost/", StringComparison.OrdinalIgnoreCase)) {
-            isLocalBasedOnOrigin = true;
-        }
-
-        return isLocalBasedOnOrigin || isLocalBasedOnReferrer;
+        return Uri.TryCreate(origin, UriKind.Absolute, out var originUri) && originUri.IsLoopback;
     }
 }
