@@ -1,5 +1,8 @@
+import { chmod, mkdtemp, readFile, rm, stat } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { cutoffForMonths, dateFromTicks, parseOptions, reportRow } from './report-unclaimed-key-usage.mjs';
+import { cutoffForMonths, dateFromTicks, parseOptions, reportRow, writeReport } from './report-unclaimed-key-usage.mjs';
 
 describe('unclaimed key usage report', () => {
   it('parses defaults and both option forms', () => {
@@ -43,5 +46,22 @@ describe('unclaimed key usage report', () => {
     );
     expect(reportRow(key, (BigInt(ticks) - 10000n).toString(), cutoff)).toContain(',false,not_used_within_period,');
     expect(reportRow(key, null, cutoff)).toContain(',,false,no_last_used_timestamp,');
+  });
+
+  it('restricts access to new and existing reports', async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'unclaimed-key-report-'));
+    const output = join(directory, 'report.csv');
+
+    try {
+      await writeReport(output, ['key', 'sensitive']);
+      expect((await stat(output)).mode & 0o777).toBe(0o600);
+
+      await chmod(output, 0o644);
+      await writeReport(output, ['key', 'updated']);
+      expect((await stat(output)).mode & 0o777).toBe(0o600);
+      expect(await readFile(output, 'utf8')).toBe('key\nupdated\n');
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
   });
 });
