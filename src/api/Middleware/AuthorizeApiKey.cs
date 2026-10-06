@@ -180,7 +180,9 @@ public class AuthorizeApiKeyFilter(ILogger log, IBrowserKeyProvider browserProvi
         try {
             return pattern.IsMatch(input);
         } catch (RegexMatchTimeoutException) {
-            _log?.Warning("Referrer pattern match timed out for {pattern} against {input}", pattern.ToString(), input);
+            // log only the scheme, host and path since the query and fragment can contain tokens or personal information
+            var sanitized = Uri.TryCreate(input, UriKind.Absolute, out var uri) ? uri.GetLeftPart(UriPartial.Path) : "-";
+            _log?.Warning("Referrer pattern match timed out for {pattern} against {input}", pattern.ToString(), sanitized);
 
             return false;
         }

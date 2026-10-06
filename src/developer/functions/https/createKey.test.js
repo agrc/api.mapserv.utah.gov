@@ -103,8 +103,11 @@ describe('createKey', () => {
 
     ['*.nedds.health.utah.gov*', 'http://www.nedds.health.utah.gov', true],
     ['api.utlegislators.com', 'http://api.utlegislators.com', true],
-    ['*168.177.222.22/app/*', 'http://168.177.222.22/app/whatever', true],
     ['sub.domain:8080', 'https://sub.domain:8080', true],
+
+    // only a leading scheme is stripped so a scheme later in the path is matched literally
+    ['example.com/http://evil.net', 'https://example.com/http://evil.net', true],
+    ['example.com/http://evil.net', 'https://example.com/evil.net', false],
 
     // the host must end where the pattern ends so a look-alike domain can not borrow the key
     ['example.com', 'https://example.com.evil.net/', false],
@@ -166,6 +169,12 @@ describe('createKey', () => {
     'exa mple.com',
     'example.com:',
     '[::1]:3000',
+    '*168.177.222.22/app/*',
+    '*example.com',
+    '155.100.*',
+    '155.100.*.*',
+    'example.com.',
+    'example-',
   ])('rejects %s because it is not a host name with optional wildcards', (input) => {
     expect(generateRegexFromPattern(input)).toEqual('');
   });
