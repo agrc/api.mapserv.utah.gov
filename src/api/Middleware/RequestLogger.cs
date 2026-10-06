@@ -20,7 +20,8 @@ public class RequestLoggerMiddleware(RequestDelegate next, ILogger log, IBrowser
             return "-";
         }
 
-        if (path[7] != '/') {
+        // expecting /api/v1/{endpoint}; shorter paths have no character at index 7
+        if (path.Length <= 7 || path[7] != '/') {
             return "-";
         }
 
