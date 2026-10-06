@@ -39,6 +39,30 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
+      # Keep dev's pre-release versions ahead of what main has released so
+      # dev never proposes a version (or tag) that already exists.
+      - name: ⬇️ Set up dev
+        if: steps.release-please.outputs.releases_created == 'true'
+        uses: actions/checkout@v7
+        with:
+          ref: dev
+          path: dev
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: 🔄 Sync dev manifest
+        if: steps.release-please.outputs.releases_created == 'true'
+        working-directory: dev
+        run: |
+          node ../.github/scripts/sync-dev-manifest.mjs ../.release-please-manifest.json .release-please-manifest.dev.json
+          if git diff --quiet; then
+            echo "dev manifest already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore: sync dev release manifest with main"
+          git push origin dev
+
   release-dev:
     name: Pre-release PR (dev)
     if: github.ref_name == 'dev'
