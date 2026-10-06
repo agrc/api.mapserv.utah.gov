@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import {
   cutoffForMonths,
   cutoffForOptions,
+  isActiveKey,
   parseOptions,
   reportRow,
   usageQuery,
@@ -71,18 +72,36 @@ describe('unclaimed key usage report', () => {
   });
 
   it('distinguishes successful, rejected-only and missing usage, and escapes CSV fields', () => {
-    const key = { accountId: 'a,"b', key: '=danger', flags: { disabled: true } };
+    const key = {
+      accountId: 'a,"b',
+      key: '=danger',
+      claimed: false,
+      created: { toDate: () => new Date('2020-01-02T03:04:05.000Z') },
+      elevated: false,
+      flags: { production: true, server: false },
+      machineName: false,
+      notes: 'line one\nline two',
+      pattern: '*.example.com',
+      regularExpression: '^.*\\.example\\.com$',
+    };
     const cutoff = new Date('2026-04-05T00:00:00.000Z');
     const lastRequest = { value: '2026-05-01T12:00:00.000Z' };
     const lastSuccess = { value: '2026-04-30T12:00:00.000Z' };
 
     expect(reportRow(key, { lastRequest, lastSuccess, requests: 12 }, cutoff)).toBe(
-      '"a,""b",\'=danger,false,true,2026-05-01T12:00:00.000Z,2026-04-30T12:00:00.000Z,12,used_successfully,2026-04-05T00:00:00.000Z',
+      '"a,""b",\'=danger,false,2020-01-02T03:04:05.000Z,false,true,false,false,"line one\nline two",*.example.com,^.*\\.example\\.com$,2026-05-01T12:00:00.000Z,2026-04-30T12:00:00.000Z,12,used_successfully,2026-04-05T00:00:00.000Z',
     );
     expect(reportRow(key, { lastRequest, lastSuccess: null, requests: 3 }, cutoff)).toContain(
       ',2026-05-01T12:00:00.000Z,,3,rejected_requests_only,',
     );
     expect(reportRow(key, undefined, cutoff)).toContain(',,,0,no_requests,');
+  });
+
+  it('excludes deleted and disabled keys', () => {
+    expect(isActiveKey({ flags: { deleted: false, disabled: false } })).toBe(true);
+    expect(isActiveKey({})).toBe(true);
+    expect(isActiveKey({ flags: { deleted: true, disabled: false } })).toBe(false);
+    expect(isActiveKey({ flags: { deleted: false, disabled: true } })).toBe(false);
   });
 
   it('restricts access to new and existing reports', async () => {
