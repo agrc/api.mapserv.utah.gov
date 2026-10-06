@@ -63,3 +63,9 @@ jobs:
           target-branch: dev
           config-file: release-please-config.dev.json
           manifest-file: .release-please-manifest.dev.json
+
+  test-api:
+    name: API unit tests
+    uses: ./.github/workflows/pull_request.api.yaml
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
