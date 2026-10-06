@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.17.13-rc.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.12...api-v1.17.13-rc.0) (2026-10-06)
+
+
+### 🐛 Bug Fixes
+
+* **api:** better check for local development ([303f4b8](https://github.com/agrc/api.mapserv.utah.gov/commit/303f4b8baf717bbfe31da2dc90ab9d2cc787496d))
+* **api:** enhance logging and validation for API key handling ([59e91c2](https://github.com/agrc/api.mapserv.utah.gov/commit/59e91c2325876ffb6b15f8a7bbd0f0032cc22300))
+* **api:** stop request logger throwing on short paths ([89e7879](https://github.com/agrc/api.mapserv.utah.gov/commit/89e7879fdd603ee0353adcf9f6302ce42bb0848d))
+* harden browser key url pattern handling ([8dfdf4b](https://github.com/agrc/api.mapserv.utah.gov/commit/8dfdf4ba1a07d0dea780dad13c2dea826029bb0d))
+
+
+### 🌲 Dependencies
+
+* **api:** Bump the safe-dependencies group with 5 updates ([626f8f7](https://github.com/agrc/api.mapserv.utah.gov/commit/626f8f73652d1f3563cc72102d34644bb6a55bf9))
+
 ## [1.17.12](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.11...api-v1.17.12) (2026-10-06)
 
 

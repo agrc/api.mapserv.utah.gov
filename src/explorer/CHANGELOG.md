@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.1-rc.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.7.0...explorer-v2.7.1-rc.0) (2026-10-06)
+
+
+### 🌲 Dependencies
+
+* **web:** bump sharp from 0.35.4 to 0.35.5 in /src/explorer ([7ea9a0c](https://github.com/agrc/api.mapserv.utah.gov/commit/7ea9a0ca400116486e7f53a1a24133ba64c6887e))
+* **web:** bump the safe-dependencies group across 3 directories with 19 updates ([e1463ed](https://github.com/agrc/api.mapserv.utah.gov/commit/e1463edba5fe53f9bcb9fa2d73f9aaa61335ccd4))
+* **web:** bump transitive dependencies ([ec0eddb](https://github.com/agrc/api.mapserv.utah.gov/commit/ec0eddbd19133b82d85990d95e1d21d99f189167))
+
 ## [2.7.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.6.2...explorer-v2.7.0) (2026-09-21)
 
 
