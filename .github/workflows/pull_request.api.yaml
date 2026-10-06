@@ -8,22 +8,18 @@ on:
       - "libs/**"
       - "test/api.unit.tests/**"
       - ".github/workflows/pull_request.api.yaml"
-  push:
-    branches:
-      - dev
-      - main
-    paths:
-      - "src/api/**"
-      - "build/Packages.targets"
-      - "libs/**"
-      - "test/api.unit.tests/**"
-      - ".github/workflows/pull_request.api.yaml"
+  workflow_call:
+    secrets:
+      CODECOV_TOKEN:
+        required: true
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  # github.workflow is the caller's name under workflow_call, so use a fixed
+  # prefix to avoid colliding with the caller's concurrency group
+  group: api-unit-tests-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
