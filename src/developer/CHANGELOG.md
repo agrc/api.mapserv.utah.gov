@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.8.5-rc.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.4...developer-v2.8.5-rc.0) (2026-10-06)
+
+
+### 🐛 Bug Fixes
+
+* **api:** enhance logging and validation for API key handling ([59e91c2](https://github.com/agrc/api.mapserv.utah.gov/commit/59e91c2325876ffb6b15f8a7bbd0f0032cc22300))
+* **developer:** add description for development key environment ([e069616](https://github.com/agrc/api.mapserv.utah.gov/commit/e069616a063b3c6f54649d0a208913bd791f295b))
+* harden browser key url pattern handling ([8dfdf4b](https://github.com/agrc/api.mapserv.utah.gov/commit/8dfdf4ba1a07d0dea780dad13c2dea826029bb0d))
+* improve error handling and messaging for URL pattern validation ([22f5857](https://github.com/agrc/api.mapserv.utah.gov/commit/22f5857bef339d2a006c5ca454877010b0c9a14f))
+* move migration test out of fireway migrations folder ([e95c078](https://github.com/agrc/api.mapserv.utah.gov/commit/e95c0783edf50c0c58f797357bdfea4fc231b588))
+* skip elevated keys in the v1.0.7 regex migration ([e49a250](https://github.com/agrc/api.mapserv.utah.gov/commit/e49a250f746643787a7c272d6b07ef54e1ea201f))
+
+
+### 🌲 Dependencies
+
+* **web:** bump the safe-dependencies group across 3 directories with 19 updates ([e1463ed](https://github.com/agrc/api.mapserv.utah.gov/commit/e1463edba5fe53f9bcb9fa2d73f9aaa61335ccd4))
+* **web:** bump transitive dependencies ([ec0eddb](https://github.com/agrc/api.mapserv.utah.gov/commit/ec0eddbd19133b82d85990d95e1d21d99f189167))
+
 ## [2.8.4](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.3...developer-v2.8.4) (2026-09-21)
 
 
