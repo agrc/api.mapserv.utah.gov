@@ -1,24 +1,37 @@
 /* eslint import/no-unresolved: off */
 /* global console, process */
+import { BigQuery } from '@google-cloud/bigquery';
 import { applicationDefault, deleteApp, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import { Redis } from 'ioredis';
 import { open } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const headers = 'accountId,key,claimed,disabled,lastUsedUtc,usedWithinPeriod,usageStatus,cutoffUtc';
-const dotNetEpochTicks = 621355968000000000n;
-const ticksPerMillisecond = 10000n;
+const headers = 'accountId,key,claimed,disabled,lastRequestUtc,lastSuccessUtc,requestsInPeriod,usageStatus,cutoffUtc';
+const defaultProject = 'ut-dts-agrc-web-api-prod';
+const analyticsTable = 'ugrc_api_analytics.ugrc_api_Middleware_RequestLoggerMiddleware';
+const analyticsLocation = 'us-central1';
+
+export const usageQuery = (project) => `
+SELECT
+  LOWER(jsonPayload.properties.key) AS key,
+  MAX(timestamp) AS lastRequest,
+  MAX(IF(jsonPayload.properties.result < 400, timestamp, NULL)) AS lastSuccess,
+  COUNT(*) AS requests
+FROM \`${project}.${analyticsTable}\`
+WHERE timestamp >= @cutoff
+  AND jsonPayload.properties.key IN UNNEST(@keys)
+GROUP BY key`;
 
 export const parseOptions = (args) => {
-  const options = { months: 6, output: 'unclaimed-key-usage.csv' };
+  const options = { months: '6', output: 'unclaimed-key-usage.csv', project: defaultProject };
+  const allowed = ['--months', '--since', '--output', '--project'];
   const seen = new Set();
 
   for (let index = 0; index < args.length; index += 1) {
     const [name, inlineValue] = args[index].split('=', 2);
 
-    if (!['--months', '--output'].includes(name) || seen.has(name)) {
+    if (!allowed.includes(name) || seen.has(name)) {
       throw new Error(`Unknown or duplicate option: ${name}`);
     }
 
@@ -32,14 +45,28 @@ export const parseOptions = (args) => {
     options[name.slice(2)] = value;
   }
 
-  options.months = Number(options.months);
-
-  if (!Number.isSafeInteger(options.months) || options.months <= 0) {
-    throw new Error('--months must be a positive whole number.');
+  if (seen.has('--months') && seen.has('--since')) {
+    throw new Error('Use either --months or --since, not both.');
   }
 
-  if (!options.output.trim()) {
-    throw new Error('--output must be a nonempty path.');
+  if (options.since) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(options.since) || Number.isNaN(Date.parse(`${options.since}T00:00:00Z`))) {
+      throw new Error('--since must be a date formatted as YYYY-MM-DD.');
+    }
+
+    delete options.months;
+  } else {
+    options.months = Number(options.months);
+
+    if (!Number.isSafeInteger(options.months) || options.months <= 0) {
+      throw new Error('--months must be a positive whole number.');
+    }
+  }
+
+  for (const name of ['output', 'project']) {
+    if (!options[name].trim()) {
+      throw new Error(`--${name} must be nonempty.`);
+    }
   }
 
   return options;
@@ -60,30 +87,8 @@ export const cutoffForMonths = (months, now = new Date()) => {
   return cutoff;
 };
 
-export const dateFromTicks = (value) => {
-  if (value === null) {
-    return null;
-  }
-
-  if (!/^\d+$/.test(value)) {
-    throw new Error('Redis returned an invalid .NET last-used timestamp.');
-  }
-
-  const difference = BigInt(value) - dotNetEpochTicks;
-  let milliseconds = difference / ticksPerMillisecond;
-
-  if (difference < 0n && difference % ticksPerMillisecond !== 0n) {
-    milliseconds -= 1n;
-  }
-
-  const date = new Date(Number(milliseconds));
-
-  if (Number.isNaN(date.getTime())) {
-    throw new Error('Redis returned an out-of-range .NET last-used timestamp.');
-  }
-
-  return date;
-};
+export const cutoffForOptions = ({ months, since }, now = new Date()) =>
+  since ? new Date(`${since}T00:00:00.000Z`) : cutoffForMonths(months, now);
 
 const csvEscape = (value) => {
   let text = String(value ?? '');
@@ -95,19 +100,27 @@ const csvEscape = (value) => {
   return /[",\r\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 };
 
-export const reportRow = (apiKey, timestamp, cutoff) => {
-  const lastUsed = dateFromTicks(timestamp);
-  const usedWithinPeriod = lastUsed !== null && lastUsed >= cutoff;
-  const usageStatus =
-    lastUsed === null ? 'no_last_used_timestamp' : usedWithinPeriod ? 'used_within_period' : 'not_used_within_period';
+// BigQuery returns TIMESTAMP columns as BigQueryTimestamp objects with an ISO `value`
+const isoFromTimestamp = (timestamp) => {
+  if (!timestamp) {
+    return '';
+  }
+
+  return new Date(timestamp.value ?? timestamp).toISOString();
+};
+
+export const reportRow = (apiKey, usage, cutoff) => {
+  const requests = Number(usage?.requests ?? 0);
+  const usageStatus = !usage ? 'no_requests' : usage.lastSuccess ? 'used_successfully' : 'rejected_requests_only';
 
   return [
     apiKey.accountId,
     apiKey.key,
     apiKey.claimed ?? false,
     apiKey.flags?.disabled ?? false,
-    lastUsed?.toISOString() ?? '',
-    usedWithinPeriod,
+    isoFromTimestamp(usage?.lastRequest),
+    isoFromTimestamp(usage?.lastSuccess),
+    requests,
     usageStatus,
     cutoff.toISOString(),
   ]
@@ -132,36 +145,13 @@ export const writeReport = async (outputPath, rows) => {
   }
 };
 
-const redisConfig = (env) => {
-  if (!env.REDIS_URL && !env.REDIS_HOST) {
-    throw new Error('Set REDIS_URL or REDIS_HOST to the API Redis endpoint before running this report.');
-  }
-
-  const tls = env.REDIS_TLS === 'true' ? {} : undefined;
-
-  if (env.REDIS_URL) {
-    return [env.REDIS_URL, { tls, lazyConnect: true }];
-  }
-
-  const port = Number(env.REDIS_PORT ?? 6379);
-
-  if (!Number.isInteger(port) || port < 1 || port > 65535) {
-    throw new Error('REDIS_PORT must be an integer from 1 to 65535.');
-  }
-
-  return [{ host: env.REDIS_HOST, port, password: env.REDIS_PASSWORD || undefined, tls, lazyConnect: true }];
-};
-
 const main = async () => {
-  const { months, output } = parseOptions(process.argv.slice(2));
-  const cutoff = cutoffForMonths(months);
-  const connection = redisConfig(process.env);
-  const app = initializeApp({ credential: applicationDefault() });
-  const redis = new Redis(...connection);
+  const options = parseOptions(process.argv.slice(2));
+  const cutoff = cutoffForOptions(options);
+  const app = initializeApp({ credential: applicationDefault(), projectId: options.project });
 
   try {
     const db = getFirestore(app);
-    await redis.connect();
     const accounts = await db.collection('clients-unclaimed').get();
     const accountIds = accounts.docs.map((document) => document.id);
     const keys = [];
@@ -178,22 +168,29 @@ const main = async () => {
       }
     }
 
-    const rows = [headers];
+    const usage = new Map();
 
-    for (const keyBatch of batches(keys, 500)) {
-      const timestamps = await redis.mget(...keyBatch.map((key) => `analytics:time:${key.key.toLowerCase()}`));
+    if (keys.length > 0) {
+      const bigquery = new BigQuery({ projectId: options.project });
+      const [rows] = await bigquery.query({
+        query: usageQuery(options.project),
+        params: { cutoff, keys: keys.map((key) => key.key) },
+        types: { cutoff: 'TIMESTAMP', keys: ['STRING'] },
+        location: analyticsLocation,
+      });
 
-      keyBatch.forEach((key, index) => rows.push(reportRow(key, timestamps[index], cutoff)));
+      rows.forEach((row) => usage.set(row.key, row));
     }
 
-    const outputPath = resolve(output);
+    const rows = [headers, ...keys.map((key) => reportRow(key, usage.get(key.key.toLowerCase()), cutoff))];
+
+    const outputPath = resolve(options.output);
     await writeReport(outputPath, rows);
     console.log(
       `Wrote ${keys.length} non-deleted key(s) from ${accountIds.length} unclaimed account(s) to ${outputPath}`,
     );
     console.log(`Cutoff: ${cutoff.toISOString()}`);
   } finally {
-    redis.disconnect();
     await deleteApp(app);
   }
 };
