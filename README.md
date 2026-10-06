@@ -19,9 +19,13 @@ Any and all contributions are welcome! Please open an issue to discuss the featu
 
 ### URLs
 
-#### Staging
+#### Test
+
+<https://ut-dts-agrc-web-api-dev.web.app/> (explorer)
 
 <https://ut-dts-agrc-web-api-dev-self-service.web.app/> (explorer)
+
+<https://ut-dts-agrc-web-api-dev.web.app/api/> (API)
 
 #### Production
 
