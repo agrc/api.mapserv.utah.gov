@@ -48,7 +48,8 @@ public class RequestLoggerMiddleware(RequestDelegate next, ILogger log, IBrowser
         }
 
         // drop the query string and fragment since they can contain tokens or personal information
-        if (Uri.TryCreate(referer, UriKind.Absolute, out var uri)) {
+        // only trust web uris; on unix a rooted path parses as a file uri that keeps an encoded query string
+        if (Uri.TryCreate(referer, UriKind.Absolute, out var uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps)) {
             return uri.GetLeftPart(UriPartial.Path);
         }
 
