@@ -42,13 +42,7 @@ jobs:
             ${{ runner.OS }}
 
       - name: 🧪 Run tests
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../coverage.xml /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
-
-      - name: 📝️ Report coverage to Codecov
-        uses: codecov/codecov-action@v6
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage.xml
+        run: dotnet test /p:Configuration=Release api.mapserv.utah.gov.sln --verbosity q --nologo
 
   deploy:
     name: 🚀 ${{ github.event.release.prerelease && 'Development' || 'Production' }} deployment

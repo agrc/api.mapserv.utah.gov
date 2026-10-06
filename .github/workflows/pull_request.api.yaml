@@ -8,6 +8,16 @@ on:
       - "libs/**"
       - "test/api.unit.tests/**"
       - ".github/workflows/pull_request.api.yaml"
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - "src/api/**"
+      - "build/Packages.targets"
+      - "libs/**"
+      - "test/api.unit.tests/**"
+      - ".github/workflows/pull_request.api.yaml"
 
 permissions:
   contents: read
