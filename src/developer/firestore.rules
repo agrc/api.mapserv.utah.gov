@@ -17,7 +17,11 @@ service cloud.firestore {
       allow update: if isAuthenticated()
         && (get(/databases/$(database)/documents/keys/$(key)).data.accountId == request.auth.uid)
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['notes', 'flags'])
-        && request.resource.data.flags.diff(resource.data.flags).affectedKeys().hasOnly(['disabled', 'deleted']);
+        && request.resource.data.flags.diff(resource.data.flags).affectedKeys().hasOnly(['disabled', 'deleted'])
+        && request.resource.data.flags.get('disabled', false) is bool
+        && request.resource.data.flags.get('deleted', false) is bool
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['notes'])
+          || (request.resource.data.notes is string && request.resource.data.notes.size() <= 500));
     }
   }
 }

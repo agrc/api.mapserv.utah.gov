@@ -52,7 +52,10 @@ public class RequestLoggerMiddleware(RequestDelegate next, ILogger log, IBrowser
             return uri.GetLeftPart(UriPartial.Path);
         }
 
-        return referer;
+        // strip anything after the first ? or # from values that are not absolute uris
+        var end = referer.IndexOfAny(['?', '#']);
+
+        return end == -1 ? referer : referer[..end];
     }
 
     private static string ParseEndpoint(string? path) {

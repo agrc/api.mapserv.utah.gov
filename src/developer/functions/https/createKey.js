@@ -89,11 +89,11 @@ const getUniqueKey = async () => {
   return key;
 };
 
-const httpsRegex = /https?:\/\//i;
+const httpsRegex = /^https?:\/\//i;
 const empty = '';
 // the characters allowed in a host name; also used for the `*.` subdomain wildcard so it can never cross into the path
 const hostCharacters = '[a-z0-9._-]';
-const validHost = /^[a-z0-9][a-z0-9._-]*(?::\d+)?$/;
+const validHost = /^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?(?::\d+)?$/;
 const regexMetacharacters = /[.*+?^${}()|[\]\\/]/g;
 
 /**
@@ -143,13 +143,11 @@ export const generateRegexFromPattern = (inputPattern) => {
     host = host.substring(0, host.length - 1);
   }
 
-  // a leading *. means any subdomain; a bare leading * is ignored
+  // a leading *. means any subdomain
   let anySubdomain = false;
   if (host.startsWith('*.')) {
     anySubdomain = true;
     host = host.substring(2);
-  } else if (host.startsWith('*')) {
-    host = host.substring(1);
   }
 
   // wildcards are only supported at the start of the host and at the end of the pattern
