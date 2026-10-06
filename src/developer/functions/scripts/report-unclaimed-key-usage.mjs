@@ -7,7 +7,24 @@ import { open } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const headers = 'accountId,key,claimed,disabled,lastRequestUtc,lastSuccessUtc,requestsInPeriod,usageStatus,cutoffUtc';
+const headers = [
+  'accountId',
+  'key',
+  'claimed',
+  'createdUtc',
+  'elevated',
+  'production',
+  'server',
+  'machineName',
+  'notes',
+  'pattern',
+  'regularExpression',
+  'lastRequestUtc',
+  'lastSuccessUtc',
+  'requestsInPeriod',
+  'usageStatus',
+  'cutoffUtc',
+].join(',');
 const defaultProject = 'ut-dts-agrc-web-api-prod';
 const analyticsTable = 'ugrc_api_analytics.ugrc_api_Middleware_RequestLoggerMiddleware';
 const analyticsLocation = 'us-central1';
@@ -100,14 +117,18 @@ const csvEscape = (value) => {
   return /[",\r\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 };
 
-// BigQuery returns TIMESTAMP columns as BigQueryTimestamp objects with an ISO `value`
+// accepts Firestore Timestamps, BigQueryTimestamps (ISO `value`), Dates, strings and epoch milliseconds
 const isoFromTimestamp = (timestamp) => {
   if (!timestamp) {
     return '';
   }
 
-  return new Date(timestamp.value ?? timestamp).toISOString();
+  const date = typeof timestamp.toDate === 'function' ? timestamp.toDate() : new Date(timestamp.value ?? timestamp);
+
+  return Number.isNaN(date.getTime()) ? '' : date.toISOString();
 };
+
+export const isActiveKey = (apiKey) => apiKey.flags?.deleted !== true && apiKey.flags?.disabled !== true;
 
 export const reportRow = (apiKey, usage, cutoff) => {
   const requests = Number(usage?.requests ?? 0);
@@ -117,7 +138,14 @@ export const reportRow = (apiKey, usage, cutoff) => {
     apiKey.accountId,
     apiKey.key,
     apiKey.claimed ?? false,
-    apiKey.flags?.disabled ?? false,
+    isoFromTimestamp(apiKey.created),
+    apiKey.elevated ?? false,
+    apiKey.flags?.production ?? false,
+    apiKey.flags?.server ?? false,
+    apiKey.machineName ?? false,
+    apiKey.notes,
+    apiKey.pattern,
+    apiKey.regularExpression,
     isoFromTimestamp(usage?.lastRequest),
     isoFromTimestamp(usage?.lastSuccess),
     requests,
@@ -162,7 +190,7 @@ const main = async () => {
       for (const document of snapshot.docs) {
         const key = document.data();
 
-        if (key.flags?.deleted !== true) {
+        if (isActiveKey(key)) {
           keys.push({ ...key, key: key.key ?? document.id });
         }
       }
@@ -187,7 +215,7 @@ const main = async () => {
     const outputPath = resolve(options.output);
     await writeReport(outputPath, rows);
     console.log(
-      `Wrote ${keys.length} non-deleted key(s) from ${accountIds.length} unclaimed account(s) to ${outputPath}`,
+      `Wrote ${keys.length} active (not deleted or disabled) key(s) from ${accountIds.length} unclaimed account(s) to ${outputPath}`,
     );
     console.log(`Cutoff: ${cutoff.toISOString()}`);
   } finally {

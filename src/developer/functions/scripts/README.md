@@ -1,6 +1,6 @@
 # Unclaimed key usage report
 
-Lists every non-deleted key belonging to an unclaimed account (`clients-unclaimed`) along with its request history from the API's BigQuery request log (`ugrc_api_analytics.ugrc_api_Middleware_RequestLoggerMiddleware`).
+Lists every key belonging to an unclaimed account (`clients-unclaimed`), skipping keys flagged as deleted or disabled, along with its Firestore details (created, elevated, production, server, machine name, notes, pattern and regular expression) and its request history from the API's BigQuery request log (`ugrc_api_analytics.ugrc_api_Middleware_RequestLoggerMiddleware`).
 
 From `src/developer/functions`, install the existing workspace dependencies (`cd .. && pnpm install --frozen-lockfile`), then run:
 
