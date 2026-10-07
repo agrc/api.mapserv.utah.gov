@@ -77,6 +77,7 @@ runs:
           --cpu=1
           --memory=1Gi
           --timeout=1m
+          --liveness-probe=httpGet.path=/api/v1/health/live,httpGet.port=8080,periodSeconds=15,timeoutSeconds=2,failureThreshold=3
         env_vars: >
           ASPNETCORE_ENVIRONMENT=Production,
           GCLOUD_PROJECT=${{ inputs.project_id }}

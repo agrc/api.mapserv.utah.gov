@@ -65,6 +65,7 @@ public static class WebApplicationBuilderExtensions {
     public static void ConfigureHealthChecks(this WebApplicationBuilder builder)
         => builder.Services.AddHealthChecks()
          .AddCheck<StartupHealthCheck>("Startup", failureStatus: HealthStatus.Degraded, tags: ["startup"])
+         .AddCheck<ApiLivenessHealthCheck>("Liveness", tags: ["liveness"])
          .AddCheck<GeometryServiceHealthCheck>("ArcGIS:GeometryService", failureStatus: HealthStatus.Degraded, tags: ["health"])
          .AddCheck<KeyStoreHealthCheck>("KeyStore", failureStatus: HealthStatus.Unhealthy, tags: ["health"])
          .AddCheck<UdotServiceHealthCheck>("ArcGIS:RoadsAndHighwaysService", failureStatus: HealthStatus.Degraded, tags: ["health"])
@@ -189,6 +190,7 @@ public static class WebApplicationBuilderExtensions {
         builder.Services.AddSingleton<IDistanceStrategy, PythagoreanDistance>();
         builder.Services.AddSingleton<ITableMapping, TableMapping>();
         builder.Services.AddSingleton<StartupHealthCheck>();
+        builder.Services.AddSingleton<ApiLivenessHealthCheck>();
         builder.Services.AddSingleton((provider) => {
             var options = provider.GetService<IOptions<SearchProviderConfiguration>>();
             ArgumentNullException.ThrowIfNull(options);
