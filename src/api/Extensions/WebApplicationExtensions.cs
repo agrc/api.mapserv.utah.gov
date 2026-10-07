@@ -244,6 +244,10 @@ public static class WebApplicationExtensions {
             .Produces<ApiResponseContract>(StatusCodes.Status500InternalServerError);
     }
     public static void MapHealthChecks(this WebApplication app) {
+        app.MapHealthChecks("/api/v1/health/live", new HealthCheckOptions {
+            Predicate = healthCheck => healthCheck.Tags.Contains("liveness")
+        });
+
         app.MapHealthChecks("/api/v1/health/details", new HealthCheckOptions {
             Predicate = healthCheck => healthCheck.Tags.Contains("health"),
             ResponseWriter = DetailedHealthCheckResponseWriter.WriteDetailsJson
