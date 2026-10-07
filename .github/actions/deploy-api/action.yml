@@ -72,10 +72,10 @@ runs:
         region: us-central1
         flags: |
           --service-account=cloud-run-sa@${{ inputs.project_id }}.iam.gserviceaccount.com
-          --max-instances=5
-          --concurrency=150
+          --max-instances=10
+          --concurrency=80
           --cpu=1
-          --memory=512Mi
+          --memory=1Gi
           --timeout=1m
         env_vars: >
           ASPNETCORE_ENVIRONMENT=Production,
