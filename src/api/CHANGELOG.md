@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.12...api-v1.18.0) (2026-10-07)
+
+
+### 🚀 Features
+
+* **api:** add liveness health check and integrate into API ([55f92c3](https://github.com/agrc/api.mapserv.utah.gov/commit/55f92c33e3ca3d83dee02768fba57b6cc5f83039))
+
 ## [1.17.12](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.11...api-v1.17.12) (2026-09-21)
 
 
