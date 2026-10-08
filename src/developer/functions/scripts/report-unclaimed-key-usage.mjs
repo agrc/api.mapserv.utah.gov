@@ -67,7 +67,14 @@ export const parseOptions = (args) => {
   }
 
   if (options.since) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(options.since) || Number.isNaN(Date.parse(`${options.since}T00:00:00Z`))) {
+    const parsed = new Date(`${options.since}T00:00:00Z`);
+
+    // Date normalizes impossible dates like 2024-02-30 so make sure it round trips
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(options.since) ||
+      Number.isNaN(parsed.getTime()) ||
+      parsed.toISOString().slice(0, 10) !== options.since
+    ) {
       throw new Error('--since must be a date formatted as YYYY-MM-DD.');
     }
 

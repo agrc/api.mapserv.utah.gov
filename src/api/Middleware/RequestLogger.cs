@@ -37,9 +37,12 @@ public class RequestLoggerMiddleware(RequestDelegate next, ILogger log, IBrowser
             return null;
         }
 
-        var version = segments[1].ToLowerInvariant();
-
-        return version.StartsWith('v') ? version : null;
+        // map to known constants so user input never reaches the log
+        return segments[1].ToLowerInvariant() switch {
+            "v1" => "v1",
+            "v2" => "v2",
+            _ => null,
+        };
     }
 
     private static string? ParseReferer(string? referer) {
