@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.8.5](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.4...developer-v2.8.5) (2026-10-08)
+
+
+### 🐛 Bug Fixes
+
+* address promote dev review feedback ([386cad9](https://github.com/agrc/api.mapserv.utah.gov/commit/386cad9aa4b8c9481cef581490ba509fd3b8b20b))
+* **api:** enhance logging and validation for API key handling ([40dc367](https://github.com/agrc/api.mapserv.utah.gov/commit/40dc36703967c7979f41df841f58c90e1880a6ec))
+* **developer:** add description for development key environment ([0606754](https://github.com/agrc/api.mapserv.utah.gov/commit/0606754a9cd24ecf9e7774939b8823c6745e8ec6))
+* harden browser key url pattern handling ([b5f2bde](https://github.com/agrc/api.mapserv.utah.gov/commit/b5f2bdeb5d46480fd1abf6f3985742b5ab0f8b10))
+* improve error handling and messaging for URL pattern validation ([57ec750](https://github.com/agrc/api.mapserv.utah.gov/commit/57ec750d4e78b2f6e6b96b5946442c61cec8096f))
+* move migration test out of fireway migrations folder ([255d006](https://github.com/agrc/api.mapserv.utah.gov/commit/255d0065530e9ee476d3b064ae2c4d754a030a93))
+* skip elevated keys in the v1.0.7 regex migration ([3817977](https://github.com/agrc/api.mapserv.utah.gov/commit/38179776c12ea51119ff3508e381b2f33bc7c4ff))
+
+
+### 🌲 Dependencies
+
+* **web:** bump source-map-js from 1.2.1 to 1.2.2 in /src/developer ([27949f0](https://github.com/agrc/api.mapserv.utah.gov/commit/27949f0d775e07c5b3736867b67be1cba964ae06))
+* **web:** bump the safe-dependencies group across 2 directories with 8 updates ([e5fd14f](https://github.com/agrc/api.mapserv.utah.gov/commit/e5fd14fc5b52c936cda1cc9241cde5b7cafe2a7e))
+* **web:** bump the safe-dependencies group across 3 directories with 19 updates ([e6e0c1b](https://github.com/agrc/api.mapserv.utah.gov/commit/e6e0c1bccc9ec58ac0f42fee4e7803192f6efefa))
+* **web:** bump transitive dependencies ([3e2a9f8](https://github.com/agrc/api.mapserv.utah.gov/commit/3e2a9f8477254463ce60864e1fb23ea04605838e))
+
 ## [2.8.5-rc.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.4...developer-v2.8.5-rc.0) (2026-10-06)
 
 
