@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.18.1](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.18.0...api-v1.18.1) (2026-10-08)
+
+
+### 🐛 Bug Fixes
+
+* address promote dev review feedback ([386cad9](https://github.com/agrc/api.mapserv.utah.gov/commit/386cad9aa4b8c9481cef581490ba509fd3b8b20b))
+* **api:** better check for local development ([482ea85](https://github.com/agrc/api.mapserv.utah.gov/commit/482ea85f097dac617dec32f3fc070fbdeaa7c3b1))
+* **api:** enhance logging and validation for API key handling ([40dc367](https://github.com/agrc/api.mapserv.utah.gov/commit/40dc36703967c7979f41df841f58c90e1880a6ec))
+* **api:** stop request logger throwing on short paths ([feba6cb](https://github.com/agrc/api.mapserv.utah.gov/commit/feba6cbda3ed462bfe6451210bd9daa94f62a510))
+* harden browser key url pattern handling ([b5f2bde](https://github.com/agrc/api.mapserv.utah.gov/commit/b5f2bdeb5d46480fd1abf6f3985742b5ab0f8b10))
+
+
+### 🌲 Dependencies
+
+* **api:** Bump the safe-dependencies group with 5 updates ([e6f3d9d](https://github.com/agrc/api.mapserv.utah.gov/commit/e6f3d9dfdf233c5559ffc9bd15005207896c5aa5))
+* **api:** Bump ZiggyCreatures.FusionCache and ZiggyCreatures.FusionCache.Serialization.SystemTextJson ([e1f859b](https://github.com/agrc/api.mapserv.utah.gov/commit/e1f859bdacbe4cb9f76802cb1e9c9301ccd43dce))
+
 ## [1.18.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.12...api-v1.18.0) (2026-10-07)
 
 
