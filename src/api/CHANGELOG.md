@@ -1,5 +1,73 @@
 # Changelog
 
+## [1.18.0-rc.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.13-rc.0...api-v1.18.0-rc.0) (2026-10-08)
+
+
+### 🚀 Features
+
+* **api:** add liveness health check and integrate into API ([55f92c3](https://github.com/agrc/api.mapserv.utah.gov/commit/55f92c33e3ca3d83dee02768fba57b6cc5f83039))
+* **api:** improve caching and place name matching ([#451](https://github.com/agrc/api.mapserv.utah.gov/issues/451)) ([1e6dabd](https://github.com/agrc/api.mapserv.utah.gov/commit/1e6dabd43adde3feb25ffd4f1fca493860687827))
+
+
+### 🐛 Bug Fixes
+
+* address promote dev review feedback ([4641c6b](https://github.com/agrc/api.mapserv.utah.gov/commit/4641c6bcb5867adcf7e0b734c1e759520c5ee811))
+* **api:** add delivery points back into the geocode plan ([c5386a6](https://github.com/agrc/api.mapserv.utah.gov/commit/c5386a6a2800fc605f49cb1e499682eb50ac9edd))
+* **api:** add preserveCollapsed to preserve small geometries ([390e230](https://github.com/agrc/api.mapserv.utah.gov/commit/390e230e54ec37eff918ea761dafd1ce7dd9528c))
+* **api:** allow raster queries to pass through table check ([2e7db67](https://github.com/agrc/api.mapserv.utah.gov/commit/2e7db6732da0f11a2f32bf1ba4bd1a58b3adca77))
+* **api:** Always rebuild address system mapping on system start ([eab7a6e](https://github.com/agrc/api.mapserv.utah.gov/commit/eab7a6eb280ca3adbd93f15d51fa10a99354864c))
+* **api:** better check for local development ([ab81b38](https://github.com/agrc/api.mapserv.utah.gov/commit/ab81b38a9a7cc4f37b73dd45cd1e81aa0937362b))
+* **api:** correct boolean logic to remove unnecessary log statement ([bb1708d](https://github.com/agrc/api.mapserv.utah.gov/commit/bb1708d99cf77206bdc44392145ea20982d4ee0b))
+* **api:** correct delivery point zip codes ([cd0245e](https://github.com/agrc/api.mapserv.utah.gov/commit/cd0245ec8124a922ff1b685bf04997f66acd5ae8))
+* **api:** correct fuzzy caching behavior ([a69a577](https://github.com/agrc/api.mapserv.utah.gov/commit/a69a577912b79243b4b91e2b1c85f59f9f214bfb))
+* **api:** correct highway address detection ([136bac0](https://github.com/agrc/api.mapserv.utah.gov/commit/136bac04d7c08a105aea44584dd0e4ee810b7bc5))
+* **api:** correct null value handling in search endpoint ([dccba1c](https://github.com/agrc/api.mapserv.utah.gov/commit/dccba1c4fa02512d7de09bdf8bf95e60ee65bc05)), closes [#551](https://github.com/agrc/api.mapserv.utah.gov/issues/551)
+* **api:** Correct search endpoint analytics token ([a43b9bb](https://github.com/agrc/api.mapserv.utah.gov/commit/a43b9bbf2d8064ed8444881febc2f1d1cc6f705e))
+* **api:** correct warnings from fusion cache ([7b93b3c](https://github.com/agrc/api.mapserv.utah.gov/commit/7b93b3cc41fdf1cc0386aeeca7085cb39fc6f99e))
+* **api:** correct weights with locators and address grids ([ba23854](https://github.com/agrc/api.mapserv.utah.gov/commit/ba2385466d0c47936c1721b37a090efb4ec55b03)), closes [#607](https://github.com/agrc/api.mapserv.utah.gov/issues/607)
+* **api:** don't direct users to explorer for testing ([bf785ad](https://github.com/agrc/api.mapserv.utah.gov/commit/bf785ad7136929f19e411b970695e50be98abb56))
+* **api:** enhance logging and validation for API key handling ([c3465cf](https://github.com/agrc/api.mapserv.utah.gov/commit/c3465cfe16b54324988a8ebb3471166e75ba1e39))
+* **api:** evict corrupt cache keys ([dbfb5ea](https://github.com/agrc/api.mapserv.utah.gov/commit/dbfb5eabc2c930d6fb149b80143413a62be35c08))
+* **api:** fix raster queries starting with `sgid10.` or odd casings ([d16139d](https://github.com/agrc/api.mapserv.utah.gov/commit/d16139d0fa6596a24d6f9d1b8f330d1e5251cb71))
+* **api:** handle error where user provides empty point input ([ce94945](https://github.com/agrc/api.mapserv.utah.gov/commit/ce949458d167b39740a592656f7e6c0e8e8855f5))
+* **api:** handle error where user provides wrong spatial reference ([ed98b8e](https://github.com/agrc/api.mapserv.utah.gov/commit/ed98b8ea57de0aaacf615c8449f5bbfe79b9f7d2))
+* **api:** implement input attributerStyle property ([bc198d0](https://github.com/agrc/api.mapserv.utah.gov/commit/bc198d0e456f753ab86ec7e84018edb40e03b708))
+* **api:** improve city suffix removal for zone parsing ([bd6d6e8](https://github.com/agrc/api.mapserv.utah.gov/commit/bd6d6e8964bd65e2ae3a4738f20ddada5840b708))
+* **api:** lower case all zone values ([a3188cd](https://github.com/agrc/api.mapserv.utah.gov/commit/a3188cd3dd4e5171d03f186745130c115773f24c))
+* **api:** project po box and delivery point addresses ([1726dfd](https://github.com/agrc/api.mapserv.utah.gov/commit/1726dfd3e7857ccf579e3da8a4d35e64fae71980)), closes [#394](https://github.com/agrc/api.mapserv.utah.gov/issues/394)
+* **api:** protect from error being thrown by unit numbers ([8ae5180](https://github.com/agrc/api.mapserv.utah.gov/commit/8ae51809dfa4b731a2c196eb75c871146c09dc08))
+* **api:** remove directory targets ([1d9fc91](https://github.com/agrc/api.mapserv.utah.gov/commit/1d9fc919b09935315d8c633c49ec08f6b9968b8b))
+* **api:** remove undocumented elevation queries ([e4f91a0](https://github.com/agrc/api.mapserv.utah.gov/commit/e4f91a05b2c80dd1a58b8ec2cd08758990bf1b34)), closes [#754](https://github.com/agrc/api.mapserv.utah.gov/issues/754)
+* **api:** remove unused code ([58dd202](https://github.com/agrc/api.mapserv.utah.gov/commit/58dd202425a181166c61cafe9d7d8516ec6830c5))
+* **api:** spatial reference variable applies to shape and shape@ token ([b5f4b74](https://github.com/agrc/api.mapserv.utah.gov/commit/b5f4b74fdc22a5178b17102142197021613a1ced)), closes [#363](https://github.com/agrc/api.mapserv.utah.gov/issues/363)
+* **api:** stop request logger throwing on short paths ([0656b60](https://github.com/agrc/api.mapserv.utah.gov/commit/0656b60c4a120dfdff8a013ffcc1b0147d9b70f6))
+* **api:** Strip city from zone ([6055cb7](https://github.com/agrc/api.mapserv.utah.gov/commit/6055cb7a868d435acc02c2321fa9c89a1c43f3f4))
+* **api:** strip state out of zone ([ac4faf1](https://github.com/agrc/api.mapserv.utah.gov/commit/ac4faf1af2c58ad32d8ec35ff58e6813206001b4)), closes [#371](https://github.com/agrc/api.mapserv.utah.gov/issues/371)
+* **api:** target dotnet 10 ([cbcb34c](https://github.com/agrc/api.mapserv.utah.gov/commit/cbcb34c98ec776eb30b8d044c980fa5afc56cef2))
+* **api:** temporarily remove delivery point results ([4813546](https://github.com/agrc/api.mapserv.utah.gov/commit/481354672d0cf72d4c24f04f19d6874ea4f69e95))
+* **api:** update logging level and message ([8ea2ccc](https://github.com/agrc/api.mapserv.utah.gov/commit/8ea2cccd80d3acdd39f0aa042ba56ef6c34db424))
+* **api:** update secondary address parsing for types that require a number ([bebbbea](https://github.com/agrc/api.mapserv.utah.gov/commit/bebbbea02677dda4cd4a55557437f00de9cf53ea))
+* harden browser key url pattern handling ([475ae7d](https://github.com/agrc/api.mapserv.utah.gov/commit/475ae7d8fe29abf6d2927429674933d79546e087))
+* return 400 for bad requests instead of 200 ([f47a822](https://github.com/agrc/api.mapserv.utah.gov/commit/f47a8221cbef7e7e98f39bcef9f4d107bab2f1ae)), closes [#386](https://github.com/agrc/api.mapserv.utah.gov/issues/386)
+
+
+### 🌲 Dependencies
+
+* **api:** Bump Autofac and 14 others ([bee07e3](https://github.com/agrc/api.mapserv.utah.gov/commit/bee07e37eb4097e5485865f34a8982f592c1dc42))
+* **api:** Bump the safe-dependencies group with 3 updates ([c27d837](https://github.com/agrc/api.mapserv.utah.gov/commit/c27d8375cd29318be8e0a554884e366e685a8d17))
+* **api:** Bump the safe-dependencies group with 5 updates ([7b1169f](https://github.com/agrc/api.mapserv.utah.gov/commit/7b1169f84ede00d50ac6846c53838304169c14e3))
+* **api:** Bump the safe-dependencies group with 6 updates ([8568161](https://github.com/agrc/api.mapserv.utah.gov/commit/85681614024996047b69d902aacd63157463d4e3))
+* **api:** Bump the safe-dependencies group with 8 updates ([5cdc7ee](https://github.com/agrc/api.mapserv.utah.gov/commit/5cdc7eea55937fd4a5cd8986e380c0003b173a0f))
+* **api:** fy25q4 package updates ([9233d2c](https://github.com/agrc/api.mapserv.utah.gov/commit/9233d2cd981ef875af07b1d2d4f29d2290c1dc18))
+* **api:** FY26 Q2 package updates ([be99fa4](https://github.com/agrc/api.mapserv.utah.gov/commit/be99fa4430a1f48465949e5fde40f9464e3560e6))
+* **api:** update more deps ([c331df2](https://github.com/agrc/api.mapserv.utah.gov/commit/c331df2e259823596d2953a58f91339470ab090f))
+* **api:** update packages ([0de205c](https://github.com/agrc/api.mapserv.utah.gov/commit/0de205ce162986501410dfb8ae927971593a666a))
+* Bump Microsoft.AspNetCore.OpenApi and 8 others ([ed95a8a](https://github.com/agrc/api.mapserv.utah.gov/commit/ed95a8a805368ad1b597daeda9d8eb6a79a61e0a))
+* bump the nuget group across 2 directories with 1 update ([2465122](https://github.com/agrc/api.mapserv.utah.gov/commit/24651220c60211895b0b8f153d83a686e1312f79))
+* bump the safe-dependencies group across 2 directories with 2 updates ([4bbcd74](https://github.com/agrc/api.mapserv.utah.gov/commit/4bbcd74d9bffd46b7f2df57eb099c470ebedc346))
+* bump the safe-dependencies group across 3 directories with 2 updates ([0b2301a](https://github.com/agrc/api.mapserv.utah.gov/commit/0b2301a9990dba17a4235a6ef5c2a09d2717ba62))
+* bump the safe-dependencies group across 3 directories with 4 updates ([b6504a3](https://github.com/agrc/api.mapserv.utah.gov/commit/b6504a387bd90a54f367e51f77af50faf2b2cd5a))
+
 ## [1.18.0](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.17.12...api-v1.18.0) (2026-10-07)
 
 
