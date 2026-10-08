@@ -38,8 +38,8 @@
     <PackageReference Include="Serilog.Sinks.GoogleCloudLogging" Version="5.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.13.17" />
     <PackageReference Include="WebApiContrib.Core.Formatter.Jsonp" Version="2.1.0" />
-    <PackageReference Include="ZiggyCreatures.FusionCache" Version="2.8.0" />
-    <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="2.8.0" />
+    <PackageReference Include="ZiggyCreatures.FusionCache" Version="2.9.0" />
+    <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="2.9.0" />
   </ItemGroup>
 
   <ItemGroup>
