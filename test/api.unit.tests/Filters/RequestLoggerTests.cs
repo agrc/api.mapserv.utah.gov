@@ -70,6 +70,7 @@ public class RequestLoggerTests {
     [InlineData("/api/v1/search/table/field", "v1")]
     [InlineData("/API/V2/search/table/field", "v2")]
     [InlineData("/api/12/search/table/field", null)]
+    [InlineData("/api/v3/search/table/field", null)]
     [InlineData("/other/v1/search/table/field", null)]
     [InlineData("/abcdefghij", null)]
     [InlineData("", null)]

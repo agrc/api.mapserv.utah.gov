@@ -44,6 +44,8 @@ describe('unclaimed key usage report', () => {
     ['--months=2', '--since=2024-08-05'],
     ['--since=08/05/2024'],
     ['--since=2024-13-01'],
+    ['--since=2024-02-30'],
+    ['--since=2023-02-29'],
     ['--project='],
   ])('rejects invalid arguments: %s', (...args) => {
     expect(() => parseOptions(args)).toThrow();
