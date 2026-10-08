@@ -27,6 +27,14 @@ Any and all contributions are welcome! Please open an issue to discuss the featu
 
 <https://ut-dts-agrc-web-api-dev.web.app/api/> (API)
 
+> [!IMPORTANT]
+> To save money, some resources in the `-dev` GCP project are shut down when no one is testing. Before testing in the `-dev` project:
+>
+> 1. Manually start the ArcGIS Server Compute Engine instance.
+> 1. Use Terraform to create the Redis instance.
+>
+> When you are done testing, stop the ArcGIS Server instance and manually destroy the Redis instance again.
+
 #### Production
 
 <https://api.mapserv.utah.gov/> (explorer)
