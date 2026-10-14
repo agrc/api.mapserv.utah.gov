@@ -1356,8 +1356,8 @@ packages:
   '@lit/task@1.0.3':
     resolution: {integrity: sha512-1gJGJl8WON+2j0y9xfcD+XsS1rvcy3XDgsIhcdUW++yTR8ESjZW6o7dn8M8a4SZM8NnJe6ynS2cKWwsbfLOurg==}
 
-  '@modelcontextprotocol/sdk@1.30.0':
-    resolution: {integrity: sha512-xKd8OIzlqNzcqcNumGAa6g+PW2kjD5vrpcKOnfldAUPP3j7lnqMPwlTXQm8gF+UwH72z0lqaRbjr9hqGz0eITA==}
+  '@modelcontextprotocol/sdk@1.32.1':
+    resolution: {integrity: sha512-2DdE+SJDtzLEEWzY1ZjY7Q+VcPhcV1KisD3zI4u0XZyktsjHum1mwbMI+JaulUBi2OZk+KJAi2uPXzxichPkdw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@cfworker/json-schema': ^4.1.1
@@ -6011,7 +6011,7 @@ snapshots:
   '@arcgis/core@5.0.19':
     dependencies:
       '@amcharts/amcharts5': 5.15.6
-      '@arcgis/toolkit': 5.1.22
+      '@arcgis/toolkit': 5.0.19
       '@esri/arcgis-html-sanitizer': 4.1.0
       '@esri/calcite-components': 5.1.2
       '@vaadin/grid': 25.0.13
@@ -7389,7 +7389,7 @@ snapshots:
     dependencies:
       '@lit/reactive-element': 2.1.2
 
-  '@modelcontextprotocol/sdk@1.30.0(supports-color@10.2.2)(zod@4.5.4)':
+  '@modelcontextprotocol/sdk@1.32.1(supports-color@10.2.2)(zod@4.5.4)':
     dependencies:
       '@hono/node-server': 2.1.1(hono@4.13.7)
       ajv: 8.20.0
@@ -9438,7 +9438,7 @@ snapshots:
       '@google-cloud/cloud-sql-connector': 1.12.0(supports-color@10.2.2)
       '@google-cloud/pubsub': 5.3.1(supports-color@10.2.2)
       '@inquirer/prompts': 7.10.1(@types/node@26.5.0)
-      '@modelcontextprotocol/sdk': 1.30.0(supports-color@10.2.2)(zod@4.5.4)
+      '@modelcontextprotocol/sdk': 1.32.1(supports-color@10.2.2)(zod@4.5.4)
       abort-controller: 3.0.0
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
