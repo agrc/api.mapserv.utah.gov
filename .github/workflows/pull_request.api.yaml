@@ -7,6 +7,7 @@ on:
       - "build/Packages.targets"
       - "libs/**"
       - "test/api.unit.tests/**"
+      - "test/api.benchmarks/**"
       - ".github/workflows/pull_request.api.yaml"
   workflow_call:
     secrets:
@@ -55,3 +56,90 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
+
+  benchmark:
+    name: Benchmarks
+    # compares the pull request against its base so it only makes sense for pull requests
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Set up code
+        uses: actions/checkout@v7
+        with:
+          path: head
+          show-progress: false
+
+      - name: Set up base code
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+          show-progress: false
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "10.x"
+
+      - name: Cache NuGet Packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.OS }}-nuget-${{ hashFiles('**/Packages.targets') }}
+          restore-keys: |
+            ${{ runner.OS }}-nuget-
+            ${{ runner.OS }}
+
+      - name: Build head benchmarks
+        run: dotnet build head/test/api.benchmarks/Api -c Release --nologo --verbosity q
+
+      # run the pull request's benchmarks against the base code so both sides measure the same thing
+      - name: Build base benchmarks
+        id: base
+        continue-on-error: true
+        run: |
+          rm -rf base/test/api.benchmarks
+          cp -r head/test/api.benchmarks base/test/api.benchmarks
+          rm -rf base/test/api.benchmarks/Api/bin base/test/api.benchmarks/Api/obj
+          dotnet build base/test/api.benchmarks/Api -c Release --nologo --verbosity q
+
+      - name: Run benchmarks
+        env:
+          BASE_BUILT: ${{ steps.base.outcome == 'success' }}
+        run: |
+          # benchmarkdotnet finds its project by searching the working directory so run from inside each copy
+          run() {
+            (cd "$1/test/api.benchmarks/Api" && dotnet run -c Release --no-build -- \
+              --filter "$2.*" --warmupCount 5 --iterationCount 20 \
+              --exporters fulljson --artifacts "$GITHUB_WORKSPACE/results/$1")
+          }
+
+          classes=$(dotnet run --project head/test/api.benchmarks/Api -c Release --no-build -- --list flat | sed 's/\.[^.]*$//' | sort -u)
+
+          # alternate base and head per class so runner drift affects both sides equally
+          for class in $classes; do
+            if [ "$BASE_BUILT" = "true" ]; then
+              run base "$class"
+            fi
+            run head "$class"
+          done
+
+      - name: Compare with base
+        working-directory: head/test/api.benchmarks/compare
+        env:
+          BASE_BUILT: ${{ steps.base.outcome == 'success' }}
+        run: |
+          if [ "$BASE_BUILT" != "true" ]; then
+            echo "::warning::The benchmarks do not build against the base branch so there is nothing to compare with"
+          fi
+
+          dotnet run compare.cs -- "$GITHUB_WORKSPACE/results/base" "$GITHUB_WORKSPACE/results/head" --summary "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-results
+          path: results
