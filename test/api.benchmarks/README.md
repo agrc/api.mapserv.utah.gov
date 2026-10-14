@@ -36,7 +36,12 @@ dotnet run compare.cs -- /tmp/bench/base /tmp/bench/head
 
 The `Benchmarks` job in `.github/workflows/pull_request.api.yaml` runs on every api pull request. It checks out the pull request and its base, copies the pull request's benchmarks into the base so both sides run the same code, then alternates base and head runs per benchmark class on the same runner. There is no stored baseline to maintain; the base branch is the baseline.
 
-A benchmark fails the job when its median time is more than 15% slower **and** a Mann-Whitney U test says the change is significant (p < 0.01). Shared GitHub runners are noisy, so a change smaller than the threshold is reported but does not fail. The comparison table is written to the job summary and the raw results are uploaded as the `benchmark-results` artifact.
+A benchmark fails the job when either:
+
+- **time** - its median time is more than 15% slower **and** a Mann-Whitney U test says the change is significant (p < 0.01). Shared GitHub runners are noisy, so a change smaller than the threshold is reported but does not fail.
+- **allocations** - it allocates more than 16 bytes per operation over the base. Allocations are measured by the memory diagnoser and do not change between runs, so this gate is strict. 16 bytes is below the smallest .NET object, so any new allocation on every call fails.
+
+The comparison table is written to the job summary and the raw results are uploaded as the `benchmark-results` artifact.
 
 If the benchmarks do not compile against the base branch (for example a pull request that changes a signature they use), the job warns and reports the head results without comparing.
 

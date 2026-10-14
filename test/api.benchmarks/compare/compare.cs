@@ -1,10 +1,16 @@
-// Compares two sets of BenchmarkDotNet full json reports and fails when the head is meaningfully slower than the base.
+// Compares two sets of BenchmarkDotNet full json reports and fails when the head is meaningfully slower or
+// allocates more than the base.
 //
-// usage: dotnet run compare.cs -- <base results dir> <head results dir> [--time-threshold 15] [--alpha 0.01] [--summary file.md]
+// usage: dotnet run compare.cs -- <base results dir> <head results dir> [--time-threshold 15] [--alpha 0.01]
+//        [--alloc-tolerance 16] [--summary file.md]
 //
-// A benchmark is a regression when the median time per operation grew by more than the threshold and a
-// Mann-Whitney U test says the two sets of measurements are different. Requiring both keeps runner noise from
-// failing builds while still catching real slowdowns.
+// Time is a regression when the median time per operation grew by more than the threshold and a Mann-Whitney U
+// test says the two sets of measurements are different. Requiring both keeps runner noise from failing builds
+// while still catching real slowdowns.
+//
+// Allocations are deterministic so they are held to a strict limit. The default tolerance of 16 bytes per
+// operation is below the smallest possible object (24 bytes) so any new allocation on every call fails, while
+// rounding from averaging over many operations does not.
 using System.Globalization;
 using System.Text;
 using System.Text.Json;
@@ -12,6 +18,7 @@ using System.Text.Json;
 var positional = new List<string>();
 var timeThreshold = 15d;
 var alpha = 0.01d;
+var allocTolerance = 16L;
 string? summaryPath = null;
 
 for (var i = 0; i < args.Length; i++) {
@@ -21,6 +28,9 @@ for (var i = 0; i < args.Length; i++) {
             break;
         case "--alpha":
             alpha = double.Parse(args[++i], CultureInfo.InvariantCulture);
+            break;
+        case "--alloc-tolerance":
+            allocTolerance = long.Parse(args[++i], CultureInfo.InvariantCulture);
             break;
         case "--summary":
             summaryPath = args[++i];
@@ -32,7 +42,7 @@ for (var i = 0; i < args.Length; i++) {
 }
 
 if (positional.Count != 2) {
-    Console.Error.WriteLine("usage: dotnet run compare.cs -- <base results dir> <head results dir> [--time-threshold 15] [--alpha 0.01] [--summary file.md]");
+    Console.Error.WriteLine("usage: dotnet run compare.cs -- <base results dir> <head results dir> [--time-threshold 15] [--alpha 0.01] [--alloc-tolerance 16] [--summary file.md]");
 
     return 2;
 }
@@ -48,19 +58,20 @@ if (head.Count == 0) {
 
 var rows = new List<string>();
 var regressions = 0;
+var allocationRegressions = 0;
 var failures = 0;
 
 foreach (var (name, current) in head.OrderBy(x => x.Key, StringComparer.Ordinal)) {
     // benchmarkdotnet reports a benchmark that crashed or failed to build without any measurements
     if (current.Times.Length == 0) {
-        rows.Add($"| `{name}` | – | – | – | – | 💥 failed to run |");
+        rows.Add($"| `{name}` | – | – | – | – | – | – | 💥 failed to run |");
         failures++;
 
         continue;
     }
 
     if (!baseline.TryGetValue(name, out var previous) || previous.Times.Length == 0) {
-        rows.Add($"| `{name}` | – | {FormatTime(Median(current.Times))} | – | – | 🆕 new |");
+        rows.Add($"| `{name}` | – | {FormatTime(Median(current.Times))} | – | – | – | {FormatBytes(current.Allocated)} | 🆕 new |");
 
         continue;
     }
@@ -71,34 +82,47 @@ foreach (var (name, current) in head.OrderBy(x => x.Key, StringComparer.Ordinal)
     var p = MannWhitneyP(previous.Times, current.Times);
     var significant = p < alpha;
 
-    string verdict;
+    var verdicts = new List<string>();
     if (significant && change > timeThreshold) {
-        verdict = "🔴 slower";
+        verdicts.Add("🔴 slower");
         regressions++;
     } else if (significant && change < -timeThreshold) {
-        verdict = "🟢 faster";
-    } else {
-        verdict = "⚪ same";
+        verdicts.Add("🟢 faster");
     }
 
-    rows.Add($"| `{name}` | {FormatTime(baseMedian)} | {FormatTime(headMedian)} | {change:+0.0;-0.0;0.0}% | {p:0.000} | {verdict} |");
+    if (current.Allocated - previous.Allocated > allocTolerance) {
+        verdicts.Add("🔴 allocates more");
+        allocationRegressions++;
+    } else if (previous.Allocated - current.Allocated > allocTolerance) {
+        verdicts.Add("🟢 allocates less");
+    }
+
+    if (verdicts.Count == 0) {
+        verdicts.Add("⚪ same");
+    }
+
+    rows.Add($"| `{name}` | {FormatTime(baseMedian)} | {FormatTime(headMedian)} | {change:+0.0;-0.0;0.0}% | {p:0.000} | " +
+        $"{FormatBytes(previous.Allocated)} | {FormatBytes(current.Allocated)} | {string.Join(" ", verdicts)} |");
 }
 
 foreach (var name in baseline.Keys.Except(head.Keys).Order(StringComparer.Ordinal)) {
-    rows.Add($"| `{name}` | – | – | – | – | ➖ removed |");
+    rows.Add($"| `{name}` | – | – | – | – | – | – | ➖ removed |");
 }
+
+var failed = regressions + allocationRegressions + failures > 0;
 
 var report = new StringBuilder()
     .AppendLine("## API benchmarks")
     .AppendLine()
-    .AppendLine(regressions + failures == 0
-        ? "✅ No performance regressions."
-        : $"❌ {regressions} benchmark(s) are more than {timeThreshold}% slower than the base branch. {failures} benchmark(s) failed to run.")
+    .AppendLine(failed
+        ? $"❌ Compared to the base branch, {regressions} benchmark(s) are slower, {allocationRegressions} allocate more, and {failures} failed to run."
+        : "✅ No performance regressions.")
     .AppendLine()
-    .AppendLine($"Times are the median per operation. A benchmark fails when it is more than {timeThreshold}% slower and the change is significant (Mann-Whitney U, p < {alpha}).")
+    .AppendLine($"Times are the median per operation. A benchmark fails when it is more than {timeThreshold}% slower and the change is significant (Mann-Whitney U, p < {alpha}), " +
+        $"or when it allocates more than {allocTolerance} bytes per operation over the base.")
     .AppendLine()
-    .AppendLine("| Benchmark | Base | Head | Change | p | Result |")
-    .AppendLine("| --- | ---: | ---: | ---: | ---: | --- |");
+    .AppendLine("| Benchmark | Base | Head | Change | p | Base alloc | Head alloc | Result |")
+    .AppendLine("| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |");
 
 rows.ForEach(row => report.AppendLine(row));
 
@@ -108,7 +132,7 @@ if (summaryPath is not null) {
     File.AppendAllText(summaryPath, report.ToString());
 }
 
-return regressions + failures == 0 ? 0 : 1;
+return failed ? 1 : 0;
 
 static Dictionary<string, Result> Load(string directory) {
     var results = new Dictionary<string, Result>(StringComparer.Ordinal);
@@ -135,7 +159,12 @@ static Dictionary<string, Result> Load(string directory) {
                 .Select(m => m.GetProperty("Nanoseconds").GetDouble() / m.GetProperty("Operations").GetInt64())
                 .ToArray();
 
-            results[name] = new Result(times);
+            // only present when the memory diagnoser is enabled
+            var allocated = benchmark.TryGetProperty("Memory", out var memory) && memory.ValueKind == JsonValueKind.Object
+                ? memory.GetProperty("BytesAllocatedPerOperation").GetInt64()
+                : 0;
+
+            results[name] = new Result(times, allocated);
         }
     }
 
@@ -205,4 +234,7 @@ static string FormatTime(double nanoseconds) => nanoseconds switch {
     _ => $"{nanoseconds:0.0} ns"
 };
 
-record Result(double[] Times);
+// exact bytes since the allocation gate works at the byte level
+static string FormatBytes(long bytes) => $"{bytes:N0} B";
+
+record Result(double[] Times, long Allocated);
