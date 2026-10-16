@@ -116,7 +116,8 @@ jobs:
               --exporters fulljson --artifacts "$GITHUB_WORKSPACE/results/$1")
           }
 
-          classes=$(dotnet run --project head/test/api.benchmarks/Api -c Release --no-build -- --list flat | sed 's/\.[^.]*$//' | sort -u)
+          # keep only benchmark names in case the listing includes headings or warnings
+          classes=$(dotnet run --project head/test/api.benchmarks/Api -c Release --no-build -- --list flat | grep '^benchmark\.api\.' | sed 's/\.[^.]*$//' | sort -u)
 
           # alternate base and head per class so runner drift affects both sides equally
           for class in $classes; do
