@@ -38,9 +38,17 @@ export const mailingListSignUp = async (data, apiKey) => {
 
       return false;
     }
-  } catch (errorMessage) {
+  } catch (err) {
+    // log only safe fields; a raw axios error serializes its request config,
+    // including the Authorization header that carries the SendGrid api key
     error('[mail::mailingListSignUp] sendgrid error', {
-      errorMessage,
+      errorMessage: {
+        name: err?.name,
+        message: err?.message,
+        code: err?.code,
+        status: err?.status ?? err?.response?.status,
+        body: err?.response?.body ?? err?.response?.data,
+      },
       data,
     });
 
