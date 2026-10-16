@@ -79,6 +79,12 @@ export const createKey = https.onCall({ cors }, async (request) => {
     throw new https.HttpsError('unauthenticated', 'requires authentication');
   }
 
+  if (request.data?.for !== request.auth.uid) {
+    debug('[https::createKey] key owner does not match the authenticated user');
+
+    throw new https.HttpsError('permission-denied', 'keys can only be created for your own account');
+  }
+
   debug('[https::createKey] importing createKey');
   const createKey = (await import('./https/createKey.js')).createKey;
 
