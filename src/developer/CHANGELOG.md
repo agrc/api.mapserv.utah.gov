@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.6](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.5...developer-v2.8.6) (2026-10-19)
+
+
+### 🐛 Bug Fixes
+
+* **developer:** keep the sendgrid api key out of error logs ([db33931](https://github.com/agrc/api.mapserv.utah.gov/commit/db339314fe97345216d28d1a84810ef4944b8262))
+* **developer:** only allow creating keys for the signed in account ([f6635dc](https://github.com/agrc/api.mapserv.utah.gov/commit/f6635dc4fccf6363dc936200d88ff370af2e470d))
+
 ## [2.8.5](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.4...developer-v2.8.5) (2026-10-08)
 
 
