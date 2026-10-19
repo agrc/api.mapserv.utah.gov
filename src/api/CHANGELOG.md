@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.2](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.18.1...api-v1.18.2) (2026-10-19)
+
+
+### 🐛 Bug Fixes
+
+* **api:** bound the places cache and stop caching zone misses ([761cb69](https://github.com/agrc/api.mapserv.utah.gov/commit/761cb698c437dc6fd2b690e44f0bea871ba762d0))
+
 ## [1.18.1](https://github.com/agrc/api.mapserv.utah.gov/compare/api-v1.18.0...api-v1.18.1) (2026-10-14)
 
 
