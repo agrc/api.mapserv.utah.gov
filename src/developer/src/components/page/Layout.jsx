@@ -2,6 +2,7 @@ import { useFirebaseAnalytics } from '@ugrc/utah-design-system/contexts/Firebase
 import { useEffect } from 'react';
 import { Outlet, ScrollRestoration, useLocation } from 'react-router';
 import Menu from '../design-system/Menu';
+import UnclaimedKeysBanner from './UnclaimedKeysBanner';
 import UtahChrome from './UtahChrome';
 
 const Layout = () => {
@@ -10,6 +11,7 @@ const Layout = () => {
       <div className="flex flex-col">
         <UtahChrome />
         <Menu />
+        <UnclaimedKeysBanner />
         <main id="main-content" className="min-h-0 flex-1">
           <ScrollRestoration />
           <Outlet />

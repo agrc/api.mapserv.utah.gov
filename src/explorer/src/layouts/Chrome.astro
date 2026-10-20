@@ -1,5 +1,6 @@
 ---
 import GoogleAnalytics from '@components/GoogleAnalytics.astro';
+import UnclaimedKeysBanner from '@components/UnclaimedKeysBanner.astro';
 import UtahChrome from '@components/UtahChrome.astro';
 
 import '@utahdts/utah-design-system-header/css';
@@ -50,6 +51,7 @@ import '../main.css';
   >
     <main id="main-content" class="flex min-h-screen flex-col text-slate-700">
       <UtahChrome />
+      <UnclaimedKeysBanner />
       <div class="min-h-0 flex-1 overflow-auto">
         <slot />
       </div>
