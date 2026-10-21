@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.7.1...explorer-v2.8.0) (2026-10-20)
+
+
+### 🚀 Features
+
+* add unclaimed api keys cutoff banner ([907d1e5](https://github.com/agrc/api.mapserv.utah.gov/commit/907d1e57bdde7b3bb94a9179e8739f35ec23b430)), closes [#643](https://github.com/agrc/api.mapserv.utah.gov/issues/643)
+
 ## [2.7.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.7.0...explorer-v2.7.1) (2026-10-14)
 
 
