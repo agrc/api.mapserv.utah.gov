@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.9.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.6...developer-v2.9.0) (2026-11-03)
+
+
+### 🚀 Features
+
+* add unclaimed api keys cutoff banner ([907d1e5](https://github.com/agrc/api.mapserv.utah.gov/commit/907d1e57bdde7b3bb94a9179e8739f35ec23b430)), closes [#643](https://github.com/agrc/api.mapserv.utah.gov/issues/643)
+
+
+### 🌲 Dependencies
+
+* dbot major safe changes ([05c43fb](https://github.com/agrc/api.mapserv.utah.gov/commit/05c43fbb6a23a6afc2f0f8a161ce81f5fafcbe6b))
+* **web:** bump uuid from 14.0.2 to 14.0.3 in /src/developer ([cc670f2](https://github.com/agrc/api.mapserv.utah.gov/commit/cc670f2214589c6799371639f5f877adb782dcfd))
+
 ## [2.9.0](https://github.com/agrc/api.mapserv.utah.gov/compare/developer-v2.8.6...developer-v2.9.0) (2026-10-20)
 
 
