@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.8.1](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.8.0...explorer-v2.8.1) (2026-11-09)
+
+
+### 🌲 Dependencies
+
+* **web:** bump @hono/node-server from 2.1.1 to 2.1.6 in /src/explorer ([93b1464](https://github.com/agrc/api.mapserv.utah.gov/commit/93b1464ea6f1a876f5f5a83621fb15df17a658be))
+* **web:** bump @modelcontextprotocol/sdk in /src/explorer ([fd31488](https://github.com/agrc/api.mapserv.utah.gov/commit/fd3148872d9cd4aa51ba4f71d68c232a09bdd054))
+* **web:** bump fast-uri from 3.1.8 to 3.1.9 in /src/explorer ([b56da5b](https://github.com/agrc/api.mapserv.utah.gov/commit/b56da5bb8c4e28f821fdb3580ca17b4f5a7bffb7))
+* **web:** bump hono from 4.13.7 to 4.13.13 in /src/explorer ([4921076](https://github.com/agrc/api.mapserv.utah.gov/commit/49210764305d4e4414220f01606e882009a46f53))
+* **web:** bump http-cache-semantics in /src/explorer ([c9d3d26](https://github.com/agrc/api.mapserv.utah.gov/commit/c9d3d26b29b79ac4cb96ed75597fe059c3053b9f))
+* **web:** bump postcss-selector-parser in /src/explorer ([3edc49d](https://github.com/agrc/api.mapserv.utah.gov/commit/3edc49d089171052374dac093509e2d8012d8a55))
+* **web:** bump re2js from 2.8.6 to 2.9.1 in /src/explorer ([50c5320](https://github.com/agrc/api.mapserv.utah.gov/commit/50c532076fd913dd6c1c5004061657f68bfae39f))
+
 ## [2.8.0](https://github.com/agrc/api.mapserv.utah.gov/compare/explorer-v2.7.1...explorer-v2.8.0) (2026-10-20)
 
 
