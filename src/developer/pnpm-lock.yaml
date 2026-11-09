@@ -5926,8 +5926,8 @@ packages:
     resolution: {integrity: sha512-z5Vascmj7lQbU3YdfYJUDkBGGTnoAObcVW/CSbpI3WbVb1vZQsSzSWcGkfKU0JKrrGfPZwPr8EVHwYXKQKLVXw==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  re2js@2.9.0:
-    resolution: {integrity: sha512-rZpqkd4ETP3GrQ5mDLzADr14OleeKdb/40lG84WE8absRfsVLJpWt2ifjtYYeoPqeouIkcxhTlurxIXfR5kR5Q==}
+  re2js@2.9.1:
+    resolution: {integrity: sha512-JIT3bEEUZTOR2YS1walNEIfH4cF/cQeZcBUFq7ldqO6lR6g0X5CBq/S8rsa9omzZcsNf8qc36jCkWpKKtncrZg==}
     engines: {node: '>=20.0.0'}
 
   react-aria-components@1.22.1:
@@ -7788,7 +7788,7 @@ snapshots:
       '@firebase/webchannel-wrapper': 1.0.7
       '@grpc/grpc-js': 1.9.16
       '@grpc/proto-loader': 0.7.15
-      re2js: 2.9.0
+      re2js: 2.9.1
       tslib: 2.8.1
 
   '@firebase/functions-compat@0.5.0(@firebase/app-compat@0.5.18)(@firebase/app@0.16.2)':
@@ -13535,7 +13535,7 @@ snapshots:
       node-gyp: 13.1.0
     optional: true
 
-  re2js@2.9.0: {}
+  re2js@2.9.1: {}
 
   react-aria-components@1.22.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
     dependencies:
