@@ -40,7 +40,7 @@ public class AddressSystemFromPlace {
                 return newFuzzyResult;
             }
 
-            await LogMissAndSetCache(request._cityKey, "miss levenshtein", token);
+            LogMiss(request._cityKey, "miss levenshtein");
             return [];
         }
         private bool IsPlaceNameMatch(string key, out List<GridLinkable> result) {
@@ -90,14 +90,14 @@ public class AddressSystemFromPlace {
             var places = _memoryCache.Get<List<string>>("mapping/places");
             if (places is null || places.Count == 0) {
                 // This shouldn't happen but it could?
-                await LogMissAndSetCache(key, "empty mapping/places", token);
+                LogMiss(key, "empty mapping/places");
 
                 return (false, []);
             }
 
             var closestMatch = FindClosestMatch(key, places);
             if (string.IsNullOrEmpty(closestMatch)) {
-                await LogMissAndSetCache(key, "empty levenshtein", token);
+                LogMiss(key, "empty levenshtein");
 
                 return (false, []);
             }
@@ -105,6 +105,7 @@ public class AddressSystemFromPlace {
             var result = _memoryCache.Get<List<GridLinkable>>($"mapping/place/{closestMatch}");
             if (result?.Count > 0) {
                 LogCacheHit(closestMatch, "levenshtein");
+                // the key is user supplied so the places cache is an in process, size limited cache
                 await _fusionCache.SetAsync($"mapping/place/{key}", result, token: token);
 
                 return (true, result);
@@ -112,26 +113,31 @@ public class AddressSystemFromPlace {
 
             return (false, []);
         }
+        private const int MaxDistance = 2;
         private static string? FindClosestMatch(string key, List<string> places) {
             var lev = new Levenshtein(key);
             var priorityQueue = new LowestDistance(1);
 
-            places.ForEach(place => priorityQueue.Add(new(lev.DistanceFrom(place), place)));
+            foreach (var place in places) {
+                // the distance is at least the difference in length so these places can never be close enough
+                if (Math.Abs(place.Length - key.Length) > MaxDistance) {
+                    continue;
+                }
+
+                priorityQueue.Add(new(lev.DistanceFrom(place), place));
+            }
 
             var closestMatch = priorityQueue.Get().FirstOrDefault(new Map(int.MaxValue, string.Empty));
 
-            return closestMatch.Difference > 2 ? null : closestMatch.Zone;
+            return closestMatch.Difference > MaxDistance ? null : closestMatch.Zone;
         }
         private void LogCacheHit(string place, string cacheType)
         => _log?.ForContext("place", place)
                 .ForContext("cache", cacheType)
                 .Information("Analytics:place");
-        private async Task LogMissAndSetCache(string place, string reason, CancellationToken token) {
-            _log?.ForContext("place", place)
+        private void LogMiss(string place, string reason)
+        => _log?.ForContext("place", place)
                 .ForContext("reason", reason)
                 .Information("Analytics:no-place");
-
-            await _fusionCache.SetAsync<List<GridLinkable>>($"mapping/place/{place}", [], token: token);
-        }
     }
 }

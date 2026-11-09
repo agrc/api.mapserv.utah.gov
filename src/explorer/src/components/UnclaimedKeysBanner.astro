@@ -1,0 +1,38 @@
+---
+import { SELF_SERVICE_URL } from 'astro:env/client';
+
+const cutoffDate = 'February 1, 2027';
+const migrationDate = 'August 5, 2024';
+---
+
+<aside
+  aria-label="Unclaimed API keys notice"
+  data-pagefind-ignore
+  class="not-content border-b border-amber-300 bg-amber-50 px-4 py-3 text-amber-950 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-50"
+>
+  <div class="mx-auto flex max-w-5xl items-start gap-3 sm:items-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+      class="mt-0.5 size-5 shrink-0 text-amber-600 sm:mt-0 dark:text-amber-400"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+        clip-rule="evenodd"></path>
+    </svg>
+    <p class="m-0">
+      <strong>Unclaimed API keys will be disabled on {cutoffDate}.</strong>{' '}
+      Keys created before the UGRC API moved to UtahID sign in on {
+        migrationDate
+      } must be claimed to keep working.{' '}
+      <a
+        href={`${SELF_SERVICE_URL}/self-service/claim-account`}
+        class="font-semibold whitespace-nowrap text-amber-950 underline underline-offset-2 hover:decoration-2 dark:text-amber-50"
+        >Claim your keys</a
+      >
+    </p>
+  </div>
+</aside>
