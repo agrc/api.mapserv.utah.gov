@@ -85,6 +85,9 @@ export default defineConfig({
         },
       ],
       customCss: ['./src/tailwind.css'],
+      components: {
+        Banner: './src/components/StarlightBanner.astro',
+      },
     }),
     react(),
     partytown(),

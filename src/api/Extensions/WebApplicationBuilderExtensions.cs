@@ -118,6 +118,9 @@ public static class WebApplicationBuilderExtensions {
 
                 DistributedCacheSoftTimeout = TimeSpan.FromSeconds(1),
                 DistributedCacheHardTimeout = TimeSpan.FromSeconds(3),
+
+                // every entry counts as 1 towards the memory cache SizeLimit
+                Size = 1,
             })
             .WithSerializer(
                 new FusionCacheSystemTextJsonSerializer(new JsonSerializerOptions {
@@ -125,14 +128,9 @@ public static class WebApplicationBuilderExtensions {
                     Converters = { new GridLinkableJsonConverter() }
                 })
             )
-            .WithMemoryCache(x => new MemoryCache(new MemoryCacheOptions()))
-            .WithDistributedCache((provider) => {
-                var options = provider.GetService<IOptions<DatabaseConfiguration>>();
-                ArgumentNullException.ThrowIfNull(options);
-
-                return new RedisCache(new RedisCacheOptions() { Configuration = options.Value.ConnectionString });
-            }
-        );
+            // the keys in this cache come from the user supplied zone so it is kept in process and size limited
+            // instead of being shared through redis where the number of keys could grow without bound
+            .WithMemoryCache(x => new MemoryCache(new MemoryCacheOptions { SizeLimit = 10_000 }));
 
         builder.Services.AddFusionCache("firestore")
             .WithOptions(options => {
